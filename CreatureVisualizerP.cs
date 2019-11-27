@@ -41,17 +41,28 @@ namespace creaturevisualizer
 
 			NWN2BlueprintView tslist = NWN2ToolsetMainForm.App.BlueprintView;
 
-			switch (tslist.GetFocusedListObjectType())
+			object[] selection = tslist.Selection;
+			if (selection != null && selection.Length == 1)
 			{
-				case NWN2ObjectType.Creature:
-				case NWN2ObjectType.Item:	// <- TODO: this works for weapons (Preview tab) but
-				{							// clothing appears on a default creature (ArmorSet tab)
-					object[] selection = tslist.Selection;
-					if (selection != null && selection.Length == 1)
-					{
-						_instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(selection[0] as INWN2Blueprint);
+				var blueprint = selection[0] as INWN2Blueprint;
+
+				switch (tslist.GetFocusedListObjectType())
+				{
+					case NWN2ObjectType.Creature:
+						if (CreatureVisualizerF.that.feline())
+						{
+							((NWN2CreatureBlueprint)blueprint).Gender = CreatureGender.Female; // NWN2Toolset.NWN2.Data.Templates
+						}
+						else
+							((NWN2CreatureBlueprint)blueprint).Gender = CreatureGender.Male;
+
+						goto case NWN2ObjectType.Item;
+
+					case NWN2ObjectType.Item:	// <- TODO: works for weapons (see Preview tab) but clothes
+					{							//          appear on a default creature (in the ArmorSet tab)
+						_instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(blueprint);
+						break;
 					}
-					break;
 				}
 			}
 			RenderScene();
