@@ -117,11 +117,10 @@ namespace creaturevisualizer
 			text += " release";
 #endif
 
-			DateTime dt = ass.GetLinkerTime();
 			text += Environment.NewLine
 				  + String.Format(CultureInfo.CurrentCulture,
 								  "{0:yyyy MMM d} {0:HH}:{0:mm}:{0:ss} UTC",
-								  dt);
+								  ass.GetLinkerTime());
 
 			MessageBox.Show(this, text, "About");
 		}
