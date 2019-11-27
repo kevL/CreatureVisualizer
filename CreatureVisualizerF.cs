@@ -18,7 +18,8 @@ namespace creaturevisualizer
 
 		#region cTor
 		/// <summary>
-		/// cTor.
+		/// cTor. Creates and adds menuitems and adds the NetDisplay panel. Also
+		/// attempts to create and render a blueprint instance.
 		/// </summary>
 		internal CreatureVisualizerF()
 		{

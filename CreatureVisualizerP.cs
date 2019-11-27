@@ -24,7 +24,10 @@ namespace creaturevisualizer
 		: ElectronPanel
 	{
 		#region Fields
+		NetDisplayObject _object;
 		INWN2Instance _instance;
+
+		float _zPos;
 		#endregion Fields
 
 
@@ -61,17 +64,14 @@ namespace creaturevisualizer
 //		}
 
 
-		NetDisplayObject _object;
-		float _zPos;
-
 		/// <summary>
-		/// 
+		/// Adds a blueprint-instance to the scene.
 		/// </summary>
 		void RenderScene()
 		{
 			if (_instance != null)
 			{
-				if (_object != null)
+				if (_object != null) // track the last z-pos
 				{
 					_zPos = _object.Position.Z;
 //					string pos = _object.Position.ToString();
@@ -114,7 +114,7 @@ namespace creaturevisualizer
 		}
 
 		/// <summary>
-		/// Initializes the scene.
+		/// Initializes the scene. Clears its objects and adds a lightpoint.
 		/// </summary>
 		bool InitScene()
 		{
@@ -125,7 +125,11 @@ namespace creaturevisualizer
 			{
 				var objects = new NetDisplayObjectCollection();
 				foreach (NetDisplayObject @object in Scene.Objects)
+				{
+					//OEIShared.NetDisplay.NetDisplayLightPoint
+					//OEIShared.NetDisplay.NetDisplayModel
 					objects.Add(@object);
+				}
 				NWN2NetDisplayManager.Instance.RemoveObjects(objects);
 
 				if (Scene.DayNightCycleStages[7] != null)
@@ -138,18 +142,18 @@ namespace creaturevisualizer
 				var light = new NetDisplayLightPoint();
 				light.Position        = new Vector3(0F, -4F, 1.5F);
 				light.Color.Intensity = 0.72F;
-//				light.Range           = 50F; // default 10F
-//				light.ID              = NetDisplayManager.Instance.NextObjectID;	// doesn't appear to be req'd.
-//				light.Tag             = light;										// doesn't appear to be req'd.
+				light.Range           = 50F; // default 10F
+				light.ID              = NetDisplayManager.Instance.NextObjectID;	// doesn't appear to be req'd.
+				light.Tag             = light;										// doesn't appear to be req'd.
 
 				lock (Scene.Objects.SyncRoot)
 				{
 					Scene.Objects.Add(light);
 				}
-/*				lock (NWN2NetDisplayManager.Instance.Objects.SyncRoot)				// doesn't appear to be req'd.
+				lock (NWN2NetDisplayManager.Instance.Objects.SyncRoot)				// doesn't appear to be req'd.
 				{
 					NWN2NetDisplayManager.Instance.Objects.Add(light);
-				} */
+				}
 
 				NWN2NetDisplayManager.Instance.LightParameters(light.Scene, light);
 				return true;

@@ -14,10 +14,9 @@ namespace creaturevisualizer
 		: INWN2Plugin
 	{
 		#region INWN2Plugin (interface)
-		MenuButtonItem _it;
 		public MenuButtonItem PluginMenuItem
 		{
-			get { return _it; }
+			get; set;
 		}
 
 		public object Preferences
@@ -47,8 +46,8 @@ namespace creaturevisualizer
 
 		public void Startup(INWN2PluginHost host)
 		{
-			_it = host.GetMenuForPlugin(this);
-			_it.Activate += activate;
+			PluginMenuItem = host.GetMenuForPlugin(this);
+			PluginMenuItem.Activate += activate;
 		}
 
 		public void Shutdown(INWN2PluginHost host)
