@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
@@ -8,7 +7,7 @@ using System.Windows.Forms;
 
 namespace creaturevisualizer
 {
-	sealed class CreatureVisualizerF
+	sealed partial class CreatureVisualizerF
 		: Form
 	{
 		#region Fields (static)
@@ -22,6 +21,10 @@ namespace creaturevisualizer
 		MenuItem _itStayOnTop;
 		MenuItem _itRefreshOnFocus;
 		MenuItem _itFeline;
+
+		Timer _t1 = new Timer();
+		Button _repeater;
+		bool _firstrepeat;
 		#endregion Fields
 
 
@@ -39,6 +42,13 @@ namespace creaturevisualizer
 			_panel.Dock = DockStyle.Fill;
 			_panel.BorderStyle = BorderStyle.FixedSingle;
 			Controls.Add(_panel);
+
+			_panel.BringToFront();
+
+
+			_t1.Interval = 233;
+			_t1.Tick += tick;
+
 
 			Menu = new MainMenu();
 			Menu.MenuItems.Add("&Instance");
@@ -127,57 +137,92 @@ namespace creaturevisualizer
 		#endregion Handlers
 
 
+		#region Handlers (timer)
+		// TODO: [Enter] repeat
+
+		void mousedown_EnableRepeater(object sender, MouseEventArgs e)
+		{
+			_repeater = sender as Button;
+			_firstrepeat = true;
+
+			_t1.Interval = 233; // TODO: use System DoubleClick period or keyboard repeat-delay stuff
+			_t1.Start();
+
+		}
+
+		void mouseup_DisableRepeater(object sender, MouseEventArgs e)
+		{
+			_t1.Stop();
+		}
+
+		void tick(object sender, EventArgs e)
+		{
+			if (_repeater != null)
+			{
+				_repeater.PerformClick();
+
+				if (_firstrepeat)
+				{
+					_firstrepeat = false;
+					_t1.Interval = 89;
+				}
+			}
+		}
+		#endregion Handlers (timer)
+
+
+		#region Handlers (model)
+		void bu_zpos(object sender, EventArgs e)
+		{
+			_panel.MoveModel(CreatureVisualizerP.vec_zpos);
+		}
+
+		void bu_zneg(object sender, EventArgs e)
+		{
+			_panel.MoveModel(CreatureVisualizerP.vec_zneg);
+		}
+
+		void bu_ypos(object sender, EventArgs e)
+		{
+			_panel.MoveModel(CreatureVisualizerP.vec_ypos);
+		}
+
+		void bu_yneg(object sender, EventArgs e)
+		{
+			_panel.MoveModel(CreatureVisualizerP.vec_yneg);
+		}
+
+		void bu_xpos(object sender, EventArgs e)
+		{
+			_panel.MoveModel(CreatureVisualizerP.vec_xpos);
+		}
+
+		void bu_xneg(object sender, EventArgs e)
+		{
+			_panel.MoveModel(CreatureVisualizerP.vec_xneg);
+		}
+
+
+		void bu_rotpos(object sender, EventArgs e)
+		{
+			_panel.RotateModel(CreatureVisualizerP.rotpos);
+		}
+
+		void bu_rotneg(object sender, EventArgs e)
+		{
+			_panel.RotateModel(CreatureVisualizerP.rotneg);
+		}
+		#endregion Handlers (model)
+
+
 		#region Methods
 		internal bool feline()
 		{
 			return _itFeline.Checked;
 		}
 		#endregion Methods
-
-
-
-		#region Designer
-		/// <summary>
-		/// Designer variable used to keep track of non-visual components.
-		/// </summary>
-		IContainer components = null;
-
-
-		/// <summary>
-		/// Disposes resources used by the form.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && components != null)
-				components.Dispose();
-
-			base.Dispose(disposing);
-		}
-
-
-		/// <summary>
-		/// This method is required for Windows Forms designer support.
-		/// Do not change the method contents inside the source code editor. The
-		/// Forms designer might not be able to load this method if it was
-		/// changed manually.
-		/// </summary>
-		private void InitializeComponent()
-		{
-			this.SuspendLayout();
-			// 
-			// CreatureVisualizerF
-			// 
-			this.ClientSize = new System.Drawing.Size(292, 474);
-			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.Name = "CreatureVisualizerF";
-			this.Text = "Creature Visualizer";
-			this.Activated += new System.EventHandler(this.activated_Refresh);
-			this.ResumeLayout(false);
-
-		}
-		#endregion Designer
 	}
+
 
 
 	/// <summary>

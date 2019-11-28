@@ -62,6 +62,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CreatureVisualizerF.cs" />
+    <Compile Include="CreatureVisualizerF.Designer.cs">
+      <DependentUpon>CreatureVisualizerF.cs</DependentUpon>
+    </Compile>
     <Compile Include="CreatureVisualizerP.cs" />
     <Compile Include="CreatureVisualizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

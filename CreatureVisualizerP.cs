@@ -23,17 +23,25 @@ namespace creaturevisualizer
 	sealed class CreatureVisualizerP
 		: ElectronPanel
 	{
+		#region Fields (static)
+		const float INIT_INSTANCE_ROTATION = 2.6F;
+		#endregion Fields (static)
+
+
 		#region Fields
 		NetDisplayObject _object;
 		INWN2Instance _instance;
 
-		float _zPos;
+		Vector3 _vec_Instance;
+		RHQuaternion _qua_Instance;
+		bool _first;
 		#endregion Fields
 
 
 		#region Methods
 		/// <summary>
-		/// 
+		/// Creates an instance of a blueprint and renders it to the
+		/// ElectronPanel.
 		/// </summary>
 		internal void CreateInstance()
 		{
@@ -82,18 +90,15 @@ namespace creaturevisualizer
 		{
 			if (_instance != null)
 			{
-				if (_object != null) // track the last z-pos
+				if (_object != null) // NOT '_first' display
 				{
-					_zPos = _object.Position.Z;
-//					string pos = _object.Position.ToString();
-//					string ori = _object.Orientation.ToString();
-//					string sca = _object.Scale.ToString();
-//					System.Windows.Forms.MessageBox.Show(pos + "\n" + ori + "\n" + sca);
-				}
+					_first = false;
 
-//				string pos = CameraPosition.ToString();
-//				string ori = CameraOrientation.ToString();
-//				System.Windows.Forms.MessageBox.Show(pos + "\n" + ori);
+					_vec_Instance = _object.Position;
+					_qua_Instance = _object.Orientation;	// NOTE: RotateObject() won't change the cached Orientation value;
+				}											// Orientation needs to be updated explicitly if rotation is changed.
+				else
+					_first = true;
 
 
 				if (InitScene())
@@ -107,17 +112,15 @@ namespace creaturevisualizer
 					NWN2NetDisplayManager.Instance.MoveObjects(objects,
 															   ChangeType.Relative,
 															   false,
-															   new Vector3(0F, 0F, _zPos));
+															   _vec_Instance);
 
-					RHQuaternion rotate = RHQuaternion.Identity;
-					rotate.RotateZ(2.6F);
 
-					NWN2NetDisplayManager.Instance.RotateObject(_object, ChangeType.Absolute, rotate);
+					if (_first)
+						_object.Orientation = RHQuaternion.RotationZ(INIT_INSTANCE_ROTATION);
+					else
+						_object.Orientation = _qua_Instance;
 
-//					pos = _object.Position.ToString();
-//					ori = _object.Orientation.ToString();
-//					sca = _object.Scale.ToString();
-//					System.Windows.Forms.MessageBox.Show(pos + "\n" + ori + "\n" + sca);
+					NWN2NetDisplayManager.Instance.RotateObject(_object, ChangeType.Absolute, _object.Orientation);
 
 					_instance.EndAppearanceUpdate();
 				}
@@ -143,10 +146,10 @@ namespace creaturevisualizer
 				}
 				NWN2NetDisplayManager.Instance.RemoveObjects(objects);
 
-				if (Scene.DayNightCycleStages[7] != null)
+				if (Scene.DayNightCycleStages[(int)DayNightStageType.Default] != null)
 				{
-					Scene.DayNightCycleStages[7].SunMoonDirection = new Vector3(-0.33F, -0.67F, -0.67F);
-					Scene.DayNightCycleStages[7].ShadowIntensity = 0F;
+					Scene.DayNightCycleStages[(int)DayNightStageType.Default].SunMoonDirection = new Vector3(-0.33F, -0.67F, -0.67F);
+					Scene.DayNightCycleStages[(int)DayNightStageType.Default].ShadowIntensity = 0F;
 				}
 
 
@@ -172,5 +175,82 @@ namespace creaturevisualizer
 			return false;
 		}
 		#endregion Methods
+
+
+		#region Methods (model)
+		internal static Vector3 vec_zpos = new Vector3(0F, 0F,  0.1F);
+		internal static Vector3 vec_zneg = new Vector3(0F, 0F, -0.1F);
+
+		internal static Vector3 vec_ypos = new Vector3(0F,  0.1F, 0F);
+		internal static Vector3 vec_yneg = new Vector3(0F, -0.1F, 0F);
+
+		internal static Vector3 vec_xpos = new Vector3( 0.1F, 0F, 0F);
+		internal static Vector3 vec_xneg = new Vector3(-0.1F, 0F, 0F);
+
+		internal static float rotpos =  0.1F;
+		internal static float rotneg = -0.1F;
+
+
+		internal void MoveModel(Vector3 vec)
+		{
+			var objects = new NetDisplayObjectCollection(); // TODO: cache that
+			objects.Add(_object);
+			NWN2NetDisplayManager.Instance.MoveObjects(objects,
+													   ChangeType.Relative,
+													   false,
+													   vec);
+		}
+
+		internal void RotateModel(float f)
+		{
+//			RHQuaternion rotate = RHQuaternion.Identity;
+//			rotate.RotateZ(f);
+			RHQuaternion rotate = RHQuaternion.RotationZ(f);
+			NWN2NetDisplayManager.Instance.RotateObject(_object, ChangeType.Relative, rotate);
+
+			_object.Orientation = RHQuaternion.Multiply(_object.Orientation, rotate);
+		}
+
+
+/*		internal void MovePosZ()
+		{
+			var objects = new NetDisplayObjectCollection();
+			objects.Add(_object);
+			NWN2NetDisplayManager.Instance.MoveObjects(objects,
+													   ChangeType.Relative,
+													   false,
+													   vec_zpos);
+		}
+
+		internal void MoveNegZ()
+		{
+			var objects = new NetDisplayObjectCollection();
+			objects.Add(_object);
+			NWN2NetDisplayManager.Instance.MoveObjects(objects,
+													   ChangeType.Relative,
+													   false,
+													   vec_zneg);
+		}
+
+		internal void MovePosY()
+		{
+			var objects = new NetDisplayObjectCollection();
+			objects.Add(_object);
+			NWN2NetDisplayManager.Instance.MoveObjects(objects,
+													   ChangeType.Relative,
+													   false,
+													   vec_ypos);
+		}
+
+		internal void MoveNegY()
+		{
+			var objects = new NetDisplayObjectCollection();
+			objects.Add(_object);
+			NWN2NetDisplayManager.Instance.MoveObjects(objects,
+													   ChangeType.Relative,
+													   false,
+													   vec_yneg);
+		} */
+		#endregion Methods (model)
 	}
 }
