@@ -29,6 +29,10 @@ namespace creaturevisualizer
 		Button bu_model_zscaleneg;
 		Button bu_model_yscaleneg;
 		Button bu_model_xscaleneg;
+		Label la_scale;
+		Label la_rotate;
+		Label label1;
+		Label la_zaxis;
 
 
 		/// <summary>
@@ -68,6 +72,10 @@ namespace creaturevisualizer
 			this.bu_model_xpos = new System.Windows.Forms.Button();
 			this.bu_model_zneg = new System.Windows.Forms.Button();
 			this.bu_model_zpos = new System.Windows.Forms.Button();
+			this.la_zaxis = new System.Windows.Forms.Label();
+			this.label1 = new System.Windows.Forms.Label();
+			this.la_rotate = new System.Windows.Forms.Label();
+			this.la_scale = new System.Windows.Forms.Label();
 			this.pa_bot.SuspendLayout();
 			this.gb_model.SuspendLayout();
 			this.SuspendLayout();
@@ -84,6 +92,10 @@ namespace creaturevisualizer
 			// 
 			// gb_model
 			// 
+			this.gb_model.Controls.Add(this.la_scale);
+			this.gb_model.Controls.Add(this.la_rotate);
+			this.gb_model.Controls.Add(this.label1);
+			this.gb_model.Controls.Add(this.la_zaxis);
 			this.gb_model.Controls.Add(this.bu_model_zscaleneg);
 			this.gb_model.Controls.Add(this.bu_model_yscaleneg);
 			this.gb_model.Controls.Add(this.bu_model_xscaleneg);
@@ -103,14 +115,14 @@ namespace creaturevisualizer
 			this.gb_model.Margin = new System.Windows.Forms.Padding(0);
 			this.gb_model.Name = "gb_model";
 			this.gb_model.Padding = new System.Windows.Forms.Padding(0);
-			this.gb_model.Size = new System.Drawing.Size(300, 70);
+			this.gb_model.Size = new System.Drawing.Size(300, 90);
 			this.gb_model.TabIndex = 0;
 			this.gb_model.TabStop = false;
 			this.gb_model.Text = " Model ";
 			// 
 			// bu_model_zscaleneg
 			// 
-			this.bu_model_zscaleneg.Location = new System.Drawing.Point(220, 40);
+			this.bu_model_zscaleneg.Location = new System.Drawing.Point(220, 60);
 			this.bu_model_zscaleneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_zscaleneg.Name = "bu_model_zscaleneg";
 			this.bu_model_zscaleneg.Size = new System.Drawing.Size(22, 22);
@@ -121,7 +133,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_yscaleneg
 			// 
-			this.bu_model_yscaleneg.Location = new System.Drawing.Point(195, 40);
+			this.bu_model_yscaleneg.Location = new System.Drawing.Point(195, 60);
 			this.bu_model_yscaleneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_yscaleneg.Name = "bu_model_yscaleneg";
 			this.bu_model_yscaleneg.Size = new System.Drawing.Size(22, 22);
@@ -132,7 +144,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_xscaleneg
 			// 
-			this.bu_model_xscaleneg.Location = new System.Drawing.Point(170, 40);
+			this.bu_model_xscaleneg.Location = new System.Drawing.Point(170, 60);
 			this.bu_model_xscaleneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_xscaleneg.Name = "bu_model_xscaleneg";
 			this.bu_model_xscaleneg.Size = new System.Drawing.Size(22, 22);
@@ -143,7 +155,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_zscalepos
 			// 
-			this.bu_model_zscalepos.Location = new System.Drawing.Point(220, 15);
+			this.bu_model_zscalepos.Location = new System.Drawing.Point(220, 35);
 			this.bu_model_zscalepos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_zscalepos.Name = "bu_model_zscalepos";
 			this.bu_model_zscalepos.Size = new System.Drawing.Size(22, 22);
@@ -154,7 +166,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_yscalepos
 			// 
-			this.bu_model_yscalepos.Location = new System.Drawing.Point(195, 15);
+			this.bu_model_yscalepos.Location = new System.Drawing.Point(195, 35);
 			this.bu_model_yscalepos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_yscalepos.Name = "bu_model_yscalepos";
 			this.bu_model_yscalepos.Size = new System.Drawing.Size(22, 22);
@@ -165,7 +177,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_xscalepos
 			// 
-			this.bu_model_xscalepos.Location = new System.Drawing.Point(170, 15);
+			this.bu_model_xscalepos.Location = new System.Drawing.Point(170, 35);
 			this.bu_model_xscalepos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_xscalepos.Name = "bu_model_xscalepos";
 			this.bu_model_xscalepos.Size = new System.Drawing.Size(22, 22);
@@ -176,7 +188,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_rneg
 			// 
-			this.bu_model_rneg.Location = new System.Drawing.Point(130, 40);
+			this.bu_model_rneg.Location = new System.Drawing.Point(130, 60);
 			this.bu_model_rneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_rneg.Name = "bu_model_rneg";
 			this.bu_model_rneg.Size = new System.Drawing.Size(22, 22);
@@ -190,7 +202,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_rpos
 			// 
-			this.bu_model_rpos.Location = new System.Drawing.Point(130, 15);
+			this.bu_model_rpos.Location = new System.Drawing.Point(130, 35);
 			this.bu_model_rpos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_rpos.Name = "bu_model_rpos";
 			this.bu_model_rpos.Size = new System.Drawing.Size(22, 22);
@@ -204,7 +216,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_ypos
 			// 
-			this.bu_model_ypos.Location = new System.Drawing.Point(95, 25);
+			this.bu_model_ypos.Location = new System.Drawing.Point(95, 45);
 			this.bu_model_ypos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_ypos.Name = "bu_model_ypos";
 			this.bu_model_ypos.Size = new System.Drawing.Size(22, 22);
@@ -218,7 +230,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_yneg
 			// 
-			this.bu_model_yneg.Location = new System.Drawing.Point(45, 25);
+			this.bu_model_yneg.Location = new System.Drawing.Point(45, 45);
 			this.bu_model_yneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_yneg.Name = "bu_model_yneg";
 			this.bu_model_yneg.Size = new System.Drawing.Size(22, 22);
@@ -232,7 +244,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_xneg
 			// 
-			this.bu_model_xneg.Location = new System.Drawing.Point(70, 40);
+			this.bu_model_xneg.Location = new System.Drawing.Point(70, 60);
 			this.bu_model_xneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_xneg.Name = "bu_model_xneg";
 			this.bu_model_xneg.Size = new System.Drawing.Size(22, 22);
@@ -246,7 +258,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_xpos
 			// 
-			this.bu_model_xpos.Location = new System.Drawing.Point(70, 15);
+			this.bu_model_xpos.Location = new System.Drawing.Point(70, 35);
 			this.bu_model_xpos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_xpos.Name = "bu_model_xpos";
 			this.bu_model_xpos.Size = new System.Drawing.Size(22, 22);
@@ -260,7 +272,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_zneg
 			// 
-			this.bu_model_zneg.Location = new System.Drawing.Point(10, 40);
+			this.bu_model_zneg.Location = new System.Drawing.Point(10, 60);
 			this.bu_model_zneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_zneg.Name = "bu_model_zneg";
 			this.bu_model_zneg.Size = new System.Drawing.Size(22, 22);
@@ -274,7 +286,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_zpos
 			// 
-			this.bu_model_zpos.Location = new System.Drawing.Point(10, 15);
+			this.bu_model_zpos.Location = new System.Drawing.Point(10, 35);
 			this.bu_model_zpos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_zpos.Name = "bu_model_zpos";
 			this.bu_model_zpos.Size = new System.Drawing.Size(22, 22);
@@ -285,6 +297,46 @@ namespace creaturevisualizer
 			this.bu_model_zpos.Click += new System.EventHandler(this.bu_zpos);
 			this.bu_model_zpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_zpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			// 
+			// la_zaxis
+			// 
+			this.la_zaxis.Location = new System.Drawing.Point(10, 15);
+			this.la_zaxis.Margin = new System.Windows.Forms.Padding(0);
+			this.la_zaxis.Name = "la_zaxis";
+			this.la_zaxis.Size = new System.Drawing.Size(20, 15);
+			this.la_zaxis.TabIndex = 14;
+			this.la_zaxis.Text = "z";
+			this.la_zaxis.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// label1
+			// 
+			this.label1.Location = new System.Drawing.Point(45, 15);
+			this.label1.Margin = new System.Windows.Forms.Padding(0);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(70, 15);
+			this.label1.TabIndex = 15;
+			this.label1.Text = "x/y";
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// la_rotate
+			// 
+			this.la_rotate.Location = new System.Drawing.Point(130, 15);
+			this.la_rotate.Margin = new System.Windows.Forms.Padding(0);
+			this.la_rotate.Name = "la_rotate";
+			this.la_rotate.Size = new System.Drawing.Size(25, 15);
+			this.la_rotate.TabIndex = 16;
+			this.la_rotate.Text = "rot";
+			this.la_rotate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// la_scale
+			// 
+			this.la_scale.Location = new System.Drawing.Point(170, 15);
+			this.la_scale.Margin = new System.Windows.Forms.Padding(0);
+			this.la_scale.Name = "la_scale";
+			this.la_scale.Size = new System.Drawing.Size(70, 15);
+			this.la_scale.TabIndex = 17;
+			this.la_scale.Text = "scale";
+			this.la_scale.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// CreatureVisualizerF
 			// 
