@@ -203,54 +203,11 @@ namespace creaturevisualizer
 
 		internal void RotateModel(float f)
 		{
-//			RHQuaternion rotate = RHQuaternion.Identity;
-//			rotate.RotateZ(f);
 			RHQuaternion rotate = RHQuaternion.RotationZ(f);
 			NWN2NetDisplayManager.Instance.RotateObject(_object, ChangeType.Relative, rotate);
 
 			_object.Orientation = RHQuaternion.Multiply(_object.Orientation, rotate);
 		}
-
-
-/*		internal void MovePosZ()
-		{
-			var objects = new NetDisplayObjectCollection();
-			objects.Add(_object);
-			NWN2NetDisplayManager.Instance.MoveObjects(objects,
-													   ChangeType.Relative,
-													   false,
-													   vec_zpos);
-		}
-
-		internal void MoveNegZ()
-		{
-			var objects = new NetDisplayObjectCollection();
-			objects.Add(_object);
-			NWN2NetDisplayManager.Instance.MoveObjects(objects,
-													   ChangeType.Relative,
-													   false,
-													   vec_zneg);
-		}
-
-		internal void MovePosY()
-		{
-			var objects = new NetDisplayObjectCollection();
-			objects.Add(_object);
-			NWN2NetDisplayManager.Instance.MoveObjects(objects,
-													   ChangeType.Relative,
-													   false,
-													   vec_ypos);
-		}
-
-		internal void MoveNegY()
-		{
-			var objects = new NetDisplayObjectCollection();
-			objects.Add(_object);
-			NWN2NetDisplayManager.Instance.MoveObjects(objects,
-													   ChangeType.Relative,
-													   false,
-													   vec_yneg);
-		} */
 		#endregion Methods (model)
 	}
 }

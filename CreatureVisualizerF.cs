@@ -46,7 +46,6 @@ namespace creaturevisualizer
 			_panel.BringToFront();
 
 
-			_t1.Interval = 233;
 			_t1.Tick += tick;
 
 
