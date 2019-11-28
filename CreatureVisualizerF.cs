@@ -74,14 +74,24 @@ namespace creaturevisualizer
 
 
 			_panel.CreateInstance();
+			_panel.Select();
 		}
 		#endregion cTor
+
+
+		#region Handlers (override)
+		protected override void OnFormClosing(FormClosingEventArgs e)
+		{
+			_t1.Dispose();
+			_t1 = null;
+		}
+		#endregion Handlers (override)
 
 
 		#region Handlers
 		void activated_Refresh(object sender, EventArgs e)
 		{
-			if (_itRefreshOnFocus.Checked)
+			if (_itRefreshOnFocus.Checked && WindowState != FormWindowState.Minimized)
 				_panel.CreateInstance();
 		}
 
@@ -144,14 +154,16 @@ namespace creaturevisualizer
 			_repeater = sender as Button;
 			_firstrepeat = true;
 
-			_t1.Interval = 233; // TODO: use System DoubleClick period or keyboard repeat-delay stuff
-			_t1.Start();
-
+			if (_t1 != null)
+			{
+				_t1.Interval = 233; // TODO: use System DoubleClick period or keyboard repeat-delay stuff
+				_t1.Start();
+			}
 		}
 
 		void mouseup_DisableRepeater(object sender, MouseEventArgs e)
 		{
-			_t1.Stop();
+			if (_t1 != null) _t1.Stop();
 		}
 
 		void tick(object sender, EventArgs e)
@@ -173,43 +185,77 @@ namespace creaturevisualizer
 		#region Handlers (model)
 		void bu_zpos(object sender, EventArgs e)
 		{
-			_panel.MoveModel(CreatureVisualizerP.vec_zpos);
+			if (_panel.Object != null)
+				_panel.MoveModel(CreatureVisualizerP.vec_zpos);
 		}
 
 		void bu_zneg(object sender, EventArgs e)
 		{
-			_panel.MoveModel(CreatureVisualizerP.vec_zneg);
+			if (_panel.Object != null)
+				_panel.MoveModel(CreatureVisualizerP.vec_zneg);
 		}
 
 		void bu_ypos(object sender, EventArgs e)
 		{
-			_panel.MoveModel(CreatureVisualizerP.vec_ypos);
+			if (_panel.Object != null)
+				_panel.MoveModel(CreatureVisualizerP.vec_ypos);
 		}
 
 		void bu_yneg(object sender, EventArgs e)
 		{
-			_panel.MoveModel(CreatureVisualizerP.vec_yneg);
+			if (_panel.Object != null)
+				_panel.MoveModel(CreatureVisualizerP.vec_yneg);
 		}
 
 		void bu_xpos(object sender, EventArgs e)
 		{
-			_panel.MoveModel(CreatureVisualizerP.vec_xpos);
+			if (_panel.Object != null)
+				_panel.MoveModel(CreatureVisualizerP.vec_xpos);
 		}
 
 		void bu_xneg(object sender, EventArgs e)
 		{
-			_panel.MoveModel(CreatureVisualizerP.vec_xneg);
+			if (_panel.Object != null)
+				_panel.MoveModel(CreatureVisualizerP.vec_xneg);
 		}
 
 
 		void bu_rotpos(object sender, EventArgs e)
 		{
-			_panel.RotateModel(CreatureVisualizerP.rotpos);
+			if (_panel.Object != null)
+				_panel.RotateModel(CreatureVisualizerP.rotpos);
 		}
 
 		void bu_rotneg(object sender, EventArgs e)
 		{
-			_panel.RotateModel(CreatureVisualizerP.rotneg);
+			if (_panel.Object != null)
+				_panel.RotateModel(CreatureVisualizerP.rotneg);
+		}
+
+
+		void bu_scale(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				Microsoft.DirectX.Vector3 vec;
+
+				var bu = sender as Button;
+				if      (bu == bu_model_xscalepos) vec = CreatureVisualizerP.vec_xpos;
+				else if (bu == bu_model_xscaleneg) vec = CreatureVisualizerP.vec_xneg;
+				else if (bu == bu_model_yscalepos) vec = CreatureVisualizerP.vec_ypos;
+				else if (bu == bu_model_yscaleneg) vec = CreatureVisualizerP.vec_yneg;
+				else if (bu == bu_model_zscalepos) vec = CreatureVisualizerP.vec_zpos;
+				else                               vec = CreatureVisualizerP.vec_zneg; // (bu == bu_model_zscaleneg)
+
+				_panel.ScaleModel(vec);
+			}
+		}
+
+
+		void bu_modelreset(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+				_panel.ResetModel();
 		}
 		#endregion Handlers (model)
 
