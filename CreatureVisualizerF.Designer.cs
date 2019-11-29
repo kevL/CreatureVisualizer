@@ -13,7 +13,7 @@ namespace creaturevisualizer
 		/// </summary>
 		IContainer components = null;
 
-		Panel pa_bot;
+		Panel pa_controls;
 		GroupBox gb_model;
 		Button bu_model_zneg;
 		Button bu_model_zpos;
@@ -38,10 +38,17 @@ namespace creaturevisualizer
 		Button bu_model_rotreset;
 		Button bu_model_xyreset;
 		Button bu_model_zreset;
-
 		Label la_model_zscale;
 		Label la_model_yscale;
 		Label la_model_xscale;
+		StatusStrip ss_bot;
+		ToolStripStatusLabel tssl_xpos;
+		ToolStripStatusLabel tssl_ypos;
+		ToolStripStatusLabel tssl_zpos;
+		ToolStripStatusLabel tssl_rot;
+		Button bu_model_scaleneg;
+		Button bu_model_scalepos;
+		Label la_model_scaleorg;
 
 
 		/// <summary>
@@ -65,8 +72,16 @@ namespace creaturevisualizer
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.pa_bot = new System.Windows.Forms.Panel();
+			this.pa_controls = new System.Windows.Forms.Panel();
+			this.ss_bot = new System.Windows.Forms.StatusStrip();
+			this.tssl_xpos = new System.Windows.Forms.ToolStripStatusLabel();
+			this.tssl_ypos = new System.Windows.Forms.ToolStripStatusLabel();
+			this.tssl_zpos = new System.Windows.Forms.ToolStripStatusLabel();
+			this.tssl_rot = new System.Windows.Forms.ToolStripStatusLabel();
 			this.gb_model = new System.Windows.Forms.GroupBox();
+			this.la_model_scaleorg = new System.Windows.Forms.Label();
+			this.bu_model_scaleneg = new System.Windows.Forms.Button();
+			this.bu_model_scalepos = new System.Windows.Forms.Button();
 			this.la_model_zscale = new System.Windows.Forms.Label();
 			this.la_model_yscale = new System.Windows.Forms.Label();
 			this.la_model_xscale = new System.Windows.Forms.Label();
@@ -93,22 +108,74 @@ namespace creaturevisualizer
 			this.bu_model_xpos = new System.Windows.Forms.Button();
 			this.bu_model_zneg = new System.Windows.Forms.Button();
 			this.bu_model_zpos = new System.Windows.Forms.Button();
-			this.pa_bot.SuspendLayout();
+			this.pa_controls.SuspendLayout();
+			this.ss_bot.SuspendLayout();
 			this.gb_model.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// pa_bot
+			// pa_controls
 			// 
-			this.pa_bot.Controls.Add(this.gb_model);
-			this.pa_bot.Dock = System.Windows.Forms.DockStyle.Right;
-			this.pa_bot.Location = new System.Drawing.Point(292, 0);
-			this.pa_bot.Margin = new System.Windows.Forms.Padding(0);
-			this.pa_bot.Name = "pa_bot";
-			this.pa_bot.Size = new System.Drawing.Size(300, 474);
-			this.pa_bot.TabIndex = 0;
+			this.pa_controls.Controls.Add(this.ss_bot);
+			this.pa_controls.Controls.Add(this.gb_model);
+			this.pa_controls.Dock = System.Windows.Forms.DockStyle.Right;
+			this.pa_controls.Location = new System.Drawing.Point(292, 0);
+			this.pa_controls.Margin = new System.Windows.Forms.Padding(0);
+			this.pa_controls.Name = "pa_controls";
+			this.pa_controls.Size = new System.Drawing.Size(295, 474);
+			this.pa_controls.TabIndex = 0;
+			this.pa_controls.Visible = false;
+			// 
+			// ss_bot
+			// 
+			this.ss_bot.Font = new System.Drawing.Font("Consolas", 8F);
+			this.ss_bot.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.tssl_xpos,
+			this.tssl_ypos,
+			this.tssl_zpos,
+			this.tssl_rot});
+			this.ss_bot.Location = new System.Drawing.Point(0, 452);
+			this.ss_bot.Name = "ss_bot";
+			this.ss_bot.Size = new System.Drawing.Size(295, 22);
+			this.ss_bot.TabIndex = 1;
+			// 
+			// tssl_xpos
+			// 
+			this.tssl_xpos.AutoSize = false;
+			this.tssl_xpos.Margin = new System.Windows.Forms.Padding(2, 0, 0, 0);
+			this.tssl_xpos.Name = "tssl_xpos";
+			this.tssl_xpos.Size = new System.Drawing.Size(50, 22);
+			this.tssl_xpos.Text = "x";
+			// 
+			// tssl_ypos
+			// 
+			this.tssl_ypos.AutoSize = false;
+			this.tssl_ypos.Margin = new System.Windows.Forms.Padding(0);
+			this.tssl_ypos.Name = "tssl_ypos";
+			this.tssl_ypos.Size = new System.Drawing.Size(50, 22);
+			this.tssl_ypos.Text = "y";
+			// 
+			// tssl_zpos
+			// 
+			this.tssl_zpos.AutoSize = false;
+			this.tssl_zpos.Margin = new System.Windows.Forms.Padding(0);
+			this.tssl_zpos.Name = "tssl_zpos";
+			this.tssl_zpos.Size = new System.Drawing.Size(50, 22);
+			this.tssl_zpos.Text = "z";
+			// 
+			// tssl_rot
+			// 
+			this.tssl_rot.AutoSize = false;
+			this.tssl_rot.Margin = new System.Windows.Forms.Padding(0);
+			this.tssl_rot.Name = "tssl_rot";
+			this.tssl_rot.Size = new System.Drawing.Size(128, 22);
+			this.tssl_rot.Spring = true;
+			this.tssl_rot.Text = "r";
 			// 
 			// gb_model
 			// 
+			this.gb_model.Controls.Add(this.la_model_scaleorg);
+			this.gb_model.Controls.Add(this.bu_model_scaleneg);
+			this.gb_model.Controls.Add(this.bu_model_scalepos);
 			this.gb_model.Controls.Add(this.la_model_zscale);
 			this.gb_model.Controls.Add(this.la_model_yscale);
 			this.gb_model.Controls.Add(this.la_model_xscale);
@@ -140,10 +207,48 @@ namespace creaturevisualizer
 			this.gb_model.Margin = new System.Windows.Forms.Padding(0);
 			this.gb_model.Name = "gb_model";
 			this.gb_model.Padding = new System.Windows.Forms.Padding(0);
-			this.gb_model.Size = new System.Drawing.Size(300, 130);
+			this.gb_model.Size = new System.Drawing.Size(295, 130);
 			this.gb_model.TabIndex = 0;
 			this.gb_model.TabStop = false;
 			this.gb_model.Text = " Model ";
+			// 
+			// la_model_scaleorg
+			// 
+			this.la_model_scaleorg.ForeColor = System.Drawing.Color.RoyalBlue;
+			this.la_model_scaleorg.Location = new System.Drawing.Point(220, 15);
+			this.la_model_scaleorg.Margin = new System.Windows.Forms.Padding(0);
+			this.la_model_scaleorg.Name = "la_model_scaleorg";
+			this.la_model_scaleorg.Size = new System.Drawing.Size(45, 15);
+			this.la_model_scaleorg.TabIndex = 28;
+			this.la_model_scaleorg.Text = "0";
+			// 
+			// bu_model_scaleneg
+			// 
+			this.bu_model_scaleneg.Location = new System.Drawing.Point(265, 55);
+			this.bu_model_scaleneg.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_model_scaleneg.Name = "bu_model_scaleneg";
+			this.bu_model_scaleneg.Size = new System.Drawing.Size(22, 22);
+			this.bu_model_scaleneg.TabIndex = 27;
+			this.bu_model_scaleneg.Text = "-";
+			this.bu_model_scaleneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_model_scaleneg.UseVisualStyleBackColor = true;
+			this.bu_model_scaleneg.Click += new System.EventHandler(this.bu_scaleall);
+			this.bu_model_scaleneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_model_scaleneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			// 
+			// bu_model_scalepos
+			// 
+			this.bu_model_scalepos.Location = new System.Drawing.Point(265, 30);
+			this.bu_model_scalepos.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_model_scalepos.Name = "bu_model_scalepos";
+			this.bu_model_scalepos.Size = new System.Drawing.Size(22, 22);
+			this.bu_model_scalepos.TabIndex = 26;
+			this.bu_model_scalepos.Text = "+";
+			this.bu_model_scalepos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_model_scalepos.UseVisualStyleBackColor = true;
+			this.bu_model_scalepos.Click += new System.EventHandler(this.bu_scaleall);
+			this.bu_model_scalepos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_model_scalepos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
 			// la_model_zscale
 			// 
@@ -177,7 +282,8 @@ namespace creaturevisualizer
 			// 
 			// bu_model_scalereset
 			// 
-			this.bu_model_scalereset.Location = new System.Drawing.Point(265, 55);
+			this.bu_model_scalereset.ForeColor = System.Drawing.Color.Crimson;
+			this.bu_model_scalereset.Location = new System.Drawing.Point(265, 80);
 			this.bu_model_scalereset.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_scalereset.Name = "bu_model_scalereset";
 			this.bu_model_scalereset.Size = new System.Drawing.Size(22, 22);
@@ -189,6 +295,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_rotreset
 			// 
+			this.bu_model_rotreset.ForeColor = System.Drawing.Color.Crimson;
 			this.bu_model_rotreset.Location = new System.Drawing.Point(130, 80);
 			this.bu_model_rotreset.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_rotreset.Name = "bu_model_rotreset";
@@ -201,6 +308,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_xyreset
 			// 
+			this.bu_model_xyreset.ForeColor = System.Drawing.Color.Crimson;
 			this.bu_model_xyreset.Location = new System.Drawing.Point(70, 80);
 			this.bu_model_xyreset.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_xyreset.Name = "bu_model_xyreset";
@@ -213,6 +321,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_zreset
 			// 
+			this.bu_model_zreset.ForeColor = System.Drawing.Color.Crimson;
 			this.bu_model_zreset.Location = new System.Drawing.Point(10, 80);
 			this.bu_model_zreset.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_zreset.Name = "bu_model_zreset";
@@ -225,6 +334,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_reset
 			// 
+			this.bu_model_reset.ForeColor = System.Drawing.Color.Crimson;
 			this.bu_model_reset.Location = new System.Drawing.Point(10, 105);
 			this.bu_model_reset.Name = "bu_model_reset";
 			this.bu_model_reset.Size = new System.Drawing.Size(207, 20);
@@ -471,14 +581,17 @@ namespace creaturevisualizer
 			// 
 			// CreatureVisualizerF
 			// 
-			this.ClientSize = new System.Drawing.Size(592, 474);
-			this.Controls.Add(this.pa_bot);
+			this.ClientSize = new System.Drawing.Size(587, 474);
+			this.Controls.Add(this.pa_controls);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Name = "CreatureVisualizerF";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Creature Visualizer";
 			this.Activated += new System.EventHandler(this.activated_Refresh);
-			this.pa_bot.ResumeLayout(false);
+			this.pa_controls.ResumeLayout(false);
+			this.pa_controls.PerformLayout();
+			this.ss_bot.ResumeLayout(false);
+			this.ss_bot.PerformLayout();
 			this.gb_model.ResumeLayout(false);
 			this.ResumeLayout(false);
 

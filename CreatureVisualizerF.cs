@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
@@ -21,6 +22,7 @@ namespace creaturevisualizer
 		MenuItem _itStayOnTop;
 		MenuItem _itRefreshOnFocus;
 		MenuItem _itFeline;
+		MenuItem _itControlPanel;
 
 		Timer _t1 = new Timer();
 		Button _repeater;
@@ -45,15 +47,30 @@ namespace creaturevisualizer
 
 			_panel.BringToFront();
 
+			ClientSize = new Size(ClientSize.Width - pa_controls.Width,	// the ControlPanel starts non-visible
+								  ClientSize.Height);					// but let it show in the designer
 
 			_t1.Tick += tick;
 
+			CreateMainMenu();
 
+			_panel.CreateInstance();
+			_panel.Select();
+		}
+
+
+		/// <summary>
+		/// Instantiates the Menu.
+		/// </summary>
+		void CreateMainMenu()
+		{
 			Menu = new MainMenu();
+
 			Menu.MenuItems.Add("&Instance");
 			Menu.MenuItems.Add("&Options");
-			Menu.MenuItems.Add("&About", aboutclick);
+			Menu.MenuItems.Add("&Help");
 
+			// Instance ->
 			Menu.MenuItems[0].MenuItems.Add("&refresh", instanceclick_Refresh);
 			Menu.MenuItems[0].MenuItems[0].Shortcut = Shortcut.F5;
 
@@ -65,16 +82,22 @@ namespace creaturevisualizer
 
 			Menu.MenuItems[0].MenuItems.Add("-");
 
-			_itFeline = Menu.MenuItems[0].MenuItems.Add("Fema&le", instanceclick_Female);
+			_itFeline = Menu.MenuItems[0].MenuItems.Add("fema&le", instanceclick_Female);
 			_itFeline.Shortcut = Shortcut.CtrlL;
+
+			// Options ->
+			_itControlPanel = Menu.MenuItems[1].MenuItems.Add("control &panel", optionsclick_ControlPanel);
+			_itControlPanel.Shortcut = Shortcut.CtrlP;
+
+			Menu.MenuItems[1].MenuItems.Add("-");
 
 			_itStayOnTop = Menu.MenuItems[1].MenuItems.Add("stay on &top", optionsclick_StayOnTop);
 			_itStayOnTop.Shortcut = Shortcut.CtrlT;
 			_itStayOnTop.Checked = TopMost = true;
 
-
-			_panel.CreateInstance();
-			_panel.Select();
+			// Help ->
+			Menu.MenuItems[2].MenuItems.Add("&about", helpclick_About);
+			Menu.MenuItems[2].MenuItems[0].Shortcut = Shortcut.F2;
 		}
 		#endregion cTor
 
@@ -112,12 +135,30 @@ namespace creaturevisualizer
 		}
 
 
+		void optionsclick_ControlPanel(object sender, EventArgs e)
+		{
+			if (_itControlPanel.Checked = !_itControlPanel.Checked)
+			{
+				ClientSize = new Size(ClientSize.Width + pa_controls.Width,
+									  ClientSize.Height);
+
+				pa_controls.Visible = true;
+			}
+			else
+			{
+				ClientSize = new Size(ClientSize.Width - pa_controls.Width,
+									  ClientSize.Height);
+
+				pa_controls.Visible = false;
+			}
+		}
+
 		void optionsclick_StayOnTop(object sender, EventArgs e)
 		{
 			TopMost = (_itStayOnTop.Checked = !_itStayOnTop.Checked);
 		}
 
-		void aboutclick(object sender, EventArgs e)
+		void helpclick_About(object sender, EventArgs e)
 		{
 			string text = "Creature Visualizer"
 						+ Environment.NewLine
@@ -251,6 +292,20 @@ namespace creaturevisualizer
 			}
 		}
 
+		void bu_scaleall(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				int dir;
+
+				var bu = sender as Button;
+				if (bu == bu_model_scalepos) dir = +1;
+				else                         dir = -1; // (bu == bu_model_scaleneg)
+
+				_panel.ScaleModel(dir);
+			}
+		}
+
 
 		void bu_modelreset(object sender, EventArgs e)
 		{
@@ -295,6 +350,11 @@ namespace creaturevisualizer
 			la_model_xscale.Text = _panel.Object.Scale.X.ToString("N2");
 			la_model_yscale.Text = _panel.Object.Scale.Y.ToString("N2");
 			la_model_zscale.Text = _panel.Object.Scale.Z.ToString("N2");
+		}
+
+		internal void PrintOriginalScale(string scale)
+		{
+			la_model_scaleorg.Text = scale;
 		}
 		#endregion Methods
 	}

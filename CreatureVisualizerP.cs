@@ -147,9 +147,12 @@ namespace creaturevisualizer
 				// create display object ->
 				Object = NWN2NetDisplayManager.Instance.CreateNDOForInstance(_instance, Scene, 0);
 
+				CreatureVisualizerF.that.PrintOriginalScale(Object.Scale.X.ToString("N2"));
+
 				ScaInitial = Object.Scale;	// NOTE: Scale comes from the creature blueprint/instance/template/whatver.
 											// That is, there's no default parameter for scale in this Scene like
 											// there is for position and rotation.
+
 				// set object position ->
 				var objects = new NetDisplayObjectCollection(); // can't move a single object - only a collection (of 1).
 				objects.Add(Object);
@@ -275,6 +278,19 @@ namespace creaturevisualizer
 		internal void ScaleModel(Vector3 vec)
 		{
 			Object.Scale += vec;
+			NWN2NetDisplayManager.Instance.SetObjectScale(Object, Object.Scale);
+			CreatureVisualizerF.that.PrintModelScale();
+		}
+
+		internal void ScaleModel(int dir)
+		{
+			var vec = new Vector3(0.1F, 0.1F, 0.1F);
+			switch (dir)
+			{
+				case +1: Object.Scale += vec; break;
+				case -1: Object.Scale -= vec; break;
+			}
+
 			NWN2NetDisplayManager.Instance.SetObjectScale(Object, Object.Scale);
 			CreatureVisualizerF.that.PrintModelScale();
 		}
