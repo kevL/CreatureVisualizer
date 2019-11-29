@@ -121,7 +121,7 @@ namespace creaturevisualizer
 			this.pa_controls.Location = new System.Drawing.Point(292, 0);
 			this.pa_controls.Margin = new System.Windows.Forms.Padding(0);
 			this.pa_controls.Name = "pa_controls";
-			this.pa_controls.Size = new System.Drawing.Size(295, 474);
+			this.pa_controls.Size = new System.Drawing.Size(290, 474);
 			this.pa_controls.TabIndex = 0;
 			this.pa_controls.Visible = false;
 			// 
@@ -135,7 +135,7 @@ namespace creaturevisualizer
 			this.tssl_rot});
 			this.ss_bot.Location = new System.Drawing.Point(0, 452);
 			this.ss_bot.Name = "ss_bot";
-			this.ss_bot.Size = new System.Drawing.Size(295, 22);
+			this.ss_bot.Size = new System.Drawing.Size(290, 22);
 			this.ss_bot.TabIndex = 1;
 			// 
 			// tssl_xpos
@@ -207,7 +207,7 @@ namespace creaturevisualizer
 			this.gb_model.Margin = new System.Windows.Forms.Padding(0);
 			this.gb_model.Name = "gb_model";
 			this.gb_model.Padding = new System.Windows.Forms.Padding(0);
-			this.gb_model.Size = new System.Drawing.Size(295, 130);
+			this.gb_model.Size = new System.Drawing.Size(290, 130);
 			this.gb_model.TabIndex = 0;
 			this.gb_model.TabStop = false;
 			this.gb_model.Text = " Model ";
@@ -218,13 +218,14 @@ namespace creaturevisualizer
 			this.la_model_scaleorg.Location = new System.Drawing.Point(220, 15);
 			this.la_model_scaleorg.Margin = new System.Windows.Forms.Padding(0);
 			this.la_model_scaleorg.Name = "la_model_scaleorg";
-			this.la_model_scaleorg.Size = new System.Drawing.Size(45, 15);
+			this.la_model_scaleorg.Size = new System.Drawing.Size(40, 15);
 			this.la_model_scaleorg.TabIndex = 28;
 			this.la_model_scaleorg.Text = "0";
+			this.la_model_scaleorg.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// bu_model_scaleneg
 			// 
-			this.bu_model_scaleneg.Location = new System.Drawing.Point(265, 55);
+			this.bu_model_scaleneg.Location = new System.Drawing.Point(260, 55);
 			this.bu_model_scaleneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_scaleneg.Name = "bu_model_scaleneg";
 			this.bu_model_scaleneg.Size = new System.Drawing.Size(22, 22);
@@ -238,7 +239,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_scalepos
 			// 
-			this.bu_model_scalepos.Location = new System.Drawing.Point(265, 30);
+			this.bu_model_scalepos.Location = new System.Drawing.Point(260, 30);
 			this.bu_model_scalepos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_scalepos.Name = "bu_model_scalepos";
 			this.bu_model_scalepos.Size = new System.Drawing.Size(22, 22);
@@ -255,35 +256,35 @@ namespace creaturevisualizer
 			this.la_model_zscale.Location = new System.Drawing.Point(220, 80);
 			this.la_model_zscale.Margin = new System.Windows.Forms.Padding(0);
 			this.la_model_zscale.Name = "la_model_zscale";
-			this.la_model_zscale.Size = new System.Drawing.Size(45, 20);
+			this.la_model_zscale.Size = new System.Drawing.Size(40, 20);
 			this.la_model_zscale.TabIndex = 23;
-			this.la_model_zscale.Text = "zscale";
-			this.la_model_zscale.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.la_model_zscale.Text = "zsca";
+			this.la_model_zscale.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// la_model_yscale
 			// 
 			this.la_model_yscale.Location = new System.Drawing.Point(220, 55);
 			this.la_model_yscale.Margin = new System.Windows.Forms.Padding(0);
 			this.la_model_yscale.Name = "la_model_yscale";
-			this.la_model_yscale.Size = new System.Drawing.Size(45, 20);
+			this.la_model_yscale.Size = new System.Drawing.Size(40, 20);
 			this.la_model_yscale.TabIndex = 20;
-			this.la_model_yscale.Text = "yscale";
-			this.la_model_yscale.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.la_model_yscale.Text = "ysca";
+			this.la_model_yscale.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// la_model_xscale
 			// 
 			this.la_model_xscale.Location = new System.Drawing.Point(220, 30);
 			this.la_model_xscale.Margin = new System.Windows.Forms.Padding(0);
 			this.la_model_xscale.Name = "la_model_xscale";
-			this.la_model_xscale.Size = new System.Drawing.Size(45, 20);
+			this.la_model_xscale.Size = new System.Drawing.Size(40, 20);
 			this.la_model_xscale.TabIndex = 17;
-			this.la_model_xscale.Text = "xscale";
-			this.la_model_xscale.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.la_model_xscale.Text = "xsca";
+			this.la_model_xscale.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// bu_model_scalereset
 			// 
 			this.bu_model_scalereset.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_model_scalereset.Location = new System.Drawing.Point(265, 80);
+			this.bu_model_scalereset.Location = new System.Drawing.Point(260, 80);
 			this.bu_model_scalereset.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_scalereset.Name = "bu_model_scalereset";
 			this.bu_model_scalereset.Size = new System.Drawing.Size(22, 22);
@@ -337,7 +338,7 @@ namespace creaturevisualizer
 			this.bu_model_reset.ForeColor = System.Drawing.Color.Crimson;
 			this.bu_model_reset.Location = new System.Drawing.Point(10, 105);
 			this.bu_model_reset.Name = "bu_model_reset";
-			this.bu_model_reset.Size = new System.Drawing.Size(207, 20);
+			this.bu_model_reset.Size = new System.Drawing.Size(272, 20);
 			this.bu_model_reset.TabIndex = 25;
 			this.bu_model_reset.Text = "reset";
 			this.bu_model_reset.UseVisualStyleBackColor = true;
@@ -581,7 +582,7 @@ namespace creaturevisualizer
 			// 
 			// CreatureVisualizerF
 			// 
-			this.ClientSize = new System.Drawing.Size(587, 474);
+			this.ClientSize = new System.Drawing.Size(582, 474);
 			this.Controls.Add(this.pa_controls);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Name = "CreatureVisualizerF";
