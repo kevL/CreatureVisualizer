@@ -25,19 +25,20 @@ namespace creaturevisualizer
 		: ElectronPanel
 	{
 		#region Fields (static)
-		static Vector3 vec_initial  = new Vector3(0F,0F,0F);
-		static Vector3 vec_identity = new Vector3(1F,1F,1F);
-
 		const float INIT_INSTANCE_ROTATION = 2.6F;
+		static Vector3 ScaInitial;
 		#endregion Fields (static)
 
 
 		#region Fields
-		INWN2Instance _instance;
+		INWN2Instance  _instance;
+		INWN2Blueprint _blueprint0; // ref to previous blueprint-object (to track 'changed').
 
-		Vector3 _vec_Instance;
-		RHQuaternion _qua_Instance;
-		bool _first;
+		bool _changed;
+
+		Vector3      _pos_Instance;
+		RHQuaternion _rot_Instance;
+		Vector3      _sca_Instance;
 		#endregion Fields
 
 
@@ -64,6 +65,13 @@ namespace creaturevisualizer
 				if (selection != null && selection.Length == 1)
 				{
 					var blueprint = selection[0] as INWN2Blueprint;
+					if (!blueprint.Equals(_blueprint0))
+					{
+						_blueprint0 = blueprint;
+						_changed = true;
+					}
+					else
+						_changed = false;
 
 					switch (tslist.GetFocusedListObjectType())
 					{
@@ -102,42 +110,68 @@ namespace creaturevisualizer
 		/// </summary>
 		void RenderScene()
 		{
-			if (_instance != null)
+			if (_instance != null && InitScene())
 			{
-				if (Object != null) // NOT '_first' display
+				bool first;
+				if (Object != null) // is NOT 'first' display - cache the previous model's telemetry since it's about to go byebye.
 				{
-					_first = false;
+					first = false;
 
-					_vec_Instance = Object.Position;
-					_qua_Instance = Object.Orientation;	// NOTE: RotateObject() won't change the cached Orientation value;
-				}										// Orientation needs to be updated explicitly if rotation is changed.
-				else
-					_first = true;
+					_pos_Instance = Object.Position;
 
+					// NOTE: RotateObject() won't change the object's Orientation value;
+					// Orientation needs to be updated explicitly if rotation is changed.
+					_rot_Instance = Object.Orientation;
 
-				if (InitScene())
-				{
-					_instance.BeginAppearanceUpdate();
-
-					Object = NWN2NetDisplayManager.Instance.CreateNDOForInstance(_instance, Scene, 0);
-
-					var objects = new NetDisplayObjectCollection();
-					objects.Add(Object);
-					NWN2NetDisplayManager.Instance.MoveObjects(objects,
-															   ChangeType.Relative,
-															   false,
-															   _vec_Instance);
-
-
-					if (_first)
-						Object.Orientation = RHQuaternion.RotationZ(INIT_INSTANCE_ROTATION);
-					else
-						Object.Orientation = _qua_Instance;
-
-					NWN2NetDisplayManager.Instance.RotateObject(Object, ChangeType.Absolute, Object.Orientation);
-
-					_instance.EndAppearanceUpdate();
+					// NOTE: SetObjectScale() won't change the object's Scale value;
+					// Scale needs to be updated explicitly if x/y/z-scale is changed.
+					_sca_Instance = Object.Scale;
 				}
+				else
+					first = true;
+
+
+				_instance.BeginAppearanceUpdate();
+
+				// create display object ->
+				Object = NWN2NetDisplayManager.Instance.CreateNDOForInstance(_instance, Scene, 0);
+
+				ScaInitial = Object.Scale; // NOTE: Scale comes from the creature blueprint/instance/template/whatver.
+
+
+				// set object position ->
+				var objects = new NetDisplayObjectCollection();
+				objects.Add(Object);
+				NWN2NetDisplayManager.Instance.MoveObjects(objects,
+														   ChangeType.Absolute,
+														   false,
+														   _pos_Instance);
+
+				Vector3 scale; // don't ask.
+				if (first)
+				{
+					Object.Orientation = RHQuaternion.RotationZ(INIT_INSTANCE_ROTATION);
+					scale = ScaInitial;
+				}
+				else if (_changed)
+				{
+					Object.Orientation = _rot_Instance;
+					scale = ScaInitial;
+				}
+				else
+				{
+					Object.Orientation = _rot_Instance;
+					scale = _sca_Instance;
+				}
+				// else I'm gonna go bananas.
+
+				// set object rotation ->
+				NWN2NetDisplayManager.Instance.RotateObject(Object, ChangeType.Absolute, Object.Orientation);
+
+				_instance.EndAppearanceUpdate();
+
+				// set object scale ->
+				NWN2NetDisplayManager.Instance.SetObjectScale(Object, scale); // NOTE: after EndAppearanceUpdate().
 			}
 		}
 
@@ -238,12 +272,12 @@ namespace creaturevisualizer
 			NWN2NetDisplayManager.Instance.MoveObjects(objects,
 													   ChangeType.Absolute,
 													   false,
-													   vec_initial);
+													   new Vector3());
 
 			Object.Orientation = RHQuaternion.RotationZ(INIT_INSTANCE_ROTATION);
 			NWN2NetDisplayManager.Instance.RotateObject(Object, ChangeType.Absolute, Object.Orientation);
 
-			Object.Scale = vec_identity;
+			Object.Scale = ScaInitial;
 			NWN2NetDisplayManager.Instance.SetObjectScale(Object, Object.Scale);
 		}
 		#endregion Methods (model)
