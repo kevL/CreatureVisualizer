@@ -20,6 +20,7 @@ namespace creaturevisualizer
 	/// <summary>
 	/// Credit: The Grinning Fool's Creature Creation Wizard
 	/// https://neverwintervault.org/project/nwn2/other/grinning-fools-creature-creation-wizard
+	/// and the NwN2 toolset's Appearance Wizard
 	/// </summary>
 	sealed class CreatureVisualizerP
 		: ElectronPanel
@@ -136,18 +137,18 @@ namespace creaturevisualizer
 				// create display object ->
 				Object = NWN2NetDisplayManager.Instance.CreateNDOForInstance(_instance, Scene, 0);
 
-				ScaInitial = Object.Scale; // NOTE: Scale comes from the creature blueprint/instance/template/whatver.
-
-
+				ScaInitial = Object.Scale;	// NOTE: Scale comes from the creature blueprint/instance/template/whatver.
+											// That is, there's no default parameter for scale in this Scene like
+											// there is for position and rotation.
 				// set object position ->
-				var objects = new NetDisplayObjectCollection();
+				var objects = new NetDisplayObjectCollection(); // can't move a single object - only a collection (of 1).
 				objects.Add(Object);
 				NWN2NetDisplayManager.Instance.MoveObjects(objects,
 														   ChangeType.Absolute,
 														   false,
 														   _pos_Instance);
 
-				Vector3 scale; // don't ask.
+				Vector3 scale; // don't ask. It works unlike 'Object.Scale'.
 				if (first)
 				{
 					Object.Orientation = RHQuaternion.RotationZ(INIT_INSTANCE_ROTATION);
