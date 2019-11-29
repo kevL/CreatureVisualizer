@@ -257,6 +257,30 @@ namespace creaturevisualizer
 			if (_panel.Object != null)
 				_panel.ResetModel();
 		}
+
+		void bu_modelzreset(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+				_panel.ResetModel(ResetType.RESET_z);
+		}
+
+		void bu_modelxyreset(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+				_panel.ResetModel(ResetType.RESET_xy);
+		}
+
+		void bu_modelrotreset(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+				_panel.ResetModel(ResetType.RESET_rot);
+		}
+
+		void bu_modelscalereset(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+				_panel.ResetModel(ResetType.RESET_scale);
+		}
 		#endregion Handlers (model)
 
 
@@ -264,6 +288,13 @@ namespace creaturevisualizer
 		internal bool feline()
 		{
 			return _itFeline.Checked;
+		}
+
+		internal void PrintModelScale()
+		{
+			la_model_xscale.Text = _panel.Object.Scale.X.ToString("N2");
+			la_model_yscale.Text = _panel.Object.Scale.Y.ToString("N2");
+			la_model_zscale.Text = _panel.Object.Scale.Z.ToString("N2");
 		}
 		#endregion Methods
 	}

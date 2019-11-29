@@ -17,6 +17,16 @@ using OEIShared.UI;
 
 namespace creaturevisualizer
 {
+	enum ResetType
+	{
+		RESET_non,	// 0
+		RESET_z,	// 1
+		RESET_xy,	// 2
+		RESET_rot,	// 3
+		RESET_scale	// 4
+	}
+
+
 	/// <summary>
 	/// Credit: The Grinning Fool's Creature Creation Wizard
 	/// https://neverwintervault.org/project/nwn2/other/grinning-fools-creature-creation-wizard
@@ -172,7 +182,9 @@ namespace creaturevisualizer
 				_instance.EndAppearanceUpdate();
 
 				// set object scale ->
-				NWN2NetDisplayManager.Instance.SetObjectScale(Object, scale); // NOTE: after EndAppearanceUpdate().
+				Object.Scale = scale; // NOTE: after EndAppearanceUpdate().
+				NWN2NetDisplayManager.Instance.SetObjectScale(Object, Object.Scale);
+				CreatureVisualizerF.that.PrintModelScale();
 			}
 		}
 
@@ -264,6 +276,7 @@ namespace creaturevisualizer
 		{
 			Object.Scale += vec;
 			NWN2NetDisplayManager.Instance.SetObjectScale(Object, Object.Scale);
+			CreatureVisualizerF.that.PrintModelScale();
 		}
 
 		internal void ResetModel()
@@ -280,6 +293,56 @@ namespace creaturevisualizer
 
 			Object.Scale = ScaInitial;
 			NWN2NetDisplayManager.Instance.SetObjectScale(Object, Object.Scale);
+			CreatureVisualizerF.that.PrintModelScale();
+		}
+
+		internal void ResetModel(ResetType reset)
+		{
+			switch (reset)
+			{
+				case ResetType.RESET_z:
+				{
+					var pos = new Vector3();
+					pos.X = Object.Position.X;
+					pos.Y = Object.Position.Y;
+					pos.Z = 0;
+
+					var objects = new NetDisplayObjectCollection(); // TODO: cache that
+					objects.Add(Object);
+					NWN2NetDisplayManager.Instance.MoveObjects(objects,
+															   ChangeType.Absolute,
+															   false,
+															   pos);
+					break;
+				}
+
+				case ResetType.RESET_xy:
+				{
+					var pos = new Vector3();
+					pos.X = 0;
+					pos.Y = 0;
+					pos.Z = Object.Position.Z;
+
+					var objects = new NetDisplayObjectCollection(); // TODO: cache that
+					objects.Add(Object);
+					NWN2NetDisplayManager.Instance.MoveObjects(objects,
+															   ChangeType.Absolute,
+															   false,
+															   pos);
+					break;
+				}
+
+				case ResetType.RESET_rot:
+					Object.Orientation = RHQuaternion.RotationZ(INIT_INSTANCE_ROTATION);
+					NWN2NetDisplayManager.Instance.RotateObject(Object, ChangeType.Absolute, Object.Orientation);
+					break;
+
+				case ResetType.RESET_scale:
+					Object.Scale = ScaInitial;
+					NWN2NetDisplayManager.Instance.SetObjectScale(Object, Object.Scale);
+					CreatureVisualizerF.that.PrintModelScale();
+					break;
+			}
 		}
 		#endregion Methods (model)
 	}
