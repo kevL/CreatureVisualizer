@@ -62,7 +62,7 @@ namespace creaturevisualizer
 			_panel.Select();
 
 
-//			_itControlPanel  .PerformClick(); // TEST
+			_itControlPanel  .PerformClick(); // TEST
 //			_itRefreshOnFocus.PerformClick(); // TEST
 		}
 
@@ -343,6 +343,52 @@ namespace creaturevisualizer
 				_panel.ResetModel(ResetType.RESET_scale);
 		}
 		#endregion Handlers (model)
+
+
+		#region Handlers (camera)
+		void click_bu_camera_zpos(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+//				_panel.FocusOn(_panel.Object.Position);
+				_panel.CameraPosition -= CreatureVisualizerP.vec_zpos;
+			}
+		}
+
+		void click_bu_camera_zneg(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+//				_panel.FocusOn(_panel.Object.Position);
+				_panel.CameraPosition -= CreatureVisualizerP.vec_zneg;
+			}
+		}
+
+		void click_bu_camera_ypos(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+				_panel.CameraPosition -= CreatureVisualizerP.vec_ypos;
+		}
+
+		void click_bu_camera_yneg(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+				_panel.CameraPosition -= CreatureVisualizerP.vec_yneg;
+		}
+
+		void click_bu_camera_xpos(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+				_panel.CameraPosition -= CreatureVisualizerP.vec_xpos;
+		}
+
+		void click_bu_camera_xneg(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+				_panel.CameraPosition -= CreatureVisualizerP.vec_xneg;
+		}
+
+		#endregion Handlers (camera)
 
 
 		#region Methods

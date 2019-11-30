@@ -493,6 +493,7 @@ namespace creaturevisualizer
 			this.button16.Text = "▶";
 			this.button16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.button16.UseVisualStyleBackColor = true;
+			this.button16.Click += new System.EventHandler(this.click_bu_camera_xpos);
 			this.button16.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.button16.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -506,6 +507,7 @@ namespace creaturevisualizer
 			this.button17.Text = "◀";
 			this.button17.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.button17.UseVisualStyleBackColor = true;
+			this.button17.Click += new System.EventHandler(this.click_bu_camera_xneg);
 			this.button17.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.button17.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -519,6 +521,7 @@ namespace creaturevisualizer
 			this.button18.Text = "▼";
 			this.button18.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.button18.UseVisualStyleBackColor = true;
+			this.button18.Click += new System.EventHandler(this.click_bu_camera_yneg);
 			this.button18.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.button18.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -532,6 +535,7 @@ namespace creaturevisualizer
 			this.button19.Text = "▲";
 			this.button19.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.button19.UseVisualStyleBackColor = true;
+			this.button19.Click += new System.EventHandler(this.click_bu_camera_ypos);
 			this.button19.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.button19.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -545,6 +549,7 @@ namespace creaturevisualizer
 			this.bu_camera_zneg.Text = "↓";
 			this.bu_camera_zneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_camera_zneg.UseVisualStyleBackColor = true;
+			this.bu_camera_zneg.Click += new System.EventHandler(this.click_bu_camera_zneg);
 			this.bu_camera_zneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_camera_zneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -558,6 +563,7 @@ namespace creaturevisualizer
 			this.bu_camera_zpos.Text = "↑";
 			this.bu_camera_zpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_camera_zpos.UseVisualStyleBackColor = true;
+			this.bu_camera_zpos.Click += new System.EventHandler(this.click_bu_camera_zpos);
 			this.bu_camera_zpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_camera_zpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
