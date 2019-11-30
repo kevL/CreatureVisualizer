@@ -63,7 +63,7 @@ namespace creaturevisualizer
 
 
 			_itControlPanel  .PerformClick(); // TEST
-//			_itRefreshOnFocus.PerformClick(); // TEST
+			_itRefreshOnFocus.PerformClick(); // TEST
 		}
 
 
@@ -350,8 +350,8 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
-//				_panel.FocusOn(_panel.Object.Position);
-				_panel.CameraPosition -= CreatureVisualizerP.vec_zpos;
+				_panel.CameraPosition += CreatureVisualizerP.vec_zpos;
+//				_panel.FocusOn(_panel.Object.Position); // why not work right
 			}
 		}
 
@@ -359,35 +359,67 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
+				_panel.CameraPosition += CreatureVisualizerP.vec_zneg;
 //				_panel.FocusOn(_panel.Object.Position);
-				_panel.CameraPosition -= CreatureVisualizerP.vec_zneg;
 			}
 		}
 
 		void click_bu_camera_ypos(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-				_panel.CameraPosition -= CreatureVisualizerP.vec_ypos;
+				_panel.CameraPosition += CreatureVisualizerP.vec_ypos;
 		}
 
 		void click_bu_camera_yneg(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-				_panel.CameraPosition -= CreatureVisualizerP.vec_yneg;
+				_panel.CameraPosition += CreatureVisualizerP.vec_yneg;
 		}
 
 		void click_bu_camera_xpos(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-				_panel.CameraPosition -= CreatureVisualizerP.vec_xpos;
+				_panel.CameraPosition += CreatureVisualizerP.vec_xpos;
 		}
 
 		void click_bu_camera_xneg(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-				_panel.CameraPosition -= CreatureVisualizerP.vec_xneg;
+				_panel.CameraPosition += CreatureVisualizerP.vec_xneg;
 		}
 
+
+		void click_bu_camera_focus(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				_panel.FocusOn(_panel.Object.Position + new Vector3(0F,1.72F,0F));
+			}
+		}
+
+//		void click_bu_camera_reset(object sender, EventArgs e)
+//		{
+//			if (_panel.Object != null)
+//				_panel.ResetModel();
+//		}
+
+//		void click_bu_camera_xyreset(object sender, EventArgs e)
+//		{
+//			if (_panel.Object != null)
+//				_panel.ResetModel(ResetType.RESET_xy);
+//		}
+
+//		void click_bu_camera_rotreset(object sender, EventArgs e)
+//		{
+//			if (_panel.Object != null)
+//				_panel.ResetModel(ResetType.RESET_rot);
+//		}
+
+//		void click_bu_camera_scalereset(object sender, EventArgs e)
+//		{
+//			if (_panel.Object != null)
+//				_panel.ResetModel(ResetType.RESET_scale);
+//		}
 		#endregion Handlers (camera)
 
 

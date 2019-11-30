@@ -337,9 +337,10 @@ namespace creaturevisualizer
 			this.bu_camera_zreset.Name = "bu_camera_zreset";
 			this.bu_camera_zreset.Size = new System.Drawing.Size(22, 22);
 			this.bu_camera_zreset.TabIndex = 32;
-			this.bu_camera_zreset.Text = "r";
+			this.bu_camera_zreset.Text = "f";
 			this.bu_camera_zreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_camera_zreset.UseVisualStyleBackColor = true;
+			this.bu_camera_zreset.Click += new System.EventHandler(this.click_bu_camera_focus);
 			// 
 			// bu_camera_reset
 			// 

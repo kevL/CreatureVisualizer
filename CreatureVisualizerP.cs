@@ -173,6 +173,9 @@ namespace creaturevisualizer
 				{
 					Object.Orientation = RHQuaternion.RotationZ(INIT_INSTANCE_ROTATION);
 					scale = ScaInitial;
+
+//					CameraPosition = new Vector3(0F,5.2F,0.9F);
+//					FocusOn(Object.Position + new Vector3(0F,0F,1.1F));
 				}
 				else if (_changed)
 				{
