@@ -60,7 +60,7 @@ namespace creaturevisualizer
 		Label label4;
 		Button button3;
 		Button button4;
-		Button button5;
+		Button bu_camera_xyreset;
 		Button bu_camera_zreset;
 		Button bu_camera_reset;
 		Label la_camera_zoom;
@@ -75,10 +75,10 @@ namespace creaturevisualizer
 		Button button13;
 		Button button14;
 		Button button15;
-		Button button16;
-		Button button17;
-		Button button18;
-		Button button19;
+		Button bu_camera_ypos;
+		Button bu_camera_yneg;
+		Button bu_camera_xneg;
+		Button bu_camera_xpos;
 		Button bu_camera_zneg;
 		Button bu_camera_zpos;
 
@@ -114,7 +114,7 @@ namespace creaturevisualizer
 			this.label4 = new System.Windows.Forms.Label();
 			this.button3 = new System.Windows.Forms.Button();
 			this.button4 = new System.Windows.Forms.Button();
-			this.button5 = new System.Windows.Forms.Button();
+			this.bu_camera_xyreset = new System.Windows.Forms.Button();
 			this.bu_camera_zreset = new System.Windows.Forms.Button();
 			this.bu_camera_reset = new System.Windows.Forms.Button();
 			this.la_camera_zoom = new System.Windows.Forms.Label();
@@ -129,10 +129,10 @@ namespace creaturevisualizer
 			this.button13 = new System.Windows.Forms.Button();
 			this.button14 = new System.Windows.Forms.Button();
 			this.button15 = new System.Windows.Forms.Button();
-			this.button16 = new System.Windows.Forms.Button();
-			this.button17 = new System.Windows.Forms.Button();
-			this.button18 = new System.Windows.Forms.Button();
-			this.button19 = new System.Windows.Forms.Button();
+			this.bu_camera_ypos = new System.Windows.Forms.Button();
+			this.bu_camera_yneg = new System.Windows.Forms.Button();
+			this.bu_camera_xneg = new System.Windows.Forms.Button();
+			this.bu_camera_xpos = new System.Windows.Forms.Button();
 			this.bu_camera_zneg = new System.Windows.Forms.Button();
 			this.bu_camera_zpos = new System.Windows.Forms.Button();
 			this.ss_bot = new System.Windows.Forms.StatusStrip();
@@ -199,7 +199,7 @@ namespace creaturevisualizer
 			this.gb_camera.Controls.Add(this.label4);
 			this.gb_camera.Controls.Add(this.button3);
 			this.gb_camera.Controls.Add(this.button4);
-			this.gb_camera.Controls.Add(this.button5);
+			this.gb_camera.Controls.Add(this.bu_camera_xyreset);
 			this.gb_camera.Controls.Add(this.bu_camera_zreset);
 			this.gb_camera.Controls.Add(this.bu_camera_reset);
 			this.gb_camera.Controls.Add(this.la_camera_zoom);
@@ -214,10 +214,10 @@ namespace creaturevisualizer
 			this.gb_camera.Controls.Add(this.button13);
 			this.gb_camera.Controls.Add(this.button14);
 			this.gb_camera.Controls.Add(this.button15);
-			this.gb_camera.Controls.Add(this.button16);
-			this.gb_camera.Controls.Add(this.button17);
-			this.gb_camera.Controls.Add(this.button18);
-			this.gb_camera.Controls.Add(this.button19);
+			this.gb_camera.Controls.Add(this.bu_camera_ypos);
+			this.gb_camera.Controls.Add(this.bu_camera_yneg);
+			this.gb_camera.Controls.Add(this.bu_camera_xneg);
+			this.gb_camera.Controls.Add(this.bu_camera_xpos);
 			this.gb_camera.Controls.Add(this.bu_camera_zneg);
 			this.gb_camera.Controls.Add(this.bu_camera_zpos);
 			this.gb_camera.Dock = System.Windows.Forms.DockStyle.Top;
@@ -317,17 +317,17 @@ namespace creaturevisualizer
 			this.button4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.button4.UseVisualStyleBackColor = true;
 			// 
-			// button5
+			// bu_camera_xyreset
 			// 
-			this.button5.ForeColor = System.Drawing.Color.Crimson;
-			this.button5.Location = new System.Drawing.Point(69, 80);
-			this.button5.Margin = new System.Windows.Forms.Padding(0);
-			this.button5.Name = "button5";
-			this.button5.Size = new System.Drawing.Size(22, 22);
-			this.button5.TabIndex = 38;
-			this.button5.Text = "r";
-			this.button5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.button5.UseVisualStyleBackColor = true;
+			this.bu_camera_xyreset.ForeColor = System.Drawing.Color.Crimson;
+			this.bu_camera_xyreset.Location = new System.Drawing.Point(69, 80);
+			this.bu_camera_xyreset.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_xyreset.Name = "bu_camera_xyreset";
+			this.bu_camera_xyreset.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_xyreset.TabIndex = 38;
+			this.bu_camera_xyreset.Text = "r";
+			this.bu_camera_xyreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_xyreset.UseVisualStyleBackColor = true;
 			// 
 			// bu_camera_zreset
 			// 
@@ -483,61 +483,61 @@ namespace creaturevisualizer
 			this.button15.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.button15.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
-			// button16
+			// bu_camera_ypos
 			// 
-			this.button16.Location = new System.Drawing.Point(94, 40);
-			this.button16.Margin = new System.Windows.Forms.Padding(0);
-			this.button16.Name = "button16";
-			this.button16.Size = new System.Drawing.Size(22, 22);
-			this.button16.TabIndex = 35;
-			this.button16.Text = "▶";
-			this.button16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.button16.UseVisualStyleBackColor = true;
-			this.button16.Click += new System.EventHandler(this.click_bu_camera_xpos);
-			this.button16.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
-			this.button16.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			this.bu_camera_ypos.Location = new System.Drawing.Point(94, 40);
+			this.bu_camera_ypos.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_ypos.Name = "bu_camera_ypos";
+			this.bu_camera_ypos.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_ypos.TabIndex = 35;
+			this.bu_camera_ypos.Text = "▶";
+			this.bu_camera_ypos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_ypos.UseVisualStyleBackColor = true;
+			this.bu_camera_ypos.Click += new System.EventHandler(this.click_bu_camera_xpos);
+			this.bu_camera_ypos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_camera_ypos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
-			// button17
+			// bu_camera_yneg
 			// 
-			this.button17.Location = new System.Drawing.Point(44, 40);
-			this.button17.Margin = new System.Windows.Forms.Padding(0);
-			this.button17.Name = "button17";
-			this.button17.Size = new System.Drawing.Size(22, 22);
-			this.button17.TabIndex = 37;
-			this.button17.Text = "◀";
-			this.button17.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.button17.UseVisualStyleBackColor = true;
-			this.button17.Click += new System.EventHandler(this.click_bu_camera_xneg);
-			this.button17.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
-			this.button17.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			this.bu_camera_yneg.Location = new System.Drawing.Point(44, 40);
+			this.bu_camera_yneg.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_yneg.Name = "bu_camera_yneg";
+			this.bu_camera_yneg.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_yneg.TabIndex = 37;
+			this.bu_camera_yneg.Text = "◀";
+			this.bu_camera_yneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_yneg.UseVisualStyleBackColor = true;
+			this.bu_camera_yneg.Click += new System.EventHandler(this.click_bu_camera_xneg);
+			this.bu_camera_yneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_camera_yneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
-			// button18
+			// bu_camera_xneg
 			// 
-			this.button18.Location = new System.Drawing.Point(69, 55);
-			this.button18.Margin = new System.Windows.Forms.Padding(0);
-			this.button18.Name = "button18";
-			this.button18.Size = new System.Drawing.Size(22, 22);
-			this.button18.TabIndex = 36;
-			this.button18.Text = "▼";
-			this.button18.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.button18.UseVisualStyleBackColor = true;
-			this.button18.Click += new System.EventHandler(this.click_bu_camera_yneg);
-			this.button18.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
-			this.button18.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			this.bu_camera_xneg.Location = new System.Drawing.Point(69, 55);
+			this.bu_camera_xneg.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_xneg.Name = "bu_camera_xneg";
+			this.bu_camera_xneg.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_xneg.TabIndex = 36;
+			this.bu_camera_xneg.Text = "▼";
+			this.bu_camera_xneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_xneg.UseVisualStyleBackColor = true;
+			this.bu_camera_xneg.Click += new System.EventHandler(this.click_bu_camera_yneg);
+			this.bu_camera_xneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_camera_xneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
-			// button19
+			// bu_camera_xpos
 			// 
-			this.button19.Location = new System.Drawing.Point(69, 30);
-			this.button19.Margin = new System.Windows.Forms.Padding(0);
-			this.button19.Name = "button19";
-			this.button19.Size = new System.Drawing.Size(22, 22);
-			this.button19.TabIndex = 34;
-			this.button19.Text = "▲";
-			this.button19.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.button19.UseVisualStyleBackColor = true;
-			this.button19.Click += new System.EventHandler(this.click_bu_camera_ypos);
-			this.button19.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
-			this.button19.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			this.bu_camera_xpos.Location = new System.Drawing.Point(69, 30);
+			this.bu_camera_xpos.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_xpos.Name = "bu_camera_xpos";
+			this.bu_camera_xpos.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_xpos.TabIndex = 34;
+			this.bu_camera_xpos.Text = "▲";
+			this.bu_camera_xpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_xpos.UseVisualStyleBackColor = true;
+			this.bu_camera_xpos.Click += new System.EventHandler(this.click_bu_camera_ypos);
+			this.bu_camera_xpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_camera_xpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
 			// bu_camera_zneg
 			// 
