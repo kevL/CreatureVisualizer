@@ -230,57 +230,57 @@ namespace creaturevisualizer
 
 
 		#region Handlers (model)
-		void bu_model_zpos(object sender, EventArgs e)
+		void click_bu_model_zpos(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 				_panel.MoveModel(CreatureVisualizerP.vec_zpos);
 		}
 
-		void bu_model_zneg(object sender, EventArgs e)
+		void click_bu_model_zneg(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 				_panel.MoveModel(CreatureVisualizerP.vec_zneg);
 		}
 
-		void bu_model_ypos(object sender, EventArgs e)
+		void click_bu_model_ypos(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 				_panel.MoveModel(CreatureVisualizerP.vec_ypos);
 		}
 
-		void bu_model_yneg(object sender, EventArgs e)
+		void click_bu_model_yneg(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 				_panel.MoveModel(CreatureVisualizerP.vec_yneg);
 		}
 
-		void bu_model_xpos(object sender, EventArgs e)
+		void click_bu_model_xpos(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 				_panel.MoveModel(CreatureVisualizerP.vec_xpos);
 		}
 
-		void bu_model_xneg(object sender, EventArgs e)
+		void click_bu_model_xneg(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 				_panel.MoveModel(CreatureVisualizerP.vec_xneg);
 		}
 
 
-		void bu_model_rotpos(object sender, EventArgs e)
+		void click_bu_model_rotpos(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 				_panel.RotateModel(CreatureVisualizerP.rotpos);
 		}
 
-		void bu_model_rotneg(object sender, EventArgs e)
+		void click_bu_model_rotneg(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 				_panel.RotateModel(CreatureVisualizerP.rotneg);
 		}
 
 
-		void bu_model_scale(object sender, EventArgs e)
+		void click_bu_model_scale(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 			{
@@ -298,7 +298,7 @@ namespace creaturevisualizer
 			}
 		}
 
-		void bu_model_scaleall(object sender, EventArgs e)
+		void click_bu_model_scaleall(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 			{
@@ -313,31 +313,31 @@ namespace creaturevisualizer
 		}
 
 
-		void bu_model_reset(object sender, EventArgs e)
+		void click_bu_model_reset(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 				_panel.ResetModel();
 		}
 
-		void bu_model_zreset(object sender, EventArgs e)
+		void click_bu_model_zreset(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 				_panel.ResetModel(ResetType.RESET_z);
 		}
 
-		void bu_model_xyreset(object sender, EventArgs e)
+		void click_bu_model_xyreset(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 				_panel.ResetModel(ResetType.RESET_xy);
 		}
 
-		void bu_model_rotreset(object sender, EventArgs e)
+		void click_bu_model_rotreset(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 				_panel.ResetModel(ResetType.RESET_rot);
 		}
 
-		void bu_model_scalereset(object sender, EventArgs e)
+		void click_bu_model_scalereset(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 				_panel.ResetModel(ResetType.RESET_scale);

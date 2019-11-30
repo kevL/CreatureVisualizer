@@ -668,7 +668,7 @@ namespace creaturevisualizer
 			this.bu_model_scaleneg.Text = "-";
 			this.bu_model_scaleneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_scaleneg.UseVisualStyleBackColor = true;
-			this.bu_model_scaleneg.Click += new System.EventHandler(this.bu_model_scaleall);
+			this.bu_model_scaleneg.Click += new System.EventHandler(this.click_bu_model_scaleall);
 			this.bu_model_scaleneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_scaleneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -682,7 +682,7 @@ namespace creaturevisualizer
 			this.bu_model_scalepos.Text = "+";
 			this.bu_model_scalepos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_scalepos.UseVisualStyleBackColor = true;
-			this.bu_model_scalepos.Click += new System.EventHandler(this.bu_model_scaleall);
+			this.bu_model_scalepos.Click += new System.EventHandler(this.click_bu_model_scaleall);
 			this.bu_model_scalepos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_scalepos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -727,7 +727,7 @@ namespace creaturevisualizer
 			this.bu_model_scalereset.Text = "r";
 			this.bu_model_scalereset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_scalereset.UseVisualStyleBackColor = true;
-			this.bu_model_scalereset.Click += new System.EventHandler(this.bu_model_scalereset);
+			this.bu_model_scalereset.Click += new System.EventHandler(this.click_bu_model_scalereset);
 			// 
 			// bu_model_rotreset
 			// 
@@ -740,7 +740,7 @@ namespace creaturevisualizer
 			this.bu_model_rotreset.Text = "r";
 			this.bu_model_rotreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_rotreset.UseVisualStyleBackColor = true;
-			this.bu_model_rotreset.Click += new System.EventHandler(this.bu_model_rotreset);
+			this.bu_model_rotreset.Click += new System.EventHandler(this.click_bu_model_rotreset);
 			// 
 			// bu_model_xyreset
 			// 
@@ -753,7 +753,7 @@ namespace creaturevisualizer
 			this.bu_model_xyreset.Text = "r";
 			this.bu_model_xyreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_xyreset.UseVisualStyleBackColor = true;
-			this.bu_model_xyreset.Click += new System.EventHandler(this.bu_model_xyreset);
+			this.bu_model_xyreset.Click += new System.EventHandler(this.click_bu_model_xyreset);
 			// 
 			// bu_model_zreset
 			// 
@@ -766,7 +766,7 @@ namespace creaturevisualizer
 			this.bu_model_zreset.Text = "r";
 			this.bu_model_zreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_zreset.UseVisualStyleBackColor = true;
-			this.bu_model_zreset.Click += new System.EventHandler(this.bu_model_zreset);
+			this.bu_model_zreset.Click += new System.EventHandler(this.click_bu_model_zreset);
 			// 
 			// bu_model_reset
 			// 
@@ -777,7 +777,7 @@ namespace creaturevisualizer
 			this.bu_model_reset.TabIndex = 25;
 			this.bu_model_reset.Text = "reset";
 			this.bu_model_reset.UseVisualStyleBackColor = true;
-			this.bu_model_reset.Click += new System.EventHandler(this.bu_model_reset);
+			this.bu_model_reset.Click += new System.EventHandler(this.click_bu_model_reset);
 			// 
 			// la_model_scale
 			// 
@@ -829,7 +829,7 @@ namespace creaturevisualizer
 			this.bu_model_zscaleneg.Text = "z";
 			this.bu_model_zscaleneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_zscaleneg.UseVisualStyleBackColor = true;
-			this.bu_model_zscaleneg.Click += new System.EventHandler(this.bu_model_scale);
+			this.bu_model_zscaleneg.Click += new System.EventHandler(this.click_bu_model_scale);
 			this.bu_model_zscaleneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_zscaleneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -843,7 +843,7 @@ namespace creaturevisualizer
 			this.bu_model_yscaleneg.Text = "y";
 			this.bu_model_yscaleneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_yscaleneg.UseVisualStyleBackColor = true;
-			this.bu_model_yscaleneg.Click += new System.EventHandler(this.bu_model_scale);
+			this.bu_model_yscaleneg.Click += new System.EventHandler(this.click_bu_model_scale);
 			this.bu_model_yscaleneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_yscaleneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -857,7 +857,7 @@ namespace creaturevisualizer
 			this.bu_model_xscaleneg.Text = "x";
 			this.bu_model_xscaleneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_xscaleneg.UseVisualStyleBackColor = true;
-			this.bu_model_xscaleneg.Click += new System.EventHandler(this.bu_model_scale);
+			this.bu_model_xscaleneg.Click += new System.EventHandler(this.click_bu_model_scale);
 			this.bu_model_xscaleneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_xscaleneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -871,7 +871,7 @@ namespace creaturevisualizer
 			this.bu_model_zscalepos.Text = "z";
 			this.bu_model_zscalepos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_zscalepos.UseVisualStyleBackColor = true;
-			this.bu_model_zscalepos.Click += new System.EventHandler(this.bu_model_scale);
+			this.bu_model_zscalepos.Click += new System.EventHandler(this.click_bu_model_scale);
 			this.bu_model_zscalepos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_zscalepos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -885,7 +885,7 @@ namespace creaturevisualizer
 			this.bu_model_yscalepos.Text = "y";
 			this.bu_model_yscalepos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_yscalepos.UseVisualStyleBackColor = true;
-			this.bu_model_yscalepos.Click += new System.EventHandler(this.bu_model_scale);
+			this.bu_model_yscalepos.Click += new System.EventHandler(this.click_bu_model_scale);
 			this.bu_model_yscalepos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_yscalepos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -899,7 +899,7 @@ namespace creaturevisualizer
 			this.bu_model_xscalepos.Text = "x";
 			this.bu_model_xscalepos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_xscalepos.UseVisualStyleBackColor = true;
-			this.bu_model_xscalepos.Click += new System.EventHandler(this.bu_model_scale);
+			this.bu_model_xscalepos.Click += new System.EventHandler(this.click_bu_model_scale);
 			this.bu_model_xscalepos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_xscalepos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -913,7 +913,7 @@ namespace creaturevisualizer
 			this.bu_model_rneg.Text = "↶";
 			this.bu_model_rneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_rneg.UseVisualStyleBackColor = true;
-			this.bu_model_rneg.Click += new System.EventHandler(this.bu_model_rotneg);
+			this.bu_model_rneg.Click += new System.EventHandler(this.click_bu_model_rotneg);
 			this.bu_model_rneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_rneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -927,7 +927,7 @@ namespace creaturevisualizer
 			this.bu_model_rpos.Text = "↷";
 			this.bu_model_rpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_rpos.UseVisualStyleBackColor = true;
-			this.bu_model_rpos.Click += new System.EventHandler(this.bu_model_rotpos);
+			this.bu_model_rpos.Click += new System.EventHandler(this.click_bu_model_rotpos);
 			this.bu_model_rpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_rpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -941,7 +941,7 @@ namespace creaturevisualizer
 			this.bu_model_ypos.Text = "▶";
 			this.bu_model_ypos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_ypos.UseVisualStyleBackColor = true;
-			this.bu_model_ypos.Click += new System.EventHandler(this.bu_model_xpos);
+			this.bu_model_ypos.Click += new System.EventHandler(this.click_bu_model_xpos);
 			this.bu_model_ypos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_ypos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -955,7 +955,7 @@ namespace creaturevisualizer
 			this.bu_model_yneg.Text = "◀";
 			this.bu_model_yneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_yneg.UseVisualStyleBackColor = true;
-			this.bu_model_yneg.Click += new System.EventHandler(this.bu_model_xneg);
+			this.bu_model_yneg.Click += new System.EventHandler(this.click_bu_model_xneg);
 			this.bu_model_yneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_yneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -969,7 +969,7 @@ namespace creaturevisualizer
 			this.bu_model_xneg.Text = "▼";
 			this.bu_model_xneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_xneg.UseVisualStyleBackColor = true;
-			this.bu_model_xneg.Click += new System.EventHandler(this.bu_model_yneg);
+			this.bu_model_xneg.Click += new System.EventHandler(this.click_bu_model_yneg);
 			this.bu_model_xneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_xneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -983,7 +983,7 @@ namespace creaturevisualizer
 			this.bu_model_xpos.Text = "▲";
 			this.bu_model_xpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_xpos.UseVisualStyleBackColor = true;
-			this.bu_model_xpos.Click += new System.EventHandler(this.bu_model_ypos);
+			this.bu_model_xpos.Click += new System.EventHandler(this.click_bu_model_ypos);
 			this.bu_model_xpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_xpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -997,7 +997,7 @@ namespace creaturevisualizer
 			this.bu_model_zneg.Text = "↓";
 			this.bu_model_zneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_zneg.UseVisualStyleBackColor = true;
-			this.bu_model_zneg.Click += new System.EventHandler(this.bu_model_zneg);
+			this.bu_model_zneg.Click += new System.EventHandler(this.click_bu_model_zneg);
 			this.bu_model_zneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_zneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -1011,7 +1011,7 @@ namespace creaturevisualizer
 			this.bu_model_zpos.Text = "↑";
 			this.bu_model_zpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_zpos.UseVisualStyleBackColor = true;
-			this.bu_model_zpos.Click += new System.EventHandler(this.bu_model_zpos);
+			this.bu_model_zpos.Click += new System.EventHandler(this.click_bu_model_zpos);
 			this.bu_model_zpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_zpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
