@@ -36,7 +36,8 @@ namespace creaturevisualizer
 		: ElectronPanel
 	{
 		#region Fields (static)
-		const float INIT_INSTANCE_ROTATION = 2.63F;
+		const float INIT_INSTANCE_ROTATION = 2.69F;
+//		const float INIT_INSTANCE_ROTATION = 3.34F;
 		static Vector3 ScaInitial;
 		#endregion Fields (static)
 

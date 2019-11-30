@@ -369,7 +369,7 @@ namespace creaturevisualizer
 		/// <param name="object"></param>
 		internal void PrintModelPosition(OEIShared.NetDisplay.NetDisplayObject @object)
 		{
-			// TODO: group per x,y,z,rot separately - too many prints here.
+			// TODO: group per z,x/y,rot separately - too many prints here.
 
 			Vector3 vec = @object.Position;
 
