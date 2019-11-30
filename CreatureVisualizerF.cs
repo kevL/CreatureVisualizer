@@ -196,8 +196,6 @@ namespace creaturevisualizer
 
 
 		#region Handlers (timer)
-		// TODO: [Enter] repeat
-
 		void mousedown_EnableRepeater(object sender, MouseEventArgs e)
 		{
 			_repeater = sender as Button;
@@ -365,22 +363,29 @@ namespace creaturevisualizer
 			la_model_scaleorg.Text = scale;
 		}
 
-		internal void PrintModelPosition(Vector3 vec, RHQuaternion quaternion)
+		/// <summary>
+		/// quaternions ... because why not
+		/// </summary>
+		/// <param name="object"></param>
+		internal void PrintModelPosition(OEIShared.NetDisplay.NetDisplayObject @object)
 		{
+			// TODO: group per x,y,z,rot separately - too many prints here.
+
+			Vector3 vec = @object.Position;
+
 			tssl_xpos.Text = vec.X.ToString("N2");
 			tssl_ypos.Text = vec.Y.ToString("N2");
 			tssl_zpos.Text = vec.Z.ToString("N2");
 
-			// quaternions ... because why not ->
 			var axis = new Vector3();
 			float angle = 0F;
-			RHQuaternion.ToAxisAngle(quaternion, ref axis, ref angle);
+			RHQuaternion.ToAxisAngle(@object.Orientation, ref axis, ref angle);
 
 			if (axis.Z < 0F) angle = -angle;
 			angle *= 180F / (float)Math.PI;
 			if (angle < 0F) angle += 360F;
 
-			tssl_rot.Text = ((int)angle).ToString();
+			tssl_rot.Text = ((int)angle).ToString(); // 0 is north, goes clockwise
 		}
 		//set: Orientation = RHQuaternion.RotationAxis(new Vector3(0f, 0f, 1f), (float)value * ((float)Math.PI / 180f));
 		#endregion Methods

@@ -36,7 +36,7 @@ namespace creaturevisualizer
 		: ElectronPanel
 	{
 		#region Fields (static)
-		const float INIT_INSTANCE_ROTATION = 2.6F;
+		const float INIT_INSTANCE_ROTATION = 2.63F;
 		static Vector3 ScaInitial;
 		#endregion Fields (static)
 
@@ -177,7 +177,7 @@ namespace creaturevisualizer
 
 				// set object rotation ->
 				NWN2NetDisplayManager.Instance.RotateObject(Object, ChangeType.Absolute, Object.Orientation);
-				CreatureVisualizerF.that.PrintModelPosition(Object.Position, Object.Orientation);
+				CreatureVisualizerF.that.PrintModelPosition(Object);
 
 				_instance.EndAppearanceUpdate();
 
@@ -258,7 +258,7 @@ namespace creaturevisualizer
 		{
 			var objects = new NetDisplayObjectCollection() { Object }; // TODO: cache that
 			NWN2NetDisplayManager.Instance.MoveObjects(objects, ChangeType.Relative, false, vec);
-			CreatureVisualizerF.that.PrintModelPosition(Object.Position, Object.Orientation);
+			CreatureVisualizerF.that.PrintModelPosition(Object);
 		}
 
 		internal void RotateModel(float f)
@@ -267,7 +267,7 @@ namespace creaturevisualizer
 			NWN2NetDisplayManager.Instance.RotateObject(Object, ChangeType.Relative, rotate);
 
 			Object.Orientation = RHQuaternion.Multiply(Object.Orientation, rotate);
-			CreatureVisualizerF.that.PrintModelPosition(Object.Position, Object.Orientation);
+			CreatureVisualizerF.that.PrintModelPosition(Object);
 		}
 
 		internal void ScaleModel(Vector3 vec)
@@ -296,7 +296,7 @@ namespace creaturevisualizer
 
 			Object.Orientation = RHQuaternion.RotationZ(INIT_INSTANCE_ROTATION);
 			NWN2NetDisplayManager.Instance.RotateObject(Object, ChangeType.Absolute, Object.Orientation);
-			CreatureVisualizerF.that.PrintModelPosition(Object.Position, Object.Orientation);
+			CreatureVisualizerF.that.PrintModelPosition(Object);
 
 			Object.Scale = ScaInitial;
 			NWN2NetDisplayManager.Instance.SetObjectScale(Object, Object.Scale);
@@ -316,7 +316,7 @@ namespace creaturevisualizer
 
 					var objects = new NetDisplayObjectCollection() { Object }; // TODO: cache that
 					NWN2NetDisplayManager.Instance.MoveObjects(objects, ChangeType.Absolute, false, pos);
-					CreatureVisualizerF.that.PrintModelPosition(Object.Position, Object.Orientation);
+					CreatureVisualizerF.that.PrintModelPosition(Object);
 					break;
 				}
 
@@ -329,14 +329,14 @@ namespace creaturevisualizer
 
 					var objects = new NetDisplayObjectCollection() { Object }; // TODO: cache that
 					NWN2NetDisplayManager.Instance.MoveObjects(objects, ChangeType.Absolute, false, pos);
-					CreatureVisualizerF.that.PrintModelPosition(Object.Position, Object.Orientation);
+					CreatureVisualizerF.that.PrintModelPosition(Object);
 					break;
 				}
 
 				case ResetType.RESET_rot:
 					Object.Orientation = RHQuaternion.RotationZ(INIT_INSTANCE_ROTATION);
 					NWN2NetDisplayManager.Instance.RotateObject(Object, ChangeType.Absolute, Object.Orientation);
-					CreatureVisualizerF.that.PrintModelPosition(Object.Position, Object.Orientation);
+					CreatureVisualizerF.that.PrintModelPosition(Object);
 					break;
 
 				case ResetType.RESET_scale:
