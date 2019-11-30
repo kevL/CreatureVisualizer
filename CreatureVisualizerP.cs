@@ -59,6 +59,14 @@ namespace creaturevisualizer
 		{ get; private set; }
 		#endregion Properties
 
+		//handle SelectionChanged event
+
+		#region cTor
+		internal CreatureVisualizerP()
+		{
+			//SelectionChanged += ;
+		}
+		#endregion cTor
 
 		#region Methods
 		/// <summary>
@@ -147,6 +155,8 @@ namespace creaturevisualizer
 
 				// create display object ->
 				Object = NWN2NetDisplayManager.Instance.CreateNDOForInstance(_instance, Scene, 0);
+
+				Object.PositionChanged += positionchanged_Object;
 
 				CreatureVisualizerF.that.PrintOriginalScale(Object.Scale.X.ToString("N2"));
 
@@ -239,6 +249,19 @@ namespace creaturevisualizer
 			return false;
 		}
 		#endregion Methods
+
+
+		#region Handlers
+		float _zObject;
+		void positionchanged_Object(object sender, EventArgs e)
+		{
+			if (!Object.Position.Z.Equals(_zObject))
+			{
+				_zObject = Object.Position.Z;
+				CreatureVisualizerF.that.PrintModelPosition(Object);
+			}
+		}
+		#endregion Handlers
 
 
 		#region Methods (model)
