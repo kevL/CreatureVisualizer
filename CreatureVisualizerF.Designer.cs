@@ -167,8 +167,7 @@ namespace creaturevisualizer
 			this.tssl_rot.AutoSize = false;
 			this.tssl_rot.Margin = new System.Windows.Forms.Padding(0);
 			this.tssl_rot.Name = "tssl_rot";
-			this.tssl_rot.Size = new System.Drawing.Size(128, 22);
-			this.tssl_rot.Spring = true;
+			this.tssl_rot.Size = new System.Drawing.Size(50, 22);
 			this.tssl_rot.Text = "r";
 			// 
 			// gb_model
@@ -258,7 +257,7 @@ namespace creaturevisualizer
 			this.la_model_zscale.Name = "la_model_zscale";
 			this.la_model_zscale.Size = new System.Drawing.Size(40, 20);
 			this.la_model_zscale.TabIndex = 23;
-			this.la_model_zscale.Text = "zsca";
+			this.la_model_zscale.Text = "z";
 			this.la_model_zscale.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// la_model_yscale
@@ -268,7 +267,7 @@ namespace creaturevisualizer
 			this.la_model_yscale.Name = "la_model_yscale";
 			this.la_model_yscale.Size = new System.Drawing.Size(40, 20);
 			this.la_model_yscale.TabIndex = 20;
-			this.la_model_yscale.Text = "ysca";
+			this.la_model_yscale.Text = "y";
 			this.la_model_yscale.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// la_model_xscale
@@ -278,7 +277,7 @@ namespace creaturevisualizer
 			this.la_model_xscale.Name = "la_model_xscale";
 			this.la_model_xscale.Size = new System.Drawing.Size(40, 20);
 			this.la_model_xscale.TabIndex = 17;
-			this.la_model_xscale.Text = "xsca";
+			this.la_model_xscale.Text = "x";
 			this.la_model_xscale.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// bu_model_scalereset
