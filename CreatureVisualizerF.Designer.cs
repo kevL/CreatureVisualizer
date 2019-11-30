@@ -29,10 +29,10 @@ namespace creaturevisualizer
 		Button bu_model_zscaleneg;
 		Button bu_model_yscaleneg;
 		Button bu_model_xscaleneg;
-		Label la_scale;
-		Label la_rotate;
-		Label la_xyaxis;
-		Label la_zaxis;
+		Label la_model_scale;
+		Label la_model_rotate;
+		Label la_model_xyaxis;
+		Label la_model_zaxis;
 		Button bu_model_reset;
 		Button bu_model_scalereset;
 		Button bu_model_rotreset;
@@ -41,14 +41,46 @@ namespace creaturevisualizer
 		Label la_model_zscale;
 		Label la_model_yscale;
 		Label la_model_xscale;
+		Button bu_model_scaleneg;
+		Button bu_model_scalepos;
+		Label la_model_scaleorg;
+
 		StatusStrip ss_bot;
 		ToolStripStatusLabel tssl_xpos;
 		ToolStripStatusLabel tssl_ypos;
 		ToolStripStatusLabel tssl_zpos;
 		ToolStripStatusLabel tssl_rot;
-		Button bu_model_scaleneg;
-		Button bu_model_scalepos;
-		Label la_model_scaleorg;
+
+		GroupBox gb_camera;
+		Label la_camera_pitch;
+		Button button1;
+		Button button2;
+		Label label2;
+		Label label3;
+		Label label4;
+		Button button3;
+		Button button4;
+		Button button5;
+		Button bu_camera_zreset;
+		Button bu_camera_reset;
+		Label la_camera_zoom;
+		Label la_camera_rotate;
+		Label la_camera_xyaxis;
+		Label la_camera_zaxis;
+		Button button8;
+		Button button9;
+		Button button10;
+		Button button11;
+		Button button12;
+		Button button13;
+		Button button14;
+		Button button15;
+		Button button16;
+		Button button17;
+		Button button18;
+		Button button19;
+		Button bu_camera_zneg;
+		Button bu_camera_zpos;
 
 
 		/// <summary>
@@ -73,6 +105,36 @@ namespace creaturevisualizer
 		private void InitializeComponent()
 		{
 			this.pa_controls = new System.Windows.Forms.Panel();
+			this.gb_camera = new System.Windows.Forms.GroupBox();
+			this.la_camera_pitch = new System.Windows.Forms.Label();
+			this.button1 = new System.Windows.Forms.Button();
+			this.button2 = new System.Windows.Forms.Button();
+			this.label2 = new System.Windows.Forms.Label();
+			this.label3 = new System.Windows.Forms.Label();
+			this.label4 = new System.Windows.Forms.Label();
+			this.button3 = new System.Windows.Forms.Button();
+			this.button4 = new System.Windows.Forms.Button();
+			this.button5 = new System.Windows.Forms.Button();
+			this.bu_camera_zreset = new System.Windows.Forms.Button();
+			this.bu_camera_reset = new System.Windows.Forms.Button();
+			this.la_camera_zoom = new System.Windows.Forms.Label();
+			this.la_camera_rotate = new System.Windows.Forms.Label();
+			this.la_camera_xyaxis = new System.Windows.Forms.Label();
+			this.la_camera_zaxis = new System.Windows.Forms.Label();
+			this.button8 = new System.Windows.Forms.Button();
+			this.button9 = new System.Windows.Forms.Button();
+			this.button10 = new System.Windows.Forms.Button();
+			this.button11 = new System.Windows.Forms.Button();
+			this.button12 = new System.Windows.Forms.Button();
+			this.button13 = new System.Windows.Forms.Button();
+			this.button14 = new System.Windows.Forms.Button();
+			this.button15 = new System.Windows.Forms.Button();
+			this.button16 = new System.Windows.Forms.Button();
+			this.button17 = new System.Windows.Forms.Button();
+			this.button18 = new System.Windows.Forms.Button();
+			this.button19 = new System.Windows.Forms.Button();
+			this.bu_camera_zneg = new System.Windows.Forms.Button();
+			this.bu_camera_zpos = new System.Windows.Forms.Button();
 			this.ss_bot = new System.Windows.Forms.StatusStrip();
 			this.tssl_xpos = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tssl_ypos = new System.Windows.Forms.ToolStripStatusLabel();
@@ -90,10 +152,10 @@ namespace creaturevisualizer
 			this.bu_model_xyreset = new System.Windows.Forms.Button();
 			this.bu_model_zreset = new System.Windows.Forms.Button();
 			this.bu_model_reset = new System.Windows.Forms.Button();
-			this.la_scale = new System.Windows.Forms.Label();
-			this.la_rotate = new System.Windows.Forms.Label();
-			this.la_xyaxis = new System.Windows.Forms.Label();
-			this.la_zaxis = new System.Windows.Forms.Label();
+			this.la_model_scale = new System.Windows.Forms.Label();
+			this.la_model_rotate = new System.Windows.Forms.Label();
+			this.la_model_xyaxis = new System.Windows.Forms.Label();
+			this.la_model_zaxis = new System.Windows.Forms.Label();
 			this.bu_model_zscaleneg = new System.Windows.Forms.Button();
 			this.bu_model_yscaleneg = new System.Windows.Forms.Button();
 			this.bu_model_xscaleneg = new System.Windows.Forms.Button();
@@ -109,12 +171,14 @@ namespace creaturevisualizer
 			this.bu_model_zneg = new System.Windows.Forms.Button();
 			this.bu_model_zpos = new System.Windows.Forms.Button();
 			this.pa_controls.SuspendLayout();
+			this.gb_camera.SuspendLayout();
 			this.ss_bot.SuspendLayout();
 			this.gb_model.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// pa_controls
 			// 
+			this.pa_controls.Controls.Add(this.gb_camera);
 			this.pa_controls.Controls.Add(this.ss_bot);
 			this.pa_controls.Controls.Add(this.gb_model);
 			this.pa_controls.Dock = System.Windows.Forms.DockStyle.Right;
@@ -124,6 +188,378 @@ namespace creaturevisualizer
 			this.pa_controls.Size = new System.Drawing.Size(290, 474);
 			this.pa_controls.TabIndex = 0;
 			this.pa_controls.Visible = false;
+			// 
+			// gb_camera
+			// 
+			this.gb_camera.Controls.Add(this.la_camera_pitch);
+			this.gb_camera.Controls.Add(this.button1);
+			this.gb_camera.Controls.Add(this.button2);
+			this.gb_camera.Controls.Add(this.label2);
+			this.gb_camera.Controls.Add(this.label3);
+			this.gb_camera.Controls.Add(this.label4);
+			this.gb_camera.Controls.Add(this.button3);
+			this.gb_camera.Controls.Add(this.button4);
+			this.gb_camera.Controls.Add(this.button5);
+			this.gb_camera.Controls.Add(this.bu_camera_zreset);
+			this.gb_camera.Controls.Add(this.bu_camera_reset);
+			this.gb_camera.Controls.Add(this.la_camera_zoom);
+			this.gb_camera.Controls.Add(this.la_camera_rotate);
+			this.gb_camera.Controls.Add(this.la_camera_xyaxis);
+			this.gb_camera.Controls.Add(this.la_camera_zaxis);
+			this.gb_camera.Controls.Add(this.button8);
+			this.gb_camera.Controls.Add(this.button9);
+			this.gb_camera.Controls.Add(this.button10);
+			this.gb_camera.Controls.Add(this.button11);
+			this.gb_camera.Controls.Add(this.button12);
+			this.gb_camera.Controls.Add(this.button13);
+			this.gb_camera.Controls.Add(this.button14);
+			this.gb_camera.Controls.Add(this.button15);
+			this.gb_camera.Controls.Add(this.button16);
+			this.gb_camera.Controls.Add(this.button17);
+			this.gb_camera.Controls.Add(this.button18);
+			this.gb_camera.Controls.Add(this.button19);
+			this.gb_camera.Controls.Add(this.bu_camera_zneg);
+			this.gb_camera.Controls.Add(this.bu_camera_zpos);
+			this.gb_camera.Dock = System.Windows.Forms.DockStyle.Top;
+			this.gb_camera.Location = new System.Drawing.Point(0, 130);
+			this.gb_camera.Margin = new System.Windows.Forms.Padding(0);
+			this.gb_camera.Name = "gb_camera";
+			this.gb_camera.Padding = new System.Windows.Forms.Padding(0);
+			this.gb_camera.Size = new System.Drawing.Size(290, 130);
+			this.gb_camera.TabIndex = 2;
+			this.gb_camera.TabStop = false;
+			this.gb_camera.Text = " Camera ";
+			// 
+			// la_camera_pitch
+			// 
+			this.la_camera_pitch.ForeColor = System.Drawing.Color.RoyalBlue;
+			this.la_camera_pitch.Location = new System.Drawing.Point(219, 15);
+			this.la_camera_pitch.Margin = new System.Windows.Forms.Padding(0);
+			this.la_camera_pitch.Name = "la_camera_pitch";
+			this.la_camera_pitch.Size = new System.Drawing.Size(40, 15);
+			this.la_camera_pitch.TabIndex = 57;
+			this.la_camera_pitch.Text = "PITCH";
+			this.la_camera_pitch.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			// 
+			// button1
+			// 
+			this.button1.Location = new System.Drawing.Point(259, 55);
+			this.button1.Margin = new System.Windows.Forms.Padding(0);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(22, 22);
+			this.button1.TabIndex = 56;
+			this.button1.Text = "-";
+			this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.button1.UseVisualStyleBackColor = true;
+			// 
+			// button2
+			// 
+			this.button2.Location = new System.Drawing.Point(259, 30);
+			this.button2.Margin = new System.Windows.Forms.Padding(0);
+			this.button2.Name = "button2";
+			this.button2.Size = new System.Drawing.Size(22, 22);
+			this.button2.TabIndex = 55;
+			this.button2.Text = "+";
+			this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.button2.UseVisualStyleBackColor = true;
+			// 
+			// label2
+			// 
+			this.label2.Location = new System.Drawing.Point(219, 80);
+			this.label2.Margin = new System.Windows.Forms.Padding(0);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(40, 20);
+			this.label2.TabIndex = 52;
+			this.label2.Text = "z";
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// label3
+			// 
+			this.label3.Location = new System.Drawing.Point(219, 55);
+			this.label3.Margin = new System.Windows.Forms.Padding(0);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(40, 20);
+			this.label3.TabIndex = 49;
+			this.label3.Text = "y";
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// label4
+			// 
+			this.label4.Location = new System.Drawing.Point(219, 30);
+			this.label4.Margin = new System.Windows.Forms.Padding(0);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(40, 20);
+			this.label4.TabIndex = 46;
+			this.label4.Text = "x";
+			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// button3
+			// 
+			this.button3.ForeColor = System.Drawing.Color.Crimson;
+			this.button3.Location = new System.Drawing.Point(259, 80);
+			this.button3.Margin = new System.Windows.Forms.Padding(0);
+			this.button3.Name = "button3";
+			this.button3.Size = new System.Drawing.Size(22, 22);
+			this.button3.TabIndex = 53;
+			this.button3.Text = "r";
+			this.button3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.button3.UseVisualStyleBackColor = true;
+			// 
+			// button4
+			// 
+			this.button4.ForeColor = System.Drawing.Color.Crimson;
+			this.button4.Location = new System.Drawing.Point(129, 80);
+			this.button4.Margin = new System.Windows.Forms.Padding(0);
+			this.button4.Name = "button4";
+			this.button4.Size = new System.Drawing.Size(22, 22);
+			this.button4.TabIndex = 42;
+			this.button4.Text = "r";
+			this.button4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.button4.UseVisualStyleBackColor = true;
+			// 
+			// button5
+			// 
+			this.button5.ForeColor = System.Drawing.Color.Crimson;
+			this.button5.Location = new System.Drawing.Point(69, 80);
+			this.button5.Margin = new System.Windows.Forms.Padding(0);
+			this.button5.Name = "button5";
+			this.button5.Size = new System.Drawing.Size(22, 22);
+			this.button5.TabIndex = 38;
+			this.button5.Text = "r";
+			this.button5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.button5.UseVisualStyleBackColor = true;
+			// 
+			// bu_camera_zreset
+			// 
+			this.bu_camera_zreset.ForeColor = System.Drawing.Color.Crimson;
+			this.bu_camera_zreset.Location = new System.Drawing.Point(9, 80);
+			this.bu_camera_zreset.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_zreset.Name = "bu_camera_zreset";
+			this.bu_camera_zreset.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_zreset.TabIndex = 32;
+			this.bu_camera_zreset.Text = "r";
+			this.bu_camera_zreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_zreset.UseVisualStyleBackColor = true;
+			// 
+			// bu_camera_reset
+			// 
+			this.bu_camera_reset.ForeColor = System.Drawing.Color.Crimson;
+			this.bu_camera_reset.Location = new System.Drawing.Point(9, 105);
+			this.bu_camera_reset.Name = "bu_camera_reset";
+			this.bu_camera_reset.Size = new System.Drawing.Size(272, 20);
+			this.bu_camera_reset.TabIndex = 54;
+			this.bu_camera_reset.Text = "reset";
+			this.bu_camera_reset.UseVisualStyleBackColor = true;
+			// 
+			// la_camera_zoom
+			// 
+			this.la_camera_zoom.Location = new System.Drawing.Point(169, 15);
+			this.la_camera_zoom.Margin = new System.Windows.Forms.Padding(0);
+			this.la_camera_zoom.Name = "la_camera_zoom";
+			this.la_camera_zoom.Size = new System.Drawing.Size(50, 15);
+			this.la_camera_zoom.TabIndex = 43;
+			this.la_camera_zoom.Text = "ZOOM";
+			this.la_camera_zoom.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			// 
+			// la_camera_rotate
+			// 
+			this.la_camera_rotate.Location = new System.Drawing.Point(129, 15);
+			this.la_camera_rotate.Margin = new System.Windows.Forms.Padding(0);
+			this.la_camera_rotate.Name = "la_camera_rotate";
+			this.la_camera_rotate.Size = new System.Drawing.Size(25, 15);
+			this.la_camera_rotate.TabIndex = 39;
+			this.la_camera_rotate.Text = "rot";
+			this.la_camera_rotate.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			// 
+			// la_camera_xyaxis
+			// 
+			this.la_camera_xyaxis.Location = new System.Drawing.Point(44, 15);
+			this.la_camera_xyaxis.Margin = new System.Windows.Forms.Padding(0);
+			this.la_camera_xyaxis.Name = "la_camera_xyaxis";
+			this.la_camera_xyaxis.Size = new System.Drawing.Size(75, 15);
+			this.la_camera_xyaxis.TabIndex = 33;
+			this.la_camera_xyaxis.Text = "x/y";
+			this.la_camera_xyaxis.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			// 
+			// la_camera_zaxis
+			// 
+			this.la_camera_zaxis.Location = new System.Drawing.Point(9, 15);
+			this.la_camera_zaxis.Margin = new System.Windows.Forms.Padding(0);
+			this.la_camera_zaxis.Name = "la_camera_zaxis";
+			this.la_camera_zaxis.Size = new System.Drawing.Size(25, 15);
+			this.la_camera_zaxis.TabIndex = 29;
+			this.la_camera_zaxis.Text = "z";
+			this.la_camera_zaxis.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			// 
+			// button8
+			// 
+			this.button8.Location = new System.Drawing.Point(169, 80);
+			this.button8.Margin = new System.Windows.Forms.Padding(0);
+			this.button8.Name = "button8";
+			this.button8.Size = new System.Drawing.Size(22, 22);
+			this.button8.TabIndex = 50;
+			this.button8.Text = "z";
+			this.button8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.button8.UseVisualStyleBackColor = true;
+			// 
+			// button9
+			// 
+			this.button9.Location = new System.Drawing.Point(169, 55);
+			this.button9.Margin = new System.Windows.Forms.Padding(0);
+			this.button9.Name = "button9";
+			this.button9.Size = new System.Drawing.Size(22, 22);
+			this.button9.TabIndex = 47;
+			this.button9.Text = "y";
+			this.button9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.button9.UseVisualStyleBackColor = true;
+			// 
+			// button10
+			// 
+			this.button10.Location = new System.Drawing.Point(169, 30);
+			this.button10.Margin = new System.Windows.Forms.Padding(0);
+			this.button10.Name = "button10";
+			this.button10.Size = new System.Drawing.Size(22, 22);
+			this.button10.TabIndex = 44;
+			this.button10.Text = "x";
+			this.button10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.button10.UseVisualStyleBackColor = true;
+			// 
+			// button11
+			// 
+			this.button11.Location = new System.Drawing.Point(194, 80);
+			this.button11.Margin = new System.Windows.Forms.Padding(0);
+			this.button11.Name = "button11";
+			this.button11.Size = new System.Drawing.Size(22, 22);
+			this.button11.TabIndex = 51;
+			this.button11.Text = "z";
+			this.button11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.button11.UseVisualStyleBackColor = true;
+			// 
+			// button12
+			// 
+			this.button12.Location = new System.Drawing.Point(194, 55);
+			this.button12.Margin = new System.Windows.Forms.Padding(0);
+			this.button12.Name = "button12";
+			this.button12.Size = new System.Drawing.Size(22, 22);
+			this.button12.TabIndex = 48;
+			this.button12.Text = "y";
+			this.button12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.button12.UseVisualStyleBackColor = true;
+			// 
+			// button13
+			// 
+			this.button13.Location = new System.Drawing.Point(194, 30);
+			this.button13.Margin = new System.Windows.Forms.Padding(0);
+			this.button13.Name = "button13";
+			this.button13.Size = new System.Drawing.Size(22, 22);
+			this.button13.TabIndex = 45;
+			this.button13.Text = "x";
+			this.button13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.button13.UseVisualStyleBackColor = true;
+			// 
+			// button14
+			// 
+			this.button14.Location = new System.Drawing.Point(129, 55);
+			this.button14.Margin = new System.Windows.Forms.Padding(0);
+			this.button14.Name = "button14";
+			this.button14.Size = new System.Drawing.Size(22, 22);
+			this.button14.TabIndex = 41;
+			this.button14.Text = "↶";
+			this.button14.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.button14.UseVisualStyleBackColor = true;
+			this.button14.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.button14.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			// 
+			// button15
+			// 
+			this.button15.Location = new System.Drawing.Point(129, 30);
+			this.button15.Margin = new System.Windows.Forms.Padding(0);
+			this.button15.Name = "button15";
+			this.button15.Size = new System.Drawing.Size(22, 22);
+			this.button15.TabIndex = 40;
+			this.button15.Text = "↷";
+			this.button15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.button15.UseVisualStyleBackColor = true;
+			this.button15.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.button15.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			// 
+			// button16
+			// 
+			this.button16.Location = new System.Drawing.Point(94, 40);
+			this.button16.Margin = new System.Windows.Forms.Padding(0);
+			this.button16.Name = "button16";
+			this.button16.Size = new System.Drawing.Size(22, 22);
+			this.button16.TabIndex = 35;
+			this.button16.Text = "▶";
+			this.button16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.button16.UseVisualStyleBackColor = true;
+			this.button16.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.button16.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			// 
+			// button17
+			// 
+			this.button17.Location = new System.Drawing.Point(44, 40);
+			this.button17.Margin = new System.Windows.Forms.Padding(0);
+			this.button17.Name = "button17";
+			this.button17.Size = new System.Drawing.Size(22, 22);
+			this.button17.TabIndex = 37;
+			this.button17.Text = "◀";
+			this.button17.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.button17.UseVisualStyleBackColor = true;
+			this.button17.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.button17.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			// 
+			// button18
+			// 
+			this.button18.Location = new System.Drawing.Point(69, 55);
+			this.button18.Margin = new System.Windows.Forms.Padding(0);
+			this.button18.Name = "button18";
+			this.button18.Size = new System.Drawing.Size(22, 22);
+			this.button18.TabIndex = 36;
+			this.button18.Text = "▼";
+			this.button18.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.button18.UseVisualStyleBackColor = true;
+			this.button18.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.button18.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			// 
+			// button19
+			// 
+			this.button19.Location = new System.Drawing.Point(69, 30);
+			this.button19.Margin = new System.Windows.Forms.Padding(0);
+			this.button19.Name = "button19";
+			this.button19.Size = new System.Drawing.Size(22, 22);
+			this.button19.TabIndex = 34;
+			this.button19.Text = "▲";
+			this.button19.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.button19.UseVisualStyleBackColor = true;
+			this.button19.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.button19.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			// 
+			// bu_camera_zneg
+			// 
+			this.bu_camera_zneg.Location = new System.Drawing.Point(9, 55);
+			this.bu_camera_zneg.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_zneg.Name = "bu_camera_zneg";
+			this.bu_camera_zneg.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_zneg.TabIndex = 31;
+			this.bu_camera_zneg.Text = "↓";
+			this.bu_camera_zneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_zneg.UseVisualStyleBackColor = true;
+			this.bu_camera_zneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_camera_zneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			// 
+			// bu_camera_zpos
+			// 
+			this.bu_camera_zpos.Location = new System.Drawing.Point(9, 30);
+			this.bu_camera_zpos.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_zpos.Name = "bu_camera_zpos";
+			this.bu_camera_zpos.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_zpos.TabIndex = 30;
+			this.bu_camera_zpos.Text = "↑";
+			this.bu_camera_zpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_zpos.UseVisualStyleBackColor = true;
+			this.bu_camera_zpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_camera_zpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
 			// ss_bot
 			// 
@@ -183,10 +619,10 @@ namespace creaturevisualizer
 			this.gb_model.Controls.Add(this.bu_model_xyreset);
 			this.gb_model.Controls.Add(this.bu_model_zreset);
 			this.gb_model.Controls.Add(this.bu_model_reset);
-			this.gb_model.Controls.Add(this.la_scale);
-			this.gb_model.Controls.Add(this.la_rotate);
-			this.gb_model.Controls.Add(this.la_xyaxis);
-			this.gb_model.Controls.Add(this.la_zaxis);
+			this.gb_model.Controls.Add(this.la_model_scale);
+			this.gb_model.Controls.Add(this.la_model_rotate);
+			this.gb_model.Controls.Add(this.la_model_xyaxis);
+			this.gb_model.Controls.Add(this.la_model_zaxis);
 			this.gb_model.Controls.Add(this.bu_model_zscaleneg);
 			this.gb_model.Controls.Add(this.bu_model_yscaleneg);
 			this.gb_model.Controls.Add(this.bu_model_xscaleneg);
@@ -232,7 +668,7 @@ namespace creaturevisualizer
 			this.bu_model_scaleneg.Text = "-";
 			this.bu_model_scaleneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_scaleneg.UseVisualStyleBackColor = true;
-			this.bu_model_scaleneg.Click += new System.EventHandler(this.bu_scaleall);
+			this.bu_model_scaleneg.Click += new System.EventHandler(this.bu_model_scaleall);
 			this.bu_model_scaleneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_scaleneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -246,7 +682,7 @@ namespace creaturevisualizer
 			this.bu_model_scalepos.Text = "+";
 			this.bu_model_scalepos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_scalepos.UseVisualStyleBackColor = true;
-			this.bu_model_scalepos.Click += new System.EventHandler(this.bu_scaleall);
+			this.bu_model_scalepos.Click += new System.EventHandler(this.bu_model_scaleall);
 			this.bu_model_scalepos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_scalepos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -291,7 +727,7 @@ namespace creaturevisualizer
 			this.bu_model_scalereset.Text = "r";
 			this.bu_model_scalereset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_scalereset.UseVisualStyleBackColor = true;
-			this.bu_model_scalereset.Click += new System.EventHandler(this.bu_modelscalereset);
+			this.bu_model_scalereset.Click += new System.EventHandler(this.bu_model_scalereset);
 			// 
 			// bu_model_rotreset
 			// 
@@ -304,7 +740,7 @@ namespace creaturevisualizer
 			this.bu_model_rotreset.Text = "r";
 			this.bu_model_rotreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_rotreset.UseVisualStyleBackColor = true;
-			this.bu_model_rotreset.Click += new System.EventHandler(this.bu_modelrotreset);
+			this.bu_model_rotreset.Click += new System.EventHandler(this.bu_model_rotreset);
 			// 
 			// bu_model_xyreset
 			// 
@@ -317,7 +753,7 @@ namespace creaturevisualizer
 			this.bu_model_xyreset.Text = "r";
 			this.bu_model_xyreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_xyreset.UseVisualStyleBackColor = true;
-			this.bu_model_xyreset.Click += new System.EventHandler(this.bu_modelxyreset);
+			this.bu_model_xyreset.Click += new System.EventHandler(this.bu_model_xyreset);
 			// 
 			// bu_model_zreset
 			// 
@@ -330,7 +766,7 @@ namespace creaturevisualizer
 			this.bu_model_zreset.Text = "r";
 			this.bu_model_zreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_zreset.UseVisualStyleBackColor = true;
-			this.bu_model_zreset.Click += new System.EventHandler(this.bu_modelzreset);
+			this.bu_model_zreset.Click += new System.EventHandler(this.bu_model_zreset);
 			// 
 			// bu_model_reset
 			// 
@@ -341,47 +777,47 @@ namespace creaturevisualizer
 			this.bu_model_reset.TabIndex = 25;
 			this.bu_model_reset.Text = "reset";
 			this.bu_model_reset.UseVisualStyleBackColor = true;
-			this.bu_model_reset.Click += new System.EventHandler(this.bu_modelreset);
+			this.bu_model_reset.Click += new System.EventHandler(this.bu_model_reset);
 			// 
-			// la_scale
+			// la_model_scale
 			// 
-			this.la_scale.Location = new System.Drawing.Point(170, 15);
-			this.la_scale.Margin = new System.Windows.Forms.Padding(0);
-			this.la_scale.Name = "la_scale";
-			this.la_scale.Size = new System.Drawing.Size(50, 15);
-			this.la_scale.TabIndex = 14;
-			this.la_scale.Text = "scale";
-			this.la_scale.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.la_model_scale.Location = new System.Drawing.Point(170, 15);
+			this.la_model_scale.Margin = new System.Windows.Forms.Padding(0);
+			this.la_model_scale.Name = "la_model_scale";
+			this.la_model_scale.Size = new System.Drawing.Size(50, 15);
+			this.la_model_scale.TabIndex = 14;
+			this.la_model_scale.Text = "scale";
+			this.la_model_scale.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
-			// la_rotate
+			// la_model_rotate
 			// 
-			this.la_rotate.Location = new System.Drawing.Point(130, 15);
-			this.la_rotate.Margin = new System.Windows.Forms.Padding(0);
-			this.la_rotate.Name = "la_rotate";
-			this.la_rotate.Size = new System.Drawing.Size(25, 15);
-			this.la_rotate.TabIndex = 10;
-			this.la_rotate.Text = "rot";
-			this.la_rotate.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.la_model_rotate.Location = new System.Drawing.Point(130, 15);
+			this.la_model_rotate.Margin = new System.Windows.Forms.Padding(0);
+			this.la_model_rotate.Name = "la_model_rotate";
+			this.la_model_rotate.Size = new System.Drawing.Size(25, 15);
+			this.la_model_rotate.TabIndex = 10;
+			this.la_model_rotate.Text = "rot";
+			this.la_model_rotate.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
-			// la_xyaxis
+			// la_model_xyaxis
 			// 
-			this.la_xyaxis.Location = new System.Drawing.Point(45, 15);
-			this.la_xyaxis.Margin = new System.Windows.Forms.Padding(0);
-			this.la_xyaxis.Name = "la_xyaxis";
-			this.la_xyaxis.Size = new System.Drawing.Size(75, 15);
-			this.la_xyaxis.TabIndex = 4;
-			this.la_xyaxis.Text = "x/y";
-			this.la_xyaxis.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.la_model_xyaxis.Location = new System.Drawing.Point(45, 15);
+			this.la_model_xyaxis.Margin = new System.Windows.Forms.Padding(0);
+			this.la_model_xyaxis.Name = "la_model_xyaxis";
+			this.la_model_xyaxis.Size = new System.Drawing.Size(75, 15);
+			this.la_model_xyaxis.TabIndex = 4;
+			this.la_model_xyaxis.Text = "x/y";
+			this.la_model_xyaxis.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
-			// la_zaxis
+			// la_model_zaxis
 			// 
-			this.la_zaxis.Location = new System.Drawing.Point(10, 15);
-			this.la_zaxis.Margin = new System.Windows.Forms.Padding(0);
-			this.la_zaxis.Name = "la_zaxis";
-			this.la_zaxis.Size = new System.Drawing.Size(25, 15);
-			this.la_zaxis.TabIndex = 0;
-			this.la_zaxis.Text = "z";
-			this.la_zaxis.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.la_model_zaxis.Location = new System.Drawing.Point(10, 15);
+			this.la_model_zaxis.Margin = new System.Windows.Forms.Padding(0);
+			this.la_model_zaxis.Name = "la_model_zaxis";
+			this.la_model_zaxis.Size = new System.Drawing.Size(25, 15);
+			this.la_model_zaxis.TabIndex = 0;
+			this.la_model_zaxis.Text = "z";
+			this.la_model_zaxis.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
 			// bu_model_zscaleneg
 			// 
@@ -393,7 +829,7 @@ namespace creaturevisualizer
 			this.bu_model_zscaleneg.Text = "z";
 			this.bu_model_zscaleneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_zscaleneg.UseVisualStyleBackColor = true;
-			this.bu_model_zscaleneg.Click += new System.EventHandler(this.bu_scale);
+			this.bu_model_zscaleneg.Click += new System.EventHandler(this.bu_model_scale);
 			this.bu_model_zscaleneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_zscaleneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -407,7 +843,7 @@ namespace creaturevisualizer
 			this.bu_model_yscaleneg.Text = "y";
 			this.bu_model_yscaleneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_yscaleneg.UseVisualStyleBackColor = true;
-			this.bu_model_yscaleneg.Click += new System.EventHandler(this.bu_scale);
+			this.bu_model_yscaleneg.Click += new System.EventHandler(this.bu_model_scale);
 			this.bu_model_yscaleneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_yscaleneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -421,7 +857,7 @@ namespace creaturevisualizer
 			this.bu_model_xscaleneg.Text = "x";
 			this.bu_model_xscaleneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_xscaleneg.UseVisualStyleBackColor = true;
-			this.bu_model_xscaleneg.Click += new System.EventHandler(this.bu_scale);
+			this.bu_model_xscaleneg.Click += new System.EventHandler(this.bu_model_scale);
 			this.bu_model_xscaleneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_xscaleneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -435,7 +871,7 @@ namespace creaturevisualizer
 			this.bu_model_zscalepos.Text = "z";
 			this.bu_model_zscalepos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_zscalepos.UseVisualStyleBackColor = true;
-			this.bu_model_zscalepos.Click += new System.EventHandler(this.bu_scale);
+			this.bu_model_zscalepos.Click += new System.EventHandler(this.bu_model_scale);
 			this.bu_model_zscalepos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_zscalepos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -449,7 +885,7 @@ namespace creaturevisualizer
 			this.bu_model_yscalepos.Text = "y";
 			this.bu_model_yscalepos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_yscalepos.UseVisualStyleBackColor = true;
-			this.bu_model_yscalepos.Click += new System.EventHandler(this.bu_scale);
+			this.bu_model_yscalepos.Click += new System.EventHandler(this.bu_model_scale);
 			this.bu_model_yscalepos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_yscalepos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -463,7 +899,7 @@ namespace creaturevisualizer
 			this.bu_model_xscalepos.Text = "x";
 			this.bu_model_xscalepos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_xscalepos.UseVisualStyleBackColor = true;
-			this.bu_model_xscalepos.Click += new System.EventHandler(this.bu_scale);
+			this.bu_model_xscalepos.Click += new System.EventHandler(this.bu_model_scale);
 			this.bu_model_xscalepos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_xscalepos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -477,7 +913,7 @@ namespace creaturevisualizer
 			this.bu_model_rneg.Text = "↶";
 			this.bu_model_rneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_rneg.UseVisualStyleBackColor = true;
-			this.bu_model_rneg.Click += new System.EventHandler(this.bu_rotneg);
+			this.bu_model_rneg.Click += new System.EventHandler(this.bu_model_rotneg);
 			this.bu_model_rneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_rneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -491,7 +927,7 @@ namespace creaturevisualizer
 			this.bu_model_rpos.Text = "↷";
 			this.bu_model_rpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_rpos.UseVisualStyleBackColor = true;
-			this.bu_model_rpos.Click += new System.EventHandler(this.bu_rotpos);
+			this.bu_model_rpos.Click += new System.EventHandler(this.bu_model_rotpos);
 			this.bu_model_rpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_rpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -505,7 +941,7 @@ namespace creaturevisualizer
 			this.bu_model_ypos.Text = "▶";
 			this.bu_model_ypos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_ypos.UseVisualStyleBackColor = true;
-			this.bu_model_ypos.Click += new System.EventHandler(this.bu_xpos);
+			this.bu_model_ypos.Click += new System.EventHandler(this.bu_model_xpos);
 			this.bu_model_ypos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_ypos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -519,7 +955,7 @@ namespace creaturevisualizer
 			this.bu_model_yneg.Text = "◀";
 			this.bu_model_yneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_yneg.UseVisualStyleBackColor = true;
-			this.bu_model_yneg.Click += new System.EventHandler(this.bu_xneg);
+			this.bu_model_yneg.Click += new System.EventHandler(this.bu_model_xneg);
 			this.bu_model_yneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_yneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -533,7 +969,7 @@ namespace creaturevisualizer
 			this.bu_model_xneg.Text = "▼";
 			this.bu_model_xneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_xneg.UseVisualStyleBackColor = true;
-			this.bu_model_xneg.Click += new System.EventHandler(this.bu_yneg);
+			this.bu_model_xneg.Click += new System.EventHandler(this.bu_model_yneg);
 			this.bu_model_xneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_xneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -547,7 +983,7 @@ namespace creaturevisualizer
 			this.bu_model_xpos.Text = "▲";
 			this.bu_model_xpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_xpos.UseVisualStyleBackColor = true;
-			this.bu_model_xpos.Click += new System.EventHandler(this.bu_ypos);
+			this.bu_model_xpos.Click += new System.EventHandler(this.bu_model_ypos);
 			this.bu_model_xpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_xpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -561,7 +997,7 @@ namespace creaturevisualizer
 			this.bu_model_zneg.Text = "↓";
 			this.bu_model_zneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_zneg.UseVisualStyleBackColor = true;
-			this.bu_model_zneg.Click += new System.EventHandler(this.bu_zneg);
+			this.bu_model_zneg.Click += new System.EventHandler(this.bu_model_zneg);
 			this.bu_model_zneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_zneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -575,7 +1011,7 @@ namespace creaturevisualizer
 			this.bu_model_zpos.Text = "↑";
 			this.bu_model_zpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_zpos.UseVisualStyleBackColor = true;
-			this.bu_model_zpos.Click += new System.EventHandler(this.bu_zpos);
+			this.bu_model_zpos.Click += new System.EventHandler(this.bu_model_zpos);
 			this.bu_model_zpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_zpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -590,6 +1026,7 @@ namespace creaturevisualizer
 			this.Activated += new System.EventHandler(this.activated_Refresh);
 			this.pa_controls.ResumeLayout(false);
 			this.pa_controls.PerformLayout();
+			this.gb_camera.ResumeLayout(false);
 			this.ss_bot.ResumeLayout(false);
 			this.ss_bot.PerformLayout();
 			this.gb_model.ResumeLayout(false);
