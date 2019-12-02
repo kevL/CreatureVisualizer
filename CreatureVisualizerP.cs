@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 using Microsoft.DirectX;
@@ -64,9 +65,91 @@ namespace creaturevisualizer
 		#region cTor
 		internal CreatureVisualizerP()
 		{
-			//SelectionChanged += ;
+			RecreateMousePanel();
 		}
+
+		/// <summary>
+		/// Disposes of their MousePanel and instantiates a CreatureVisualizer
+		/// MousePanel to replace it. CreatureVisualizer-specific inputhandlers
+		/// can be hooked up to this ElectronPanel that totally bypass the
+		/// tangle of Obsidian inputhandlers. good luck
+		/// </summary>
+		void RecreateMousePanel()
+		{
+			MousePanel.Dispose(); // OMG it effin worked.
+			MousePanel = new MousePanel();
+
+			var resourcer = new ComponentResourceManager(typeof(ElectronPanel));
+			resourcer.ApplyResources(MousePanel, "MousePanel");
+
+			MousePanel.Name = "MousePanel";
+
+			MousePanel.ThrottleMouse = false;
+			MousePanel.Load += load;
+
+//			MousePanel.MouseDown       += ᐁ;
+//			MousePanel.MouseMove       += ᐄ;
+//			MousePanel.MouseButtonHeld += ᐃ;
+//			MousePanel.KeyUp           += ᐂ;
+//			MousePanel.DragHandler     += ᐁ;
+//			MousePanel.KeyPress        += ᐁ;
+//			MousePanel.MouseUp         += ᐂ;
+//			MousePanel.KeyDown         += ᐁ;
+//			MousePanel.MouseWheel      += ᐃ;
+//			MousePanel.LostFocus       += ᐁ;
+
+			Controls.Add(MousePanel);
+		}
+
+		void load(object obj, EventArgs eventArgs)
+		{
+			MousePanel.ThrottleMouse = true;
+
+			NetDisplayScene scene = Scene;
+			NetDisplayManager.Instance.AddScene(out scene);
+
+			OpenWindow();
+		}
+/*		void load(object obj, EventArgs eventArgs)
+		{
+//			try
+//			{
+//				if (!CommonUtils.DesignMode && NetDisplayManager.Instance != null)
+//				{
+					MousePanel.ThrottleMouse = true;
+
+//					CameraMovementReceiver  = new OEIShared.UI.Input.NWN1InputCameraReceiver();
+//					ObjectMovementReceiver  = new OEIShared.UI.Input.NWN1InputGroundMovementReceiver();
+//					ObjectSelectionReceiver = new OEIShared.UI.Input.NWN1InputSelectionReceiver();
+//					AddInputReceiver(ObjectSelectionReceiver);
+//					AddInputReceiver(CameraMovementReceiver);
+//					AddInputReceiver(ObjectMovementReceiver);
+
+//					this.ᐂ = new NWN1InputCameraReceiver();
+//					this.ᐁ = new NWN1InputGroundMovementReceiver();
+//					this.ᐃ = new NWN1InputSelectionReceiver();
+//					this.AddInputReceiver(this.ᐃ);
+//					this.AddInputReceiver(this.ᐂ);
+//					this.AddInputReceiver(this.ᐁ);
+
+//					if (this.ᐁ == null && NetDisplayManager.Instance != null)
+//					{
+//						NetDisplayManager.Instance.AddScene(out this.ᐁ);
+//						this.ᐁ = true;
+//					}
+					var scene = Scene;
+					NetDisplayManager.Instance.AddScene(out scene);
+					OpenWindow();
+//				}
+//			}
+//			catch (Exception ex)
+//			{
+//				MessageBox.Show(RMManager.GetString(base.GetType(),
+//								StringEncryptor.ᐁ("ᒮᒼᓈᒮᓕᓎᓌᓝᓛᓘᓗᒹᓊᓗᓎᓕᓈᒶᓘᓞᓜᓎᒹᓊᓗᓎᓕᓈᒵᓘᓊᓍᓈᒶᓎᓜᓜᓊᓐᓎᒫᓘᓡ")) + ex.ToString());
+//			}
+		} */
 		#endregion cTor
+
 
 		#region Methods
 		/// <summary>
@@ -251,6 +334,22 @@ namespace creaturevisualizer
 			}
 			return false;
 		}
+
+
+/*		static string StringDecryptor(string P_0)
+		{
+			char[] array;
+			char[] array2 = array = P_0.ToCharArray();
+			int num = array2.Length;
+			while (num > 0)
+			{
+				int num2;
+				array2[num2 = num + -1] = (char)(array[num2] - 5225);
+				array2 = array;
+				num = num2;
+			}
+			return String.Intern(new string(array2));
+		} */
 		#endregion Methods
 
 
@@ -374,5 +473,13 @@ namespace creaturevisualizer
 			}
 		}
 		#endregion Methods (model)
+
+
+		#region Methods (camera)
+		#endregion Methods (camera)
+
+
+		#region Handlers (override)
+		#endregion Handlers (override)
 	}
 }
