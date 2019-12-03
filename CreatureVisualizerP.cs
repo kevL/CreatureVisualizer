@@ -14,6 +14,7 @@ using NWN2Toolset.NWN2.Views;
 using OEIShared.NetDisplay;
 using OEIShared.OEIMath;
 using OEIShared.UI;
+using OEIShared.UI.Input;
 
 
 namespace creaturevisualizer
@@ -37,8 +38,11 @@ namespace creaturevisualizer
 		: ElectronPanel
 	{
 		#region Fields (static)
-		const float INIT_INSTANCE_ROTATION = 2.69F;
-//		const float INIT_INSTANCE_ROTATION = 3.34F;
+		internal static Vector3 POS_START_LIGHT = new Vector3(-0.5F, -4F, 2.0F);
+		internal static Vector3 POS_OFF_Zd      = new Vector3( 0.0F,  0F, 1.5F);
+
+		const float ROT_START_OBJECT = (float)Math.PI * 3F / 4F;
+
 		static Vector3 ScaInitial;
 		#endregion Fields (static)
 
@@ -58,6 +62,12 @@ namespace creaturevisualizer
 		#region Properties
 		internal NetDisplayObject Object
 		{ get; private set; }
+
+		internal NetDisplayLightPoint Light
+		{ get; private set; }
+
+		internal ModelViewerInputCameraReceiver Receiver
+		{ get; private set; }
 		#endregion Properties
 
 		//handle SelectionChanged event
@@ -66,6 +76,11 @@ namespace creaturevisualizer
 		internal CreatureVisualizerP()
 		{
 			RecreateMousePanel();
+
+			NetDisplayScene scene = Scene;
+			NetDisplayManager.Instance.AddScene(out scene);
+
+			OpenWindow();
 		}
 
 		/// <summary>
@@ -84,8 +99,13 @@ namespace creaturevisualizer
 
 			MousePanel.Name = "MousePanel";
 
-			MousePanel.ThrottleMouse = false;
-			MousePanel.Load += load;
+			MousePanel.ThrottleMouse = true;
+
+			CameraMovementReceiver = null;
+			CameraMovementReceiver = new ModelViewerInputCameraReceiver();
+			AddInputReceiver(CameraMovementReceiver);
+
+			Receiver = CameraMovementReceiver as ModelViewerInputCameraReceiver;
 
 //			MousePanel.MouseDown       += ᐁ;
 //			MousePanel.MouseMove       += ᐄ;
@@ -100,54 +120,6 @@ namespace creaturevisualizer
 
 			Controls.Add(MousePanel);
 		}
-
-		void load(object obj, EventArgs eventArgs)
-		{
-			MousePanel.ThrottleMouse = true;
-
-			NetDisplayScene scene = Scene;
-			NetDisplayManager.Instance.AddScene(out scene);
-
-			OpenWindow();
-		}
-/*		void load(object obj, EventArgs eventArgs)
-		{
-//			try
-//			{
-//				if (!CommonUtils.DesignMode && NetDisplayManager.Instance != null)
-//				{
-					MousePanel.ThrottleMouse = true;
-
-//					CameraMovementReceiver  = new OEIShared.UI.Input.NWN1InputCameraReceiver();
-//					ObjectMovementReceiver  = new OEIShared.UI.Input.NWN1InputGroundMovementReceiver();
-//					ObjectSelectionReceiver = new OEIShared.UI.Input.NWN1InputSelectionReceiver();
-//					AddInputReceiver(ObjectSelectionReceiver);
-//					AddInputReceiver(CameraMovementReceiver);
-//					AddInputReceiver(ObjectMovementReceiver);
-
-//					this.ᐂ = new NWN1InputCameraReceiver();
-//					this.ᐁ = new NWN1InputGroundMovementReceiver();
-//					this.ᐃ = new NWN1InputSelectionReceiver();
-//					this.AddInputReceiver(this.ᐃ);
-//					this.AddInputReceiver(this.ᐂ);
-//					this.AddInputReceiver(this.ᐁ);
-
-//					if (this.ᐁ == null && NetDisplayManager.Instance != null)
-//					{
-//						NetDisplayManager.Instance.AddScene(out this.ᐁ);
-//						this.ᐁ = true;
-//					}
-					var scene = Scene;
-					NetDisplayManager.Instance.AddScene(out scene);
-					OpenWindow();
-//				}
-//			}
-//			catch (Exception ex)
-//			{
-//				MessageBox.Show(RMManager.GetString(base.GetType(),
-//								StringEncryptor.ᐁ("ᒮᒼᓈᒮᓕᓎᓌᓝᓛᓘᓗᒹᓊᓗᓎᓕᓈᒶᓘᓞᓜᓎᒹᓊᓗᓎᓕᓈᒵᓘᓊᓍᓈᒶᓎᓜᓜᓊᓐᓎᒫᓘᓡ")) + ex.ToString());
-//			}
-		} */
 		#endregion cTor
 
 
@@ -198,13 +170,13 @@ namespace creaturevisualizer
 				RenderScene();
 			}
 			else
-				MessageBox.Show(this, "ElectronPanel.MousePanel is invalid. Please see your dentist.");
+				MessageBox.Show(this, "ElectronPanel.MousePanel is invalid. Please see your chiropractor.");
 		}
 
+//		NWN2NetDisplayManager.NWN2CreatureTemplate.AppearanceChanged;
 //		internal void UpdateScene()
 //		{
 //			NWN2NetDisplayManager.Instance.UpdateAppearanceForInstance(_instance);
-			//NWN2NetDisplayManager.NWN2CreatureTemplate.AppearanceChanged
 //		}
 
 
@@ -237,7 +209,7 @@ namespace creaturevisualizer
 				_instance.BeginAppearanceUpdate();
 
 				// create display object ->
-				Object = NWN2NetDisplayManager.Instance.CreateNDOForInstance(_instance, Scene, 0);
+				Object = NWN2NetDisplayManager.Instance.CreateNDOForInstance(_instance, Scene, NetDisplayManager.Instance.NextObjectID);
 
 				Object.PositionChanged += positionchanged_Object;
 
@@ -254,11 +226,30 @@ namespace creaturevisualizer
 				Vector3 scale; // don't ask. It works unlike 'Object.Scale'.
 				if (first)
 				{
-					Object.Orientation = RHQuaternion.RotationZ(INIT_INSTANCE_ROTATION);
+					Object.Orientation = RHQuaternion.RotationZ(ROT_START_OBJECT);
 					scale = ScaInitial;
 
-//					CameraPosition = new Vector3(0F,5.2F,0.9F);
-//					FocusOn(Object.Position + new Vector3(0F,0F,1.1F));
+					var state = Receiver.CameraState as ModelViewerInputCameraReceiverState;
+//					state.FocusTheta = (float)Math.PI /  2F;
+//					state.FocusPhi   = (float)Math.PI / 32F;
+//					state.Distance   = 4.5F;
+
+					Receiver.CameraAngleXY = (float)Math.PI /  2F; // revolutions 0=east, lookin' west
+					Receiver.CameraAngleYZ = (float)Math.PI / 32F; // pitch 0= flat, inc to pitch forward and raise camera
+					Receiver.Distance = 4.5F;
+					Receiver.DistanceMin = 0.1F;
+
+//					Receiver.FocusPoint = Object.Position + OFF_Zd;
+					Receiver.PitchMin = -(float)Math.PI / 2f + 0.145F;
+//					Receiver.PitchMax =  (float)Math.PI / 2f - 0.010F;
+
+					CameraPosition += POS_OFF_Zd;
+//					UpdateCamera();
+					CreatureVisualizerF.that.PrintCameraPosition();
+
+/*					float yaw = 0F, pitch = 0F, roll = 0F;
+					CameraOrientation.GetYawPitchRoll(out yaw, out pitch, out roll);
+					MessageBox.Show("yaw= " + yaw + " pitch= " + pitch + " roll= " + roll); */
 				}
 				else if (_changed)
 				{
@@ -312,27 +303,69 @@ namespace creaturevisualizer
 					Scene.DayNightCycleStages[(int)DayNightStageType.Default].ShadowIntensity = 0F;
 				}
 
+				Light = new NetDisplayLightPoint();
 
-				var light = new NetDisplayLightPoint();
-				light.Position        = new Vector3(0F, -4F, 1.5F);
-				light.Color.Intensity = 0.72F;
-				light.Range           = 50F; // default 10F
-				light.ID              = NetDisplayManager.Instance.NextObjectID;	// doesn't appear to be req'd.
-				light.Tag             = light;										// doesn't appear to be req'd.
+				Light.Position        = POS_START_LIGHT;
+
+				Light.Color.Intensity = 0.72F;
+				Light.Range           = 50F; // default 10F
+				Light.CastsShadow     = false;
+
+				Light.ID              = NetDisplayManager.Instance.NextObjectID;	// doesn't appear to be req'd.
+				Light.Tag             = Light;										// doesn't appear to be req'd.
 
 				lock (Scene.Objects.SyncRoot)
 				{
-					Scene.Objects.Add(light);
+					Scene.Objects.Add(Light);
 				}
 				lock (NWN2NetDisplayManager.Instance.Objects.SyncRoot)				// doesn't appear to be req'd.
 				{
-					NWN2NetDisplayManager.Instance.Objects.Add(light);
+					NWN2NetDisplayManager.Instance.Objects.Add(Light);
 				}
+				NWN2NetDisplayManager.Instance.LightParameters(Light.Scene, Light);
 
-				NWN2NetDisplayManager.Instance.LightParameters(light.Scene, light);
+				CreatureVisualizerF.that.PrintLightPosition(Light.Position, Light.Color.Intensity);
 				return true;
 			}
 			return false;
+		}
+
+		internal void RecreateLight(Vector3 pos)
+		{
+			var objects = new NetDisplayObjectCollection();
+			foreach (NetDisplayObject @object in Scene.Objects)
+			{
+				if (@object.Tag == @object) // TODO: <- that
+					objects.Add(@object);
+			}
+			NWN2NetDisplayManager.Instance.RemoveObjects(objects);
+
+			if (Scene.DayNightCycleStages[(int)DayNightStageType.Default] != null)
+			{
+				Scene.DayNightCycleStages[(int)DayNightStageType.Default].SunMoonDirection = new Vector3(-0.33F, -0.67F, -0.67F);
+				Scene.DayNightCycleStages[(int)DayNightStageType.Default].ShadowIntensity = 0F;
+			}
+
+			Light = new NetDisplayLightPoint();
+
+			Light.Position        = pos;
+
+			Light.Color.Intensity = 0.72F;
+			Light.Range           = 50F;
+			Light.CastsShadow     = false;
+
+			Light.ID              = NetDisplayManager.Instance.NextObjectID;	// doesn't appear to be req'd.
+			Light.Tag             = Light;										// doesn't appear to be req'd.
+
+			lock (Scene.Objects.SyncRoot)
+			{
+				Scene.Objects.Add(Light);
+			}
+			lock (NWN2NetDisplayManager.Instance.Objects.SyncRoot)				// doesn't appear to be req'd.
+			{
+				NWN2NetDisplayManager.Instance.Objects.Add(Light);
+			}
+			NWN2NetDisplayManager.Instance.LightParameters(Light.Scene, Light);
 		}
 
 
@@ -367,14 +400,14 @@ namespace creaturevisualizer
 
 
 		#region Methods (model)
-		internal static Vector3 vec_xpos = new Vector3( 0.1F, 0F, 0F);
-		internal static Vector3 vec_xneg = new Vector3(-0.1F, 0F, 0F);
+		internal static Vector3 off_xpos = new Vector3( 0.1F, 0F, 0F);
+		internal static Vector3 off_xneg = new Vector3(-0.1F, 0F, 0F);
 
-		internal static Vector3 vec_ypos = new Vector3(0F,  0.1F, 0F);
-		internal static Vector3 vec_yneg = new Vector3(0F, -0.1F, 0F);
+		internal static Vector3 off_ypos = new Vector3(0F,  0.1F, 0F);
+		internal static Vector3 off_yneg = new Vector3(0F, -0.1F, 0F);
 
-		internal static Vector3 vec_zpos = new Vector3(0F, 0F,  0.1F);
-		internal static Vector3 vec_zneg = new Vector3(0F, 0F, -0.1F);
+		internal static Vector3 off_zpos = new Vector3(0F, 0F,  0.1F);
+		internal static Vector3 off_zneg = new Vector3(0F, 0F, -0.1F);
 
 		internal static float rotpos =  0.1F;
 		internal static float rotneg = -0.1F;
@@ -420,7 +453,7 @@ namespace creaturevisualizer
 			var objects = new NetDisplayObjectCollection() { Object }; // TODO: cache that
 			NWN2NetDisplayManager.Instance.MoveObjects(objects, ChangeType.Absolute, false, new Vector3());
 
-			Object.Orientation = RHQuaternion.RotationZ(INIT_INSTANCE_ROTATION);
+			Object.Orientation = RHQuaternion.RotationZ(ROT_START_OBJECT);
 			NWN2NetDisplayManager.Instance.RotateObject(Object, ChangeType.Absolute, Object.Orientation);
 			CreatureVisualizerF.that.PrintModelPosition(Object);
 
@@ -460,7 +493,7 @@ namespace creaturevisualizer
 				}
 
 				case ResetType.RESET_rot:
-					Object.Orientation = RHQuaternion.RotationZ(INIT_INSTANCE_ROTATION);
+					Object.Orientation = RHQuaternion.RotationZ(ROT_START_OBJECT);
 					NWN2NetDisplayManager.Instance.RotateObject(Object, ChangeType.Absolute, Object.Orientation);
 					CreatureVisualizerF.that.PrintModelPosition(Object);
 					break;
@@ -476,6 +509,53 @@ namespace creaturevisualizer
 
 
 		#region Methods (camera)
+		internal void RaiseCameraPolar()
+		{
+			var state = Receiver.CameraState as ModelViewerInputCameraReceiverState;
+			state.FocusPhi += 0.1F;
+			state.FocusPhi = Math.Min(state.PitchMax, state.FocusPhi);
+			state.FocusPhi = Math.Max(state.PitchMin, state.FocusPhi);
+
+			UpdateCamera();
+		}
+
+		internal void LowerCameraPolar()
+		{
+			var state = Receiver.CameraState as ModelViewerInputCameraReceiverState;
+
+			state.FocusPhi -= 0.1F;
+			state.FocusPhi = Math.Min(state.PitchMax, state.FocusPhi);
+			state.FocusPhi = Math.Max(state.PitchMin, state.FocusPhi);
+
+			UpdateCamera();
+		}
+
+		internal void UpdateCamera()
+		{
+			var state = Receiver.CameraState as ModelViewerInputCameraReceiverState;
+
+			var y = new Vector3(0f, 1f, 0f);
+			y = RHMatrix.RotationZ(state.FocusTheta).TransformCoordinate(y);
+
+			var z = new Vector3(0f, 0f, 1f);
+			z = RHMatrix.RotationZ(state.FocusTheta).TransformCoordinate(z);
+			z = RHMatrix.RotationAxis(y, state.FocusPhi).TransformCoordinate(z);
+
+			var pos = new Vector3(1f, 0f, 0f);
+			pos = RHMatrix.RotationZ(state.FocusTheta).TransformCoordinate(pos);
+			pos = RHMatrix.RotationAxis(y, state.FocusPhi).TransformCoordinate(pos);
+
+			pos.Scale(state.Distance);
+			pos += state.FocusPoint;
+
+			CameraPosition = pos + CreatureVisualizerF.Offset + POS_OFF_Zd;
+
+			Vector3 focusPoint = state.FocusPoint;
+			focusPoint.Subtract(pos);
+			focusPoint = MathUtils.NormalizeVector3(focusPoint);
+
+			CameraOrientation = RHQuaternion.RotationMatrix(RHMatrix.LookAtRH(Vector3.Empty, focusPoint, z));
+		}
 		#endregion Methods (camera)
 
 

@@ -21,8 +21,8 @@ namespace creaturevisualizer
 		Button bu_model_yneg;
 		Button bu_model_xneg;
 		Button bu_model_xpos;
-		Button bu_model_rneg;
-		Button bu_model_rpos;
+		Button bu_model_rotneg;
+		Button bu_model_rotpos;
 		Button bu_model_zscalepos;
 		Button bu_model_yscalepos;
 		Button bu_model_xscalepos;
@@ -45,11 +45,11 @@ namespace creaturevisualizer
 		Button bu_model_scalepos;
 		Label la_model_scaleorg;
 
-		StatusStrip ss_bot;
-		ToolStripStatusLabel tssl_xpos;
-		ToolStripStatusLabel tssl_ypos;
-		ToolStripStatusLabel tssl_zpos;
-		ToolStripStatusLabel tssl_rot;
+		StatusStrip ss_model;
+		ToolStripStatusLabel tssl_model_xpos;
+		ToolStripStatusLabel tssl_model_ypos;
+		ToolStripStatusLabel tssl_model_zpos;
+		ToolStripStatusLabel tssl_model_rot;
 
 		GroupBox gb_camera;
 		Label la_camera_pitch;
@@ -62,17 +62,14 @@ namespace creaturevisualizer
 		Button bu_camera_rotreset;
 		Button bu_camera_xyreset;
 		Button bu_camera_zreset;
-		Button bu_camera_reset;
-		Label la_camera_zoom;
+		Button bu_camera_focusobject;
+		Label la_camera_dist;
 		Label la_camera_rotate;
 		Label la_camera_xyaxis;
 		Label la_camera_zaxis;
-		Button button8;
-		Button button9;
-		Button button10;
-		Button button11;
-		Button button12;
-		Button button13;
+		Button bu_camera_distreset;
+		Button bu_camera_distneg;
+		Button bu_camera_distpos;
 		Button bu_camera_rneg;
 		Button bu_camera_rpos;
 		Button bu_camera_ypos;
@@ -81,6 +78,38 @@ namespace creaturevisualizer
 		Button bu_camera_xpos;
 		Button bu_camera_zneg;
 		Button bu_camera_zpos;
+		Button button4;
+		Label la_camera_angle;
+		Button bu_camera_horipos;
+		Button bu_camera_horineg;
+		Button bu_camera_vertneg;
+		Button bu_camera_vertpos;
+		GroupBox gb_Light;
+		Button bu_light_xyreset;
+		Button bu_light_zreset;
+		Button button11;
+		Label la_light_xyaxis;
+		Label la_light_zaxis;
+		Button bu_light_ypos;
+		Button bu_light_yneg;
+		Button bu_light_xneg;
+		Button bu_light_xpos;
+		Button bu_light_zneg;
+		Button bu_light_zpos;
+		ToolStripStatusLabel tssl_model_label;
+		StatusStrip ss_camera;
+		ToolStripStatusLabel tssl_camera_label;
+		ToolStripStatusLabel tssl_camera_xpos;
+		ToolStripStatusLabel tssl_camera_ypos;
+		ToolStripStatusLabel tssl_camera_zpos;
+		ToolStripStatusLabel tssl_camera_rot;
+		StatusStrip ss_light;
+		ToolStripStatusLabel tssl_light_label;
+		ToolStripStatusLabel tssl_light_xpos;
+		ToolStripStatusLabel tssl_light_ypos;
+		ToolStripStatusLabel tssl_light_zpos;
+		ToolStripStatusLabel tssl_light_intensity;
+		Button bu_camera_focuspoint;
 
 
 		/// <summary>
@@ -105,41 +134,18 @@ namespace creaturevisualizer
 		private void InitializeComponent()
 		{
 			this.pa_controls = new System.Windows.Forms.Panel();
-			this.gb_camera = new System.Windows.Forms.GroupBox();
-			this.la_camera_pitch = new System.Windows.Forms.Label();
-			this.button1 = new System.Windows.Forms.Button();
-			this.button2 = new System.Windows.Forms.Button();
-			this.label2 = new System.Windows.Forms.Label();
-			this.label3 = new System.Windows.Forms.Label();
-			this.label4 = new System.Windows.Forms.Label();
-			this.button3 = new System.Windows.Forms.Button();
-			this.bu_camera_rotreset = new System.Windows.Forms.Button();
-			this.bu_camera_xyreset = new System.Windows.Forms.Button();
-			this.bu_camera_zreset = new System.Windows.Forms.Button();
-			this.bu_camera_reset = new System.Windows.Forms.Button();
-			this.la_camera_zoom = new System.Windows.Forms.Label();
-			this.la_camera_rotate = new System.Windows.Forms.Label();
-			this.la_camera_xyaxis = new System.Windows.Forms.Label();
-			this.la_camera_zaxis = new System.Windows.Forms.Label();
-			this.button8 = new System.Windows.Forms.Button();
-			this.button9 = new System.Windows.Forms.Button();
-			this.button10 = new System.Windows.Forms.Button();
+			this.gb_Light = new System.Windows.Forms.GroupBox();
+			this.bu_light_xyreset = new System.Windows.Forms.Button();
+			this.bu_light_zreset = new System.Windows.Forms.Button();
 			this.button11 = new System.Windows.Forms.Button();
-			this.button12 = new System.Windows.Forms.Button();
-			this.button13 = new System.Windows.Forms.Button();
-			this.bu_camera_rneg = new System.Windows.Forms.Button();
-			this.bu_camera_rpos = new System.Windows.Forms.Button();
-			this.bu_camera_ypos = new System.Windows.Forms.Button();
-			this.bu_camera_yneg = new System.Windows.Forms.Button();
-			this.bu_camera_xneg = new System.Windows.Forms.Button();
-			this.bu_camera_xpos = new System.Windows.Forms.Button();
-			this.bu_camera_zneg = new System.Windows.Forms.Button();
-			this.bu_camera_zpos = new System.Windows.Forms.Button();
-			this.ss_bot = new System.Windows.Forms.StatusStrip();
-			this.tssl_xpos = new System.Windows.Forms.ToolStripStatusLabel();
-			this.tssl_ypos = new System.Windows.Forms.ToolStripStatusLabel();
-			this.tssl_zpos = new System.Windows.Forms.ToolStripStatusLabel();
-			this.tssl_rot = new System.Windows.Forms.ToolStripStatusLabel();
+			this.la_light_xyaxis = new System.Windows.Forms.Label();
+			this.la_light_zaxis = new System.Windows.Forms.Label();
+			this.bu_light_ypos = new System.Windows.Forms.Button();
+			this.bu_light_yneg = new System.Windows.Forms.Button();
+			this.bu_light_xneg = new System.Windows.Forms.Button();
+			this.bu_light_xpos = new System.Windows.Forms.Button();
+			this.bu_light_zneg = new System.Windows.Forms.Button();
+			this.bu_light_zpos = new System.Windows.Forms.Button();
 			this.gb_model = new System.Windows.Forms.GroupBox();
 			this.la_model_scaleorg = new System.Windows.Forms.Label();
 			this.bu_model_scaleneg = new System.Windows.Forms.Button();
@@ -162,25 +168,83 @@ namespace creaturevisualizer
 			this.bu_model_zscalepos = new System.Windows.Forms.Button();
 			this.bu_model_yscalepos = new System.Windows.Forms.Button();
 			this.bu_model_xscalepos = new System.Windows.Forms.Button();
-			this.bu_model_rneg = new System.Windows.Forms.Button();
-			this.bu_model_rpos = new System.Windows.Forms.Button();
+			this.bu_model_rotneg = new System.Windows.Forms.Button();
+			this.bu_model_rotpos = new System.Windows.Forms.Button();
 			this.bu_model_ypos = new System.Windows.Forms.Button();
 			this.bu_model_yneg = new System.Windows.Forms.Button();
 			this.bu_model_xneg = new System.Windows.Forms.Button();
 			this.bu_model_xpos = new System.Windows.Forms.Button();
 			this.bu_model_zneg = new System.Windows.Forms.Button();
 			this.bu_model_zpos = new System.Windows.Forms.Button();
+			this.gb_camera = new System.Windows.Forms.GroupBox();
+			this.bu_camera_focuspoint = new System.Windows.Forms.Button();
+			this.button4 = new System.Windows.Forms.Button();
+			this.la_camera_angle = new System.Windows.Forms.Label();
+			this.bu_camera_horipos = new System.Windows.Forms.Button();
+			this.bu_camera_horineg = new System.Windows.Forms.Button();
+			this.bu_camera_vertneg = new System.Windows.Forms.Button();
+			this.bu_camera_vertpos = new System.Windows.Forms.Button();
+			this.la_camera_pitch = new System.Windows.Forms.Label();
+			this.button1 = new System.Windows.Forms.Button();
+			this.button2 = new System.Windows.Forms.Button();
+			this.label2 = new System.Windows.Forms.Label();
+			this.label3 = new System.Windows.Forms.Label();
+			this.label4 = new System.Windows.Forms.Label();
+			this.button3 = new System.Windows.Forms.Button();
+			this.bu_camera_rotreset = new System.Windows.Forms.Button();
+			this.bu_camera_xyreset = new System.Windows.Forms.Button();
+			this.bu_camera_zreset = new System.Windows.Forms.Button();
+			this.bu_camera_focusobject = new System.Windows.Forms.Button();
+			this.la_camera_dist = new System.Windows.Forms.Label();
+			this.la_camera_rotate = new System.Windows.Forms.Label();
+			this.la_camera_xyaxis = new System.Windows.Forms.Label();
+			this.la_camera_zaxis = new System.Windows.Forms.Label();
+			this.bu_camera_distreset = new System.Windows.Forms.Button();
+			this.bu_camera_distneg = new System.Windows.Forms.Button();
+			this.bu_camera_distpos = new System.Windows.Forms.Button();
+			this.bu_camera_rneg = new System.Windows.Forms.Button();
+			this.bu_camera_rpos = new System.Windows.Forms.Button();
+			this.bu_camera_ypos = new System.Windows.Forms.Button();
+			this.bu_camera_yneg = new System.Windows.Forms.Button();
+			this.bu_camera_xneg = new System.Windows.Forms.Button();
+			this.bu_camera_xpos = new System.Windows.Forms.Button();
+			this.bu_camera_zneg = new System.Windows.Forms.Button();
+			this.bu_camera_zpos = new System.Windows.Forms.Button();
+			this.ss_camera = new System.Windows.Forms.StatusStrip();
+			this.tssl_camera_label = new System.Windows.Forms.ToolStripStatusLabel();
+			this.tssl_camera_xpos = new System.Windows.Forms.ToolStripStatusLabel();
+			this.tssl_camera_ypos = new System.Windows.Forms.ToolStripStatusLabel();
+			this.tssl_camera_zpos = new System.Windows.Forms.ToolStripStatusLabel();
+			this.tssl_camera_rot = new System.Windows.Forms.ToolStripStatusLabel();
+			this.ss_model = new System.Windows.Forms.StatusStrip();
+			this.tssl_model_label = new System.Windows.Forms.ToolStripStatusLabel();
+			this.tssl_model_xpos = new System.Windows.Forms.ToolStripStatusLabel();
+			this.tssl_model_ypos = new System.Windows.Forms.ToolStripStatusLabel();
+			this.tssl_model_zpos = new System.Windows.Forms.ToolStripStatusLabel();
+			this.tssl_model_rot = new System.Windows.Forms.ToolStripStatusLabel();
+			this.ss_light = new System.Windows.Forms.StatusStrip();
+			this.tssl_light_label = new System.Windows.Forms.ToolStripStatusLabel();
+			this.tssl_light_xpos = new System.Windows.Forms.ToolStripStatusLabel();
+			this.tssl_light_ypos = new System.Windows.Forms.ToolStripStatusLabel();
+			this.tssl_light_zpos = new System.Windows.Forms.ToolStripStatusLabel();
+			this.tssl_light_intensity = new System.Windows.Forms.ToolStripStatusLabel();
 			this.pa_controls.SuspendLayout();
-			this.gb_camera.SuspendLayout();
-			this.ss_bot.SuspendLayout();
+			this.gb_Light.SuspendLayout();
 			this.gb_model.SuspendLayout();
+			this.gb_camera.SuspendLayout();
+			this.ss_camera.SuspendLayout();
+			this.ss_model.SuspendLayout();
+			this.ss_light.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// pa_controls
 			// 
-			this.pa_controls.Controls.Add(this.gb_camera);
-			this.pa_controls.Controls.Add(this.ss_bot);
+			this.pa_controls.Controls.Add(this.gb_Light);
 			this.pa_controls.Controls.Add(this.gb_model);
+			this.pa_controls.Controls.Add(this.gb_camera);
+			this.pa_controls.Controls.Add(this.ss_camera);
+			this.pa_controls.Controls.Add(this.ss_model);
+			this.pa_controls.Controls.Add(this.ss_light);
 			this.pa_controls.Dock = System.Windows.Forms.DockStyle.Right;
 			this.pa_controls.Location = new System.Drawing.Point(292, 0);
 			this.pa_controls.Margin = new System.Windows.Forms.Padding(0);
@@ -189,429 +253,169 @@ namespace creaturevisualizer
 			this.pa_controls.TabIndex = 0;
 			this.pa_controls.Visible = false;
 			// 
-			// gb_camera
+			// gb_Light
 			// 
-			this.gb_camera.Controls.Add(this.la_camera_pitch);
-			this.gb_camera.Controls.Add(this.button1);
-			this.gb_camera.Controls.Add(this.button2);
-			this.gb_camera.Controls.Add(this.label2);
-			this.gb_camera.Controls.Add(this.label3);
-			this.gb_camera.Controls.Add(this.label4);
-			this.gb_camera.Controls.Add(this.button3);
-			this.gb_camera.Controls.Add(this.bu_camera_rotreset);
-			this.gb_camera.Controls.Add(this.bu_camera_xyreset);
-			this.gb_camera.Controls.Add(this.bu_camera_zreset);
-			this.gb_camera.Controls.Add(this.bu_camera_reset);
-			this.gb_camera.Controls.Add(this.la_camera_zoom);
-			this.gb_camera.Controls.Add(this.la_camera_rotate);
-			this.gb_camera.Controls.Add(this.la_camera_xyaxis);
-			this.gb_camera.Controls.Add(this.la_camera_zaxis);
-			this.gb_camera.Controls.Add(this.button8);
-			this.gb_camera.Controls.Add(this.button9);
-			this.gb_camera.Controls.Add(this.button10);
-			this.gb_camera.Controls.Add(this.button11);
-			this.gb_camera.Controls.Add(this.button12);
-			this.gb_camera.Controls.Add(this.button13);
-			this.gb_camera.Controls.Add(this.bu_camera_rneg);
-			this.gb_camera.Controls.Add(this.bu_camera_rpos);
-			this.gb_camera.Controls.Add(this.bu_camera_ypos);
-			this.gb_camera.Controls.Add(this.bu_camera_yneg);
-			this.gb_camera.Controls.Add(this.bu_camera_xneg);
-			this.gb_camera.Controls.Add(this.bu_camera_xpos);
-			this.gb_camera.Controls.Add(this.bu_camera_zneg);
-			this.gb_camera.Controls.Add(this.bu_camera_zpos);
-			this.gb_camera.Dock = System.Windows.Forms.DockStyle.Top;
-			this.gb_camera.Location = new System.Drawing.Point(0, 130);
-			this.gb_camera.Margin = new System.Windows.Forms.Padding(0);
-			this.gb_camera.Name = "gb_camera";
-			this.gb_camera.Padding = new System.Windows.Forms.Padding(0);
-			this.gb_camera.Size = new System.Drawing.Size(290, 130);
-			this.gb_camera.TabIndex = 2;
-			this.gb_camera.TabStop = false;
-			this.gb_camera.Text = " Camera ";
+			this.gb_Light.Controls.Add(this.bu_light_xyreset);
+			this.gb_Light.Controls.Add(this.bu_light_zreset);
+			this.gb_Light.Controls.Add(this.button11);
+			this.gb_Light.Controls.Add(this.la_light_xyaxis);
+			this.gb_Light.Controls.Add(this.la_light_zaxis);
+			this.gb_Light.Controls.Add(this.bu_light_ypos);
+			this.gb_Light.Controls.Add(this.bu_light_yneg);
+			this.gb_Light.Controls.Add(this.bu_light_xneg);
+			this.gb_Light.Controls.Add(this.bu_light_xpos);
+			this.gb_Light.Controls.Add(this.bu_light_zneg);
+			this.gb_Light.Controls.Add(this.bu_light_zpos);
+			this.gb_Light.Dock = System.Windows.Forms.DockStyle.Top;
+			this.gb_Light.Location = new System.Drawing.Point(0, 260);
+			this.gb_Light.Margin = new System.Windows.Forms.Padding(0);
+			this.gb_Light.Name = "gb_Light";
+			this.gb_Light.Padding = new System.Windows.Forms.Padding(0);
+			this.gb_Light.Size = new System.Drawing.Size(290, 130);
+			this.gb_Light.TabIndex = 3;
+			this.gb_Light.TabStop = false;
+			this.gb_Light.Text = " Light ";
 			// 
-			// la_camera_pitch
+			// bu_light_xyreset
 			// 
-			this.la_camera_pitch.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.la_camera_pitch.Location = new System.Drawing.Point(219, 15);
-			this.la_camera_pitch.Margin = new System.Windows.Forms.Padding(0);
-			this.la_camera_pitch.Name = "la_camera_pitch";
-			this.la_camera_pitch.Size = new System.Drawing.Size(40, 15);
-			this.la_camera_pitch.TabIndex = 57;
-			this.la_camera_pitch.Text = "PITCH";
-			this.la_camera_pitch.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.bu_light_xyreset.ForeColor = System.Drawing.Color.Crimson;
+			this.bu_light_xyreset.Location = new System.Drawing.Point(70, 80);
+			this.bu_light_xyreset.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_light_xyreset.Name = "bu_light_xyreset";
+			this.bu_light_xyreset.Size = new System.Drawing.Size(22, 22);
+			this.bu_light_xyreset.TabIndex = 9;
+			this.bu_light_xyreset.Text = "r";
+			this.bu_light_xyreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_light_xyreset.UseVisualStyleBackColor = true;
+			this.bu_light_xyreset.Click += new System.EventHandler(this.click_bu_light_xyreset);
 			// 
-			// button1
+			// bu_light_zreset
 			// 
-			this.button1.Location = new System.Drawing.Point(259, 55);
-			this.button1.Margin = new System.Windows.Forms.Padding(0);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(22, 22);
-			this.button1.TabIndex = 56;
-			this.button1.Text = "-";
-			this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.button1.UseVisualStyleBackColor = true;
-			// 
-			// button2
-			// 
-			this.button2.Location = new System.Drawing.Point(259, 30);
-			this.button2.Margin = new System.Windows.Forms.Padding(0);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(22, 22);
-			this.button2.TabIndex = 55;
-			this.button2.Text = "+";
-			this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.button2.UseVisualStyleBackColor = true;
-			// 
-			// label2
-			// 
-			this.label2.Location = new System.Drawing.Point(219, 80);
-			this.label2.Margin = new System.Windows.Forms.Padding(0);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(40, 20);
-			this.label2.TabIndex = 52;
-			this.label2.Text = "z";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// label3
-			// 
-			this.label3.Location = new System.Drawing.Point(219, 55);
-			this.label3.Margin = new System.Windows.Forms.Padding(0);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(40, 20);
-			this.label3.TabIndex = 49;
-			this.label3.Text = "y";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// label4
-			// 
-			this.label4.Location = new System.Drawing.Point(219, 30);
-			this.label4.Margin = new System.Windows.Forms.Padding(0);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(40, 20);
-			this.label4.TabIndex = 46;
-			this.label4.Text = "x";
-			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// button3
-			// 
-			this.button3.ForeColor = System.Drawing.Color.Crimson;
-			this.button3.Location = new System.Drawing.Point(259, 80);
-			this.button3.Margin = new System.Windows.Forms.Padding(0);
-			this.button3.Name = "button3";
-			this.button3.Size = new System.Drawing.Size(22, 22);
-			this.button3.TabIndex = 53;
-			this.button3.Text = "r";
-			this.button3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.button3.UseVisualStyleBackColor = true;
-			// 
-			// bu_camera_rotreset
-			// 
-			this.bu_camera_rotreset.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_camera_rotreset.Location = new System.Drawing.Point(129, 80);
-			this.bu_camera_rotreset.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_camera_rotreset.Name = "bu_camera_rotreset";
-			this.bu_camera_rotreset.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_rotreset.TabIndex = 42;
-			this.bu_camera_rotreset.Text = "r";
-			this.bu_camera_rotreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.bu_camera_rotreset.UseVisualStyleBackColor = true;
-			// 
-			// bu_camera_xyreset
-			// 
-			this.bu_camera_xyreset.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_camera_xyreset.Location = new System.Drawing.Point(69, 80);
-			this.bu_camera_xyreset.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_camera_xyreset.Name = "bu_camera_xyreset";
-			this.bu_camera_xyreset.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_xyreset.TabIndex = 38;
-			this.bu_camera_xyreset.Text = "r";
-			this.bu_camera_xyreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.bu_camera_xyreset.UseVisualStyleBackColor = true;
-			// 
-			// bu_camera_zreset
-			// 
-			this.bu_camera_zreset.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_camera_zreset.Location = new System.Drawing.Point(9, 80);
-			this.bu_camera_zreset.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_camera_zreset.Name = "bu_camera_zreset";
-			this.bu_camera_zreset.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_zreset.TabIndex = 32;
-			this.bu_camera_zreset.Text = "f";
-			this.bu_camera_zreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.bu_camera_zreset.UseVisualStyleBackColor = true;
-			this.bu_camera_zreset.Click += new System.EventHandler(this.click_bu_camera_focus);
-			// 
-			// bu_camera_reset
-			// 
-			this.bu_camera_reset.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_camera_reset.Location = new System.Drawing.Point(9, 105);
-			this.bu_camera_reset.Name = "bu_camera_reset";
-			this.bu_camera_reset.Size = new System.Drawing.Size(272, 20);
-			this.bu_camera_reset.TabIndex = 54;
-			this.bu_camera_reset.Text = "reset";
-			this.bu_camera_reset.UseVisualStyleBackColor = true;
-			// 
-			// la_camera_zoom
-			// 
-			this.la_camera_zoom.Location = new System.Drawing.Point(169, 15);
-			this.la_camera_zoom.Margin = new System.Windows.Forms.Padding(0);
-			this.la_camera_zoom.Name = "la_camera_zoom";
-			this.la_camera_zoom.Size = new System.Drawing.Size(50, 15);
-			this.la_camera_zoom.TabIndex = 43;
-			this.la_camera_zoom.Text = "ZOOM";
-			this.la_camera_zoom.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			// 
-			// la_camera_rotate
-			// 
-			this.la_camera_rotate.Location = new System.Drawing.Point(129, 15);
-			this.la_camera_rotate.Margin = new System.Windows.Forms.Padding(0);
-			this.la_camera_rotate.Name = "la_camera_rotate";
-			this.la_camera_rotate.Size = new System.Drawing.Size(25, 15);
-			this.la_camera_rotate.TabIndex = 39;
-			this.la_camera_rotate.Text = "rot";
-			this.la_camera_rotate.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			// 
-			// la_camera_xyaxis
-			// 
-			this.la_camera_xyaxis.Location = new System.Drawing.Point(44, 15);
-			this.la_camera_xyaxis.Margin = new System.Windows.Forms.Padding(0);
-			this.la_camera_xyaxis.Name = "la_camera_xyaxis";
-			this.la_camera_xyaxis.Size = new System.Drawing.Size(75, 15);
-			this.la_camera_xyaxis.TabIndex = 33;
-			this.la_camera_xyaxis.Text = "x/y";
-			this.la_camera_xyaxis.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			// 
-			// la_camera_zaxis
-			// 
-			this.la_camera_zaxis.Location = new System.Drawing.Point(9, 15);
-			this.la_camera_zaxis.Margin = new System.Windows.Forms.Padding(0);
-			this.la_camera_zaxis.Name = "la_camera_zaxis";
-			this.la_camera_zaxis.Size = new System.Drawing.Size(25, 15);
-			this.la_camera_zaxis.TabIndex = 29;
-			this.la_camera_zaxis.Text = "z";
-			this.la_camera_zaxis.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			// 
-			// button8
-			// 
-			this.button8.Location = new System.Drawing.Point(169, 80);
-			this.button8.Margin = new System.Windows.Forms.Padding(0);
-			this.button8.Name = "button8";
-			this.button8.Size = new System.Drawing.Size(22, 22);
-			this.button8.TabIndex = 50;
-			this.button8.Text = "z";
-			this.button8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.button8.UseVisualStyleBackColor = true;
-			// 
-			// button9
-			// 
-			this.button9.Location = new System.Drawing.Point(169, 55);
-			this.button9.Margin = new System.Windows.Forms.Padding(0);
-			this.button9.Name = "button9";
-			this.button9.Size = new System.Drawing.Size(22, 22);
-			this.button9.TabIndex = 47;
-			this.button9.Text = "y";
-			this.button9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.button9.UseVisualStyleBackColor = true;
-			// 
-			// button10
-			// 
-			this.button10.Location = new System.Drawing.Point(169, 30);
-			this.button10.Margin = new System.Windows.Forms.Padding(0);
-			this.button10.Name = "button10";
-			this.button10.Size = new System.Drawing.Size(22, 22);
-			this.button10.TabIndex = 44;
-			this.button10.Text = "x";
-			this.button10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.button10.UseVisualStyleBackColor = true;
+			this.bu_light_zreset.ForeColor = System.Drawing.Color.Crimson;
+			this.bu_light_zreset.Location = new System.Drawing.Point(10, 80);
+			this.bu_light_zreset.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_light_zreset.Name = "bu_light_zreset";
+			this.bu_light_zreset.Size = new System.Drawing.Size(22, 22);
+			this.bu_light_zreset.TabIndex = 3;
+			this.bu_light_zreset.Text = "r";
+			this.bu_light_zreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_light_zreset.UseVisualStyleBackColor = true;
+			this.bu_light_zreset.Click += new System.EventHandler(this.click_bu_light_zreset);
 			// 
 			// button11
 			// 
-			this.button11.Location = new System.Drawing.Point(194, 80);
-			this.button11.Margin = new System.Windows.Forms.Padding(0);
+			this.button11.ForeColor = System.Drawing.Color.Crimson;
+			this.button11.Location = new System.Drawing.Point(10, 105);
 			this.button11.Name = "button11";
-			this.button11.Size = new System.Drawing.Size(22, 22);
-			this.button11.TabIndex = 51;
-			this.button11.Text = "z";
-			this.button11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.button11.Size = new System.Drawing.Size(272, 20);
+			this.button11.TabIndex = 25;
+			this.button11.Text = "reset";
 			this.button11.UseVisualStyleBackColor = true;
+			this.button11.Click += new System.EventHandler(this.click_bu_light_reset);
 			// 
-			// button12
+			// la_light_xyaxis
 			// 
-			this.button12.Location = new System.Drawing.Point(194, 55);
-			this.button12.Margin = new System.Windows.Forms.Padding(0);
-			this.button12.Name = "button12";
-			this.button12.Size = new System.Drawing.Size(22, 22);
-			this.button12.TabIndex = 48;
-			this.button12.Text = "y";
-			this.button12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.button12.UseVisualStyleBackColor = true;
+			this.la_light_xyaxis.Location = new System.Drawing.Point(45, 15);
+			this.la_light_xyaxis.Margin = new System.Windows.Forms.Padding(0);
+			this.la_light_xyaxis.Name = "la_light_xyaxis";
+			this.la_light_xyaxis.Size = new System.Drawing.Size(75, 15);
+			this.la_light_xyaxis.TabIndex = 4;
+			this.la_light_xyaxis.Text = "x/y";
+			this.la_light_xyaxis.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
-			// button13
+			// la_light_zaxis
 			// 
-			this.button13.Location = new System.Drawing.Point(194, 30);
-			this.button13.Margin = new System.Windows.Forms.Padding(0);
-			this.button13.Name = "button13";
-			this.button13.Size = new System.Drawing.Size(22, 22);
-			this.button13.TabIndex = 45;
-			this.button13.Text = "x";
-			this.button13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.button13.UseVisualStyleBackColor = true;
+			this.la_light_zaxis.Location = new System.Drawing.Point(10, 15);
+			this.la_light_zaxis.Margin = new System.Windows.Forms.Padding(0);
+			this.la_light_zaxis.Name = "la_light_zaxis";
+			this.la_light_zaxis.Size = new System.Drawing.Size(25, 15);
+			this.la_light_zaxis.TabIndex = 0;
+			this.la_light_zaxis.Text = "z";
+			this.la_light_zaxis.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
-			// bu_camera_rneg
+			// bu_light_ypos
 			// 
-			this.bu_camera_rneg.Location = new System.Drawing.Point(129, 55);
-			this.bu_camera_rneg.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_camera_rneg.Name = "bu_camera_rneg";
-			this.bu_camera_rneg.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_rneg.TabIndex = 41;
-			this.bu_camera_rneg.Text = "-";
-			this.bu_camera_rneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.bu_camera_rneg.UseVisualStyleBackColor = true;
-			this.bu_camera_rneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
-			this.bu_camera_rneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			this.bu_light_ypos.Location = new System.Drawing.Point(95, 40);
+			this.bu_light_ypos.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_light_ypos.Name = "bu_light_ypos";
+			this.bu_light_ypos.Size = new System.Drawing.Size(22, 22);
+			this.bu_light_ypos.TabIndex = 6;
+			this.bu_light_ypos.Text = "+";
+			this.bu_light_ypos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_light_ypos.UseVisualStyleBackColor = true;
+			this.bu_light_ypos.Click += new System.EventHandler(this.click_bu_light_xpos);
+			this.bu_light_ypos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_light_ypos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
-			// bu_camera_rpos
+			// bu_light_yneg
 			// 
-			this.bu_camera_rpos.Location = new System.Drawing.Point(129, 30);
-			this.bu_camera_rpos.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_camera_rpos.Name = "bu_camera_rpos";
-			this.bu_camera_rpos.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_rpos.TabIndex = 40;
-			this.bu_camera_rpos.Text = "+";
-			this.bu_camera_rpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.bu_camera_rpos.UseVisualStyleBackColor = true;
-			this.bu_camera_rpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
-			this.bu_camera_rpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			this.bu_light_yneg.Location = new System.Drawing.Point(45, 40);
+			this.bu_light_yneg.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_light_yneg.Name = "bu_light_yneg";
+			this.bu_light_yneg.Size = new System.Drawing.Size(22, 22);
+			this.bu_light_yneg.TabIndex = 8;
+			this.bu_light_yneg.Text = "-";
+			this.bu_light_yneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_light_yneg.UseVisualStyleBackColor = true;
+			this.bu_light_yneg.Click += new System.EventHandler(this.click_bu_light_xneg);
+			this.bu_light_yneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_light_yneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
-			// bu_camera_ypos
+			// bu_light_xneg
 			// 
-			this.bu_camera_ypos.Location = new System.Drawing.Point(94, 40);
-			this.bu_camera_ypos.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_camera_ypos.Name = "bu_camera_ypos";
-			this.bu_camera_ypos.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_ypos.TabIndex = 35;
-			this.bu_camera_ypos.Text = "r";
-			this.bu_camera_ypos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.bu_camera_ypos.UseVisualStyleBackColor = true;
-			this.bu_camera_ypos.Click += new System.EventHandler(this.click_bu_camera_xpos);
-			this.bu_camera_ypos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
-			this.bu_camera_ypos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			this.bu_light_xneg.Location = new System.Drawing.Point(70, 55);
+			this.bu_light_xneg.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_light_xneg.Name = "bu_light_xneg";
+			this.bu_light_xneg.Size = new System.Drawing.Size(22, 22);
+			this.bu_light_xneg.TabIndex = 7;
+			this.bu_light_xneg.Text = "-";
+			this.bu_light_xneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_light_xneg.UseVisualStyleBackColor = true;
+			this.bu_light_xneg.Click += new System.EventHandler(this.click_bu_light_yneg);
+			this.bu_light_xneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_light_xneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
-			// bu_camera_yneg
+			// bu_light_xpos
 			// 
-			this.bu_camera_yneg.Location = new System.Drawing.Point(44, 40);
-			this.bu_camera_yneg.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_camera_yneg.Name = "bu_camera_yneg";
-			this.bu_camera_yneg.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_yneg.TabIndex = 37;
-			this.bu_camera_yneg.Text = "l";
-			this.bu_camera_yneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.bu_camera_yneg.UseVisualStyleBackColor = true;
-			this.bu_camera_yneg.Click += new System.EventHandler(this.click_bu_camera_xneg);
-			this.bu_camera_yneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
-			this.bu_camera_yneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			this.bu_light_xpos.Location = new System.Drawing.Point(70, 30);
+			this.bu_light_xpos.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_light_xpos.Name = "bu_light_xpos";
+			this.bu_light_xpos.Size = new System.Drawing.Size(22, 22);
+			this.bu_light_xpos.TabIndex = 5;
+			this.bu_light_xpos.Text = "+";
+			this.bu_light_xpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_light_xpos.UseVisualStyleBackColor = true;
+			this.bu_light_xpos.Click += new System.EventHandler(this.click_bu_light_ypos);
+			this.bu_light_xpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_light_xpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
-			// bu_camera_xneg
+			// bu_light_zneg
 			// 
-			this.bu_camera_xneg.Location = new System.Drawing.Point(69, 55);
-			this.bu_camera_xneg.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_camera_xneg.Name = "bu_camera_xneg";
-			this.bu_camera_xneg.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_xneg.TabIndex = 36;
-			this.bu_camera_xneg.Text = "b";
-			this.bu_camera_xneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.bu_camera_xneg.UseVisualStyleBackColor = true;
-			this.bu_camera_xneg.Click += new System.EventHandler(this.click_bu_camera_yneg);
-			this.bu_camera_xneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
-			this.bu_camera_xneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			this.bu_light_zneg.Location = new System.Drawing.Point(10, 55);
+			this.bu_light_zneg.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_light_zneg.Name = "bu_light_zneg";
+			this.bu_light_zneg.Size = new System.Drawing.Size(22, 22);
+			this.bu_light_zneg.TabIndex = 2;
+			this.bu_light_zneg.Text = "-";
+			this.bu_light_zneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_light_zneg.UseVisualStyleBackColor = true;
+			this.bu_light_zneg.Click += new System.EventHandler(this.click_bu_light_zneg);
+			this.bu_light_zneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_light_zneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
-			// bu_camera_xpos
+			// bu_light_zpos
 			// 
-			this.bu_camera_xpos.Location = new System.Drawing.Point(69, 30);
-			this.bu_camera_xpos.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_camera_xpos.Name = "bu_camera_xpos";
-			this.bu_camera_xpos.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_xpos.TabIndex = 34;
-			this.bu_camera_xpos.Text = "f";
-			this.bu_camera_xpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.bu_camera_xpos.UseVisualStyleBackColor = true;
-			this.bu_camera_xpos.Click += new System.EventHandler(this.click_bu_camera_ypos);
-			this.bu_camera_xpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
-			this.bu_camera_xpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
-			// 
-			// bu_camera_zneg
-			// 
-			this.bu_camera_zneg.Location = new System.Drawing.Point(9, 55);
-			this.bu_camera_zneg.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_camera_zneg.Name = "bu_camera_zneg";
-			this.bu_camera_zneg.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_zneg.TabIndex = 31;
-			this.bu_camera_zneg.Text = "d";
-			this.bu_camera_zneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.bu_camera_zneg.UseVisualStyleBackColor = true;
-			this.bu_camera_zneg.Click += new System.EventHandler(this.click_bu_camera_zneg);
-			this.bu_camera_zneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
-			this.bu_camera_zneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
-			// 
-			// bu_camera_zpos
-			// 
-			this.bu_camera_zpos.Location = new System.Drawing.Point(9, 30);
-			this.bu_camera_zpos.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_camera_zpos.Name = "bu_camera_zpos";
-			this.bu_camera_zpos.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_zpos.TabIndex = 30;
-			this.bu_camera_zpos.Text = "u";
-			this.bu_camera_zpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.bu_camera_zpos.UseVisualStyleBackColor = true;
-			this.bu_camera_zpos.Click += new System.EventHandler(this.click_bu_camera_zpos);
-			this.bu_camera_zpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
-			this.bu_camera_zpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
-			// 
-			// ss_bot
-			// 
-			this.ss_bot.Font = new System.Drawing.Font("Consolas", 8F);
-			this.ss_bot.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.tssl_xpos,
-			this.tssl_ypos,
-			this.tssl_zpos,
-			this.tssl_rot});
-			this.ss_bot.Location = new System.Drawing.Point(0, 452);
-			this.ss_bot.Name = "ss_bot";
-			this.ss_bot.Size = new System.Drawing.Size(290, 22);
-			this.ss_bot.TabIndex = 1;
-			// 
-			// tssl_xpos
-			// 
-			this.tssl_xpos.AutoSize = false;
-			this.tssl_xpos.Margin = new System.Windows.Forms.Padding(2, 0, 0, 0);
-			this.tssl_xpos.Name = "tssl_xpos";
-			this.tssl_xpos.Size = new System.Drawing.Size(50, 22);
-			this.tssl_xpos.Text = "x";
-			// 
-			// tssl_ypos
-			// 
-			this.tssl_ypos.AutoSize = false;
-			this.tssl_ypos.Margin = new System.Windows.Forms.Padding(0);
-			this.tssl_ypos.Name = "tssl_ypos";
-			this.tssl_ypos.Size = new System.Drawing.Size(50, 22);
-			this.tssl_ypos.Text = "y";
-			// 
-			// tssl_zpos
-			// 
-			this.tssl_zpos.AutoSize = false;
-			this.tssl_zpos.Margin = new System.Windows.Forms.Padding(0);
-			this.tssl_zpos.Name = "tssl_zpos";
-			this.tssl_zpos.Size = new System.Drawing.Size(50, 22);
-			this.tssl_zpos.Text = "z";
-			// 
-			// tssl_rot
-			// 
-			this.tssl_rot.AutoSize = false;
-			this.tssl_rot.Margin = new System.Windows.Forms.Padding(0);
-			this.tssl_rot.Name = "tssl_rot";
-			this.tssl_rot.Size = new System.Drawing.Size(50, 22);
-			this.tssl_rot.Text = "r";
+			this.bu_light_zpos.Location = new System.Drawing.Point(10, 30);
+			this.bu_light_zpos.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_light_zpos.Name = "bu_light_zpos";
+			this.bu_light_zpos.Size = new System.Drawing.Size(22, 22);
+			this.bu_light_zpos.TabIndex = 1;
+			this.bu_light_zpos.Text = "+";
+			this.bu_light_zpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_light_zpos.UseVisualStyleBackColor = true;
+			this.bu_light_zpos.Click += new System.EventHandler(this.click_bu_light_zpos);
+			this.bu_light_zpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_light_zpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
 			// gb_model
 			// 
@@ -636,8 +440,8 @@ namespace creaturevisualizer
 			this.gb_model.Controls.Add(this.bu_model_zscalepos);
 			this.gb_model.Controls.Add(this.bu_model_yscalepos);
 			this.gb_model.Controls.Add(this.bu_model_xscalepos);
-			this.gb_model.Controls.Add(this.bu_model_rneg);
-			this.gb_model.Controls.Add(this.bu_model_rpos);
+			this.gb_model.Controls.Add(this.bu_model_rotneg);
+			this.gb_model.Controls.Add(this.bu_model_rotpos);
 			this.gb_model.Controls.Add(this.bu_model_ypos);
 			this.gb_model.Controls.Add(this.bu_model_yneg);
 			this.gb_model.Controls.Add(this.bu_model_xneg);
@@ -645,7 +449,7 @@ namespace creaturevisualizer
 			this.gb_model.Controls.Add(this.bu_model_zneg);
 			this.gb_model.Controls.Add(this.bu_model_zpos);
 			this.gb_model.Dock = System.Windows.Forms.DockStyle.Top;
-			this.gb_model.Location = new System.Drawing.Point(0, 0);
+			this.gb_model.Location = new System.Drawing.Point(0, 130);
 			this.gb_model.Margin = new System.Windows.Forms.Padding(0);
 			this.gb_model.Name = "gb_model";
 			this.gb_model.Padding = new System.Windows.Forms.Padding(0);
@@ -833,7 +637,7 @@ namespace creaturevisualizer
 			this.bu_model_zscaleneg.Name = "bu_model_zscaleneg";
 			this.bu_model_zscaleneg.Size = new System.Drawing.Size(22, 22);
 			this.bu_model_zscaleneg.TabIndex = 21;
-			this.bu_model_zscaleneg.Text = "z";
+			this.bu_model_zscaleneg.Text = "-";
 			this.bu_model_zscaleneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_zscaleneg.UseVisualStyleBackColor = true;
 			this.bu_model_zscaleneg.Click += new System.EventHandler(this.click_bu_model_scale);
@@ -847,7 +651,7 @@ namespace creaturevisualizer
 			this.bu_model_yscaleneg.Name = "bu_model_yscaleneg";
 			this.bu_model_yscaleneg.Size = new System.Drawing.Size(22, 22);
 			this.bu_model_yscaleneg.TabIndex = 18;
-			this.bu_model_yscaleneg.Text = "y";
+			this.bu_model_yscaleneg.Text = "-";
 			this.bu_model_yscaleneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_yscaleneg.UseVisualStyleBackColor = true;
 			this.bu_model_yscaleneg.Click += new System.EventHandler(this.click_bu_model_scale);
@@ -861,7 +665,7 @@ namespace creaturevisualizer
 			this.bu_model_xscaleneg.Name = "bu_model_xscaleneg";
 			this.bu_model_xscaleneg.Size = new System.Drawing.Size(22, 22);
 			this.bu_model_xscaleneg.TabIndex = 15;
-			this.bu_model_xscaleneg.Text = "x";
+			this.bu_model_xscaleneg.Text = "-";
 			this.bu_model_xscaleneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_xscaleneg.UseVisualStyleBackColor = true;
 			this.bu_model_xscaleneg.Click += new System.EventHandler(this.click_bu_model_scale);
@@ -875,7 +679,7 @@ namespace creaturevisualizer
 			this.bu_model_zscalepos.Name = "bu_model_zscalepos";
 			this.bu_model_zscalepos.Size = new System.Drawing.Size(22, 22);
 			this.bu_model_zscalepos.TabIndex = 22;
-			this.bu_model_zscalepos.Text = "z";
+			this.bu_model_zscalepos.Text = "+";
 			this.bu_model_zscalepos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_zscalepos.UseVisualStyleBackColor = true;
 			this.bu_model_zscalepos.Click += new System.EventHandler(this.click_bu_model_scale);
@@ -889,7 +693,7 @@ namespace creaturevisualizer
 			this.bu_model_yscalepos.Name = "bu_model_yscalepos";
 			this.bu_model_yscalepos.Size = new System.Drawing.Size(22, 22);
 			this.bu_model_yscalepos.TabIndex = 19;
-			this.bu_model_yscalepos.Text = "y";
+			this.bu_model_yscalepos.Text = "+";
 			this.bu_model_yscalepos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_yscalepos.UseVisualStyleBackColor = true;
 			this.bu_model_yscalepos.Click += new System.EventHandler(this.click_bu_model_scale);
@@ -903,40 +707,40 @@ namespace creaturevisualizer
 			this.bu_model_xscalepos.Name = "bu_model_xscalepos";
 			this.bu_model_xscalepos.Size = new System.Drawing.Size(22, 22);
 			this.bu_model_xscalepos.TabIndex = 16;
-			this.bu_model_xscalepos.Text = "x";
+			this.bu_model_xscalepos.Text = "+";
 			this.bu_model_xscalepos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_xscalepos.UseVisualStyleBackColor = true;
 			this.bu_model_xscalepos.Click += new System.EventHandler(this.click_bu_model_scale);
 			this.bu_model_xscalepos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_xscalepos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
-			// bu_model_rneg
+			// bu_model_rotneg
 			// 
-			this.bu_model_rneg.Location = new System.Drawing.Point(130, 55);
-			this.bu_model_rneg.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_model_rneg.Name = "bu_model_rneg";
-			this.bu_model_rneg.Size = new System.Drawing.Size(22, 22);
-			this.bu_model_rneg.TabIndex = 12;
-			this.bu_model_rneg.Text = "-";
-			this.bu_model_rneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.bu_model_rneg.UseVisualStyleBackColor = true;
-			this.bu_model_rneg.Click += new System.EventHandler(this.click_bu_model_rotneg);
-			this.bu_model_rneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
-			this.bu_model_rneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			this.bu_model_rotneg.Location = new System.Drawing.Point(130, 55);
+			this.bu_model_rotneg.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_model_rotneg.Name = "bu_model_rotneg";
+			this.bu_model_rotneg.Size = new System.Drawing.Size(22, 22);
+			this.bu_model_rotneg.TabIndex = 12;
+			this.bu_model_rotneg.Text = "-";
+			this.bu_model_rotneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_model_rotneg.UseVisualStyleBackColor = true;
+			this.bu_model_rotneg.Click += new System.EventHandler(this.click_bu_model_rotneg);
+			this.bu_model_rotneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_model_rotneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
-			// bu_model_rpos
+			// bu_model_rotpos
 			// 
-			this.bu_model_rpos.Location = new System.Drawing.Point(130, 30);
-			this.bu_model_rpos.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_model_rpos.Name = "bu_model_rpos";
-			this.bu_model_rpos.Size = new System.Drawing.Size(22, 22);
-			this.bu_model_rpos.TabIndex = 11;
-			this.bu_model_rpos.Text = "+";
-			this.bu_model_rpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.bu_model_rpos.UseVisualStyleBackColor = true;
-			this.bu_model_rpos.Click += new System.EventHandler(this.click_bu_model_rotpos);
-			this.bu_model_rpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
-			this.bu_model_rpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			this.bu_model_rotpos.Location = new System.Drawing.Point(130, 30);
+			this.bu_model_rotpos.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_model_rotpos.Name = "bu_model_rotpos";
+			this.bu_model_rotpos.Size = new System.Drawing.Size(22, 22);
+			this.bu_model_rotpos.TabIndex = 11;
+			this.bu_model_rotpos.Text = "+";
+			this.bu_model_rotpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_model_rotpos.UseVisualStyleBackColor = true;
+			this.bu_model_rotpos.Click += new System.EventHandler(this.click_bu_model_rotpos);
+			this.bu_model_rotpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_model_rotpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
 			// bu_model_ypos
 			// 
@@ -945,7 +749,7 @@ namespace creaturevisualizer
 			this.bu_model_ypos.Name = "bu_model_ypos";
 			this.bu_model_ypos.Size = new System.Drawing.Size(22, 22);
 			this.bu_model_ypos.TabIndex = 6;
-			this.bu_model_ypos.Text = "r";
+			this.bu_model_ypos.Text = "+";
 			this.bu_model_ypos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_ypos.UseVisualStyleBackColor = true;
 			this.bu_model_ypos.Click += new System.EventHandler(this.click_bu_model_xpos);
@@ -959,7 +763,7 @@ namespace creaturevisualizer
 			this.bu_model_yneg.Name = "bu_model_yneg";
 			this.bu_model_yneg.Size = new System.Drawing.Size(22, 22);
 			this.bu_model_yneg.TabIndex = 8;
-			this.bu_model_yneg.Text = "l";
+			this.bu_model_yneg.Text = "-";
 			this.bu_model_yneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_yneg.UseVisualStyleBackColor = true;
 			this.bu_model_yneg.Click += new System.EventHandler(this.click_bu_model_xneg);
@@ -973,7 +777,7 @@ namespace creaturevisualizer
 			this.bu_model_xneg.Name = "bu_model_xneg";
 			this.bu_model_xneg.Size = new System.Drawing.Size(22, 22);
 			this.bu_model_xneg.TabIndex = 7;
-			this.bu_model_xneg.Text = "f";
+			this.bu_model_xneg.Text = "-";
 			this.bu_model_xneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_xneg.UseVisualStyleBackColor = true;
 			this.bu_model_xneg.Click += new System.EventHandler(this.click_bu_model_yneg);
@@ -987,7 +791,7 @@ namespace creaturevisualizer
 			this.bu_model_xpos.Name = "bu_model_xpos";
 			this.bu_model_xpos.Size = new System.Drawing.Size(22, 22);
 			this.bu_model_xpos.TabIndex = 5;
-			this.bu_model_xpos.Text = "b";
+			this.bu_model_xpos.Text = "+";
 			this.bu_model_xpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_xpos.UseVisualStyleBackColor = true;
 			this.bu_model_xpos.Click += new System.EventHandler(this.click_bu_model_ypos);
@@ -1001,7 +805,7 @@ namespace creaturevisualizer
 			this.bu_model_zneg.Name = "bu_model_zneg";
 			this.bu_model_zneg.Size = new System.Drawing.Size(22, 22);
 			this.bu_model_zneg.TabIndex = 2;
-			this.bu_model_zneg.Text = "d";
+			this.bu_model_zneg.Text = "-";
 			this.bu_model_zneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_zneg.UseVisualStyleBackColor = true;
 			this.bu_model_zneg.Click += new System.EventHandler(this.click_bu_model_zneg);
@@ -1015,12 +819,642 @@ namespace creaturevisualizer
 			this.bu_model_zpos.Name = "bu_model_zpos";
 			this.bu_model_zpos.Size = new System.Drawing.Size(22, 22);
 			this.bu_model_zpos.TabIndex = 1;
-			this.bu_model_zpos.Text = "u";
+			this.bu_model_zpos.Text = "+";
 			this.bu_model_zpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_zpos.UseVisualStyleBackColor = true;
 			this.bu_model_zpos.Click += new System.EventHandler(this.click_bu_model_zpos);
 			this.bu_model_zpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_model_zpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			// 
+			// gb_camera
+			// 
+			this.gb_camera.Controls.Add(this.bu_camera_focuspoint);
+			this.gb_camera.Controls.Add(this.button4);
+			this.gb_camera.Controls.Add(this.la_camera_angle);
+			this.gb_camera.Controls.Add(this.bu_camera_horipos);
+			this.gb_camera.Controls.Add(this.bu_camera_horineg);
+			this.gb_camera.Controls.Add(this.bu_camera_vertneg);
+			this.gb_camera.Controls.Add(this.bu_camera_vertpos);
+			this.gb_camera.Controls.Add(this.la_camera_pitch);
+			this.gb_camera.Controls.Add(this.button1);
+			this.gb_camera.Controls.Add(this.button2);
+			this.gb_camera.Controls.Add(this.label2);
+			this.gb_camera.Controls.Add(this.label3);
+			this.gb_camera.Controls.Add(this.label4);
+			this.gb_camera.Controls.Add(this.button3);
+			this.gb_camera.Controls.Add(this.bu_camera_rotreset);
+			this.gb_camera.Controls.Add(this.bu_camera_xyreset);
+			this.gb_camera.Controls.Add(this.bu_camera_zreset);
+			this.gb_camera.Controls.Add(this.bu_camera_focusobject);
+			this.gb_camera.Controls.Add(this.la_camera_dist);
+			this.gb_camera.Controls.Add(this.la_camera_rotate);
+			this.gb_camera.Controls.Add(this.la_camera_xyaxis);
+			this.gb_camera.Controls.Add(this.la_camera_zaxis);
+			this.gb_camera.Controls.Add(this.bu_camera_distreset);
+			this.gb_camera.Controls.Add(this.bu_camera_distneg);
+			this.gb_camera.Controls.Add(this.bu_camera_distpos);
+			this.gb_camera.Controls.Add(this.bu_camera_rneg);
+			this.gb_camera.Controls.Add(this.bu_camera_rpos);
+			this.gb_camera.Controls.Add(this.bu_camera_ypos);
+			this.gb_camera.Controls.Add(this.bu_camera_yneg);
+			this.gb_camera.Controls.Add(this.bu_camera_xneg);
+			this.gb_camera.Controls.Add(this.bu_camera_xpos);
+			this.gb_camera.Controls.Add(this.bu_camera_zneg);
+			this.gb_camera.Controls.Add(this.bu_camera_zpos);
+			this.gb_camera.Dock = System.Windows.Forms.DockStyle.Top;
+			this.gb_camera.Location = new System.Drawing.Point(0, 0);
+			this.gb_camera.Margin = new System.Windows.Forms.Padding(0);
+			this.gb_camera.Name = "gb_camera";
+			this.gb_camera.Padding = new System.Windows.Forms.Padding(0);
+			this.gb_camera.Size = new System.Drawing.Size(290, 130);
+			this.gb_camera.TabIndex = 2;
+			this.gb_camera.TabStop = false;
+			this.gb_camera.Text = " Camera ";
+			// 
+			// bu_camera_focuspoint
+			// 
+			this.bu_camera_focuspoint.ForeColor = System.Drawing.Color.Crimson;
+			this.bu_camera_focuspoint.Location = new System.Drawing.Point(150, 105);
+			this.bu_camera_focuspoint.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_focuspoint.Name = "bu_camera_focuspoint";
+			this.bu_camera_focuspoint.Size = new System.Drawing.Size(136, 20);
+			this.bu_camera_focuspoint.TabIndex = 64;
+			this.bu_camera_focuspoint.Text = "point";
+			this.bu_camera_focuspoint.UseVisualStyleBackColor = true;
+			this.bu_camera_focuspoint.Click += new System.EventHandler(this.click_bu_camera_focuspoint);
+			// 
+			// button4
+			// 
+			this.button4.ForeColor = System.Drawing.Color.Crimson;
+			this.button4.Location = new System.Drawing.Point(65, 80);
+			this.button4.Margin = new System.Windows.Forms.Padding(0);
+			this.button4.Name = "button4";
+			this.button4.Size = new System.Drawing.Size(22, 22);
+			this.button4.TabIndex = 63;
+			this.button4.Text = "r";
+			this.button4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.button4.UseVisualStyleBackColor = true;
+			// 
+			// la_camera_angle
+			// 
+			this.la_camera_angle.Location = new System.Drawing.Point(55, 15);
+			this.la_camera_angle.Margin = new System.Windows.Forms.Padding(0);
+			this.la_camera_angle.Name = "la_camera_angle";
+			this.la_camera_angle.Size = new System.Drawing.Size(40, 15);
+			this.la_camera_angle.TabIndex = 58;
+			this.la_camera_angle.Text = "Po";
+			this.la_camera_angle.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			// 
+			// bu_camera_horipos
+			// 
+			this.bu_camera_horipos.Location = new System.Drawing.Point(90, 40);
+			this.bu_camera_horipos.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_horipos.Name = "bu_camera_horipos";
+			this.bu_camera_horipos.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_horipos.TabIndex = 60;
+			this.bu_camera_horipos.Text = "+";
+			this.bu_camera_horipos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_horipos.UseVisualStyleBackColor = true;
+			this.bu_camera_horipos.Click += new System.EventHandler(this.click_bu_camera_horineg);
+			this.bu_camera_horipos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_camera_horipos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			// 
+			// bu_camera_horineg
+			// 
+			this.bu_camera_horineg.Location = new System.Drawing.Point(40, 40);
+			this.bu_camera_horineg.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_horineg.Name = "bu_camera_horineg";
+			this.bu_camera_horineg.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_horineg.TabIndex = 62;
+			this.bu_camera_horineg.Text = "-";
+			this.bu_camera_horineg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_horineg.UseVisualStyleBackColor = true;
+			this.bu_camera_horineg.Click += new System.EventHandler(this.click_bu_camera_horipos);
+			this.bu_camera_horineg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_camera_horineg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			// 
+			// bu_camera_vertneg
+			// 
+			this.bu_camera_vertneg.Location = new System.Drawing.Point(65, 55);
+			this.bu_camera_vertneg.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_vertneg.Name = "bu_camera_vertneg";
+			this.bu_camera_vertneg.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_vertneg.TabIndex = 61;
+			this.bu_camera_vertneg.Text = "-";
+			this.bu_camera_vertneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_vertneg.UseVisualStyleBackColor = true;
+			this.bu_camera_vertneg.Click += new System.EventHandler(this.click_bu_camera_vertneg);
+			this.bu_camera_vertneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_camera_vertneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			// 
+			// bu_camera_vertpos
+			// 
+			this.bu_camera_vertpos.Location = new System.Drawing.Point(65, 30);
+			this.bu_camera_vertpos.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_vertpos.Name = "bu_camera_vertpos";
+			this.bu_camera_vertpos.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_vertpos.TabIndex = 59;
+			this.bu_camera_vertpos.Text = "+";
+			this.bu_camera_vertpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_vertpos.UseVisualStyleBackColor = true;
+			this.bu_camera_vertpos.Click += new System.EventHandler(this.click_bu_camera_vertpos);
+			this.bu_camera_vertpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_camera_vertpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			// 
+			// la_camera_pitch
+			// 
+			this.la_camera_pitch.ForeColor = System.Drawing.Color.RoyalBlue;
+			this.la_camera_pitch.Location = new System.Drawing.Point(240, 15);
+			this.la_camera_pitch.Margin = new System.Windows.Forms.Padding(0);
+			this.la_camera_pitch.Name = "la_camera_pitch";
+			this.la_camera_pitch.Size = new System.Drawing.Size(39, 15);
+			this.la_camera_pitch.TabIndex = 57;
+			this.la_camera_pitch.Text = "PITCH";
+			this.la_camera_pitch.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			// 
+			// button1
+			// 
+			this.button1.Location = new System.Drawing.Point(249, 55);
+			this.button1.Margin = new System.Windows.Forms.Padding(0);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(22, 22);
+			this.button1.TabIndex = 56;
+			this.button1.Text = "-";
+			this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.button1.UseVisualStyleBackColor = true;
+			// 
+			// button2
+			// 
+			this.button2.Location = new System.Drawing.Point(249, 30);
+			this.button2.Margin = new System.Windows.Forms.Padding(0);
+			this.button2.Name = "button2";
+			this.button2.Size = new System.Drawing.Size(22, 22);
+			this.button2.TabIndex = 55;
+			this.button2.Text = "+";
+			this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.button2.UseVisualStyleBackColor = true;
+			// 
+			// label2
+			// 
+			this.label2.Location = new System.Drawing.Point(270, 80);
+			this.label2.Margin = new System.Windows.Forms.Padding(0);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(14, 20);
+			this.label2.TabIndex = 52;
+			this.label2.Text = "z";
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// label3
+			// 
+			this.label3.Location = new System.Drawing.Point(270, 55);
+			this.label3.Margin = new System.Windows.Forms.Padding(0);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(14, 20);
+			this.label3.TabIndex = 49;
+			this.label3.Text = "y";
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// label4
+			// 
+			this.label4.Location = new System.Drawing.Point(270, 30);
+			this.label4.Margin = new System.Windows.Forms.Padding(0);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(14, 20);
+			this.label4.TabIndex = 46;
+			this.label4.Text = "x";
+			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// button3
+			// 
+			this.button3.ForeColor = System.Drawing.Color.Crimson;
+			this.button3.Location = new System.Drawing.Point(249, 80);
+			this.button3.Margin = new System.Windows.Forms.Padding(0);
+			this.button3.Name = "button3";
+			this.button3.Size = new System.Drawing.Size(22, 22);
+			this.button3.TabIndex = 53;
+			this.button3.Text = "r";
+			this.button3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.button3.UseVisualStyleBackColor = true;
+			// 
+			// bu_camera_rotreset
+			// 
+			this.bu_camera_rotreset.ForeColor = System.Drawing.Color.Crimson;
+			this.bu_camera_rotreset.Location = new System.Drawing.Point(220, 80);
+			this.bu_camera_rotreset.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_rotreset.Name = "bu_camera_rotreset";
+			this.bu_camera_rotreset.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_rotreset.TabIndex = 42;
+			this.bu_camera_rotreset.Text = "r";
+			this.bu_camera_rotreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_rotreset.UseVisualStyleBackColor = true;
+			// 
+			// bu_camera_xyreset
+			// 
+			this.bu_camera_xyreset.ForeColor = System.Drawing.Color.Crimson;
+			this.bu_camera_xyreset.Location = new System.Drawing.Point(170, 80);
+			this.bu_camera_xyreset.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_xyreset.Name = "bu_camera_xyreset";
+			this.bu_camera_xyreset.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_xyreset.TabIndex = 38;
+			this.bu_camera_xyreset.Text = "r";
+			this.bu_camera_xyreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_xyreset.UseVisualStyleBackColor = true;
+			// 
+			// bu_camera_zreset
+			// 
+			this.bu_camera_zreset.ForeColor = System.Drawing.Color.Crimson;
+			this.bu_camera_zreset.Location = new System.Drawing.Point(120, 80);
+			this.bu_camera_zreset.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_zreset.Name = "bu_camera_zreset";
+			this.bu_camera_zreset.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_zreset.TabIndex = 32;
+			this.bu_camera_zreset.Text = "f";
+			this.bu_camera_zreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_zreset.UseVisualStyleBackColor = true;
+			this.bu_camera_zreset.Click += new System.EventHandler(this.click_bu_camera_focusobject);
+			// 
+			// bu_camera_focusobject
+			// 
+			this.bu_camera_focusobject.ForeColor = System.Drawing.Color.Crimson;
+			this.bu_camera_focusobject.Location = new System.Drawing.Point(9, 105);
+			this.bu_camera_focusobject.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_focusobject.Name = "bu_camera_focusobject";
+			this.bu_camera_focusobject.Size = new System.Drawing.Size(136, 20);
+			this.bu_camera_focusobject.TabIndex = 54;
+			this.bu_camera_focusobject.Text = "object";
+			this.bu_camera_focusobject.UseVisualStyleBackColor = true;
+			this.bu_camera_focusobject.Click += new System.EventHandler(this.click_bu_camera_focusobject);
+			// 
+			// la_camera_dist
+			// 
+			this.la_camera_dist.Location = new System.Drawing.Point(5, 15);
+			this.la_camera_dist.Margin = new System.Windows.Forms.Padding(0);
+			this.la_camera_dist.Name = "la_camera_dist";
+			this.la_camera_dist.Size = new System.Drawing.Size(35, 15);
+			this.la_camera_dist.TabIndex = 43;
+			this.la_camera_dist.Text = "Zo";
+			this.la_camera_dist.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			// 
+			// la_camera_rotate
+			// 
+			this.la_camera_rotate.Location = new System.Drawing.Point(220, 15);
+			this.la_camera_rotate.Margin = new System.Windows.Forms.Padding(0);
+			this.la_camera_rotate.Name = "la_camera_rotate";
+			this.la_camera_rotate.Size = new System.Drawing.Size(25, 15);
+			this.la_camera_rotate.TabIndex = 39;
+			this.la_camera_rotate.Text = "rot";
+			this.la_camera_rotate.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			// 
+			// la_camera_xyaxis
+			// 
+			this.la_camera_xyaxis.Location = new System.Drawing.Point(145, 15);
+			this.la_camera_xyaxis.Margin = new System.Windows.Forms.Padding(0);
+			this.la_camera_xyaxis.Name = "la_camera_xyaxis";
+			this.la_camera_xyaxis.Size = new System.Drawing.Size(75, 15);
+			this.la_camera_xyaxis.TabIndex = 33;
+			this.la_camera_xyaxis.Text = "x/y";
+			this.la_camera_xyaxis.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			// 
+			// la_camera_zaxis
+			// 
+			this.la_camera_zaxis.Location = new System.Drawing.Point(120, 15);
+			this.la_camera_zaxis.Margin = new System.Windows.Forms.Padding(0);
+			this.la_camera_zaxis.Name = "la_camera_zaxis";
+			this.la_camera_zaxis.Size = new System.Drawing.Size(25, 15);
+			this.la_camera_zaxis.TabIndex = 29;
+			this.la_camera_zaxis.Text = "z";
+			this.la_camera_zaxis.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			// 
+			// bu_camera_distreset
+			// 
+			this.bu_camera_distreset.ForeColor = System.Drawing.Color.Crimson;
+			this.bu_camera_distreset.Location = new System.Drawing.Point(9, 80);
+			this.bu_camera_distreset.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_distreset.Name = "bu_camera_distreset";
+			this.bu_camera_distreset.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_distreset.TabIndex = 50;
+			this.bu_camera_distreset.Text = "r";
+			this.bu_camera_distreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_distreset.UseVisualStyleBackColor = true;
+			// 
+			// bu_camera_distneg
+			// 
+			this.bu_camera_distneg.Location = new System.Drawing.Point(10, 30);
+			this.bu_camera_distneg.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_distneg.Name = "bu_camera_distneg";
+			this.bu_camera_distneg.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_distneg.TabIndex = 47;
+			this.bu_camera_distneg.Text = "+";
+			this.bu_camera_distneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_distneg.UseVisualStyleBackColor = true;
+			this.bu_camera_distneg.Click += new System.EventHandler(this.click_bu_camera_distneg);
+			this.bu_camera_distneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_camera_distneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			// 
+			// bu_camera_distpos
+			// 
+			this.bu_camera_distpos.Location = new System.Drawing.Point(9, 55);
+			this.bu_camera_distpos.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_distpos.Name = "bu_camera_distpos";
+			this.bu_camera_distpos.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_distpos.TabIndex = 44;
+			this.bu_camera_distpos.Text = "-";
+			this.bu_camera_distpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_distpos.UseVisualStyleBackColor = true;
+			this.bu_camera_distpos.Click += new System.EventHandler(this.click_bu_camera_distpos);
+			this.bu_camera_distpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_camera_distpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			// 
+			// bu_camera_rneg
+			// 
+			this.bu_camera_rneg.Location = new System.Drawing.Point(220, 55);
+			this.bu_camera_rneg.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_rneg.Name = "bu_camera_rneg";
+			this.bu_camera_rneg.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_rneg.TabIndex = 41;
+			this.bu_camera_rneg.Text = "-";
+			this.bu_camera_rneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_rneg.UseVisualStyleBackColor = true;
+			this.bu_camera_rneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_camera_rneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			// 
+			// bu_camera_rpos
+			// 
+			this.bu_camera_rpos.Location = new System.Drawing.Point(220, 30);
+			this.bu_camera_rpos.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_rpos.Name = "bu_camera_rpos";
+			this.bu_camera_rpos.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_rpos.TabIndex = 40;
+			this.bu_camera_rpos.Text = "+";
+			this.bu_camera_rpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_rpos.UseVisualStyleBackColor = true;
+			this.bu_camera_rpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_camera_rpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			// 
+			// bu_camera_ypos
+			// 
+			this.bu_camera_ypos.Location = new System.Drawing.Point(195, 40);
+			this.bu_camera_ypos.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_ypos.Name = "bu_camera_ypos";
+			this.bu_camera_ypos.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_ypos.TabIndex = 35;
+			this.bu_camera_ypos.Text = "+";
+			this.bu_camera_ypos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_ypos.UseVisualStyleBackColor = true;
+			this.bu_camera_ypos.Click += new System.EventHandler(this.click_bu_camera_xpos);
+			this.bu_camera_ypos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_camera_ypos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			// 
+			// bu_camera_yneg
+			// 
+			this.bu_camera_yneg.Location = new System.Drawing.Point(145, 40);
+			this.bu_camera_yneg.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_yneg.Name = "bu_camera_yneg";
+			this.bu_camera_yneg.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_yneg.TabIndex = 37;
+			this.bu_camera_yneg.Text = "-";
+			this.bu_camera_yneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_yneg.UseVisualStyleBackColor = true;
+			this.bu_camera_yneg.Click += new System.EventHandler(this.click_bu_camera_xneg);
+			this.bu_camera_yneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_camera_yneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			// 
+			// bu_camera_xneg
+			// 
+			this.bu_camera_xneg.Location = new System.Drawing.Point(170, 55);
+			this.bu_camera_xneg.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_xneg.Name = "bu_camera_xneg";
+			this.bu_camera_xneg.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_xneg.TabIndex = 36;
+			this.bu_camera_xneg.Text = "-";
+			this.bu_camera_xneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_xneg.UseVisualStyleBackColor = true;
+			this.bu_camera_xneg.Click += new System.EventHandler(this.click_bu_camera_yneg);
+			this.bu_camera_xneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_camera_xneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			// 
+			// bu_camera_xpos
+			// 
+			this.bu_camera_xpos.Location = new System.Drawing.Point(170, 30);
+			this.bu_camera_xpos.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_xpos.Name = "bu_camera_xpos";
+			this.bu_camera_xpos.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_xpos.TabIndex = 34;
+			this.bu_camera_xpos.Text = "+";
+			this.bu_camera_xpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_xpos.UseVisualStyleBackColor = true;
+			this.bu_camera_xpos.Click += new System.EventHandler(this.click_bu_camera_ypos);
+			this.bu_camera_xpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_camera_xpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			// 
+			// bu_camera_zneg
+			// 
+			this.bu_camera_zneg.Location = new System.Drawing.Point(120, 55);
+			this.bu_camera_zneg.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_zneg.Name = "bu_camera_zneg";
+			this.bu_camera_zneg.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_zneg.TabIndex = 31;
+			this.bu_camera_zneg.Text = "-";
+			this.bu_camera_zneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_zneg.UseVisualStyleBackColor = true;
+			this.bu_camera_zneg.Click += new System.EventHandler(this.click_bu_camera_zneg);
+			this.bu_camera_zneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_camera_zneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			// 
+			// bu_camera_zpos
+			// 
+			this.bu_camera_zpos.Location = new System.Drawing.Point(120, 30);
+			this.bu_camera_zpos.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_zpos.Name = "bu_camera_zpos";
+			this.bu_camera_zpos.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_zpos.TabIndex = 30;
+			this.bu_camera_zpos.Text = "+";
+			this.bu_camera_zpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_zpos.UseVisualStyleBackColor = true;
+			this.bu_camera_zpos.Click += new System.EventHandler(this.click_bu_camera_zpos);
+			this.bu_camera_zpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_camera_zpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			// 
+			// ss_camera
+			// 
+			this.ss_camera.Font = new System.Drawing.Font("Consolas", 8F);
+			this.ss_camera.GripMargin = new System.Windows.Forms.Padding(0);
+			this.ss_camera.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.tssl_camera_label,
+			this.tssl_camera_xpos,
+			this.tssl_camera_ypos,
+			this.tssl_camera_zpos,
+			this.tssl_camera_rot});
+			this.ss_camera.Location = new System.Drawing.Point(0, 408);
+			this.ss_camera.Name = "ss_camera";
+			this.ss_camera.Size = new System.Drawing.Size(290, 22);
+			this.ss_camera.SizingGrip = false;
+			this.ss_camera.TabIndex = 4;
+			// 
+			// tssl_camera_label
+			// 
+			this.tssl_camera_label.AutoSize = false;
+			this.tssl_camera_label.Margin = new System.Windows.Forms.Padding(2, 0, 0, 0);
+			this.tssl_camera_label.Name = "tssl_camera_label";
+			this.tssl_camera_label.Size = new System.Drawing.Size(43, 22);
+			this.tssl_camera_label.Text = "Camera";
+			this.tssl_camera_label.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// tssl_camera_xpos
+			// 
+			this.tssl_camera_xpos.AutoSize = false;
+			this.tssl_camera_xpos.Margin = new System.Windows.Forms.Padding(0);
+			this.tssl_camera_xpos.Name = "tssl_camera_xpos";
+			this.tssl_camera_xpos.Size = new System.Drawing.Size(50, 22);
+			this.tssl_camera_xpos.Text = "x";
+			this.tssl_camera_xpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// tssl_camera_ypos
+			// 
+			this.tssl_camera_ypos.AutoSize = false;
+			this.tssl_camera_ypos.Margin = new System.Windows.Forms.Padding(0);
+			this.tssl_camera_ypos.Name = "tssl_camera_ypos";
+			this.tssl_camera_ypos.Size = new System.Drawing.Size(50, 22);
+			this.tssl_camera_ypos.Text = "y";
+			this.tssl_camera_ypos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// tssl_camera_zpos
+			// 
+			this.tssl_camera_zpos.AutoSize = false;
+			this.tssl_camera_zpos.Margin = new System.Windows.Forms.Padding(0);
+			this.tssl_camera_zpos.Name = "tssl_camera_zpos";
+			this.tssl_camera_zpos.Size = new System.Drawing.Size(50, 22);
+			this.tssl_camera_zpos.Text = "z";
+			this.tssl_camera_zpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// tssl_camera_rot
+			// 
+			this.tssl_camera_rot.AutoSize = false;
+			this.tssl_camera_rot.Margin = new System.Windows.Forms.Padding(0);
+			this.tssl_camera_rot.Name = "tssl_camera_rot";
+			this.tssl_camera_rot.Size = new System.Drawing.Size(50, 22);
+			this.tssl_camera_rot.Text = "r";
+			this.tssl_camera_rot.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// ss_model
+			// 
+			this.ss_model.Font = new System.Drawing.Font("Consolas", 8F);
+			this.ss_model.GripMargin = new System.Windows.Forms.Padding(0);
+			this.ss_model.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.tssl_model_label,
+			this.tssl_model_xpos,
+			this.tssl_model_ypos,
+			this.tssl_model_zpos,
+			this.tssl_model_rot});
+			this.ss_model.Location = new System.Drawing.Point(0, 430);
+			this.ss_model.Name = "ss_model";
+			this.ss_model.Size = new System.Drawing.Size(290, 22);
+			this.ss_model.SizingGrip = false;
+			this.ss_model.TabIndex = 1;
+			// 
+			// tssl_model_label
+			// 
+			this.tssl_model_label.AutoSize = false;
+			this.tssl_model_label.Margin = new System.Windows.Forms.Padding(2, 0, 0, 0);
+			this.tssl_model_label.Name = "tssl_model_label";
+			this.tssl_model_label.Size = new System.Drawing.Size(43, 22);
+			this.tssl_model_label.Text = "Model";
+			this.tssl_model_label.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// tssl_model_xpos
+			// 
+			this.tssl_model_xpos.AutoSize = false;
+			this.tssl_model_xpos.Margin = new System.Windows.Forms.Padding(0);
+			this.tssl_model_xpos.Name = "tssl_model_xpos";
+			this.tssl_model_xpos.Size = new System.Drawing.Size(50, 22);
+			this.tssl_model_xpos.Text = "x";
+			this.tssl_model_xpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// tssl_model_ypos
+			// 
+			this.tssl_model_ypos.AutoSize = false;
+			this.tssl_model_ypos.Margin = new System.Windows.Forms.Padding(0);
+			this.tssl_model_ypos.Name = "tssl_model_ypos";
+			this.tssl_model_ypos.Size = new System.Drawing.Size(50, 22);
+			this.tssl_model_ypos.Text = "y";
+			this.tssl_model_ypos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// tssl_model_zpos
+			// 
+			this.tssl_model_zpos.AutoSize = false;
+			this.tssl_model_zpos.Margin = new System.Windows.Forms.Padding(0);
+			this.tssl_model_zpos.Name = "tssl_model_zpos";
+			this.tssl_model_zpos.Size = new System.Drawing.Size(50, 22);
+			this.tssl_model_zpos.Text = "z";
+			this.tssl_model_zpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// tssl_model_rot
+			// 
+			this.tssl_model_rot.AutoSize = false;
+			this.tssl_model_rot.Margin = new System.Windows.Forms.Padding(0);
+			this.tssl_model_rot.Name = "tssl_model_rot";
+			this.tssl_model_rot.Size = new System.Drawing.Size(50, 22);
+			this.tssl_model_rot.Text = "r";
+			this.tssl_model_rot.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// ss_light
+			// 
+			this.ss_light.Font = new System.Drawing.Font("Consolas", 8F);
+			this.ss_light.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.tssl_light_label,
+			this.tssl_light_xpos,
+			this.tssl_light_ypos,
+			this.tssl_light_zpos,
+			this.tssl_light_intensity});
+			this.ss_light.Location = new System.Drawing.Point(0, 452);
+			this.ss_light.Name = "ss_light";
+			this.ss_light.Size = new System.Drawing.Size(290, 22);
+			this.ss_light.TabIndex = 5;
+			// 
+			// tssl_light_label
+			// 
+			this.tssl_light_label.AutoSize = false;
+			this.tssl_light_label.Margin = new System.Windows.Forms.Padding(2, 0, 0, 0);
+			this.tssl_light_label.Name = "tssl_light_label";
+			this.tssl_light_label.Size = new System.Drawing.Size(43, 22);
+			this.tssl_light_label.Text = "Light";
+			this.tssl_light_label.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// tssl_light_xpos
+			// 
+			this.tssl_light_xpos.AutoSize = false;
+			this.tssl_light_xpos.Margin = new System.Windows.Forms.Padding(0);
+			this.tssl_light_xpos.Name = "tssl_light_xpos";
+			this.tssl_light_xpos.Size = new System.Drawing.Size(50, 22);
+			this.tssl_light_xpos.Text = "x";
+			this.tssl_light_xpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// tssl_light_ypos
+			// 
+			this.tssl_light_ypos.AutoSize = false;
+			this.tssl_light_ypos.Margin = new System.Windows.Forms.Padding(0);
+			this.tssl_light_ypos.Name = "tssl_light_ypos";
+			this.tssl_light_ypos.Size = new System.Drawing.Size(50, 22);
+			this.tssl_light_ypos.Text = "y";
+			this.tssl_light_ypos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// tssl_light_zpos
+			// 
+			this.tssl_light_zpos.AutoSize = false;
+			this.tssl_light_zpos.Margin = new System.Windows.Forms.Padding(0);
+			this.tssl_light_zpos.Name = "tssl_light_zpos";
+			this.tssl_light_zpos.Size = new System.Drawing.Size(50, 22);
+			this.tssl_light_zpos.Text = "z";
+			this.tssl_light_zpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// tssl_light_intensity
+			// 
+			this.tssl_light_intensity.AutoSize = false;
+			this.tssl_light_intensity.Margin = new System.Windows.Forms.Padding(0);
+			this.tssl_light_intensity.Name = "tssl_light_intensity";
+			this.tssl_light_intensity.Size = new System.Drawing.Size(50, 22);
+			this.tssl_light_intensity.Text = "i";
+			this.tssl_light_intensity.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// CreatureVisualizerF
 			// 
@@ -1033,10 +1467,15 @@ namespace creaturevisualizer
 			this.Activated += new System.EventHandler(this.activated_Refresh);
 			this.pa_controls.ResumeLayout(false);
 			this.pa_controls.PerformLayout();
-			this.gb_camera.ResumeLayout(false);
-			this.ss_bot.ResumeLayout(false);
-			this.ss_bot.PerformLayout();
+			this.gb_Light.ResumeLayout(false);
 			this.gb_model.ResumeLayout(false);
+			this.gb_camera.ResumeLayout(false);
+			this.ss_camera.ResumeLayout(false);
+			this.ss_camera.PerformLayout();
+			this.ss_model.ResumeLayout(false);
+			this.ss_model.PerformLayout();
+			this.ss_light.ResumeLayout(false);
+			this.ss_light.PerformLayout();
 			this.ResumeLayout(false);
 
 		}

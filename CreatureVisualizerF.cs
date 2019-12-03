@@ -7,7 +7,9 @@ using System.Windows.Forms;
 
 using Microsoft.DirectX;
 
+using OEIShared.NetDisplay;
 using OEIShared.OEIMath;
+using OEIShared.UI.Input;
 
 
 namespace creaturevisualizer
@@ -199,10 +201,11 @@ namespace creaturevisualizer
 		void mousedown_EnableRepeater(object sender, MouseEventArgs e)
 		{
 			_repeater = sender as Button;
-			_firstrepeat = true;
 
 			if (_t1 != null)
 			{
+				_firstrepeat = true;
+
 				_t1.Interval = 233; // TODO: use System DoubleClick period or keyboard repeat-delay stuff
 				_t1.Start();
 			}
@@ -229,41 +232,211 @@ namespace creaturevisualizer
 		#endregion Handlers (timer)
 
 
+		#region Handlers (camera)
+		internal static Vector3 Offset;
+
+		void click_bu_camera_zpos(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				_panel.CameraPosition += CreatureVisualizerP.off_zpos;
+				Offset += CreatureVisualizerP.off_zpos;
+				PrintCameraPosition();
+			}
+		}
+
+		void click_bu_camera_zneg(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				_panel.CameraPosition += CreatureVisualizerP.off_zneg;
+				Offset += CreatureVisualizerP.off_zneg;
+				PrintCameraPosition();
+			}
+		}
+
+		void click_bu_camera_ypos(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				_panel.CameraPosition += CreatureVisualizerP.off_ypos;
+				Offset += CreatureVisualizerP.off_ypos;
+				PrintCameraPosition();
+			}
+		}
+
+		void click_bu_camera_yneg(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				_panel.CameraPosition += CreatureVisualizerP.off_yneg;
+				Offset += CreatureVisualizerP.off_yneg;
+				PrintCameraPosition();
+			}
+		}
+
+		void click_bu_camera_xpos(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				_panel.CameraPosition += CreatureVisualizerP.off_xpos;
+				Offset += CreatureVisualizerP.off_xpos;
+				PrintCameraPosition();
+			}
+		}
+
+		void click_bu_camera_xneg(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				_panel.CameraPosition += CreatureVisualizerP.off_xneg;
+				Offset += CreatureVisualizerP.off_xneg;
+				PrintCameraPosition();
+			}
+		}
+
+
+		void click_bu_camera_distpos(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				((ModelViewerInputCameraReceiverState)_panel.Receiver.CameraState).Distance += 0.1F;
+				_panel.UpdateCamera();
+				PrintCameraPosition();
+			}
+		}
+
+		void click_bu_camera_distneg(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				((ModelViewerInputCameraReceiverState)_panel.Receiver.CameraState).Distance -= 0.1F;
+				_panel.UpdateCamera();
+				PrintCameraPosition();
+			}
+		}
+
+
+		void click_bu_camera_vertpos(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				_panel.RaiseCameraPolar();
+				PrintCameraPosition();
+			}
+		}
+
+		void click_bu_camera_vertneg(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				_panel.LowerCameraPolar();
+				PrintCameraPosition();
+			}
+		}
+
+		void click_bu_camera_horipos(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				_panel.Receiver.CameraAngleXY += (float)Math.PI / 64F;
+				_panel.CameraPosition += CreatureVisualizerP.POS_OFF_Zd + Offset;
+				PrintCameraPosition();
+			}
+		}
+
+		void click_bu_camera_horineg(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				_panel.Receiver.CameraAngleXY -= (float)Math.PI / 64F;
+				_panel.CameraPosition += CreatureVisualizerP.POS_OFF_Zd + Offset;
+				PrintCameraPosition();
+			}
+		}
+
+
+		void click_bu_camera_focusobject(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				((ModelViewerInputCameraReceiverState)_panel.Receiver.CameraState).FocusPoint = _panel.Object.Position;
+				Offset = new Vector3();
+				_panel.UpdateCamera();
+				PrintCameraPosition();
+
+				//NetDisplayManager.Instance.MoveCamera  (NetDisplayWindow, ChangeType, Vector3);		// <- Position
+				//NetDisplayManager.Instance.RotateCamera(NetDisplayWindow, ChangeType, RHQuaternion);	// <- Orientation
+
+				//public static RHMatrix OEIShared.OEIMath.RHMatrix.LookAtRH(Vector3 cCameraPosition, Vector3 cCameraTarget, Vector3 cCameraUp)
+				//P_1 = RHQuaternion.RotationMatrix(RHMatrix.LookAtRH(Vector3.Empty, focusPoint, v2));
+			}
+		}
+
+		void click_bu_camera_focuspoint(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				_panel.FocusOn(_panel.Receiver.FocusPoint);
+				PrintCameraPosition();
+			}
+		}
+		//OEIShared.UI.Input.FPSInputCameraReceiver
+/*		public void OnMouseWheel(object sender, EPMouseEventArgs eArgs)
+		{
+			MousePanel mousePanel = sender as MousePanel;
+			if (mousePanel != null)
+			{
+				ElectronPanel electronPanel = mousePanel.Parent as ElectronPanel;
+				if (electronPanel != null && mousePanel.WheelDelta != 0)
+				{
+					Vector3 vector = Vector3.Empty;
+					vector.Y = (float)mousePanel.WheelDelta * 3f / 50f;
+					mousePanel.ClearWheelDelta();
+					vector = RHMatrix.RotationQuaternion(electronPanel.CameraOrientation).TransformCoordinate(vector);
+					electronPanel.CameraPosition += vector;
+					eArgs.Handled = true;
+				}
+			}
+		} */
+		#endregion Handlers (camera)
+
+
 		#region Handlers (model)
 		void click_bu_model_zpos(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-				_panel.MoveModel(CreatureVisualizerP.vec_zpos);
+				_panel.MoveModel(CreatureVisualizerP.off_zpos);
 		}
 
 		void click_bu_model_zneg(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-				_panel.MoveModel(CreatureVisualizerP.vec_zneg);
+				_panel.MoveModel(CreatureVisualizerP.off_zneg);
 		}
 
 		void click_bu_model_ypos(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-				_panel.MoveModel(CreatureVisualizerP.vec_ypos);
+				_panel.MoveModel(CreatureVisualizerP.off_ypos);
 		}
 
 		void click_bu_model_yneg(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-				_panel.MoveModel(CreatureVisualizerP.vec_yneg);
+				_panel.MoveModel(CreatureVisualizerP.off_yneg);
 		}
 
 		void click_bu_model_xpos(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-				_panel.MoveModel(CreatureVisualizerP.vec_xpos);
+				_panel.MoveModel(CreatureVisualizerP.off_xpos);
 		}
 
 		void click_bu_model_xneg(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-				_panel.MoveModel(CreatureVisualizerP.vec_xneg);
+				_panel.MoveModel(CreatureVisualizerP.off_xneg);
 		}
 
 
@@ -284,17 +457,17 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
-				Vector3 vec;
+				Vector3 unit;
 
 				var bu = sender as Button;
-				if      (bu == bu_model_xscalepos) vec = CreatureVisualizerP.vec_xpos;
-				else if (bu == bu_model_xscaleneg) vec = CreatureVisualizerP.vec_xneg;
-				else if (bu == bu_model_yscalepos) vec = CreatureVisualizerP.vec_ypos;
-				else if (bu == bu_model_yscaleneg) vec = CreatureVisualizerP.vec_yneg;
-				else if (bu == bu_model_zscalepos) vec = CreatureVisualizerP.vec_zpos;
-				else                               vec = CreatureVisualizerP.vec_zneg; // (bu == bu_model_zscaleneg)
+				if      (bu == bu_model_xscalepos) unit = CreatureVisualizerP.off_xpos;
+				else if (bu == bu_model_xscaleneg) unit = CreatureVisualizerP.off_xneg;
+				else if (bu == bu_model_yscalepos) unit = CreatureVisualizerP.off_ypos;
+				else if (bu == bu_model_yscaleneg) unit = CreatureVisualizerP.off_yneg;
+				else if (bu == bu_model_zscalepos) unit = CreatureVisualizerP.off_zpos;
+				else                               unit = CreatureVisualizerP.off_zneg; // (bu == bu_model_zscaleneg)
 
-				_panel.ScaleModel(vec);
+				_panel.ScaleModel(unit);
 			}
 		}
 
@@ -345,82 +518,95 @@ namespace creaturevisualizer
 		#endregion Handlers (model)
 
 
-		#region Handlers (camera)
-		void click_bu_camera_zpos(object sender, EventArgs e)
+		#region Handlers (light)
+		void click_bu_light_zpos(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 			{
-				_panel.CameraPosition += CreatureVisualizerP.vec_zpos;
-//				_panel.FocusOn(_panel.Object.Position); // why not work right
+				_panel.RecreateLight(_panel.Light.Position + CreatureVisualizerP.off_zpos);
+				PrintLightPosition(_panel.Light.Position, _panel.Light.Color.Intensity);
 			}
 		}
 
-		void click_bu_camera_zneg(object sender, EventArgs e)
+		void click_bu_light_zneg(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 			{
-				_panel.CameraPosition += CreatureVisualizerP.vec_zneg;
-//				_panel.FocusOn(_panel.Object.Position);
+				_panel.RecreateLight(_panel.Light.Position + CreatureVisualizerP.off_zneg);
+				PrintLightPosition(_panel.Light.Position, _panel.Light.Color.Intensity);
 			}
 		}
 
-		void click_bu_camera_ypos(object sender, EventArgs e)
-		{
-			if (_panel.Object != null)
-				_panel.CameraPosition += CreatureVisualizerP.vec_ypos;
-		}
-
-		void click_bu_camera_yneg(object sender, EventArgs e)
-		{
-			if (_panel.Object != null)
-				_panel.CameraPosition += CreatureVisualizerP.vec_yneg;
-		}
-
-		void click_bu_camera_xpos(object sender, EventArgs e)
-		{
-			if (_panel.Object != null)
-				_panel.CameraPosition += CreatureVisualizerP.vec_xpos;
-		}
-
-		void click_bu_camera_xneg(object sender, EventArgs e)
-		{
-			if (_panel.Object != null)
-				_panel.CameraPosition += CreatureVisualizerP.vec_xneg;
-		}
-
-
-		void click_bu_camera_focus(object sender, EventArgs e)
+		void click_bu_light_ypos(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 			{
-				_panel.FocusOn(_panel.Object.Position + new Vector3(0F,1.72F,0F));
+				_panel.RecreateLight(_panel.Light.Position + CreatureVisualizerP.off_ypos);
+				PrintLightPosition(_panel.Light.Position, _panel.Light.Color.Intensity);
 			}
 		}
 
-//		void click_bu_camera_reset(object sender, EventArgs e)
-//		{
-//			if (_panel.Object != null)
-//				_panel.ResetModel();
-//		}
+		void click_bu_light_yneg(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				_panel.RecreateLight(_panel.Light.Position + CreatureVisualizerP.off_yneg);
+				PrintLightPosition(_panel.Light.Position, _panel.Light.Color.Intensity);
+			}
+		}
 
-//		void click_bu_camera_xyreset(object sender, EventArgs e)
-//		{
-//			if (_panel.Object != null)
-//				_panel.ResetModel(ResetType.RESET_xy);
-//		}
+		void click_bu_light_xpos(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				_panel.RecreateLight(_panel.Light.Position + CreatureVisualizerP.off_xpos);
+				PrintLightPosition(_panel.Light.Position, _panel.Light.Color.Intensity);
+			}
+		}
 
-//		void click_bu_camera_rotreset(object sender, EventArgs e)
-//		{
-//			if (_panel.Object != null)
-//				_panel.ResetModel(ResetType.RESET_rot);
-//		}
+		void click_bu_light_xneg(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				_panel.RecreateLight(_panel.Light.Position + CreatureVisualizerP.off_xneg);
+				PrintLightPosition(_panel.Light.Position, _panel.Light.Color.Intensity);
+			}
+		}
 
-//		void click_bu_camera_scalereset(object sender, EventArgs e)
-//		{
-//			if (_panel.Object != null)
-//				_panel.ResetModel(ResetType.RESET_scale);
-//		}
-		#endregion Handlers (camera)
+
+		void click_bu_light_zreset(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				var pos = new Vector3(_panel.Light.Position.X,
+									  _panel.Light.Position.Y,
+									  CreatureVisualizerP.POS_START_LIGHT.Z);
+				_panel.RecreateLight(pos);
+				PrintLightPosition(_panel.Light.Position, _panel.Light.Color.Intensity);
+			}
+		}
+
+		void click_bu_light_xyreset(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				var pos = new Vector3(CreatureVisualizerP.POS_START_LIGHT.X,
+									  CreatureVisualizerP.POS_START_LIGHT.Y,
+									  _panel.Light.Position.Z);
+				_panel.RecreateLight(pos);
+				PrintLightPosition(_panel.Light.Position, _panel.Light.Color.Intensity);
+			}
+		}
+
+		void click_bu_light_reset(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				_panel.RecreateLight(CreatureVisualizerP.POS_START_LIGHT);
+				PrintLightPosition(_panel.Light.Position, _panel.Light.Color.Intensity);
+			}
+		}
+		#endregion Handlers (light)
 
 
 		#region Methods
@@ -428,6 +614,57 @@ namespace creaturevisualizer
 		{
 			return _itFeline.Checked;
 		}
+
+
+		internal void PrintCameraPosition()
+		{
+			// position ->
+			Vector3 pos = _panel.CameraPosition;
+
+			tssl_camera_xpos.Text = pos.X.ToString("N2");
+			tssl_camera_ypos.Text = pos.Y.ToString("N2");
+			tssl_camera_zpos.Text = pos.Z.ToString("N2");
+
+			// rotation ->
+			var axis = new Vector3();
+			float angle = 0F;
+			RHQuaternion.ToAxisAngle(_panel.CameraOrientation, ref axis, ref angle);
+
+			if (axis.Z < 0F) angle = -angle;
+			angle *= 180F / (float)Math.PI;
+			if (angle < 0F) angle += 360F;
+
+			tssl_camera_rot.Text = ((int)angle).ToString(); // 0 is north, goes clockwise
+		}
+
+
+		/// <summary>
+		/// quaternions ... because why not
+		/// </summary>
+		/// <param name="object"></param>
+		internal void PrintModelPosition(NetDisplayObject @object)
+		{
+			// TODO: group per z,x/y,rot separately - too many prints here.
+
+			// position ->
+			Vector3 pos = @object.Position;
+
+			tssl_model_xpos.Text = pos.X.ToString("N2");
+			tssl_model_ypos.Text = pos.Y.ToString("N2");
+			tssl_model_zpos.Text = pos.Z.ToString("N2");
+
+			// rotation ->
+			var axis = new Vector3();
+			float angle = 0F;
+			RHQuaternion.ToAxisAngle(@object.Orientation, ref axis, ref angle);
+
+			if (axis.Z < 0F) angle = -angle;
+			angle *= 180F / (float)Math.PI;
+			if (angle < 0F) angle += 360F;
+
+			tssl_model_rot.Text = ((int)angle).ToString(); // 0 is north, goes clockwise
+		}
+		//set: Orientation = RHQuaternion.RotationAxis(new Vector3(0f, 0f, 1f), (float)value * ((float)Math.PI / 180f));
 
 		internal void PrintModelScale()
 		{
@@ -441,31 +678,15 @@ namespace creaturevisualizer
 			la_model_scaleorg.Text = scale;
 		}
 
-		/// <summary>
-		/// quaternions ... because why not
-		/// </summary>
-		/// <param name="object"></param>
-		internal void PrintModelPosition(OEIShared.NetDisplay.NetDisplayObject @object)
+
+		internal void PrintLightPosition(Vector3 pos, float intensity)
 		{
-			// TODO: group per z,x/y,rot separately - too many prints here.
+			tssl_light_xpos.Text = pos.X.ToString("N2");
+			tssl_light_ypos.Text = pos.Y.ToString("N2");
+			tssl_light_zpos.Text = pos.Z.ToString("N2");
 
-			Vector3 vec = @object.Position;
-
-			tssl_xpos.Text = vec.X.ToString("N2");
-			tssl_ypos.Text = vec.Y.ToString("N2");
-			tssl_zpos.Text = vec.Z.ToString("N2");
-
-			var axis = new Vector3();
-			float angle = 0F;
-			RHQuaternion.ToAxisAngle(@object.Orientation, ref axis, ref angle);
-
-			if (axis.Z < 0F) angle = -angle;
-			angle *= 180F / (float)Math.PI;
-			if (angle < 0F) angle += 360F;
-
-			tssl_rot.Text = ((int)angle).ToString(); // 0 is north, goes clockwise
+			tssl_light_intensity.Text = intensity.ToString("N2");
 		}
-		//set: Orientation = RHQuaternion.RotationAxis(new Vector3(0f, 0f, 1f), (float)value * ((float)Math.PI / 180f));
 		#endregion Methods
 	}
 
