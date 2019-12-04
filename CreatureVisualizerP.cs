@@ -443,7 +443,7 @@ namespace creaturevisualizer
 
 		internal void ScaleModel(int dir)
 		{
-			var vec = new Vector3(0.1F, 0.1F, 0.1F);
+			var vec = CreatureVisualizerF.that.grader(new Vector3(0.1F, 0.1F, 0.1F));
 			switch (dir)
 			{
 				case +1: Object.Scale += vec; break;
@@ -518,7 +518,7 @@ namespace creaturevisualizer
 		internal void RaiseCameraPolar()
 		{
 			var state = Receiver.CameraState as ModelViewerInputCameraReceiverState;
-			state.FocusPhi += 0.1F;
+			state.FocusPhi += CreatureVisualizerF.that.grader(0.1F);
 			state.FocusPhi = Math.Min(state.PitchMax, state.FocusPhi);
 			state.FocusPhi = Math.Max(state.PitchMin, state.FocusPhi);
 
@@ -529,7 +529,7 @@ namespace creaturevisualizer
 		{
 			var state = Receiver.CameraState as ModelViewerInputCameraReceiverState;
 
-			state.FocusPhi -= 0.1F;
+			state.FocusPhi -= CreatureVisualizerF.that.grader(0.1F);
 			state.FocusPhi = Math.Min(state.PitchMax, state.FocusPhi);
 			state.FocusPhi = Math.Max(state.PitchMin, state.FocusPhi);
 

@@ -235,12 +235,15 @@ namespace creaturevisualizer
 		#region Handlers (camera)
 		internal static Vector3 Offset;
 
+		Vector3 _delta;
+
 		void click_bu_camera_zpos(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 			{
-				_panel.CameraPosition += CreatureVisualizerP.off_zpos;
-				Offset += CreatureVisualizerP.off_zpos;
+				_delta = grader(CreatureVisualizerP.off_zpos);
+				_panel.CameraPosition += _delta;
+				Offset                += _delta;
 				PrintCameraPosition();
 			}
 		}
@@ -249,8 +252,9 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
-				_panel.CameraPosition += CreatureVisualizerP.off_zneg;
-				Offset += CreatureVisualizerP.off_zneg;
+				_delta = grader(CreatureVisualizerP.off_zneg);
+				_panel.CameraPosition += _delta;
+				Offset                += _delta;
 				PrintCameraPosition();
 			}
 		}
@@ -259,8 +263,9 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
-				_panel.CameraPosition += CreatureVisualizerP.off_ypos;
-				Offset += CreatureVisualizerP.off_ypos;
+				_delta = grader(CreatureVisualizerP.off_ypos);
+				_panel.CameraPosition += _delta;
+				Offset                += _delta;
 				PrintCameraPosition();
 			}
 		}
@@ -269,8 +274,9 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
-				_panel.CameraPosition += CreatureVisualizerP.off_yneg;
-				Offset += CreatureVisualizerP.off_yneg;
+				_delta = grader(CreatureVisualizerP.off_yneg);
+				_panel.CameraPosition += _delta;
+				Offset                += _delta;
 				PrintCameraPosition();
 			}
 		}
@@ -279,8 +285,9 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
-				_panel.CameraPosition += CreatureVisualizerP.off_xpos;
-				Offset += CreatureVisualizerP.off_xpos;
+				_delta = grader(CreatureVisualizerP.off_xpos);
+				_panel.CameraPosition += _delta;
+				Offset                += _delta;
 				PrintCameraPosition();
 			}
 		}
@@ -289,8 +296,9 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
-				_panel.CameraPosition += CreatureVisualizerP.off_xneg;
-				Offset += CreatureVisualizerP.off_xneg;
+				_delta = grader(CreatureVisualizerP.off_xneg);
+				_panel.CameraPosition += _delta;
+				Offset                += _delta;
 				PrintCameraPosition();
 			}
 		}
@@ -300,7 +308,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
-				((ModelViewerInputCameraReceiverState)_panel.Receiver.CameraState).Distance += 0.1F;
+				((ModelViewerInputCameraReceiverState)_panel.Receiver.CameraState).Distance += grader(0.1F);
 				_panel.UpdateCamera();
 				PrintCameraPosition();
 			}
@@ -310,7 +318,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
-				((ModelViewerInputCameraReceiverState)_panel.Receiver.CameraState).Distance -= 0.1F;
+				((ModelViewerInputCameraReceiverState)_panel.Receiver.CameraState).Distance -= grader(0.1F);
 				_panel.UpdateCamera();
 				PrintCameraPosition();
 			}
@@ -339,7 +347,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
-				_panel.Receiver.CameraAngleXY += (float)Math.PI / 64F;
+				_panel.Receiver.CameraAngleXY += grader((float)Math.PI / 64F);
 				_panel.CameraPosition += CreatureVisualizerP.POS_OFF_Zd + Offset;
 				PrintCameraPosition();
 			}
@@ -349,7 +357,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
-				_panel.Receiver.CameraAngleXY -= (float)Math.PI / 64F;
+				_panel.Receiver.CameraAngleXY -= grader((float)Math.PI / 64F);
 				_panel.CameraPosition += CreatureVisualizerP.POS_OFF_Zd + Offset;
 				PrintCameraPosition();
 			}
@@ -407,7 +415,7 @@ namespace creaturevisualizer
 			if (_panel.Object != null)
 			{
 				((ModelViewerInputCameraReceiverState)_panel.Receiver.CameraState).FocusPoint = _panel.Object.Position;
-				Offset = new Vector3();
+				Offset.X = Offset.Y = Offset.Z = 0F;
 				_panel.UpdateCamera();
 				PrintCameraPosition();
 
@@ -444,50 +452,50 @@ namespace creaturevisualizer
 		void click_bu_model_zpos(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-				_panel.MoveModel(CreatureVisualizerP.off_zpos);
+				_panel.MoveModel(grader(CreatureVisualizerP.off_zpos));
 		}
 
 		void click_bu_model_zneg(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-				_panel.MoveModel(CreatureVisualizerP.off_zneg);
+				_panel.MoveModel(grader(CreatureVisualizerP.off_zneg));
 		}
 
 		void click_bu_model_ypos(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-				_panel.MoveModel(CreatureVisualizerP.off_ypos);
+				_panel.MoveModel(grader(CreatureVisualizerP.off_ypos));
 		}
 
 		void click_bu_model_yneg(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-				_panel.MoveModel(CreatureVisualizerP.off_yneg);
+				_panel.MoveModel(grader(CreatureVisualizerP.off_yneg));
 		}
 
 		void click_bu_model_xpos(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-				_panel.MoveModel(CreatureVisualizerP.off_xpos);
+				_panel.MoveModel(grader(CreatureVisualizerP.off_xpos));
 		}
 
 		void click_bu_model_xneg(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-				_panel.MoveModel(CreatureVisualizerP.off_xneg);
+				_panel.MoveModel(grader(CreatureVisualizerP.off_xneg));
 		}
 
 
 		void click_bu_model_rotpos(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-				_panel.RotateModel(CreatureVisualizerP.rotpos);
+				_panel.RotateModel(grader(CreatureVisualizerP.rotpos));
 		}
 
 		void click_bu_model_rotneg(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-				_panel.RotateModel(CreatureVisualizerP.rotneg);
+				_panel.RotateModel(grader(CreatureVisualizerP.rotneg));
 		}
 
 
@@ -505,7 +513,7 @@ namespace creaturevisualizer
 				else if (bu == bu_model_zscalepos) unit = CreatureVisualizerP.off_zpos;
 				else                               unit = CreatureVisualizerP.off_zneg; // (bu == bu_model_zscaleneg)
 
-				_panel.ScaleModel(unit);
+				_panel.ScaleModel(grader(unit));
 			}
 		}
 
@@ -561,7 +569,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
-				_panel.RecreateLight(_panel.Light.Position + CreatureVisualizerP.off_zpos);
+				_panel.RecreateLight(_panel.Light.Position + grader(CreatureVisualizerP.off_zpos));
 				PrintLightPosition(_panel.Light.Position, _panel.Light.Color.Intensity);
 			}
 		}
@@ -570,7 +578,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
-				_panel.RecreateLight(_panel.Light.Position + CreatureVisualizerP.off_zneg);
+				_panel.RecreateLight(_panel.Light.Position + grader(CreatureVisualizerP.off_zneg));
 				PrintLightPosition(_panel.Light.Position, _panel.Light.Color.Intensity);
 			}
 		}
@@ -579,7 +587,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
-				_panel.RecreateLight(_panel.Light.Position + CreatureVisualizerP.off_ypos);
+				_panel.RecreateLight(_panel.Light.Position + grader(CreatureVisualizerP.off_ypos));
 				PrintLightPosition(_panel.Light.Position, _panel.Light.Color.Intensity);
 			}
 		}
@@ -588,7 +596,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
-				_panel.RecreateLight(_panel.Light.Position + CreatureVisualizerP.off_yneg);
+				_panel.RecreateLight(_panel.Light.Position + grader(CreatureVisualizerP.off_yneg));
 				PrintLightPosition(_panel.Light.Position, _panel.Light.Color.Intensity);
 			}
 		}
@@ -597,7 +605,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
-				_panel.RecreateLight(_panel.Light.Position + CreatureVisualizerP.off_xpos);
+				_panel.RecreateLight(_panel.Light.Position + grader(CreatureVisualizerP.off_xpos));
 				PrintLightPosition(_panel.Light.Position, _panel.Light.Color.Intensity);
 			}
 		}
@@ -606,7 +614,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
-				_panel.RecreateLight(_panel.Light.Position + CreatureVisualizerP.off_xneg);
+				_panel.RecreateLight(_panel.Light.Position + grader(CreatureVisualizerP.off_xneg));
 				PrintLightPosition(_panel.Light.Position, _panel.Light.Color.Intensity);
 			}
 		}
@@ -724,6 +732,37 @@ namespace creaturevisualizer
 			tssl_light_zpos.Text = pos.Z.ToString("N2");
 
 			tssl_light_intensity.Text = intensity.ToString("N2");
+		}
+
+
+		/// <summary>
+		/// Returns the current step used by inc/dec gradations.
+		/// </summary>
+		/// <param name="unit"></param>
+		/// <returns></returns>
+		internal Vector3 grader(Vector3 unit)
+		{
+			switch (Control.ModifierKeys)
+			{
+				case Keys.Control: return unit * 10.0F;
+				case Keys.Shift:   return unit *  0.1F;
+			}
+			return unit;
+		}
+
+		/// <summary>
+		/// Returns the current step used by inc/dec gradations.
+		/// </summary>
+		/// <param name="unit"></param>
+		/// <returns></returns>
+		internal float grader(float unit)
+		{
+			switch (Control.ModifierKeys)
+			{
+				case Keys.Control: return unit * 10.0F;
+				case Keys.Shift:   return unit *  0.1F;
+			}
+			return unit;
 		}
 		#endregion Methods
 	}
