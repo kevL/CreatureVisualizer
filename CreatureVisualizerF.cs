@@ -64,8 +64,8 @@ namespace creaturevisualizer
 			_panel.Select();
 
 
-			_itControlPanel  .PerformClick(); // TEST
-			_itRefreshOnFocus.PerformClick(); // TEST
+//			_itControlPanel  .PerformClick(); // TEST
+//			_itRefreshOnFocus.PerformClick(); // TEST
 		}
 
 
@@ -184,7 +184,8 @@ namespace creaturevisualizer
 #if DEBUG
 			text += " debug";
 #else
-			text += " release";
+//			text += " release";
+			text += " beta";
 #endif
 
 			text += Environment.NewLine
@@ -304,7 +305,7 @@ namespace creaturevisualizer
 		}
 
 
-		void click_bu_camera_distpos(object sender, EventArgs e)
+		internal void click_bu_camera_distpos(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 			{
@@ -314,7 +315,7 @@ namespace creaturevisualizer
 			}
 		}
 
-		void click_bu_camera_distneg(object sender, EventArgs e)
+		internal void click_bu_camera_distneg(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 			{

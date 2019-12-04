@@ -566,6 +566,39 @@ namespace creaturevisualizer
 
 
 		#region Handlers (override)
+		bool _isDrag;
+
+		protected override void OnMouseDown(MouseEventArgs e)
+		{
+			_isDrag = true;
+//			base.OnMouseDown(e);
+		}
+
+		protected override void OnMouseUp(MouseEventArgs e)
+		{
+			_isDrag = false;
+//			base.OnMouseUp(e);
+		}
+
+
+		protected override void OnMouseMove(MouseEventArgs e)
+		{
+			if (_isDrag)
+			{
+//				e.Location;
+			}
+//			base.OnMouseMove(e);
+		}
+
+		protected override void OnMouseWheel(MouseEventArgs e)
+		{
+			if (e.Delta > 0)
+				CreatureVisualizerF.that.click_bu_camera_distpos(null, EventArgs.Empty);
+			else if (e.Delta < 0)
+				CreatureVisualizerF.that.click_bu_camera_distneg(null, EventArgs.Empty);
+
+//			base.OnMouseWheel(e);
+		}
 		#endregion Handlers (override)
 	}
 }
