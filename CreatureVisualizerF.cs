@@ -360,10 +360,10 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
-//				Offset.Z = 0F;
 				_panel.CameraPosition = new Vector3(_panel.CameraPosition.X,
 													_panel.CameraPosition.Y,
 													CreatureVisualizerP.POS_START_CAMERA.Z);
+				Offset.Z = 0F;
 				PrintCameraPosition();
 			}
 		}
@@ -372,15 +372,15 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
-//				Offset.X = Offset.Y = 0F;
 				_panel.CameraPosition = new Vector3(CreatureVisualizerP.POS_START_CAMERA.X,
 													CreatureVisualizerP.POS_START_CAMERA.Y,
 													_panel.CameraPosition.Z);
+				Offset.X = Offset.Y = 0F;
 				PrintCameraPosition();
 			}
 		}
 
-		void click_bu_camera_Zoreset(object sender, EventArgs e)
+		void click_bu_camera_resetdist(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 			{
@@ -390,7 +390,7 @@ namespace creaturevisualizer
 			}
 		}
 
-		void click_bu_camera_Poreset(object sender, EventArgs e)
+		void click_bu_camera_resetpolar(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 			{
