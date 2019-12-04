@@ -38,6 +38,9 @@ namespace creaturevisualizer
 		: ElectronPanel
 	{
 		#region Fields (static)
+		internal static Vector3 POS_START_CAMERA;
+		internal const float DIST_START = 4.8F;
+
 		internal static Vector3 POS_START_LIGHT = new Vector3(-0.5F, -4F, 2.0F);
 		internal static Vector3 POS_OFF_Zd      = new Vector3( 0.0F,  0F, 1.5F);
 
@@ -236,7 +239,7 @@ namespace creaturevisualizer
 
 					Receiver.CameraAngleXY = (float)Math.PI /  2F; // revolutions 0=east, lookin' west
 					Receiver.CameraAngleYZ = (float)Math.PI / 32F; // pitch 0= flat, inc to pitch forward and raise camera
-					Receiver.Distance = 4.5F;
+					Receiver.Distance = DIST_START;
 					Receiver.DistanceMin = 0.1F;
 
 //					Receiver.FocusPoint = Object.Position + OFF_Zd;
@@ -246,6 +249,9 @@ namespace creaturevisualizer
 					CameraPosition += POS_OFF_Zd;
 //					UpdateCamera();
 					CreatureVisualizerF.that.PrintCameraPosition();
+
+					POS_START_CAMERA = CameraPosition;
+
 
 /*					float yaw = 0F, pitch = 0F, roll = 0F;
 					CameraOrientation.GetYawPitchRoll(out yaw, out pitch, out roll);

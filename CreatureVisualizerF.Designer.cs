@@ -52,26 +52,15 @@ namespace creaturevisualizer
 		ToolStripStatusLabel tssl_model_rot;
 
 		GroupBox gb_camera;
-		Label la_camera_pitch;
-		Button button1;
-		Button button2;
-		Label label2;
-		Label label3;
-		Label label4;
-		Button button3;
-		Button bu_camera_rotreset;
 		Button bu_camera_xyreset;
 		Button bu_camera_zreset;
 		Button bu_camera_focusobject;
 		Label la_camera_dist;
-		Label la_camera_rotate;
 		Label la_camera_xyaxis;
 		Label la_camera_zaxis;
 		Button bu_camera_distreset;
 		Button bu_camera_distneg;
 		Button bu_camera_distpos;
-		Button bu_camera_rneg;
-		Button bu_camera_rpos;
 		Button bu_camera_ypos;
 		Button bu_camera_yneg;
 		Button bu_camera_xneg;
@@ -109,7 +98,6 @@ namespace creaturevisualizer
 		ToolStripStatusLabel tssl_light_ypos;
 		ToolStripStatusLabel tssl_light_zpos;
 		ToolStripStatusLabel tssl_light_intensity;
-		Button bu_camera_focuspoint;
 
 
 		/// <summary>
@@ -177,33 +165,21 @@ namespace creaturevisualizer
 			this.bu_model_zneg = new System.Windows.Forms.Button();
 			this.bu_model_zpos = new System.Windows.Forms.Button();
 			this.gb_camera = new System.Windows.Forms.GroupBox();
-			this.bu_camera_focuspoint = new System.Windows.Forms.Button();
 			this.button4 = new System.Windows.Forms.Button();
 			this.la_camera_angle = new System.Windows.Forms.Label();
 			this.bu_camera_horipos = new System.Windows.Forms.Button();
 			this.bu_camera_horineg = new System.Windows.Forms.Button();
 			this.bu_camera_vertneg = new System.Windows.Forms.Button();
 			this.bu_camera_vertpos = new System.Windows.Forms.Button();
-			this.la_camera_pitch = new System.Windows.Forms.Label();
-			this.button1 = new System.Windows.Forms.Button();
-			this.button2 = new System.Windows.Forms.Button();
-			this.label2 = new System.Windows.Forms.Label();
-			this.label3 = new System.Windows.Forms.Label();
-			this.label4 = new System.Windows.Forms.Label();
-			this.button3 = new System.Windows.Forms.Button();
-			this.bu_camera_rotreset = new System.Windows.Forms.Button();
 			this.bu_camera_xyreset = new System.Windows.Forms.Button();
 			this.bu_camera_zreset = new System.Windows.Forms.Button();
 			this.bu_camera_focusobject = new System.Windows.Forms.Button();
 			this.la_camera_dist = new System.Windows.Forms.Label();
-			this.la_camera_rotate = new System.Windows.Forms.Label();
 			this.la_camera_xyaxis = new System.Windows.Forms.Label();
 			this.la_camera_zaxis = new System.Windows.Forms.Label();
 			this.bu_camera_distreset = new System.Windows.Forms.Button();
 			this.bu_camera_distneg = new System.Windows.Forms.Button();
 			this.bu_camera_distpos = new System.Windows.Forms.Button();
-			this.bu_camera_rneg = new System.Windows.Forms.Button();
-			this.bu_camera_rpos = new System.Windows.Forms.Button();
 			this.bu_camera_ypos = new System.Windows.Forms.Button();
 			this.bu_camera_yneg = new System.Windows.Forms.Button();
 			this.bu_camera_xneg = new System.Windows.Forms.Button();
@@ -306,6 +282,7 @@ namespace creaturevisualizer
 			// 
 			this.button11.ForeColor = System.Drawing.Color.Crimson;
 			this.button11.Location = new System.Drawing.Point(10, 105);
+			this.button11.Margin = new System.Windows.Forms.Padding(0);
 			this.button11.Name = "button11";
 			this.button11.Size = new System.Drawing.Size(272, 20);
 			this.button11.TabIndex = 25;
@@ -583,6 +560,7 @@ namespace creaturevisualizer
 			// 
 			this.bu_model_reset.ForeColor = System.Drawing.Color.Crimson;
 			this.bu_model_reset.Location = new System.Drawing.Point(10, 105);
+			this.bu_model_reset.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_reset.Name = "bu_model_reset";
 			this.bu_model_reset.Size = new System.Drawing.Size(272, 20);
 			this.bu_model_reset.TabIndex = 25;
@@ -828,33 +806,21 @@ namespace creaturevisualizer
 			// 
 			// gb_camera
 			// 
-			this.gb_camera.Controls.Add(this.bu_camera_focuspoint);
 			this.gb_camera.Controls.Add(this.button4);
 			this.gb_camera.Controls.Add(this.la_camera_angle);
 			this.gb_camera.Controls.Add(this.bu_camera_horipos);
 			this.gb_camera.Controls.Add(this.bu_camera_horineg);
 			this.gb_camera.Controls.Add(this.bu_camera_vertneg);
 			this.gb_camera.Controls.Add(this.bu_camera_vertpos);
-			this.gb_camera.Controls.Add(this.la_camera_pitch);
-			this.gb_camera.Controls.Add(this.button1);
-			this.gb_camera.Controls.Add(this.button2);
-			this.gb_camera.Controls.Add(this.label2);
-			this.gb_camera.Controls.Add(this.label3);
-			this.gb_camera.Controls.Add(this.label4);
-			this.gb_camera.Controls.Add(this.button3);
-			this.gb_camera.Controls.Add(this.bu_camera_rotreset);
 			this.gb_camera.Controls.Add(this.bu_camera_xyreset);
 			this.gb_camera.Controls.Add(this.bu_camera_zreset);
 			this.gb_camera.Controls.Add(this.bu_camera_focusobject);
 			this.gb_camera.Controls.Add(this.la_camera_dist);
-			this.gb_camera.Controls.Add(this.la_camera_rotate);
 			this.gb_camera.Controls.Add(this.la_camera_xyaxis);
 			this.gb_camera.Controls.Add(this.la_camera_zaxis);
 			this.gb_camera.Controls.Add(this.bu_camera_distreset);
 			this.gb_camera.Controls.Add(this.bu_camera_distneg);
 			this.gb_camera.Controls.Add(this.bu_camera_distpos);
-			this.gb_camera.Controls.Add(this.bu_camera_rneg);
-			this.gb_camera.Controls.Add(this.bu_camera_rpos);
 			this.gb_camera.Controls.Add(this.bu_camera_ypos);
 			this.gb_camera.Controls.Add(this.bu_camera_yneg);
 			this.gb_camera.Controls.Add(this.bu_camera_xneg);
@@ -871,22 +837,10 @@ namespace creaturevisualizer
 			this.gb_camera.TabStop = false;
 			this.gb_camera.Text = " Camera ";
 			// 
-			// bu_camera_focuspoint
-			// 
-			this.bu_camera_focuspoint.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_camera_focuspoint.Location = new System.Drawing.Point(150, 105);
-			this.bu_camera_focuspoint.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_camera_focuspoint.Name = "bu_camera_focuspoint";
-			this.bu_camera_focuspoint.Size = new System.Drawing.Size(136, 20);
-			this.bu_camera_focuspoint.TabIndex = 64;
-			this.bu_camera_focuspoint.Text = "point";
-			this.bu_camera_focuspoint.UseVisualStyleBackColor = true;
-			this.bu_camera_focuspoint.Click += new System.EventHandler(this.click_bu_camera_focuspoint);
-			// 
 			// button4
 			// 
 			this.button4.ForeColor = System.Drawing.Color.Crimson;
-			this.button4.Location = new System.Drawing.Point(65, 80);
+			this.button4.Location = new System.Drawing.Point(190, 80);
 			this.button4.Margin = new System.Windows.Forms.Padding(0);
 			this.button4.Name = "button4";
 			this.button4.Size = new System.Drawing.Size(22, 22);
@@ -894,10 +848,11 @@ namespace creaturevisualizer
 			this.button4.Text = "r";
 			this.button4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.button4.UseVisualStyleBackColor = true;
+			this.button4.Click += new System.EventHandler(this.click_bu_camera_Poreset);
 			// 
 			// la_camera_angle
 			// 
-			this.la_camera_angle.Location = new System.Drawing.Point(55, 15);
+			this.la_camera_angle.Location = new System.Drawing.Point(180, 15);
 			this.la_camera_angle.Margin = new System.Windows.Forms.Padding(0);
 			this.la_camera_angle.Name = "la_camera_angle";
 			this.la_camera_angle.Size = new System.Drawing.Size(40, 15);
@@ -907,7 +862,7 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_horipos
 			// 
-			this.bu_camera_horipos.Location = new System.Drawing.Point(90, 40);
+			this.bu_camera_horipos.Location = new System.Drawing.Point(215, 40);
 			this.bu_camera_horipos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_horipos.Name = "bu_camera_horipos";
 			this.bu_camera_horipos.Size = new System.Drawing.Size(22, 22);
@@ -921,7 +876,7 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_horineg
 			// 
-			this.bu_camera_horineg.Location = new System.Drawing.Point(40, 40);
+			this.bu_camera_horineg.Location = new System.Drawing.Point(165, 40);
 			this.bu_camera_horineg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_horineg.Name = "bu_camera_horineg";
 			this.bu_camera_horineg.Size = new System.Drawing.Size(22, 22);
@@ -935,7 +890,7 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_vertneg
 			// 
-			this.bu_camera_vertneg.Location = new System.Drawing.Point(65, 55);
+			this.bu_camera_vertneg.Location = new System.Drawing.Point(190, 55);
 			this.bu_camera_vertneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_vertneg.Name = "bu_camera_vertneg";
 			this.bu_camera_vertneg.Size = new System.Drawing.Size(22, 22);
@@ -949,7 +904,7 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_vertpos
 			// 
-			this.bu_camera_vertpos.Location = new System.Drawing.Point(65, 30);
+			this.bu_camera_vertpos.Location = new System.Drawing.Point(190, 30);
 			this.bu_camera_vertpos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_vertpos.Name = "bu_camera_vertpos";
 			this.bu_camera_vertpos.Size = new System.Drawing.Size(22, 22);
@@ -961,97 +916,10 @@ namespace creaturevisualizer
 			this.bu_camera_vertpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_camera_vertpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
-			// la_camera_pitch
-			// 
-			this.la_camera_pitch.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.la_camera_pitch.Location = new System.Drawing.Point(240, 15);
-			this.la_camera_pitch.Margin = new System.Windows.Forms.Padding(0);
-			this.la_camera_pitch.Name = "la_camera_pitch";
-			this.la_camera_pitch.Size = new System.Drawing.Size(39, 15);
-			this.la_camera_pitch.TabIndex = 57;
-			this.la_camera_pitch.Text = "PITCH";
-			this.la_camera_pitch.TextAlign = System.Drawing.ContentAlignment.TopRight;
-			// 
-			// button1
-			// 
-			this.button1.Location = new System.Drawing.Point(249, 55);
-			this.button1.Margin = new System.Windows.Forms.Padding(0);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(22, 22);
-			this.button1.TabIndex = 56;
-			this.button1.Text = "-";
-			this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.button1.UseVisualStyleBackColor = true;
-			// 
-			// button2
-			// 
-			this.button2.Location = new System.Drawing.Point(249, 30);
-			this.button2.Margin = new System.Windows.Forms.Padding(0);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(22, 22);
-			this.button2.TabIndex = 55;
-			this.button2.Text = "+";
-			this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.button2.UseVisualStyleBackColor = true;
-			// 
-			// label2
-			// 
-			this.label2.Location = new System.Drawing.Point(270, 80);
-			this.label2.Margin = new System.Windows.Forms.Padding(0);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(14, 20);
-			this.label2.TabIndex = 52;
-			this.label2.Text = "z";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// label3
-			// 
-			this.label3.Location = new System.Drawing.Point(270, 55);
-			this.label3.Margin = new System.Windows.Forms.Padding(0);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(14, 20);
-			this.label3.TabIndex = 49;
-			this.label3.Text = "y";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// label4
-			// 
-			this.label4.Location = new System.Drawing.Point(270, 30);
-			this.label4.Margin = new System.Windows.Forms.Padding(0);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(14, 20);
-			this.label4.TabIndex = 46;
-			this.label4.Text = "x";
-			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// button3
-			// 
-			this.button3.ForeColor = System.Drawing.Color.Crimson;
-			this.button3.Location = new System.Drawing.Point(249, 80);
-			this.button3.Margin = new System.Windows.Forms.Padding(0);
-			this.button3.Name = "button3";
-			this.button3.Size = new System.Drawing.Size(22, 22);
-			this.button3.TabIndex = 53;
-			this.button3.Text = "r";
-			this.button3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.button3.UseVisualStyleBackColor = true;
-			// 
-			// bu_camera_rotreset
-			// 
-			this.bu_camera_rotreset.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_camera_rotreset.Location = new System.Drawing.Point(220, 80);
-			this.bu_camera_rotreset.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_camera_rotreset.Name = "bu_camera_rotreset";
-			this.bu_camera_rotreset.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_rotreset.TabIndex = 42;
-			this.bu_camera_rotreset.Text = "r";
-			this.bu_camera_rotreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.bu_camera_rotreset.UseVisualStyleBackColor = true;
-			// 
 			// bu_camera_xyreset
 			// 
 			this.bu_camera_xyreset.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_camera_xyreset.Location = new System.Drawing.Point(170, 80);
+			this.bu_camera_xyreset.Location = new System.Drawing.Point(70, 80);
 			this.bu_camera_xyreset.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_xyreset.Name = "bu_camera_xyreset";
 			this.bu_camera_xyreset.Size = new System.Drawing.Size(22, 22);
@@ -1059,19 +927,20 @@ namespace creaturevisualizer
 			this.bu_camera_xyreset.Text = "r";
 			this.bu_camera_xyreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_camera_xyreset.UseVisualStyleBackColor = true;
+			this.bu_camera_xyreset.Click += new System.EventHandler(this.click_bu_camera_xyreset);
 			// 
 			// bu_camera_zreset
 			// 
 			this.bu_camera_zreset.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_camera_zreset.Location = new System.Drawing.Point(120, 80);
+			this.bu_camera_zreset.Location = new System.Drawing.Point(10, 80);
 			this.bu_camera_zreset.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_zreset.Name = "bu_camera_zreset";
 			this.bu_camera_zreset.Size = new System.Drawing.Size(22, 22);
 			this.bu_camera_zreset.TabIndex = 32;
-			this.bu_camera_zreset.Text = "f";
+			this.bu_camera_zreset.Text = "r";
 			this.bu_camera_zreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_camera_zreset.UseVisualStyleBackColor = true;
-			this.bu_camera_zreset.Click += new System.EventHandler(this.click_bu_camera_focusobject);
+			this.bu_camera_zreset.Click += new System.EventHandler(this.click_bu_camera_zreset);
 			// 
 			// bu_camera_focusobject
 			// 
@@ -1079,15 +948,15 @@ namespace creaturevisualizer
 			this.bu_camera_focusobject.Location = new System.Drawing.Point(9, 105);
 			this.bu_camera_focusobject.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_focusobject.Name = "bu_camera_focusobject";
-			this.bu_camera_focusobject.Size = new System.Drawing.Size(136, 20);
+			this.bu_camera_focusobject.Size = new System.Drawing.Size(272, 20);
 			this.bu_camera_focusobject.TabIndex = 54;
-			this.bu_camera_focusobject.Text = "object";
+			this.bu_camera_focusobject.Text = "focus";
 			this.bu_camera_focusobject.UseVisualStyleBackColor = true;
 			this.bu_camera_focusobject.Click += new System.EventHandler(this.click_bu_camera_focusobject);
 			// 
 			// la_camera_dist
 			// 
-			this.la_camera_dist.Location = new System.Drawing.Point(5, 15);
+			this.la_camera_dist.Location = new System.Drawing.Point(125, 15);
 			this.la_camera_dist.Margin = new System.Windows.Forms.Padding(0);
 			this.la_camera_dist.Name = "la_camera_dist";
 			this.la_camera_dist.Size = new System.Drawing.Size(35, 15);
@@ -1095,19 +964,9 @@ namespace creaturevisualizer
 			this.la_camera_dist.Text = "Zo";
 			this.la_camera_dist.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
-			// la_camera_rotate
-			// 
-			this.la_camera_rotate.Location = new System.Drawing.Point(220, 15);
-			this.la_camera_rotate.Margin = new System.Windows.Forms.Padding(0);
-			this.la_camera_rotate.Name = "la_camera_rotate";
-			this.la_camera_rotate.Size = new System.Drawing.Size(25, 15);
-			this.la_camera_rotate.TabIndex = 39;
-			this.la_camera_rotate.Text = "rot";
-			this.la_camera_rotate.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			// 
 			// la_camera_xyaxis
 			// 
-			this.la_camera_xyaxis.Location = new System.Drawing.Point(145, 15);
+			this.la_camera_xyaxis.Location = new System.Drawing.Point(45, 15);
 			this.la_camera_xyaxis.Margin = new System.Windows.Forms.Padding(0);
 			this.la_camera_xyaxis.Name = "la_camera_xyaxis";
 			this.la_camera_xyaxis.Size = new System.Drawing.Size(75, 15);
@@ -1117,7 +976,7 @@ namespace creaturevisualizer
 			// 
 			// la_camera_zaxis
 			// 
-			this.la_camera_zaxis.Location = new System.Drawing.Point(120, 15);
+			this.la_camera_zaxis.Location = new System.Drawing.Point(10, 15);
 			this.la_camera_zaxis.Margin = new System.Windows.Forms.Padding(0);
 			this.la_camera_zaxis.Name = "la_camera_zaxis";
 			this.la_camera_zaxis.Size = new System.Drawing.Size(25, 15);
@@ -1128,7 +987,7 @@ namespace creaturevisualizer
 			// bu_camera_distreset
 			// 
 			this.bu_camera_distreset.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_camera_distreset.Location = new System.Drawing.Point(9, 80);
+			this.bu_camera_distreset.Location = new System.Drawing.Point(129, 80);
 			this.bu_camera_distreset.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_distreset.Name = "bu_camera_distreset";
 			this.bu_camera_distreset.Size = new System.Drawing.Size(22, 22);
@@ -1136,10 +995,11 @@ namespace creaturevisualizer
 			this.bu_camera_distreset.Text = "r";
 			this.bu_camera_distreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_camera_distreset.UseVisualStyleBackColor = true;
+			this.bu_camera_distreset.Click += new System.EventHandler(this.click_bu_camera_Zoreset);
 			// 
 			// bu_camera_distneg
 			// 
-			this.bu_camera_distneg.Location = new System.Drawing.Point(10, 30);
+			this.bu_camera_distneg.Location = new System.Drawing.Point(130, 30);
 			this.bu_camera_distneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_distneg.Name = "bu_camera_distneg";
 			this.bu_camera_distneg.Size = new System.Drawing.Size(22, 22);
@@ -1153,7 +1013,7 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_distpos
 			// 
-			this.bu_camera_distpos.Location = new System.Drawing.Point(9, 55);
+			this.bu_camera_distpos.Location = new System.Drawing.Point(129, 55);
 			this.bu_camera_distpos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_distpos.Name = "bu_camera_distpos";
 			this.bu_camera_distpos.Size = new System.Drawing.Size(22, 22);
@@ -1165,35 +1025,9 @@ namespace creaturevisualizer
 			this.bu_camera_distpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_camera_distpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
-			// bu_camera_rneg
-			// 
-			this.bu_camera_rneg.Location = new System.Drawing.Point(220, 55);
-			this.bu_camera_rneg.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_camera_rneg.Name = "bu_camera_rneg";
-			this.bu_camera_rneg.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_rneg.TabIndex = 41;
-			this.bu_camera_rneg.Text = "-";
-			this.bu_camera_rneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.bu_camera_rneg.UseVisualStyleBackColor = true;
-			this.bu_camera_rneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
-			this.bu_camera_rneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
-			// 
-			// bu_camera_rpos
-			// 
-			this.bu_camera_rpos.Location = new System.Drawing.Point(220, 30);
-			this.bu_camera_rpos.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_camera_rpos.Name = "bu_camera_rpos";
-			this.bu_camera_rpos.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_rpos.TabIndex = 40;
-			this.bu_camera_rpos.Text = "+";
-			this.bu_camera_rpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.bu_camera_rpos.UseVisualStyleBackColor = true;
-			this.bu_camera_rpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
-			this.bu_camera_rpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
-			// 
 			// bu_camera_ypos
 			// 
-			this.bu_camera_ypos.Location = new System.Drawing.Point(195, 40);
+			this.bu_camera_ypos.Location = new System.Drawing.Point(95, 40);
 			this.bu_camera_ypos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_ypos.Name = "bu_camera_ypos";
 			this.bu_camera_ypos.Size = new System.Drawing.Size(22, 22);
@@ -1207,7 +1041,7 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_yneg
 			// 
-			this.bu_camera_yneg.Location = new System.Drawing.Point(145, 40);
+			this.bu_camera_yneg.Location = new System.Drawing.Point(45, 40);
 			this.bu_camera_yneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_yneg.Name = "bu_camera_yneg";
 			this.bu_camera_yneg.Size = new System.Drawing.Size(22, 22);
@@ -1221,7 +1055,7 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_xneg
 			// 
-			this.bu_camera_xneg.Location = new System.Drawing.Point(170, 55);
+			this.bu_camera_xneg.Location = new System.Drawing.Point(70, 55);
 			this.bu_camera_xneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_xneg.Name = "bu_camera_xneg";
 			this.bu_camera_xneg.Size = new System.Drawing.Size(22, 22);
@@ -1235,7 +1069,7 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_xpos
 			// 
-			this.bu_camera_xpos.Location = new System.Drawing.Point(170, 30);
+			this.bu_camera_xpos.Location = new System.Drawing.Point(70, 30);
 			this.bu_camera_xpos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_xpos.Name = "bu_camera_xpos";
 			this.bu_camera_xpos.Size = new System.Drawing.Size(22, 22);
@@ -1249,7 +1083,7 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_zneg
 			// 
-			this.bu_camera_zneg.Location = new System.Drawing.Point(120, 55);
+			this.bu_camera_zneg.Location = new System.Drawing.Point(10, 55);
 			this.bu_camera_zneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_zneg.Name = "bu_camera_zneg";
 			this.bu_camera_zneg.Size = new System.Drawing.Size(22, 22);
@@ -1263,7 +1097,7 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_zpos
 			// 
-			this.bu_camera_zpos.Location = new System.Drawing.Point(120, 30);
+			this.bu_camera_zpos.Location = new System.Drawing.Point(10, 30);
 			this.bu_camera_zpos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_zpos.Name = "bu_camera_zpos";
 			this.bu_camera_zpos.Size = new System.Drawing.Size(22, 22);

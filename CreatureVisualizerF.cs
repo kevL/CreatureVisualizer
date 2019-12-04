@@ -356,6 +356,52 @@ namespace creaturevisualizer
 		}
 
 
+		void click_bu_camera_zreset(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+//				Offset.Z = 0F;
+				_panel.CameraPosition = new Vector3(_panel.CameraPosition.X,
+													_panel.CameraPosition.Y,
+													CreatureVisualizerP.POS_START_CAMERA.Z);
+				PrintCameraPosition();
+			}
+		}
+
+		void click_bu_camera_xyreset(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+//				Offset.X = Offset.Y = 0F;
+				_panel.CameraPosition = new Vector3(CreatureVisualizerP.POS_START_CAMERA.X,
+													CreatureVisualizerP.POS_START_CAMERA.Y,
+													_panel.CameraPosition.Z);
+				PrintCameraPosition();
+			}
+		}
+
+		void click_bu_camera_Zoreset(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				((ModelViewerInputCameraReceiverState)_panel.Receiver.CameraState).Distance = CreatureVisualizerP.DIST_START;
+				_panel.UpdateCamera();
+				PrintCameraPosition();
+			}
+		}
+
+		void click_bu_camera_Poreset(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				_panel.Receiver.CameraAngleXY = (float)Math.PI /  2F;
+				_panel.Receiver.CameraAngleYZ = (float)Math.PI / 32F;
+				_panel.CameraPosition += CreatureVisualizerP.POS_OFF_Zd;
+				PrintCameraPosition();
+			}
+		}
+
+
 		void click_bu_camera_focusobject(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
@@ -373,14 +419,6 @@ namespace creaturevisualizer
 			}
 		}
 
-		void click_bu_camera_focuspoint(object sender, EventArgs e)
-		{
-			if (_panel.Object != null)
-			{
-				_panel.FocusOn(_panel.Receiver.FocusPoint);
-				PrintCameraPosition();
-			}
-		}
 		//OEIShared.UI.Input.FPSInputCameraReceiver
 /*		public void OnMouseWheel(object sender, EPMouseEventArgs eArgs)
 		{
