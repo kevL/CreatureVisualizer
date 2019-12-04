@@ -225,7 +225,7 @@ namespace creaturevisualizer
 			this.pa_controls.Location = new System.Drawing.Point(292, 0);
 			this.pa_controls.Margin = new System.Windows.Forms.Padding(0);
 			this.pa_controls.Name = "pa_controls";
-			this.pa_controls.Size = new System.Drawing.Size(290, 474);
+			this.pa_controls.Size = new System.Drawing.Size(290, 455);
 			this.pa_controls.TabIndex = 0;
 			this.pa_controls.Visible = false;
 			// 
@@ -248,7 +248,7 @@ namespace creaturevisualizer
 			this.gb_Light.Name = "gb_Light";
 			this.gb_Light.Padding = new System.Windows.Forms.Padding(0);
 			this.gb_Light.Size = new System.Drawing.Size(290, 130);
-			this.gb_Light.TabIndex = 3;
+			this.gb_Light.TabIndex = 2;
 			this.gb_Light.TabStop = false;
 			this.gb_Light.Text = " Light ";
 			// 
@@ -285,7 +285,7 @@ namespace creaturevisualizer
 			this.button11.Margin = new System.Windows.Forms.Padding(0);
 			this.button11.Name = "button11";
 			this.button11.Size = new System.Drawing.Size(272, 20);
-			this.button11.TabIndex = 25;
+			this.button11.TabIndex = 10;
 			this.button11.Text = "reset";
 			this.button11.UseVisualStyleBackColor = true;
 			this.button11.Click += new System.EventHandler(this.click_bu_light_reset);
@@ -316,7 +316,7 @@ namespace creaturevisualizer
 			this.bu_light_ypos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_light_ypos.Name = "bu_light_ypos";
 			this.bu_light_ypos.Size = new System.Drawing.Size(22, 22);
-			this.bu_light_ypos.TabIndex = 6;
+			this.bu_light_ypos.TabIndex = 8;
 			this.bu_light_ypos.Text = "+";
 			this.bu_light_ypos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_light_ypos.UseVisualStyleBackColor = true;
@@ -330,7 +330,7 @@ namespace creaturevisualizer
 			this.bu_light_yneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_light_yneg.Name = "bu_light_yneg";
 			this.bu_light_yneg.Size = new System.Drawing.Size(22, 22);
-			this.bu_light_yneg.TabIndex = 8;
+			this.bu_light_yneg.TabIndex = 7;
 			this.bu_light_yneg.Text = "-";
 			this.bu_light_yneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_light_yneg.UseVisualStyleBackColor = true;
@@ -344,7 +344,7 @@ namespace creaturevisualizer
 			this.bu_light_xneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_light_xneg.Name = "bu_light_xneg";
 			this.bu_light_xneg.Size = new System.Drawing.Size(22, 22);
-			this.bu_light_xneg.TabIndex = 7;
+			this.bu_light_xneg.TabIndex = 6;
 			this.bu_light_xneg.Text = "-";
 			this.bu_light_xneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_light_xneg.UseVisualStyleBackColor = true;
@@ -431,7 +431,7 @@ namespace creaturevisualizer
 			this.gb_model.Name = "gb_model";
 			this.gb_model.Padding = new System.Windows.Forms.Padding(0);
 			this.gb_model.Size = new System.Drawing.Size(290, 130);
-			this.gb_model.TabIndex = 0;
+			this.gb_model.TabIndex = 1;
 			this.gb_model.TabStop = false;
 			this.gb_model.Text = " Model ";
 			// 
@@ -442,7 +442,7 @@ namespace creaturevisualizer
 			this.la_model_scaleorg.Margin = new System.Windows.Forms.Padding(0);
 			this.la_model_scaleorg.Name = "la_model_scaleorg";
 			this.la_model_scaleorg.Size = new System.Drawing.Size(40, 15);
-			this.la_model_scaleorg.TabIndex = 28;
+			this.la_model_scaleorg.TabIndex = 24;
 			this.la_model_scaleorg.Text = "0";
 			this.la_model_scaleorg.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
@@ -452,7 +452,7 @@ namespace creaturevisualizer
 			this.bu_model_scaleneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_scaleneg.Name = "bu_model_scaleneg";
 			this.bu_model_scaleneg.Size = new System.Drawing.Size(22, 22);
-			this.bu_model_scaleneg.TabIndex = 27;
+			this.bu_model_scaleneg.TabIndex = 26;
 			this.bu_model_scaleneg.Text = "-";
 			this.bu_model_scaleneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_scaleneg.UseVisualStyleBackColor = true;
@@ -466,7 +466,7 @@ namespace creaturevisualizer
 			this.bu_model_scalepos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_scalepos.Name = "bu_model_scalepos";
 			this.bu_model_scalepos.Size = new System.Drawing.Size(22, 22);
-			this.bu_model_scalepos.TabIndex = 26;
+			this.bu_model_scalepos.TabIndex = 25;
 			this.bu_model_scalepos.Text = "+";
 			this.bu_model_scalepos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_scalepos.UseVisualStyleBackColor = true;
@@ -482,7 +482,7 @@ namespace creaturevisualizer
 			this.la_model_zscale.Size = new System.Drawing.Size(40, 20);
 			this.la_model_zscale.TabIndex = 23;
 			this.la_model_zscale.Text = "z";
-			this.la_model_zscale.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.la_model_zscale.TextAlign = System.Drawing.ContentAlignment.BottomRight;
 			// 
 			// la_model_yscale
 			// 
@@ -492,7 +492,7 @@ namespace creaturevisualizer
 			this.la_model_yscale.Size = new System.Drawing.Size(40, 20);
 			this.la_model_yscale.TabIndex = 20;
 			this.la_model_yscale.Text = "y";
-			this.la_model_yscale.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.la_model_yscale.TextAlign = System.Drawing.ContentAlignment.BottomRight;
 			// 
 			// la_model_xscale
 			// 
@@ -502,7 +502,7 @@ namespace creaturevisualizer
 			this.la_model_xscale.Size = new System.Drawing.Size(40, 20);
 			this.la_model_xscale.TabIndex = 17;
 			this.la_model_xscale.Text = "x";
-			this.la_model_xscale.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.la_model_xscale.TextAlign = System.Drawing.ContentAlignment.BottomRight;
 			// 
 			// bu_model_scalereset
 			// 
@@ -511,7 +511,7 @@ namespace creaturevisualizer
 			this.bu_model_scalereset.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_scalereset.Name = "bu_model_scalereset";
 			this.bu_model_scalereset.Size = new System.Drawing.Size(22, 22);
-			this.bu_model_scalereset.TabIndex = 24;
+			this.bu_model_scalereset.TabIndex = 27;
 			this.bu_model_scalereset.Text = "r";
 			this.bu_model_scalereset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_scalereset.UseVisualStyleBackColor = true;
@@ -563,7 +563,7 @@ namespace creaturevisualizer
 			this.bu_model_reset.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_reset.Name = "bu_model_reset";
 			this.bu_model_reset.Size = new System.Drawing.Size(272, 20);
-			this.bu_model_reset.TabIndex = 25;
+			this.bu_model_reset.TabIndex = 28;
 			this.bu_model_reset.Text = "reset";
 			this.bu_model_reset.UseVisualStyleBackColor = true;
 			this.bu_model_reset.Click += new System.EventHandler(this.click_bu_model_reset);
@@ -726,7 +726,7 @@ namespace creaturevisualizer
 			this.bu_model_ypos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_ypos.Name = "bu_model_ypos";
 			this.bu_model_ypos.Size = new System.Drawing.Size(22, 22);
-			this.bu_model_ypos.TabIndex = 6;
+			this.bu_model_ypos.TabIndex = 8;
 			this.bu_model_ypos.Text = "+";
 			this.bu_model_ypos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_ypos.UseVisualStyleBackColor = true;
@@ -740,7 +740,7 @@ namespace creaturevisualizer
 			this.bu_model_yneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_yneg.Name = "bu_model_yneg";
 			this.bu_model_yneg.Size = new System.Drawing.Size(22, 22);
-			this.bu_model_yneg.TabIndex = 8;
+			this.bu_model_yneg.TabIndex = 7;
 			this.bu_model_yneg.Text = "-";
 			this.bu_model_yneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_yneg.UseVisualStyleBackColor = true;
@@ -754,7 +754,7 @@ namespace creaturevisualizer
 			this.bu_model_xneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_xneg.Name = "bu_model_xneg";
 			this.bu_model_xneg.Size = new System.Drawing.Size(22, 22);
-			this.bu_model_xneg.TabIndex = 7;
+			this.bu_model_xneg.TabIndex = 6;
 			this.bu_model_xneg.Text = "-";
 			this.bu_model_xneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_model_xneg.UseVisualStyleBackColor = true;
@@ -833,18 +833,18 @@ namespace creaturevisualizer
 			this.gb_camera.Name = "gb_camera";
 			this.gb_camera.Padding = new System.Windows.Forms.Padding(0);
 			this.gb_camera.Size = new System.Drawing.Size(290, 130);
-			this.gb_camera.TabIndex = 2;
+			this.gb_camera.TabIndex = 0;
 			this.gb_camera.TabStop = false;
 			this.gb_camera.Text = " Camera ";
 			// 
 			// button4
 			// 
 			this.button4.ForeColor = System.Drawing.Color.Crimson;
-			this.button4.Location = new System.Drawing.Point(195, 80);
+			this.button4.Location = new System.Drawing.Point(190, 80);
 			this.button4.Margin = new System.Windows.Forms.Padding(0);
 			this.button4.Name = "button4";
 			this.button4.Size = new System.Drawing.Size(22, 22);
-			this.button4.TabIndex = 63;
+			this.button4.TabIndex = 19;
 			this.button4.Text = "r";
 			this.button4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.button4.UseVisualStyleBackColor = true;
@@ -852,21 +852,21 @@ namespace creaturevisualizer
 			// 
 			// la_camera_angle
 			// 
-			this.la_camera_angle.Location = new System.Drawing.Point(185, 15);
+			this.la_camera_angle.Location = new System.Drawing.Point(180, 15);
 			this.la_camera_angle.Margin = new System.Windows.Forms.Padding(0);
 			this.la_camera_angle.Name = "la_camera_angle";
 			this.la_camera_angle.Size = new System.Drawing.Size(40, 15);
-			this.la_camera_angle.TabIndex = 58;
+			this.la_camera_angle.TabIndex = 14;
 			this.la_camera_angle.Text = "Po";
 			this.la_camera_angle.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
 			// bu_camera_horipos
 			// 
-			this.bu_camera_horipos.Location = new System.Drawing.Point(220, 40);
+			this.bu_camera_horipos.Location = new System.Drawing.Point(215, 40);
 			this.bu_camera_horipos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_horipos.Name = "bu_camera_horipos";
 			this.bu_camera_horipos.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_horipos.TabIndex = 60;
+			this.bu_camera_horipos.TabIndex = 18;
 			this.bu_camera_horipos.Text = "+";
 			this.bu_camera_horipos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_camera_horipos.UseVisualStyleBackColor = true;
@@ -876,11 +876,11 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_horineg
 			// 
-			this.bu_camera_horineg.Location = new System.Drawing.Point(170, 40);
+			this.bu_camera_horineg.Location = new System.Drawing.Point(165, 40);
 			this.bu_camera_horineg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_horineg.Name = "bu_camera_horineg";
 			this.bu_camera_horineg.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_horineg.TabIndex = 62;
+			this.bu_camera_horineg.TabIndex = 17;
 			this.bu_camera_horineg.Text = "-";
 			this.bu_camera_horineg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_camera_horineg.UseVisualStyleBackColor = true;
@@ -890,11 +890,11 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_vertneg
 			// 
-			this.bu_camera_vertneg.Location = new System.Drawing.Point(195, 55);
+			this.bu_camera_vertneg.Location = new System.Drawing.Point(190, 55);
 			this.bu_camera_vertneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_vertneg.Name = "bu_camera_vertneg";
 			this.bu_camera_vertneg.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_vertneg.TabIndex = 61;
+			this.bu_camera_vertneg.TabIndex = 16;
 			this.bu_camera_vertneg.Text = "-";
 			this.bu_camera_vertneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_camera_vertneg.UseVisualStyleBackColor = true;
@@ -904,11 +904,11 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_vertpos
 			// 
-			this.bu_camera_vertpos.Location = new System.Drawing.Point(195, 30);
+			this.bu_camera_vertpos.Location = new System.Drawing.Point(190, 30);
 			this.bu_camera_vertpos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_vertpos.Name = "bu_camera_vertpos";
 			this.bu_camera_vertpos.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_vertpos.TabIndex = 59;
+			this.bu_camera_vertpos.TabIndex = 15;
 			this.bu_camera_vertpos.Text = "+";
 			this.bu_camera_vertpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_camera_vertpos.UseVisualStyleBackColor = true;
@@ -923,7 +923,7 @@ namespace creaturevisualizer
 			this.bu_camera_xyreset.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_xyreset.Name = "bu_camera_xyreset";
 			this.bu_camera_xyreset.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_xyreset.TabIndex = 38;
+			this.bu_camera_xyreset.TabIndex = 9;
 			this.bu_camera_xyreset.Text = "r";
 			this.bu_camera_xyreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_camera_xyreset.UseVisualStyleBackColor = true;
@@ -936,7 +936,7 @@ namespace creaturevisualizer
 			this.bu_camera_zreset.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_zreset.Name = "bu_camera_zreset";
 			this.bu_camera_zreset.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_zreset.TabIndex = 32;
+			this.bu_camera_zreset.TabIndex = 3;
 			this.bu_camera_zreset.Text = "r";
 			this.bu_camera_zreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_camera_zreset.UseVisualStyleBackColor = true;
@@ -949,18 +949,18 @@ namespace creaturevisualizer
 			this.bu_camera_focusobject.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_focusobject.Name = "bu_camera_focusobject";
 			this.bu_camera_focusobject.Size = new System.Drawing.Size(272, 20);
-			this.bu_camera_focusobject.TabIndex = 54;
+			this.bu_camera_focusobject.TabIndex = 20;
 			this.bu_camera_focusobject.Text = "focus";
 			this.bu_camera_focusobject.UseVisualStyleBackColor = true;
 			this.bu_camera_focusobject.Click += new System.EventHandler(this.click_bu_camera_focusobject);
 			// 
 			// la_camera_dist
 			// 
-			this.la_camera_dist.Location = new System.Drawing.Point(135, 15);
+			this.la_camera_dist.Location = new System.Drawing.Point(130, 15);
 			this.la_camera_dist.Margin = new System.Windows.Forms.Padding(0);
 			this.la_camera_dist.Name = "la_camera_dist";
 			this.la_camera_dist.Size = new System.Drawing.Size(35, 15);
-			this.la_camera_dist.TabIndex = 43;
+			this.la_camera_dist.TabIndex = 10;
 			this.la_camera_dist.Text = "Zo";
 			this.la_camera_dist.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
@@ -970,7 +970,7 @@ namespace creaturevisualizer
 			this.la_camera_xyaxis.Margin = new System.Windows.Forms.Padding(0);
 			this.la_camera_xyaxis.Name = "la_camera_xyaxis";
 			this.la_camera_xyaxis.Size = new System.Drawing.Size(75, 15);
-			this.la_camera_xyaxis.TabIndex = 33;
+			this.la_camera_xyaxis.TabIndex = 4;
 			this.la_camera_xyaxis.Text = "x/y";
 			this.la_camera_xyaxis.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
@@ -980,18 +980,18 @@ namespace creaturevisualizer
 			this.la_camera_zaxis.Margin = new System.Windows.Forms.Padding(0);
 			this.la_camera_zaxis.Name = "la_camera_zaxis";
 			this.la_camera_zaxis.Size = new System.Drawing.Size(25, 15);
-			this.la_camera_zaxis.TabIndex = 29;
+			this.la_camera_zaxis.TabIndex = 0;
 			this.la_camera_zaxis.Text = "z";
 			this.la_camera_zaxis.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
 			// bu_camera_distreset
 			// 
 			this.bu_camera_distreset.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_camera_distreset.Location = new System.Drawing.Point(139, 80);
+			this.bu_camera_distreset.Location = new System.Drawing.Point(134, 80);
 			this.bu_camera_distreset.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_distreset.Name = "bu_camera_distreset";
 			this.bu_camera_distreset.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_distreset.TabIndex = 50;
+			this.bu_camera_distreset.TabIndex = 13;
 			this.bu_camera_distreset.Text = "r";
 			this.bu_camera_distreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_camera_distreset.UseVisualStyleBackColor = true;
@@ -999,11 +999,11 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_distneg
 			// 
-			this.bu_camera_distneg.Location = new System.Drawing.Point(140, 30);
+			this.bu_camera_distneg.Location = new System.Drawing.Point(135, 30);
 			this.bu_camera_distneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_distneg.Name = "bu_camera_distneg";
 			this.bu_camera_distneg.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_distneg.TabIndex = 47;
+			this.bu_camera_distneg.TabIndex = 11;
 			this.bu_camera_distneg.Text = "+";
 			this.bu_camera_distneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_camera_distneg.UseVisualStyleBackColor = true;
@@ -1013,11 +1013,11 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_distpos
 			// 
-			this.bu_camera_distpos.Location = new System.Drawing.Point(139, 55);
+			this.bu_camera_distpos.Location = new System.Drawing.Point(134, 55);
 			this.bu_camera_distpos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_distpos.Name = "bu_camera_distpos";
 			this.bu_camera_distpos.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_distpos.TabIndex = 44;
+			this.bu_camera_distpos.TabIndex = 12;
 			this.bu_camera_distpos.Text = "-";
 			this.bu_camera_distpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_camera_distpos.UseVisualStyleBackColor = true;
@@ -1031,7 +1031,7 @@ namespace creaturevisualizer
 			this.bu_camera_ypos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_ypos.Name = "bu_camera_ypos";
 			this.bu_camera_ypos.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_ypos.TabIndex = 35;
+			this.bu_camera_ypos.TabIndex = 8;
 			this.bu_camera_ypos.Text = "+";
 			this.bu_camera_ypos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_camera_ypos.UseVisualStyleBackColor = true;
@@ -1045,7 +1045,7 @@ namespace creaturevisualizer
 			this.bu_camera_yneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_yneg.Name = "bu_camera_yneg";
 			this.bu_camera_yneg.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_yneg.TabIndex = 37;
+			this.bu_camera_yneg.TabIndex = 7;
 			this.bu_camera_yneg.Text = "-";
 			this.bu_camera_yneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_camera_yneg.UseVisualStyleBackColor = true;
@@ -1059,7 +1059,7 @@ namespace creaturevisualizer
 			this.bu_camera_xneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_xneg.Name = "bu_camera_xneg";
 			this.bu_camera_xneg.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_xneg.TabIndex = 36;
+			this.bu_camera_xneg.TabIndex = 6;
 			this.bu_camera_xneg.Text = "-";
 			this.bu_camera_xneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_camera_xneg.UseVisualStyleBackColor = true;
@@ -1073,7 +1073,7 @@ namespace creaturevisualizer
 			this.bu_camera_xpos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_xpos.Name = "bu_camera_xpos";
 			this.bu_camera_xpos.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_xpos.TabIndex = 34;
+			this.bu_camera_xpos.TabIndex = 5;
 			this.bu_camera_xpos.Text = "+";
 			this.bu_camera_xpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_camera_xpos.UseVisualStyleBackColor = true;
@@ -1087,7 +1087,7 @@ namespace creaturevisualizer
 			this.bu_camera_zneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_zneg.Name = "bu_camera_zneg";
 			this.bu_camera_zneg.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_zneg.TabIndex = 31;
+			this.bu_camera_zneg.TabIndex = 2;
 			this.bu_camera_zneg.Text = "-";
 			this.bu_camera_zneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_camera_zneg.UseVisualStyleBackColor = true;
@@ -1101,7 +1101,7 @@ namespace creaturevisualizer
 			this.bu_camera_zpos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_zpos.Name = "bu_camera_zpos";
 			this.bu_camera_zpos.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_zpos.TabIndex = 30;
+			this.bu_camera_zpos.TabIndex = 1;
 			this.bu_camera_zpos.Text = "+";
 			this.bu_camera_zpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_camera_zpos.UseVisualStyleBackColor = true;
@@ -1119,11 +1119,11 @@ namespace creaturevisualizer
 			this.tssl_camera_ypos,
 			this.tssl_camera_zpos,
 			this.tssl_camera_rot});
-			this.ss_camera.Location = new System.Drawing.Point(0, 408);
+			this.ss_camera.Location = new System.Drawing.Point(0, 389);
 			this.ss_camera.Name = "ss_camera";
 			this.ss_camera.Size = new System.Drawing.Size(290, 22);
 			this.ss_camera.SizingGrip = false;
-			this.ss_camera.TabIndex = 4;
+			this.ss_camera.TabIndex = 3;
 			// 
 			// tssl_camera_label
 			// 
@@ -1180,11 +1180,11 @@ namespace creaturevisualizer
 			this.tssl_model_ypos,
 			this.tssl_model_zpos,
 			this.tssl_model_rot});
-			this.ss_model.Location = new System.Drawing.Point(0, 430);
+			this.ss_model.Location = new System.Drawing.Point(0, 411);
 			this.ss_model.Name = "ss_model";
 			this.ss_model.Size = new System.Drawing.Size(290, 22);
 			this.ss_model.SizingGrip = false;
-			this.ss_model.TabIndex = 1;
+			this.ss_model.TabIndex = 4;
 			// 
 			// tssl_model_label
 			// 
@@ -1240,7 +1240,7 @@ namespace creaturevisualizer
 			this.tssl_light_ypos,
 			this.tssl_light_zpos,
 			this.tssl_light_intensity});
-			this.ss_light.Location = new System.Drawing.Point(0, 452);
+			this.ss_light.Location = new System.Drawing.Point(0, 433);
 			this.ss_light.Name = "ss_light";
 			this.ss_light.Size = new System.Drawing.Size(290, 22);
 			this.ss_light.TabIndex = 5;
@@ -1292,7 +1292,7 @@ namespace creaturevisualizer
 			// 
 			// CreatureVisualizerF
 			// 
-			this.ClientSize = new System.Drawing.Size(582, 474);
+			this.ClientSize = new System.Drawing.Size(582, 455);
 			this.Controls.Add(this.pa_controls);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Name = "CreatureVisualizerF";
