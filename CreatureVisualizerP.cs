@@ -635,20 +635,18 @@ namespace creaturevisualizer
 							{
 								// vertical shift ->
 								float z = (float)(_pos.Y - _pos0.Y) * 0.01F;
-								var shift = new Vector3(0F, 0F, z);
 
 								// horizontal shifts ->
 								float rot = CreatureVisualizerF.that.getrot();
-								rot *= (float)Math.PI / 180F;
+								rot *= (float)Math.PI / 180F; // to radians
 
 								float cos = (float)(Math.Cos((double)rot));
 								float x = (float)(_pos0.X - _pos.X) * 0.01F * cos;
-								shift += new Vector3(x, 0F, 0F);
 
 								float sin = -(float)(Math.Sin((double)rot));
 								float y = (float)(_pos0.X - _pos.X) * 0.01F * sin;
-								shift += new Vector3(0F, y, 0F);
 
+								var shift = new Vector3(x,y,z);
 								CameraPosition += shift;
 								CreatureVisualizerF.Offset += shift;
 

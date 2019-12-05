@@ -172,7 +172,7 @@ namespace creaturevisualizer
 		{
 			string text = "Creature Visualizer"
 						+ Environment.NewLine
-						+ "- plugin for Neverwinter Nights 2 toolset"
+						+ "- a Neverwinter Nights 2 toolset plugin"
 						+ Environment.NewLine + Environment.NewLine;
 
 			var ass = Assembly.GetExecutingAssembly();
@@ -685,9 +685,10 @@ namespace creaturevisualizer
 
 
 			var state = _panel.Receiver.CameraState as ModelViewerInputCameraReceiverState;
-			la_camera_pitch.Text = (state.FocusPhi   * 180F / (float)Math.PI).ToString("N2");
-			la_camera_yaw  .Text = (state.FocusTheta * 180F / (float)Math.PI).ToString("N2");
+			la_camera_pitch.Text = ((int)(state.FocusPhi   * 180F / (float)Math.PI)).ToString(); // to degrees
+			la_camera_yaw  .Text = ((int)(state.FocusTheta * 180F / (float)Math.PI)).ToString();
 		}
+
 		internal int getrot()
 		{
 			return Int32.Parse(tssl_camera_rot.Text);
