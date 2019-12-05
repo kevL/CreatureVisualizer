@@ -63,91 +63,109 @@ namespace creaturevisualizer
 			_panel.CreateInstance();
 			_panel.Select();
 
+			SuspendLayout();
 			CreateButtons();
+			ResumeLayout(false);
 
 
 			_itControlPanel  .PerformClick(); // TEST
 //			_itRefreshOnFocus.PerformClick(); // TEST
 		}
 
+
+		Button _i = new Button();
+		Button _o = new Button();
+		Button _u = new Button();
+		Button _d = new Button();
+		Button _l = new Button();
+		Button _r = new Button();
+
 		void CreateButtons()
 		{
-			var @in = new Button();
-			@in.Click     += click_bu_camera_distneg;
-			@in.MouseDown += mousedown_EnableRepeater;
-			@in.MouseUp   += mouseup_DisableRepeater;
-			@in.Text   = "+";
-			@in.Width  = 22;
-			@in.Height = 22;
+			_i = new Button();
+			_i.Click     += click_bu_camera_distneg;
+			_i.MouseDown += mousedown_EnableRepeater;
+			_i.MouseUp   += mouseup_DisableRepeater;
+			_i.Text   = "+";
+			_i.Width  = 22;
+			_i.Height = 22;
 
-			var @out = new Button();
-			@out.Click += click_bu_camera_distpos;
-			@out.MouseDown += mousedown_EnableRepeater;
-			@out.MouseUp   += mouseup_DisableRepeater;
-			@out.Text   = "-";
-			@out.Width  = 22;
-			@out.Height = 22;
-
-			@in .Location = new Point(0, _panel.Height - @out.Height - @in.Height);
-			@out.Location = new Point(0, _panel.Height - @out.Height);
-
-			Controls.Add(@in);
-			Controls.Add(@out);
-
-			@in .BringToFront();
-			@out.BringToFront();
+			var o = new Button();
+			_o.Click += click_bu_camera_distpos;
+			_o.MouseDown += mousedown_EnableRepeater;
+			_o.MouseUp   += mouseup_DisableRepeater;
+			_o.Text   = "-";
+			_o.Width  = 22;
+			_o.Height = 22;
 
 
 			var u = new Button();
-			u.Click += click_bu_camera_zpos;
-			u.MouseDown += mousedown_EnableRepeater;
-			u.MouseUp   += mouseup_DisableRepeater;
-			u.Text   = "u";
-			u.Width  = 22;
-			u.Height = 22;
+			_u.Click += click_bu_camera_zpos;
+			_u.MouseDown += mousedown_EnableRepeater;
+			_u.MouseUp   += mouseup_DisableRepeater;
+			_u.Text   = "u";
+			_u.Width  = 22;
+			_u.Height = 22;
 
 			var d = new Button();
-			d.Click += click_bu_camera_zneg;
-			d.MouseDown += mousedown_EnableRepeater;
-			d.MouseUp   += mouseup_DisableRepeater;
-			d.Text   = "d";
-			d.Width  = 22;
-			d.Height = 22;
-
-			u.Location = new Point(_panel.Width - u.Width, _panel.Height - d.Height - u.Height);
-			d.Location = new Point(_panel.Width - d.Width, _panel.Height - d.Height);
-
-			Controls.Add(u);
-			Controls.Add(d);
-
-			u.BringToFront();
-			d.BringToFront();
+			_d.Click += click_bu_camera_zneg;
+			_d.MouseDown += mousedown_EnableRepeater;
+			_d.MouseUp   += mouseup_DisableRepeater;
+			_d.Text   = "d";
+			_d.Width  = 22;
+			_d.Height = 22;
 
 
 			var l = new Button();
-			l.Click += click_bu_camera_horineg;
-			l.MouseDown += mousedown_EnableRepeater;
-			l.MouseUp   += mouseup_DisableRepeater;
-			l.Text   = "l";
-			l.Width  = 22;
-			l.Height = 22;
+			_l.Click += click_bu_camera_horineg;
+			_l.MouseDown += mousedown_EnableRepeater;
+			_l.MouseUp   += mouseup_DisableRepeater;
+			_l.Text   = "l";
+			_l.Width  = 22;
+			_l.Height = 22;
 
 			var r = new Button();
-			r.Click += click_bu_camera_horipos;
-			r.MouseDown += mousedown_EnableRepeater;
-			r.MouseUp   += mouseup_DisableRepeater;
-			r.Text   = "r";
-			r.Width  = 22;
-			r.Height = 22;
+			_r.Click += click_bu_camera_horipos;
+			_r.MouseDown += mousedown_EnableRepeater;
+			_r.MouseUp   += mouseup_DisableRepeater;
+			_r.Text   = "r";
+			_r.Width  = 22;
+			_r.Height = 22;
 
-			l.Location = new Point(_panel.Width / 2 - l.Width, _panel.Height - l.Height);
-			r.Location = new Point(_panel.Width / 2,           _panel.Height - r.Height);
 
-			Controls.Add(l);
-			Controls.Add(r);
+			Controls.Add(_i);
+			Controls.Add(_o);
+			Controls.Add(_u);
+			Controls.Add(_d);
+			Controls.Add(_l);
+			Controls.Add(_r);
 
-			l.BringToFront();
-			r.BringToFront();
+			_i.BringToFront();
+			_o.BringToFront();
+			_u.BringToFront();
+			_d.BringToFront();
+			_l.BringToFront();
+			_r.BringToFront();
+
+			LayoutButtons();
+		}
+
+		/// <summary>
+		/// Lays out the buttons on the guipanel.
+		/// </summary>
+		void LayoutButtons()
+		{
+			if (WindowState != FormWindowState.Minimized)
+			{
+				_i.Location = new Point(0, ClientRectangle.Bottom - _o.Height - _i.Height);
+				_o.Location = new Point(0, ClientRectangle.Bottom - _o.Height);
+
+				_u.Location = new Point(ClientRectangle.Right - pa_controls.Width - _u.Width, _panel.Height - _d.Height - _u.Height);
+				_d.Location = new Point(ClientRectangle.Right - pa_controls.Width - _d.Width, _panel.Height - _d.Height);
+
+				_l.Location = new Point((ClientRectangle.Right - pa_controls.Width) / 2 - _l.Width, _panel.Height - _l.Height);
+				_r.Location = new Point((ClientRectangle.Right - pa_controls.Width) / 2,            _panel.Height - _r.Height);
+			}
 		}
 
 
@@ -195,6 +213,12 @@ namespace creaturevisualizer
 
 
 		#region Handlers (override)
+		protected override void OnResize(EventArgs e)
+		{
+			LayoutButtons();
+			base.OnResize(e);
+		}
+
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
 			_t1.Dispose();
@@ -430,7 +454,8 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
-				_panel.Receiver.CameraAngleXY += grader((float)Math.PI / 64F);
+				_panel.Receiver.CameraAngleXY += grader((float)Math.PI / 64F); // FocusTheta
+
 				_panel.CameraPosition += CreatureVisualizerP.POS_OFF_Zd + Offset;
 				PrintCameraPosition();
 			}
@@ -440,7 +465,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
-				_panel.Receiver.CameraAngleXY -= grader((float)Math.PI / 64F);
+				_panel.Receiver.CameraAngleXY -= grader((float)Math.PI / 64F); // FocusTheta
 				_panel.CameraPosition += CreatureVisualizerP.POS_OFF_Zd + Offset;
 				PrintCameraPosition();
 			}

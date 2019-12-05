@@ -244,8 +244,8 @@ namespace creaturevisualizer
 //					state.FocusPhi   = (float)Math.PI / 32F;
 //					state.Distance   = 4.5F;
 
-					Receiver.CameraAngleXY = (float)Math.PI /  2F; // revolutions 0=east, lookin' west
-					Receiver.CameraAngleYZ = (float)Math.PI / 32F; // pitch 0= flat, inc to pitch forward and raise camera
+					Receiver.CameraAngleXY = (float)Math.PI /  2F; // FocusTheta revolutions 0=east, lookin' west
+					Receiver.CameraAngleYZ = (float)Math.PI / 32F; // FocusPhi   pitch 0= flat, inc to pitch forward and raise camera
 					Receiver.Distance = DIST_START;
 					Receiver.DistanceMin = 0.1F;
 
