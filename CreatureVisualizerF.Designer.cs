@@ -103,6 +103,7 @@ namespace creaturevisualizer
 		internal Label la_camera_pitch;
 		internal Label la_camera_hori;
 		internal Label la_camera_vert;
+		private System.Windows.Forms.Panel pa_left;
 
 
 		/// <summary>
@@ -213,6 +214,7 @@ namespace creaturevisualizer
 			this.tssl_light_ypos = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tssl_light_zpos = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tssl_light_intensity = new System.Windows.Forms.ToolStripStatusLabel();
+			this.pa_left = new System.Windows.Forms.Panel();
 			this.pa_controls.SuspendLayout();
 			this.gb_Light.SuspendLayout();
 			this.gb_model.SuspendLayout();
@@ -1345,11 +1347,22 @@ namespace creaturevisualizer
 			this.tssl_light_intensity.Text = "i";
 			this.tssl_light_intensity.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
+			// pa_left
+			// 
+			this.pa_left.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pa_left.Location = new System.Drawing.Point(0, 0);
+			this.pa_left.Margin = new System.Windows.Forms.Padding(0);
+			this.pa_left.Name = "pa_left";
+			this.pa_left.Size = new System.Drawing.Size(292, 455);
+			this.pa_left.TabIndex = 1;
+			// 
 			// CreatureVisualizerF
 			// 
 			this.ClientSize = new System.Drawing.Size(582, 455);
+			this.Controls.Add(this.pa_left);
 			this.Controls.Add(this.pa_controls);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.KeyPreview = true;
 			this.Name = "CreatureVisualizerF";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Creature Visualizer";

@@ -17,6 +17,15 @@ namespace creaturevisualizer
 	sealed partial class CreatureVisualizerF
 		: Form
 	{
+		/// <summary>
+		/// Compass direction that the controlpanel is docked at - 'c' is closed.
+		/// </summary>
+		enum CpDir
+		{
+			c, n,e,s,w
+		}
+
+
 		#region Fields (static)
 		internal static CreatureVisualizerF that;
 		#endregion Fields (static)
@@ -34,6 +43,12 @@ namespace creaturevisualizer
 		Timer _t1 = new Timer();
 		Button _repeater;
 		bool _firstrepeat;
+
+		CpDir _dir = CpDir.c;
+		int _pa_left_width;
+		int _pa_left_height;
+		int _pa_controls_width;
+		int _pa_controls_height;
 		#endregion Fields
 
 
@@ -67,6 +82,9 @@ namespace creaturevisualizer
 			SuspendLayout();
 			CreateButtons();
 			ResumeLayout(false);
+
+			_pa_controls_width  = pa_controls.Width;
+			_pa_controls_height = pa_controls.Height;
 
 
 //			_itControlPanel  .PerformClick(); // TEST
@@ -196,6 +214,9 @@ namespace creaturevisualizer
 		#region Handlers (override)
 		protected override void OnResize(EventArgs e)
 		{
+			_pa_left_width  = pa_left.Width;
+			_pa_left_height = pa_left.Height;
+
 			LayoutButtons();
 			base.OnResize(e);
 		}
@@ -204,6 +225,24 @@ namespace creaturevisualizer
 		{
 			_t1.Dispose();
 			_t1 = null;
+		}
+
+		protected override void OnKeyDown(KeyEventArgs e)
+		{
+			switch (e.KeyData)
+			{
+				case Keys.F8:
+					e.Handled = true;
+					switch (_dir)
+					{
+						case CpDir.n: _dir = CpDir.e; break;
+						case CpDir.e: _dir = CpDir.s; break;
+						case CpDir.s: _dir = CpDir.w; break;
+						case CpDir.w: _dir = CpDir.n; break;
+					}
+					CyclePanel();
+					break;
+			}
 		}
 		#endregion Handlers (override)
 
@@ -236,21 +275,54 @@ namespace creaturevisualizer
 		{
 			if (_itControlPanel.Checked = !_itControlPanel.Checked)
 			{
-				if (WindowState != FormWindowState.Maximized)
-				{
-					ClientSize = new Size(ClientSize.Width + pa_controls.Width,
-										  ClientSize.Height);
-				}
+				if (_dir == CpDir.c)
+					_dir = CpDir.e;
+
+				CyclePanel();
 				pa_controls.Visible = true;
 			}
 			else
 			{
+				_dir = CpDir.c;
+
 				if (WindowState != FormWindowState.Maximized)
 				{
 					ClientSize = new Size(ClientSize.Width - pa_controls.Width,
 										  ClientSize.Height);
 				}
 				pa_controls.Visible = false;
+			}
+		}
+
+		void CyclePanel()
+		{
+			if (WindowState != FormWindowState.Maximized)
+			{
+				switch (_dir)
+				{
+					case CpDir.n:
+						ClientSize = new Size(_pa_left_width, _pa_left_height + _pa_controls_height);
+						pa_controls.Dock = DockStyle.Top;
+						break;
+
+					case CpDir.e:
+						ClientSize = new Size(_pa_left_width + _pa_controls_width, _pa_left_height);
+						pa_controls.Dock = DockStyle.Right;
+						break;
+
+					case CpDir.s:
+						ClientSize = new Size(_pa_left_width, _pa_left_height + _pa_controls_height);
+						pa_controls.Dock = DockStyle.Bottom;
+						break;
+
+					case CpDir.w:
+						ClientSize = new Size(_pa_left_width + _pa_controls_width, _pa_left_height);
+						pa_controls.Dock = DockStyle.Left;
+						break;
+				}
+			}
+			else
+			{
 			}
 		}
 
