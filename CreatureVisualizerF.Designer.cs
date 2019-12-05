@@ -99,6 +99,11 @@ namespace creaturevisualizer
 		ToolStripStatusLabel tssl_light_zpos;
 		ToolStripStatusLabel tssl_light_intensity;
 
+		internal Label la_camera_yaw;
+		internal Label la_camera_pitch;
+		internal Label la_camera_hori;
+		internal Label la_camera_vert;
+
 
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -165,6 +170,8 @@ namespace creaturevisualizer
 			this.bu_model_zneg = new System.Windows.Forms.Button();
 			this.bu_model_zpos = new System.Windows.Forms.Button();
 			this.gb_camera = new System.Windows.Forms.GroupBox();
+			this.la_camera_yaw = new System.Windows.Forms.Label();
+			this.la_camera_pitch = new System.Windows.Forms.Label();
 			this.button4 = new System.Windows.Forms.Button();
 			this.la_camera_angle = new System.Windows.Forms.Label();
 			this.bu_camera_horipos = new System.Windows.Forms.Button();
@@ -204,6 +211,8 @@ namespace creaturevisualizer
 			this.tssl_light_ypos = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tssl_light_zpos = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tssl_light_intensity = new System.Windows.Forms.ToolStripStatusLabel();
+			this.la_camera_hori = new System.Windows.Forms.Label();
+			this.la_camera_vert = new System.Windows.Forms.Label();
 			this.pa_controls.SuspendLayout();
 			this.gb_Light.SuspendLayout();
 			this.gb_model.SuspendLayout();
@@ -806,6 +815,10 @@ namespace creaturevisualizer
 			// 
 			// gb_camera
 			// 
+			this.gb_camera.Controls.Add(this.la_camera_hori);
+			this.gb_camera.Controls.Add(this.la_camera_vert);
+			this.gb_camera.Controls.Add(this.la_camera_yaw);
+			this.gb_camera.Controls.Add(this.la_camera_pitch);
 			this.gb_camera.Controls.Add(this.button4);
 			this.gb_camera.Controls.Add(this.la_camera_angle);
 			this.gb_camera.Controls.Add(this.bu_camera_horipos);
@@ -836,6 +849,26 @@ namespace creaturevisualizer
 			this.gb_camera.TabIndex = 0;
 			this.gb_camera.TabStop = false;
 			this.gb_camera.Text = " Camera ";
+			// 
+			// la_camera_yaw
+			// 
+			this.la_camera_yaw.Location = new System.Drawing.Point(240, 40);
+			this.la_camera_yaw.Margin = new System.Windows.Forms.Padding(0);
+			this.la_camera_yaw.Name = "la_camera_yaw";
+			this.la_camera_yaw.Size = new System.Drawing.Size(40, 20);
+			this.la_camera_yaw.TabIndex = 22;
+			this.la_camera_yaw.Text = "yaw";
+			this.la_camera_yaw.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+			// 
+			// la_camera_pitch
+			// 
+			this.la_camera_pitch.Location = new System.Drawing.Point(240, 20);
+			this.la_camera_pitch.Margin = new System.Windows.Forms.Padding(0);
+			this.la_camera_pitch.Name = "la_camera_pitch";
+			this.la_camera_pitch.Size = new System.Drawing.Size(40, 20);
+			this.la_camera_pitch.TabIndex = 21;
+			this.la_camera_pitch.Text = "pitch";
+			this.la_camera_pitch.TextAlign = System.Drawing.ContentAlignment.BottomRight;
 			// 
 			// button4
 			// 
@@ -1289,6 +1322,26 @@ namespace creaturevisualizer
 			this.tssl_light_intensity.Size = new System.Drawing.Size(50, 22);
 			this.tssl_light_intensity.Text = "i";
 			this.tssl_light_intensity.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// la_camera_hori
+			// 
+			this.la_camera_hori.Location = new System.Drawing.Point(240, 85);
+			this.la_camera_hori.Margin = new System.Windows.Forms.Padding(0);
+			this.la_camera_hori.Name = "la_camera_hori";
+			this.la_camera_hori.Size = new System.Drawing.Size(40, 20);
+			this.la_camera_hori.TabIndex = 24;
+			this.la_camera_hori.Text = "hori";
+			this.la_camera_hori.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+			// 
+			// la_camera_vert
+			// 
+			this.la_camera_vert.Location = new System.Drawing.Point(240, 65);
+			this.la_camera_vert.Margin = new System.Windows.Forms.Padding(0);
+			this.la_camera_vert.Name = "la_camera_vert";
+			this.la_camera_vert.Size = new System.Drawing.Size(40, 20);
+			this.la_camera_vert.TabIndex = 23;
+			this.la_camera_vert.Text = "vert";
+			this.la_camera_vert.TextAlign = System.Drawing.ContentAlignment.BottomRight;
 			// 
 			// CreatureVisualizerF
 			// 

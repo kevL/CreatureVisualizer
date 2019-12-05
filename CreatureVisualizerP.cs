@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
 
 using Microsoft.DirectX;
@@ -84,6 +85,9 @@ namespace creaturevisualizer
 			NetDisplayManager.Instance.AddScene(out scene);
 
 			OpenWindow();
+
+			_t2.Tick += tick;
+			_t2.Interval = 35;
 		}
 
 		/// <summary>
@@ -120,6 +124,9 @@ namespace creaturevisualizer
 //			MousePanel.KeyDown         += ᐁ;
 //			MousePanel.MouseWheel      += ᐃ;
 //			MousePanel.LostFocus       += ᐁ;
+
+			MousePanel.MouseDown   += mousedown;
+			MousePanel.MouseUp     += mouseup;
 
 			Controls.Add(MousePanel);
 		}
@@ -247,7 +254,6 @@ namespace creaturevisualizer
 //					Receiver.PitchMax =  (float)Math.PI / 2f - 0.010F;
 
 					CameraPosition += POS_OFF_Zd;
-//					UpdateCamera();
 					CreatureVisualizerF.that.PrintCameraPosition();
 
 					POS_START_CAMERA = CameraPosition;
@@ -565,30 +571,101 @@ namespace creaturevisualizer
 		#endregion Methods (camera)
 
 
-		#region Handlers (override)
-		bool _isDrag;
-
-		protected override void OnMouseDown(MouseEventArgs e)
+		#region Handlers (mouse)
+		void mousedown(object sender, MouseEventArgs e)
 		{
-			_isDrag = true;
-//			base.OnMouseDown(e);
+			_btn = e.Button;
+			_pos0 = _pos = PointToClient(Cursor.Position);
+			_t2.Start();
 		}
 
-		protected override void OnMouseUp(MouseEventArgs e)
+		void mouseup(object sender, MouseEventArgs e)
 		{
-			_isDrag = false;
-//			base.OnMouseUp(e);
+			_btn = MouseButtons.None;
+			_t2.Stop();
 		}
 
 
-		protected override void OnMouseMove(MouseEventArgs e)
+		// LMB      : select model (or weapon/shield)
+		// RMB+Ctrl : revolve around modal/focuspt (polar)
+		// RMB      : +/- z, +- x(polar on the x/y plane)
+		// LMB+Alt  : +/0 model z axis iff model is selected
+
+		MouseButtons _btn;
+
+		Timer _t2 = new Timer();
+		Point _pos, _pos0;
+
+		void tick(object sender, EventArgs e)
 		{
-			if (_isDrag)
+			if (_pos != _pos0 && _btn != MouseButtons.None)
 			{
-//				e.Location;
+				switch (_btn)
+				{
+					case MouseButtons.Right:
+						switch (Control.ModifierKeys)
+						{
+							case Keys.Control: // polar movement around model/focuspt ->
+							{
+								int deltahori = _pos.X - _pos0.X;
+								int deltavert = _pos.Y - _pos0.Y;
+
+								float hori = (float)deltahori * 0.01f;
+								float vert = (float)deltavert * 0.01f;
+
+								CreatureVisualizerF.that.la_camera_vert.Text = vert.ToString("N2");
+								CreatureVisualizerF.that.la_camera_hori.Text = hori.ToString("N2");
+
+
+								var state = Receiver.CameraState as ModelViewerInputCameraReceiverState;
+								state.FocusTheta += hori;
+								state.FocusPhi   += vert;
+
+								while ((double)state.FocusTheta < -Math.PI)
+									state.FocusTheta += (float)Math.PI * 2f;
+
+								while ((double)state.FocusTheta > Math.PI)
+									state.FocusTheta -= (float)Math.PI * 2f;
+
+								state.FocusPhi = Math.Min(state.PitchMax, state.FocusPhi);
+								state.FocusPhi = Math.Max(state.PitchMin, state.FocusPhi);
+
+								UpdateCamera();
+								CreatureVisualizerF.that.PrintCameraPosition();
+
+
+								CreatureVisualizerF.that.la_camera_pitch.Text = state.FocusPhi  .ToString("N2");
+								CreatureVisualizerF.that.la_camera_yaw  .Text = state.FocusTheta.ToString("N2");
+								break;
+							}
+
+							case Keys.None: // up/down, left/right
+								break;
+						}
+						break;
+
+					case MouseButtons.Left:
+						switch (Control.ModifierKeys)
+						{
+							case Keys.Alt: // z-axis vertical shift.
+							{
+								float z = (float)(_pos.Y - _pos0.Y) * 0.01F;
+
+								var shift = new Vector3(0F, 0F, z);
+								CameraPosition += shift;
+								CreatureVisualizerF.Offset += shift;
+								CreatureVisualizerF.that.PrintCameraPosition();
+								break;
+							}
+						}
+						break;
+				}
 			}
-//			base.OnMouseMove(e);
+
+			_pos0 = _pos;
+			_pos = PointToClient(Cursor.Position);
 		}
+
 
 		protected override void OnMouseWheel(MouseEventArgs e)
 		{
@@ -599,6 +676,6 @@ namespace creaturevisualizer
 
 //			base.OnMouseWheel(e);
 		}
-		#endregion Handlers (override)
+		#endregion Handlers (mouse)
 	}
 }
