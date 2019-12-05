@@ -852,7 +852,7 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_horipos
 			// 
-			this.bu_camera_horipos.Location = new System.Drawing.Point(210, 40);
+			this.bu_camera_horipos.Location = new System.Drawing.Point(215, 40);
 			this.bu_camera_horipos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_horipos.Name = "bu_camera_horipos";
 			this.bu_camera_horipos.Size = new System.Drawing.Size(22, 22);
@@ -866,7 +866,7 @@ namespace creaturevisualizer
 			// 
 			// la_camera_hori
 			// 
-			this.la_camera_hori.Location = new System.Drawing.Point(240, 85);
+			this.la_camera_hori.Location = new System.Drawing.Point(245, 85);
 			this.la_camera_hori.Margin = new System.Windows.Forms.Padding(0);
 			this.la_camera_hori.Name = "la_camera_hori";
 			this.la_camera_hori.Size = new System.Drawing.Size(40, 20);
@@ -877,7 +877,7 @@ namespace creaturevisualizer
 			// 
 			// la_camera_vert
 			// 
-			this.la_camera_vert.Location = new System.Drawing.Point(240, 65);
+			this.la_camera_vert.Location = new System.Drawing.Point(245, 65);
 			this.la_camera_vert.Margin = new System.Windows.Forms.Padding(0);
 			this.la_camera_vert.Name = "la_camera_vert";
 			this.la_camera_vert.Size = new System.Drawing.Size(40, 20);
@@ -888,20 +888,20 @@ namespace creaturevisualizer
 			// 
 			// la_camera_yaw
 			// 
-			this.la_camera_yaw.Location = new System.Drawing.Point(235, 40);
+			this.la_camera_yaw.Location = new System.Drawing.Point(245, 40);
 			this.la_camera_yaw.Margin = new System.Windows.Forms.Padding(0);
 			this.la_camera_yaw.Name = "la_camera_yaw";
-			this.la_camera_yaw.Size = new System.Drawing.Size(50, 20);
+			this.la_camera_yaw.Size = new System.Drawing.Size(40, 20);
 			this.la_camera_yaw.TabIndex = 22;
 			this.la_camera_yaw.Text = "yaw";
 			this.la_camera_yaw.TextAlign = System.Drawing.ContentAlignment.BottomRight;
 			// 
 			// la_camera_pitch
 			// 
-			this.la_camera_pitch.Location = new System.Drawing.Point(235, 20);
+			this.la_camera_pitch.Location = new System.Drawing.Point(245, 20);
 			this.la_camera_pitch.Margin = new System.Windows.Forms.Padding(0);
 			this.la_camera_pitch.Name = "la_camera_pitch";
-			this.la_camera_pitch.Size = new System.Drawing.Size(50, 20);
+			this.la_camera_pitch.Size = new System.Drawing.Size(40, 20);
 			this.la_camera_pitch.TabIndex = 21;
 			this.la_camera_pitch.Text = "pitch";
 			this.la_camera_pitch.TextAlign = System.Drawing.ContentAlignment.BottomRight;
@@ -909,7 +909,7 @@ namespace creaturevisualizer
 			// button4
 			// 
 			this.button4.ForeColor = System.Drawing.Color.Crimson;
-			this.button4.Location = new System.Drawing.Point(185, 80);
+			this.button4.Location = new System.Drawing.Point(190, 80);
 			this.button4.Margin = new System.Windows.Forms.Padding(0);
 			this.button4.Name = "button4";
 			this.button4.Size = new System.Drawing.Size(22, 22);
@@ -921,7 +921,7 @@ namespace creaturevisualizer
 			// 
 			// la_camera_angle
 			// 
-			this.la_camera_angle.Location = new System.Drawing.Point(175, 15);
+			this.la_camera_angle.Location = new System.Drawing.Point(180, 15);
 			this.la_camera_angle.Margin = new System.Windows.Forms.Padding(0);
 			this.la_camera_angle.Name = "la_camera_angle";
 			this.la_camera_angle.Size = new System.Drawing.Size(40, 15);
@@ -931,7 +931,7 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_horineg
 			// 
-			this.bu_camera_horineg.Location = new System.Drawing.Point(160, 40);
+			this.bu_camera_horineg.Location = new System.Drawing.Point(165, 40);
 			this.bu_camera_horineg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_horineg.Name = "bu_camera_horineg";
 			this.bu_camera_horineg.Size = new System.Drawing.Size(22, 22);
@@ -945,7 +945,7 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_vertneg
 			// 
-			this.bu_camera_vertneg.Location = new System.Drawing.Point(185, 55);
+			this.bu_camera_vertneg.Location = new System.Drawing.Point(190, 55);
 			this.bu_camera_vertneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_vertneg.Name = "bu_camera_vertneg";
 			this.bu_camera_vertneg.Size = new System.Drawing.Size(22, 22);
@@ -959,7 +959,7 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_vertpos
 			// 
-			this.bu_camera_vertpos.Location = new System.Drawing.Point(185, 30);
+			this.bu_camera_vertpos.Location = new System.Drawing.Point(190, 30);
 			this.bu_camera_vertpos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_vertpos.Name = "bu_camera_vertpos";
 			this.bu_camera_vertpos.Size = new System.Drawing.Size(22, 22);
@@ -1011,7 +1011,7 @@ namespace creaturevisualizer
 			// 
 			// la_camera_dist
 			// 
-			this.la_camera_dist.Location = new System.Drawing.Point(125, 15);
+			this.la_camera_dist.Location = new System.Drawing.Point(130, 15);
 			this.la_camera_dist.Margin = new System.Windows.Forms.Padding(0);
 			this.la_camera_dist.Name = "la_camera_dist";
 			this.la_camera_dist.Size = new System.Drawing.Size(35, 15);
@@ -1042,7 +1042,7 @@ namespace creaturevisualizer
 			// bu_camera_distreset
 			// 
 			this.bu_camera_distreset.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_camera_distreset.Location = new System.Drawing.Point(129, 80);
+			this.bu_camera_distreset.Location = new System.Drawing.Point(134, 80);
 			this.bu_camera_distreset.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_distreset.Name = "bu_camera_distreset";
 			this.bu_camera_distreset.Size = new System.Drawing.Size(22, 22);
@@ -1054,7 +1054,7 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_distneg
 			// 
-			this.bu_camera_distneg.Location = new System.Drawing.Point(130, 30);
+			this.bu_camera_distneg.Location = new System.Drawing.Point(135, 30);
 			this.bu_camera_distneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_distneg.Name = "bu_camera_distneg";
 			this.bu_camera_distneg.Size = new System.Drawing.Size(22, 22);
@@ -1068,7 +1068,7 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_distpos
 			// 
-			this.bu_camera_distpos.Location = new System.Drawing.Point(129, 55);
+			this.bu_camera_distpos.Location = new System.Drawing.Point(134, 55);
 			this.bu_camera_distpos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_distpos.Name = "bu_camera_distpos";
 			this.bu_camera_distpos.Size = new System.Drawing.Size(22, 22);

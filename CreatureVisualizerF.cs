@@ -29,6 +29,7 @@ namespace creaturevisualizer
 		MenuItem _itRefreshOnFocus;
 		MenuItem _itFeline;
 		MenuItem _itControlPanel;
+		MenuItem _itMiniPanel;
 
 		Timer _t1 = new Timer();
 		Button _repeater;
@@ -73,65 +74,26 @@ namespace creaturevisualizer
 		}
 
 
-		Button _i = new Button();
-		Button _o = new Button();
-		Button _u = new Button();
-		Button _d = new Button();
-		Button _l = new Button();
-		Button _r = new Button();
+		Button _i = new Button(), _o = new Button(),
+			   _u = new Button(), _d = new Button(),
+			   _l = new Button(), _r = new Button();
 
 		void CreateButtons()
 		{
-			_i = new Button();
-			_i.Click     += click_bu_camera_distneg;
-			_i.MouseDown += mousedown_EnableRepeater;
-			_i.MouseUp   += mouseup_DisableRepeater;
-			_i.Text   = "+";
-			_i.Width  = 22;
-			_i.Height = 22;
-
-			var o = new Button();
+			_i = ButtonFactory(_i, "+");
+			_i.Click += click_bu_camera_distneg;
+			_o = ButtonFactory(_o, "-");
 			_o.Click += click_bu_camera_distpos;
-			_o.MouseDown += mousedown_EnableRepeater;
-			_o.MouseUp   += mouseup_DisableRepeater;
-			_o.Text   = "-";
-			_o.Width  = 22;
-			_o.Height = 22;
 
-
-			var u = new Button();
+			_u = ButtonFactory(_u, "u");
 			_u.Click += click_bu_camera_zpos;
-			_u.MouseDown += mousedown_EnableRepeater;
-			_u.MouseUp   += mouseup_DisableRepeater;
-			_u.Text   = "u";
-			_u.Width  = 22;
-			_u.Height = 22;
-
-			var d = new Button();
+			_d = ButtonFactory(_d, "d");
 			_d.Click += click_bu_camera_zneg;
-			_d.MouseDown += mousedown_EnableRepeater;
-			_d.MouseUp   += mouseup_DisableRepeater;
-			_d.Text   = "d";
-			_d.Width  = 22;
-			_d.Height = 22;
 
-
-			var l = new Button();
+			_l = ButtonFactory(_l, "l");
 			_l.Click += click_bu_camera_horineg;
-			_l.MouseDown += mousedown_EnableRepeater;
-			_l.MouseUp   += mouseup_DisableRepeater;
-			_l.Text   = "l";
-			_l.Width  = 22;
-			_l.Height = 22;
-
-			var r = new Button();
+			_r = ButtonFactory(_r, "r");
 			_r.Click += click_bu_camera_horipos;
-			_r.MouseDown += mousedown_EnableRepeater;
-			_r.MouseUp   += mouseup_DisableRepeater;
-			_r.Text   = "r";
-			_r.Width  = 22;
-			_r.Height = 22;
-
 
 			Controls.Add(_i);
 			Controls.Add(_o);
@@ -146,8 +108,17 @@ namespace creaturevisualizer
 			_d.BringToFront();
 			_l.BringToFront();
 			_r.BringToFront();
+		}
 
-			LayoutButtons();
+		Button ButtonFactory(Button b, string text)
+		{
+			b.MouseDown += mousedown_EnableRepeater;
+			b.MouseUp   += mouseup_DisableRepeater;
+			b.Text   = text;
+			b.Width  = 22;
+			b.Height = 22;
+
+			return b;
 		}
 
 		/// <summary>
@@ -157,14 +128,20 @@ namespace creaturevisualizer
 		{
 			if (WindowState != FormWindowState.Minimized)
 			{
+				int off;
+				if (_itControlPanel != null && _itControlPanel.Checked)
+					off = pa_controls.Width;
+				else
+					off = 0;
+
 				_i.Location = new Point(0, ClientRectangle.Bottom - _o.Height - _i.Height);
 				_o.Location = new Point(0, ClientRectangle.Bottom - _o.Height);
 
-				_u.Location = new Point(ClientRectangle.Right - pa_controls.Width - _u.Width, _panel.Height - _d.Height - _u.Height);
-				_d.Location = new Point(ClientRectangle.Right - pa_controls.Width - _d.Width, _panel.Height - _d.Height);
+				_u.Location = new Point(ClientRectangle.Right - off - _u.Width, ClientRectangle.Bottom - _d.Height - _u.Height);
+				_d.Location = new Point(ClientRectangle.Right - off - _d.Width, ClientRectangle.Bottom - _d.Height);
 
-				_l.Location = new Point((ClientRectangle.Right - pa_controls.Width) / 2 - _l.Width, _panel.Height - _l.Height);
-				_r.Location = new Point((ClientRectangle.Right - pa_controls.Width) / 2,            _panel.Height - _r.Height);
+				_l.Location = new Point((ClientRectangle.Right - off) / 2 - _l.Width, ClientRectangle.Bottom - _l.Height);
+				_r.Location = new Point((ClientRectangle.Right - off) / 2,            ClientRectangle.Bottom - _r.Height);
 			}
 		}
 
@@ -198,6 +175,10 @@ namespace creaturevisualizer
 			// Options ->
 			_itControlPanel = Menu.MenuItems[1].MenuItems.Add("control &panel", optionsclick_ControlPanel);
 			_itControlPanel.Shortcut = Shortcut.CtrlP;
+
+			_itMiniPanel = Menu.MenuItems[1].MenuItems.Add("&mini panel", optionsclick_MiniPanel);
+			_itMiniPanel.Shortcut = Shortcut.CtrlM;
+			_itMiniPanel.Checked = true;
 
 			Menu.MenuItems[1].MenuItems.Add("-");
 
@@ -267,6 +248,12 @@ namespace creaturevisualizer
 
 				pa_controls.Visible = false;
 			}
+		}
+
+		void optionsclick_MiniPanel(object sender, EventArgs e)
+		{
+			_i.Visible = _o.Visible = _u.Visible =
+			_d.Visible = _l.Visible = _r.Visible = (_itMiniPanel.Checked = !_itMiniPanel.Checked);
 		}
 
 		void optionsclick_StayOnTop(object sender, EventArgs e)
