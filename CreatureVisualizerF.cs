@@ -64,7 +64,7 @@ namespace creaturevisualizer
 			_panel.Select();
 
 
-//			_itControlPanel  .PerformClick(); // TEST
+			_itControlPanel  .PerformClick(); // TEST
 //			_itRefreshOnFocus.PerformClick(); // TEST
 		}
 
@@ -682,6 +682,15 @@ namespace creaturevisualizer
 			if (angle < 0F) angle += 360F;
 
 			tssl_camera_rot.Text = ((int)angle).ToString(); // 0 is north, goes clockwise
+
+
+			var state = _panel.Receiver.CameraState as ModelViewerInputCameraReceiverState;
+			la_camera_pitch.Text = (state.FocusPhi   * 180F / (float)Math.PI).ToString("N2");
+			la_camera_yaw  .Text = (state.FocusTheta * 180F / (float)Math.PI).ToString("N2");
+		}
+		internal int getrot()
+		{
+			return Int32.Parse(tssl_camera_rot.Text);
 		}
 
 

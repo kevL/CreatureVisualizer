@@ -613,10 +613,6 @@ namespace creaturevisualizer
 								float hori = (float)deltahori * 0.01f;
 								float vert = (float)deltavert * 0.01f;
 
-								CreatureVisualizerF.that.la_camera_vert.Text = vert.ToString("N2");
-								CreatureVisualizerF.that.la_camera_hori.Text = hori.ToString("N2");
-
-
 								var state = Receiver.CameraState as ModelViewerInputCameraReceiverState;
 								state.FocusTheta += hori;
 								state.FocusPhi   += vert;
@@ -632,15 +628,33 @@ namespace creaturevisualizer
 
 								UpdateCamera();
 								CreatureVisualizerF.that.PrintCameraPosition();
-
-
-								CreatureVisualizerF.that.la_camera_pitch.Text = state.FocusPhi  .ToString("N2");
-								CreatureVisualizerF.that.la_camera_yaw  .Text = state.FocusTheta.ToString("N2");
 								break;
 							}
 
 							case Keys.None: // up/down, left/right
+							{
+								// vertical shift ->
+								float z = (float)(_pos.Y - _pos0.Y) * 0.01F;
+								var shift = new Vector3(0F, 0F, z);
+
+								// horizontal shifts ->
+								float rot = CreatureVisualizerF.that.getrot();
+								rot *= (float)Math.PI / 180F;
+
+								float cos = (float)(Math.Cos((double)rot));
+								float x = (float)(_pos0.X - _pos.X) * 0.01F * cos;
+								shift += new Vector3(x, 0F, 0F);
+
+								float sin = -(float)(Math.Sin((double)rot));
+								float y = (float)(_pos0.X - _pos.X) * 0.01F * sin;
+								shift += new Vector3(0F, y, 0F);
+
+								CameraPosition += shift;
+								CreatureVisualizerF.Offset += shift;
+
+								CreatureVisualizerF.that.PrintCameraPosition();
 								break;
+							}
 						}
 						break;
 
@@ -670,9 +684,9 @@ namespace creaturevisualizer
 		protected override void OnMouseWheel(MouseEventArgs e)
 		{
 			if (e.Delta > 0)
-				CreatureVisualizerF.that.click_bu_camera_distpos(null, EventArgs.Empty);
-			else if (e.Delta < 0)
 				CreatureVisualizerF.that.click_bu_camera_distneg(null, EventArgs.Empty);
+			else if (e.Delta < 0)
+				CreatureVisualizerF.that.click_bu_camera_distpos(null, EventArgs.Empty);
 
 //			base.OnMouseWheel(e);
 		}
