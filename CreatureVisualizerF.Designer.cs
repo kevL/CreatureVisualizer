@@ -170,13 +170,13 @@ namespace creaturevisualizer
 			this.bu_model_zneg = new System.Windows.Forms.Button();
 			this.bu_model_zpos = new System.Windows.Forms.Button();
 			this.gb_camera = new System.Windows.Forms.GroupBox();
+			this.bu_camera_horipos = new System.Windows.Forms.Button();
 			this.la_camera_hori = new System.Windows.Forms.Label();
 			this.la_camera_vert = new System.Windows.Forms.Label();
 			this.la_camera_yaw = new System.Windows.Forms.Label();
 			this.la_camera_pitch = new System.Windows.Forms.Label();
 			this.button4 = new System.Windows.Forms.Button();
 			this.la_camera_angle = new System.Windows.Forms.Label();
-			this.bu_camera_horipos = new System.Windows.Forms.Button();
 			this.bu_camera_horineg = new System.Windows.Forms.Button();
 			this.bu_camera_vertneg = new System.Windows.Forms.Button();
 			this.bu_camera_vertpos = new System.Windows.Forms.Button();
@@ -850,6 +850,20 @@ namespace creaturevisualizer
 			this.gb_camera.TabStop = false;
 			this.gb_camera.Text = " Camera ";
 			// 
+			// bu_camera_horipos
+			// 
+			this.bu_camera_horipos.Location = new System.Drawing.Point(210, 40);
+			this.bu_camera_horipos.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_horipos.Name = "bu_camera_horipos";
+			this.bu_camera_horipos.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_horipos.TabIndex = 18;
+			this.bu_camera_horipos.Text = "+";
+			this.bu_camera_horipos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_horipos.UseVisualStyleBackColor = true;
+			this.bu_camera_horipos.Click += new System.EventHandler(this.click_bu_camera_horineg);
+			this.bu_camera_horipos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_camera_horipos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			// 
 			// la_camera_hori
 			// 
 			this.la_camera_hori.Location = new System.Drawing.Point(240, 85);
@@ -914,20 +928,6 @@ namespace creaturevisualizer
 			this.la_camera_angle.TabIndex = 14;
 			this.la_camera_angle.Text = "Po";
 			this.la_camera_angle.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			// 
-			// bu_camera_horipos
-			// 
-			this.bu_camera_horipos.Location = new System.Drawing.Point(210, 40);
-			this.bu_camera_horipos.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_camera_horipos.Name = "bu_camera_horipos";
-			this.bu_camera_horipos.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_horipos.TabIndex = 18;
-			this.bu_camera_horipos.Text = "+";
-			this.bu_camera_horipos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.bu_camera_horipos.UseVisualStyleBackColor = true;
-			this.bu_camera_horipos.Click += new System.EventHandler(this.click_bu_camera_horineg);
-			this.bu_camera_horipos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
-			this.bu_camera_horipos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
 			// bu_camera_horineg
 			// 

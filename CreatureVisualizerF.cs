@@ -63,9 +63,91 @@ namespace creaturevisualizer
 			_panel.CreateInstance();
 			_panel.Select();
 
+			CreateButtons();
+
 
 			_itControlPanel  .PerformClick(); // TEST
 //			_itRefreshOnFocus.PerformClick(); // TEST
+		}
+
+		void CreateButtons()
+		{
+			var @in = new Button();
+			@in.Click     += click_bu_camera_distneg;
+			@in.MouseDown += mousedown_EnableRepeater;
+			@in.MouseUp   += mouseup_DisableRepeater;
+			@in.Text   = "+";
+			@in.Width  = 22;
+			@in.Height = 22;
+
+			var @out = new Button();
+			@out.Click += click_bu_camera_distpos;
+			@out.MouseDown += mousedown_EnableRepeater;
+			@out.MouseUp   += mouseup_DisableRepeater;
+			@out.Text   = "-";
+			@out.Width  = 22;
+			@out.Height = 22;
+
+			@in .Location = new Point(0, _panel.Height - @out.Height - @in.Height);
+			@out.Location = new Point(0, _panel.Height - @out.Height);
+
+			Controls.Add(@in);
+			Controls.Add(@out);
+
+			@in .BringToFront();
+			@out.BringToFront();
+
+
+			var u = new Button();
+			u.Click += click_bu_camera_zpos;
+			u.MouseDown += mousedown_EnableRepeater;
+			u.MouseUp   += mouseup_DisableRepeater;
+			u.Text   = "u";
+			u.Width  = 22;
+			u.Height = 22;
+
+			var d = new Button();
+			d.Click += click_bu_camera_zneg;
+			d.MouseDown += mousedown_EnableRepeater;
+			d.MouseUp   += mouseup_DisableRepeater;
+			d.Text   = "d";
+			d.Width  = 22;
+			d.Height = 22;
+
+			u.Location = new Point(_panel.Width - u.Width, _panel.Height - d.Height - u.Height);
+			d.Location = new Point(_panel.Width - d.Width, _panel.Height - d.Height);
+
+			Controls.Add(u);
+			Controls.Add(d);
+
+			u.BringToFront();
+			d.BringToFront();
+
+
+			var l = new Button();
+			l.Click += click_bu_camera_horineg;
+			l.MouseDown += mousedown_EnableRepeater;
+			l.MouseUp   += mouseup_DisableRepeater;
+			l.Text   = "l";
+			l.Width  = 22;
+			l.Height = 22;
+
+			var r = new Button();
+			r.Click += click_bu_camera_horipos;
+			r.MouseDown += mousedown_EnableRepeater;
+			r.MouseUp   += mouseup_DisableRepeater;
+			r.Text   = "r";
+			r.Width  = 22;
+			r.Height = 22;
+
+			l.Location = new Point(_panel.Width / 2 - l.Width, _panel.Height - l.Height);
+			r.Location = new Point(_panel.Width / 2,           _panel.Height - r.Height);
+
+			Controls.Add(l);
+			Controls.Add(r);
+
+			l.BringToFront();
+			r.BringToFront();
 		}
 
 
