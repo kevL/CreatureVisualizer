@@ -69,7 +69,7 @@ namespace creaturevisualizer
 			ResumeLayout(false);
 
 
-			_itControlPanel  .PerformClick(); // TEST
+//			_itControlPanel  .PerformClick(); // TEST
 //			_itRefreshOnFocus.PerformClick(); // TEST
 		}
 
@@ -236,16 +236,20 @@ namespace creaturevisualizer
 		{
 			if (_itControlPanel.Checked = !_itControlPanel.Checked)
 			{
-				ClientSize = new Size(ClientSize.Width + pa_controls.Width,
-									  ClientSize.Height);
-
+				if (WindowState != FormWindowState.Maximized)
+				{
+					ClientSize = new Size(ClientSize.Width + pa_controls.Width,
+										  ClientSize.Height);
+				}
 				pa_controls.Visible = true;
 			}
 			else
 			{
-				ClientSize = new Size(ClientSize.Width - pa_controls.Width,
-									  ClientSize.Height);
-
+				if (WindowState != FormWindowState.Maximized)
+				{
+					ClientSize = new Size(ClientSize.Width - pa_controls.Width,
+										  ClientSize.Height);
+				}
 				pa_controls.Visible = false;
 			}
 		}
