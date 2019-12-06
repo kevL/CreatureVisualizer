@@ -78,9 +78,26 @@ namespace creaturevisualizer
 
 		//handle SelectionChanged event
 
+
+/*		/// <summary>
+		/// This works great. Absolutely kills flicker on redraws.
+		/// </summary>
+		protected override CreateParams CreateParams
+		{
+			get
+			{
+				CreateParams cp = base.CreateParams;
+				cp.ExStyle |= 0x02000000;
+				return cp;
+			}
+		} */
+
+
 		#region cTor
 		internal CreatureVisualizerP()
 		{
+//			DoubleBuffered = true;
+
 			RecreateMousePanel();
 
 			NetDisplayScene scene = Scene;
@@ -91,6 +108,45 @@ namespace creaturevisualizer
 			_t2.Tick += tick;
 			_t2.Interval = 35;
 		}
+
+
+/*		/// <summary>
+		/// Calls SetDoubleBuffered(object) on an array of objects.
+		/// </summary>
+		/// <param name="controls"></param>
+		static void SetDoubleBuffered(object[] controls)
+		{
+			foreach (var control in controls)
+				SetDoubleBuffered(control);
+		}
+
+		/// <summary>
+		/// Some controls, such as the DataGridView, do not allow setting the
+		/// DoubleBuffered property. It is set as a protected property. This
+		/// method is a work-around to allow setting it. Call this in the
+		/// constructor just after InitializeComponent().
+		/// https://stackoverflow.com/questions/118528/horrible-redraw-performance-of-the-datagridview-on-one-of-my-two-screens#answer-16625788
+		/// @note I wonder if this works on Mono. It stops the redraw-flick when
+		/// setting the sprite-phase on return from SpritesetviewF on my system
+		/// (Win7-64). Also stops flicker on the IsoLoft panel. etc.
+		/// </summary>
+		/// <param name="control">the Control on which to set DoubleBuffered to true</param>
+		static void SetDoubleBuffered(object control)
+		{
+			// if not remote desktop session then enable double-buffering optimization
+			if (!SystemInformation.TerminalServerSession)
+			{
+				// set instance non-public property with name "DoubleBuffered" to true
+				typeof(Control).InvokeMember("DoubleBuffered",
+											 System.Reflection.BindingFlags.SetProperty
+										   | System.Reflection.BindingFlags.Instance
+										   | System.Reflection.BindingFlags.NonPublic,
+											 null,
+											 control,
+											 new object[] { true });
+			}
+		} */
+
 
 		/// <summary>
 		/// Disposes of their MousePanel and instantiates a CreatureVisualizer
@@ -127,8 +183,8 @@ namespace creaturevisualizer
 //			MousePanel.MouseWheel      += ᐃ;
 //			MousePanel.LostFocus       += ᐁ;
 
-			MousePanel.MouseDown   += mousedown;
-			MousePanel.MouseUp     += mouseup;
+			MousePanel.MouseDown += mousedown;
+			MousePanel.MouseUp   += mouseup;
 
 			Controls.Add(MousePanel);
 		}
@@ -319,6 +375,10 @@ namespace creaturevisualizer
 
 				Light = new NetDisplayLightPoint();
 
+//				Light.Color.DiffuseColor  = Color.Red;
+//				Light.Color.AmbientColor  = Color.Red; // no noticeable effect
+//				Light.Color.SpecularColor = Color.Red;
+
 				Light.Position        = POS_START_LIGHT;
 
 				Light.Color.Intensity = DEFAULT_LIGHT_INTENSITY;
@@ -339,6 +399,16 @@ namespace creaturevisualizer
 				NWN2NetDisplayManager.Instance.LightParameters(Light.Scene, Light);
 
 				CreatureVisualizerF.that.PrintLightPosition(Light.Position, Light.Color.Intensity);
+
+//				SetDoubleBuffered(NDWindow);
+//				SetDoubleBuffered(NWN2NetDisplayManager.Instance.Windows);
+
+//				var a = new NetDisplayWindow[NWN2NetDisplayManager.Instance.Windows.Count];
+//				for (int i = 0; i != NWN2NetDisplayManager.Instance.Windows.Count; ++i)
+//					a[i] = NWN2NetDisplayManager.Instance.Windows[i];
+//
+//				SetDoubleBuffered(a);
+
 				return true;
 			}
 			return false;

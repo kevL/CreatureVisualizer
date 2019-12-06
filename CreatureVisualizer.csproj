@@ -53,6 +53,9 @@
     <Reference Include="SandBar">
       <HintPath>..\..\Neverwinter Nights 2\SandBar.dll</HintPath>
     </Reference>
+    <Reference Include="Sano.PersonalProjects.ColorPicker.Controls">
+      <HintPath>..\..\Neverwinter Nights 2\Sano.PersonalProjects.ColorPicker.Controls.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>

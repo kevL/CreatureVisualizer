@@ -260,32 +260,29 @@ namespace creaturevisualizer
 		{
 			base.OnResize(e);
 
-			if (WindowState == FormWindowState.Normal)
+			switch (WindowState)
 			{
-				if (!_toggle
-					&& (_itControlPanel == null || !_itControlPanel.Checked))
-				{
-					_pa_Gui_w = ClientSize.Width;
-					_pa_Gui_h = ClientSize.Height;
-				}
-				LayoutButtons();
-			}
-			else if (WindowState == FormWindowState.Maximized)
-			{
-				if (_itControlPanel != null && _itControlPanel.Checked)
-				{
-					switch (_dir)
+				case FormWindowState.Normal:
+					if (!_toggle
+						&& (_itControlPanel == null || !_itControlPanel.Checked))
 					{
-						case CpDir.n: _dir = CpDir.e; UpdatePanel(); break;
-						case CpDir.s: _dir = CpDir.w; UpdatePanel(); break;
-
-						default:
-							LayoutButtons();
-							break;
+						_pa_Gui_w = ClientSize.Width;
+						_pa_Gui_h = ClientSize.Height;
 					}
-				}
-				else
 					LayoutButtons();
+					break;
+
+				case FormWindowState.Maximized:
+					if (_itControlPanel != null && _itControlPanel.Checked)
+					{
+						switch (_dir)
+						{
+							case CpDir.n: _dir = CpDir.e; UpdatePanel(); return;
+							case CpDir.s: _dir = CpDir.w; UpdatePanel(); return;
+						}
+					}
+					LayoutButtons();
+					break;
 			}
 		}
 
@@ -370,45 +367,46 @@ namespace creaturevisualizer
 			{
 				_toggle = true;
 
-				if (WindowState == FormWindowState.Normal)
+				switch (WindowState)
 				{
-					int w,h;
-					switch (_dir)
+					case FormWindowState.Normal:
 					{
-						default: //case CpDir.n:
-							pa_con.Dock = DockStyle.Top;
-							w = _pa_Gui_w;
-							h = _pa_Gui_h + _pa_Con_h;
-							break;
+						int w,h;
+						switch (_dir)
+						{
+							default: //case CpDir.n:
+								pa_con.Dock = DockStyle.Top;
+								w = _pa_Gui_w;
+								h = _pa_Gui_h + _pa_Con_h;
+								break;
 
-						case CpDir.e:
-							pa_con.Dock = DockStyle.Right;
-							w = _pa_Gui_w + _pa_Con_w;
-							h = _pa_Gui_h;
-							break;
+							case CpDir.e:
+								pa_con.Dock = DockStyle.Right;
+								w = _pa_Gui_w + _pa_Con_w;
+								h = _pa_Gui_h;
+								break;
 
-						case CpDir.s:
-							pa_con.Dock = DockStyle.Bottom;
-							w = _pa_Gui_w;
-							h = _pa_Gui_h + _pa_Con_h;
-							break;
+							case CpDir.s:
+								pa_con.Dock = DockStyle.Bottom;
+								w = _pa_Gui_w;
+								h = _pa_Gui_h + _pa_Con_h;
+								break;
 
-						case CpDir.w:
-							pa_con.Dock = DockStyle.Left;
-							w = _pa_Gui_w + _pa_Con_w;
-							h = _pa_Gui_h;
-							break;
+							case CpDir.w:
+								pa_con.Dock = DockStyle.Left;
+								w = _pa_Gui_w + _pa_Con_w;
+								h = _pa_Gui_h;
+								break;
+						}
+						ClientSize = new Size(w,h);
+
+						goto case FormWindowState.Maximized;
 					}
-					ClientSize = new Size(w,h);
 
-					pa_con.Visible = true;
-
-					LayoutButtons();
-				}
-				else if (WindowState == FormWindowState.Maximized)
-				{
-					pa_con.Visible = true;
-					LayoutButtons();
+					case FormWindowState.Maximized:
+						pa_con.Visible = true;
+						LayoutButtons();
+						break;
 				}
 
 				_toggle = false;
@@ -417,28 +415,31 @@ namespace creaturevisualizer
 			{
 				pa_con.Visible = false;
 
-				if (WindowState == FormWindowState.Normal)
+				switch (WindowState)
 				{
-					int w,h;
-					switch (_dir)
+					case  FormWindowState.Normal:
 					{
-						case CpDir.n: case CpDir.s:
-							w = ClientSize.Width;
-							h = ClientSize.Height - _pa_Con_h;
-							break;
+						int w,h;
+						switch (_dir)
+						{
+							case CpDir.n: case CpDir.s:
+								w = ClientSize.Width;
+								h = ClientSize.Height - _pa_Con_h;
+								break;
+	
+							default: // case CpDir.e: case CpDir.w:
+								w = ClientSize.Width - _pa_Con_w;
+								h = ClientSize.Height;
+								break;
+						}
+						ClientSize = new Size(w,h);
 
-						default: // case CpDir.e: case CpDir.w:
-							w = ClientSize.Width - _pa_Con_w;
-							h = ClientSize.Height;
-							break;
+						goto case FormWindowState.Maximized;
 					}
-					ClientSize = new Size(w,h);
 
-					LayoutButtons();
-				}
-				else if (WindowState == FormWindowState.Maximized)
-				{
-					LayoutButtons();
+					case FormWindowState.Maximized:
+						LayoutButtons();
+						break;
 				}
 			}
 		}
@@ -798,9 +799,9 @@ namespace creaturevisualizer
 				_panel.UpdateCamera();
 			}
 			else if (result <= -100F)
-				tb_camera_height.Text = (-99.99F).ToString();
+				tb_camera_height.Text = (-99.99F).ToString();	// refire^
 			else if (result >=  100F)
-				tb_camera_height.Text = 99.99F.ToString();
+				tb_camera_height.Text = 99.99F.ToString();		// refire^
 		}
 
 		void keydown_tb_camera_height(object sender, KeyEventArgs e)
@@ -1085,6 +1086,48 @@ namespace creaturevisualizer
 					}
 				}
 			}
+		}
+
+
+
+		Sano.PersonalProjects.ColorPicker.Controls.ColorEditForm _sano;
+
+		void click_bu_light_diffuse(object sender, EventArgs e)
+		{
+			_sano = new Sano.PersonalProjects.ColorPicker.Controls.ColorEditForm();
+
+			_sano.colorPanel.SelectedColor = _panel.Light.Color.DiffuseColor;
+			_sano.colorPanel.ColorValueChanged += colorchanged;
+
+			if (_sano.ShowDialog(this) == DialogResult.OK)
+			{
+			}
+		}
+
+		void colorchanged(object sender, EventArgs e)
+		{
+			_panel.Light.Color.DiffuseColor = _sano.colorPanel.SelectedColor;
+			Refresh();
+		}
+
+/*	private void ᐁ(object P_0, EventArgs P_1)
+	{
+		ColorEditForm colorEditForm = new ColorEditForm();
+		Color color = Color;
+		colorEditForm.colorPanel.SelectedColor = Color;
+		colorEditForm.colorPanel.ColorValueChanged += ᐂ;
+		if (colorEditForm.ShowDialog() == DialogResult.OK)
+		{
+			Color = colorEditForm.colorPanel.SelectedColor;
+		}
+		else
+		{
+			Color = color;
+		}
+	} */
+
+		void click_bu_light_specular(object sender, EventArgs e)
+		{
 		}
 		#endregion Handlers (light)
 
