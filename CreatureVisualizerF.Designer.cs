@@ -296,10 +296,11 @@ namespace creaturevisualizer
 			// 
 			// pa_light_specular
 			// 
-			this.pa_light_specular.Location = new System.Drawing.Point(150, 80);
+			this.pa_light_specular.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pa_light_specular.Location = new System.Drawing.Point(150, 81);
 			this.pa_light_specular.Margin = new System.Windows.Forms.Padding(0);
 			this.pa_light_specular.Name = "pa_light_specular";
-			this.pa_light_specular.Size = new System.Drawing.Size(22, 22);
+			this.pa_light_specular.Size = new System.Drawing.Size(20, 20);
 			this.pa_light_specular.TabIndex = 30;
 			// 
 			// bu_light_specular
@@ -315,10 +316,11 @@ namespace creaturevisualizer
 			// 
 			// pa_light_diffuse
 			// 
-			this.pa_light_diffuse.Location = new System.Drawing.Point(150, 55);
+			this.pa_light_diffuse.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pa_light_diffuse.Location = new System.Drawing.Point(150, 56);
 			this.pa_light_diffuse.Margin = new System.Windows.Forms.Padding(0);
 			this.pa_light_diffuse.Name = "pa_light_diffuse";
-			this.pa_light_diffuse.Size = new System.Drawing.Size(22, 22);
+			this.pa_light_diffuse.Size = new System.Drawing.Size(20, 20);
 			this.pa_light_diffuse.TabIndex = 28;
 			// 
 			// bu_light_diffuse
@@ -415,7 +417,7 @@ namespace creaturevisualizer
 			this.button11.Location = new System.Drawing.Point(10, 105);
 			this.button11.Margin = new System.Windows.Forms.Padding(0);
 			this.button11.Name = "button11";
-			this.button11.Size = new System.Drawing.Size(272, 20);
+			this.button11.Size = new System.Drawing.Size(102, 20);
 			this.button11.TabIndex = 13;
 			this.button11.Text = "reset";
 			this.button11.UseVisualStyleBackColor = true;

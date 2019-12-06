@@ -375,10 +375,6 @@ namespace creaturevisualizer
 
 				Light = new NetDisplayLightPoint();
 
-//				Light.Color.DiffuseColor  = Color.Red;
-//				Light.Color.AmbientColor  = Color.Red; // no noticeable effect
-//				Light.Color.SpecularColor = Color.Red;
-
 				Light.Position        = POS_START_LIGHT;
 
 				Light.Color.Intensity = DEFAULT_LIGHT_INTENSITY;
@@ -387,6 +383,11 @@ namespace creaturevisualizer
 
 				Light.ID              = NetDisplayManager.Instance.NextObjectID;	// doesn't appear to be req'd.
 				Light.Tag             = Light;										// doesn't appear to be req'd.
+
+//				Light.Color.AmbientColor  = ; // no noticeable effect
+//				Light.Color.DiffuseColor  = ; // default
+//				Light.Color.SpecularColor = ; // default
+
 
 				lock (Scene.Objects.SyncRoot)
 				{
@@ -399,6 +400,8 @@ namespace creaturevisualizer
 				NWN2NetDisplayManager.Instance.LightParameters(Light.Scene, Light);
 
 				CreatureVisualizerF.that.PrintLightPosition(Light.Position, Light.Color.Intensity);
+				CreatureVisualizerF.that.PrintDiffuseColor();
+				CreatureVisualizerF.that.PrintSpecularColor();
 
 //				SetDoubleBuffered(NDWindow);
 //				SetDoubleBuffered(NWN2NetDisplayManager.Instance.Windows);
@@ -430,16 +433,26 @@ namespace creaturevisualizer
 				Scene.DayNightCycleStages[(int)DayNightStageType.Default].ShadowIntensity = 0F;
 			}
 
+			float intensity = Light.Color.Intensity;
+			Color diffuse   = Light.Color.DiffuseColor;
+			Color specular  = Light.Color.SpecularColor;
+
+
 			Light = new NetDisplayLightPoint();
 
 			Light.Position        = pos;
 
-			Light.Color.Intensity = 0.72F;
+			Light.Color.Intensity = intensity;
 			Light.Range           = 50F;
 			Light.CastsShadow     = false;
 
 			Light.ID              = NetDisplayManager.Instance.NextObjectID;	// doesn't appear to be req'd.
 			Light.Tag             = Light;										// doesn't appear to be req'd.
+
+//			Light.Color.AmbientColor  = ; // no noticeable effect
+			Light.Color.DiffuseColor  = diffuse;
+			Light.Color.SpecularColor = specular;
+
 
 			lock (Scene.Objects.SyncRoot)
 			{
@@ -450,6 +463,10 @@ namespace creaturevisualizer
 				NWN2NetDisplayManager.Instance.Objects.Add(Light);
 			}
 			NWN2NetDisplayManager.Instance.LightParameters(Light.Scene, Light);
+
+			CreatureVisualizerF.that.PrintLightPosition(Light.Position, Light.Color.Intensity);
+//			CreatureVisualizerF.that.PrintDiffuseColor();
+//			CreatureVisualizerF.that.PrintSpecularColor();
 		}
 
 

@@ -954,55 +954,37 @@ namespace creaturevisualizer
 		void click_bu_light_zpos(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-			{
 				_panel.RecreateLight(_panel.Light.Position + grader(CreatureVisualizerP.off_zpos));
-				PrintLightPosition(_panel.Light.Position, _panel.Light.Color.Intensity);
-			}
 		}
 
 		void click_bu_light_zneg(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-			{
 				_panel.RecreateLight(_panel.Light.Position + grader(CreatureVisualizerP.off_zneg));
-				PrintLightPosition(_panel.Light.Position, _panel.Light.Color.Intensity);
-			}
 		}
 
 		void click_bu_light_ypos(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-			{
 				_panel.RecreateLight(_panel.Light.Position + grader(CreatureVisualizerP.off_ypos));
-				PrintLightPosition(_panel.Light.Position, _panel.Light.Color.Intensity);
-			}
 		}
 
 		void click_bu_light_yneg(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-			{
 				_panel.RecreateLight(_panel.Light.Position + grader(CreatureVisualizerP.off_yneg));
-				PrintLightPosition(_panel.Light.Position, _panel.Light.Color.Intensity);
-			}
 		}
 
 		void click_bu_light_xpos(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-			{
 				_panel.RecreateLight(_panel.Light.Position + grader(CreatureVisualizerP.off_xpos));
-				PrintLightPosition(_panel.Light.Position, _panel.Light.Color.Intensity);
-			}
 		}
 
 		void click_bu_light_xneg(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-			{
 				_panel.RecreateLight(_panel.Light.Position + grader(CreatureVisualizerP.off_xneg));
-				PrintLightPosition(_panel.Light.Position, _panel.Light.Color.Intensity);
-			}
 		}
 
 
@@ -1014,7 +996,6 @@ namespace creaturevisualizer
 									  _panel.Light.Position.Y,
 									  CreatureVisualizerP.POS_START_LIGHT.Z);
 				_panel.RecreateLight(pos);
-				PrintLightPosition(_panel.Light.Position, _panel.Light.Color.Intensity);
 			}
 		}
 
@@ -1026,17 +1007,13 @@ namespace creaturevisualizer
 									  CreatureVisualizerP.POS_START_LIGHT.Y,
 									  _panel.Light.Position.Z);
 				_panel.RecreateLight(pos);
-				PrintLightPosition(_panel.Light.Position, _panel.Light.Color.Intensity);
 			}
 		}
 
 		void click_bu_light_reset(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-			{
 				_panel.RecreateLight(CreatureVisualizerP.POS_START_LIGHT);
-				PrintLightPosition(_panel.Light.Position, _panel.Light.Color.Intensity);
-			}
 		}
 
 
@@ -1096,38 +1073,48 @@ namespace creaturevisualizer
 		{
 			_sano = new Sano.PersonalProjects.ColorPicker.Controls.ColorEditForm();
 
+			Color color = _panel.Light.Color.DiffuseColor;
 			_sano.colorPanel.SelectedColor = _panel.Light.Color.DiffuseColor;
-			_sano.colorPanel.ColorValueChanged += colorchanged;
+			_sano.colorPanel.ColorValueChanged += colorchanged_diff;
 
 			if (_sano.ShowDialog(this) == DialogResult.OK)
 			{
-//				_panel.Light.Color.DiffuseColor = _sano.colorPanel.SelectedColor;
+				pa_light_diffuse.BackColor =
+				_panel.Light.Color.DiffuseColor = _sano.colorPanel.SelectedColor;
 			}
+			else
+				pa_light_diffuse.BackColor =
+				_panel.Light.Color.DiffuseColor = color;
 		}
 
-		void colorchanged(object sender, EventArgs e)
+		void colorchanged_diff(object sender, EventArgs e)
 		{
+			pa_light_diffuse.BackColor =
 			_panel.Light.Color.DiffuseColor = _sano.colorPanel.SelectedColor;
 		}
 
-/*	private void ᐁ(object P_0, EventArgs P_1)
-	{
-		ColorEditForm colorEditForm = new ColorEditForm();
-		Color color = Color;
-		colorEditForm.colorPanel.SelectedColor = Color;
-		colorEditForm.colorPanel.ColorValueChanged += ᐂ;
-		if (colorEditForm.ShowDialog() == DialogResult.OK)
-		{
-			Color = colorEditForm.colorPanel.SelectedColor;
-		}
-		else
-		{
-			Color = color;
-		}
-	} */
-
 		void click_bu_light_specular(object sender, EventArgs e)
 		{
+			_sano = new Sano.PersonalProjects.ColorPicker.Controls.ColorEditForm();
+
+			Color color = _panel.Light.Color.SpecularColor;
+			_sano.colorPanel.SelectedColor = _panel.Light.Color.SpecularColor;
+			_sano.colorPanel.ColorValueChanged += colorchanged_spec;
+
+			if (_sano.ShowDialog(this) == DialogResult.OK)
+			{
+				pa_light_specular.BackColor =
+				_panel.Light.Color.SpecularColor = _sano.colorPanel.SelectedColor;
+			}
+			else
+				pa_light_specular.BackColor =
+				_panel.Light.Color.SpecularColor = color;
+		}
+
+		void colorchanged_spec(object sender, EventArgs e)
+		{
+			pa_light_specular.BackColor =
+			_panel.Light.Color.SpecularColor = _sano.colorPanel.SelectedColor;
 		}
 		#endregion Handlers (light)
 
@@ -1221,6 +1208,16 @@ namespace creaturevisualizer
 			tssl_light_zpos.Text = pos.Z.ToString("N2");
 
 			tssl_light_intensity.Text = intensity.ToString("N2");
+		}
+
+		internal void PrintDiffuseColor()
+		{
+			pa_light_diffuse.BackColor = _panel.Light.Color.DiffuseColor;
+		}
+
+		internal void PrintSpecularColor()
+		{
+			pa_light_specular.BackColor = _panel.Light.Color.SpecularColor;
 		}
 
 
