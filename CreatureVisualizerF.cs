@@ -86,6 +86,8 @@ namespace creaturevisualizer
 			_pa_Con_w = pa_con.Width;
 			_pa_Con_h = pa_con.Height;
 
+			tb_camera_height.Text = _baseheight.ToString("N2");
+
 
 			_itControlPanel  .PerformClick(); // TEST
 //			_itRefreshOnFocus.PerformClick(); // TEST
@@ -283,7 +285,7 @@ namespace creaturevisualizer
 					if (WindowState == FormWindowState.Normal
 						&& _itControlPanel.Checked)
 					{
-						e.SuppressKeyPress = true;
+						e.Handled = e.SuppressKeyPress = true;
 
 						switch (_dir)
 						{
@@ -295,6 +297,11 @@ namespace creaturevisualizer
 						UpdatePanel();
 					}
 					break;
+
+//				case Keys.Enter:
+//				case Keys.Escape:
+//					_panel.Select();
+//					break;
 			}
 		}
 		#endregion Handlers (override)
@@ -733,6 +740,47 @@ namespace creaturevisualizer
 				}
 			}
 		} */
+
+
+		float _baseheight = CreatureVisualizerP.POS_OFF_Zd.Z;
+		void textchanged_tb_camera_height(object sender, EventArgs e)
+		{
+			float result;
+			if (Single.TryParse(tb_camera_height.Text, out result)
+				&& result > -100 && result < 100)
+			{
+				CreatureVisualizerP.POS_OFF_Zd = new Vector3(0F, 0F, result);
+				_panel.UpdateCamera();
+			}
+		}
+
+		void keydown_tb_camera_height(object sender, KeyEventArgs e)
+		{
+			switch (e.KeyCode)
+			{
+				case Keys.Oemplus:
+				case Keys.Add:
+				{
+					float z = CreatureVisualizerP.POS_OFF_Zd.Z;
+					z += grader(0.1F);
+					tb_camera_height.Text = z.ToString();
+
+					e.Handled = e.SuppressKeyPress = true;
+					break;
+				}
+
+				case Keys.OemMinus:
+				case Keys.Subtract:
+				{
+					float z = CreatureVisualizerP.POS_OFF_Zd.Z;
+					z -= grader(0.1F);
+					tb_camera_height.Text = z.ToString();
+
+					e.Handled = e.SuppressKeyPress = true;
+					break;
+				}
+			}
+		}
 		#endregion Handlers (camera)
 
 
