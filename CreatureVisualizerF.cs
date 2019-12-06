@@ -1101,13 +1101,13 @@ namespace creaturevisualizer
 
 			if (_sano.ShowDialog(this) == DialogResult.OK)
 			{
+//				_panel.Light.Color.DiffuseColor = _sano.colorPanel.SelectedColor;
 			}
 		}
 
 		void colorchanged(object sender, EventArgs e)
 		{
 			_panel.Light.Color.DiffuseColor = _sano.colorPanel.SelectedColor;
-			Refresh();
 		}
 
 /*	private void ᐁ(object P_0, EventArgs P_1)
@@ -1161,8 +1161,10 @@ namespace creaturevisualizer
 
 
 			var state = _panel.Receiver.CameraState as ModelViewerInputCameraReceiverState;
-			la_camera_pitch.Text = ((int)(state.FocusPhi   * 180F / (float)Math.PI)).ToString(); // to degrees
+			la_camera_pitch.Text = ((int)(state.FocusPhi   * 180F / (float)Math.PI)).ToString(); // to degs
 			la_camera_yaw  .Text = ((int)(state.FocusTheta * 180F / (float)Math.PI)).ToString();
+
+			tssl_camera_dist.Text = _panel.Receiver.Distance.ToString("N2");
 		}
 
 		internal int getrot()

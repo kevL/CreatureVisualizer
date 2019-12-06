@@ -305,10 +305,10 @@ namespace creaturevisualizer
 					Receiver.CameraAngleXY = (float)Math.PI /  2F; // FocusTheta revolutions 0=east, lookin' west
 					Receiver.CameraAngleYZ = (float)Math.PI / 32F; // FocusPhi   pitch 0= flat, inc to pitch forward and raise camera
 					Receiver.Distance = DIST_START;
-					Receiver.DistanceMin = 0.1F;
+					Receiver.DistanceMin = 0.001F;
 
 //					Receiver.FocusPoint = Object.Position + OFF_Zd;
-					Receiver.PitchMin = -(float)Math.PI / 2f + 0.145F;
+					Receiver.PitchMin = -(float)Math.PI / 2f;// + 0.145F;
 //					Receiver.PitchMax =  (float)Math.PI / 2f - 0.010F;
 
 					CameraPosition += POS_OFF_Zd;
@@ -710,7 +710,7 @@ namespace creaturevisualizer
 
 								// horizontal shifts ->
 								float rot = CreatureVisualizerF.that.getrot();
-								rot *= (float)Math.PI / 180F; // to radians
+								rot *= (float)Math.PI / 180F; // to rads
 
 								float cos = (float)(Math.Cos((double)rot));
 								float x = (float)(_pos0.X - _pos.X) * 0.01F * cos;

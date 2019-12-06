@@ -92,6 +92,7 @@ namespace creaturevisualizer
 		ToolStripStatusLabel tssl_camera_ypos;
 		ToolStripStatusLabel tssl_camera_zpos;
 		ToolStripStatusLabel tssl_camera_rot;
+		ToolStripStatusLabel tssl_camera_dist;
 		StatusStrip ss_light;
 		ToolStripStatusLabel tssl_light_label;
 		ToolStripStatusLabel tssl_light_xpos;
@@ -222,6 +223,7 @@ namespace creaturevisualizer
 			this.tssl_camera_ypos = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tssl_camera_zpos = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tssl_camera_rot = new System.Windows.Forms.ToolStripStatusLabel();
+			this.tssl_camera_dist = new System.Windows.Forms.ToolStripStatusLabel();
 			this.ss_model = new System.Windows.Forms.StatusStrip();
 			this.tssl_model_label = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tssl_model_xpos = new System.Windows.Forms.ToolStripStatusLabel();
@@ -1033,7 +1035,7 @@ namespace creaturevisualizer
 			this.button4.Name = "button4";
 			this.button4.Size = new System.Drawing.Size(22, 22);
 			this.button4.TabIndex = 19;
-			this.button4.Text = "r";
+			this.button4.Text = "f";
 			this.button4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.button4.UseVisualStyleBackColor = true;
 			this.button4.Click += new System.EventHandler(this.click_bu_camera_resetpolar);
@@ -1098,7 +1100,7 @@ namespace creaturevisualizer
 			this.bu_camera_xyreset.Name = "bu_camera_xyreset";
 			this.bu_camera_xyreset.Size = new System.Drawing.Size(22, 22);
 			this.bu_camera_xyreset.TabIndex = 9;
-			this.bu_camera_xyreset.Text = "r";
+			this.bu_camera_xyreset.Text = "f";
 			this.bu_camera_xyreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_camera_xyreset.UseVisualStyleBackColor = true;
 			this.bu_camera_xyreset.Click += new System.EventHandler(this.click_bu_camera_xyreset);
@@ -1111,7 +1113,7 @@ namespace creaturevisualizer
 			this.bu_camera_zreset.Name = "bu_camera_zreset";
 			this.bu_camera_zreset.Size = new System.Drawing.Size(22, 22);
 			this.bu_camera_zreset.TabIndex = 3;
-			this.bu_camera_zreset.Text = "r";
+			this.bu_camera_zreset.Text = "f";
 			this.bu_camera_zreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_camera_zreset.UseVisualStyleBackColor = true;
 			this.bu_camera_zreset.Click += new System.EventHandler(this.click_bu_camera_zreset);
@@ -1166,7 +1168,7 @@ namespace creaturevisualizer
 			this.bu_camera_distreset.Name = "bu_camera_distreset";
 			this.bu_camera_distreset.Size = new System.Drawing.Size(22, 22);
 			this.bu_camera_distreset.TabIndex = 13;
-			this.bu_camera_distreset.Text = "r";
+			this.bu_camera_distreset.Text = "f";
 			this.bu_camera_distreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_camera_distreset.UseVisualStyleBackColor = true;
 			this.bu_camera_distreset.Click += new System.EventHandler(this.click_bu_camera_resetdist);
@@ -1292,7 +1294,8 @@ namespace creaturevisualizer
 			this.tssl_camera_xpos,
 			this.tssl_camera_ypos,
 			this.tssl_camera_zpos,
-			this.tssl_camera_rot});
+			this.tssl_camera_rot,
+			this.tssl_camera_dist});
 			this.ss_camera.Location = new System.Drawing.Point(0, 389);
 			this.ss_camera.Name = "ss_camera";
 			this.ss_camera.Size = new System.Drawing.Size(290, 22);
@@ -1313,7 +1316,7 @@ namespace creaturevisualizer
 			this.tssl_camera_xpos.AutoSize = false;
 			this.tssl_camera_xpos.Margin = new System.Windows.Forms.Padding(0);
 			this.tssl_camera_xpos.Name = "tssl_camera_xpos";
-			this.tssl_camera_xpos.Size = new System.Drawing.Size(50, 22);
+			this.tssl_camera_xpos.Size = new System.Drawing.Size(45, 22);
 			this.tssl_camera_xpos.Text = "x";
 			this.tssl_camera_xpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -1340,9 +1343,18 @@ namespace creaturevisualizer
 			this.tssl_camera_rot.AutoSize = false;
 			this.tssl_camera_rot.Margin = new System.Windows.Forms.Padding(0);
 			this.tssl_camera_rot.Name = "tssl_camera_rot";
-			this.tssl_camera_rot.Size = new System.Drawing.Size(50, 22);
+			this.tssl_camera_rot.Size = new System.Drawing.Size(45, 22);
 			this.tssl_camera_rot.Text = "r";
 			this.tssl_camera_rot.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// tssl_camera_dist
+			// 
+			this.tssl_camera_dist.AutoSize = false;
+			this.tssl_camera_dist.Margin = new System.Windows.Forms.Padding(0);
+			this.tssl_camera_dist.Name = "tssl_camera_dist";
+			this.tssl_camera_dist.Size = new System.Drawing.Size(45, 22);
+			this.tssl_camera_dist.Text = "d";
+			this.tssl_camera_dist.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// ss_model
 			// 
@@ -1374,7 +1386,7 @@ namespace creaturevisualizer
 			this.tssl_model_xpos.AutoSize = false;
 			this.tssl_model_xpos.Margin = new System.Windows.Forms.Padding(0);
 			this.tssl_model_xpos.Name = "tssl_model_xpos";
-			this.tssl_model_xpos.Size = new System.Drawing.Size(50, 22);
+			this.tssl_model_xpos.Size = new System.Drawing.Size(45, 22);
 			this.tssl_model_xpos.Text = "x";
 			this.tssl_model_xpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -1401,7 +1413,7 @@ namespace creaturevisualizer
 			this.tssl_model_rot.AutoSize = false;
 			this.tssl_model_rot.Margin = new System.Windows.Forms.Padding(0);
 			this.tssl_model_rot.Name = "tssl_model_rot";
-			this.tssl_model_rot.Size = new System.Drawing.Size(50, 22);
+			this.tssl_model_rot.Size = new System.Drawing.Size(45, 22);
 			this.tssl_model_rot.Text = "r";
 			this.tssl_model_rot.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -1435,7 +1447,7 @@ namespace creaturevisualizer
 			this.tssl_light_xpos.AutoSize = false;
 			this.tssl_light_xpos.Margin = new System.Windows.Forms.Padding(0);
 			this.tssl_light_xpos.Name = "tssl_light_xpos";
-			this.tssl_light_xpos.Size = new System.Drawing.Size(50, 22);
+			this.tssl_light_xpos.Size = new System.Drawing.Size(45, 22);
 			this.tssl_light_xpos.Text = "x";
 			this.tssl_light_xpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -1462,7 +1474,7 @@ namespace creaturevisualizer
 			this.tssl_light_intensity.AutoSize = false;
 			this.tssl_light_intensity.Margin = new System.Windows.Forms.Padding(0);
 			this.tssl_light_intensity.Name = "tssl_light_intensity";
-			this.tssl_light_intensity.Size = new System.Drawing.Size(50, 22);
+			this.tssl_light_intensity.Size = new System.Drawing.Size(45, 22);
 			this.tssl_light_intensity.Text = "i";
 			this.tssl_light_intensity.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
