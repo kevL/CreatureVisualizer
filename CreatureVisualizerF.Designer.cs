@@ -902,7 +902,7 @@ namespace creaturevisualizer
 			// 
 			// la_camera_yaw
 			// 
-			this.la_camera_yaw.Location = new System.Drawing.Point(245, 40);
+			this.la_camera_yaw.Location = new System.Drawing.Point(240, 40);
 			this.la_camera_yaw.Margin = new System.Windows.Forms.Padding(0);
 			this.la_camera_yaw.Name = "la_camera_yaw";
 			this.la_camera_yaw.Size = new System.Drawing.Size(40, 20);
@@ -912,7 +912,7 @@ namespace creaturevisualizer
 			// 
 			// la_camera_pitch
 			// 
-			this.la_camera_pitch.Location = new System.Drawing.Point(245, 20);
+			this.la_camera_pitch.Location = new System.Drawing.Point(240, 20);
 			this.la_camera_pitch.Margin = new System.Windows.Forms.Padding(0);
 			this.la_camera_pitch.Name = "la_camera_pitch";
 			this.la_camera_pitch.Size = new System.Drawing.Size(40, 20);

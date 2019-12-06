@@ -400,33 +400,40 @@ namespace creaturevisualizer
 				_pa_Gui_w = pa_gui.Width;
 				_pa_Gui_h = pa_gui.Height;
 
-				la_dx.Text = ClientSize.Height.ToString();
-				la_dy.Text = _pa_Gui_h.ToString();
-				la_dz.Text = _pa_Con_h.ToString();
+//				la_dx.Text = ClientSize.Height.ToString();
+//				la_dy.Text = _pa_Gui_h.ToString();
+//				la_dz.Text = _pa_Con_h.ToString();
 
 				_toggle = true;
+
+				int w,h;
 				switch (_dir)
 				{
-					case CpDir.n:
+					default: //case CpDir.n:
 						pa_con.Dock = DockStyle.Top;
-						ClientSize = new Size(_pa_Gui_w, _pa_Gui_h + _pa_Con_h);
+						w = _pa_Gui_w;
+						h = _pa_Gui_h + _pa_Con_h;
 						break;
 
 					case CpDir.e:
 						pa_con.Dock = DockStyle.Right;
-						ClientSize = new Size(_pa_Gui_w + _pa_Con_w, _pa_Gui_h);
+						w = _pa_Gui_w + _pa_Con_w;
+						h = _pa_Gui_h;
 						break;
 
 					case CpDir.s:
 						pa_con.Dock = DockStyle.Bottom;
-						ClientSize = new Size(_pa_Gui_w, _pa_Gui_h + _pa_Con_h);
+						w = _pa_Gui_w;
+						h = _pa_Gui_h + _pa_Con_h;
 						break;
 
 					case CpDir.w:
 						pa_con.Dock = DockStyle.Left;
-						ClientSize = new Size(_pa_Gui_w + _pa_Con_w, _pa_Gui_h);
+						w = _pa_Gui_w + _pa_Con_w;
+						h = _pa_Gui_h;
 						break;
 				}
+				ClientSize = new Size(w,h);
 
 				LayoutButtons();
 				_toggle = false;
