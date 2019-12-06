@@ -269,6 +269,23 @@ namespace creaturevisualizer
 				}
 				LayoutButtons();
 			}
+			else if (WindowState == FormWindowState.Maximized)
+			{
+				if (_itControlPanel != null && _itControlPanel.Checked)
+				{
+					switch (_dir)
+					{
+						case CpDir.n: _dir = CpDir.e; UpdatePanel(); break;
+						case CpDir.s: _dir = CpDir.w; UpdatePanel(); break;
+
+						default:
+							LayoutButtons();
+							break;
+					}
+				}
+				else
+					LayoutButtons();
+			}
 		}
 
 		protected override void OnFormClosing(FormClosingEventArgs e)
@@ -282,19 +299,34 @@ namespace creaturevisualizer
 			switch (e.KeyData)
 			{
 				case Keys.F8:
-					if (WindowState == FormWindowState.Normal
-						&& _itControlPanel.Checked)
+					if (_itControlPanel.Checked)
 					{
-						e.Handled = e.SuppressKeyPress = true;
-
-						switch (_dir)
+						switch (WindowState)
 						{
-							case CpDir.n: _dir = CpDir.e; break;
-							case CpDir.e: _dir = CpDir.s; break;
-							case CpDir.s: _dir = CpDir.w; break;
-							case CpDir.w: _dir = CpDir.n; break;
+							case FormWindowState.Normal:
+								e.Handled = e.SuppressKeyPress = true;
+
+								switch (_dir)
+								{
+									case CpDir.n: _dir = CpDir.e; break;
+									case CpDir.e: _dir = CpDir.s; break;
+									case CpDir.s: _dir = CpDir.w; break;
+									case CpDir.w: _dir = CpDir.n; break;
+								}
+								UpdatePanel();
+								break;
+
+							case FormWindowState.Maximized:
+								e.Handled = e.SuppressKeyPress = true;
+
+								switch (_dir)
+								{
+									case CpDir.n: case CpDir.w: _dir = CpDir.e; break;
+									case CpDir.e: case CpDir.s: _dir = CpDir.w; break;
+								}
+								UpdatePanel();
+								break;
 						}
-						UpdatePanel();
 					}
 					break;
 
@@ -337,60 +369,76 @@ namespace creaturevisualizer
 			{
 				_toggle = true;
 
-				int w,h;
-				switch (_dir)
+				if (WindowState == FormWindowState.Normal)
 				{
-					default: //case CpDir.n:
-						pa_con.Dock = DockStyle.Top;
-						w = _pa_Gui_w;
-						h = _pa_Gui_h + _pa_Con_h;
-						break;
+					int w,h;
+					switch (_dir)
+					{
+						default: //case CpDir.n:
+							pa_con.Dock = DockStyle.Top;
+							w = _pa_Gui_w;
+							h = _pa_Gui_h + _pa_Con_h;
+							break;
 
-					case CpDir.e:
-						pa_con.Dock = DockStyle.Right;
-						w = _pa_Gui_w + _pa_Con_w;
-						h = _pa_Gui_h;
-						break;
+						case CpDir.e:
+							pa_con.Dock = DockStyle.Right;
+							w = _pa_Gui_w + _pa_Con_w;
+							h = _pa_Gui_h;
+							break;
 
-					case CpDir.s:
-						pa_con.Dock = DockStyle.Bottom;
-						w = _pa_Gui_w;
-						h = _pa_Gui_h + _pa_Con_h;
-						break;
+						case CpDir.s:
+							pa_con.Dock = DockStyle.Bottom;
+							w = _pa_Gui_w;
+							h = _pa_Gui_h + _pa_Con_h;
+							break;
 
-					case CpDir.w:
-						pa_con.Dock = DockStyle.Left;
-						w = _pa_Gui_w + _pa_Con_w;
-						h = _pa_Gui_h;
-						break;
+						case CpDir.w:
+							pa_con.Dock = DockStyle.Left;
+							w = _pa_Gui_w + _pa_Con_w;
+							h = _pa_Gui_h;
+							break;
+					}
+					ClientSize = new Size(w,h);
+
+					pa_con.Visible = true;
+
+					LayoutButtons();
 				}
-				ClientSize = new Size(w,h);
+				else if (WindowState == FormWindowState.Maximized)
+				{
+					pa_con.Visible = true;
+					LayoutButtons();
+				}
 
-				pa_con.Visible = true;
-
-				LayoutButtons();
 				_toggle = false;
 			}
 			else // panel closed ->
 			{
 				pa_con.Visible = false;
 
-				int w,h;
-				switch (_dir)
+				if (WindowState == FormWindowState.Normal)
 				{
-					case CpDir.n: case CpDir.s:
-						w = ClientSize.Width;
-						h = ClientSize.Height - _pa_Con_h;
-						break;
+					int w,h;
+					switch (_dir)
+					{
+						case CpDir.n: case CpDir.s:
+							w = ClientSize.Width;
+							h = ClientSize.Height - _pa_Con_h;
+							break;
 
-					default: // case CpDir.e: case CpDir.w:
-						w = ClientSize.Width - _pa_Con_w;
-						h = ClientSize.Height;
-						break;
+						default: // case CpDir.e: case CpDir.w:
+							w = ClientSize.Width - _pa_Con_w;
+							h = ClientSize.Height;
+							break;
+					}
+					ClientSize = new Size(w,h);
+
+					LayoutButtons();
 				}
-				ClientSize = new Size(w,h);
-
-				LayoutButtons();
+				else if (WindowState == FormWindowState.Maximized)
+				{
+					LayoutButtons();
+				}
 			}
 		}
 
@@ -402,7 +450,7 @@ namespace creaturevisualizer
 		/// </summary>
 		void UpdatePanel()
 		{
-			if (WindowState == FormWindowState.Normal)
+			if (WindowState != FormWindowState.Minimized)
 			{
 				_pa_Gui_w = pa_gui.Width;
 				_pa_Gui_h = pa_gui.Height;
