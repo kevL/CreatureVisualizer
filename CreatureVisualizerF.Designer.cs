@@ -13,7 +13,7 @@ namespace creaturevisualizer
 		/// </summary>
 		IContainer components = null;
 
-		Panel pa_controls;
+		Panel pa_con;
 		GroupBox gb_model;
 		Button bu_model_zneg;
 		Button bu_model_zpos;
@@ -101,9 +101,11 @@ namespace creaturevisualizer
 
 		internal Label la_camera_yaw;
 		internal Label la_camera_pitch;
-		internal Label la_camera_hori;
-		internal Label la_camera_vert;
-		private System.Windows.Forms.Panel pa_left;
+		internal Label la_dx;
+		internal Label la_dy;
+		internal Label la_dz;
+
+		Panel pa_gui;
 
 
 		/// <summary>
@@ -127,9 +129,12 @@ namespace creaturevisualizer
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.pa_controls = new System.Windows.Forms.Panel();
+			this.pa_con = new System.Windows.Forms.Panel();
 			this.gb_Light = new System.Windows.Forms.GroupBox();
+			this.la_dz = new System.Windows.Forms.Label();
 			this.bu_light_xyreset = new System.Windows.Forms.Button();
+			this.la_dy = new System.Windows.Forms.Label();
+			this.la_dx = new System.Windows.Forms.Label();
 			this.bu_light_zreset = new System.Windows.Forms.Button();
 			this.button11 = new System.Windows.Forms.Button();
 			this.la_light_xyaxis = new System.Windows.Forms.Label();
@@ -172,8 +177,6 @@ namespace creaturevisualizer
 			this.bu_model_zpos = new System.Windows.Forms.Button();
 			this.gb_camera = new System.Windows.Forms.GroupBox();
 			this.bu_camera_horipos = new System.Windows.Forms.Button();
-			this.la_camera_hori = new System.Windows.Forms.Label();
-			this.la_camera_vert = new System.Windows.Forms.Label();
 			this.la_camera_yaw = new System.Windows.Forms.Label();
 			this.la_camera_pitch = new System.Windows.Forms.Label();
 			this.button4 = new System.Windows.Forms.Button();
@@ -214,8 +217,8 @@ namespace creaturevisualizer
 			this.tssl_light_ypos = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tssl_light_zpos = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tssl_light_intensity = new System.Windows.Forms.ToolStripStatusLabel();
-			this.pa_left = new System.Windows.Forms.Panel();
-			this.pa_controls.SuspendLayout();
+			this.pa_gui = new System.Windows.Forms.Panel();
+			this.pa_con.SuspendLayout();
 			this.gb_Light.SuspendLayout();
 			this.gb_model.SuspendLayout();
 			this.gb_camera.SuspendLayout();
@@ -224,25 +227,28 @@ namespace creaturevisualizer
 			this.ss_light.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// pa_controls
+			// pa_con
 			// 
-			this.pa_controls.Controls.Add(this.gb_Light);
-			this.pa_controls.Controls.Add(this.gb_model);
-			this.pa_controls.Controls.Add(this.gb_camera);
-			this.pa_controls.Controls.Add(this.ss_camera);
-			this.pa_controls.Controls.Add(this.ss_model);
-			this.pa_controls.Controls.Add(this.ss_light);
-			this.pa_controls.Dock = System.Windows.Forms.DockStyle.Right;
-			this.pa_controls.Location = new System.Drawing.Point(292, 0);
-			this.pa_controls.Margin = new System.Windows.Forms.Padding(0);
-			this.pa_controls.Name = "pa_controls";
-			this.pa_controls.Size = new System.Drawing.Size(290, 455);
-			this.pa_controls.TabIndex = 0;
-			this.pa_controls.Visible = false;
+			this.pa_con.Controls.Add(this.gb_Light);
+			this.pa_con.Controls.Add(this.gb_model);
+			this.pa_con.Controls.Add(this.gb_camera);
+			this.pa_con.Controls.Add(this.ss_camera);
+			this.pa_con.Controls.Add(this.ss_model);
+			this.pa_con.Controls.Add(this.ss_light);
+			this.pa_con.Dock = System.Windows.Forms.DockStyle.Right;
+			this.pa_con.Location = new System.Drawing.Point(292, 0);
+			this.pa_con.Margin = new System.Windows.Forms.Padding(0);
+			this.pa_con.Name = "pa_con";
+			this.pa_con.Size = new System.Drawing.Size(290, 455);
+			this.pa_con.TabIndex = 0;
+			this.pa_con.Visible = false;
 			// 
 			// gb_Light
 			// 
+			this.gb_Light.Controls.Add(this.la_dz);
 			this.gb_Light.Controls.Add(this.bu_light_xyreset);
+			this.gb_Light.Controls.Add(this.la_dy);
+			this.gb_Light.Controls.Add(this.la_dx);
 			this.gb_Light.Controls.Add(this.bu_light_zreset);
 			this.gb_Light.Controls.Add(this.button11);
 			this.gb_Light.Controls.Add(this.la_light_xyaxis);
@@ -263,6 +269,16 @@ namespace creaturevisualizer
 			this.gb_Light.TabStop = false;
 			this.gb_Light.Text = " Light ";
 			// 
+			// la_dz
+			// 
+			this.la_dz.Location = new System.Drawing.Point(240, 55);
+			this.la_dz.Margin = new System.Windows.Forms.Padding(0);
+			this.la_dz.Name = "la_dz";
+			this.la_dz.Size = new System.Drawing.Size(40, 20);
+			this.la_dz.TabIndex = 25;
+			this.la_dz.Text = "dz";
+			this.la_dz.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+			// 
 			// bu_light_xyreset
 			// 
 			this.bu_light_xyreset.ForeColor = System.Drawing.Color.Crimson;
@@ -275,6 +291,26 @@ namespace creaturevisualizer
 			this.bu_light_xyreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_light_xyreset.UseVisualStyleBackColor = true;
 			this.bu_light_xyreset.Click += new System.EventHandler(this.click_bu_light_xyreset);
+			// 
+			// la_dy
+			// 
+			this.la_dy.Location = new System.Drawing.Point(240, 35);
+			this.la_dy.Margin = new System.Windows.Forms.Padding(0);
+			this.la_dy.Name = "la_dy";
+			this.la_dy.Size = new System.Drawing.Size(40, 20);
+			this.la_dy.TabIndex = 24;
+			this.la_dy.Text = "dy";
+			this.la_dy.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+			// 
+			// la_dx
+			// 
+			this.la_dx.Location = new System.Drawing.Point(240, 15);
+			this.la_dx.Margin = new System.Windows.Forms.Padding(0);
+			this.la_dx.Name = "la_dx";
+			this.la_dx.Size = new System.Drawing.Size(40, 20);
+			this.la_dx.TabIndex = 23;
+			this.la_dx.Text = "dx";
+			this.la_dx.TextAlign = System.Drawing.ContentAlignment.BottomRight;
 			// 
 			// bu_light_zreset
 			// 
@@ -818,8 +854,6 @@ namespace creaturevisualizer
 			// gb_camera
 			// 
 			this.gb_camera.Controls.Add(this.bu_camera_horipos);
-			this.gb_camera.Controls.Add(this.la_camera_hori);
-			this.gb_camera.Controls.Add(this.la_camera_vert);
 			this.gb_camera.Controls.Add(this.la_camera_yaw);
 			this.gb_camera.Controls.Add(this.la_camera_pitch);
 			this.gb_camera.Controls.Add(this.button4);
@@ -865,28 +899,6 @@ namespace creaturevisualizer
 			this.bu_camera_horipos.Click += new System.EventHandler(this.click_bu_camera_horineg);
 			this.bu_camera_horipos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_camera_horipos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
-			// 
-			// la_camera_hori
-			// 
-			this.la_camera_hori.Location = new System.Drawing.Point(245, 85);
-			this.la_camera_hori.Margin = new System.Windows.Forms.Padding(0);
-			this.la_camera_hori.Name = "la_camera_hori";
-			this.la_camera_hori.Size = new System.Drawing.Size(40, 20);
-			this.la_camera_hori.TabIndex = 24;
-			this.la_camera_hori.Text = "hori";
-			this.la_camera_hori.TextAlign = System.Drawing.ContentAlignment.BottomRight;
-			this.la_camera_hori.Visible = false;
-			// 
-			// la_camera_vert
-			// 
-			this.la_camera_vert.Location = new System.Drawing.Point(245, 65);
-			this.la_camera_vert.Margin = new System.Windows.Forms.Padding(0);
-			this.la_camera_vert.Name = "la_camera_vert";
-			this.la_camera_vert.Size = new System.Drawing.Size(40, 20);
-			this.la_camera_vert.TabIndex = 23;
-			this.la_camera_vert.Text = "vert";
-			this.la_camera_vert.TextAlign = System.Drawing.ContentAlignment.BottomRight;
-			this.la_camera_vert.Visible = false;
 			// 
 			// la_camera_yaw
 			// 
@@ -1291,6 +1303,7 @@ namespace creaturevisualizer
 			// ss_light
 			// 
 			this.ss_light.Font = new System.Drawing.Font("Consolas", 8F);
+			this.ss_light.GripMargin = new System.Windows.Forms.Padding(0);
 			this.ss_light.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.tssl_light_label,
 			this.tssl_light_xpos,
@@ -1300,6 +1313,7 @@ namespace creaturevisualizer
 			this.ss_light.Location = new System.Drawing.Point(0, 433);
 			this.ss_light.Name = "ss_light";
 			this.ss_light.Size = new System.Drawing.Size(290, 22);
+			this.ss_light.SizingGrip = false;
 			this.ss_light.TabIndex = 5;
 			// 
 			// tssl_light_label
@@ -1347,28 +1361,28 @@ namespace creaturevisualizer
 			this.tssl_light_intensity.Text = "i";
 			this.tssl_light_intensity.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
-			// pa_left
+			// pa_gui
 			// 
-			this.pa_left.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pa_left.Location = new System.Drawing.Point(0, 0);
-			this.pa_left.Margin = new System.Windows.Forms.Padding(0);
-			this.pa_left.Name = "pa_left";
-			this.pa_left.Size = new System.Drawing.Size(292, 455);
-			this.pa_left.TabIndex = 1;
+			this.pa_gui.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pa_gui.Location = new System.Drawing.Point(0, 0);
+			this.pa_gui.Margin = new System.Windows.Forms.Padding(0);
+			this.pa_gui.Name = "pa_gui";
+			this.pa_gui.Size = new System.Drawing.Size(292, 455);
+			this.pa_gui.TabIndex = 1;
 			// 
 			// CreatureVisualizerF
 			// 
 			this.ClientSize = new System.Drawing.Size(582, 455);
-			this.Controls.Add(this.pa_left);
-			this.Controls.Add(this.pa_controls);
+			this.Controls.Add(this.pa_gui);
+			this.Controls.Add(this.pa_con);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.KeyPreview = true;
 			this.Name = "CreatureVisualizerF";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Creature Visualizer";
 			this.Activated += new System.EventHandler(this.activated_Refresh);
-			this.pa_controls.ResumeLayout(false);
-			this.pa_controls.PerformLayout();
+			this.pa_con.ResumeLayout(false);
+			this.pa_con.PerformLayout();
 			this.gb_Light.ResumeLayout(false);
 			this.gb_model.ResumeLayout(false);
 			this.gb_camera.ResumeLayout(false);

@@ -18,16 +18,18 @@ namespace creaturevisualizer
 		: Form
 	{
 		/// <summary>
-		/// Compass direction that the controlpanel is docked at - 'c' is closed.
+		/// Compass direction that the controlpanel is docked at.
 		/// </summary>
 		enum CpDir
 		{
-			c, n,e,s,w
+			n,e,s,w
 		}
 
 
 		#region Fields (static)
 		internal static CreatureVisualizerF that;
+
+		const int BDI = 22; // minipanel button dimensions x/y
 		#endregion Fields (static)
 
 
@@ -44,11 +46,9 @@ namespace creaturevisualizer
 		Button _repeater;
 		bool _firstrepeat;
 
-		CpDir _dir = CpDir.c;
-		int _pa_left_width;
-		int _pa_left_height;
-		int _pa_controls_width;
-		int _pa_controls_height;
+		CpDir _dir = CpDir.e;
+		int _pa_Gui_w, _pa_Gui_h,
+			_pa_Con_w, _pa_Con_h;
 		#endregion Fields
 
 
@@ -69,8 +69,8 @@ namespace creaturevisualizer
 
 			_panel.BringToFront();
 
-			ClientSize = new Size(ClientSize.Width - pa_controls.Width,	// the ControlPanel starts non-visible
-								  ClientSize.Height);					// but let it show in the designer
+			ClientSize = new Size(ClientSize.Width - pa_con.Width,	// the ControlPanel starts non-visible
+								  ClientSize.Height);				// but let it show in the designer
 
 			_t1.Tick += tick;
 
@@ -83,11 +83,11 @@ namespace creaturevisualizer
 			CreateButtons();
 			ResumeLayout(false);
 
-			_pa_controls_width  = pa_controls.Width;
-			_pa_controls_height = pa_controls.Height;
+			_pa_Con_w = pa_con.Width;
+			_pa_Con_h = pa_con.Height;
 
 
-//			_itControlPanel  .PerformClick(); // TEST
+			_itControlPanel  .PerformClick(); // TEST
 //			_itRefreshOnFocus.PerformClick(); // TEST
 		}
 
@@ -133,8 +133,8 @@ namespace creaturevisualizer
 			b.MouseDown += mousedown_EnableRepeater;
 			b.MouseUp   += mouseup_DisableRepeater;
 			b.Text   = text;
-			b.Width  = 22;
-			b.Height = 22;
+			b.Width  =
+			b.Height = BDI;
 
 			return b;
 		}
@@ -146,20 +146,61 @@ namespace creaturevisualizer
 		{
 			if (WindowState != FormWindowState.Minimized)
 			{
-				int off;
+				int offx, offy;
 				if (_itControlPanel != null && _itControlPanel.Checked)
-					off = pa_controls.Width;
+				{
+					offx = _pa_Con_w;
+					offy = _pa_Con_h;
+				}
 				else
-					off = 0;
+					offx = offy = 0;
 
-				_i.Location = new Point(0, ClientRectangle.Bottom - _o.Height - _i.Height);
-				_o.Location = new Point(0, ClientRectangle.Bottom - _o.Height);
+				switch (_dir)
+				{
+					case CpDir.n:
+						_i.Location = new Point(0, ClientRectangle.Bottom - BDI * 2);
+						_o.Location = new Point(0, ClientRectangle.Bottom - BDI);
+	
+						_u.Location = new Point(ClientRectangle.Right - BDI, ClientRectangle.Bottom - BDI * 2);
+						_d.Location = new Point(ClientRectangle.Right - BDI, ClientRectangle.Bottom - BDI);
+	
+						_l.Location = new Point(ClientRectangle.Right / 2 - BDI, ClientRectangle.Bottom - BDI);
+						_r.Location = new Point(ClientRectangle.Right / 2,       ClientRectangle.Bottom - BDI);
+						break;
 
-				_u.Location = new Point(ClientRectangle.Right - off - _u.Width, ClientRectangle.Bottom - _d.Height - _u.Height);
-				_d.Location = new Point(ClientRectangle.Right - off - _d.Width, ClientRectangle.Bottom - _d.Height);
+					case CpDir.e:
+						_i.Location = new Point(0, ClientRectangle.Bottom - BDI * 2);
+						_o.Location = new Point(0, ClientRectangle.Bottom - BDI);
+	
+						_u.Location = new Point(ClientRectangle.Right - offx - BDI, ClientRectangle.Bottom - BDI * 2);
+						_d.Location = new Point(ClientRectangle.Right - offx - BDI, ClientRectangle.Bottom - BDI);
+	
+						_l.Location = new Point((ClientRectangle.Right - offx) / 2 - BDI, ClientRectangle.Bottom - BDI);
+						_r.Location = new Point((ClientRectangle.Right - offx) / 2,       ClientRectangle.Bottom - BDI);
+						break;
 
-				_l.Location = new Point((ClientRectangle.Right - off) / 2 - _l.Width, ClientRectangle.Bottom - _l.Height);
-				_r.Location = new Point((ClientRectangle.Right - off) / 2,            ClientRectangle.Bottom - _r.Height);
+					case CpDir.s:
+						_i.Location = new Point(0, ClientRectangle.Bottom - offy - BDI * 2);
+						_o.Location = new Point(0, ClientRectangle.Bottom - offy - BDI);
+
+						_u.Location = new Point(ClientRectangle.Right - BDI, ClientRectangle.Bottom - offy - BDI * 2);
+						_d.Location = new Point(ClientRectangle.Right - BDI, ClientRectangle.Bottom - offy - BDI);
+
+						_l.Location = new Point(ClientRectangle.Right / 2 - BDI, ClientRectangle.Bottom - offy - BDI);
+						_r.Location = new Point(ClientRectangle.Right / 2,       ClientRectangle.Bottom - offy - BDI);
+						break;
+
+					case CpDir.w:
+						_i.Location = new Point(offx, ClientRectangle.Bottom - BDI * 2);
+						_o.Location = new Point(offx, ClientRectangle.Bottom - BDI);
+
+						_u.Location = new Point(ClientRectangle.Right - BDI, ClientRectangle.Bottom - BDI * 2);
+						_d.Location = new Point(ClientRectangle.Right - BDI, ClientRectangle.Bottom - BDI);
+
+						_l.Location = new Point((ClientRectangle.Right - offx) / 2 + offx - BDI, ClientRectangle.Bottom - BDI);
+						_r.Location = new Point((ClientRectangle.Right - offx) / 2 + offx,       ClientRectangle.Bottom - BDI);
+						break;
+				}
 			}
 		}
 
@@ -214,11 +255,18 @@ namespace creaturevisualizer
 		#region Handlers (override)
 		protected override void OnResize(EventArgs e)
 		{
-			_pa_left_width  = pa_left.Width;
-			_pa_left_height = pa_left.Height;
-
-			LayoutButtons();
 			base.OnResize(e);
+
+			if (WindowState == FormWindowState.Normal)
+			{
+				if (!_toggle
+					&& (_itControlPanel == null || !_itControlPanel.Checked))
+				{
+					_pa_Gui_w = ClientSize.Width;
+					_pa_Gui_h = ClientSize.Height;
+				}
+				LayoutButtons();
+			}
 		}
 
 		protected override void OnFormClosing(FormClosingEventArgs e)
@@ -232,15 +280,20 @@ namespace creaturevisualizer
 			switch (e.KeyData)
 			{
 				case Keys.F8:
-					e.Handled = true;
-					switch (_dir)
+					if (WindowState == FormWindowState.Normal
+						&& _itControlPanel.Checked)
 					{
-						case CpDir.n: _dir = CpDir.e; break;
-						case CpDir.e: _dir = CpDir.s; break;
-						case CpDir.s: _dir = CpDir.w; break;
-						case CpDir.w: _dir = CpDir.n; break;
+						e.SuppressKeyPress = true;
+
+						switch (_dir)
+						{
+							case CpDir.n: _dir = CpDir.e; break;
+							case CpDir.e: _dir = CpDir.s; break;
+							case CpDir.s: _dir = CpDir.w; break;
+							case CpDir.w: _dir = CpDir.n; break;
+						}
+						UpdatePanel();
 					}
-					CyclePanel();
 					break;
 			}
 		}
@@ -275,55 +328,112 @@ namespace creaturevisualizer
 		{
 			if (_itControlPanel.Checked = !_itControlPanel.Checked)
 			{
-				if (_dir == CpDir.c)
-					_dir = CpDir.e;
+				_toggle = true;
 
-				CyclePanel();
-				pa_controls.Visible = true;
-			}
-			else
-			{
-				_dir = CpDir.c;
-
-				if (WindowState != FormWindowState.Maximized)
-				{
-					ClientSize = new Size(ClientSize.Width - pa_controls.Width,
-										  ClientSize.Height);
-				}
-				pa_controls.Visible = false;
-			}
-		}
-
-		void CyclePanel()
-		{
-			if (WindowState != FormWindowState.Maximized)
-			{
+				int w,h;
 				switch (_dir)
 				{
-					case CpDir.n:
-						ClientSize = new Size(_pa_left_width, _pa_left_height + _pa_controls_height);
-						pa_controls.Dock = DockStyle.Top;
+					default: //case CpDir.n:
+						pa_con.Dock = DockStyle.Top;
+						w = _pa_Gui_w;
+						h = _pa_Gui_h + _pa_Con_h;
 						break;
 
 					case CpDir.e:
-						ClientSize = new Size(_pa_left_width + _pa_controls_width, _pa_left_height);
-						pa_controls.Dock = DockStyle.Right;
+						pa_con.Dock = DockStyle.Right;
+						w = _pa_Gui_w + _pa_Con_w;
+						h = _pa_Gui_h;
 						break;
 
 					case CpDir.s:
-						ClientSize = new Size(_pa_left_width, _pa_left_height + _pa_controls_height);
-						pa_controls.Dock = DockStyle.Bottom;
+						pa_con.Dock = DockStyle.Bottom;
+						w = _pa_Gui_w;
+						h = _pa_Gui_h + _pa_Con_h;
 						break;
 
 					case CpDir.w:
-						ClientSize = new Size(_pa_left_width + _pa_controls_width, _pa_left_height);
-						pa_controls.Dock = DockStyle.Left;
+						pa_con.Dock = DockStyle.Left;
+						w = _pa_Gui_w + _pa_Con_w;
+						h = _pa_Gui_h;
 						break;
 				}
+				ClientSize = new Size(w,h);
+
+				pa_con.Visible = true;
+
+				LayoutButtons();
+				_toggle = false;
 			}
-			else
+			else // panel closed ->
 			{
+				pa_con.Visible = false;
+
+				int w,h;
+				switch (_dir)
+				{
+					case CpDir.n: case CpDir.s:
+						w = ClientSize.Width;
+						h = ClientSize.Height - _pa_Con_h;
+						break;
+
+					default: // case CpDir.e: case CpDir.w:
+						w = ClientSize.Width - _pa_Con_w;
+						h = ClientSize.Height;
+						break;
+				}
+				ClientSize = new Size(w,h);
+
+				LayoutButtons();
 			}
+		}
+
+
+		bool _toggle;
+
+		/// <summary>
+		/// [F8] cycles the controlpanel though its docking directions.
+		/// </summary>
+		void UpdatePanel()
+		{
+			if (WindowState == FormWindowState.Normal)
+			{
+				_pa_Gui_w = pa_gui.Width;
+				_pa_Gui_h = pa_gui.Height;
+
+				la_dx.Text = ClientSize.Height.ToString();
+				la_dy.Text = _pa_Gui_h.ToString();
+				la_dz.Text = _pa_Con_h.ToString();
+
+				_toggle = true;
+				switch (_dir)
+				{
+					case CpDir.n:
+						pa_con.Dock = DockStyle.Top;
+						ClientSize = new Size(_pa_Gui_w, _pa_Gui_h + _pa_Con_h);
+						break;
+
+					case CpDir.e:
+						pa_con.Dock = DockStyle.Right;
+						ClientSize = new Size(_pa_Gui_w + _pa_Con_w, _pa_Gui_h);
+						break;
+
+					case CpDir.s:
+						pa_con.Dock = DockStyle.Bottom;
+						ClientSize = new Size(_pa_Gui_w, _pa_Gui_h + _pa_Con_h);
+						break;
+
+					case CpDir.w:
+						pa_con.Dock = DockStyle.Left;
+						ClientSize = new Size(_pa_Gui_w + _pa_Con_w, _pa_Gui_h);
+						break;
+				}
+
+				LayoutButtons();
+				_toggle = false;
+			}
+//			else
+//			{
+//			}
 		}
 
 		void optionsclick_MiniPanel(object sender, EventArgs e)
