@@ -86,7 +86,8 @@ namespace creaturevisualizer
 			_pa_Con_w = pa_con.Width;
 			_pa_Con_h = pa_con.Height;
 
-			tb_camera_height.Text = _baseheight.ToString("N2");
+			tb_camera_height  .Text = CreatureVisualizerP.POS_OFF_Zd.Z           .ToString("N2");
+			tb_light_intensity.Text = CreatureVisualizerP.DEFAULT_LIGHT_INTENSITY.ToString("N2");
 
 
 			_itControlPanel  .PerformClick(); // TEST
@@ -493,9 +494,6 @@ namespace creaturevisualizer
 				LayoutButtons();
 				_toggle = false;
 			}
-//			else
-//			{
-//			}
 		}
 
 		void optionsclick_MiniPanel(object sender, EventArgs e)
@@ -790,16 +788,19 @@ namespace creaturevisualizer
 		} */
 
 
-		float _baseheight = CreatureVisualizerP.POS_OFF_Zd.Z;
 		void textchanged_tb_camera_height(object sender, EventArgs e)
 		{
 			float result;
 			if (Single.TryParse(tb_camera_height.Text, out result)
-				&& result > -100 && result < 100)
+				&& result > -100F && result < 100F)
 			{
 				CreatureVisualizerP.POS_OFF_Zd = new Vector3(0F, 0F, result);
 				_panel.UpdateCamera();
 			}
+			else if (result <= -100F)
+				tb_camera_height.Text = (-99.99F).ToString();
+			else if (result >=  100F)
+				tb_camera_height.Text = 99.99F.ToString();
 		}
 
 		void keydown_tb_camera_height(object sender, KeyEventArgs e)
@@ -811,7 +812,7 @@ namespace creaturevisualizer
 				{
 					float z = CreatureVisualizerP.POS_OFF_Zd.Z;
 					z += grader(0.1F);
-					tb_camera_height.Text = z.ToString();
+					tb_camera_height.Text = z.ToString("N2");
 
 					e.Handled = e.SuppressKeyPress = true;
 					break;
@@ -822,7 +823,7 @@ namespace creaturevisualizer
 				{
 					float z = CreatureVisualizerP.POS_OFF_Zd.Z;
 					z -= grader(0.1F);
-					tb_camera_height.Text = z.ToString();
+					tb_camera_height.Text = z.ToString("N2");
 
 					e.Handled = e.SuppressKeyPress = true;
 					break;
@@ -1034,6 +1035,55 @@ namespace creaturevisualizer
 			{
 				_panel.RecreateLight(CreatureVisualizerP.POS_START_LIGHT);
 				PrintLightPosition(_panel.Light.Position, _panel.Light.Color.Intensity);
+			}
+		}
+
+
+		void textchanged_tb_light_intensity(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				float result;
+				if (Single.TryParse(tb_light_intensity.Text, out result)
+					&& result >= 0F && result < 100F)
+				{
+					_panel.Light.Color.Intensity = result;
+				}
+				else if (result < 0F)
+					tb_light_intensity.Text = 0F.ToString("N2");		// refire^
+				else if (result >= 100F)
+					tb_light_intensity.Text = 99.99F.ToString("N2");	// refire^
+			}
+		}
+
+		void keydown_tb_light_intensity(object sender, KeyEventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				switch (e.KeyCode)
+				{
+					case Keys.Oemplus:
+					case Keys.Add:
+					{
+						float i = _panel.Light.Color.Intensity;
+						i += grader(0.1F);
+						tb_light_intensity.Text = i.ToString();
+
+						e.Handled = e.SuppressKeyPress = true;
+						break;
+					}
+
+					case Keys.OemMinus:
+					case Keys.Subtract:
+					{
+						float i = _panel.Light.Color.Intensity;
+						i -= grader(0.1F);
+						tb_light_intensity.Text = i.ToString();
+
+						e.Handled = e.SuppressKeyPress = true;
+						break;
+					}
+				}
 			}
 		}
 		#endregion Handlers (light)

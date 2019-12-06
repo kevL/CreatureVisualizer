@@ -109,6 +109,8 @@ namespace creaturevisualizer
 		internal Label la_dz;
 
 		Panel pa_gui;
+		Label la_light_intensity;
+		TextBox tb_light_intensity;
 
 
 		/// <summary>
@@ -134,6 +136,8 @@ namespace creaturevisualizer
 		{
 			this.pa_con = new System.Windows.Forms.Panel();
 			this.gb_Light = new System.Windows.Forms.GroupBox();
+			this.la_light_intensity = new System.Windows.Forms.Label();
+			this.tb_light_intensity = new System.Windows.Forms.TextBox();
 			this.la_dz = new System.Windows.Forms.Label();
 			this.bu_light_xyreset = new System.Windows.Forms.Button();
 			this.la_dy = new System.Windows.Forms.Label();
@@ -250,6 +254,8 @@ namespace creaturevisualizer
 			// 
 			// gb_Light
 			// 
+			this.gb_Light.Controls.Add(this.la_light_intensity);
+			this.gb_Light.Controls.Add(this.tb_light_intensity);
 			this.gb_Light.Controls.Add(this.la_dz);
 			this.gb_Light.Controls.Add(this.bu_light_xyreset);
 			this.gb_Light.Controls.Add(this.la_dy);
@@ -273,6 +279,27 @@ namespace creaturevisualizer
 			this.gb_Light.TabIndex = 2;
 			this.gb_Light.TabStop = false;
 			this.gb_Light.Text = " Light ";
+			// 
+			// la_light_intensity
+			// 
+			this.la_light_intensity.Location = new System.Drawing.Point(125, 15);
+			this.la_light_intensity.Margin = new System.Windows.Forms.Padding(0);
+			this.la_light_intensity.Name = "la_light_intensity";
+			this.la_light_intensity.Size = new System.Drawing.Size(50, 15);
+			this.la_light_intensity.TabIndex = 24;
+			this.la_light_intensity.Text = "intens";
+			this.la_light_intensity.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			// 
+			// tb_light_intensity
+			// 
+			this.tb_light_intensity.Location = new System.Drawing.Point(125, 30);
+			this.tb_light_intensity.Margin = new System.Windows.Forms.Padding(0);
+			this.tb_light_intensity.Name = "tb_light_intensity";
+			this.tb_light_intensity.Size = new System.Drawing.Size(45, 20);
+			this.tb_light_intensity.TabIndex = 25;
+			this.tb_light_intensity.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.tb_light_intensity.TextChanged += new System.EventHandler(this.textchanged_tb_light_intensity);
+			this.tb_light_intensity.KeyDown += new System.Windows.Forms.KeyEventHandler(this.keydown_tb_light_intensity);
 			// 
 			// la_dz
 			// 
@@ -905,11 +932,12 @@ namespace creaturevisualizer
 			// 
 			// tb_camera_height
 			// 
-			this.tb_camera_height.Location = new System.Drawing.Point(240, 80);
+			this.tb_camera_height.Location = new System.Drawing.Point(235, 80);
 			this.tb_camera_height.Margin = new System.Windows.Forms.Padding(0);
 			this.tb_camera_height.Name = "tb_camera_height";
-			this.tb_camera_height.Size = new System.Drawing.Size(40, 20);
+			this.tb_camera_height.Size = new System.Drawing.Size(45, 20);
 			this.tb_camera_height.TabIndex = 23;
+			this.tb_camera_height.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.tb_camera_height.TextChanged += new System.EventHandler(this.textchanged_tb_camera_height);
 			this.tb_camera_height.KeyDown += new System.Windows.Forms.KeyEventHandler(this.keydown_tb_camera_height);
 			// 
@@ -1412,6 +1440,7 @@ namespace creaturevisualizer
 			this.pa_con.ResumeLayout(false);
 			this.pa_con.PerformLayout();
 			this.gb_Light.ResumeLayout(false);
+			this.gb_Light.PerformLayout();
 			this.gb_model.ResumeLayout(false);
 			this.gb_camera.ResumeLayout(false);
 			this.gb_camera.PerformLayout();

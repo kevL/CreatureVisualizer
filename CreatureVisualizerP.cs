@@ -47,6 +47,8 @@ namespace creaturevisualizer
 
 		const float ROT_START_OBJECT = (float)Math.PI * 3F / 4F;
 
+		internal const float DEFAULT_LIGHT_INTENSITY = 0.72F;
+
 		static Vector3 ScaInitial;
 		#endregion Fields (static)
 
@@ -319,7 +321,7 @@ namespace creaturevisualizer
 
 				Light.Position        = POS_START_LIGHT;
 
-				Light.Color.Intensity = 0.72F;
+				Light.Color.Intensity = DEFAULT_LIGHT_INTENSITY;
 				Light.Range           = 50F; // default 10F
 				Light.CastsShadow     = false;
 
