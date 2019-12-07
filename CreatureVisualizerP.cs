@@ -687,10 +687,17 @@ namespace creaturevisualizer
 		}
 
 
+		// as in the ArmorSet tab ->
 		// LMB      : select model (or weapon/shield)
 		// RMB+Ctrl : revolve around modal/focuspt (polar)
-		// RMB      : +/- z, +- x(polar on the x/y plane)
-		// LMB+Alt  : +/0 model z axis iff model is selected
+		// RMB      : +/- z, +- x/y (orthagonal on the x/y-plane)
+		// LMB+Alt  : +/- model z-axis iff model is selected
+		//
+		// coded below ->
+		// LMB+Alt  : +/- camera z-axis
+		// LMB+Ctrl : +/- camera x/y-plane
+		// RMB      : +/- camera z, x/y
+		// RMB+Ctrl : full polar
 
 		MouseButtons _btn;
 
@@ -788,7 +795,7 @@ namespace creaturevisualizer
 						case MouseButtons.Left:
 							switch (Control.ModifierKeys)
 							{
-								case Keys.Alt: // z-axis +/0
+								case Keys.Alt: // z-axis +/-
 								{
 									float z = (float)(_pos.Y - _pos0.Y) * 0.01F;
 
@@ -829,14 +836,16 @@ namespace creaturevisualizer
 		}
 
 
+		/// <summary>
+		/// Zooms the camera in/out ... overrides the stock mousewheel handler.
+		/// </summary>
+		/// <param name="e"></param>
 		protected override void OnMouseWheel(MouseEventArgs e)
 		{
 			if (e.Delta > 0)
 				CreatureVisualizerF.that.click_bu_camera_distneg(null, EventArgs.Empty);
 			else if (e.Delta < 0)
 				CreatureVisualizerF.that.click_bu_camera_distpos(null, EventArgs.Empty);
-
-//			base.OnMouseWheel(e);
 		}
 		#endregion Handlers (mouse)
 	}

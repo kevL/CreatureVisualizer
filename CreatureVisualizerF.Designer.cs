@@ -324,7 +324,6 @@ namespace creaturevisualizer
 			this.la_light_color.Size = new System.Drawing.Size(65, 15);
 			this.la_light_color.TabIndex = 32;
 			this.la_light_color.Text = "Colors";
-			this.la_light_color.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
 			// bu_light_ambient
 			// 
@@ -388,7 +387,7 @@ namespace creaturevisualizer
 			this.la_light_intensity.Size = new System.Drawing.Size(65, 20);
 			this.la_light_intensity.TabIndex = 24;
 			this.la_light_intensity.Text = "intensity";
-			this.la_light_intensity.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.la_light_intensity.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// tb_light_intensity
 			// 
@@ -758,7 +757,6 @@ namespace creaturevisualizer
 			this.la_model_scale.Size = new System.Drawing.Size(50, 15);
 			this.la_model_scale.TabIndex = 14;
 			this.la_model_scale.Text = "scale";
-			this.la_model_scale.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
 			// la_model_rotate
 			// 
@@ -1031,7 +1029,7 @@ namespace creaturevisualizer
 			this.la_camera_height.Size = new System.Drawing.Size(45, 15);
 			this.la_camera_height.TabIndex = 22;
 			this.la_camera_height.Text = "base h";
-			this.la_camera_height.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.la_camera_height.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// tb_camera_height
 			// 
