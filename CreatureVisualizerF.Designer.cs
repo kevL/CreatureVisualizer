@@ -69,10 +69,10 @@ namespace creaturevisualizer
 		Button bu_camera_zpos;
 		Button button4;
 		Label la_camera_angle;
-		Button bu_camera_horipos;
-		Button bu_camera_horineg;
-		Button bu_camera_vertneg;
-		Button bu_camera_vertpos;
+		Button bu_camera_yawpos;
+		Button bu_camera_yawneg;
+		Button bu_camera_pitchneg;
+		Button bu_camera_pitchpos;
 		GroupBox gb_Light;
 		Button bu_light_xyreset;
 		Button bu_light_zreset;
@@ -201,14 +201,14 @@ namespace creaturevisualizer
 			this.gb_camera = new System.Windows.Forms.GroupBox();
 			this.la_camera_height = new System.Windows.Forms.Label();
 			this.tb_camera_height = new System.Windows.Forms.TextBox();
-			this.bu_camera_horipos = new System.Windows.Forms.Button();
+			this.bu_camera_yawpos = new System.Windows.Forms.Button();
 			this.la_camera_yaw = new System.Windows.Forms.Label();
 			this.la_camera_pitch = new System.Windows.Forms.Label();
 			this.button4 = new System.Windows.Forms.Button();
 			this.la_camera_angle = new System.Windows.Forms.Label();
-			this.bu_camera_horineg = new System.Windows.Forms.Button();
-			this.bu_camera_vertneg = new System.Windows.Forms.Button();
-			this.bu_camera_vertpos = new System.Windows.Forms.Button();
+			this.bu_camera_yawneg = new System.Windows.Forms.Button();
+			this.bu_camera_pitchneg = new System.Windows.Forms.Button();
+			this.bu_camera_pitchpos = new System.Windows.Forms.Button();
 			this.bu_camera_xyreset = new System.Windows.Forms.Button();
 			this.bu_camera_zreset = new System.Windows.Forms.Button();
 			this.bu_camera_focusobject = new System.Windows.Forms.Button();
@@ -308,17 +308,16 @@ namespace creaturevisualizer
 			// pa_light_ambient
 			// 
 			this.pa_light_ambient.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pa_light_ambient.Location = new System.Drawing.Point(200, 81);
+			this.pa_light_ambient.Location = new System.Drawing.Point(205, 81);
 			this.pa_light_ambient.Margin = new System.Windows.Forms.Padding(0);
 			this.pa_light_ambient.Name = "pa_light_ambient";
 			this.pa_light_ambient.Size = new System.Drawing.Size(20, 20);
 			this.pa_light_ambient.TabIndex = 33;
-			this.pa_light_ambient.Visible = false;
 			this.pa_light_ambient.Click += new System.EventHandler(this.click_bu_light_ambient);
 			// 
 			// la_light_color
 			// 
-			this.la_light_color.Location = new System.Drawing.Point(130, 15);
+			this.la_light_color.Location = new System.Drawing.Point(135, 15);
 			this.la_light_color.Margin = new System.Windows.Forms.Padding(0);
 			this.la_light_color.Name = "la_light_color";
 			this.la_light_color.Size = new System.Drawing.Size(65, 15);
@@ -327,20 +326,19 @@ namespace creaturevisualizer
 			// 
 			// bu_light_ambient
 			// 
-			this.bu_light_ambient.Location = new System.Drawing.Point(130, 80);
+			this.bu_light_ambient.Location = new System.Drawing.Point(135, 80);
 			this.bu_light_ambient.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_light_ambient.Name = "bu_light_ambient";
 			this.bu_light_ambient.Size = new System.Drawing.Size(65, 22);
 			this.bu_light_ambient.TabIndex = 31;
 			this.bu_light_ambient.Text = "ambient";
 			this.bu_light_ambient.UseVisualStyleBackColor = true;
-			this.bu_light_ambient.Visible = false;
 			this.bu_light_ambient.Click += new System.EventHandler(this.click_bu_light_ambient);
 			// 
 			// pa_light_specular
 			// 
 			this.pa_light_specular.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pa_light_specular.Location = new System.Drawing.Point(200, 56);
+			this.pa_light_specular.Location = new System.Drawing.Point(205, 56);
 			this.pa_light_specular.Margin = new System.Windows.Forms.Padding(0);
 			this.pa_light_specular.Name = "pa_light_specular";
 			this.pa_light_specular.Size = new System.Drawing.Size(20, 20);
@@ -349,7 +347,7 @@ namespace creaturevisualizer
 			// 
 			// bu_light_specular
 			// 
-			this.bu_light_specular.Location = new System.Drawing.Point(130, 55);
+			this.bu_light_specular.Location = new System.Drawing.Point(135, 55);
 			this.bu_light_specular.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_light_specular.Name = "bu_light_specular";
 			this.bu_light_specular.Size = new System.Drawing.Size(65, 22);
@@ -361,7 +359,7 @@ namespace creaturevisualizer
 			// pa_light_diffuse
 			// 
 			this.pa_light_diffuse.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pa_light_diffuse.Location = new System.Drawing.Point(200, 31);
+			this.pa_light_diffuse.Location = new System.Drawing.Point(205, 31);
 			this.pa_light_diffuse.Margin = new System.Windows.Forms.Padding(0);
 			this.pa_light_diffuse.Name = "pa_light_diffuse";
 			this.pa_light_diffuse.Size = new System.Drawing.Size(20, 20);
@@ -370,7 +368,7 @@ namespace creaturevisualizer
 			// 
 			// bu_light_diffuse
 			// 
-			this.bu_light_diffuse.Location = new System.Drawing.Point(130, 30);
+			this.bu_light_diffuse.Location = new System.Drawing.Point(135, 30);
 			this.bu_light_diffuse.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_light_diffuse.Name = "bu_light_diffuse";
 			this.bu_light_diffuse.Size = new System.Drawing.Size(65, 22);
@@ -381,7 +379,7 @@ namespace creaturevisualizer
 			// 
 			// la_light_intensity
 			// 
-			this.la_light_intensity.Location = new System.Drawing.Point(130, 105);
+			this.la_light_intensity.Location = new System.Drawing.Point(135, 105);
 			this.la_light_intensity.Margin = new System.Windows.Forms.Padding(0);
 			this.la_light_intensity.Name = "la_light_intensity";
 			this.la_light_intensity.Size = new System.Drawing.Size(65, 20);
@@ -391,7 +389,7 @@ namespace creaturevisualizer
 			// 
 			// tb_light_intensity
 			// 
-			this.tb_light_intensity.Location = new System.Drawing.Point(200, 105);
+			this.tb_light_intensity.Location = new System.Drawing.Point(205, 105);
 			this.tb_light_intensity.Margin = new System.Windows.Forms.Padding(0);
 			this.tb_light_intensity.Name = "tb_light_intensity";
 			this.tb_light_intensity.Size = new System.Drawing.Size(45, 20);
@@ -988,14 +986,14 @@ namespace creaturevisualizer
 			// 
 			this.gb_camera.Controls.Add(this.la_camera_height);
 			this.gb_camera.Controls.Add(this.tb_camera_height);
-			this.gb_camera.Controls.Add(this.bu_camera_horipos);
+			this.gb_camera.Controls.Add(this.bu_camera_yawpos);
 			this.gb_camera.Controls.Add(this.la_camera_yaw);
 			this.gb_camera.Controls.Add(this.la_camera_pitch);
 			this.gb_camera.Controls.Add(this.button4);
 			this.gb_camera.Controls.Add(this.la_camera_angle);
-			this.gb_camera.Controls.Add(this.bu_camera_horineg);
-			this.gb_camera.Controls.Add(this.bu_camera_vertneg);
-			this.gb_camera.Controls.Add(this.bu_camera_vertpos);
+			this.gb_camera.Controls.Add(this.bu_camera_yawneg);
+			this.gb_camera.Controls.Add(this.bu_camera_pitchneg);
+			this.gb_camera.Controls.Add(this.bu_camera_pitchpos);
 			this.gb_camera.Controls.Add(this.bu_camera_xyreset);
 			this.gb_camera.Controls.Add(this.bu_camera_zreset);
 			this.gb_camera.Controls.Add(this.bu_camera_focusobject);
@@ -1042,36 +1040,36 @@ namespace creaturevisualizer
 			this.tb_camera_height.TextChanged += new System.EventHandler(this.textchanged_tb_camera_baseheight);
 			this.tb_camera_height.KeyDown += new System.Windows.Forms.KeyEventHandler(this.keydown_tb_camera_baseheight);
 			// 
-			// bu_camera_horipos
+			// bu_camera_yawpos
 			// 
-			this.bu_camera_horipos.Location = new System.Drawing.Point(215, 40);
-			this.bu_camera_horipos.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_camera_horipos.Name = "bu_camera_horipos";
-			this.bu_camera_horipos.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_horipos.TabIndex = 18;
-			this.bu_camera_horipos.Text = "+";
-			this.bu_camera_horipos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.bu_camera_horipos.UseVisualStyleBackColor = true;
-			this.bu_camera_horipos.Click += new System.EventHandler(this.click_bu_camera_horineg);
-			this.bu_camera_horipos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
-			this.bu_camera_horipos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			this.bu_camera_yawpos.Location = new System.Drawing.Point(215, 40);
+			this.bu_camera_yawpos.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_yawpos.Name = "bu_camera_yawpos";
+			this.bu_camera_yawpos.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_yawpos.TabIndex = 18;
+			this.bu_camera_yawpos.Text = "-";
+			this.bu_camera_yawpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_yawpos.UseVisualStyleBackColor = true;
+			this.bu_camera_yawpos.Click += new System.EventHandler(this.click_bu_camera_yawneg);
+			this.bu_camera_yawpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_camera_yawpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
 			// la_camera_yaw
 			// 
-			this.la_camera_yaw.Location = new System.Drawing.Point(240, 40);
+			this.la_camera_yaw.Location = new System.Drawing.Point(240, 45);
 			this.la_camera_yaw.Margin = new System.Windows.Forms.Padding(0);
 			this.la_camera_yaw.Name = "la_camera_yaw";
-			this.la_camera_yaw.Size = new System.Drawing.Size(40, 20);
+			this.la_camera_yaw.Size = new System.Drawing.Size(40, 15);
 			this.la_camera_yaw.TabIndex = 21;
 			this.la_camera_yaw.Text = "yaw";
 			this.la_camera_yaw.TextAlign = System.Drawing.ContentAlignment.BottomRight;
 			// 
 			// la_camera_pitch
 			// 
-			this.la_camera_pitch.Location = new System.Drawing.Point(240, 20);
+			this.la_camera_pitch.Location = new System.Drawing.Point(240, 30);
 			this.la_camera_pitch.Margin = new System.Windows.Forms.Padding(0);
 			this.la_camera_pitch.Name = "la_camera_pitch";
-			this.la_camera_pitch.Size = new System.Drawing.Size(40, 20);
+			this.la_camera_pitch.Size = new System.Drawing.Size(40, 15);
 			this.la_camera_pitch.TabIndex = 20;
 			this.la_camera_pitch.Text = "pitch";
 			this.la_camera_pitch.TextAlign = System.Drawing.ContentAlignment.BottomRight;
@@ -1099,47 +1097,47 @@ namespace creaturevisualizer
 			this.la_camera_angle.Text = "Po";
 			this.la_camera_angle.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
-			// bu_camera_horineg
+			// bu_camera_yawneg
 			// 
-			this.bu_camera_horineg.Location = new System.Drawing.Point(165, 40);
-			this.bu_camera_horineg.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_camera_horineg.Name = "bu_camera_horineg";
-			this.bu_camera_horineg.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_horineg.TabIndex = 17;
-			this.bu_camera_horineg.Text = "-";
-			this.bu_camera_horineg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.bu_camera_horineg.UseVisualStyleBackColor = true;
-			this.bu_camera_horineg.Click += new System.EventHandler(this.click_bu_camera_horipos);
-			this.bu_camera_horineg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
-			this.bu_camera_horineg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			this.bu_camera_yawneg.Location = new System.Drawing.Point(165, 40);
+			this.bu_camera_yawneg.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_yawneg.Name = "bu_camera_yawneg";
+			this.bu_camera_yawneg.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_yawneg.TabIndex = 17;
+			this.bu_camera_yawneg.Text = "+";
+			this.bu_camera_yawneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_yawneg.UseVisualStyleBackColor = true;
+			this.bu_camera_yawneg.Click += new System.EventHandler(this.click_bu_camera_yawpos);
+			this.bu_camera_yawneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_camera_yawneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
-			// bu_camera_vertneg
+			// bu_camera_pitchneg
 			// 
-			this.bu_camera_vertneg.Location = new System.Drawing.Point(190, 55);
-			this.bu_camera_vertneg.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_camera_vertneg.Name = "bu_camera_vertneg";
-			this.bu_camera_vertneg.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_vertneg.TabIndex = 16;
-			this.bu_camera_vertneg.Text = "-";
-			this.bu_camera_vertneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.bu_camera_vertneg.UseVisualStyleBackColor = true;
-			this.bu_camera_vertneg.Click += new System.EventHandler(this.click_bu_camera_vertneg);
-			this.bu_camera_vertneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
-			this.bu_camera_vertneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			this.bu_camera_pitchneg.Location = new System.Drawing.Point(190, 55);
+			this.bu_camera_pitchneg.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_pitchneg.Name = "bu_camera_pitchneg";
+			this.bu_camera_pitchneg.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_pitchneg.TabIndex = 16;
+			this.bu_camera_pitchneg.Text = "-";
+			this.bu_camera_pitchneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_pitchneg.UseVisualStyleBackColor = true;
+			this.bu_camera_pitchneg.Click += new System.EventHandler(this.click_bu_camera_pitchneg);
+			this.bu_camera_pitchneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_camera_pitchneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
-			// bu_camera_vertpos
+			// bu_camera_pitchpos
 			// 
-			this.bu_camera_vertpos.Location = new System.Drawing.Point(190, 30);
-			this.bu_camera_vertpos.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_camera_vertpos.Name = "bu_camera_vertpos";
-			this.bu_camera_vertpos.Size = new System.Drawing.Size(22, 22);
-			this.bu_camera_vertpos.TabIndex = 15;
-			this.bu_camera_vertpos.Text = "+";
-			this.bu_camera_vertpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.bu_camera_vertpos.UseVisualStyleBackColor = true;
-			this.bu_camera_vertpos.Click += new System.EventHandler(this.click_bu_camera_vertpos);
-			this.bu_camera_vertpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
-			this.bu_camera_vertpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
+			this.bu_camera_pitchpos.Location = new System.Drawing.Point(190, 30);
+			this.bu_camera_pitchpos.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_pitchpos.Name = "bu_camera_pitchpos";
+			this.bu_camera_pitchpos.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_pitchpos.TabIndex = 15;
+			this.bu_camera_pitchpos.Text = "+";
+			this.bu_camera_pitchpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_pitchpos.UseVisualStyleBackColor = true;
+			this.bu_camera_pitchpos.Click += new System.EventHandler(this.click_bu_camera_pitchpos);
+			this.bu_camera_pitchpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
+			this.bu_camera_pitchpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
 			// bu_camera_xyreset
 			// 

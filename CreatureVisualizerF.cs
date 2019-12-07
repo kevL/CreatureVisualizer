@@ -112,9 +112,9 @@ namespace creaturevisualizer
 			_d.Click += click_bu_camera_zneg;
 
 			_l = ButtonFactory(_l, "l");
-			_l.Click += click_bu_camera_horineg;
+			_l.Click += click_bu_camera_yawneg;
 			_r = ButtonFactory(_r, "r");
-			_r.Click += click_bu_camera_horipos;
+			_r.Click += click_bu_camera_yawpos;
 
 			Controls.Add(_i);
 			Controls.Add(_o);
@@ -258,8 +258,6 @@ namespace creaturevisualizer
 		#region Handlers (override)
 		protected override void OnResize(EventArgs e)
 		{
-			base.OnResize(e);
-
 			switch (WindowState)
 			{
 				case FormWindowState.Normal:
@@ -284,6 +282,8 @@ namespace creaturevisualizer
 					LayoutButtons();
 					break;
 			}
+
+			base.OnResize(e);
 		}
 
 		protected override void OnFormClosing(FormClosingEventArgs e)
@@ -666,7 +666,7 @@ namespace creaturevisualizer
 		}
 
 
-		void click_bu_camera_vertpos(object sender, EventArgs e)
+		void click_bu_camera_pitchpos(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 			{
@@ -675,7 +675,7 @@ namespace creaturevisualizer
 			}
 		}
 
-		void click_bu_camera_vertneg(object sender, EventArgs e)
+		void click_bu_camera_pitchneg(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 			{
@@ -684,7 +684,7 @@ namespace creaturevisualizer
 			}
 		}
 
-		void click_bu_camera_horipos(object sender, EventArgs e)
+		void click_bu_camera_yawpos(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 			{
@@ -695,7 +695,7 @@ namespace creaturevisualizer
 			}
 		}
 
-		void click_bu_camera_horineg(object sender, EventArgs e)
+		void click_bu_camera_yawneg(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 			{
@@ -1234,7 +1234,7 @@ namespace creaturevisualizer
 
 			var state = _panel.Receiver.CameraState as ModelViewerInputCameraReceiverState;
 			la_camera_pitch.Text = ((int)(state.FocusPhi   * 180F / (float)Math.PI)).ToString(); // to degs
-			la_camera_yaw  .Text = ((int)(state.FocusTheta * 180F / (float)Math.PI)).ToString();
+			la_camera_yaw  .Text = ((int)(state.FocusTheta * 180F / (float)Math.PI) % 360).ToString();
 
 			tssl_camera_dist.Text = _panel.Receiver.Distance.ToString("N2");
 		}
