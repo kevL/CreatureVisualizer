@@ -1073,7 +1073,7 @@ namespace creaturevisualizer
 
 		Sano.PersonalProjects.ColorPicker.Controls.ColorEditForm _sano;
 
-		void click_bu_light_ambi(object sender, EventArgs e)
+		void click_bu_light_ambient(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 			{

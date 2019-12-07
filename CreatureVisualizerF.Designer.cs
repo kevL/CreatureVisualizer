@@ -313,7 +313,7 @@ namespace creaturevisualizer
 			this.pa_light_ambient.Name = "pa_light_ambient";
 			this.pa_light_ambient.Size = new System.Drawing.Size(20, 20);
 			this.pa_light_ambient.TabIndex = 33;
-			this.pa_light_ambient.Click += new System.EventHandler(this.click_bu_light_ambi);
+			this.pa_light_ambient.Click += new System.EventHandler(this.click_bu_light_ambient);
 			// 
 			// la_light_color
 			// 
@@ -334,7 +334,7 @@ namespace creaturevisualizer
 			this.bu_light_ambient.TabIndex = 31;
 			this.bu_light_ambient.Text = "ambient";
 			this.bu_light_ambient.UseVisualStyleBackColor = true;
-			this.bu_light_ambient.Click += new System.EventHandler(this.click_bu_light_ambi);
+			this.bu_light_ambient.Click += new System.EventHandler(this.click_bu_light_ambient);
 			// 
 			// pa_light_specular
 			// 

@@ -33,7 +33,7 @@ namespace creaturevisualizer
 	/// <summary>
 	/// Credit: The Grinning Fool's Creature Creation Wizard
 	/// https://neverwintervault.org/project/nwn2/other/grinning-fools-creature-creation-wizard
-	/// and the NwN2 toolset's Appearance Wizard
+	/// and the NwN2 toolset's Appearance Wizard, etc.
 	/// </summary>
 	sealed class CreatureVisualizerP
 		: ElectronPanel
@@ -644,6 +644,7 @@ namespace creaturevisualizer
 		{
 			var state = Receiver.CameraState as ModelViewerInputCameraReceiverState;
 
+// position ->
 			var y = new Vector3(0f, 1f, 0f);
 			y = RHMatrix.RotationZ(state.FocusTheta).TransformCoordinate(y);
 
@@ -660,6 +661,7 @@ namespace creaturevisualizer
 
 			CameraPosition = pos + CreatureVisualizerF.Offset + POS_OFF_Zd;
 
+// orientation ->
 			Vector3 focusPoint = state.FocusPoint;
 			focusPoint.Subtract(pos);
 			focusPoint = MathUtils.NormalizeVector3(focusPoint);
@@ -679,8 +681,9 @@ namespace creaturevisualizer
 
 		void mouseup(object sender, MouseEventArgs e)
 		{
-			_btn = MouseButtons.None;
 			_t2.Stop();
+			_btn = MouseButtons.None;
+			Cursor.Current = Cursors.Default;
 		}
 
 
@@ -694,81 +697,140 @@ namespace creaturevisualizer
 		Timer _t2 = new Timer();
 		Point _pos, _pos0;
 
+		/// <summary>
+		/// Tracks mousecursor location for either LMB or RMB drag motions.
+		/// Changes the camera's position and/or orientation.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		void tick(object sender, EventArgs e)
 		{
-			if (_pos != _pos0 && _btn != MouseButtons.None)
+			if (_btn != MouseButtons.None)
 			{
 				switch (_btn)
 				{
 					case MouseButtons.Right:
 						switch (Control.ModifierKeys)
 						{
-							case Keys.Control: // polar movement around model/focuspt ->
-							{
-								int deltahori = _pos.X - _pos0.X;
-								int deltavert = _pos.Y - _pos0.Y;
-
-								float hori = (float)deltahori * 0.01f;
-								float vert = (float)deltavert * 0.01f;
-
-								var state = Receiver.CameraState as ModelViewerInputCameraReceiverState;
-								state.FocusTheta += hori;
-								state.FocusPhi   += vert;
-
-								while ((double)state.FocusTheta < -Math.PI)
-									state.FocusTheta += (float)Math.PI * 2f;
-
-								while ((double)state.FocusTheta > Math.PI)
-									state.FocusTheta -= (float)Math.PI * 2f;
-
-								state.FocusPhi = Math.Min(state.PitchMax, state.FocusPhi);
-								state.FocusPhi = Math.Max(state.PitchMin, state.FocusPhi);
-
-								UpdateCamera();
-								CreatureVisualizerF.that.PrintCameraPosition();
+							case Keys.Control:
+								Cursor.Current = Cursors.Cross;
 								break;
-							}
 
-							case Keys.None: // up/down, left/right
-							{
-								// vertical shift ->
-								float z = (float)(_pos.Y - _pos0.Y) * 0.01F;
-
-								// horizontal shifts ->
-								float rot = CreatureVisualizerF.that.getrot();
-								rot *= (float)Math.PI / 180F; // to rads
-
-								float cos = (float)(Math.Cos((double)rot));
-								float x = (float)(_pos0.X - _pos.X) * 0.01F * cos;
-
-								float sin = -(float)(Math.Sin((double)rot));
-								float y = (float)(_pos0.X - _pos.X) * 0.01F * sin;
-
-								var shift = new Vector3(x,y,z);
-								CameraPosition += shift;
-								CreatureVisualizerF.Offset += shift;
-
-								CreatureVisualizerF.that.PrintCameraPosition();
+							case Keys.None:
+								Cursor.Current = Cursors.SizeAll;
 								break;
-							}
 						}
 						break;
 
 					case MouseButtons.Left:
 						switch (Control.ModifierKeys)
 						{
-							case Keys.Alt: // z-axis vertical shift.
-							{
-								float z = (float)(_pos.Y - _pos0.Y) * 0.01F;
-
-								var shift = new Vector3(0F, 0F, z);
-								CameraPosition += shift;
-								CreatureVisualizerF.Offset += shift;
-								CreatureVisualizerF.that.PrintCameraPosition();
+							case Keys.Alt:
+								Cursor.Current = Cursors.SizeNS;
 								break;
-							}
+
+							case Keys.Control:
+								Cursor.Current = Cursors.SizeWE;
+								break;
 						}
 						break;
+				}
+
+				if (_pos != _pos0)
+				{
+					switch (_btn)
+					{
+						case MouseButtons.Right:
+							switch (Control.ModifierKeys)
+							{
+								case Keys.Control: // full-polar movement around model/focuspt ->
+								{
+									int deltahori = _pos.X - _pos0.X;
+									int deltavert = _pos.Y - _pos0.Y;
+
+									float hori = (float)deltahori * 0.01f;
+									float vert = (float)deltavert * 0.01f;
+
+									var state = Receiver.CameraState as ModelViewerInputCameraReceiverState;
+									state.FocusTheta += hori;
+									state.FocusPhi   += vert;
+
+									while ((double)state.FocusTheta < -Math.PI)
+										state.FocusTheta += (float)Math.PI * 2f;
+
+									while ((double)state.FocusTheta > Math.PI)
+										state.FocusTheta -= (float)Math.PI * 2f;
+
+									state.FocusPhi = Math.Min(state.PitchMax, state.FocusPhi);
+									state.FocusPhi = Math.Max(state.PitchMin, state.FocusPhi);
+
+									UpdateCamera();
+									CreatureVisualizerF.that.PrintCameraPosition();
+									break;
+								}
+
+								case Keys.None: // up/down, left/right
+								{
+									// cf. LMB+Ctrl
+									// vertical shift ->
+									float z = (float)(_pos.Y - _pos0.Y) * 0.01F;
+
+									// horizontal shifts ->
+									float rot = CreatureVisualizerF.that.getrot();
+									rot *= (float)Math.PI / 180F; // to rads
+
+									float cos = (float)(Math.Cos((double)rot));
+									float x = (float)(_pos0.X - _pos.X) * 0.01F * cos;
+
+									float sin = -(float)(Math.Sin((double)rot));
+									float y = (float)(_pos0.X - _pos.X) * 0.01F * sin;
+
+									var shift = new Vector3(x,y,z);
+									CameraPosition += shift;
+									CreatureVisualizerF.Offset += shift;
+
+									CreatureVisualizerF.that.PrintCameraPosition();
+									break;
+								}
+							}
+							break;
+
+						case MouseButtons.Left:
+							switch (Control.ModifierKeys)
+							{
+								case Keys.Alt: // z-axis +/0
+								{
+									float z = (float)(_pos.Y - _pos0.Y) * 0.01F;
+
+									var shift = new Vector3(0F, 0F, z);
+									CameraPosition += shift;
+									CreatureVisualizerF.Offset += shift;
+									CreatureVisualizerF.that.PrintCameraPosition();
+									break;
+								}
+
+								case Keys.Control: // x/y-plane shift.
+								{
+									// cf. RMB
+									float rot = CreatureVisualizerF.that.getrot();
+									rot *= (float)Math.PI / 180F; // to rads
+
+									float cos = (float)(Math.Cos((double)rot));
+									float x = (float)(_pos0.X - _pos.X) * 0.01F * cos;
+
+									float sin = -(float)(Math.Sin((double)rot));
+									float y = (float)(_pos0.X - _pos.X) * 0.01F * sin;
+
+									var shift = new Vector3(x,y, 0F);
+									CameraPosition += shift;
+									CreatureVisualizerF.Offset += shift;
+
+									CreatureVisualizerF.that.PrintCameraPosition();
+									break;
+								}
+							}
+							break;
+					}
 				}
 			}
 
