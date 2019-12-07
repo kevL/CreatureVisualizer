@@ -460,9 +460,9 @@ namespace creaturevisualizer
 			Light.Tag             = Light;										// doesn't appear to be req'd.
 
 
-			Light.Color.AmbientColor  = (Color)AmbientColor;
-			Light.Color.DiffuseColor  = (Color)DiffuseColor;
-			Light.Color.SpecularColor = (Color)SpecularColor;
+			if (AmbientColor  != null) Light.Color.AmbientColor  = (Color)AmbientColor;
+			if (DiffuseColor  != null) Light.Color.DiffuseColor  = (Color)DiffuseColor;
+			if (SpecularColor != null) Light.Color.SpecularColor = (Color)SpecularColor;
 
 
 			lock (Scene.Objects.SyncRoot)
