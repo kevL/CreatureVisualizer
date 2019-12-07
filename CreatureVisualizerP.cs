@@ -712,26 +712,16 @@ namespace creaturevisualizer
 					case MouseButtons.Right:
 						switch (Control.ModifierKeys)
 						{
-							case Keys.Control:
-								Cursor.Current = Cursors.Cross;
-								break;
-
-							case Keys.None:
-								Cursor.Current = Cursors.SizeAll;
-								break;
+							case Keys.Control: Cursor.Current = Cursors.Cross;   break;
+							case Keys.None:    Cursor.Current = Cursors.SizeAll; break;
 						}
 						break;
 
 					case MouseButtons.Left:
 						switch (Control.ModifierKeys)
 						{
-							case Keys.Alt:
-								Cursor.Current = Cursors.SizeNS;
-								break;
-
-							case Keys.Control:
-								Cursor.Current = Cursors.SizeWE;
-								break;
+							case Keys.Alt:     Cursor.Current = Cursors.SizeNS; break;
+							case Keys.Control: Cursor.Current = Cursors.SizeWE; break;
 						}
 						break;
 				}
