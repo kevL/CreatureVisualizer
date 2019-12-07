@@ -87,7 +87,7 @@ namespace creaturevisualizer
 			_pa_Con_h = pa_con.Height;
 
 			tb_camera_height  .Text = CreatureVisualizerP.POS_OFF_Zd.Z           .ToString("N2");
-			tb_light_intensity.Text = CreatureVisualizerP.DEFAULT_LIGHT_INTENSITY.ToString("N2");
+			tb_light_intensity.Text = CreatureVisualizerP.LIGHT_INTENSITY.ToString("N2");
 
 
 			_itControlPanel  .PerformClick(); // TEST
@@ -789,7 +789,7 @@ namespace creaturevisualizer
 		} */
 
 
-		void textchanged_tb_camera_height(object sender, EventArgs e)
+		void textchanged_tb_camera_baseheight(object sender, EventArgs e)
 		{
 			float result;
 			if (Single.TryParse(tb_camera_height.Text, out result)
@@ -799,12 +799,12 @@ namespace creaturevisualizer
 				_panel.UpdateCamera();
 			}
 			else if (result <= -100F)
-				tb_camera_height.Text = (-99.99F).ToString();	// refire^
+				tb_camera_height.Text = (-99.99F).ToString("N2");	// refire^
 			else if (result >=  100F)
-				tb_camera_height.Text = 99.99F.ToString();		// refire^
+				tb_camera_height.Text = 99.99F.ToString("N2");		// refire^
 		}
 
-		void keydown_tb_camera_height(object sender, KeyEventArgs e)
+		void keydown_tb_camera_baseheight(object sender, KeyEventArgs e)
 		{
 			switch (e.KeyCode)
 			{
@@ -1025,7 +1025,9 @@ namespace creaturevisualizer
 				if (Single.TryParse(tb_light_intensity.Text, out result)
 					&& result >= 0F && result < 100F)
 				{
+					CreatureVisualizerP.LIGHT_INTENSITY =
 					_panel.Light.Color.Intensity = result;
+					PrintLightIntensity(result);
 				}
 				else if (result < 0F)
 					tb_light_intensity.Text = 0F.ToString("N2");		// refire^
@@ -1045,7 +1047,7 @@ namespace creaturevisualizer
 					{
 						float i = _panel.Light.Color.Intensity;
 						i += grader(0.1F);
-						tb_light_intensity.Text = i.ToString();
+						tb_light_intensity.Text = i.ToString("N2");
 
 						e.Handled = e.SuppressKeyPress = true;
 						break;
@@ -1056,7 +1058,7 @@ namespace creaturevisualizer
 					{
 						float i = _panel.Light.Color.Intensity;
 						i -= grader(0.1F);
-						tb_light_intensity.Text = i.ToString();
+						tb_light_intensity.Text = i.ToString("N2");
 
 						e.Handled = e.SuppressKeyPress = true;
 						break;
@@ -1067,54 +1069,137 @@ namespace creaturevisualizer
 
 
 
+		internal static bool BypassRefreshOnFocus;
+
 		Sano.PersonalProjects.ColorPicker.Controls.ColorEditForm _sano;
+
+		void click_bu_light_ambi(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				BypassRefreshOnFocus = true;
+
+				_sano = new Sano.PersonalProjects.ColorPicker.Controls.ColorEditForm();
+
+				Color color =
+				_sano.colorPanel.SelectedColor = _panel.Light.Color.AmbientColor;
+				_sano.colorPanel.ColorValueChanged += colorchanged_ambi;
+
+				byte alpha =
+				_sano.colorPanel.Alpha = _panel.Light.Color.AmbientColor.A;
+
+				if (_sano.ShowDialog(this) == DialogResult.OK)
+				{
+					CreatureVisualizerP.AmbientColor =
+					pa_light_ambient.BackColor =
+					_panel.Light.Color.AmbientColor = Color.FromArgb(_sano.colorPanel.Alpha,
+																	 _sano.colorPanel.SelectedColor);
+				}
+				else
+				{
+					CreatureVisualizerP.AmbientColor =
+					pa_light_ambient.BackColor =
+					_panel.Light.Color.AmbientColor = Color.FromArgb(alpha, color);
+				}
+
+				_sano.Dispose();
+				_sano = null;
+
+				BypassRefreshOnFocus = false;
+			}
+		}
+
+		void colorchanged_ambi(object sender, EventArgs e)
+		{
+			pa_light_ambient.BackColor =
+			_panel.Light.Color.AmbientColor = Color.FromArgb(_sano.colorPanel.Alpha,
+															 _sano.colorPanel.SelectedColor);
+		}
 
 		void click_bu_light_diffuse(object sender, EventArgs e)
 		{
-			_sano = new Sano.PersonalProjects.ColorPicker.Controls.ColorEditForm();
-
-			Color color = _panel.Light.Color.DiffuseColor;
-			_sano.colorPanel.SelectedColor = _panel.Light.Color.DiffuseColor;
-			_sano.colorPanel.ColorValueChanged += colorchanged_diff;
-
-			if (_sano.ShowDialog(this) == DialogResult.OK)
+			if (_panel.Object != null)
 			{
-				pa_light_diffuse.BackColor =
-				_panel.Light.Color.DiffuseColor = _sano.colorPanel.SelectedColor;
+				BypassRefreshOnFocus = true;
+
+				_sano = new Sano.PersonalProjects.ColorPicker.Controls.ColorEditForm();
+
+				Color color =
+				_sano.colorPanel.SelectedColor = _panel.Light.Color.DiffuseColor;
+				_sano.colorPanel.ColorValueChanged += colorchanged_diff;
+
+				byte alpha =
+				_sano.colorPanel.Alpha = _panel.Light.Color.DiffuseColor.A;
+
+				if (_sano.ShowDialog(this) == DialogResult.OK)
+				{
+					CreatureVisualizerP.DiffuseColor =
+					pa_light_diffuse.BackColor =
+					_panel.Light.Color.DiffuseColor = Color.FromArgb(_sano.colorPanel.Alpha,
+																	 _sano.colorPanel.SelectedColor);
+				}
+				else
+				{
+					CreatureVisualizerP.DiffuseColor =
+					pa_light_diffuse.BackColor =
+					_panel.Light.Color.DiffuseColor = Color.FromArgb(alpha, color);
+				}
+
+				_sano.Dispose();
+				_sano = null;
+
+				BypassRefreshOnFocus = false;
 			}
-			else
-				pa_light_diffuse.BackColor =
-				_panel.Light.Color.DiffuseColor = color;
 		}
 
 		void colorchanged_diff(object sender, EventArgs e)
 		{
 			pa_light_diffuse.BackColor =
-			_panel.Light.Color.DiffuseColor = _sano.colorPanel.SelectedColor;
+			_panel.Light.Color.DiffuseColor = Color.FromArgb(_sano.colorPanel.Alpha,
+															 _sano.colorPanel.SelectedColor);
 		}
 
 		void click_bu_light_specular(object sender, EventArgs e)
 		{
-			_sano = new Sano.PersonalProjects.ColorPicker.Controls.ColorEditForm();
-
-			Color color = _panel.Light.Color.SpecularColor;
-			_sano.colorPanel.SelectedColor = _panel.Light.Color.SpecularColor;
-			_sano.colorPanel.ColorValueChanged += colorchanged_spec;
-
-			if (_sano.ShowDialog(this) == DialogResult.OK)
+			if (_panel.Object != null)
 			{
-				pa_light_specular.BackColor =
-				_panel.Light.Color.SpecularColor = _sano.colorPanel.SelectedColor;
+				BypassRefreshOnFocus = true;
+
+				_sano = new Sano.PersonalProjects.ColorPicker.Controls.ColorEditForm();
+
+				Color color =
+				_sano.colorPanel.SelectedColor = _panel.Light.Color.SpecularColor;
+				_sano.colorPanel.ColorValueChanged += colorchanged_spec;
+
+				byte alpha =
+				_sano.colorPanel.Alpha = _panel.Light.Color.SpecularColor.A;
+
+				if (_sano.ShowDialog(this) == DialogResult.OK)
+				{
+					CreatureVisualizerP.SpecularColor =
+					pa_light_specular.BackColor =
+					_panel.Light.Color.SpecularColor = Color.FromArgb(_sano.colorPanel.Alpha,
+																	  _sano.colorPanel.SelectedColor);
+				}
+				else
+				{
+					CreatureVisualizerP.SpecularColor =
+					pa_light_specular.BackColor =
+					_panel.Light.Color.SpecularColor = Color.FromArgb(alpha, color);
+				}
+
+				_sano.Dispose();
+				_sano = null;
+
+				BypassRefreshOnFocus = false;
 			}
-			else
-				pa_light_specular.BackColor =
-				_panel.Light.Color.SpecularColor = color;
 		}
 
 		void colorchanged_spec(object sender, EventArgs e)
 		{
 			pa_light_specular.BackColor =
-			_panel.Light.Color.SpecularColor = _sano.colorPanel.SelectedColor;
+			_panel.Light.Color.SpecularColor = Color.FromArgb(_sano.colorPanel.Alpha,
+															  _sano.colorPanel.SelectedColor);
 		}
 		#endregion Handlers (light)
 
@@ -1201,13 +1286,21 @@ namespace creaturevisualizer
 		}
 
 
-		internal void PrintLightPosition(Vector3 pos, float intensity)
+		internal void PrintLightPosition(Vector3 pos)
 		{
 			tssl_light_xpos.Text = pos.X.ToString("N2");
 			tssl_light_ypos.Text = pos.Y.ToString("N2");
 			tssl_light_zpos.Text = pos.Z.ToString("N2");
+		}
 
+		internal void PrintLightIntensity(float intensity)
+		{
 			tssl_light_intensity.Text = intensity.ToString("N2");
+		}
+
+		internal void PrintAmbientColor()
+		{
+			pa_light_ambient.BackColor = _panel.Light.Color.AmbientColor;
 		}
 
 		internal void PrintDiffuseColor()

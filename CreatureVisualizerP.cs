@@ -47,7 +47,11 @@ namespace creaturevisualizer
 
 		const float ROT_START_OBJECT = (float)Math.PI * 3F / 4F;
 
-		internal const float DEFAULT_LIGHT_INTENSITY = 0.72F;
+		internal static float LIGHT_INTENSITY = 0.72F;
+		internal static Color ? AmbientColor;
+		internal static Color ? DiffuseColor;
+		internal static Color ? SpecularColor;
+
 
 		static Vector3 ScaInitial;
 		#endregion Fields (static)
@@ -198,47 +202,50 @@ namespace creaturevisualizer
 		/// </summary>
 		internal void CreateInstance()
 		{
-			if (MousePanel != null && !MousePanel.IsDisposed) // safety. ElectronPanel.MousePanel could go disposed for no good reason.
+			if (!CreatureVisualizerF.BypassRefreshOnFocus)
 			{
-				_instance = null;
-
-				NWN2BlueprintView tslist = NWN2ToolsetMainForm.App.BlueprintView;
-
-				object[] selection = tslist.Selection;
-				if (selection != null && selection.Length == 1)
+				if (MousePanel != null && !MousePanel.IsDisposed) // safety. ElectronPanel.MousePanel could go disposed for no good reason.
 				{
-					var blueprint = selection[0] as INWN2Blueprint;
-					if (!blueprint.Equals(_blueprint0))
-					{
-						_blueprint0 = blueprint;
-						_changed = true;
-					}
-					else
-						_changed = false;
+					_instance = null;
 
-					switch (tslist.GetFocusedListObjectType())
+					NWN2BlueprintView tslist = NWN2ToolsetMainForm.App.BlueprintView;
+
+					object[] selection = tslist.Selection;
+					if (selection != null && selection.Length == 1)
 					{
-						case NWN2ObjectType.Creature:
-							if (CreatureVisualizerF.that.feline())
-							{
-								((NWN2CreatureBlueprint)blueprint).Gender = CreatureGender.Female; // NWN2Toolset.NWN2.Data.Templates
+						var blueprint = selection[0] as INWN2Blueprint;
+						if (!blueprint.Equals(_blueprint0))
+						{
+							_blueprint0 = blueprint;
+							_changed = true;
+						}
+						else
+							_changed = false;
+
+						switch (tslist.GetFocusedListObjectType())
+						{
+							case NWN2ObjectType.Creature:
+								if (CreatureVisualizerF.that.feline())
+								{
+									((NWN2CreatureBlueprint)blueprint).Gender = CreatureGender.Female; // NWN2Toolset.NWN2.Data.Templates
+								}
+								else
+									((NWN2CreatureBlueprint)blueprint).Gender = CreatureGender.Male;
+
+								goto case NWN2ObjectType.Item;
+
+							case NWN2ObjectType.Item:	// <- TODO: works for weapons (see Preview tab) but clothes
+							{							//          appear on a default creature (in the ArmorSet tab)
+								_instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(blueprint);
+								break;
 							}
-							else
-								((NWN2CreatureBlueprint)blueprint).Gender = CreatureGender.Male;
-
-							goto case NWN2ObjectType.Item;
-
-						case NWN2ObjectType.Item:	// <- TODO: works for weapons (see Preview tab) but clothes
-						{							//          appear on a default creature (in the ArmorSet tab)
-							_instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(blueprint);
-							break;
 						}
 					}
+					RenderScene();
 				}
-				RenderScene();
+				else
+					MessageBox.Show(this, "ElectronPanel.MousePanel is invalid. Please see your chiropractor.");
 			}
-			else
-				MessageBox.Show(this, "ElectronPanel.MousePanel is invalid. Please see your chiropractor.");
 		}
 
 //		NWN2NetDisplayManager.NWN2CreatureTemplate.AppearanceChanged;
@@ -367,26 +374,29 @@ namespace creaturevisualizer
 				}
 				NWN2NetDisplayManager.Instance.RemoveObjects(objects);
 
+
 				if (Scene.DayNightCycleStages[(int)DayNightStageType.Default] != null)
 				{
 					Scene.DayNightCycleStages[(int)DayNightStageType.Default].SunMoonDirection = new Vector3(-0.33F, -0.67F, -0.67F);
 					Scene.DayNightCycleStages[(int)DayNightStageType.Default].ShadowIntensity = 0F;
 				}
 
+
 				Light = new NetDisplayLightPoint();
 
 				Light.Position        = POS_START_LIGHT;
 
-				Light.Color.Intensity = DEFAULT_LIGHT_INTENSITY;
+				Light.Color.Intensity = LIGHT_INTENSITY;
 				Light.Range           = 50F; // default 10F
 				Light.CastsShadow     = false;
 
 				Light.ID              = NetDisplayManager.Instance.NextObjectID;	// doesn't appear to be req'd.
 				Light.Tag             = Light;										// doesn't appear to be req'd.
 
-//				Light.Color.AmbientColor  = ; // no noticeable effect
-//				Light.Color.DiffuseColor  = ; // default
-//				Light.Color.SpecularColor = ; // default
+
+				if (AmbientColor  != null) Light.Color.AmbientColor  = (Color)AmbientColor;
+				if (DiffuseColor  != null) Light.Color.DiffuseColor  = (Color)DiffuseColor;
+				if (SpecularColor != null) Light.Color.SpecularColor = (Color)SpecularColor;
 
 
 				lock (Scene.Objects.SyncRoot)
@@ -399,7 +409,9 @@ namespace creaturevisualizer
 				}
 				NWN2NetDisplayManager.Instance.LightParameters(Light.Scene, Light);
 
-				CreatureVisualizerF.that.PrintLightPosition(Light.Position, Light.Color.Intensity);
+				CreatureVisualizerF.that.PrintLightPosition(Light.Position);
+				CreatureVisualizerF.that.PrintLightIntensity(Light.Color.Intensity);
+				CreatureVisualizerF.that.PrintAmbientColor();
 				CreatureVisualizerF.that.PrintDiffuseColor();
 				CreatureVisualizerF.that.PrintSpecularColor();
 
@@ -417,6 +429,7 @@ namespace creaturevisualizer
 			return false;
 		}
 
+
 		internal void RecreateLight(Vector3 pos)
 		{
 			var objects = new NetDisplayObjectCollection();
@@ -427,31 +440,29 @@ namespace creaturevisualizer
 			}
 			NWN2NetDisplayManager.Instance.RemoveObjects(objects);
 
+
 			if (Scene.DayNightCycleStages[(int)DayNightStageType.Default] != null)
 			{
 				Scene.DayNightCycleStages[(int)DayNightStageType.Default].SunMoonDirection = new Vector3(-0.33F, -0.67F, -0.67F);
 				Scene.DayNightCycleStages[(int)DayNightStageType.Default].ShadowIntensity = 0F;
 			}
 
-			float intensity = Light.Color.Intensity;
-			Color diffuse   = Light.Color.DiffuseColor;
-			Color specular  = Light.Color.SpecularColor;
-
 
 			Light = new NetDisplayLightPoint();
 
 			Light.Position        = pos;
 
-			Light.Color.Intensity = intensity;
+			Light.Color.Intensity = LIGHT_INTENSITY;
 			Light.Range           = 50F;
 			Light.CastsShadow     = false;
 
 			Light.ID              = NetDisplayManager.Instance.NextObjectID;	// doesn't appear to be req'd.
 			Light.Tag             = Light;										// doesn't appear to be req'd.
 
-//			Light.Color.AmbientColor  = ; // no noticeable effect
-			Light.Color.DiffuseColor  = diffuse;
-			Light.Color.SpecularColor = specular;
+
+			Light.Color.AmbientColor  = (Color)AmbientColor;
+			Light.Color.DiffuseColor  = (Color)DiffuseColor;
+			Light.Color.SpecularColor = (Color)SpecularColor;
 
 
 			lock (Scene.Objects.SyncRoot)
@@ -464,9 +475,7 @@ namespace creaturevisualizer
 			}
 			NWN2NetDisplayManager.Instance.LightParameters(Light.Scene, Light);
 
-			CreatureVisualizerF.that.PrintLightPosition(Light.Position, Light.Color.Intensity);
-//			CreatureVisualizerF.that.PrintDiffuseColor();
-//			CreatureVisualizerF.that.PrintSpecularColor();
+			CreatureVisualizerF.that.PrintLightPosition(Light.Position);
 		}
 
 
