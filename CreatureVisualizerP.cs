@@ -52,9 +52,9 @@ namespace creaturevisualizer
 		internal static Color   ? ColorSpecular;
 		internal static Color   ? ColorAmbient;
 
-		internal static bool ColorDiffuse_checked;
-		internal static bool ColorSpecular_checked;
-		internal static bool ColorAmbient_checked;
+		internal static bool ColorCheckedDiffuse;
+		internal static bool ColorCheckedSpecular;
+		internal static bool ColorCheckedAmbient;
 
 
 		const float ROT_START_OBJECT = (float)Math.PI * 3F / 4F;
@@ -321,7 +321,7 @@ namespace creaturevisualizer
 					Receiver.DistanceMin = 0.001F;
 
 //					Receiver.FocusPoint = Object.Position + OFF_Zd;
-					Receiver.PitchMin = -(float)Math.PI / 2f;// + 0.145F;
+//					Receiver.PitchMin = -(float)Math.PI / 2f;// + 0.145F;
 //					Receiver.PitchMax =  (float)Math.PI / 2f - 0.010F;
 
 					CameraPosition += POS_OFF_Zd;
@@ -402,9 +402,9 @@ namespace creaturevisualizer
 					Light.Tag             = Light;										// doesn't appear to be req'd.
 
 
-					if (ColorDiffuse_checked  && ColorDiffuse  != null) Light.Color.DiffuseColor  = (Color)ColorDiffuse;
-					if (ColorSpecular_checked && ColorSpecular != null) Light.Color.SpecularColor = (Color)ColorSpecular;
-					if (ColorAmbient_checked  && ColorAmbient  != null) Light.Color.AmbientColor  = (Color)ColorAmbient;
+					if (ColorCheckedDiffuse)  Light.Color.DiffuseColor  = (Color)ColorDiffuse;
+					if (ColorCheckedSpecular) Light.Color.SpecularColor = (Color)ColorSpecular;
+					if (ColorCheckedAmbient)  Light.Color.AmbientColor  = (Color)ColorAmbient;
 
 
 					lock (Scene.Objects.SyncRoot)
@@ -419,9 +419,9 @@ namespace creaturevisualizer
 
 					CreatureVisualizerF.that.PrintLightPosition(Light.Position);
 					CreatureVisualizerF.that.PrintLightIntensity(Light.Color.Intensity);
-					CreatureVisualizerF.that.PrintAmbientColor();
 					CreatureVisualizerF.that.PrintDiffuseColor();
 					CreatureVisualizerF.that.PrintSpecularColor();
+					CreatureVisualizerF.that.PrintAmbientColor();
 
 //					SetDoubleBuffered(NDWindow);
 //					SetDoubleBuffered(NWN2NetDisplayManager.Instance.Windows);
@@ -473,9 +473,9 @@ namespace creaturevisualizer
 			Light.Tag             = Light;										// doesn't appear to be req'd.
 
 
-			if (ColorDiffuse_checked  && ColorDiffuse  != null) Light.Color.DiffuseColor  = (Color)ColorDiffuse;
-			if (ColorSpecular_checked && ColorSpecular != null) Light.Color.SpecularColor = (Color)ColorSpecular;
-			if (ColorAmbient_checked  && ColorAmbient  != null) Light.Color.AmbientColor  = (Color)ColorAmbient;
+			if (ColorCheckedDiffuse)  Light.Color.DiffuseColor  = (Color)ColorDiffuse;
+			if (ColorCheckedSpecular) Light.Color.SpecularColor = (Color)ColorSpecular;
+			if (ColorCheckedAmbient)  Light.Color.AmbientColor  = (Color)ColorAmbient;
 
 
 			lock (Scene.Objects.SyncRoot)
@@ -662,11 +662,11 @@ namespace creaturevisualizer
 			y = RHMatrix.RotationZ(state.FocusTheta).TransformCoordinate(y);
 
 			var z = new Vector3(0f, 0f, 1f);
-			z = RHMatrix.RotationZ(state.FocusTheta).TransformCoordinate(z);
+			z = RHMatrix.RotationZ(state.FocusTheta)    .TransformCoordinate(z);
 			z = RHMatrix.RotationAxis(y, state.FocusPhi).TransformCoordinate(z);
 
 			var pos = new Vector3(1f, 0f, 0f);
-			pos = RHMatrix.RotationZ(state.FocusTheta).TransformCoordinate(pos);
+			pos = RHMatrix.RotationZ(state.FocusTheta)    .TransformCoordinate(pos);
 			pos = RHMatrix.RotationAxis(y, state.FocusPhi).TransformCoordinate(pos);
 
 			pos.Scale(state.Distance);
