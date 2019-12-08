@@ -13,7 +13,35 @@ namespace creaturevisualizer
 		{
 			InitializeComponent();
 
-			tb_help.Text = "help screen";
+			string text = "This doc only describes actions that are not listed in" + Environment.NewLine
+						+ "the menus." + Environment.NewLine + Environment.NewLine;
+
+			text += "MOUSE" + Environment.NewLine + Environment.NewLine;
+
+			text += "LMB+Alt  - pan up/down" + Environment.NewLine;
+			text += "LMB+Ctrl - pan left/right" + Environment.NewLine;
+			text += "RMB      - pan up/down/left/right" + Environment.NewLine;
+			text += "RMB+Ctrl - pan polar" + Environment.NewLine + Environment.NewLine;
+
+			text += "KEYBOARD" + Environment.NewLine + Environment.NewLine;
+
+			text += "Ctrl+click = increases adjustment rate by a factor of 10" + Environment.NewLine;
+			text += "Shft+click = decreases adjustment rate by a factor of 10" + Environment.NewLine + Environment.NewLine;
+
+			text += "TEXT" + Environment.NewLine + Environment.NewLine;
+
+			text += "keypad +/- increases/decreases a value. Ctrl/Shft are" + Environment.NewLine
+				  + "respected as above." + Environment.NewLine + Environment.NewLine;
+
+			text += "COLORS" + Environment.NewLine + Environment.NewLine;
+
+			text += "Click a color-swatch to open the color-picker dialog." + Environment.NewLine;
+			text += "Okay the dialog to enable a color." + Environment.NewLine;
+			text += "LMB - enables/disables the color" + Environment.NewLine;
+			text += "RMB - clears the color" + Environment.NewLine;
+
+
+			tb_help.Text = text;
 
 			tb_help.SelectionStart  =
 			tb_help.SelectionLength = 0;
@@ -72,17 +100,18 @@ namespace creaturevisualizer
 			this.tb_help.Multiline = true;
 			this.tb_help.Name = "tb_help";
 			this.tb_help.ReadOnly = true;
-			this.tb_help.Size = new System.Drawing.Size(292, 274);
+			this.tb_help.Size = new System.Drawing.Size(367, 374);
 			this.tb_help.TabIndex = 0;
 			this.tb_help.WordWrap = false;
 			// 
 			// HelpF
 			// 
-			this.ClientSize = new System.Drawing.Size(292, 274);
+			this.ClientSize = new System.Drawing.Size(367, 374);
 			this.Controls.Add(this.tb_help);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.KeyPreview = true;
 			this.Name = "HelpF";
+			this.ShowInTaskbar = false;
 			this.Text = "Help";
 			this.ResumeLayout(false);
 			this.PerformLayout();
