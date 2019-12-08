@@ -1562,12 +1562,9 @@ namespace creaturevisualizer
 			this.Controls.Add(this.pa_gui);
 			this.Controls.Add(this.pa_con);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.KeyPreview = true;
 			this.Name = "CreatureVisualizerF";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Creature Visualizer";
-			this.Activated += new System.EventHandler(this.activated_Refresh);
-			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.keydown_tb_camera_baseheight);
 			this.pa_con.ResumeLayout(false);
 			this.pa_con.PerformLayout();
 			this.gb_Light.ResumeLayout(false);

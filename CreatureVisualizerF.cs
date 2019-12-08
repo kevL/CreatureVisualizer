@@ -41,6 +41,7 @@ namespace creaturevisualizer
 		MenuItem _itFeline;
 		MenuItem _itControlPanel;
 		MenuItem _itMiniPanel;
+		MenuItem _itCyclePanel;
 
 		Timer _t1 = new Timer();
 		Button _repeater;
@@ -109,7 +110,7 @@ namespace creaturevisualizer
 			}
 
 
-			_itControlPanel  .PerformClick(); // TEST
+//			_itControlPanel  .PerformClick(); // TEST
 //			_itRefreshOnFocus.PerformClick(); // TEST
 		}
 
@@ -118,6 +119,9 @@ namespace creaturevisualizer
 			   _u = new Button(), _d = new Button(),
 			   _l = new Button(), _r = new Button();
 
+		/// <summary>
+		/// Creates buttons for the MiniPanel.
+		/// </summary>
 		void CreateButtons()
 		{
 			_i = ButtonFactory(_i, "+");
@@ -242,7 +246,7 @@ namespace creaturevisualizer
 			Menu.MenuItems[0].MenuItems.Add("&refresh", instanceclick_Refresh);
 			Menu.MenuItems[0].MenuItems[0].Shortcut = Shortcut.F5;
 
-			Menu.MenuItems[0].MenuItems.Add("-");
+//			Menu.MenuItems[0].MenuItems.Add("-");
 
 			_itRefreshOnFocus = Menu.MenuItems[0].MenuItems.Add("refresh on foc&us", instanceclick_RefreshOnFocus);
 			_itRefreshOnFocus.Shortcut = Shortcut.F6;
@@ -263,6 +267,12 @@ namespace creaturevisualizer
 
 			Menu.MenuItems[1].MenuItems.Add("-");
 
+			_itCyclePanel = Menu.MenuItems[1].MenuItems.Add("&cycle panel", optionsclick_CyclePanel);
+			_itCyclePanel.Shortcut = Shortcut.F8;
+			_itCyclePanel.Enabled = false;
+
+			Menu.MenuItems[1].MenuItems.Add("-");
+
 			_itStayOnTop = Menu.MenuItems[1].MenuItems.Add("stay on &top", optionsclick_StayOnTop);
 			_itStayOnTop.Shortcut = Shortcut.CtrlT;
 			_itStayOnTop.Checked = TopMost = true;
@@ -275,6 +285,12 @@ namespace creaturevisualizer
 
 
 		#region Handlers (override)
+		protected override void OnActivated(EventArgs e)
+		{
+			if (_itRefreshOnFocus.Checked && WindowState != FormWindowState.Minimized)
+				_panel.CreateInstance();
+		}
+
 		protected override void OnResize(EventArgs e)
 		{
 			switch (WindowState)
@@ -311,58 +327,20 @@ namespace creaturevisualizer
 			_t1 = null;
 		}
 
-		protected override void OnKeyDown(KeyEventArgs e)
+/*		protected override void OnKeyDown(KeyEventArgs e)
 		{
 			switch (e.KeyData)
 			{
-				case Keys.F8:
-					if (_itControlPanel.Checked)
-					{
-						switch (WindowState)
-						{
-							case FormWindowState.Normal:
-								e.Handled = e.SuppressKeyPress = true;
-
-								switch (_dir)
-								{
-									case CpDir.n: _dir = CpDir.e; break;
-									case CpDir.e: _dir = CpDir.s; break;
-									case CpDir.s: _dir = CpDir.w; break;
-									case CpDir.w: _dir = CpDir.n; break;
-								}
-								UpdatePanel();
-								break;
-
-							case FormWindowState.Maximized:
-								e.Handled = e.SuppressKeyPress = true;
-
-								switch (_dir)
-								{
-									case CpDir.n: case CpDir.w: _dir = CpDir.e; break;
-									case CpDir.e: case CpDir.s: _dir = CpDir.w; break;
-								}
-								UpdatePanel();
-								break;
-						}
-					}
-					break;
-
 //				case Keys.Enter:
 //				case Keys.Escape:
 //					_panel.Select();
 //					break;
 			}
-		}
+		} */
 		#endregion Handlers (override)
 
 
 		#region Handlers
-		void activated_Refresh(object sender, EventArgs e)
-		{
-			if (_itRefreshOnFocus.Checked && WindowState != FormWindowState.Minimized)
-				_panel.CreateInstance();
-		}
-
 		void instanceclick_RefreshOnFocus(object sender, EventArgs e)
 		{
 			_itRefreshOnFocus.Checked = !_itRefreshOnFocus.Checked;
@@ -379,6 +357,8 @@ namespace creaturevisualizer
 			_panel.CreateInstance();
 		}
 
+
+		bool _toggle;
 
 		void optionsclick_ControlPanel(object sender, EventArgs e)
 		{
@@ -423,7 +403,7 @@ namespace creaturevisualizer
 					}
 
 					case FormWindowState.Maximized:
-						pa_con.Visible = true;
+						pa_con.Visible = _itCyclePanel.Enabled = true;
 						LayoutButtons();
 						break;
 				}
@@ -432,8 +412,6 @@ namespace creaturevisualizer
 			}
 			else // panel closed ->
 			{
-				pa_con.Visible = false;
-
 				switch (WindowState)
 				{
 					case  FormWindowState.Normal:
@@ -457,14 +435,12 @@ namespace creaturevisualizer
 					}
 
 					case FormWindowState.Maximized:
+						pa_con.Visible = _itCyclePanel.Enabled = false;
 						LayoutButtons();
 						break;
 				}
 			}
 		}
-
-
-		bool _toggle;
 
 		/// <summary>
 		/// [F8] cycles the controlpanel though its docking directions.
@@ -522,6 +498,35 @@ namespace creaturevisualizer
 			_d.Visible = _l.Visible = _r.Visible = (_itMiniPanel.Checked = !_itMiniPanel.Checked);
 		}
 
+		void optionsclick_CyclePanel(object sender, EventArgs e)
+		{
+			if (_itControlPanel.Checked)
+			{
+				switch (WindowState)
+				{
+					case FormWindowState.Normal:
+						switch (_dir)
+						{
+							case CpDir.n: _dir = CpDir.e; break;
+							case CpDir.e: _dir = CpDir.s; break;
+							case CpDir.s: _dir = CpDir.w; break;
+							case CpDir.w: _dir = CpDir.n; break;
+						}
+						UpdatePanel();
+						break;
+
+					case FormWindowState.Maximized:
+						switch (_dir)
+						{
+							case CpDir.n: case CpDir.w: _dir = CpDir.e; break;
+							case CpDir.e: case CpDir.s: _dir = CpDir.w; break;
+						}
+						UpdatePanel();
+						break;
+				}
+			}
+		}
+
 		void optionsclick_StayOnTop(object sender, EventArgs e)
 		{
 			TopMost = (_itStayOnTop.Checked = !_itStayOnTop.Checked);
@@ -531,7 +536,7 @@ namespace creaturevisualizer
 		{
 			string text = "Creature Visualizer"
 						+ Environment.NewLine
-						+ "- a Neverwinter Nights 2 toolset plugin"
+						+ "- toolset plugin for Neverwinter Nights 2"
 						+ Environment.NewLine + Environment.NewLine;
 
 			var ass = Assembly.GetExecutingAssembly();
@@ -595,15 +600,13 @@ namespace creaturevisualizer
 		#region Handlers (camera)
 		internal static Vector3 Offset;
 
-		Vector3 _delta;
-
 		void click_bu_camera_zpos(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 			{
-				_delta = grader(CreatureVisualizerP.off_zpos);
-				_panel.CameraPosition += _delta;
-				Offset                += _delta;
+				Vector3 delta = grader(CreatureVisualizerP.off_zpos);
+				_panel.CameraPosition += delta;
+				Offset                += delta;
 				PrintCameraPosition();
 			}
 		}
@@ -612,9 +615,9 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
-				_delta = grader(CreatureVisualizerP.off_zneg);
-				_panel.CameraPosition += _delta;
-				Offset                += _delta;
+				Vector3 delta = grader(CreatureVisualizerP.off_zneg);
+				_panel.CameraPosition += delta;
+				Offset                += delta;
 				PrintCameraPosition();
 			}
 		}
@@ -623,9 +626,9 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
-				_delta = grader(CreatureVisualizerP.off_ypos);
-				_panel.CameraPosition += _delta;
-				Offset                += _delta;
+				Vector3 delta = grader(CreatureVisualizerP.off_ypos);
+				_panel.CameraPosition += delta;
+				Offset                += delta;
 				PrintCameraPosition();
 			}
 		}
@@ -634,9 +637,9 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
-				_delta = grader(CreatureVisualizerP.off_yneg);
-				_panel.CameraPosition += _delta;
-				Offset                += _delta;
+				Vector3 delta = grader(CreatureVisualizerP.off_yneg);
+				_panel.CameraPosition += delta;
+				Offset                += delta;
 				PrintCameraPosition();
 			}
 		}
@@ -645,9 +648,9 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
-				_delta = grader(CreatureVisualizerP.off_xpos);
-				_panel.CameraPosition += _delta;
-				Offset                += _delta;
+				Vector3 delta = grader(CreatureVisualizerP.off_xpos);
+				_panel.CameraPosition += delta;
+				Offset                += delta;
 				PrintCameraPosition();
 			}
 		}
@@ -656,9 +659,9 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
-				_delta = grader(CreatureVisualizerP.off_xneg);
-				_panel.CameraPosition += _delta;
-				Offset                += _delta;
+				Vector3 delta = grader(CreatureVisualizerP.off_xneg);
+				_panel.CameraPosition += delta;
+				Offset                += delta;
 				PrintCameraPosition();
 			}
 		}
@@ -827,6 +830,10 @@ namespace creaturevisualizer
 		{
 			switch (e.KeyCode)
 			{
+				case Keys.Enter:
+					_panel.Focus();
+					break;
+
 //				case Keys.Oemplus:
 				case Keys.Add:
 				{
@@ -1061,6 +1068,10 @@ namespace creaturevisualizer
 			{
 				switch (e.KeyCode)
 				{
+					case Keys.Enter:
+						_panel.Focus();
+						break;
+
 //					case Keys.Oemplus:
 					case Keys.Add:
 					{
