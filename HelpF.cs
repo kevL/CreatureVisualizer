@@ -30,15 +30,15 @@ namespace creaturevisualizer
 
 			text += "TEXT" + Environment.NewLine + Environment.NewLine;
 
-			text += "keypad +/- increases/decreases a value. Ctrl/Shft are" + Environment.NewLine
-				  + "respected as above." + Environment.NewLine + Environment.NewLine;
+			text += "keypad +/- increases/decreases a value; Ctrl/Shft" + Environment.NewLine
+				  + "increase/decrease adjustment rate by a factor of 10" + Environment.NewLine + Environment.NewLine;
 
 			text += "COLORS" + Environment.NewLine + Environment.NewLine;
 
 			text += "Click a color-swatch to open the color-picker dialog." + Environment.NewLine;
 			text += "Okay the dialog to enable a color." + Environment.NewLine;
-			text += "LMB - enables/disables the color" + Environment.NewLine;
-			text += "RMB - clears the color" + Environment.NewLine;
+			text += "LMB - applies/ignores a color" + Environment.NewLine;
+			text += "RMB - clears a color" + Environment.NewLine;
 
 
 			tb_help.Text = text;
