@@ -70,11 +70,15 @@
     </Compile>
     <Compile Include="CreatureVisualizerP.cs" />
     <Compile Include="CreatureVisualizer.cs" />
+    <Compile Include="HelpF.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CreatureVisualizerF.resx">
       <DependentUpon>CreatureVisualizerF.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HelpF.resx">
+      <DependentUpon>HelpF.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

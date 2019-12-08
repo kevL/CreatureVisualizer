@@ -278,8 +278,11 @@ namespace creaturevisualizer
 			_itStayOnTop.Checked = TopMost = true;
 
 			// Help ->
+			Menu.MenuItems[2].MenuItems.Add("&help", helpclick_Help);
+			Menu.MenuItems[2].MenuItems[0].Shortcut = Shortcut.F1;
+
 			Menu.MenuItems[2].MenuItems.Add("&about", helpclick_About);
-			Menu.MenuItems[2].MenuItems[0].Shortcut = Shortcut.F2;
+			Menu.MenuItems[2].MenuItems[1].Shortcut = Shortcut.F2;
 		}
 		#endregion cTor
 
@@ -530,6 +533,15 @@ namespace creaturevisualizer
 		void optionsclick_StayOnTop(object sender, EventArgs e)
 		{
 			TopMost = (_itStayOnTop.Checked = !_itStayOnTop.Checked);
+		}
+
+
+		void helpclick_Help(object sender, EventArgs e)
+		{
+			using (var f = new HelpF())
+			{
+				f.ShowDialog(this);
+			}
 		}
 
 		void helpclick_About(object sender, EventArgs e)
