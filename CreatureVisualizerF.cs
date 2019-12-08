@@ -827,7 +827,7 @@ namespace creaturevisualizer
 		{
 			switch (e.KeyCode)
 			{
-				case Keys.Oemplus:
+//				case Keys.Oemplus:
 				case Keys.Add:
 				{
 					float z = CreatureVisualizerP.POS_OFF_Zd.Z;
@@ -838,7 +838,7 @@ namespace creaturevisualizer
 					break;
 				}
 
-				case Keys.OemMinus:
+//				case Keys.OemMinus:
 				case Keys.Subtract:
 				{
 					float z = CreatureVisualizerP.POS_OFF_Zd.Z;
@@ -1061,7 +1061,7 @@ namespace creaturevisualizer
 			{
 				switch (e.KeyCode)
 				{
-					case Keys.Oemplus:
+//					case Keys.Oemplus:
 					case Keys.Add:
 					{
 						float i = _panel.Light.Color.Intensity;
@@ -1072,7 +1072,7 @@ namespace creaturevisualizer
 						break;
 					}
 
-					case Keys.OemMinus:
+//					case Keys.OemMinus:
 					case Keys.Subtract:
 					{
 						float i = _panel.Light.Color.Intensity;
