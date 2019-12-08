@@ -13,8 +13,8 @@ namespace creaturevisualizer
 		{
 			InitializeComponent();
 
-			string text = "This doc only describes actions that are not listed in" + Environment.NewLine
-						+ "the menus." + Environment.NewLine + Environment.NewLine;
+			string text = "This doc describes actions that are not listed in the menus."
+						+ Environment.NewLine + Environment.NewLine;
 
 			text += "MOUSE" + Environment.NewLine + Environment.NewLine;
 
@@ -36,9 +36,9 @@ namespace creaturevisualizer
 			text += "COLORS" + Environment.NewLine + Environment.NewLine;
 
 			text += "Click a color-swatch to open the color-picker dialog." + Environment.NewLine;
-			text += "Okay the dialog to enable a color." + Environment.NewLine;
-			text += "LMB - applies/ignores a color" + Environment.NewLine;
-			text += "RMB - clears a color" + Environment.NewLine;
+			text += "Accept the dialog to enable a color." + Environment.NewLine + Environment.NewLine;
+			text += "LMB - toggles the color on/off" + Environment.NewLine;
+			text += "RMB - resets the color to default" + Environment.NewLine;
 
 
 			tb_help.Text = text;
@@ -100,13 +100,13 @@ namespace creaturevisualizer
 			this.tb_help.Multiline = true;
 			this.tb_help.Name = "tb_help";
 			this.tb_help.ReadOnly = true;
-			this.tb_help.Size = new System.Drawing.Size(367, 374);
+			this.tb_help.Size = new System.Drawing.Size(372, 374);
 			this.tb_help.TabIndex = 0;
 			this.tb_help.WordWrap = false;
 			// 
 			// HelpF
 			// 
-			this.ClientSize = new System.Drawing.Size(367, 374);
+			this.ClientSize = new System.Drawing.Size(372, 374);
 			this.Controls.Add(this.tb_help);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.KeyPreview = true;
