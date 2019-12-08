@@ -296,12 +296,12 @@ namespace creaturevisualizer
 			this.gb_Light.Controls.Add(this.bu_light_xpos);
 			this.gb_Light.Controls.Add(this.bu_light_zneg);
 			this.gb_Light.Controls.Add(this.bu_light_zpos);
-			this.gb_Light.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.gb_Light.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gb_Light.Location = new System.Drawing.Point(0, 260);
 			this.gb_Light.Margin = new System.Windows.Forms.Padding(0);
 			this.gb_Light.Name = "gb_Light";
 			this.gb_Light.Padding = new System.Windows.Forms.Padding(0);
-			this.gb_Light.Size = new System.Drawing.Size(290, 129);
+			this.gb_Light.Size = new System.Drawing.Size(290, 130);
 			this.gb_Light.TabIndex = 2;
 			this.gb_Light.TabStop = false;
 			this.gb_Light.Text = " Light ";
@@ -319,6 +319,7 @@ namespace creaturevisualizer
 			this.cb_light_ambient.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.cb_light_ambient.UseVisualStyleBackColor = true;
 			this.cb_light_ambient.Click += new System.EventHandler(this.click_cb_light_ambient);
+			this.cb_light_ambient.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_cb_light_ambient);
 			// 
 			// cb_light_specular
 			// 
@@ -333,6 +334,7 @@ namespace creaturevisualizer
 			this.cb_light_specular.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.cb_light_specular.UseVisualStyleBackColor = true;
 			this.cb_light_specular.Click += new System.EventHandler(this.click_cb_light_specular);
+			this.cb_light_specular.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_cb_light_specular);
 			// 
 			// cb_light_diffuse
 			// 
@@ -347,6 +349,7 @@ namespace creaturevisualizer
 			this.cb_light_diffuse.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.cb_light_diffuse.UseVisualStyleBackColor = true;
 			this.cb_light_diffuse.Click += new System.EventHandler(this.click_cb_light_diffuse);
+			this.cb_light_diffuse.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_cb_light_diffuse);
 			// 
 			// pa_light_ambient
 			// 

@@ -90,7 +90,26 @@ namespace creaturevisualizer
 			tb_light_intensity.Text = CreatureVisualizerP.LIGHT_INTENSITY.ToString("N2");
 
 
-//			_itControlPanel  .PerformClick(); // TEST
+			if (CreatureVisualizerP.ColorDiffuse != null)
+			{
+				cb_light_diffuse.Enabled = true;
+				cb_light_diffuse.Checked = CreatureVisualizerP.ColorDiffuse_checked;
+			}
+
+			if (CreatureVisualizerP.ColorSpecular != null)
+			{
+				cb_light_specular.Enabled = true;
+				cb_light_specular.Checked = CreatureVisualizerP.ColorSpecular_checked;
+			}
+
+			if (CreatureVisualizerP.ColorAmbient != null)
+			{
+				cb_light_ambient.Enabled = true;
+				cb_light_ambient.Checked = CreatureVisualizerP.ColorAmbient_checked;
+			}
+
+
+			_itControlPanel  .PerformClick(); // TEST
 //			_itRefreshOnFocus.PerformClick(); // TEST
 		}
 
@@ -1091,17 +1110,18 @@ namespace creaturevisualizer
 
 				if (_sano.ShowDialog(this) == DialogResult.OK)
 				{
+					CreatureVisualizerP.ColorDiffuse_checked = true;
+
 					cb_light_diffuse.Enabled =
 					cb_light_diffuse.Checked = true;
 
-					CreatureVisualizerP.DiffuseColor =
+					CreatureVisualizerP.ColorDiffuse =
 					pa_light_diffuse.BackColor =
 					_panel.Light.Color.DiffuseColor = Color.FromArgb(_sano.colorPanel.Alpha,
 																	 _sano.colorPanel.SelectedColor);
 				}
 				else
 				{
-					CreatureVisualizerP.DiffuseColor =
 					pa_light_diffuse.BackColor =
 					_panel.Light.Color.DiffuseColor = Color.FromArgb(alpha, color);
 				}
@@ -1138,17 +1158,18 @@ namespace creaturevisualizer
 
 				if (_sano.ShowDialog(this) == DialogResult.OK)
 				{
+					CreatureVisualizerP.ColorSpecular_checked = true;
+
 					cb_light_specular.Enabled =
 					cb_light_specular.Checked = true;
 
-					CreatureVisualizerP.SpecularColor =
+					CreatureVisualizerP.ColorSpecular =
 					pa_light_specular.BackColor =
 					_panel.Light.Color.SpecularColor = Color.FromArgb(_sano.colorPanel.Alpha,
 																	  _sano.colorPanel.SelectedColor);
 				}
 				else
 				{
-					CreatureVisualizerP.SpecularColor =
 					pa_light_specular.BackColor =
 					_panel.Light.Color.SpecularColor = Color.FromArgb(alpha, color);
 				}
@@ -1186,17 +1207,18 @@ namespace creaturevisualizer
 
 				if (_sano.ShowDialog(this) == DialogResult.OK)
 				{
+					CreatureVisualizerP.ColorAmbient_checked = true;
+
 					cb_light_ambient.Enabled =
 					cb_light_ambient.Checked = true;
 
-					CreatureVisualizerP.AmbientColor =
+					CreatureVisualizerP.ColorAmbient =
 					pa_light_ambient.BackColor =
 					_panel.Light.Color.AmbientColor = Color.FromArgb(_sano.colorPanel.Alpha,
 																	 _sano.colorPanel.SelectedColor);
 				}
 				else
 				{
-					CreatureVisualizerP.AmbientColor =
 					pa_light_ambient.BackColor =
 					_panel.Light.Color.AmbientColor = Color.FromArgb(alpha, color);
 				}
@@ -1222,11 +1244,15 @@ namespace creaturevisualizer
 			{
 				if (cb_light_diffuse.Checked)
 				{
+					CreatureVisualizerP.ColorDiffuse_checked = true;
+
 					pa_light_diffuse.BackColor =
-					_panel.Light.Color.DiffuseColor = (Color)CreatureVisualizerP.DiffuseColor;
+					_panel.Light.Color.DiffuseColor = (Color)CreatureVisualizerP.ColorDiffuse;
 				}
 				else
 				{
+					CreatureVisualizerP.ColorDiffuse_checked = false;
+
 					pa_light_diffuse.BackColor =
 					_panel.Light.Color.DiffuseColor = Color.White;
 				}
@@ -1239,11 +1265,15 @@ namespace creaturevisualizer
 			{
 				if (cb_light_specular.Checked)
 				{
+					CreatureVisualizerP.ColorSpecular_checked = true;
+
 					pa_light_specular.BackColor =
-					_panel.Light.Color.SpecularColor = (Color)CreatureVisualizerP.SpecularColor;
+					_panel.Light.Color.SpecularColor = (Color)CreatureVisualizerP.ColorSpecular;
 				}
 				else
 				{
+					CreatureVisualizerP.ColorSpecular_checked = false;
+
 					pa_light_specular.BackColor =
 					_panel.Light.Color.SpecularColor = Color.White;
 				}
@@ -1256,14 +1286,70 @@ namespace creaturevisualizer
 			{
 				if (cb_light_ambient.Checked)
 				{
+					CreatureVisualizerP.ColorAmbient_checked = true;
+
 					pa_light_ambient.BackColor =
-					_panel.Light.Color.AmbientColor = (Color)CreatureVisualizerP.AmbientColor;
+					_panel.Light.Color.AmbientColor = (Color)CreatureVisualizerP.ColorAmbient;
 				}
 				else
 				{
+					CreatureVisualizerP.ColorAmbient_checked = false;
+
 					pa_light_ambient.BackColor =
 					_panel.Light.Color.AmbientColor = Color.White;
 				}
+			}
+		}
+
+
+		void mouseup_cb_light_diffuse(object sender, MouseEventArgs e)
+		{
+			if (_panel.Object != null && e.Button == MouseButtons.Right)
+			{
+				CreatureVisualizerP.ColorDiffuse_checked = false;
+				CreatureVisualizerP.ColorDiffuse = null;
+
+				pa_light_diffuse.BackColor =
+				_panel.Light.Color.DiffuseColor = Color.White;
+
+				cb_light_diffuse.Checked =
+				cb_light_diffuse.Enabled = false;
+
+				_panel.Focus();
+			}
+		}
+
+		void mouseup_cb_light_specular(object sender, MouseEventArgs e)
+		{
+			if (_panel.Object != null && e.Button == MouseButtons.Right)
+			{
+				CreatureVisualizerP.ColorSpecular_checked = false;
+				CreatureVisualizerP.ColorSpecular = null;
+
+				pa_light_specular.BackColor =
+				_panel.Light.Color.SpecularColor = Color.White;
+
+				cb_light_specular.Checked =
+				cb_light_specular.Enabled = false;
+
+				_panel.Focus();
+			}
+		}
+
+		void mouseup_cb_light_ambient(object sender, MouseEventArgs e)
+		{
+			if (_panel.Object != null && e.Button == MouseButtons.Right)
+			{
+				CreatureVisualizerP.ColorAmbient_checked = false;
+				CreatureVisualizerP.ColorAmbient = null;
+
+				pa_light_ambient.BackColor =
+				_panel.Light.Color.AmbientColor = Color.White;
+
+				cb_light_ambient.Checked =
+				cb_light_ambient.Enabled = false;
+
+				_panel.Focus();
 			}
 		}
 		#endregion Handlers (light)

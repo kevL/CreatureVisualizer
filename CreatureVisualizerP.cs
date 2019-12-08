@@ -48,9 +48,13 @@ namespace creaturevisualizer
 
 		internal static float   LIGHT_INTENSITY = 0.75F;
 
-		internal static Color   ? DiffuseColor;
-		internal static Color   ? SpecularColor;
-		internal static Color   ? AmbientColor;
+		internal static Color   ? ColorDiffuse;
+		internal static Color   ? ColorSpecular;
+		internal static Color   ? ColorAmbient;
+
+		internal static bool ColorDiffuse_checked;
+		internal static bool ColorSpecular_checked;
+		internal static bool ColorAmbient_checked;
 
 
 		const float ROT_START_OBJECT = (float)Math.PI * 3F / 4F;
@@ -398,9 +402,9 @@ namespace creaturevisualizer
 					Light.Tag             = Light;										// doesn't appear to be req'd.
 
 
-					if (DiffuseColor  != null) Light.Color.DiffuseColor  = (Color)DiffuseColor;
-					if (SpecularColor != null) Light.Color.SpecularColor = (Color)SpecularColor;
-					if (AmbientColor  != null) Light.Color.AmbientColor  = (Color)AmbientColor;
+					if (ColorDiffuse_checked  && ColorDiffuse  != null) Light.Color.DiffuseColor  = (Color)ColorDiffuse;
+					if (ColorSpecular_checked && ColorSpecular != null) Light.Color.SpecularColor = (Color)ColorSpecular;
+					if (ColorAmbient_checked  && ColorAmbient  != null) Light.Color.AmbientColor  = (Color)ColorAmbient;
 
 
 					lock (Scene.Objects.SyncRoot)
@@ -469,9 +473,9 @@ namespace creaturevisualizer
 			Light.Tag             = Light;										// doesn't appear to be req'd.
 
 
-			if (DiffuseColor  != null) Light.Color.DiffuseColor  = (Color)DiffuseColor;
-			if (SpecularColor != null) Light.Color.SpecularColor = (Color)SpecularColor;
-			if (AmbientColor  != null) Light.Color.AmbientColor  = (Color)AmbientColor;
+			if (ColorDiffuse_checked  && ColorDiffuse  != null) Light.Color.DiffuseColor  = (Color)ColorDiffuse;
+			if (ColorSpecular_checked && ColorSpecular != null) Light.Color.SpecularColor = (Color)ColorSpecular;
+			if (ColorAmbient_checked  && ColorAmbient  != null) Light.Color.AmbientColor  = (Color)ColorAmbient;
 
 
 			lock (Scene.Objects.SyncRoot)
