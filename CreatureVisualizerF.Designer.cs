@@ -114,12 +114,13 @@ namespace creaturevisualizer
 		Label la_light_intensity;
 		TextBox tb_light_intensity;
 		Label la_light_color;
-		Button bu_light_ambient;
 		Panel pa_light_ambient;
-		Button bu_light_specular;
 		Panel pa_light_specular;
-		Button bu_light_diffuse;
 		Panel pa_light_diffuse;
+
+		CheckBox cb_light_diffuse;
+		CheckBox cb_light_ambient;
+		CheckBox cb_light_specular;
 
 
 		/// <summary>
@@ -145,13 +146,13 @@ namespace creaturevisualizer
 		{
 			this.pa_con = new System.Windows.Forms.Panel();
 			this.gb_Light = new System.Windows.Forms.GroupBox();
+			this.cb_light_ambient = new System.Windows.Forms.CheckBox();
+			this.cb_light_specular = new System.Windows.Forms.CheckBox();
+			this.cb_light_diffuse = new System.Windows.Forms.CheckBox();
 			this.pa_light_ambient = new System.Windows.Forms.Panel();
 			this.la_light_color = new System.Windows.Forms.Label();
-			this.bu_light_ambient = new System.Windows.Forms.Button();
 			this.pa_light_specular = new System.Windows.Forms.Panel();
-			this.bu_light_specular = new System.Windows.Forms.Button();
 			this.pa_light_diffuse = new System.Windows.Forms.Panel();
-			this.bu_light_diffuse = new System.Windows.Forms.Button();
 			this.la_light_intensity = new System.Windows.Forms.Label();
 			this.tb_light_intensity = new System.Windows.Forms.TextBox();
 			this.la_dz = new System.Windows.Forms.Label();
@@ -272,13 +273,13 @@ namespace creaturevisualizer
 			// 
 			// gb_Light
 			// 
+			this.gb_Light.Controls.Add(this.cb_light_ambient);
+			this.gb_Light.Controls.Add(this.cb_light_specular);
+			this.gb_Light.Controls.Add(this.cb_light_diffuse);
 			this.gb_Light.Controls.Add(this.pa_light_ambient);
 			this.gb_Light.Controls.Add(this.la_light_color);
-			this.gb_Light.Controls.Add(this.bu_light_ambient);
 			this.gb_Light.Controls.Add(this.pa_light_specular);
-			this.gb_Light.Controls.Add(this.bu_light_specular);
 			this.gb_Light.Controls.Add(this.pa_light_diffuse);
-			this.gb_Light.Controls.Add(this.bu_light_diffuse);
 			this.gb_Light.Controls.Add(this.la_light_intensity);
 			this.gb_Light.Controls.Add(this.tb_light_intensity);
 			this.gb_Light.Controls.Add(this.la_dz);
@@ -305,15 +306,57 @@ namespace creaturevisualizer
 			this.gb_Light.TabStop = false;
 			this.gb_Light.Text = " Light ";
 			// 
+			// cb_light_ambient
+			// 
+			this.cb_light_ambient.Appearance = System.Windows.Forms.Appearance.Button;
+			this.cb_light_ambient.Enabled = false;
+			this.cb_light_ambient.Location = new System.Drawing.Point(135, 80);
+			this.cb_light_ambient.Margin = new System.Windows.Forms.Padding(0);
+			this.cb_light_ambient.Name = "cb_light_ambient";
+			this.cb_light_ambient.Size = new System.Drawing.Size(65, 22);
+			this.cb_light_ambient.TabIndex = 16;
+			this.cb_light_ambient.Text = "AMBIENT";
+			this.cb_light_ambient.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.cb_light_ambient.UseVisualStyleBackColor = true;
+			this.cb_light_ambient.Click += new System.EventHandler(this.click_cb_light_ambient);
+			// 
+			// cb_light_specular
+			// 
+			this.cb_light_specular.Appearance = System.Windows.Forms.Appearance.Button;
+			this.cb_light_specular.Enabled = false;
+			this.cb_light_specular.Location = new System.Drawing.Point(135, 55);
+			this.cb_light_specular.Margin = new System.Windows.Forms.Padding(0);
+			this.cb_light_specular.Name = "cb_light_specular";
+			this.cb_light_specular.Size = new System.Drawing.Size(65, 22);
+			this.cb_light_specular.TabIndex = 14;
+			this.cb_light_specular.Text = "SPECULAR";
+			this.cb_light_specular.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.cb_light_specular.UseVisualStyleBackColor = true;
+			this.cb_light_specular.Click += new System.EventHandler(this.click_cb_light_specular);
+			// 
+			// cb_light_diffuse
+			// 
+			this.cb_light_diffuse.Appearance = System.Windows.Forms.Appearance.Button;
+			this.cb_light_diffuse.Enabled = false;
+			this.cb_light_diffuse.Location = new System.Drawing.Point(135, 30);
+			this.cb_light_diffuse.Margin = new System.Windows.Forms.Padding(0);
+			this.cb_light_diffuse.Name = "cb_light_diffuse";
+			this.cb_light_diffuse.Size = new System.Drawing.Size(65, 22);
+			this.cb_light_diffuse.TabIndex = 12;
+			this.cb_light_diffuse.Text = "DIFFUSE";
+			this.cb_light_diffuse.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.cb_light_diffuse.UseVisualStyleBackColor = true;
+			this.cb_light_diffuse.Click += new System.EventHandler(this.click_cb_light_diffuse);
+			// 
 			// pa_light_ambient
 			// 
 			this.pa_light_ambient.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pa_light_ambient.Location = new System.Drawing.Point(205, 81);
 			this.pa_light_ambient.Margin = new System.Windows.Forms.Padding(0);
 			this.pa_light_ambient.Name = "pa_light_ambient";
-			this.pa_light_ambient.Size = new System.Drawing.Size(20, 20);
-			this.pa_light_ambient.TabIndex = 33;
-			this.pa_light_ambient.Click += new System.EventHandler(this.click_bu_light_ambient);
+			this.pa_light_ambient.Size = new System.Drawing.Size(30, 20);
+			this.pa_light_ambient.TabIndex = 17;
+			this.pa_light_ambient.Click += new System.EventHandler(this.click_pa_light_ambient);
 			// 
 			// la_light_color
 			// 
@@ -321,19 +364,8 @@ namespace creaturevisualizer
 			this.la_light_color.Margin = new System.Windows.Forms.Padding(0);
 			this.la_light_color.Name = "la_light_color";
 			this.la_light_color.Size = new System.Drawing.Size(65, 15);
-			this.la_light_color.TabIndex = 32;
+			this.la_light_color.TabIndex = 11;
 			this.la_light_color.Text = "Colors";
-			// 
-			// bu_light_ambient
-			// 
-			this.bu_light_ambient.Location = new System.Drawing.Point(135, 80);
-			this.bu_light_ambient.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_light_ambient.Name = "bu_light_ambient";
-			this.bu_light_ambient.Size = new System.Drawing.Size(65, 22);
-			this.bu_light_ambient.TabIndex = 31;
-			this.bu_light_ambient.Text = "ambient";
-			this.bu_light_ambient.UseVisualStyleBackColor = true;
-			this.bu_light_ambient.Click += new System.EventHandler(this.click_bu_light_ambient);
 			// 
 			// pa_light_specular
 			// 
@@ -341,20 +373,9 @@ namespace creaturevisualizer
 			this.pa_light_specular.Location = new System.Drawing.Point(205, 56);
 			this.pa_light_specular.Margin = new System.Windows.Forms.Padding(0);
 			this.pa_light_specular.Name = "pa_light_specular";
-			this.pa_light_specular.Size = new System.Drawing.Size(20, 20);
-			this.pa_light_specular.TabIndex = 30;
-			this.pa_light_specular.Click += new System.EventHandler(this.click_bu_light_specular);
-			// 
-			// bu_light_specular
-			// 
-			this.bu_light_specular.Location = new System.Drawing.Point(135, 55);
-			this.bu_light_specular.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_light_specular.Name = "bu_light_specular";
-			this.bu_light_specular.Size = new System.Drawing.Size(65, 22);
-			this.bu_light_specular.TabIndex = 29;
-			this.bu_light_specular.Text = "specular";
-			this.bu_light_specular.UseVisualStyleBackColor = true;
-			this.bu_light_specular.Click += new System.EventHandler(this.click_bu_light_specular);
+			this.pa_light_specular.Size = new System.Drawing.Size(30, 20);
+			this.pa_light_specular.TabIndex = 15;
+			this.pa_light_specular.Click += new System.EventHandler(this.click_pa_light_specular);
 			// 
 			// pa_light_diffuse
 			// 
@@ -362,20 +383,9 @@ namespace creaturevisualizer
 			this.pa_light_diffuse.Location = new System.Drawing.Point(205, 31);
 			this.pa_light_diffuse.Margin = new System.Windows.Forms.Padding(0);
 			this.pa_light_diffuse.Name = "pa_light_diffuse";
-			this.pa_light_diffuse.Size = new System.Drawing.Size(20, 20);
-			this.pa_light_diffuse.TabIndex = 28;
-			this.pa_light_diffuse.Click += new System.EventHandler(this.click_bu_light_diffuse);
-			// 
-			// bu_light_diffuse
-			// 
-			this.bu_light_diffuse.Location = new System.Drawing.Point(135, 30);
-			this.bu_light_diffuse.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_light_diffuse.Name = "bu_light_diffuse";
-			this.bu_light_diffuse.Size = new System.Drawing.Size(65, 22);
-			this.bu_light_diffuse.TabIndex = 27;
-			this.bu_light_diffuse.Text = "diffuse";
-			this.bu_light_diffuse.UseVisualStyleBackColor = true;
-			this.bu_light_diffuse.Click += new System.EventHandler(this.click_bu_light_diffuse);
+			this.pa_light_diffuse.Size = new System.Drawing.Size(30, 20);
+			this.pa_light_diffuse.TabIndex = 13;
+			this.pa_light_diffuse.Click += new System.EventHandler(this.click_pa_light_diffuse);
 			// 
 			// la_light_intensity
 			// 
@@ -383,7 +393,7 @@ namespace creaturevisualizer
 			this.la_light_intensity.Margin = new System.Windows.Forms.Padding(0);
 			this.la_light_intensity.Name = "la_light_intensity";
 			this.la_light_intensity.Size = new System.Drawing.Size(65, 20);
-			this.la_light_intensity.TabIndex = 24;
+			this.la_light_intensity.TabIndex = 18;
 			this.la_light_intensity.Text = "intensity";
 			this.la_light_intensity.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -393,7 +403,7 @@ namespace creaturevisualizer
 			this.tb_light_intensity.Margin = new System.Windows.Forms.Padding(0);
 			this.tb_light_intensity.Name = "tb_light_intensity";
 			this.tb_light_intensity.Size = new System.Drawing.Size(45, 20);
-			this.tb_light_intensity.TabIndex = 25;
+			this.tb_light_intensity.TabIndex = 19;
 			this.tb_light_intensity.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.tb_light_intensity.TextChanged += new System.EventHandler(this.textchanged_tb_light_intensity);
 			this.tb_light_intensity.KeyDown += new System.Windows.Forms.KeyEventHandler(this.keydown_tb_light_intensity);
@@ -404,7 +414,7 @@ namespace creaturevisualizer
 			this.la_dz.Margin = new System.Windows.Forms.Padding(0);
 			this.la_dz.Name = "la_dz";
 			this.la_dz.Size = new System.Drawing.Size(40, 20);
-			this.la_dz.TabIndex = 12;
+			this.la_dz.TabIndex = 22;
 			this.la_dz.Text = "dz";
 			this.la_dz.TextAlign = System.Drawing.ContentAlignment.BottomRight;
 			this.la_dz.Visible = false;
@@ -428,7 +438,7 @@ namespace creaturevisualizer
 			this.la_dy.Margin = new System.Windows.Forms.Padding(0);
 			this.la_dy.Name = "la_dy";
 			this.la_dy.Size = new System.Drawing.Size(40, 20);
-			this.la_dy.TabIndex = 11;
+			this.la_dy.TabIndex = 21;
 			this.la_dy.Text = "dy";
 			this.la_dy.TextAlign = System.Drawing.ContentAlignment.BottomRight;
 			this.la_dy.Visible = false;
@@ -439,7 +449,7 @@ namespace creaturevisualizer
 			this.la_dx.Margin = new System.Windows.Forms.Padding(0);
 			this.la_dx.Name = "la_dx";
 			this.la_dx.Size = new System.Drawing.Size(40, 20);
-			this.la_dx.TabIndex = 10;
+			this.la_dx.TabIndex = 20;
 			this.la_dx.Text = "dx";
 			this.la_dx.TextAlign = System.Drawing.ContentAlignment.BottomRight;
 			this.la_dx.Visible = false;
@@ -464,7 +474,7 @@ namespace creaturevisualizer
 			this.button11.Margin = new System.Windows.Forms.Padding(0);
 			this.button11.Name = "button11";
 			this.button11.Size = new System.Drawing.Size(102, 20);
-			this.button11.TabIndex = 13;
+			this.button11.TabIndex = 10;
 			this.button11.Text = "reset";
 			this.button11.UseVisualStyleBackColor = true;
 			this.button11.Click += new System.EventHandler(this.click_bu_light_reset);

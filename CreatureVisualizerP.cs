@@ -40,18 +40,20 @@ namespace creaturevisualizer
 	{
 		#region Fields (static)
 		internal static Vector3 POS_START_CAMERA;
-		internal const float DIST_START = 4.8F;
 
 		internal static Vector3 POS_START_LIGHT = new Vector3(-0.5F, -4F, 2.0F);
-		internal static Vector3 POS_OFF_Zd      = new Vector3( 0.0F,  0F, 1.5F);
+		internal static Vector3 POS_OFF_Zd      = new Vector3( 0.0F,  0F, 1.5F); // base height
+
+		internal const  float   DIST_START      = 4.8F;
+
+		internal static float   LIGHT_INTENSITY = 0.75F;
+
+		internal static Color   ? DiffuseColor;
+		internal static Color   ? SpecularColor;
+		internal static Color   ? AmbientColor;
+
 
 		const float ROT_START_OBJECT = (float)Math.PI * 3F / 4F;
-
-		internal static float LIGHT_INTENSITY = 0.72F;
-		internal static Color ? AmbientColor;
-		internal static Color ? DiffuseColor;
-		internal static Color ? SpecularColor;
-
 
 		static Vector3 ScaInitial;
 		#endregion Fields (static)
@@ -197,7 +199,7 @@ namespace creaturevisualizer
 
 		#region Methods
 		/// <summary>
-		/// Creates an instance of a blueprint and renders it to the
+		/// Creates an instance of a blueprint and tries to render it in the
 		/// ElectronPanel.
 		/// </summary>
 		internal void CreateInstance()
@@ -241,7 +243,7 @@ namespace creaturevisualizer
 							}
 						}
 					}
-					RenderScene();
+					CreateScene();
 				}
 				else
 					MessageBox.Show(this, "ElectronPanel.MousePanel is invalid. Please see your chiropractor.");
@@ -258,9 +260,9 @@ namespace creaturevisualizer
 		/// <summary>
 		/// Adds a blueprint-instance to the scene.
 		/// </summary>
-		void RenderScene()
+		void CreateScene()
 		{
-			if (_instance != null && InitScene())
+			if (_instance != null && StartScene())
 			{
 				bool first;
 				if (Object != null) // is NOT 'first' display - cache the previous model's telemetry since it's about to go byebye.
@@ -324,9 +326,9 @@ namespace creaturevisualizer
 					POS_START_CAMERA = CameraPosition;
 
 
-/*					float yaw = 0F, pitch = 0F, roll = 0F;
-					CameraOrientation.GetYawPitchRoll(out yaw, out pitch, out roll);
-					MessageBox.Show("yaw= " + yaw + " pitch= " + pitch + " roll= " + roll); */
+//					float yaw = 0F, pitch = 0F, roll = 0F;
+//					CameraOrientation.GetYawPitchRoll(out yaw, out pitch, out roll);
+//					MessageBox.Show("yaw= " + yaw + " pitch= " + pitch + " roll= " + roll);
 				}
 				else if (_changed)
 				{
@@ -356,81 +358,88 @@ namespace creaturevisualizer
 		/// <summary>
 		/// Initializes the scene. Clears its objects and adds a lightpoint.
 		/// </summary>
-		bool InitScene()
+		bool StartScene()
 		{
-			CloseWindow(); // safety - try not to confuse the NWN2NetDisplayManager.Instance ...
-
-			if (NDWindow == null)
-				OpenWindow();
-
-			if (NDWindow != null && Scene != null)
+			if (CreatureVisualizerF.that.WindowState != FormWindowState.Minimized)
 			{
-				var objects = new NetDisplayObjectCollection();
-				foreach (NetDisplayObject @object in Scene.Objects)
+				CloseWindow(); // safety - try not to confuse the NWN2NetDisplayManager.Instance ...
+
+				if (NDWindow == null)
+					OpenWindow();
+
+				if (NDWindow != null && Scene != null)
 				{
-					//OEIShared.NetDisplay.NetDisplayLightPoint
-					//OEIShared.NetDisplay.NetDisplayModel
-					objects.Add(@object);
-				}
-				NWN2NetDisplayManager.Instance.RemoveObjects(objects);
+					var objects = new NetDisplayObjectCollection();
+					foreach (NetDisplayObject @object in Scene.Objects)
+					{
+						//OEIShared.NetDisplay.NetDisplayLightPoint
+						//OEIShared.NetDisplay.NetDisplayModel
+						objects.Add(@object);
+					}
+					NWN2NetDisplayManager.Instance.RemoveObjects(objects);
 
 
-				if (Scene.DayNightCycleStages[(int)DayNightStageType.Default] != null)
-				{
-					Scene.DayNightCycleStages[(int)DayNightStageType.Default].SunMoonDirection = new Vector3(-0.33F, -0.67F, -0.67F);
-					Scene.DayNightCycleStages[(int)DayNightStageType.Default].ShadowIntensity = 0F;
-				}
+					if (Scene.DayNightCycleStages[(int)DayNightStageType.Default] != null)
+					{
+						Scene.DayNightCycleStages[(int)DayNightStageType.Default].SunMoonDirection = new Vector3(-0.33F, -0.67F, -0.67F);
+						Scene.DayNightCycleStages[(int)DayNightStageType.Default].ShadowIntensity = 0F;
+					}
 
 
-				Light = new NetDisplayLightPoint();
+					Light = new NetDisplayLightPoint();
 
-				Light.Position        = POS_START_LIGHT;
+					Light.Position        = POS_START_LIGHT;
 
-				Light.Color.Intensity = LIGHT_INTENSITY;
-				Light.Range           = 50F; // default 10F
-				Light.CastsShadow     = false;
+					Light.Color.Intensity = LIGHT_INTENSITY;
+					Light.Range           = 50F; // default 10F
+					Light.CastsShadow     = false;
 
-				Light.ID              = NetDisplayManager.Instance.NextObjectID;	// doesn't appear to be req'd.
-				Light.Tag             = Light;										// doesn't appear to be req'd.
-
-
-				if (AmbientColor  != null) Light.Color.AmbientColor  = (Color)AmbientColor;
-				if (DiffuseColor  != null) Light.Color.DiffuseColor  = (Color)DiffuseColor;
-				if (SpecularColor != null) Light.Color.SpecularColor = (Color)SpecularColor;
+					Light.ID              = NetDisplayManager.Instance.NextObjectID;	// doesn't appear to be req'd.
+					Light.Tag             = Light;										// doesn't appear to be req'd.
 
 
-				lock (Scene.Objects.SyncRoot)
-				{
-					Scene.Objects.Add(Light);
-				}
-				lock (NWN2NetDisplayManager.Instance.Objects.SyncRoot)				// doesn't appear to be req'd.
-				{
-					NWN2NetDisplayManager.Instance.Objects.Add(Light);
-				}
-				NWN2NetDisplayManager.Instance.LightParameters(Light.Scene, Light);
+					if (DiffuseColor  != null) Light.Color.DiffuseColor  = (Color)DiffuseColor;
+					if (SpecularColor != null) Light.Color.SpecularColor = (Color)SpecularColor;
+					if (AmbientColor  != null) Light.Color.AmbientColor  = (Color)AmbientColor;
 
-				CreatureVisualizerF.that.PrintLightPosition(Light.Position);
-				CreatureVisualizerF.that.PrintLightIntensity(Light.Color.Intensity);
-				CreatureVisualizerF.that.PrintAmbientColor();
-				CreatureVisualizerF.that.PrintDiffuseColor();
-				CreatureVisualizerF.that.PrintSpecularColor();
 
-//				SetDoubleBuffered(NDWindow);
-//				SetDoubleBuffered(NWN2NetDisplayManager.Instance.Windows);
+					lock (Scene.Objects.SyncRoot)
+					{
+						Scene.Objects.Add(Light);
+					}
+					lock (NWN2NetDisplayManager.Instance.Objects.SyncRoot)				// doesn't appear to be req'd.
+					{
+						NWN2NetDisplayManager.Instance.Objects.Add(Light);
+					}
+					NWN2NetDisplayManager.Instance.LightParameters(Light.Scene, Light);
 
-//				var a = new NetDisplayWindow[NWN2NetDisplayManager.Instance.Windows.Count];
-//				for (int i = 0; i != NWN2NetDisplayManager.Instance.Windows.Count; ++i)
-//					a[i] = NWN2NetDisplayManager.Instance.Windows[i];
+					CreatureVisualizerF.that.PrintLightPosition(Light.Position);
+					CreatureVisualizerF.that.PrintLightIntensity(Light.Color.Intensity);
+					CreatureVisualizerF.that.PrintAmbientColor();
+					CreatureVisualizerF.that.PrintDiffuseColor();
+					CreatureVisualizerF.that.PrintSpecularColor();
+
+//					SetDoubleBuffered(NDWindow);
+//					SetDoubleBuffered(NWN2NetDisplayManager.Instance.Windows);
+
+//					var a = new NetDisplayWindow[NWN2NetDisplayManager.Instance.Windows.Count];
+//					for (int i = 0; i != NWN2NetDisplayManager.Instance.Windows.Count; ++i)
+//						a[i] = NWN2NetDisplayManager.Instance.Windows[i];
 //
-//				SetDoubleBuffered(a);
+//					SetDoubleBuffered(a);
 
-				return true;
+					return true;
+				}
 			}
 			return false;
 		}
 
 
-		internal void RecreateLight(Vector3 pos)
+		/// <summary>
+		/// Moves the light by recreating it at a specified position.
+		/// </summary>
+		/// <param name="pos"></param>
+		internal void MoveLight(Vector3 pos)
 		{
 			var objects = new NetDisplayObjectCollection();
 			foreach (NetDisplayObject @object in Scene.Objects)
@@ -460,9 +469,9 @@ namespace creaturevisualizer
 			Light.Tag             = Light;										// doesn't appear to be req'd.
 
 
-			if (AmbientColor  != null) Light.Color.AmbientColor  = (Color)AmbientColor;
 			if (DiffuseColor  != null) Light.Color.DiffuseColor  = (Color)DiffuseColor;
 			if (SpecularColor != null) Light.Color.SpecularColor = (Color)SpecularColor;
+			if (AmbientColor  != null) Light.Color.AmbientColor  = (Color)AmbientColor;
 
 
 			lock (Scene.Objects.SyncRoot)

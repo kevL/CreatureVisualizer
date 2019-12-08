@@ -86,11 +86,11 @@ namespace creaturevisualizer
 			_pa_Con_w = pa_con.Width;
 			_pa_Con_h = pa_con.Height;
 
-			tb_camera_height  .Text = CreatureVisualizerP.POS_OFF_Zd.Z           .ToString("N2");
+			tb_camera_height  .Text = CreatureVisualizerP.POS_OFF_Zd.Z   .ToString("N2");
 			tb_light_intensity.Text = CreatureVisualizerP.LIGHT_INTENSITY.ToString("N2");
 
 
-			_itControlPanel  .PerformClick(); // TEST
+//			_itControlPanel  .PerformClick(); // TEST
 //			_itRefreshOnFocus.PerformClick(); // TEST
 		}
 
@@ -954,37 +954,37 @@ namespace creaturevisualizer
 		void click_bu_light_zpos(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-				_panel.RecreateLight(_panel.Light.Position + grader(CreatureVisualizerP.off_zpos));
+				_panel.MoveLight(_panel.Light.Position + grader(CreatureVisualizerP.off_zpos));
 		}
 
 		void click_bu_light_zneg(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-				_panel.RecreateLight(_panel.Light.Position + grader(CreatureVisualizerP.off_zneg));
+				_panel.MoveLight(_panel.Light.Position + grader(CreatureVisualizerP.off_zneg));
 		}
 
 		void click_bu_light_ypos(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-				_panel.RecreateLight(_panel.Light.Position + grader(CreatureVisualizerP.off_ypos));
+				_panel.MoveLight(_panel.Light.Position + grader(CreatureVisualizerP.off_ypos));
 		}
 
 		void click_bu_light_yneg(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-				_panel.RecreateLight(_panel.Light.Position + grader(CreatureVisualizerP.off_yneg));
+				_panel.MoveLight(_panel.Light.Position + grader(CreatureVisualizerP.off_yneg));
 		}
 
 		void click_bu_light_xpos(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-				_panel.RecreateLight(_panel.Light.Position + grader(CreatureVisualizerP.off_xpos));
+				_panel.MoveLight(_panel.Light.Position + grader(CreatureVisualizerP.off_xpos));
 		}
 
 		void click_bu_light_xneg(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-				_panel.RecreateLight(_panel.Light.Position + grader(CreatureVisualizerP.off_xneg));
+				_panel.MoveLight(_panel.Light.Position + grader(CreatureVisualizerP.off_xneg));
 		}
 
 
@@ -995,7 +995,7 @@ namespace creaturevisualizer
 				var pos = new Vector3(_panel.Light.Position.X,
 									  _panel.Light.Position.Y,
 									  CreatureVisualizerP.POS_START_LIGHT.Z);
-				_panel.RecreateLight(pos);
+				_panel.MoveLight(pos);
 			}
 		}
 
@@ -1006,14 +1006,14 @@ namespace creaturevisualizer
 				var pos = new Vector3(CreatureVisualizerP.POS_START_LIGHT.X,
 									  CreatureVisualizerP.POS_START_LIGHT.Y,
 									  _panel.Light.Position.Z);
-				_panel.RecreateLight(pos);
+				_panel.MoveLight(pos);
 			}
 		}
 
 		void click_bu_light_reset(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
-				_panel.RecreateLight(CreatureVisualizerP.POS_START_LIGHT);
+				_panel.MoveLight(CreatureVisualizerP.POS_START_LIGHT);
 		}
 
 
@@ -1073,50 +1073,7 @@ namespace creaturevisualizer
 
 		Sano.PersonalProjects.ColorPicker.Controls.ColorEditForm _sano;
 
-		void click_bu_light_ambient(object sender, EventArgs e)
-		{
-			if (_panel.Object != null)
-			{
-				BypassRefreshOnFocus = true;
-
-				_sano = new Sano.PersonalProjects.ColorPicker.Controls.ColorEditForm();
-
-				Color color =
-				_sano.colorPanel.SelectedColor = _panel.Light.Color.AmbientColor;
-				_sano.colorPanel.ColorValueChanged += colorchanged_ambi;
-
-				byte alpha =
-				_sano.colorPanel.Alpha = _panel.Light.Color.AmbientColor.A;
-
-				if (_sano.ShowDialog(this) == DialogResult.OK)
-				{
-					CreatureVisualizerP.AmbientColor =
-					pa_light_ambient.BackColor =
-					_panel.Light.Color.AmbientColor = Color.FromArgb(_sano.colorPanel.Alpha,
-																	 _sano.colorPanel.SelectedColor);
-				}
-				else
-				{
-					CreatureVisualizerP.AmbientColor =
-					pa_light_ambient.BackColor =
-					_panel.Light.Color.AmbientColor = Color.FromArgb(alpha, color);
-				}
-
-				_sano.Dispose();
-				_sano = null;
-
-				BypassRefreshOnFocus = false;
-			}
-		}
-
-		void colorchanged_ambi(object sender, EventArgs e)
-		{
-			pa_light_ambient.BackColor =
-			_panel.Light.Color.AmbientColor = Color.FromArgb(_sano.colorPanel.Alpha,
-															 _sano.colorPanel.SelectedColor);
-		}
-
-		void click_bu_light_diffuse(object sender, EventArgs e)
+		void click_pa_light_diffuse(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 			{
@@ -1126,6 +1083,7 @@ namespace creaturevisualizer
 
 				Color color =
 				_sano.colorPanel.SelectedColor = _panel.Light.Color.DiffuseColor;
+
 				_sano.colorPanel.ColorValueChanged += colorchanged_diff;
 
 				byte alpha =
@@ -1133,6 +1091,9 @@ namespace creaturevisualizer
 
 				if (_sano.ShowDialog(this) == DialogResult.OK)
 				{
+					cb_light_diffuse.Enabled =
+					cb_light_diffuse.Checked = true;
+
 					CreatureVisualizerP.DiffuseColor =
 					pa_light_diffuse.BackColor =
 					_panel.Light.Color.DiffuseColor = Color.FromArgb(_sano.colorPanel.Alpha,
@@ -1159,7 +1120,7 @@ namespace creaturevisualizer
 															 _sano.colorPanel.SelectedColor);
 		}
 
-		void click_bu_light_specular(object sender, EventArgs e)
+		void click_pa_light_specular(object sender, EventArgs e)
 		{
 			if (_panel.Object != null)
 			{
@@ -1169,6 +1130,7 @@ namespace creaturevisualizer
 
 				Color color =
 				_sano.colorPanel.SelectedColor = _panel.Light.Color.SpecularColor;
+
 				_sano.colorPanel.ColorValueChanged += colorchanged_spec;
 
 				byte alpha =
@@ -1176,6 +1138,9 @@ namespace creaturevisualizer
 
 				if (_sano.ShowDialog(this) == DialogResult.OK)
 				{
+					cb_light_specular.Enabled =
+					cb_light_specular.Checked = true;
+
 					CreatureVisualizerP.SpecularColor =
 					pa_light_specular.BackColor =
 					_panel.Light.Color.SpecularColor = Color.FromArgb(_sano.colorPanel.Alpha,
@@ -1200,6 +1165,106 @@ namespace creaturevisualizer
 			pa_light_specular.BackColor =
 			_panel.Light.Color.SpecularColor = Color.FromArgb(_sano.colorPanel.Alpha,
 															  _sano.colorPanel.SelectedColor);
+		}
+
+
+		void click_pa_light_ambient(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				BypassRefreshOnFocus = true;
+
+				_sano = new Sano.PersonalProjects.ColorPicker.Controls.ColorEditForm();
+
+				Color color =
+				_sano.colorPanel.SelectedColor = _panel.Light.Color.AmbientColor;
+
+				_sano.colorPanel.ColorValueChanged += colorchanged_ambi;
+
+				byte alpha =
+				_sano.colorPanel.Alpha = _panel.Light.Color.AmbientColor.A;
+
+				if (_sano.ShowDialog(this) == DialogResult.OK)
+				{
+					cb_light_ambient.Enabled =
+					cb_light_ambient.Checked = true;
+
+					CreatureVisualizerP.AmbientColor =
+					pa_light_ambient.BackColor =
+					_panel.Light.Color.AmbientColor = Color.FromArgb(_sano.colorPanel.Alpha,
+																	 _sano.colorPanel.SelectedColor);
+				}
+				else
+				{
+					CreatureVisualizerP.AmbientColor =
+					pa_light_ambient.BackColor =
+					_panel.Light.Color.AmbientColor = Color.FromArgb(alpha, color);
+				}
+
+				_sano.Dispose();
+				_sano = null;
+
+				BypassRefreshOnFocus = false;
+			}
+		}
+
+		void colorchanged_ambi(object sender, EventArgs e)
+		{
+			pa_light_ambient.BackColor =
+			_panel.Light.Color.AmbientColor = Color.FromArgb(_sano.colorPanel.Alpha,
+															 _sano.colorPanel.SelectedColor);
+		}
+
+
+		void click_cb_light_diffuse(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				if (cb_light_diffuse.Checked)
+				{
+					pa_light_diffuse.BackColor =
+					_panel.Light.Color.DiffuseColor = (Color)CreatureVisualizerP.DiffuseColor;
+				}
+				else
+				{
+					pa_light_diffuse.BackColor =
+					_panel.Light.Color.DiffuseColor = Color.White;
+				}
+			}
+		}
+
+		void click_cb_light_specular(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				if (cb_light_specular.Checked)
+				{
+					pa_light_specular.BackColor =
+					_panel.Light.Color.SpecularColor = (Color)CreatureVisualizerP.SpecularColor;
+				}
+				else
+				{
+					pa_light_specular.BackColor =
+					_panel.Light.Color.SpecularColor = Color.White;
+				}
+			}
+		}
+
+		void click_cb_light_ambient(object sender, EventArgs e)
+		{
+			if (_panel.Object != null)
+			{
+				if (cb_light_ambient.Checked)
+				{
+					pa_light_ambient.BackColor =
+					_panel.Light.Color.AmbientColor = (Color)CreatureVisualizerP.AmbientColor;
+				}
+				else
+				{
+					pa_light_ambient.BackColor =
+					_panel.Light.Color.AmbientColor = Color.White;
+				}
+			}
 		}
 		#endregion Handlers (light)
 
