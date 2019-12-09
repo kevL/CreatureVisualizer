@@ -14,6 +14,9 @@ using OEIShared.UI.Input;
 
 namespace creaturevisualizer
 {
+	/// <summary>
+	/// The direction of the controlpanel popout.
+	/// </summary>
 	enum CpDir
 	{
 		n,e,s,w
@@ -366,10 +369,11 @@ namespace creaturevisualizer
 		{
 			CreatureVisualizerPreferences.that.x = DesktopLocation.X;
 			CreatureVisualizerPreferences.that.y = DesktopLocation.Y;
-			CreatureVisualizerPreferences.that.w = ClientSize.Width
-												 - (pa_con.Visible && (_dir == CpDir.e || _dir == CpDir.w) ? pa_con.Width  : 0);
-			CreatureVisualizerPreferences.that.h = ClientSize.Height
-												 - (pa_con.Visible && (_dir == CpDir.n || _dir == CpDir.s) ? pa_con.Height : 0);
+
+			// store Width and Height as if the controlpanel is closed ->
+			CreatureVisualizerPreferences.that.w = pa_gui.Width;
+			CreatureVisualizerPreferences.that.h = pa_gui.Height;
+
 
 			_t1.Dispose();
 			_t1 = null;
@@ -399,8 +403,7 @@ namespace creaturevisualizer
 		#region Handlers (menu)
 		void instanceclick_Refresh(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
-				_panel.CreateInstance();
+			_panel.CreateInstance();
 		}
 
 		void instanceclick_RefreshOnFocus(object sender, EventArgs e)
