@@ -231,7 +231,7 @@ namespace creaturevisualizer
 						switch (tslist.GetFocusedListObjectType())
 						{
 							case NWN2ObjectType.Creature:
-								if (CreatureVisualizerF.that.feline())
+								if (CreatureVisualizerPreferences.that.char_Female)
 								{
 									((NWN2CreatureBlueprint)blueprint).Gender = CreatureGender.Female; // NWN2Toolset.NWN2.Data.Templates
 								}

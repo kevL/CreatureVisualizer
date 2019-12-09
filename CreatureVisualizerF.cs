@@ -14,22 +14,22 @@ using OEIShared.UI.Input;
 
 namespace creaturevisualizer
 {
+	enum CpDir
+	{
+		n,e,s,w
+	}
+
+
 	sealed partial class CreatureVisualizerF
 		: Form
 	{
 		/// <summary>
 		/// Compass direction that the controlpanel is docked at.
 		/// </summary>
-		enum CpDir
-		{
-			n,e,s,w
-		}
-
-
 		#region Fields (static)
 		internal static CreatureVisualizerF that;
 
-		const int BDI = 22; // minipanel button dimensions x/y
+		const int BDI = 22; // minipanel Button DImensions x/y
 		#endregion Fields (static)
 
 
@@ -38,7 +38,6 @@ namespace creaturevisualizer
 
 		MenuItem _itStayOnTop;
 		MenuItem _itRefreshOnFocus;
-		MenuItem _itFeline;
 		MenuItem _itControlPanel;
 		MenuItem _itMiniPanel;
 		MenuItem _itCyclePanel;
@@ -47,7 +46,7 @@ namespace creaturevisualizer
 		Button _repeater;
 		bool _firstrepeat;
 
-		CpDir _dir = CpDir.e;
+		CpDir _dir;
 		int _pa_Gui_w, _pa_Gui_h,
 			_pa_Con_w, _pa_Con_h;
 		#endregion Fields
@@ -73,12 +72,26 @@ namespace creaturevisualizer
 			ClientSize = new Size(ClientSize.Width - pa_con.Width,	// the ControlPanel starts non-visible
 								  ClientSize.Height);				// but let it show in the designer
 
+			if (CreatureVisualizerPreferences.that.x != Int32.MinValue)
+			{
+				StartPosition = FormStartPosition.Manual;
+
+				SetDesktopLocation(CreatureVisualizerPreferences.that.x,
+								   CreatureVisualizerPreferences.that.y);
+
+				// TODO: ensure location is valid on user's desktop.
+
+				ClientSize = new Size(CreatureVisualizerPreferences.that.w,
+									  CreatureVisualizerPreferences.that.h);
+			}
+
+
 			_t1.Tick += tick;
 
 			CreateMainMenu();
 
 			_panel.CreateInstance();
-			_panel.Select();
+			_panel.Focus();
 
 			SuspendLayout();
 			CreateButtons();
@@ -108,6 +121,27 @@ namespace creaturevisualizer
 				cb_light_ambient.Enabled = true;
 				cb_light_ambient.Checked = CreatureVisualizerP.ColorCheckedAmbient;
 			}
+
+
+			// Preferences ->
+			if (!CreatureVisualizerPreferences.that.StayOnTop)
+				_itStayOnTop.PerformClick();
+
+			if (!CreatureVisualizerPreferences.that.RefreshOnFocus)
+				_itRefreshOnFocus.PerformClick();
+
+			_dir = (CpDir)CreatureVisualizerPreferences.that.ControlPanelDirection;
+
+			if (CreatureVisualizerPreferences.that.ShowControls)
+				_itControlPanel.PerformClick();
+
+			if (!CreatureVisualizerPreferences.that.ShowMinipanel)
+				_itMiniPanel.PerformClick();
+
+			tc1.SelectedIndex = CreatureVisualizerPreferences.that.TabPageCurrent;
+
+			cb_char_female.Checked = CreatureVisualizerPreferences.that.char_Female;
+
 
 
 //			_itControlPanel  .PerformClick(); // TEST
@@ -246,16 +280,11 @@ namespace creaturevisualizer
 			Menu.MenuItems[0].MenuItems.Add("&refresh", instanceclick_Refresh);
 			Menu.MenuItems[0].MenuItems[0].Shortcut = Shortcut.F5;
 
-//			Menu.MenuItems[0].MenuItems.Add("-");
+			Menu.MenuItems[0].MenuItems.Add("-");
 
 			_itRefreshOnFocus = Menu.MenuItems[0].MenuItems.Add("refresh on foc&us", instanceclick_RefreshOnFocus);
 			_itRefreshOnFocus.Shortcut = Shortcut.F6;
 			_itRefreshOnFocus.Checked = true;
-
-			Menu.MenuItems[0].MenuItems.Add("-");
-
-			_itFeline = Menu.MenuItems[0].MenuItems.Add("fema&le", instanceclick_Female);
-			_itFeline.Shortcut = Shortcut.CtrlL;
 
 			// Options ->
 			_itControlPanel = Menu.MenuItems[1].MenuItems.Add("control &panel", optionsclick_ControlPanel);
@@ -313,8 +342,17 @@ namespace creaturevisualizer
 					{
 						switch (_dir)
 						{
-							case CpDir.n: _dir = CpDir.e; UpdatePanel(); return;
-							case CpDir.s: _dir = CpDir.w; UpdatePanel(); return;
+							case CpDir.n:
+								_dir = CpDir.e;
+								UpdatePanel();
+								CreatureVisualizerPreferences.that.ControlPanelDirection = (int)_dir;
+								return;
+
+							case CpDir.s:
+								_dir = CpDir.w;
+								UpdatePanel();
+								CreatureVisualizerPreferences.that.ControlPanelDirection = (int)_dir;
+								return;
 						}
 					}
 					LayoutButtons();
@@ -326,6 +364,13 @@ namespace creaturevisualizer
 
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
+			CreatureVisualizerPreferences.that.x = DesktopLocation.X;
+			CreatureVisualizerPreferences.that.y = DesktopLocation.Y;
+			CreatureVisualizerPreferences.that.w = ClientSize.Width
+												 - (pa_con.Visible && (_dir == CpDir.e || _dir == CpDir.w) ? pa_con.Width  : 0);
+			CreatureVisualizerPreferences.that.h = ClientSize.Height
+												 - (pa_con.Visible && (_dir == CpDir.n || _dir == CpDir.s) ? pa_con.Height : 0);
+
 			_t1.Dispose();
 			_t1 = null;
 		}
@@ -344,20 +389,24 @@ namespace creaturevisualizer
 
 
 		#region Handlers
-		void instanceclick_RefreshOnFocus(object sender, EventArgs e)
+		void selectedindexchanged_TabControl(object sender, EventArgs e)
 		{
-			_itRefreshOnFocus.Checked = !_itRefreshOnFocus.Checked;
+			CreatureVisualizerPreferences.that.TabPageCurrent = tc1.SelectedIndex;
 		}
+		#endregion Handlers
 
+
+		#region Handlers (menu)
 		void instanceclick_Refresh(object sender, EventArgs e)
 		{
-			_panel.CreateInstance();
+			if (_panel.Object != null)
+				_panel.CreateInstance();
 		}
 
-		void instanceclick_Female(object sender, EventArgs e)
+		void instanceclick_RefreshOnFocus(object sender, EventArgs e)
 		{
-			_itFeline.Checked = !_itFeline.Checked;
-			_panel.CreateInstance();
+			CreatureVisualizerPreferences.that.RefreshOnFocus =
+			_itRefreshOnFocus.Checked = !_itRefreshOnFocus.Checked;
 		}
 
 
@@ -408,6 +457,8 @@ namespace creaturevisualizer
 					case FormWindowState.Maximized:
 						pa_con.Visible = _itCyclePanel.Enabled = true;
 						LayoutButtons();
+
+						CreatureVisualizerPreferences.that.ShowControls = true;
 						break;
 				}
 
@@ -440,6 +491,8 @@ namespace creaturevisualizer
 					case FormWindowState.Maximized:
 						pa_con.Visible = _itCyclePanel.Enabled = false;
 						LayoutButtons();
+
+						CreatureVisualizerPreferences.that.ShowControls = false;
 						break;
 				}
 			}
@@ -498,7 +551,8 @@ namespace creaturevisualizer
 		void optionsclick_MiniPanel(object sender, EventArgs e)
 		{
 			_i.Visible = _o.Visible = _u.Visible =
-			_d.Visible = _l.Visible = _r.Visible = (_itMiniPanel.Checked = !_itMiniPanel.Checked);
+			_d.Visible = _l.Visible = _r.Visible =
+			CreatureVisualizerPreferences.that.ShowMinipanel = (_itMiniPanel.Checked = !_itMiniPanel.Checked);
 		}
 
 		void optionsclick_CyclePanel(object sender, EventArgs e)
@@ -516,6 +570,8 @@ namespace creaturevisualizer
 							case CpDir.w: _dir = CpDir.n; break;
 						}
 						UpdatePanel();
+
+						CreatureVisualizerPreferences.that.ControlPanelDirection = (int)_dir;
 						break;
 
 					case FormWindowState.Maximized:
@@ -525,6 +581,8 @@ namespace creaturevisualizer
 							case CpDir.e: case CpDir.s: _dir = CpDir.w; break;
 						}
 						UpdatePanel();
+
+						CreatureVisualizerPreferences.that.ControlPanelDirection = (int)_dir;
 						break;
 				}
 			}
@@ -532,6 +590,7 @@ namespace creaturevisualizer
 
 		void optionsclick_StayOnTop(object sender, EventArgs e)
 		{
+			CreatureVisualizerPreferences.that.StayOnTop =
 			TopMost = (_itStayOnTop.Checked = !_itStayOnTop.Checked);
 		}
 
@@ -569,7 +628,7 @@ namespace creaturevisualizer
 
 			MessageBox.Show(this, text, "About");
 		}
-		#endregion Handlers
+		#endregion Handlers (menu)
 
 
 		#region Handlers (timer)
@@ -1361,13 +1420,18 @@ namespace creaturevisualizer
 		#endregion Handlers (light)
 
 
-		#region Methods
-		internal bool feline()
+		#region Handlers (character)
+		void click_bu_char_apply(object sender, EventArgs e)
 		{
-			return _itFeline.Checked;
+			CreatureVisualizerPreferences.that.char_Female = cb_char_female.Checked;
+
+			if (_panel.Object != null)
+				_panel.CreateInstance();
 		}
+		#endregion Handlers (character)
 
 
+		#region Methods
 		internal void PrintCameraPosition()
 		{
 			// position ->

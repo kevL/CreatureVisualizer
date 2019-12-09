@@ -70,6 +70,7 @@
     </Compile>
     <Compile Include="CreatureVisualizerP.cs" />
     <Compile Include="CreatureVisualizer.cs" />
+    <Compile Include="CreatureVisualizerPreferences.cs" />
     <Compile Include="HelpF.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

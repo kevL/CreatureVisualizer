@@ -21,20 +21,31 @@ namespace creaturevisualizer
 
 		public object Preferences
 		{
-			get { return null; }
-			set { value = null; }
+			get { return CreatureVisualizerPreferences.that; }
+			set { CreatureVisualizerPreferences.that = (CreatureVisualizerPreferences)value; }
 		}
 
+		/// <summary>
+		/// Preferences will be stored in an XML-file w/ this label in
+		/// C:\Users\User\AppData\Local\NWN2 Toolset\Plugins
+		/// (or similar).
+		/// </summary>
 		public string Name
 		{
-			get { return "Creature Visualizer"; }
+			get { return "CreatureVisualizer"; }
 		}
 
+		/// <summary>
+		/// The label of the operation on the toolset's "Plugins" menu.
+		/// </summary>
 		public string MenuName
 		{
 			get { return "Creature Visualizer"; }
 		}
 
+		/// <summary>
+		/// The caption on the titlebar of the plugin window.
+		/// </summary>
 		public string DisplayName
 		{
 			get { return "Creature Visualizer"; }
