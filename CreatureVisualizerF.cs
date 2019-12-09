@@ -144,17 +144,12 @@ namespace creaturevisualizer
 			tc1.SelectedIndex = CreatureVisualizerPreferences.that.TabPageCurrent;
 
 			cb_char_female.Checked = CreatureVisualizerPreferences.that.char_Female;
-
-
-
-//			_itControlPanel  .PerformClick(); // TEST
-//			_itRefreshOnFocus.PerformClick(); // TEST
 		}
 
 
-		Button _i = new Button(), _o = new Button(),
-			   _u = new Button(), _d = new Button(),
-			   _l = new Button(), _r = new Button();
+		Button _i = new Button(), _o = new Button(), // in/out
+			   _u = new Button(), _d = new Button(), // up/down
+			   _l = new Button(), _r = new Button(); // left/right
 
 		/// <summary>
 		/// Creates buttons for the MiniPanel.

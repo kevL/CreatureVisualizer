@@ -67,7 +67,7 @@ namespace creaturevisualizer
 		Button bu_camera_xpos;
 		Button bu_camera_zneg;
 		Button bu_camera_zpos;
-		Button button4;
+		Button bu_camera_resetpolar;
 		Label la_camera_angle;
 		Button bu_camera_yawpos;
 		Button bu_camera_yawneg;
@@ -213,7 +213,7 @@ namespace creaturevisualizer
 			this.bu_camera_yawpos = new System.Windows.Forms.Button();
 			this.la_camera_yaw = new System.Windows.Forms.Label();
 			this.la_camera_pitch = new System.Windows.Forms.Label();
-			this.button4 = new System.Windows.Forms.Button();
+			this.bu_camera_resetpolar = new System.Windows.Forms.Button();
 			this.la_camera_angle = new System.Windows.Forms.Label();
 			this.bu_camera_yawneg = new System.Windows.Forms.Button();
 			this.bu_camera_pitchneg = new System.Windows.Forms.Button();
@@ -1043,7 +1043,7 @@ namespace creaturevisualizer
 			this.gb_camera.Controls.Add(this.bu_camera_yawpos);
 			this.gb_camera.Controls.Add(this.la_camera_yaw);
 			this.gb_camera.Controls.Add(this.la_camera_pitch);
-			this.gb_camera.Controls.Add(this.button4);
+			this.gb_camera.Controls.Add(this.bu_camera_resetpolar);
 			this.gb_camera.Controls.Add(this.la_camera_angle);
 			this.gb_camera.Controls.Add(this.bu_camera_yawneg);
 			this.gb_camera.Controls.Add(this.bu_camera_pitchneg);
@@ -1128,18 +1128,18 @@ namespace creaturevisualizer
 			this.la_camera_pitch.Text = "pitch";
 			this.la_camera_pitch.TextAlign = System.Drawing.ContentAlignment.BottomRight;
 			// 
-			// button4
+			// bu_camera_resetpolar
 			// 
-			this.button4.ForeColor = System.Drawing.Color.Crimson;
-			this.button4.Location = new System.Drawing.Point(185, 80);
-			this.button4.Margin = new System.Windows.Forms.Padding(0);
-			this.button4.Name = "button4";
-			this.button4.Size = new System.Drawing.Size(22, 22);
-			this.button4.TabIndex = 19;
-			this.button4.Text = "f";
-			this.button4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.button4.UseVisualStyleBackColor = true;
-			this.button4.Click += new System.EventHandler(this.click_bu_camera_resetpolar);
+			this.bu_camera_resetpolar.ForeColor = System.Drawing.Color.Crimson;
+			this.bu_camera_resetpolar.Location = new System.Drawing.Point(185, 80);
+			this.bu_camera_resetpolar.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_camera_resetpolar.Name = "bu_camera_resetpolar";
+			this.bu_camera_resetpolar.Size = new System.Drawing.Size(22, 22);
+			this.bu_camera_resetpolar.TabIndex = 19;
+			this.bu_camera_resetpolar.Text = "f";
+			this.bu_camera_resetpolar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.bu_camera_resetpolar.UseVisualStyleBackColor = true;
+			this.bu_camera_resetpolar.Click += new System.EventHandler(this.click_bu_camera_resetpolar);
 			// 
 			// la_camera_angle
 			// 
