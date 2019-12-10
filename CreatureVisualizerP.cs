@@ -48,13 +48,11 @@ namespace creaturevisualizer
 		internal static Vector3 POS_START_LIGHT = new Vector3(-0.5F, -4F, 2.0F);
 		internal static Vector3 POS_OFF_Zd      = new Vector3( 0.0F,  0F, 1.5F); // base height
 
-		internal const  float   DIST_START      = 5F;
+		internal const  float DIST_START = 5F;
 
-		internal static float   LIGHT_INTENSITY = 0.75F;
-
-		internal static Color   ? ColorDiffuse;
-		internal static Color   ? ColorSpecular;
-		internal static Color   ? ColorAmbient;
+		internal static Color ? ColorDiffuse;
+		internal static Color ? ColorSpecular;
+		internal static Color ? ColorAmbient;
 
 		internal static bool ColorCheckedDiffuse;
 		internal static bool ColorCheckedSpecular;
@@ -426,14 +424,7 @@ namespace creaturevisualizer
 			}
 			else if (_isplaced && Scene != null) // clear the scene iff a placed instance was last loaded ->
 			{
-				var objects = new NetDisplayObjectCollection();
-				foreach (NetDisplayObject @object in Scene.Objects)
-				{
-					//OEIShared.NetDisplay.NetDisplayLightPoint
-					//OEIShared.NetDisplay.NetDisplayModel
-					objects.Add(@object);
-				}
-				NWN2NetDisplayManager.Instance.RemoveObjects(objects);
+				ClearObjects();
 			}
 		}
 
@@ -451,15 +442,7 @@ namespace creaturevisualizer
 
 				if (NDWindow != null && Scene != null)
 				{
-					var objects = new NetDisplayObjectCollection();
-					foreach (NetDisplayObject @object in Scene.Objects)
-					{
-						//OEIShared.NetDisplay.NetDisplayLightPoint
-						//OEIShared.NetDisplay.NetDisplayModel
-						objects.Add(@object);
-					}
-					NWN2NetDisplayManager.Instance.RemoveObjects(objects);
-
+					ClearObjects();
 
 					if (Scene.DayNightCycleStages[(int)DayNightStageType.Default] != null)
 					{
@@ -472,7 +455,7 @@ namespace creaturevisualizer
 
 					Light.Position        = POS_START_LIGHT;
 
-					Light.Color.Intensity = LIGHT_INTENSITY;
+					Light.Color.Intensity = CreatureVisualizerPreferences.that.LightIntensity;
 					Light.Range           = 50F; // default 10F
 					Light.CastsShadow     = false;
 
@@ -523,14 +506,7 @@ namespace creaturevisualizer
 		/// <param name="pos"></param>
 		internal void MoveLight(Vector3 pos)
 		{
-			var objects = new NetDisplayObjectCollection();
-			foreach (NetDisplayObject @object in Scene.Objects)
-			{
-				if (@object.Tag == @object) // TODO: <- that
-					objects.Add(@object);
-			}
-			NWN2NetDisplayManager.Instance.RemoveObjects(objects);
-
+			ClearLight();
 
 			if (Scene.DayNightCycleStages[(int)DayNightStageType.Default] != null)
 			{
@@ -543,12 +519,12 @@ namespace creaturevisualizer
 
 			Light.Position        = pos;
 
-			Light.Color.Intensity = LIGHT_INTENSITY;
+			Light.Color.Intensity = CreatureVisualizerPreferences.that.LightIntensity;
 			Light.Range           = 50F;
 			Light.CastsShadow     = false;
 
 			Light.ID              = NetDisplayManager.Instance.NextObjectID;	// doesn't appear to be req'd.
-			Light.Tag             = Light;										// doesn't appear to be req'd.
+			Light.Tag             = Light;										// doesn't appear to be req'd. (light gets tagged w/ a pointer to itself)
 
 
 			if (ColorCheckedDiffuse)  Light.Color.DiffuseColor  = (Color)ColorDiffuse;
@@ -567,6 +543,32 @@ namespace creaturevisualizer
 			NWN2NetDisplayManager.Instance.LightParameters(Light.Scene, Light);
 
 			CreatureVisualizerF.that.PrintLightPosition(Light.Position);
+		}
+
+
+		void ClearObjects()
+		{
+			var objects = new NetDisplayObjectCollection();
+			foreach (NetDisplayObject @object in Scene.Objects)
+			{
+				//OEIShared.NetDisplay.NetDisplayLightPoint
+				//OEIShared.NetDisplay.NetDisplayModel
+				objects.Add(@object);
+			}
+			NWN2NetDisplayManager.Instance.RemoveObjects(objects);
+		}
+
+		void ClearLight()
+		{
+			var objects = new NetDisplayObjectCollection();
+			foreach (NetDisplayObject @object in Scene.Objects)
+			{
+//				if (@object.Tag == @object)
+//				if ((@object as NetDisplayLight).GetDisplayType() == NetDisplayType.NETDISPLAY_TYPE_LIGHT_POINT)
+				if ((@object as NetDisplayLight) != null)
+					objects.Add(@object);
+			}
+			NWN2NetDisplayManager.Instance.RemoveObjects(objects);
 		}
 
 

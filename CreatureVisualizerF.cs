@@ -103,8 +103,8 @@ namespace creaturevisualizer
 			_pa_Con_w = pa_con.Width;
 			_pa_Con_h = pa_con.Height;
 
-			tb_camera_height  .Text = CreatureVisualizerP.POS_OFF_Zd.Z   .ToString("N2");
-			tb_light_intensity.Text = CreatureVisualizerP.LIGHT_INTENSITY.ToString("N2");
+			tb_camera_height  .Text = CreatureVisualizerP.POS_OFF_Zd.Z                 .ToString("N2");
+			tb_light_intensity.Text = CreatureVisualizerPreferences.that.LightIntensity.ToString("N2");
 
 
 			if (CreatureVisualizerP.ColorDiffuse != null)
@@ -1118,7 +1118,7 @@ namespace creaturevisualizer
 				if (Single.TryParse(tb_light_intensity.Text, out result)
 					&& result >= 0F && result < 100F)
 				{
-					CreatureVisualizerP.LIGHT_INTENSITY =
+					CreatureVisualizerPreferences.that.LightIntensity =
 					_panel.Light.Color.Intensity = result;
 					PrintLightIntensity(result);
 				}

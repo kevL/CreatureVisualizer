@@ -56,6 +56,11 @@ namespace creaturevisualizer
 		public int TabPageCurrent
 		{ get; set; }
 
+
+		public float LightIntensity
+		{ get; set; }
+
+
 //		[Browsable(true)]
 //		[Description("true to show female gender if available")]
 //		[Category("Creature Visualizer")]
@@ -76,6 +81,8 @@ namespace creaturevisualizer
 			ShowControls = false;
 			ShowMinipanel = true;
 			TabPageCurrent = Tp_Controls;
+
+			LightIntensity = 0.75F;
 
 			char_Female = false;
 
