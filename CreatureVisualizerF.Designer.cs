@@ -122,7 +122,7 @@ namespace creaturevisualizer
 		CheckBox cb_light_ambient;
 		CheckBox cb_light_specular;
 
-		TabControl tc1;
+		CompositedTabControl tc1;
 		TabPage tp_controls;
 		TabPage tp_character;
 		Button bu_char_display;
@@ -151,7 +151,7 @@ namespace creaturevisualizer
 		private void InitializeComponent()
 		{
 			this.pa_con = new System.Windows.Forms.Panel();
-			this.tc1 = new System.Windows.Forms.TabControl();
+			this.tc1 = new creaturevisualizer.CompositedTabControl();
 			this.tp_controls = new System.Windows.Forms.TabPage();
 			this.gb_Light = new System.Windows.Forms.GroupBox();
 			this.cb_light_ambient = new System.Windows.Forms.CheckBox();
@@ -1662,5 +1662,30 @@ namespace creaturevisualizer
 
 		}
 		#endregion Designer
+	}
+
+
+
+	/// <summary>
+	/// Derived class for TabControl.
+	/// </summary>
+	public sealed class CompositedTabControl
+		:
+			TabControl
+	{
+		#region Properties (override)
+		/// <summary>
+		/// Prevents flicker.
+		/// </summary>
+		protected override CreateParams CreateParams
+		{
+			get
+			{
+				CreateParams cp = base.CreateParams;
+				cp.ExStyle |= 0x02000000; // enable 'WS_EX_COMPOSITED'
+				return cp;
+			}
+		}
+		#endregion Properties (override)
 	}
 }
