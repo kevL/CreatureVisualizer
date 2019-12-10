@@ -374,16 +374,15 @@ namespace creaturevisualizer
 			_t1 = null;
 		}
 
-/*		protected override void OnKeyDown(KeyEventArgs e)
+		protected override void OnKeyDown(KeyEventArgs e)
 		{
 			switch (e.KeyData)
 			{
-//				case Keys.Enter:
-//				case Keys.Escape:
-//					_panel.Select();
-//					break;
+				case Keys.Escape:
+					_panel.Focus();
+					break;
 			}
-		} */
+		}
 		#endregion Handlers (override)
 
 
