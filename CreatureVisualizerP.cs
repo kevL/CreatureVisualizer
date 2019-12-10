@@ -9,6 +9,7 @@ using NWN2Toolset;
 using NWN2Toolset.NWN2.Data.Blueprints;
 using NWN2Toolset.NWN2.Data.Instances;
 using NWN2Toolset.NWN2.Data.Templates;
+using NWN2Toolset.NWN2.Data.TypedCollections;
 using NWN2Toolset.NWN2.NetDisplay;
 using NWN2Toolset.NWN2.Views;
 
@@ -20,6 +21,9 @@ using OEIShared.UI.Input;
 
 namespace creaturevisualizer
 {
+	/// <summary>
+	/// Reset values for the model-instance.
+	/// </summary>
 	enum ResetType
 	{
 		RESET_non,	// 0
@@ -44,7 +48,7 @@ namespace creaturevisualizer
 		internal static Vector3 POS_START_LIGHT = new Vector3(-0.5F, -4F, 2.0F);
 		internal static Vector3 POS_OFF_Zd      = new Vector3( 0.0F,  0F, 1.5F); // base height
 
-		internal const  float   DIST_START      = 4.8F;
+		internal const  float   DIST_START      = 5F;
 
 		internal static float   LIGHT_INTENSITY = 0.75F;
 
@@ -68,6 +72,7 @@ namespace creaturevisualizer
 		INWN2Blueprint _blueprint0; // ref to previous blueprint-object (to track 'changed').
 
 		bool _changed;
+		bool _isplaced;
 
 		Vector3      _pos_Instance;
 		RHQuaternion _rot_Instance;
@@ -214,36 +219,98 @@ namespace creaturevisualizer
 				{
 					_instance = null;
 
-					NWN2BlueprintView tslist = NWN2ToolsetMainForm.App.BlueprintView;
+					// TODO: print FirstName or resref to titlebar.
 
-					object[] selection = tslist.Selection;
-					if (selection != null && selection.Length == 1)
+					NWN2AreaViewer viewer;
+					NWN2InstanceCollection collection;
+					NWN2CreatureInstance placed;
+
+					//viewer.AreaNetDisplayWindow.Scene
+					//viewer.SelectedNDOs
+
+					if ((viewer = NWN2ToolsetMainForm.App.GetActiveViewer() as NWN2AreaViewer) != null
+						&& (collection = viewer.SelectedInstances) != null && collection.Count == 1
+						&& (placed = collection[0] as NWN2CreatureInstance) != null)
 					{
-						var blueprint = selection[0] as INWN2Blueprint;
-						if (!blueprint.Equals(_blueprint0))
-						{
-							_blueprint0 = blueprint;
-							_changed = true;
-						}
-						else
-							_changed = false;
+						_instance = placed;
+						CreatureVisualizerF.that.EnableCharacterPage(false);
+						_isplaced = true;
+					}
+					else
+					{
+						CreatureVisualizerF.that.EnableCharacterPage(true);
 
-						switch (tslist.GetFocusedListObjectType())
+						NWN2BlueprintView tslist = NWN2ToolsetMainForm.App.BlueprintView;
+
+						object[] selection = tslist.Selection;
+						if (selection != null && selection.Length == 1)
 						{
-							case NWN2ObjectType.Creature:
-								if (CreatureVisualizerPreferences.that.char_Female)
-								{
-									((NWN2CreatureBlueprint)blueprint).Gender = CreatureGender.Female; // NWN2Toolset.NWN2.Data.Templates
+							_isplaced = false;
+
+							var blueprint = selection[0] as INWN2Blueprint;
+							if (!blueprint.Equals(_blueprint0))
+							{
+								_blueprint0 = blueprint;
+								_changed = true;
+							}
+							else
+								_changed = false;
+
+							switch (tslist.GetFocusedListObjectType())
+							{
+								case NWN2ObjectType.Creature:
+									if (CreatureVisualizerPreferences.that.char_Female)
+									{
+										((NWN2CreatureBlueprint)blueprint).Gender = CreatureGender.Female;
+									}
+									else
+										((NWN2CreatureBlueprint)blueprint).Gender = CreatureGender.Male;
+
+/*	
+//									((NWN2CreatureBlueprint)blueprint).AppearanceHair; // byte
+									// etc ...
+
+									// bool ->
+									((NWN2CreatureBlueprint)blueprint).AppearanceFacialHair;
+
+									((NWN2CreatureBlueprint)blueprint).HasBelt;
+									((NWN2CreatureBlueprint)blueprint).HasBoots;
+									((NWN2CreatureBlueprint)blueprint).HasCloak;
+									((NWN2CreatureBlueprint)blueprint).HasGloves;
+									((NWN2CreatureBlueprint)blueprint).HasHelm;
+
+									((NWN2CreatureBlueprint)blueprint).NeverDrawHelmet;
+									((NWN2CreatureBlueprint)blueprint).NeverShowArmor;
+
+									// TwoDAReference ->
+									((NWN2CreatureBlueprint)blueprint).Tail;
+									((NWN2CreatureBlueprint)blueprint).Wings;
+
+									// OEITintSet ->
+									((NWN2CreatureBlueprint)blueprint).BaseTint;
+									((NWN2CreatureBlueprint)blueprint).Tint;
+									((NWN2CreatureBlueprint)blueprint).TintHair;
+									((NWN2CreatureBlueprint)blueprint).TintHead;
+
+									// Color ->
+									((NWN2CreatureBlueprint)blueprint).TintArmor1;
+									((NWN2CreatureBlueprint)blueprint).TintArmor2;
+									((NWN2CreatureBlueprint)blueprint).TintEyes;
+									((NWN2CreatureBlueprint)blueprint).TintFacialHair;
+									((NWN2CreatureBlueprint)blueprint).TintHair1;
+									((NWN2CreatureBlueprint)blueprint).TintHair2;
+									((NWN2CreatureBlueprint)blueprint).TintHairAccessory;
+									((NWN2CreatureBlueprint)blueprint).TintSkin;
+*/
+
+
+									goto case NWN2ObjectType.Item;
+
+								case NWN2ObjectType.Item:	// <- TODO: works for weapons (see Preview tab) but clothes
+								{							//          appear on a default creature (in the ArmorSet tab)
+									_instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(blueprint);
+									break;
 								}
-								else
-									((NWN2CreatureBlueprint)blueprint).Gender = CreatureGender.Male;
-
-								goto case NWN2ObjectType.Item;
-
-							case NWN2ObjectType.Item:	// <- TODO: works for weapons (see Preview tab) but clothes
-							{							//          appear on a default creature (in the ArmorSet tab)
-								_instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(blueprint);
-								break;
 							}
 						}
 					}
@@ -262,7 +329,7 @@ namespace creaturevisualizer
 
 
 		/// <summary>
-		/// Adds a blueprint-instance to the scene.
+		/// Adds a model-instance to the scene.
 		/// </summary>
 		void CreateScene()
 		{
@@ -356,6 +423,17 @@ namespace creaturevisualizer
 				Object.Scale = scale; // NOTE: after EndAppearanceUpdate().
 				NWN2NetDisplayManager.Instance.SetObjectScale(Object, Object.Scale);
 				CreatureVisualizerF.that.PrintModelScale();
+			}
+			else if (_isplaced && Scene != null) // clear the scene iff a placed instance was last loaded ->
+			{
+				var objects = new NetDisplayObjectCollection();
+				foreach (NetDisplayObject @object in Scene.Objects)
+				{
+					//OEIShared.NetDisplay.NetDisplayLightPoint
+					//OEIShared.NetDisplay.NetDisplayModel
+					objects.Add(@object);
+				}
+				NWN2NetDisplayManager.Instance.RemoveObjects(objects);
 			}
 		}
 

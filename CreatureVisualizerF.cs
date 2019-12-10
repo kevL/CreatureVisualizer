@@ -1571,6 +1571,15 @@ namespace creaturevisualizer
 			}
 			return unit;
 		}
+
+
+		internal void EnableCharacterPage(bool enabled)
+		{
+			tp_character.Enabled = enabled;
+
+//			foreach (Control c in tp_character.Controls)
+//				c.Enabled = enabled;
+		}
 		#endregion Methods
 	}
 
