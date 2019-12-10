@@ -125,7 +125,7 @@ namespace creaturevisualizer
 		TabControl tc1;
 		TabPage tp_controls;
 		TabPage tp_character;
-		Button bu_char_apply;
+		Button bu_char_display;
 		CheckBox cb_char_female;
 
 
@@ -235,7 +235,7 @@ namespace creaturevisualizer
 			this.bu_camera_zpos = new System.Windows.Forms.Button();
 			this.tp_character = new System.Windows.Forms.TabPage();
 			this.cb_char_female = new System.Windows.Forms.CheckBox();
-			this.bu_char_apply = new System.Windows.Forms.Button();
+			this.bu_char_display = new System.Windows.Forms.Button();
 			this.ss_camera = new System.Windows.Forms.StatusStrip();
 			this.tssl_camera_label = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tssl_camera_xpos = new System.Windows.Forms.ToolStripStatusLabel();
@@ -1389,7 +1389,7 @@ namespace creaturevisualizer
 			// tp_character
 			// 
 			this.tp_character.Controls.Add(this.cb_char_female);
-			this.tp_character.Controls.Add(this.bu_char_apply);
+			this.tp_character.Controls.Add(this.bu_char_display);
 			this.tp_character.Location = new System.Drawing.Point(4, 19);
 			this.tp_character.Margin = new System.Windows.Forms.Padding(0);
 			this.tp_character.Name = "tp_character";
@@ -1409,17 +1409,17 @@ namespace creaturevisualizer
 			this.cb_char_female.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.cb_char_female.UseVisualStyleBackColor = true;
 			// 
-			// bu_char_apply
+			// bu_char_display
 			// 
-			this.bu_char_apply.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_char_apply.Location = new System.Drawing.Point(9, 5);
-			this.bu_char_apply.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_char_apply.Name = "bu_char_apply";
-			this.bu_char_apply.Size = new System.Drawing.Size(267, 20);
-			this.bu_char_apply.TabIndex = 25;
-			this.bu_char_apply.Text = "apply";
-			this.bu_char_apply.UseVisualStyleBackColor = true;
-			this.bu_char_apply.Click += new System.EventHandler(this.click_bu_char_apply);
+			this.bu_char_display.ForeColor = System.Drawing.Color.Crimson;
+			this.bu_char_display.Location = new System.Drawing.Point(9, 5);
+			this.bu_char_display.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_char_display.Name = "bu_char_display";
+			this.bu_char_display.Size = new System.Drawing.Size(267, 20);
+			this.bu_char_display.TabIndex = 25;
+			this.bu_char_display.Text = "display";
+			this.bu_char_display.UseVisualStyleBackColor = true;
+			this.bu_char_display.Click += new System.EventHandler(this.click_bu_char_apply);
 			// 
 			// ss_camera
 			// 
