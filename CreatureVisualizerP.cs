@@ -355,7 +355,7 @@ namespace creaturevisualizer
 				_instance.BeginAppearanceUpdate();
 
 				// create display object ->
-				Object = NWN2NetDisplayManager.Instance.CreateNDOForInstance(_instance, Scene, NetDisplayManager.Instance.NextObjectID);
+				Object = NWN2NetDisplayManager.Instance.CreateNDOForInstance(_instance, Scene, 0); // 0=NetDisplayModel
 
 				Object.PositionChanged += positionchanged_Object;
 
@@ -419,7 +419,8 @@ namespace creaturevisualizer
 
 				// set object scale ->
 				Object.Scale = scale; // NOTE: after EndAppearanceUpdate().
-				NWN2NetDisplayManager.Instance.SetObjectScale(Object, Object.Scale);
+				NWN2NetDisplayManager.Instance.SetObjectScale(Object, Object.Scale); // TODO: does this work
+				ResetModel(ResetType.RESET_scale); // this is needed to reset placed instance scale
 				CreatureVisualizerF.that.PrintModelScale();
 			}
 			else if (_isplaced && Scene != null) // clear the scene iff a placed instance was last loaded ->
