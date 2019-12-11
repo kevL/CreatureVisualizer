@@ -66,6 +66,8 @@ namespace creaturevisualizer
 
 
 		#region Fields
+		CreatureVisualizerF _f;
+
 		INWN2Instance  _instance;
 		INWN2Blueprint _blueprint0; // ref to previous blueprint-object (to track 'changed').
 
@@ -107,8 +109,10 @@ namespace creaturevisualizer
 
 
 		#region cTor
-		internal CreatureVisualizerP()
+		internal CreatureVisualizerP(CreatureVisualizerF f)
 		{
+			_f = f;
+
 //			DoubleBuffered = true;
 
 			RecreateMousePanel();
@@ -231,12 +235,12 @@ namespace creaturevisualizer
 						&& (placed = collection[0] as NWN2CreatureInstance) != null)
 					{
 						_instance = placed;
-						CreatureVisualizerF.that.EnableCharacterPage(false);
+						_f.EnableCharacterPage(false);
 						_isplaced = true;
 					}
 					else
 					{
-						CreatureVisualizerF.that.EnableCharacterPage(true);
+						_f.EnableCharacterPage(true);
 
 						NWN2BlueprintView tslist = NWN2ToolsetMainForm.App.BlueprintView;
 
@@ -359,7 +363,7 @@ namespace creaturevisualizer
 
 				Object.PositionChanged += positionchanged_Object;
 
-				CreatureVisualizerF.that.PrintOriginalScale(Object.Scale.X.ToString("N2"));
+				_f.PrintOriginalScale(Object.Scale.X.ToString("N2"));
 
 				ScaInitial = Object.Scale;	// NOTE: Scale comes from the creature blueprint/instance/template/whatver.
 											// That is, there's no default parameter for scale in this Scene like
@@ -390,7 +394,7 @@ namespace creaturevisualizer
 //					Receiver.PitchMax =  (float)Math.PI / 2f - 0.010F;
 
 					CameraPosition += POS_OFF_Zd;
-					CreatureVisualizerF.that.PrintCameraPosition();
+					_f.PrintCameraPosition();
 
 					POS_START_CAMERA = CameraPosition;
 
@@ -413,7 +417,7 @@ namespace creaturevisualizer
 
 				// set object rotation ->
 				NWN2NetDisplayManager.Instance.RotateObject(Object, ChangeType.Absolute, Object.Orientation);
-				CreatureVisualizerF.that.PrintModelPosition(Object);
+				_f.PrintModelPosition(Object);
 
 				_instance.EndAppearanceUpdate();
 
@@ -421,7 +425,7 @@ namespace creaturevisualizer
 				Object.Scale = scale; // NOTE: after EndAppearanceUpdate().
 				NWN2NetDisplayManager.Instance.SetObjectScale(Object, Object.Scale); // TODO: does this work
 				ResetModel(ResetType.RESET_scale); // this is needed to reset placed instance scale
-				CreatureVisualizerF.that.PrintModelScale();
+				_f.PrintModelScale();
 			}
 			else if (_isplaced && Scene != null) // clear the scene iff a placed instance was last loaded ->
 			{
@@ -434,7 +438,7 @@ namespace creaturevisualizer
 		/// </summary>
 		bool StartScene()
 		{
-			if (CreatureVisualizerF.that.WindowState != FormWindowState.Minimized)
+			if (_f.WindowState != FormWindowState.Minimized)
 			{
 				CloseWindow(); // safety - try not to confuse the NWN2NetDisplayManager.Instance ...
 
@@ -479,11 +483,11 @@ namespace creaturevisualizer
 					}
 					NWN2NetDisplayManager.Instance.LightParameters(Light.Scene, Light);
 
-					CreatureVisualizerF.that.PrintLightPosition(Light.Position);
-					CreatureVisualizerF.that.PrintLightIntensity(Light.Color.Intensity);
-					CreatureVisualizerF.that.PrintDiffuseColor();
-					CreatureVisualizerF.that.PrintSpecularColor();
-					CreatureVisualizerF.that.PrintAmbientColor();
+					_f.PrintLightPosition(Light.Position);
+					_f.PrintLightIntensity(Light.Color.Intensity);
+					_f.PrintDiffuseColor();
+					_f.PrintSpecularColor();
+					_f.PrintAmbientColor();
 
 //					SetDoubleBuffered(NDWindow);
 //					SetDoubleBuffered(NWN2NetDisplayManager.Instance.Windows);
@@ -543,7 +547,7 @@ namespace creaturevisualizer
 			}
 			NWN2NetDisplayManager.Instance.LightParameters(Light.Scene, Light);
 
-			CreatureVisualizerF.that.PrintLightPosition(Light.Position);
+			_f.PrintLightPosition(Light.Position);
 		}
 
 
@@ -597,7 +601,7 @@ namespace creaturevisualizer
 			if (!Object.Position.Z.Equals(_zObject))
 			{
 				_zObject = Object.Position.Z;
-				CreatureVisualizerF.that.PrintModelPosition(Object);
+				_f.PrintModelPosition(Object);
 			}
 		}
 		#endregion Handlers
@@ -621,7 +625,7 @@ namespace creaturevisualizer
 		{
 			var objects = new NetDisplayObjectCollection() { Object }; // TODO: cache that
 			NWN2NetDisplayManager.Instance.MoveObjects(objects, ChangeType.Relative, false, vec);
-			CreatureVisualizerF.that.PrintModelPosition(Object);
+			_f.PrintModelPosition(Object);
 		}
 
 		internal void RotateModel(float f)
@@ -630,18 +634,18 @@ namespace creaturevisualizer
 			NWN2NetDisplayManager.Instance.RotateObject(Object, ChangeType.Relative, rotate);
 
 			Object.Orientation = RHQuaternion.Multiply(Object.Orientation, rotate);
-			CreatureVisualizerF.that.PrintModelPosition(Object);
+			_f.PrintModelPosition(Object);
 		}
 
 		internal void ScaleModel(Vector3 vec)
 		{
 			NWN2NetDisplayManager.Instance.SetObjectScale(Object, (Object.Scale += vec));
-			CreatureVisualizerF.that.PrintModelScale();
+			_f.PrintModelScale();
 		}
 
 		internal void ScaleModel(int dir)
 		{
-			var vec = CreatureVisualizerF.that.grader(new Vector3(0.1F, 0.1F, 0.1F));
+			var vec = _f.grader(new Vector3(0.1F, 0.1F, 0.1F));
 			switch (dir)
 			{
 				case +1: Object.Scale += vec; break;
@@ -649,7 +653,7 @@ namespace creaturevisualizer
 			}
 
 			NWN2NetDisplayManager.Instance.SetObjectScale(Object, Object.Scale);
-			CreatureVisualizerF.that.PrintModelScale();
+			_f.PrintModelScale();
 		}
 
 		internal void ResetModel()
@@ -659,11 +663,11 @@ namespace creaturevisualizer
 
 			Object.Orientation = RHQuaternion.RotationZ(ROT_START_OBJECT);
 			NWN2NetDisplayManager.Instance.RotateObject(Object, ChangeType.Absolute, Object.Orientation);
-			CreatureVisualizerF.that.PrintModelPosition(Object);
+			_f.PrintModelPosition(Object);
 
 			Object.Scale = ScaInitial;
 			NWN2NetDisplayManager.Instance.SetObjectScale(Object, Object.Scale);
-			CreatureVisualizerF.that.PrintModelScale();
+			_f.PrintModelScale();
 		}
 
 		internal void ResetModel(ResetType reset)
@@ -679,7 +683,7 @@ namespace creaturevisualizer
 
 					var objects = new NetDisplayObjectCollection() { Object }; // TODO: cache that
 					NWN2NetDisplayManager.Instance.MoveObjects(objects, ChangeType.Absolute, false, pos);
-					CreatureVisualizerF.that.PrintModelPosition(Object);
+					_f.PrintModelPosition(Object);
 					break;
 				}
 
@@ -692,20 +696,20 @@ namespace creaturevisualizer
 
 					var objects = new NetDisplayObjectCollection() { Object }; // TODO: cache that
 					NWN2NetDisplayManager.Instance.MoveObjects(objects, ChangeType.Absolute, false, pos);
-					CreatureVisualizerF.that.PrintModelPosition(Object);
+					_f.PrintModelPosition(Object);
 					break;
 				}
 
 				case ResetType.RESET_rot:
 					Object.Orientation = RHQuaternion.RotationZ(ROT_START_OBJECT);
 					NWN2NetDisplayManager.Instance.RotateObject(Object, ChangeType.Absolute, Object.Orientation);
-					CreatureVisualizerF.that.PrintModelPosition(Object);
+					_f.PrintModelPosition(Object);
 					break;
 
 				case ResetType.RESET_scale:
 					Object.Scale = ScaInitial;
 					NWN2NetDisplayManager.Instance.SetObjectScale(Object, Object.Scale);
-					CreatureVisualizerF.that.PrintModelScale();
+					_f.PrintModelScale();
 					break;
 			}
 		}
@@ -716,7 +720,7 @@ namespace creaturevisualizer
 		internal void RaiseCameraPolar()
 		{
 			var state = Receiver.CameraState as ModelViewerInputCameraReceiverState;
-			state.FocusPhi += CreatureVisualizerF.that.grader(0.1F);
+			state.FocusPhi += _f.grader(0.1F);
 			state.FocusPhi = Math.Min(state.PitchMax, state.FocusPhi);
 			state.FocusPhi = Math.Max(state.PitchMin, state.FocusPhi);
 
@@ -727,7 +731,7 @@ namespace creaturevisualizer
 		{
 			var state = Receiver.CameraState as ModelViewerInputCameraReceiverState;
 
-			state.FocusPhi -= CreatureVisualizerF.that.grader(0.1F);
+			state.FocusPhi -= _f.grader(0.1F);
 			state.FocusPhi = Math.Min(state.PitchMax, state.FocusPhi);
 			state.FocusPhi = Math.Max(state.PitchMin, state.FocusPhi);
 
@@ -856,7 +860,7 @@ namespace creaturevisualizer
 									state.FocusPhi = Math.Max(state.PitchMin, state.FocusPhi);
 
 									UpdateCamera();
-									CreatureVisualizerF.that.PrintCameraPosition();
+									_f.PrintCameraPosition();
 									break;
 								}
 
@@ -867,7 +871,7 @@ namespace creaturevisualizer
 									float z = (float)(_pos.Y - _pos0.Y) * 0.01F;
 
 									// horizontal shifts ->
-									float rot = CreatureVisualizerF.that.getrot();
+									float rot = _f.getrot();
 									rot *= (float)Math.PI / 180F; // to rads
 
 									float cos = (float)(Math.Cos((double)rot));
@@ -880,7 +884,7 @@ namespace creaturevisualizer
 									CameraPosition += shift;
 									CreatureVisualizerF.Offset += shift;
 
-									CreatureVisualizerF.that.PrintCameraPosition();
+									_f.PrintCameraPosition();
 									break;
 								}
 							}
@@ -896,14 +900,14 @@ namespace creaturevisualizer
 									var shift = new Vector3(0F, 0F, z);
 									CameraPosition += shift;
 									CreatureVisualizerF.Offset += shift;
-									CreatureVisualizerF.that.PrintCameraPosition();
+									_f.PrintCameraPosition();
 									break;
 								}
 
 								case Keys.Control: // x/y-plane shift.
 								{
 									// cf. RMB
-									float rot = CreatureVisualizerF.that.getrot();
+									float rot = _f.getrot();
 									rot *= (float)Math.PI / 180F; // to rads
 
 									float cos = (float)(Math.Cos((double)rot));
@@ -916,7 +920,7 @@ namespace creaturevisualizer
 									CameraPosition += shift;
 									CreatureVisualizerF.Offset += shift;
 
-									CreatureVisualizerF.that.PrintCameraPosition();
+									_f.PrintCameraPosition();
 									break;
 								}
 							}
@@ -937,9 +941,9 @@ namespace creaturevisualizer
 		protected override void OnMouseWheel(MouseEventArgs e)
 		{
 			if (e.Delta > 0)
-				CreatureVisualizerF.that.click_bu_camera_distneg(null, EventArgs.Empty);
+				_f.click_bu_camera_distneg(null, EventArgs.Empty);
 			else if (e.Delta < 0)
-				CreatureVisualizerF.that.click_bu_camera_distpos(null, EventArgs.Empty);
+				_f.click_bu_camera_distpos(null, EventArgs.Empty);
 		}
 		#endregion Handlers (mouse)
 	}

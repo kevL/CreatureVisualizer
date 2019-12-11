@@ -30,14 +30,12 @@ namespace creaturevisualizer
 		/// Compass direction that the controlpanel is docked at.
 		/// </summary>
 		#region Fields (static)
-		internal static CreatureVisualizerF that;
-
 		const int BDI = 22; // minipanel Button DImensions x/y
 		#endregion Fields (static)
 
 
 		#region Fields
-		CreatureVisualizerP _panel = new CreatureVisualizerP();
+		CreatureVisualizerP _panel;
 
 		MenuItem _itStayOnTop;
 		MenuItem _itRefreshOnFocus;
@@ -64,7 +62,7 @@ namespace creaturevisualizer
 		{
 			InitializeComponent();
 
-			that = this;
+			_panel = new CreatureVisualizerP(this);
 
 			_panel.Dock = DockStyle.Fill;
 			_panel.BorderStyle = BorderStyle.FixedSingle;
