@@ -1670,8 +1670,7 @@ namespace creaturevisualizer
 	/// Derived class for TabControl.
 	/// </summary>
 	public sealed class CompositedTabControl
-		:
-			TabControl
+		: TabControl
 	{
 		#region Properties (override)
 		/// <summary>
