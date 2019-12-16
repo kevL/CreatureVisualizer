@@ -73,8 +73,6 @@ namespace creaturevisualizer
 
 			_panel.BringToFront();
 
-			ClientSize = new Size(ClientSize.Width - pa_con.Width,	// the ControlPanel starts non-visible
-								  ClientSize.Height);				// but let it show in the designer
 
 			int x = CreatureVisualizerPreferences.that.x;
 			if (x != Int32.MinValue)
@@ -88,6 +86,9 @@ namespace creaturevisualizer
 				ClientSize = new Size(CreatureVisualizerPreferences.that.w,
 									  CreatureVisualizerPreferences.that.h);
 			}
+			else
+				ClientSize = new Size(ClientSize.Width - pa_con.Width,	// the ControlPanel starts non-visible
+									  ClientSize.Height);				// but let it show in the designer
 
 
 			_t1.Tick += tick;
