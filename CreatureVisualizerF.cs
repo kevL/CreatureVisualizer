@@ -26,15 +26,15 @@ namespace creaturevisualizer
 	sealed partial class CreatureVisualizerF
 		: Form
 	{
-		/// <summary>
-		/// Compass direction that the controlpanel is docked at.
-		/// </summary>
 		#region Fields (static)
 		const int BDI = 22; // minipanel Button DImensions x/y
 		#endregion Fields (static)
 
 
 		#region Fields
+		/// <summary>
+		/// The ElectronPanel panel.
+		/// </summary>
 		CreatureVisualizerP _panel;
 
 		MenuItem _itStayOnTop;
@@ -47,7 +47,11 @@ namespace creaturevisualizer
 		Button _repeater;
 		bool _firstrepeat;
 
+		/// <summary>
+		/// Compass direction that the controlpanel is docked at.
+		/// </summary>
 		CpDir _dir;
+
 		int _pa_Gui_w, _pa_Gui_h,
 			_pa_Con_w, _pa_Con_h;
 		#endregion Fields
@@ -63,7 +67,6 @@ namespace creaturevisualizer
 			InitializeComponent();
 
 			_panel = new CreatureVisualizerP(this);
-
 			_panel.Dock = DockStyle.Fill;
 			_panel.BorderStyle = BorderStyle.FixedSingle;
 			Controls.Add(_panel);
@@ -73,15 +76,15 @@ namespace creaturevisualizer
 			ClientSize = new Size(ClientSize.Width - pa_con.Width,	// the ControlPanel starts non-visible
 								  ClientSize.Height);				// but let it show in the designer
 
-			if (CreatureVisualizerPreferences.that.x != Int32.MinValue)
+			int x = CreatureVisualizerPreferences.that.x;
+			if (x != Int32.MinValue)
 			{
-				StartPosition = FormStartPosition.Manual;
-
-				SetDesktopLocation(CreatureVisualizerPreferences.that.x,
-								   CreatureVisualizerPreferences.that.y);
-
-				// TODO: ensure location is valid on user's desktop.
-
+				int y = CreatureVisualizerPreferences.that.y;
+				if (checklocation(x,y))
+				{
+					StartPosition = FormStartPosition.Manual;
+					SetDesktopLocation(x,y);
+				}
 				ClientSize = new Size(CreatureVisualizerPreferences.that.w,
 									  CreatureVisualizerPreferences.that.h);
 			}
@@ -142,6 +145,26 @@ namespace creaturevisualizer
 			tc1.SelectedIndex = CreatureVisualizerPreferences.that.TabPageCurrent;
 
 			cb_char_female.Checked = CreatureVisualizerPreferences.that.char_Female;
+		}
+
+
+		/// <summary>
+		/// Checks if the initial location is onscreen.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <returns></returns>
+		bool checklocation(int x, int y)
+		{
+			x += 100; y += 50;
+
+			Screen[] screens = Screen.AllScreens;
+			foreach (var screen in screens)
+			{
+				if (screen.WorkingArea.Contains(x,y))
+					return true;
+			}
+			return false;
 		}
 
 
