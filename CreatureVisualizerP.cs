@@ -236,7 +236,10 @@ namespace creaturevisualizer
 						&& (placed = collection[0] as NWN2CreatureInstance) != null)
 					{
 						_isplaced = true;
-						_f.Text += " - " + (_instance = placed).Name; // tag
+
+						string tag = (_instance = placed).Name;
+						if (String.IsNullOrEmpty(tag)) tag = "no tag";
+						_f.Text += " - " + tag;
 					}
 					else
 					{
@@ -310,7 +313,10 @@ namespace creaturevisualizer
 								case NWN2ObjectType.Item:	// <- TODO: works for weapons (see Preview tab) but clothes
 								{							//          appear on a default creature (in the ArmorSet tab)
 									_instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(blueprint);
-									_f.Text += " - " +  _instance.Name; // tag
+
+									string tag = _instance.Name;
+									if (String.IsNullOrEmpty(tag)) tag = "no tag";
+									_f.Text += " - " + tag;
 									break;
 								}
 							}
