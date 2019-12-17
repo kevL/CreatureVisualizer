@@ -66,7 +66,7 @@ namespace creaturevisualizer
 
 
 		#region Fields
-		CreatureVisualizerF _f;
+		readonly CreatureVisualizerF _f;
 
 		INWN2Instance  _instance;
 		INWN2Blueprint _blueprint0; // ref to previous blueprint-object (to track 'changed').

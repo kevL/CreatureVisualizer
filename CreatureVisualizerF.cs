@@ -54,6 +54,10 @@ namespace creaturevisualizer
 
 		int _pa_Gui_w, _pa_Gui_h,
 			_pa_Con_w, _pa_Con_h;
+
+		Button _i = new Button(), _o = new Button(), // in/out
+			   _u = new Button(), _d = new Button(), // up/down
+			   _l = new Button(), _r = new Button(); // left/right
 		#endregion Fields
 
 
@@ -95,8 +99,6 @@ namespace creaturevisualizer
 
 			CreateMainMenu();
 
-			_panel.CreateInstance();
-			_panel.Focus();
 
 			SuspendLayout();
 			CreateButtons();
@@ -146,6 +148,9 @@ namespace creaturevisualizer
 			tc1.SelectedIndex = CreatureVisualizerPreferences.that.TabPageCurrent;
 
 			cb_char_female.Checked = CreatureVisualizerPreferences.that.char_Female;
+
+
+			ActiveControl = _panel;
 		}
 
 
@@ -169,124 +174,8 @@ namespace creaturevisualizer
 		}
 
 
-		Button _i = new Button(), _o = new Button(), // in/out
-			   _u = new Button(), _d = new Button(), // up/down
-			   _l = new Button(), _r = new Button(); // left/right
-
 		/// <summary>
-		/// Creates buttons for the MiniPanel.
-		/// </summary>
-		void CreateButtons()
-		{
-			_i = ButtonFactory(_i, "+");
-			_i.Click += click_bu_camera_distneg;
-			_o = ButtonFactory(_o, "-");
-			_o.Click += click_bu_camera_distpos;
-
-			_u = ButtonFactory(_u, "u");
-			_u.Click += click_bu_camera_zpos;
-			_d = ButtonFactory(_d, "d");
-			_d.Click += click_bu_camera_zneg;
-
-			_l = ButtonFactory(_l, "l");
-			_l.Click += click_bu_camera_yawneg;
-			_r = ButtonFactory(_r, "r");
-			_r.Click += click_bu_camera_yawpos;
-
-			Controls.Add(_i);
-			Controls.Add(_o);
-			Controls.Add(_u);
-			Controls.Add(_d);
-			Controls.Add(_l);
-			Controls.Add(_r);
-
-			_i.BringToFront();
-			_o.BringToFront();
-			_u.BringToFront();
-			_d.BringToFront();
-			_l.BringToFront();
-			_r.BringToFront();
-		}
-
-		Button ButtonFactory(Button b, string text)
-		{
-			b.MouseDown += mousedown_EnableRepeater;
-			b.MouseUp   += mouseup_DisableRepeater;
-			b.Text   = text;
-			b.Width  =
-			b.Height = BDI;
-
-			return b;
-		}
-
-		/// <summary>
-		/// Lays out the buttons on the guipanel.
-		/// </summary>
-		void LayoutButtons()
-		{
-			if (WindowState != FormWindowState.Minimized)
-			{
-				int offx, offy;
-				if (_itControlPanel != null && _itControlPanel.Checked)
-				{
-					offx = _pa_Con_w;
-					offy = _pa_Con_h;
-				}
-				else
-					offx = offy = 0;
-
-				switch (_dir)
-				{
-					case CpDir.n:
-						_i.Location = new Point(0, ClientRectangle.Bottom - BDI * 2);
-						_o.Location = new Point(0, ClientRectangle.Bottom - BDI);
-	
-						_u.Location = new Point(ClientRectangle.Right - BDI, ClientRectangle.Bottom - BDI * 2);
-						_d.Location = new Point(ClientRectangle.Right - BDI, ClientRectangle.Bottom - BDI);
-	
-						_l.Location = new Point(ClientRectangle.Right / 2 - BDI, ClientRectangle.Bottom - BDI);
-						_r.Location = new Point(ClientRectangle.Right / 2,       ClientRectangle.Bottom - BDI);
-						break;
-
-					case CpDir.e:
-						_i.Location = new Point(0, ClientRectangle.Bottom - BDI * 2);
-						_o.Location = new Point(0, ClientRectangle.Bottom - BDI);
-	
-						_u.Location = new Point(ClientRectangle.Right - offx - BDI, ClientRectangle.Bottom - BDI * 2);
-						_d.Location = new Point(ClientRectangle.Right - offx - BDI, ClientRectangle.Bottom - BDI);
-	
-						_l.Location = new Point((ClientRectangle.Right - offx) / 2 - BDI, ClientRectangle.Bottom - BDI);
-						_r.Location = new Point((ClientRectangle.Right - offx) / 2,       ClientRectangle.Bottom - BDI);
-						break;
-
-					case CpDir.s:
-						_i.Location = new Point(0, ClientRectangle.Bottom - offy - BDI * 2);
-						_o.Location = new Point(0, ClientRectangle.Bottom - offy - BDI);
-
-						_u.Location = new Point(ClientRectangle.Right - BDI, ClientRectangle.Bottom - offy - BDI * 2);
-						_d.Location = new Point(ClientRectangle.Right - BDI, ClientRectangle.Bottom - offy - BDI);
-
-						_l.Location = new Point(ClientRectangle.Right / 2 - BDI, ClientRectangle.Bottom - offy - BDI);
-						_r.Location = new Point(ClientRectangle.Right / 2,       ClientRectangle.Bottom - offy - BDI);
-						break;
-
-					case CpDir.w:
-						_i.Location = new Point(offx, ClientRectangle.Bottom - BDI * 2);
-						_o.Location = new Point(offx, ClientRectangle.Bottom - BDI);
-
-						_u.Location = new Point(ClientRectangle.Right - BDI, ClientRectangle.Bottom - BDI * 2);
-						_d.Location = new Point(ClientRectangle.Right - BDI, ClientRectangle.Bottom - BDI);
-
-						_l.Location = new Point((ClientRectangle.Right - offx) / 2 + offx - BDI, ClientRectangle.Bottom - BDI);
-						_r.Location = new Point((ClientRectangle.Right - offx) / 2 + offx,       ClientRectangle.Bottom - BDI);
-						break;
-				}
-			}
-		}
-
-
-		/// <summary>
-		/// Instantiates the Menu.
+		/// Instantiates the MainMenu.
 		/// </summary>
 		void CreateMainMenu()
 		{
@@ -332,6 +221,53 @@ namespace creaturevisualizer
 
 			Menu.MenuItems[2].MenuItems.Add("&about", helpclick_About);
 			Menu.MenuItems[2].MenuItems[1].Shortcut = Shortcut.F2;
+		}
+
+
+		/// <summary>
+		/// Creates buttons for the MiniPanel.
+		/// </summary>
+		void CreateButtons()
+		{
+			_i = ButtonFactory(_i, "+");
+			_i.Click += click_bu_camera_distneg;
+			_o = ButtonFactory(_o, "-");
+			_o.Click += click_bu_camera_distpos;
+
+			_l = ButtonFactory(_l, "l");
+			_l.Click += click_bu_camera_yawneg;
+			_r = ButtonFactory(_r, "r");
+			_r.Click += click_bu_camera_yawpos;
+
+			_u = ButtonFactory(_u, "u");
+			_u.Click += click_bu_camera_zpos;
+			_d = ButtonFactory(_d, "d");
+			_d.Click += click_bu_camera_zneg;
+
+			Controls.Add(_i);
+			Controls.Add(_o);
+			Controls.Add(_l);
+			Controls.Add(_r);
+			Controls.Add(_u);
+			Controls.Add(_d);
+
+			_i.BringToFront();
+			_o.BringToFront();
+			_l.BringToFront();
+			_r.BringToFront();
+			_u.BringToFront();
+			_d.BringToFront();
+		}
+
+		Button ButtonFactory(Button b, string text)
+		{
+			b.MouseDown += mousedown_EnableRepeater;
+			b.MouseUp   += mouseup_DisableRepeater;
+			b.Text   = text;
+			b.Width  =
+			b.Height = BDI;
+
+			return b;
 		}
 		#endregion cTor
 
@@ -512,6 +448,7 @@ namespace creaturevisualizer
 						LayoutButtons();
 
 						CreatureVisualizerPreferences.that.ShowControls = false;
+						_panel.Focus();
 						break;
 				}
 			}
@@ -1451,6 +1388,77 @@ namespace creaturevisualizer
 
 
 		#region Methods
+		/// <summary>
+		/// Lays out the MiniPanel's buttons.
+		/// </summary>
+		void LayoutButtons()
+		{
+			if (WindowState != FormWindowState.Minimized)
+			{
+				int offx, offy;
+				if (_itControlPanel != null && _itControlPanel.Checked)
+				{
+					offx = _pa_Con_w;
+					offy = _pa_Con_h;
+				}
+				else
+					offx = offy = 0;
+
+				switch (_dir)
+				{
+					case CpDir.n:
+						_i.Location = new Point(0, ClientRectangle.Bottom - BDI * 2);
+						_o.Location = new Point(0, ClientRectangle.Bottom - BDI);
+	
+						_u.Location = new Point(ClientRectangle.Right - BDI, ClientRectangle.Bottom - BDI * 2);
+						_d.Location = new Point(ClientRectangle.Right - BDI, ClientRectangle.Bottom - BDI);
+	
+						_l.Location = new Point(ClientRectangle.Right / 2 - BDI, ClientRectangle.Bottom - BDI);
+						_r.Location = new Point(ClientRectangle.Right / 2,       ClientRectangle.Bottom - BDI);
+						break;
+
+					case CpDir.e:
+						_i.Location = new Point(0, ClientRectangle.Bottom - BDI * 2);
+						_o.Location = new Point(0, ClientRectangle.Bottom - BDI);
+	
+						_u.Location = new Point(ClientRectangle.Right - offx - BDI, ClientRectangle.Bottom - BDI * 2);
+						_d.Location = new Point(ClientRectangle.Right - offx - BDI, ClientRectangle.Bottom - BDI);
+	
+						_l.Location = new Point((ClientRectangle.Right - offx) / 2 - BDI, ClientRectangle.Bottom - BDI);
+						_r.Location = new Point((ClientRectangle.Right - offx) / 2,       ClientRectangle.Bottom - BDI);
+						break;
+
+					case CpDir.s:
+						_i.Location = new Point(0, ClientRectangle.Bottom - offy - BDI * 2);
+						_o.Location = new Point(0, ClientRectangle.Bottom - offy - BDI);
+
+						_u.Location = new Point(ClientRectangle.Right - BDI, ClientRectangle.Bottom - offy - BDI * 2);
+						_d.Location = new Point(ClientRectangle.Right - BDI, ClientRectangle.Bottom - offy - BDI);
+
+						_l.Location = new Point(ClientRectangle.Right / 2 - BDI, ClientRectangle.Bottom - offy - BDI);
+						_r.Location = new Point(ClientRectangle.Right / 2,       ClientRectangle.Bottom - offy - BDI);
+						break;
+
+					case CpDir.w:
+						_i.Location = new Point(offx, ClientRectangle.Bottom - BDI * 2);
+						_o.Location = new Point(offx, ClientRectangle.Bottom - BDI);
+
+						_u.Location = new Point(ClientRectangle.Right - BDI, ClientRectangle.Bottom - BDI * 2);
+						_d.Location = new Point(ClientRectangle.Right - BDI, ClientRectangle.Bottom - BDI);
+
+						_l.Location = new Point((ClientRectangle.Right - offx) / 2 + offx - BDI, ClientRectangle.Bottom - BDI);
+						_r.Location = new Point((ClientRectangle.Right - offx) / 2 + offx,       ClientRectangle.Bottom - BDI);
+						break;
+				}
+			}
+		}
+
+
+		internal int getrot()
+		{
+			return Int32.Parse(tssl_camera_rot.Text);
+		}
+
 		internal void PrintCameraPosition()
 		{
 			// position ->
@@ -1478,12 +1486,6 @@ namespace creaturevisualizer
 
 			tssl_camera_dist.Text = _panel.Receiver.Distance.ToString("N2");
 		}
-
-		internal int getrot()
-		{
-			return Int32.Parse(tssl_camera_rot.Text);
-		}
-
 
 		/// <summary>
 		/// quaternions ... because why not
