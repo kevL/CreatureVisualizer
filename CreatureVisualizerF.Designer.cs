@@ -1641,7 +1641,6 @@ namespace creaturevisualizer
 			this.KeyPreview = true;
 			this.Name = "CreatureVisualizerF";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "Creature Visualizer";
 			this.pa_con.ResumeLayout(false);
 			this.pa_con.PerformLayout();
 			this.tc1.ResumeLayout(false);

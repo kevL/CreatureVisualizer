@@ -215,13 +215,14 @@ namespace creaturevisualizer
 		/// </summary>
 		internal void CreateInstance()
 		{
-			if (!CreatureVisualizerF.BypassRefreshOnFocus)
+			if (!CreatureVisualizerF.BypassCreate) // ie. don't re-create the instance when a colorpicker closes.
 			{
 				if (MousePanel != null && !MousePanel.IsDisposed) // safety. ElectronPanel.MousePanel could go disposed for no good reason.
 				{
 					_instance = null;
 
-					// TODO: print FirstName or resref to titlebar.
+					_f.Text = CreatureVisualizerF.TITLE;
+					_f.EnableCharacterPage(false);
 
 					NWN2AreaViewer viewer;
 					NWN2InstanceCollection collection;
@@ -234,14 +235,11 @@ namespace creaturevisualizer
 						&& (collection = viewer.SelectedInstances) != null && collection.Count == 1
 						&& (placed = collection[0] as NWN2CreatureInstance) != null)
 					{
-						_instance = placed;
-						_f.EnableCharacterPage(false);
 						_isplaced = true;
+						_f.Text += " - " + (_instance = placed).Name; // tag
 					}
 					else
 					{
-						_f.EnableCharacterPage(true);
-
 						NWN2BlueprintView tslist = NWN2ToolsetMainForm.App.BlueprintView;
 
 						object[] selection = tslist.Selection;
@@ -261,6 +259,8 @@ namespace creaturevisualizer
 							switch (tslist.GetFocusedListObjectType())
 							{
 								case NWN2ObjectType.Creature:
+									_f.EnableCharacterPage(true);
+
 									if (CreatureVisualizerPreferences.that.char_Female)
 									{
 										((NWN2CreatureBlueprint)blueprint).Gender = CreatureGender.Female;
@@ -305,12 +305,12 @@ namespace creaturevisualizer
 									((NWN2CreatureBlueprint)blueprint).TintSkin;
 */
 
-
 									goto case NWN2ObjectType.Item;
 
 								case NWN2ObjectType.Item:	// <- TODO: works for weapons (see Preview tab) but clothes
 								{							//          appear on a default creature (in the ArmorSet tab)
 									_instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(blueprint);
+									_f.Text += " - " +  _instance.Name; // tag
 									break;
 								}
 							}
@@ -318,8 +318,8 @@ namespace creaturevisualizer
 					}
 					CreateScene();
 				}
-				else
-					MessageBox.Show(this, "ElectronPanel.MousePanel is invalid. Please see your chiropractor.");
+//				else DONT DO THIS -> (it could cause an infinite loop if RefreshOnFocus is on)
+//					MessageBox.Show(this, "ElectronPanel.MousePanel is invalid. Please see your chiropractor.");
 			}
 		}
 

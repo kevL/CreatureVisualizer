@@ -27,6 +27,8 @@ namespace creaturevisualizer
 		: Form
 	{
 		#region Fields (static)
+		internal const string TITLE = "Creature Visualizer";
+
 		const int BDI = 22; // minipanel Button DImensions x/y
 		#endregion Fields (static)
 
@@ -69,6 +71,8 @@ namespace creaturevisualizer
 		internal CreatureVisualizerF()
 		{
 			InitializeComponent();
+
+			Text = TITLE;
 
 			_panel = new CreatureVisualizerP(this);
 			_panel.Dock = DockStyle.Fill;
@@ -1124,7 +1128,7 @@ namespace creaturevisualizer
 
 
 
-		internal static bool BypassRefreshOnFocus;
+		internal static bool BypassCreate;
 
 		Sano.PersonalProjects.ColorPicker.Controls.ColorEditForm _sano;
 
@@ -1132,7 +1136,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
-				BypassRefreshOnFocus = true;
+				BypassCreate = true;
 
 				_sano = new Sano.PersonalProjects.ColorPicker.Controls.ColorEditForm();
 				_sano.colorPanel.ColorValueChanged += colorchanged_diff;
@@ -1170,7 +1174,7 @@ namespace creaturevisualizer
 				_sano.Dispose();
 				_sano = null;
 
-				BypassRefreshOnFocus = false;
+				BypassCreate = false;
 			}
 		}
 
@@ -1185,7 +1189,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
-				BypassRefreshOnFocus = true;
+				BypassCreate = true;
 
 				_sano = new Sano.PersonalProjects.ColorPicker.Controls.ColorEditForm();
 				_sano.colorPanel.ColorValueChanged += colorchanged_spec;
@@ -1223,7 +1227,7 @@ namespace creaturevisualizer
 				_sano.Dispose();
 				_sano = null;
 
-				BypassRefreshOnFocus = false;
+				BypassCreate = false;
 			}
 		}
 
@@ -1239,7 +1243,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Object != null)
 			{
-				BypassRefreshOnFocus = true;
+				BypassCreate = true;
 
 				_sano = new Sano.PersonalProjects.ColorPicker.Controls.ColorEditForm();
 				_sano.colorPanel.ColorValueChanged += colorchanged_ambi;
@@ -1277,7 +1281,7 @@ namespace creaturevisualizer
 				_sano.Dispose();
 				_sano = null;
 
-				BypassRefreshOnFocus = false;
+				BypassCreate = false;
 			}
 		}
 
