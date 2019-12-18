@@ -226,21 +226,38 @@ namespace creaturevisualizer
 
 					NWN2AreaViewer viewer;
 					NWN2InstanceCollection collection;
-					NWN2CreatureInstance placed;
+
+					NWN2CreatureInstance     placedcreature  = null;
+					NWN2DoorInstance         placeddoor      = null;
+					NWN2PlaceableInstance    placedplaceable = null;
+//					NWN2PlacedEffectInstance placedeffect    = null; // pointless. Can't be selected in area
+//					NWN2ItemInstance         placeditem      = null; // pointless. is default bag
 
 					//viewer.AreaNetDisplayWindow.Scene
 					//viewer.SelectedNDOs
 
+// first check areaviewer for a selected instance ->
 					if ((viewer = NWN2ToolsetMainForm.App.GetActiveViewer() as NWN2AreaViewer) != null
 						&& (collection = viewer.SelectedInstances) != null && collection.Count == 1
-						&& (placed = collection[0] as NWN2CreatureInstance) != null)
+						&& (   (placedcreature  = collection[0] as NWN2CreatureInstance)     != null
+							|| (placeddoor      = collection[0] as NWN2DoorInstance)         != null
+							|| (placedplaceable = collection[0] as NWN2PlaceableInstance)    != null))
+//							|| (placedeffect    = collection[0] as NWN2PlacedEffectInstance) != null
+//							|| (placeditem      = collection[0] as NWN2ItemInstance)         != null))
 					{
 						_isplaced = true;
 
-						string tag = (_instance = placed).Name;
+						string tag = null;
+						if      (placedcreature  != null) tag = (_instance = placedcreature) .Name;
+						else if (placeddoor      != null) tag = (_instance = placeddoor)     .Name;
+						else if (placedplaceable != null) tag = (_instance = placedplaceable).Name;
+//						else if (placedeffect    != null) tag = (_instance = placedeffect)   .Name;
+//						else if (placeditem      != null) tag = (_instance = placeditem)     .Name;
+
 						if (String.IsNullOrEmpty(tag)) tag = "no tag";
 						_f.Text += " - " + tag;
 					}
+// second check blueprint lists for a selected instance ->
 					else
 					{
 						NWN2BlueprintView tslist = NWN2ToolsetMainForm.App.BlueprintView;
@@ -310,6 +327,9 @@ namespace creaturevisualizer
 
 									goto case NWN2ObjectType.Item;
 
+								case NWN2ObjectType.Door:
+								case NWN2ObjectType.Placeable:
+								case NWN2ObjectType.PlacedEffect:
 								case NWN2ObjectType.Item:	// <- TODO: works for weapons (see Preview tab) but clothes
 								{							//          appear on a default creature (in the ArmorSet tab)
 									_instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(blueprint);
