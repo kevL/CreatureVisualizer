@@ -38,7 +38,7 @@ namespace creaturevisualizer
 			text += "Click a color-swatch to open the color-picker dialog." + Environment.NewLine;
 			text += "Accept the dialog to enable a color." + Environment.NewLine + Environment.NewLine;
 			text += "LMB - toggles the color on/off" + Environment.NewLine;
-			text += "RMB - resets the color to default" + Environment.NewLine;
+			text += "RMB - resets the color to default and disables it" + Environment.NewLine;
 
 
 			tb_help.Text = text;
