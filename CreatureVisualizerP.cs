@@ -22,7 +22,7 @@ using OEIShared.UI.Input;
 namespace creaturevisualizer
 {
 	/// <summary>
-	/// Reset values for the model-instance.
+	/// Reset types for the Model object.
 	/// </summary>
 	enum ResetType
 	{
@@ -166,10 +166,12 @@ namespace creaturevisualizer
 
 
 		/// <summary>
-		/// Disposes of their MousePanel and instantiates a CreatureVisualizer
-		/// MousePanel to replace it. CreatureVisualizer-specific inputhandlers
-		/// can be hooked up to this ElectronPanel that totally bypass the
-		/// tangle of Obsidian inputhandlers. good luck
+		/// Disposes their MousePanel and instantiates a new MousePanel to
+		/// replace it. CreatureVisualizer-specific inputhandlers can be hooked
+		/// up to this ElectronPanel that totally bypass the tangle of Obsidian
+		/// inputhandlers. good luck
+		/// @note A 'MousePanel' is not a panel nor does it handle mouse-input
+		/// exclusively; it should have been labeled 'InputController'.
 		/// </summary>
 		void RecreateMousePanel()
 		{
@@ -181,9 +183,8 @@ namespace creaturevisualizer
 
 			MousePanel.Name = "MousePanel";
 
-			MousePanel.ThrottleMouse = true;
+			MousePanel.ThrottleMouse = true; // no idea ...
 
-			CameraMovementReceiver = null;
 			CameraMovementReceiver = new ModelViewerInputCameraReceiver();
 			AddInputReceiver(CameraMovementReceiver);
 
@@ -227,11 +228,9 @@ namespace creaturevisualizer
 					NWN2AreaViewer viewer;
 					NWN2InstanceCollection collection;
 
-					NWN2CreatureInstance     placedcreature  = null;
-					NWN2DoorInstance         placeddoor      = null;
-					NWN2PlaceableInstance    placedplaceable = null;
-//					NWN2PlacedEffectInstance placedeffect    = null; // pointless. Can't be selected in area
-//					NWN2ItemInstance         placeditem      = null; // pointless. is default bag
+					NWN2CreatureInstance  placedcreature  = null;
+					NWN2DoorInstance      placeddoor      = null;
+					NWN2PlaceableInstance placedplaceable = null;
 
 					//viewer.AreaNetDisplayWindow.Scene
 					//viewer.SelectedNDOs
@@ -239,11 +238,9 @@ namespace creaturevisualizer
 // first check areaviewer for a selected instance ->
 					if ((viewer = NWN2ToolsetMainForm.App.GetActiveViewer() as NWN2AreaViewer) != null
 						&& (collection = viewer.SelectedInstances) != null && collection.Count == 1
-						&& (   (placedcreature  = collection[0] as NWN2CreatureInstance)     != null
-							|| (placeddoor      = collection[0] as NWN2DoorInstance)         != null
-							|| (placedplaceable = collection[0] as NWN2PlaceableInstance)    != null))
-//							|| (placedeffect    = collection[0] as NWN2PlacedEffectInstance) != null
-//							|| (placeditem      = collection[0] as NWN2ItemInstance)         != null))
+						&& (   (placedcreature  = collection[0] as NWN2CreatureInstance)  != null
+							|| (placeddoor      = collection[0] as NWN2DoorInstance)      != null
+							|| (placedplaceable = collection[0] as NWN2PlaceableInstance) != null))
 					{
 						_isplaced = true;
 
@@ -251,8 +248,6 @@ namespace creaturevisualizer
 						if      (placedcreature  != null) tag = (_instance = placedcreature) .Name;
 						else if (placeddoor      != null) tag = (_instance = placeddoor)     .Name;
 						else if (placedplaceable != null) tag = (_instance = placedplaceable).Name;
-//						else if (placedeffect    != null) tag = (_instance = placedeffect)   .Name;
-//						else if (placeditem      != null) tag = (_instance = placeditem)     .Name;
 
 						if (String.IsNullOrEmpty(tag)) tag = "no tag";
 						_f.Text += " - " + tag;
@@ -344,8 +339,6 @@ namespace creaturevisualizer
 					}
 					CreateScene();
 				}
-//				else DONT DO THIS -> (it could cause an infinite loop if RefreshOnFocus is on)
-//					MessageBox.Show(this, "ElectronPanel.MousePanel is invalid. Please see your chiropractor.");
 			}
 		}
 
