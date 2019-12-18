@@ -1229,7 +1229,7 @@ namespace creaturevisualizer
 			this.bu_camera_focusobject.TabIndex = 24;
 			this.bu_camera_focusobject.Text = "focus";
 			this.bu_camera_focusobject.UseVisualStyleBackColor = true;
-			this.bu_camera_focusobject.Click += new System.EventHandler(this.click_bu_camera_focusobject);
+			this.bu_camera_focusobject.Click += new System.EventHandler(this.click_bu_camera_focus);
 			// 
 			// la_camera_dist
 			// 

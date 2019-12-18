@@ -631,7 +631,7 @@ namespace creaturevisualizer
 
 		void click_bu_camera_zpos(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 			{
 				Vector3 delta = grader(CreatureVisualizerP.off_zpos);
 				_panel.CameraPosition += delta;
@@ -642,7 +642,7 @@ namespace creaturevisualizer
 
 		void click_bu_camera_zneg(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 			{
 				Vector3 delta = grader(CreatureVisualizerP.off_zneg);
 				_panel.CameraPosition += delta;
@@ -653,7 +653,7 @@ namespace creaturevisualizer
 
 		void click_bu_camera_ypos(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 			{
 				Vector3 delta = grader(CreatureVisualizerP.off_ypos);
 				_panel.CameraPosition += delta;
@@ -664,7 +664,7 @@ namespace creaturevisualizer
 
 		void click_bu_camera_yneg(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 			{
 				Vector3 delta = grader(CreatureVisualizerP.off_yneg);
 				_panel.CameraPosition += delta;
@@ -675,7 +675,7 @@ namespace creaturevisualizer
 
 		void click_bu_camera_xpos(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 			{
 				Vector3 delta = grader(CreatureVisualizerP.off_xpos);
 				_panel.CameraPosition += delta;
@@ -686,7 +686,7 @@ namespace creaturevisualizer
 
 		void click_bu_camera_xneg(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 			{
 				Vector3 delta = grader(CreatureVisualizerP.off_xneg);
 				_panel.CameraPosition += delta;
@@ -698,7 +698,7 @@ namespace creaturevisualizer
 
 		internal void click_bu_camera_distpos(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 			{
 				((ModelViewerInputCameraReceiverState)_panel.Receiver.CameraState).Distance += grader(0.1F);
 				_panel.UpdateCamera();
@@ -708,7 +708,7 @@ namespace creaturevisualizer
 
 		internal void click_bu_camera_distneg(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 			{
 				((ModelViewerInputCameraReceiverState)_panel.Receiver.CameraState).Distance -= grader(0.1F);
 				_panel.UpdateCamera();
@@ -719,7 +719,7 @@ namespace creaturevisualizer
 
 		void click_bu_camera_pitchpos(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 			{
 				_panel.RaiseCameraPolar();
 				PrintCameraPosition();
@@ -728,7 +728,7 @@ namespace creaturevisualizer
 
 		void click_bu_camera_pitchneg(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 			{
 				_panel.LowerCameraPolar();
 				PrintCameraPosition();
@@ -737,7 +737,7 @@ namespace creaturevisualizer
 
 		void click_bu_camera_yawpos(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 			{
 				_panel.Receiver.CameraAngleXY += grader((float)Math.PI / 64F); // FocusTheta
 
@@ -748,7 +748,7 @@ namespace creaturevisualizer
 
 		void click_bu_camera_yawneg(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 			{
 				_panel.Receiver.CameraAngleXY -= grader((float)Math.PI / 64F); // FocusTheta
 				_panel.CameraPosition += CreatureVisualizerP.POS_OFF_Zd + Offset;
@@ -759,7 +759,7 @@ namespace creaturevisualizer
 
 		void click_bu_camera_zreset(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 			{
 				Offset.Z = 0F;
 				_panel.CameraPosition = new Vector3(_panel.CameraPosition.X,
@@ -771,7 +771,7 @@ namespace creaturevisualizer
 
 		void click_bu_camera_xyreset(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 			{
 				Offset.X = Offset.Y = 0F;
 				_panel.CameraPosition = new Vector3(CreatureVisualizerP.POS_START_CAMERA.X,
@@ -783,7 +783,7 @@ namespace creaturevisualizer
 
 		void click_bu_camera_resetdist(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 			{
 				((ModelViewerInputCameraReceiverState)_panel.Receiver.CameraState).Distance = CreatureVisualizerP.DIST_START;
 				_panel.UpdateCamera();
@@ -793,7 +793,7 @@ namespace creaturevisualizer
 
 		void click_bu_camera_resetpolar(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 			{
 				_panel.Receiver.CameraAngleXY = (float)Math.PI /  2F;
 				_panel.Receiver.CameraAngleYZ = (float)Math.PI / 32F;
@@ -803,11 +803,11 @@ namespace creaturevisualizer
 		}
 
 
-		void click_bu_camera_focusobject(object sender, EventArgs e)
+		void click_bu_camera_focus(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 			{
-				((ModelViewerInputCameraReceiverState)_panel.Receiver.CameraState).FocusPoint = _panel.Object.Position;
+				((ModelViewerInputCameraReceiverState)_panel.Receiver.CameraState).FocusPoint = _panel.Model.Position;
 				Offset.X = Offset.Y = Offset.Z = 0F;
 				_panel.UpdateCamera();
 				PrintCameraPosition();
@@ -892,57 +892,57 @@ namespace creaturevisualizer
 		#region Handlers (model)
 		void click_bu_model_zpos(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 				_panel.MoveModel(grader(CreatureVisualizerP.off_zpos));
 		}
 
 		void click_bu_model_zneg(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 				_panel.MoveModel(grader(CreatureVisualizerP.off_zneg));
 		}
 
 		void click_bu_model_ypos(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 				_panel.MoveModel(grader(CreatureVisualizerP.off_ypos));
 		}
 
 		void click_bu_model_yneg(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 				_panel.MoveModel(grader(CreatureVisualizerP.off_yneg));
 		}
 
 		void click_bu_model_xpos(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 				_panel.MoveModel(grader(CreatureVisualizerP.off_xpos));
 		}
 
 		void click_bu_model_xneg(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 				_panel.MoveModel(grader(CreatureVisualizerP.off_xneg));
 		}
 
 
 		void click_bu_model_rotpos(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 				_panel.RotateModel(grader(CreatureVisualizerP.rotpos));
 		}
 
 		void click_bu_model_rotneg(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 				_panel.RotateModel(grader(CreatureVisualizerP.rotneg));
 		}
 
 
 		void click_bu_model_scale(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 			{
 				Vector3 unit;
 
@@ -960,7 +960,7 @@ namespace creaturevisualizer
 
 		void click_bu_model_scaleall(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 			{
 				int dir;
 
@@ -975,31 +975,31 @@ namespace creaturevisualizer
 
 		void click_bu_model_reset(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 				_panel.ResetModel();
 		}
 
 		void click_bu_model_zreset(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 				_panel.ResetModel(ResetType.RESET_z);
 		}
 
 		void click_bu_model_xyreset(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 				_panel.ResetModel(ResetType.RESET_xy);
 		}
 
 		void click_bu_model_rotreset(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 				_panel.ResetModel(ResetType.RESET_rot);
 		}
 
 		void click_bu_model_scalereset(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 				_panel.ResetModel(ResetType.RESET_scale);
 		}
 		#endregion Handlers (model)
@@ -1008,44 +1008,44 @@ namespace creaturevisualizer
 		#region Handlers (light)
 		void click_bu_light_zpos(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 				_panel.MoveLight(_panel.Light.Position + grader(CreatureVisualizerP.off_zpos));
 		}
 
 		void click_bu_light_zneg(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 				_panel.MoveLight(_panel.Light.Position + grader(CreatureVisualizerP.off_zneg));
 		}
 
 		void click_bu_light_ypos(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 				_panel.MoveLight(_panel.Light.Position + grader(CreatureVisualizerP.off_ypos));
 		}
 
 		void click_bu_light_yneg(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 				_panel.MoveLight(_panel.Light.Position + grader(CreatureVisualizerP.off_yneg));
 		}
 
 		void click_bu_light_xpos(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 				_panel.MoveLight(_panel.Light.Position + grader(CreatureVisualizerP.off_xpos));
 		}
 
 		void click_bu_light_xneg(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 				_panel.MoveLight(_panel.Light.Position + grader(CreatureVisualizerP.off_xneg));
 		}
 
 
 		void click_bu_light_zreset(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 			{
 				var pos = new Vector3(_panel.Light.Position.X,
 									  _panel.Light.Position.Y,
@@ -1056,7 +1056,7 @@ namespace creaturevisualizer
 
 		void click_bu_light_xyreset(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 			{
 				var pos = new Vector3(CreatureVisualizerP.POS_START_LIGHT.X,
 									  CreatureVisualizerP.POS_START_LIGHT.Y,
@@ -1067,14 +1067,14 @@ namespace creaturevisualizer
 
 		void click_bu_light_reset(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 				_panel.MoveLight(CreatureVisualizerP.POS_START_LIGHT);
 		}
 
 
 		void textchanged_tb_light_intensity(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 			{
 				float result;
 				if (Single.TryParse(tb_light_intensity.Text, out result)
@@ -1093,7 +1093,7 @@ namespace creaturevisualizer
 
 		void keydown_tb_light_intensity(object sender, KeyEventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 			{
 				switch (e.KeyCode)
 				{
@@ -1134,7 +1134,7 @@ namespace creaturevisualizer
 
 		void click_pa_light_diffuse(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 			{
 				BypassCreate = true;
 
@@ -1187,7 +1187,7 @@ namespace creaturevisualizer
 
 		void click_pa_light_specular(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 			{
 				BypassCreate = true;
 
@@ -1241,7 +1241,7 @@ namespace creaturevisualizer
 
 		void click_pa_light_ambient(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 			{
 				BypassCreate = true;
 
@@ -1295,7 +1295,7 @@ namespace creaturevisualizer
 
 		void click_cb_light_diffuse(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 			{
 				if (CreatureVisualizerP.ColorCheckedDiffuse = cb_light_diffuse.Checked)
 					_panel.Light.Color.DiffuseColor = (Color)CreatureVisualizerP.ColorDiffuse;
@@ -1306,7 +1306,7 @@ namespace creaturevisualizer
 
 		void click_cb_light_specular(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 			{
 				if (CreatureVisualizerP.ColorCheckedSpecular = cb_light_specular.Checked)
 					_panel.Light.Color.SpecularColor = (Color)CreatureVisualizerP.ColorSpecular;
@@ -1317,7 +1317,7 @@ namespace creaturevisualizer
 
 		void click_cb_light_ambient(object sender, EventArgs e)
 		{
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 			{
 				if (CreatureVisualizerP.ColorCheckedAmbient = cb_light_ambient.Checked)
 					_panel.Light.Color.AmbientColor = (Color)CreatureVisualizerP.ColorAmbient;
@@ -1329,7 +1329,7 @@ namespace creaturevisualizer
 
 		void mouseup_cb_light_diffuse(object sender, MouseEventArgs e)
 		{
-			if (_panel.Object != null && e.Button == MouseButtons.Right)
+			if (_panel.Model != null && e.Button == MouseButtons.Right)
 			{
 				CreatureVisualizerP.ColorDiffuse = null;
 
@@ -1346,7 +1346,7 @@ namespace creaturevisualizer
 
 		void mouseup_cb_light_specular(object sender, MouseEventArgs e)
 		{
-			if (_panel.Object != null && e.Button == MouseButtons.Right)
+			if (_panel.Model != null && e.Button == MouseButtons.Right)
 			{
 				CreatureVisualizerP.ColorSpecular = null;
 
@@ -1363,7 +1363,7 @@ namespace creaturevisualizer
 
 		void mouseup_cb_light_ambient(object sender, MouseEventArgs e)
 		{
-			if (_panel.Object != null && e.Button == MouseButtons.Right)
+			if (_panel.Model != null && e.Button == MouseButtons.Right)
 			{
 				CreatureVisualizerP.ColorAmbient = null;
 
@@ -1385,7 +1385,7 @@ namespace creaturevisualizer
 		{
 			CreatureVisualizerPreferences.that.char_Female = cb_char_female.Checked;
 
-			if (_panel.Object != null)
+			if (_panel.Model != null)
 				_panel.CreateInstance();
 		}
 		#endregion Handlers (character)
@@ -1521,9 +1521,9 @@ namespace creaturevisualizer
 
 		internal void PrintModelScale()
 		{
-			la_model_xscale.Text = _panel.Object.Scale.X.ToString("N2");
-			la_model_yscale.Text = _panel.Object.Scale.Y.ToString("N2");
-			la_model_zscale.Text = _panel.Object.Scale.Z.ToString("N2");
+			la_model_xscale.Text = _panel.Model.Scale.X.ToString("N2");
+			la_model_yscale.Text = _panel.Model.Scale.Y.ToString("N2");
+			la_model_zscale.Text = _panel.Model.Scale.Z.ToString("N2");
 		}
 
 		internal void PrintOriginalScale(string scale)

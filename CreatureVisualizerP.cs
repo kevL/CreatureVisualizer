@@ -74,14 +74,14 @@ namespace creaturevisualizer
 		bool _changed;
 		bool _isplaced;
 
-		Vector3      _pos_Instance;
-		RHQuaternion _rot_Instance;
-		Vector3      _sca_Instance;
+		Vector3      _pos; // position of the Model
+		RHQuaternion _rot; // rotation of the Model
+		Vector3      _sca; // scale    of the Model
 		#endregion Fields
 
 
 		#region Properties
-		internal NetDisplayObject Object
+		internal NetDisplayObject Model
 		{ get; private set; }
 
 		internal NetDisplayLightPoint Light
@@ -364,19 +364,19 @@ namespace creaturevisualizer
 			if (_instance != null && StartScene())
 			{
 				bool first;
-				if (Object != null) // is NOT 'first' display - cache the previous model's telemetry since it's about to go byebye.
+				if (Model != null) // is NOT 'first' display - cache the previous model's telemetry since it's about to go byebye.
 				{
 					first = false;
 
-					_pos_Instance = Object.Position;
+					_pos = Model.Position;
 
 					// NOTE: RotateObject() won't change the object's Orientation value;
 					// Orientation needs to be updated explicitly if rotation is changed.
-					_rot_Instance = Object.Orientation;
+					_rot = Model.Orientation;
 
 					// NOTE: SetObjectScale() won't change the object's Scale value;
 					// Scale needs to be updated explicitly if x/y/z-scale is changed.
-					_sca_Instance = Object.Scale;
+					_sca = Model.Scale;
 				}
 				else
 					first = true;
@@ -385,24 +385,24 @@ namespace creaturevisualizer
 				_instance.BeginAppearanceUpdate();
 
 				// create display object ->
-				Object = NWN2NetDisplayManager.Instance.CreateNDOForInstance(_instance, Scene, 0); // 0=NetDisplayModel
+				Model = NWN2NetDisplayManager.Instance.CreateNDOForInstance(_instance, Scene, 0); // 0=NetDisplayModel
 
-				Object.PositionChanged += positionchanged_Object;
+				Model.PositionChanged += positionchanged_Object;
 
-				_f.PrintOriginalScale(Object.Scale.X.ToString("N2"));
+				_f.PrintOriginalScale(Model.Scale.X.ToString("N2"));
 
-				ScaInitial = Object.Scale;	// NOTE: Scale comes from the creature blueprint/instance/template/whatver.
+				ScaInitial = Model.Scale;	// NOTE: Scale comes from the creature blueprint/instance/template/whatver.
 											// That is, there's no default parameter for scale in this Scene like
 											// there is for position and rotation.
 
 				// set object position ->
-				var objects = new NetDisplayObjectCollection() { Object }; // can't move a single object - only a collection (of 1).
-				NWN2NetDisplayManager.Instance.MoveObjects(objects, ChangeType.Absolute, false, _pos_Instance);
+				var objects = new NetDisplayObjectCollection() { Model }; // can't move a single object - only a collection (of 1).
+				NWN2NetDisplayManager.Instance.MoveObjects(objects, ChangeType.Absolute, false, _pos);
 
 				Vector3 scale; // don't ask. It works unlike 'Object.Scale'.
 				if (first)
 				{
-					Object.Orientation = RHQuaternion.RotationZ(ROT_START_OBJECT);
+					Model.Orientation = RHQuaternion.RotationZ(ROT_START_OBJECT);
 					scale = ScaInitial;
 
 					var state = Receiver.CameraState as ModelViewerInputCameraReceiverState;
@@ -431,25 +431,25 @@ namespace creaturevisualizer
 				}
 				else if (_changed)
 				{
-					Object.Orientation = _rot_Instance;
+					Model.Orientation = _rot;
 					scale = ScaInitial;
 				}
 				else
 				{
-					Object.Orientation = _rot_Instance;
-					scale = _sca_Instance;
+					Model.Orientation = _rot;
+					scale = _sca;
 				}
 				// else I'm gonna go bananas.
 
 				// set object rotation ->
-				NWN2NetDisplayManager.Instance.RotateObject(Object, ChangeType.Absolute, Object.Orientation);
-				_f.PrintModelPosition(Object);
+				NWN2NetDisplayManager.Instance.RotateObject(Model, ChangeType.Absolute, Model.Orientation);
+				_f.PrintModelPosition(Model);
 
 				_instance.EndAppearanceUpdate();
 
 				// set object scale ->
-				Object.Scale = scale; // NOTE: after EndAppearanceUpdate().
-				NWN2NetDisplayManager.Instance.SetObjectScale(Object, Object.Scale); // TODO: does this work
+				Model.Scale = scale; // NOTE: after EndAppearanceUpdate().
+				NWN2NetDisplayManager.Instance.SetObjectScale(Model, Model.Scale); // TODO: does this work
 				ResetModel(ResetType.RESET_scale); // this is needed to reset placed instance scale
 				_f.PrintModelScale();
 			}
@@ -521,7 +521,6 @@ namespace creaturevisualizer
 //					var a = new NetDisplayWindow[NWN2NetDisplayManager.Instance.Windows.Count];
 //					for (int i = 0; i != NWN2NetDisplayManager.Instance.Windows.Count; ++i)
 //						a[i] = NWN2NetDisplayManager.Instance.Windows[i];
-//
 //					SetDoubleBuffered(a);
 
 					return true;
@@ -624,10 +623,10 @@ namespace creaturevisualizer
 		float _zObject;
 		void positionchanged_Object(object sender, EventArgs e)
 		{
-			if (!Object.Position.Z.Equals(_zObject))
+			if (!Model.Position.Z.Equals(_zObject))
 			{
-				_zObject = Object.Position.Z;
-				_f.PrintModelPosition(Object);
+				_zObject = Model.Position.Z;
+				_f.PrintModelPosition(Model);
 			}
 		}
 		#endregion Handlers
@@ -649,23 +648,23 @@ namespace creaturevisualizer
 
 		internal void MoveModel(Vector3 vec)
 		{
-			var objects = new NetDisplayObjectCollection() { Object }; // TODO: cache that
+			var objects = new NetDisplayObjectCollection() { Model }; // TODO: cache that
 			NWN2NetDisplayManager.Instance.MoveObjects(objects, ChangeType.Relative, false, vec);
-			_f.PrintModelPosition(Object);
+			_f.PrintModelPosition(Model);
 		}
 
 		internal void RotateModel(float f)
 		{
 			RHQuaternion rotate = RHQuaternion.RotationZ(f);
-			NWN2NetDisplayManager.Instance.RotateObject(Object, ChangeType.Relative, rotate);
+			NWN2NetDisplayManager.Instance.RotateObject(Model, ChangeType.Relative, rotate);
 
-			Object.Orientation = RHQuaternion.Multiply(Object.Orientation, rotate);
-			_f.PrintModelPosition(Object);
+			Model.Orientation = RHQuaternion.Multiply(Model.Orientation, rotate);
+			_f.PrintModelPosition(Model);
 		}
 
 		internal void ScaleModel(Vector3 vec)
 		{
-			NWN2NetDisplayManager.Instance.SetObjectScale(Object, (Object.Scale += vec));
+			NWN2NetDisplayManager.Instance.SetObjectScale(Model, (Model.Scale += vec));
 			_f.PrintModelScale();
 		}
 
@@ -674,25 +673,25 @@ namespace creaturevisualizer
 			var vec = _f.grader(new Vector3(0.1F, 0.1F, 0.1F));
 			switch (dir)
 			{
-				case +1: Object.Scale += vec; break;
-				case -1: Object.Scale -= vec; break;
+				case +1: Model.Scale += vec; break;
+				case -1: Model.Scale -= vec; break;
 			}
 
-			NWN2NetDisplayManager.Instance.SetObjectScale(Object, Object.Scale);
+			NWN2NetDisplayManager.Instance.SetObjectScale(Model, Model.Scale);
 			_f.PrintModelScale();
 		}
 
 		internal void ResetModel()
 		{
-			var objects = new NetDisplayObjectCollection() { Object }; // TODO: cache that
+			var objects = new NetDisplayObjectCollection() { Model }; // TODO: cache that
 			NWN2NetDisplayManager.Instance.MoveObjects(objects, ChangeType.Absolute, false, new Vector3());
 
-			Object.Orientation = RHQuaternion.RotationZ(ROT_START_OBJECT);
-			NWN2NetDisplayManager.Instance.RotateObject(Object, ChangeType.Absolute, Object.Orientation);
-			_f.PrintModelPosition(Object);
+			Model.Orientation = RHQuaternion.RotationZ(ROT_START_OBJECT);
+			NWN2NetDisplayManager.Instance.RotateObject(Model, ChangeType.Absolute, Model.Orientation);
+			_f.PrintModelPosition(Model);
 
-			Object.Scale = ScaInitial;
-			NWN2NetDisplayManager.Instance.SetObjectScale(Object, Object.Scale);
+			Model.Scale = ScaInitial;
+			NWN2NetDisplayManager.Instance.SetObjectScale(Model, Model.Scale);
 			_f.PrintModelScale();
 		}
 
@@ -703,13 +702,13 @@ namespace creaturevisualizer
 				case ResetType.RESET_z:
 				{
 					var pos = new Vector3();
-					pos.X = Object.Position.X;
-					pos.Y = Object.Position.Y;
+					pos.X = Model.Position.X;
+					pos.Y = Model.Position.Y;
 					pos.Z = 0;
 
-					var objects = new NetDisplayObjectCollection() { Object }; // TODO: cache that
+					var objects = new NetDisplayObjectCollection() { Model }; // TODO: cache that
 					NWN2NetDisplayManager.Instance.MoveObjects(objects, ChangeType.Absolute, false, pos);
-					_f.PrintModelPosition(Object);
+					_f.PrintModelPosition(Model);
 					break;
 				}
 
@@ -718,23 +717,23 @@ namespace creaturevisualizer
 					var pos = new Vector3();
 					pos.X = 0;
 					pos.Y = 0;
-					pos.Z = Object.Position.Z;
+					pos.Z = Model.Position.Z;
 
-					var objects = new NetDisplayObjectCollection() { Object }; // TODO: cache that
+					var objects = new NetDisplayObjectCollection() { Model }; // TODO: cache that
 					NWN2NetDisplayManager.Instance.MoveObjects(objects, ChangeType.Absolute, false, pos);
-					_f.PrintModelPosition(Object);
+					_f.PrintModelPosition(Model);
 					break;
 				}
 
 				case ResetType.RESET_rot:
-					Object.Orientation = RHQuaternion.RotationZ(ROT_START_OBJECT);
-					NWN2NetDisplayManager.Instance.RotateObject(Object, ChangeType.Absolute, Object.Orientation);
-					_f.PrintModelPosition(Object);
+					Model.Orientation = RHQuaternion.RotationZ(ROT_START_OBJECT);
+					NWN2NetDisplayManager.Instance.RotateObject(Model, ChangeType.Absolute, Model.Orientation);
+					_f.PrintModelPosition(Model);
 					break;
 
 				case ResetType.RESET_scale:
-					Object.Scale = ScaInitial;
-					NWN2NetDisplayManager.Instance.SetObjectScale(Object, Object.Scale);
+					Model.Scale = ScaInitial;
+					NWN2NetDisplayManager.Instance.SetObjectScale(Model, Model.Scale);
 					_f.PrintModelScale();
 					break;
 			}
@@ -799,7 +798,7 @@ namespace creaturevisualizer
 		void mousedown(object sender, MouseEventArgs e)
 		{
 			_btn = e.Button;
-			_pos0 = _pos = PointToClient(Cursor.Position);
+			_p0 = _p = PointToClient(Cursor.Position);
 			_t2.Start();
 		}
 
@@ -826,7 +825,7 @@ namespace creaturevisualizer
 		MouseButtons _btn;
 
 		Timer _t2 = new Timer();
-		Point _pos, _pos0;
+		Point _p, _p0;
 
 		/// <summary>
 		/// Tracks mousecursor location for either LMB or RMB drag motions.
@@ -857,7 +856,7 @@ namespace creaturevisualizer
 						break;
 				}
 
-				if (_pos != _pos0)
+				if (_p != _p0)
 				{
 					switch (_btn)
 					{
@@ -866,8 +865,8 @@ namespace creaturevisualizer
 							{
 								case Keys.Control: // full-polar movement around model/focuspt ->
 								{
-									int deltahori = _pos.X - _pos0.X;
-									int deltavert = _pos.Y - _pos0.Y;
+									int deltahori = _p.X - _p0.X;
+									int deltavert = _p.Y - _p0.Y;
 
 									float hori = (float)deltahori * 0.01f;
 									float vert = (float)deltavert * 0.01f;
@@ -894,17 +893,17 @@ namespace creaturevisualizer
 								{
 									// cf. LMB+Ctrl
 									// vertical shift ->
-									float z = (float)(_pos.Y - _pos0.Y) * 0.01F;
+									float z = (float)(_p.Y - _p0.Y) * 0.01F;
 
 									// horizontal shifts ->
 									float rot = _f.getrot();
 									rot *= (float)Math.PI / 180F; // to rads
 
 									float cos = (float)(Math.Cos((double)rot));
-									float x = (float)(_pos0.X - _pos.X) * 0.01F * cos;
+									float x = (float)(_p0.X - _p.X) * 0.01F * cos;
 
 									float sin = -(float)(Math.Sin((double)rot));
-									float y = (float)(_pos0.X - _pos.X) * 0.01F * sin;
+									float y = (float)(_p0.X - _p.X) * 0.01F * sin;
 
 									var shift = new Vector3(x,y,z);
 									CameraPosition += shift;
@@ -921,7 +920,7 @@ namespace creaturevisualizer
 							{
 								case Keys.Alt: // z-axis +/-
 								{
-									float z = (float)(_pos.Y - _pos0.Y) * 0.01F;
+									float z = (float)(_p.Y - _p0.Y) * 0.01F;
 
 									var shift = new Vector3(0F, 0F, z);
 									CameraPosition += shift;
@@ -937,10 +936,10 @@ namespace creaturevisualizer
 									rot *= (float)Math.PI / 180F; // to rads
 
 									float cos = (float)(Math.Cos((double)rot));
-									float x = (float)(_pos0.X - _pos.X) * 0.01F * cos;
+									float x = (float)(_p0.X - _p.X) * 0.01F * cos;
 
 									float sin = -(float)(Math.Sin((double)rot));
-									float y = (float)(_pos0.X - _pos.X) * 0.01F * sin;
+									float y = (float)(_p0.X - _p.X) * 0.01F * sin;
 
 									var shift = new Vector3(x,y, 0F);
 									CameraPosition += shift;
@@ -955,8 +954,8 @@ namespace creaturevisualizer
 				}
 			}
 
-			_pos0 = _pos;
-			_pos = PointToClient(Cursor.Position);
+			_p0 = _p;
+			_p = PointToClient(Cursor.Position);
 		}
 
 
