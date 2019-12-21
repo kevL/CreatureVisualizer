@@ -1153,6 +1153,8 @@ namespace creaturevisualizer
 					alpha = _sano.ColorPanel.Alpha         = _panel.Light.Color.DiffuseColor.A;
 				}
 
+				_sano.ColorPanel.InitInactiveColorbox(color, alpha);
+
 
 				if (_sano.ShowDialog(this) == DialogResult.OK)
 				{
@@ -1205,6 +1207,8 @@ namespace creaturevisualizer
 					color = _sano.ColorPanel.SelectedColor = _panel.Light.Color.SpecularColor;
 					alpha = _sano.ColorPanel.Alpha         = _panel.Light.Color.SpecularColor.A;
 				}
+
+				_sano.ColorPanel.InitInactiveColorbox(color, alpha);
 
 
 				if (_sano.ShowDialog(this) == DialogResult.OK)
@@ -1259,6 +1263,8 @@ namespace creaturevisualizer
 					color = _sano.ColorPanel.SelectedColor = _panel.Light.Color.AmbientColor;
 					alpha = _sano.ColorPanel.Alpha         = _panel.Light.Color.AmbientColor.A;
 				}
+
+				_sano.ColorPanel.InitInactiveColorbox(color, alpha);
 
 
 				if (_sano.ShowDialog(this) == DialogResult.OK)

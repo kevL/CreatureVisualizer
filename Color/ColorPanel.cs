@@ -25,18 +25,6 @@ namespace creaturevisualizer
 
 
 		#region Properties
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		[Browsable(false)]
-		public Color SelectedColor
-		{
-			get { return Color.FromArgb(Alpha, GetActiveColorbox().BackColor); }
-			set
-			{
-				SelectColor(value, true);
-				Alpha = value.A;
-			}
-		}
-
 /*		ColorPanelSettings _settings;
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		[Browsable(false)]
@@ -107,6 +95,22 @@ namespace creaturevisualizer
 				}
 			}
 		} */
+
+		// Good god, those bastards go about things in a cockamamie way ...
+		// TODO: Consolidate firing the ColorValueChanged event in a central
+		// function like SelectColor() or similar.
+
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable(false)]
+		public Color SelectedColor
+		{
+			get { return Color.FromArgb(Alpha, GetActiveColorbox().BackColor); }
+			set
+			{
+				SelectColor(value, true);
+				Alpha = value.A;
+			}
+		}
 
 		byte _alpha = Byte.MaxValue;
 
@@ -202,6 +206,9 @@ namespace creaturevisualizer
 				colorslider.Value = CalculateSliderPosition(_csCurrent.Selected);
 
 				Satisfy(true, true, true);
+
+				if (ColorValueChanged != null)
+					ColorValueChanged(this, EventArgs.Empty);
 			}
 		}
 
@@ -380,10 +387,10 @@ namespace creaturevisualizer
 				if (resetslider) SetSliderValue();
 
 				Satisfy(false, true, true);
-			}
 
-			if (ColorValueChanged != null)
-				ColorValueChanged(this, EventArgs.Empty);
+				if (ColorValueChanged != null)
+					ColorValueChanged(this, EventArgs.Empty);
+			}
 		}
 
 		void SetSliderValue()
@@ -486,9 +493,9 @@ namespace creaturevisualizer
 			return colorbox0;
 		}
 
-		internal void InitInactiveColorbox(Color color)
+		internal void InitInactiveColorbox(Color color, byte alpha)
 		{
-			colorbox0.BackColor = color;
+			colorbox0.BackColor = Color.FromArgb(alpha, color);
 		}
 		#endregion Methods
 
