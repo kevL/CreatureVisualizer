@@ -18,7 +18,7 @@ namespace creaturevisualizer
 		#region Fields
 		ColorSpace _csCurrent;
 
-		Bitmap _hueSlider = new Bitmap(18, 256);
+		Bitmap _hueSlider = new Bitmap(ColorSlider.width, ColorSlider.height);
 
 //		bool m_isLeftMouseButtonDown;
 		#endregion Fields
@@ -32,7 +32,7 @@ namespace creaturevisualizer
 			get { return Color.FromArgb(Alpha, GetActiveColorbox().BackColor); }
 			set
 			{
-				ColorSelected(value, true);
+				SelectColor(value, true);
 				Alpha = value.A;
 			}
 		}
@@ -108,16 +108,16 @@ namespace creaturevisualizer
 			}
 		} */
 
-		byte _ucAlpha = Byte.MaxValue;
+		byte _alpha = Byte.MaxValue;
 
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		[Browsable(false)]
 		public byte Alpha
 		{
-			get { return _ucAlpha; }
+			get { return _alpha; }
 			set
 			{
-				tb_Alpha.Text = (_ucAlpha = value).ToString();
+				tb_Alpha.Text = (_alpha = value).ToString();
 
 				if (ColorValueChanged != null)
 					ColorValueChanged(this, EventArgs.Empty);
@@ -131,15 +131,13 @@ namespace creaturevisualizer
 		{
 			InitializeComponent();
 
-			colorfield.ColorSelected += colorFieldPanel_ColorSelected;
-			swatches.ColorSwatchSelected += colorSwatchPanel_ColorSwatchSelected;
+			colorfield.ColorSelected += colorselected_field;
+			swatches.ColorSwatchSelected += colorswatchselected_swatches;
 
 			GradientService.InstantiateConstantObjects();
 
 			using (Graphics graphics = Graphics.FromImage(_hueSlider))
-			{
 				GradientService.DrawSlider(graphics, new Rectangle(new Point(0,0), _hueSlider.Size));
-			}
 
 			colorbox1.IsActive = true;
 
@@ -153,16 +151,13 @@ namespace creaturevisualizer
 		{
 			base.OnPaint(e);
 
-			using (Graphics graphics = e.Graphics)
-			{
-				graphics.DrawRectangle(Pens.Black,
-									   colorfield.Left  - 1, colorfield.Top    - 1,
-									   colorfield.Width + 1, colorfield.Height + 1);
+			e.Graphics.DrawRectangle(Pens.Black,
+									 colorfield.Left  - 1, colorfield.Top    - 1,
+									 colorfield.Width + 1, colorfield.Height + 1);
 
-				graphics.DrawRectangle(Pens.Black,
-									   colorbox1.Left  - 1, colorbox1.Top                       - 1,
-									   colorbox1.Width + 1, colorbox1.Height + colorbox0.Height + 1);
-			}
+			e.Graphics.DrawRectangle(Pens.Black,
+									 colorbox1.Left  - 1, colorbox1.Top                       - 1,
+									 colorbox1.Width + 1, colorbox1.Height + colorbox0.Height + 1);
 		}
 
 
@@ -197,7 +192,7 @@ namespace creaturevisualizer
 
 
 		#region Handlers
-		void ColorBox_MouseDown(object sender, MouseEventArgs e)
+		void mousedown_colorbox(object sender, MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Right && SetActiveColorbox(sender as ColorBox))
 			{
@@ -206,11 +201,11 @@ namespace creaturevisualizer
 
 				colorslider.Value = CalculateSliderPosition(_csCurrent.Selected);
 
-				UpdateColorPanels(true, true, true);
+				Satisfy(true, true, true);
 			}
 		}
 
-		void colorSlider_ValueChanged(object sender, ValueChangedEventArgs e)
+		void valuechanged_slider(object sender, ValueChangedEventArgs e)
 		{
 			int val = e.Value;
 
@@ -239,7 +234,7 @@ namespace creaturevisualizer
 				rgbColorSpace.Structure = ColorConverter.HsbToRgb((HSB)hsbColorSpace.Structure);
 			}
 
-			UpdateColorPanels(false, false, true);
+			Satisfy(false, false, true);
 
 			GetActiveColorbox().BackColor = ColorConverter.RgbToColor((RGB)rgbColorSpace.Structure);
 
@@ -247,7 +242,7 @@ namespace creaturevisualizer
 				ColorValueChanged(this, EventArgs.Empty);
 		}
 
-		void ColorBox_DragDrop(object sender, DragEventArgs e)
+		void dragdrop_colorbox(object sender, DragEventArgs e)
 		{
 			if (((ColorBox)sender).IsActive)
 			{
@@ -262,28 +257,28 @@ namespace creaturevisualizer
 
 						colorslider.Value = CalculateSliderPosition(_csCurrent.Selected);
 
-						UpdateColorPanels(true, true, true);
+						Satisfy(true, true, true);
 					}
 				}
 			}
 		}
 
-		void textBoxAlpha_TextChanged(object sender, EventArgs e)
+		void textchanged_alpha(object sender, EventArgs e)
 		{
-			try
+			try // TODO.
 			{
-				_ucAlpha = Byte.Parse(tb_Alpha.Text);
+				Alpha = Byte.Parse(tb_Alpha.Text);
 
 				if (ColorValueChanged != null)
 					ColorValueChanged(this, EventArgs.Empty);
 			}
 			catch (Exception)
 			{
-				_ucAlpha = Byte.MaxValue;
+				Alpha = Byte.MaxValue;
 			}
 		}
 
-		void SelectedColorSpaceComponentChanged(ColorSpace sender, EventArgs e)
+		void selectedcomponentchanged_colorspace(ColorSpace sender, EventArgs e)
 		{
 			if (sender is RgbColorSpace)
 			{
@@ -297,10 +292,10 @@ namespace creaturevisualizer
 			_csCurrent = sender;
 
 			SetSliderValue();
-			UpdateColorPanels(true, true, true);
+			Satisfy(true, true, true);
 		}
 
-		void ColorSpaceComponentValueChanged(ColorSpace sender, EventArgs e)
+		void componentvaluechanged_colorspace(ColorSpace sender, EventArgs e)
 		{
 			if (sender is RgbColorSpace)
 			{
@@ -312,7 +307,7 @@ namespace creaturevisualizer
 			}
 
 			SetSliderValue();
-			UpdateColorPanels(true, true, true);
+			Satisfy(true, true, true);
 
 			GetActiveColorbox().BackColor = ColorConverter.RgbToColor((RGB)rgbColorSpace.Structure);
 
@@ -320,12 +315,12 @@ namespace creaturevisualizer
 				ColorValueChanged(this, EventArgs.Empty);
 		}
 
-		void colorSwatchPanel_ColorSwatchSelected(object sender, ColorSelectedEventArgs e)
+		void colorswatchselected_swatches(object sender, ColorSelectedEventArgs e)
 		{
-			ColorSelected(e.Color, true);
+			SelectColor(e.Color, true);
 		}
 
-		void colorFieldPanel_ColorSelected(object sender, ColorSelectedEventArgs e)
+		void colorselected_field(object sender, ColorSelectedEventArgs e)
 		{
 			RGB rgb = ColorConverter.ColorToRgb(e.Color);
 			rgbColorSpace.Structure = rgb;
@@ -361,20 +356,20 @@ namespace creaturevisualizer
 		}
 
 
-		void hexTextBox_KeyUp(object sender, KeyEventArgs e)
+		void keydown_hex(object sender, KeyEventArgs e)
 		{
-			UpdateColorSpacesWithNewHexValue();
+			ApplyHexValue();
 		}
 
-		void hexTextBox_KeyDown(object sender, KeyEventArgs e)
+		void keyup_hex(object sender, KeyEventArgs e)
 		{
-			UpdateColorSpacesWithNewHexValue();
+			ApplyHexValue();
 		}
 		#endregion Handlers
 
 
 		#region Methods
-		void ColorSelected(Color color, bool resetslider)
+		void SelectColor(Color color, bool resetslider)
 		{
 			if (!ColorConverter.ColorToRgb(color).Equals(rgbColorSpace.Structure))
 			{
@@ -384,7 +379,7 @@ namespace creaturevisualizer
 
 				if (resetslider) SetSliderValue();
 
-				UpdateColorPanels(false, true, true);
+				Satisfy(false, true, true);
 			}
 
 			if (ColorValueChanged != null)
@@ -412,14 +407,8 @@ namespace creaturevisualizer
 			return val;
 		}
 
-		void UpdateColorPanels(bool setSliderColorspace, bool updatePoint, bool setHexText)
+		void Satisfy(bool setSliderColorspace, bool updatePoint, bool setHexText)
 		{
-//			if (activeColorBox == null)
-//			{
-//				activeColorBox = colorbox1;
-//				activeColorBox.IsActive = true;
-//			}
-
 			GetActiveColorbox().BackColor = ColorConverter.RgbToColor((RGB)rgbColorSpace.Structure);
 
 			if (setSliderColorspace)
@@ -443,30 +432,30 @@ namespace creaturevisualizer
 					case 'H':
 					{
 						Color color = _hueSlider.GetPixel(10, 255 - colorslider.Value);
-						colorfield.UpdateColor(color, _csCurrent, updatePoint);
+						colorfield.ChangeColor(color, _csCurrent, updatePoint);
 						break;
 					}
 
 					case 'S':
 					case 'B':
-						colorfield.UpdateColor(val, _csCurrent, updatePoint);
+						colorfield.ChangeColor(val, _csCurrent, updatePoint);
 						break;
 				}
 			}
 			else if (_csCurrent is RgbColorSpace)
 			{
-				colorfield.UpdateColor(val, _csCurrent, updatePoint);
+				colorfield.ChangeColor(val, _csCurrent, updatePoint);
 			}
 		}
 
-		void UpdateColorSpacesWithNewHexValue()
+		void ApplyHexValue()
 		{
 			RGB rgb = ColorConverter.HexToRgb(tb_Hex.Text);
 			rgbColorSpace.Structure = rgb;
 			hsbColorSpace.Structure = ColorConverter.RgbToHsb(rgb);
 
 			SetSliderValue();
-			UpdateColorPanels(true, true, false);
+			Satisfy(true, true, false);
 		}
 
 
@@ -495,6 +484,11 @@ namespace creaturevisualizer
 				return colorbox1;
 
 			return colorbox0;
+		}
+
+		internal void InitInactiveColorbox(Color color)
+		{
+			colorbox0.BackColor = color;
 		}
 		#endregion Methods
 
@@ -549,12 +543,13 @@ namespace creaturevisualizer
 			this.tb_Hex.Size = new System.Drawing.Size(45, 20);
 			this.tb_Hex.TabIndex = 7;
 			this.tb_Hex.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.tb_Hex.KeyDown += new System.Windows.Forms.KeyEventHandler(this.hexTextBox_KeyDown);
-			this.tb_Hex.KeyUp += new System.Windows.Forms.KeyEventHandler(this.hexTextBox_KeyUp);
+			this.tb_Hex.KeyDown += new System.Windows.Forms.KeyEventHandler(this.keydown_hex);
+			this.tb_Hex.KeyUp += new System.Windows.Forms.KeyEventHandler(this.keyup_hex);
 			// 
 			// colorbox1
 			// 
 			this.colorbox1.AllowDrop = true;
+			this.colorbox1.BackColor = System.Drawing.SystemColors.Control;
 			this.colorbox1.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.colorbox1.Location = new System.Drawing.Point(320, 10);
 			this.colorbox1.Margin = new System.Windows.Forms.Padding(0);
@@ -562,13 +557,13 @@ namespace creaturevisualizer
 			this.colorbox1.Size = new System.Drawing.Size(80, 30);
 			this.colorbox1.TabIndex = 2;
 			this.colorbox1.TabStop = false;
-			this.colorbox1.DragDrop += new System.Windows.Forms.DragEventHandler(this.ColorBox_DragDrop);
-			this.colorbox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ColorBox_MouseDown);
+			this.colorbox1.DragDrop += new System.Windows.Forms.DragEventHandler(this.dragdrop_colorbox);
+			this.colorbox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_colorbox);
 			// 
 			// colorbox0
 			// 
 			this.colorbox0.AllowDrop = true;
-			this.colorbox0.BackColor = System.Drawing.Color.Black;
+			this.colorbox0.BackColor = System.Drawing.SystemColors.Control;
 			this.colorbox0.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.colorbox0.Location = new System.Drawing.Point(320, 40);
 			this.colorbox0.Margin = new System.Windows.Forms.Padding(0);
@@ -576,8 +571,8 @@ namespace creaturevisualizer
 			this.colorbox0.Size = new System.Drawing.Size(80, 30);
 			this.colorbox0.TabIndex = 3;
 			this.colorbox0.TabStop = false;
-			this.colorbox0.DragDrop += new System.Windows.Forms.DragEventHandler(this.ColorBox_DragDrop);
-			this.colorbox0.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ColorBox_MouseDown);
+			this.colorbox0.DragDrop += new System.Windows.Forms.DragEventHandler(this.dragdrop_colorbox);
+			this.colorbox0.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_colorbox);
 			// 
 			// colorslider
 			// 
@@ -588,7 +583,7 @@ namespace creaturevisualizer
 			this.colorslider.Size = new System.Drawing.Size(45, 270);
 			this.colorslider.TabIndex = 1;
 			this.colorslider.Value = 0;
-			this.colorslider.ValueChanged += new creaturevisualizer.ValueChangedEventHandler(this.colorSlider_ValueChanged);
+			this.colorslider.ValueChanged += new creaturevisualizer.ValueChangedEventHandler(this.valuechanged_slider);
 			// 
 			// swatches
 			// 
@@ -609,8 +604,8 @@ namespace creaturevisualizer
 			this.rgbColorSpace.Name = "rgbColorSpace";
 			this.rgbColorSpace.Size = new System.Drawing.Size(75, 60);
 			this.rgbColorSpace.TabIndex = 5;
-			this.rgbColorSpace.ComponentValueChanged += new creaturevisualizer.ColorSpaceEventHandler(this.ColorSpaceComponentValueChanged);
-			this.rgbColorSpace.SelectedComponentChanged += new creaturevisualizer.ColorSpaceEventHandler(this.SelectedColorSpaceComponentChanged);
+			this.rgbColorSpace.ComponentValueChanged += new creaturevisualizer.ColorSpaceEventHandler(this.componentvaluechanged_colorspace);
+			this.rgbColorSpace.SelectedComponentChanged += new creaturevisualizer.ColorSpaceEventHandler(this.selectedcomponentchanged_colorspace);
 			// 
 			// hsbColorSpace
 			// 
@@ -620,8 +615,8 @@ namespace creaturevisualizer
 			this.hsbColorSpace.Name = "hsbColorSpace";
 			this.hsbColorSpace.Size = new System.Drawing.Size(75, 60);
 			this.hsbColorSpace.TabIndex = 4;
-			this.hsbColorSpace.ComponentValueChanged += new creaturevisualizer.ColorSpaceEventHandler(this.ColorSpaceComponentValueChanged);
-			this.hsbColorSpace.SelectedComponentChanged += new creaturevisualizer.ColorSpaceEventHandler(this.SelectedColorSpaceComponentChanged);
+			this.hsbColorSpace.ComponentValueChanged += new creaturevisualizer.ColorSpaceEventHandler(this.componentvaluechanged_colorspace);
+			this.hsbColorSpace.SelectedComponentChanged += new creaturevisualizer.ColorSpaceEventHandler(this.selectedcomponentchanged_colorspace);
 			// 
 			// la_Hex
 			// 
@@ -653,7 +648,7 @@ namespace creaturevisualizer
 			this.tb_Alpha.Size = new System.Drawing.Size(45, 20);
 			this.tb_Alpha.TabIndex = 9;
 			this.tb_Alpha.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.tb_Alpha.TextChanged += new System.EventHandler(this.textBoxAlpha_TextChanged);
+			this.tb_Alpha.TextChanged += new System.EventHandler(this.textchanged_alpha);
 			// 
 			// ColorPanel
 			// 

@@ -1,5 +1,4 @@
 ﻿using System;
-//using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -17,8 +16,6 @@ namespace creaturevisualizer
 
 		#region Properties
 		bool _isActive;
-
-//		[Browsable(false)]
 		internal bool IsActive
 		{
 			get { return _isActive; }
@@ -40,22 +37,23 @@ namespace creaturevisualizer
 
 
 		#region Handlers (override)
-//		protected override void OnPaint(PaintEventArgs e)
-//		{
-//			if (IsActive)
-//			{
-//				using (var pen = new Pen(Brushes.Black, 2f))
-//				{
-//					e.Graphics.DrawRectangle(pen,
-//											 1,1,
-//											 Width - 2, Height - 2);
-//				}
-//			}
-//			else
-//				e.Graphics.DrawRectangle(Pens.Black,
-//										 0,0,
-//										 Width - 1, Height - 1);
-//		}
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			if (IsActive)
+			{
+				if (GradientService.IsBright(BackColor))
+				{
+					e.Graphics.DrawString("a", Font, Brushes.Black, 2,2);
+				}
+				else
+				{
+					using (var font = new Font(Font, FontStyle.Bold))
+					{
+						e.Graphics.DrawString("a", font, Brushes.White, 2,2);
+					}
+				}
+			}
+		}
 
 //		protected override void OnLoad(EventArgs e)
 //		{
@@ -136,6 +134,7 @@ namespace creaturevisualizer
 			// ColorBox
 			// 
 			this.AllowDrop = true;
+			this.DoubleBuffered = true;
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Margin = new System.Windows.Forms.Padding(0);
 			this.Name = "ColorBox";

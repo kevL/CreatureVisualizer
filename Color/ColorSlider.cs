@@ -15,6 +15,12 @@ namespace creaturevisualizer
 		#endregion Events
 
 
+		#region Fields (static)
+		internal const int width  =  18;
+		internal const int height = 256;
+		#endregion Fields (static)
+
+
 		#region Fields
 		bool _lb;
 		bool _track;
@@ -25,7 +31,7 @@ namespace creaturevisualizer
 		Rectangle _r;
 
 		readonly Rectangle _rectOuter = new Rectangle(10,4, 26,264);
-		readonly Rectangle _rectInner = new Rectangle(13,7, 18,256);
+		readonly Rectangle _rectInner = new Rectangle(13,7, width, height);
 
 		ColorSpace _colorspace;
 		#endregion Fields
@@ -64,7 +70,7 @@ namespace creaturevisualizer
 			DrawTriL(graphics, _y);
 			DrawTriR(graphics, _y);
 
-			UpdateColorRegion(graphics);
+			DrawGradient(graphics);
 
 			graphics.DrawRectangle(Pens.Black,
 								   _rectInner.X     - 1, _rectInner.Y      - 1,
@@ -82,6 +88,13 @@ namespace creaturevisualizer
 			base.OnMouseDown(e);
 		}
 
+		protected override void OnMouseUp(MouseEventArgs e)
+		{
+			_lb = _track = false;
+
+			base.OnMouseUp(e);
+		}
+
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
 			if (_lb)
@@ -91,13 +104,6 @@ namespace creaturevisualizer
 			}
 
 			base.OnMouseMove(e);
-		}
-
-		protected override void OnMouseUp(MouseEventArgs e)
-		{
-			_lb = _track = false;
-
-			base.OnMouseUp(e);
 		}
 		#endregion Handlers (override)
 
@@ -141,6 +147,8 @@ namespace creaturevisualizer
 
 			Invalidate(_l);
 			Invalidate(_r);
+
+			Update(); // quick refresh. Just say no to sticky tris.
 		}
 
 		Rectangle GetRegionTriL(int y)
@@ -179,26 +187,14 @@ namespace creaturevisualizer
 			graphics.DrawPolygon(Pens.Black, tri);
 		}
 
-		void UpdateColorRegion(Graphics graphics)
+		void DrawGradient(Graphics graphics)
 		{
 			if (_colorspace != null)
 			{
-				RGB rgb;
-				HSB hsb;
+				if ((_colorspace as HsbColorSpace) != null)
+				{
+					var hsb = (_colorspace as HsbColorSpace).Structure as HSB;
 
-				if (_colorspace.space == ColorSpace.ColorSpaceType.Hsb)
-				{
-					hsb = (HSB)((HsbColorSpace)_colorspace).Structure;
-					rgb = ColorConverter.HsbToRgb(hsb);
-				}
-				else //if (_colorspace.space == ColorSpace.ColorSpaceType.Rgb)
-				{
-					rgb = (RGB)((RgbColorSpace)_colorspace).Structure;
-					hsb = ColorConverter.RgbToHsb(rgb);
-				}
-
-				if (_colorspace is HsbColorSpace)
-				{
 					switch (_colorspace.Selected.DisplayCharacter)
 					{
 						case 'H':
@@ -246,37 +242,31 @@ namespace creaturevisualizer
 						}
 					}
 				}
-				else if (_colorspace is RgbColorSpace)
+				else // RgbColorSpace
 				{
-					int r = rgb.Red;
-					int g = rgb.Green;
-					int b = rgb.Blue;
+					var rgb = (_colorspace as RgbColorSpace).Structure as RGB;
 
-					Color color1;
-					Color color2;
-
+					Color color1, color2;
 					switch (_colorspace.Selected.DisplayCharacter)
 					{
 						case 'R':
-							color1 = Color.FromArgb(  0, g, b);
-							color2 = Color.FromArgb(255, g, b);
+							color1 = Color.FromArgb(  0, rgb.Green, rgb.Blue);
+							color2 = Color.FromArgb(255, rgb.Green, rgb.Blue);
 							break;
 
 						case 'G':
-							color1 = Color.FromArgb(r,   0, b);
-							color2 = Color.FromArgb(r, 255, b);
+							color1 = Color.FromArgb(rgb.Red,   0, rgb.Blue);
+							color2 = Color.FromArgb(rgb.Red, 255, rgb.Blue);
 							break;
 
 						default: // case 'B':
-							color1 = Color.FromArgb(r, g,   0);
-							color2 = Color.FromArgb(r, g, 255);
+							color1 = Color.FromArgb(rgb.Red, rgb.Green,   0);
+							color2 = Color.FromArgb(rgb.Red, rgb.Green, 255);
 							break;
 					}
 
 					using (var brush = new LinearGradientBrush(_rectInner, color1, color2, 270f))
-					{
 						graphics.FillRectangle(brush, _rectInner);
-					}
 				}
 			}
 		}
@@ -317,7 +307,6 @@ namespace creaturevisualizer
 			m_value = newValue;
 		}
 	}
-
 
 
 	internal delegate void ValueChangedEventHandler(object sender, ValueChangedEventArgs e);

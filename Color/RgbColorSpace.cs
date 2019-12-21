@@ -32,8 +32,6 @@ namespace creaturevisualizer
 			ColorSpaceComponents.Add(cscRed);
 			ColorSpaceComponents.Add(cscGreen);
 			ColorSpaceComponents.Add(cscBlue);
-
-			space = ColorSpace.ColorSpaceType.Rgb;
 		}
 		#endregion cTor
 

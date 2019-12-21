@@ -17,13 +17,12 @@ namespace creaturevisualizer
 
 
 		#region Fields
+		ColorSpace _cs;
 		Color _color;
-		ColorSpace _colorspace;
-
-		bool _track;
-		int _selectedComponentValue;
+		int _val;
 
 		Point _pt;
+		bool _track;
 		#endregion Fields
 
 
@@ -38,48 +37,35 @@ namespace creaturevisualizer
 
 
 		#region Handlers (override)
-//		protected override void OnLoad(EventArgs e)
-//		{
-//			_pt = CalculatePoint();
-//		}
-
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			if (!DesignMode)
 			{
-				Graphics graphics = e.Graphics;
-
-				UpdateCurrentColor(graphics);
+				UpdateCurrentColor(e.Graphics);
 
 				Pen pen;
-				Color color = GetCurrentColor();
-				if (color.R + color.G + color.B > 450)
-				{
+				if (GradientService.IsBright(GetCurrentColor()))
 					pen = Pens.Black;
-				}
 				else
 					pen = Pens.White;
 
 				var location = new Point(_pt.X - 4, _pt.Y - 4);
-				graphics.DrawEllipse(pen, new Rectangle(location, new Size(8,8)));
+				e.Graphics.DrawEllipse(pen, new Rectangle(location, new Size(8,8)));
 			}
 		}
 
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
-			if (e.Button == MouseButtons.Left
-				&& (   (e.X > -1 && e.X < 256)
-					|| (e.Y > -1 && e.Y < 256)))
+			if (e.Button == MouseButtons.Left)
 			{
 				_track = true;
 
 				var point = new Point(e.X, e.Y);
 				InvalidateRegions(_pt, point);
 
-				OnColorSelected(new ColorSelectedEventArgs(CalculateSelectedColor(_pt = point)));
+				_pt = point;
+				OnColorSelected(new ColorSelectedEventArgs(CalculateSelectedColor()));
 			}
-			else
-				_track = false;
 		}
 
 		protected override void OnMouseUp(MouseEventArgs e)
@@ -103,8 +89,8 @@ namespace creaturevisualizer
 
 				InvalidateRegions(_pt, point);
 
-				OnColorSelected(new ColorSelectedEventArgs(CalculateSelectedColor(_pt)));
 				_pt = point;
+				OnColorSelected(new ColorSelectedEventArgs(CalculateSelectedColor()));
 			}
 		}
 
@@ -131,6 +117,51 @@ namespace creaturevisualizer
 
 
 		#region Methods
+		void UpdateCurrentColor(Graphics graphics)
+		{
+			if (_cs is HsbColorSpace)
+			{
+				switch (_cs.Selected.DisplayCharacter)
+				{
+					case 'H':
+					{
+						Color color = _color;
+
+						if (color.Equals(Color.FromArgb(0,0,0,0)) || color.Equals(Color.FromArgb(0,0,0))) // TODO: wtf
+							color = Color.FromArgb(255,0,0);
+
+						GradientService.DrawFieldHue(graphics, color);
+						break;
+					}
+
+					case 'S':
+						GradientService.DrawFieldSaturation(graphics, _val);
+						break;
+
+					case 'B':
+						GradientService.DrawFieldBrightness(graphics, _val);
+						break;
+				}
+			}
+			else if (_cs is RgbColorSpace)
+			{
+				switch (_cs.Selected.DisplayCharacter)
+				{
+					case 'R':
+						GradientService.DrawFieldRed(graphics, _val);
+						break;
+
+					case 'G':
+						GradientService.DrawFieldGreen(graphics, _val);
+						break;
+
+					case 'B':
+						GradientService.DrawFieldBlue(graphics, _val);
+						break;
+				}
+			}
+		}
+
 		void InvalidateRegions(Point pt0, Point pt1)
 		{
 			Rectangle rect;
@@ -147,114 +178,58 @@ namespace creaturevisualizer
 			int x = 0;
 			int y = 0;
 
-			if ((_colorspace as HsbColorSpace) != null)
+			if ((_cs as HsbColorSpace) != null)
 			{
-				var hsb = (HSB)((HsbColorSpace)_colorspace).Structure;
+				var hsb = (HSB)((HsbColorSpace)_cs).Structure;
 
-				switch (_colorspace.Selected.DisplayCharacter)
+				switch (_cs.Selected.DisplayCharacter)
 				{
 					case 'H':
-						x = (int)Math.Round((double)hsb.Saturation * 2.55);
+						x =       (int)Math.Round((double)hsb.Saturation * 2.55);
 						y = 255 - (int)Math.Round((double)hsb.Brightness * 2.55);
 						break;
 
 					case 'S':
-						x = (int)Math.Ceiling((double)hsb.Hue * (17.0 / 24.0));
-						y = (int)(255.0 - (double)hsb.Brightness * 2.55);
+						x = (int)Math.Ceiling((double)hsb.Hue        * 17.0 / 24.0);
+						y = (int)(    255.0 - (double)hsb.Brightness * 2.55);
 						break;
 
 					case 'B':
-						x = (int)Math.Ceiling((double)hsb.Hue * (17.0 / 24.0));
-						y = 255 - (int)Math.Round((double)hsb.Saturation * 2.55);
+						x =       (int)Math.Ceiling((double)hsb.Hue        * 17.0 / 24.0);
+						y = 255 - (int)Math.Round(  (double)hsb.Saturation * 2.55);
 						break;
 				}
 			}
-			else if ((_colorspace as RgbColorSpace) != null)
+			else if ((_cs as RgbColorSpace) != null)
 			{
-				Color color = ((RgbColorSpace)_colorspace).GetColor();
+				Color color = ((RgbColorSpace)_cs).GetColor();
 
-				switch (_colorspace.Selected.DisplayCharacter)
+				switch (_cs.Selected.DisplayCharacter)
 				{
-					case 'R':
-						x = color.B;
-						y = 255 - color.G;
-						break;
-
-					case 'G':
-						x = color.B;
-						y = 255 - color.R;
-						break;
-
-					case 'B':
-						x = color.R;
-						y = 255 - color.G;
-						break;
+					case 'R': x = color.B; y = 255 - color.G; break;
+					case 'G': x = color.B; y = 255 - color.R; break;
+					case 'B': x = color.R; y = 255 - color.G; break;
 				}
 			}
 			return new Point(x,y);
 		}
 
-		void UpdateCurrentColor(Graphics graphics)
-		{
-			if (_colorspace is HsbColorSpace)
-			{
-				switch (_colorspace.Selected.DisplayCharacter)
-				{
-					case 'H':
-					{
-						Color color = _color;
-
-						if (color.Equals(Color.FromArgb(0,0,0,0)) || color.Equals(Color.FromArgb(0,0,0)))
-							color = Color.FromArgb(255,0,0);
-
-						GradientService.DrawFieldHue(graphics, color);
-						break;
-					}
-
-					case 'S':
-						GradientService.DrawFieldSaturation(graphics, _selectedComponentValue);
-						break;
-
-					case 'B':
-						GradientService.DrawFieldBrightness(graphics, _selectedComponentValue);
-						break;
-				}
-			}
-			else if (_colorspace is RgbColorSpace)
-			{
-				switch (_colorspace.Selected.DisplayCharacter)
-				{
-					case 'R':
-						GradientService.DrawFieldRed(graphics, _selectedComponentValue);
-						break;
-
-					case 'G':
-						GradientService.DrawFieldGreen(graphics, _selectedComponentValue);
-						break;
-
-					case 'B':
-						GradientService.DrawFieldBlue(graphics, _selectedComponentValue);
-						break;
-				}
-			}
-		}
-
-		internal void UpdateColor(Color color, ColorSpace colorspace, bool updatePoint)
+		internal void ChangeColor(Color color, ColorSpace colorspace, bool updatePoint)
 		{
 			_color = color;
-			UpdateColor(colorspace, updatePoint);
+			ChangeColorspace(colorspace, updatePoint);
 		}
 
-		internal void UpdateColor(int val, ColorSpace colorspace, bool updatePoint)
+		internal void ChangeColor(int val, ColorSpace colorspace, bool updatePoint)
 		{
-			_selectedComponentValue = val;
+			_val = val;
 			_color = Color.Empty;
-			UpdateColor(colorspace, updatePoint);
+			ChangeColorspace(colorspace, updatePoint);
 		}
 
-		void UpdateColor(ColorSpace colorspace, bool updatePoint)
+		void ChangeColorspace(ColorSpace colorspace, bool updatePoint)
 		{
-			_colorspace = colorspace;
+			_cs = colorspace;
 
 			if (updatePoint)
 				_pt = CalculatePoint();
@@ -262,73 +237,58 @@ namespace creaturevisualizer
 			Invalidate();
 		}
 
-		Color CalculateSelectedColor(Point pt)
+		Color CalculateSelectedColor()
 		{
-			object o = null;
-
-			if ((_colorspace as HsbColorSpace) != null)
+			if ((_cs as HsbColorSpace) != null)
 			{
-				var hsb = (HSB)((HsbColorSpace)_colorspace).Structure;
+				var hsb = (HSB)((HsbColorSpace)_cs).Structure;
 
-				switch (_colorspace.Selected.DisplayCharacter)
+				switch (_cs.Selected.DisplayCharacter)
 				{
 					case 'H':
 					{
-						int brightness = (int)((255.0 - (double)pt.Y) / 2.55);
-						int saturation = (int)((double)pt.X / 2.55);
-						o = new HSB(hsb.Hue, saturation, brightness);
+						int brightness = (int)((255f - (float)_pt.Y) / 2.55f);
+						int saturation = (int)(        (float)_pt.X  / 2.55f);
+						hsb = new HSB(hsb.Hue, saturation, brightness);
 						break;
 					}
 
 					case 'S':
 					{
-						int val = (int)((double)pt.X * 1.411764705882353);
-						int brightness = (int)((255.0 - (double)pt.Y) / 2.55);
-						if (val == 360) val = 0;
-						o = new HSB(val, hsb.Saturation, brightness);
+						int hue        = (int)((float)_pt.X * 1.40625f); // 1.411764705882353
+						int brightness = (int)((255f - (float)_pt.Y) / 2.55f);
+						hsb = new HSB(hue % 360, hsb.Saturation, brightness);
 						break;
 					}
 
 					case 'B':
 					{
-						int val = (int)((double)pt.X * 1.411764705882353);
-						int saturation = (int)((255.0 - (double)pt.Y) / 2.55);
-						if (val == 360) val = 0;
-						o = new HSB(val, saturation, hsb.Brightness);
+						int hue        = (int)((float)_pt.X * 1.40625f); // 1.411764705882353
+						int saturation = (int)((255f - (float)_pt.Y) / 2.55f);
+						hsb = new HSB(hue % 360, saturation, hsb.Brightness);
 						break;
 					}
 				}
+				return ColorConverter.HsbToColor(hsb);
 			}
-			else if ((_colorspace as RgbColorSpace) != null)
+			else //if ((_colorspace as RgbColorSpace) != null)
 			{
-				var rgb = (RGB)((RgbColorSpace)_colorspace).Structure;
+				var rgb = (RGB)((RgbColorSpace)_cs).Structure;
 
-				switch (_colorspace.Selected.DisplayCharacter)
+				switch (_cs.Selected.DisplayCharacter)
 				{
-					case 'R':
-						o = new RGB(rgb.Red, 255 - pt.Y, pt.X);
-						break;
-
-					case 'G':
-						o = new RGB(255 - pt.Y, rgb.Green, pt.X);
-						break;
-
-					case 'B':
-						o = new RGB(pt.X, 255 - pt.Y, rgb.Blue);
-						break;
+					case 'R': rgb = new RGB(rgb.Red,     255 - _pt.Y, _pt.X);    break;
+					case 'G': rgb = new RGB(255 - _pt.Y, rgb.Green,   _pt.X);    break;
+					case 'B': rgb = new RGB(_pt.X,       255 - _pt.Y, rgb.Blue); break;
 				}
+				return ColorConverter.RgbToColor(rgb);
 			}
-
-			if ((o as HSB) != null)
-				return ColorConverter.HsbToColor(o as HSB);
-
-			return ColorConverter.RgbToColor(o as RGB);
 		}
 
 		internal Color GetCurrentColor()
 		{
 			if (_pt != Point.Empty)
-				return CalculateSelectedColor(_pt);
+				return CalculateSelectedColor();
 
 			return Color.White;
 		}

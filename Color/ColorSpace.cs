@@ -9,29 +9,10 @@ namespace creaturevisualizer
 	class ColorSpace
 		: UserControl
 	{
-		internal enum ColorSpaceType // TODO: This can be done by checking the child against the type of the ColorSpace parent.
-		{
-			Hsb,
-			Rgb
-		}
-
-		// Sano.PersonalProjects.ColorPicker.Controls.ColorSpaces
-		internal enum ColorSpaces
-		{
-			HueSaturationBrightness,
-			RedGreenBlue
-		}
-
-
 		#region Events
 		public event ColorSpaceEventHandler ComponentValueChanged;
 		public event ColorSpaceEventHandler SelectedComponentChanged;
 		#endregion Events
-
-
-		#region Fields
-		protected internal ColorSpaceType space;
-		#endregion Fields
 
 
 		#region Properties

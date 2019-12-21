@@ -68,24 +68,23 @@
     <Compile Include="Color\ColorF.cs" />
     <Compile Include="Color\ColorField.cs" />
     <Compile Include="Color\ColorPanelSettings_cv.cs" />
-    <Compile Include="Color\ColorPanel_cv.cs" />
+    <Compile Include="Color\ColorPanel.cs" />
     <Compile Include="Color\GradientService.cs" />
-    <Compile Include="Color\ColorSelectedEventArgs_cv.cs" />
-    <Compile Include="Color\ColorSelectedEventHandler_x.cs" />
-    <Compile Include="Color\ColorSlider_cv.cs" />
-    <Compile Include="Color\ColorSpaceComponentEventHandler_cv.cs" />
-    <Compile Include="Color\ColorSpaceComponentTextBox_cv.cs" />
-    <Compile Include="Color\ColorSpaceComponent_cv.cs" />
-    <Compile Include="Color\ColorSpace_cv.cs" />
+    <Compile Include="Color\ColorSelectedEventArgs.cs" />
+    <Compile Include="Color\ColorSlider.cs" />
+    <Compile Include="Color\ColorSpaceComponentEventHandler.cs" />
+    <Compile Include="Color\ColorSpaceComponentTextBox.cs" />
+    <Compile Include="Color\ColorSpaceComponent.cs" />
+    <Compile Include="Color\ColorSpace.cs" />
     <Compile Include="Color\ColorSwatchPanel_cv.cs" />
     <Compile Include="Color\ColorSwatchXml_cv.cs" />
     <Compile Include="Color\ColorSwatch_cv.cs" />
     <Compile Include="Color\DragForm_cv.cs" />
-    <Compile Include="Color\HexTextBox_cv.cs" />
-    <Compile Include="Color\HsbColorSpace_cv.cs" />
-    <Compile Include="Color\HSB_cv.cs" />
-    <Compile Include="Color\RgbColorSpace_cv.cs" />
-    <Compile Include="Color\RGB_cv.cs" />
+    <Compile Include="Color\HexTextBox.cs" />
+    <Compile Include="Color\HsbColorSpace.cs" />
+    <Compile Include="Color\HSB.cs" />
+    <Compile Include="Color\RgbColorSpace.cs" />
+    <Compile Include="Color\RGB.cs" />
     <Compile Include="Color\SanoResources.cs" />
     <Compile Include="CreatureVisualizerF.cs" />
     <Compile Include="CreatureVisualizerF.Designer.cs">
@@ -98,6 +97,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Color\ColorPanel.resx">
+      <DependentUpon>ColorPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Color\ColorSwatchF.resx">
       <DependentUpon>ColorSwatchF.cs</DependentUpon>
     </EmbeddedResource>
@@ -110,17 +112,14 @@
     <EmbeddedResource Include="Color\ColorField.resx">
       <DependentUpon>ColorField.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Color\ColorPanel_cv.resx">
-      <DependentUpon>ColorPanel_cv.cs</DependentUpon>
+    <EmbeddedResource Include="Color\ColorSlider.resx">
+      <DependentUpon>ColorSlider.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Color\ColorSlider_cv.resx">
-      <DependentUpon>ColorSlider_cv.cs</DependentUpon>
+    <EmbeddedResource Include="Color\ColorSpaceComponent.resx">
+      <DependentUpon>ColorSpaceComponent.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Color\ColorSpaceComponent_cv.resx">
-      <DependentUpon>ColorSpaceComponent_cv.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Color\ColorSpace_cv.resx">
-      <DependentUpon>ColorSpace_cv.cs</DependentUpon>
+    <EmbeddedResource Include="Color\ColorSpace.resx">
+      <DependentUpon>ColorSpace.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Color\ColorSwatchPanel_cv.resx">
       <DependentUpon>ColorSwatchPanel_cv.cs</DependentUpon>
@@ -128,11 +127,11 @@
     <EmbeddedResource Include="Color\DragForm_cv.resx">
       <DependentUpon>DragForm_cv.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Color\HsbColorSpace_cv.resx">
-      <DependentUpon>HsbColorSpace_cv.cs</DependentUpon>
+    <EmbeddedResource Include="Color\HsbColorSpace.resx">
+      <DependentUpon>HsbColorSpace.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Color\RgbColorSpace_cv.resx">
-      <DependentUpon>RgbColorSpace_cv.cs</DependentUpon>
+    <EmbeddedResource Include="Color\RgbColorSpace.resx">
+      <DependentUpon>RgbColorSpace.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CreatureVisualizerF.resx">
       <DependentUpon>CreatureVisualizerF.cs</DependentUpon>

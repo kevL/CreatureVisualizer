@@ -1144,13 +1144,13 @@ namespace creaturevisualizer
 				Color color; byte alpha;
 				if (CreatureVisualizerP.ColorDiffuse != null)
 				{
-					color = _sano.ColorPanel.SelectedColor = (Color)CreatureVisualizerP.ColorDiffuse;
-					alpha = _sano.ColorPanel.Alpha = ((Color)CreatureVisualizerP.ColorDiffuse).A;
+					color = _sano.ColorPanel.SelectedColor =  (Color)CreatureVisualizerP.ColorDiffuse;
+					alpha = _sano.ColorPanel.Alpha         = ((Color)CreatureVisualizerP.ColorDiffuse).A;
 				}
 				else
 				{
 					color = _sano.ColorPanel.SelectedColor = _panel.Light.Color.DiffuseColor;
-					alpha = _sano.ColorPanel.Alpha = _panel.Light.Color.DiffuseColor.A;
+					alpha = _sano.ColorPanel.Alpha         = _panel.Light.Color.DiffuseColor.A;
 				}
 
 
@@ -1197,13 +1197,13 @@ namespace creaturevisualizer
 				Color color; byte alpha;
 				if (CreatureVisualizerP.ColorSpecular != null)
 				{
-					color = _sano.ColorPanel.SelectedColor = (Color)CreatureVisualizerP.ColorSpecular;
-					alpha = _sano.ColorPanel.Alpha = ((Color)CreatureVisualizerP.ColorSpecular).A;
+					color = _sano.ColorPanel.SelectedColor =  (Color)CreatureVisualizerP.ColorSpecular;
+					alpha = _sano.ColorPanel.Alpha         = ((Color)CreatureVisualizerP.ColorSpecular).A;
 				}
 				else
 				{
 					color = _sano.ColorPanel.SelectedColor = _panel.Light.Color.SpecularColor;
-					alpha = _sano.ColorPanel.Alpha = _panel.Light.Color.SpecularColor.A;
+					alpha = _sano.ColorPanel.Alpha         = _panel.Light.Color.SpecularColor.A;
 				}
 
 
@@ -1251,13 +1251,13 @@ namespace creaturevisualizer
 				Color color; byte alpha;
 				if (CreatureVisualizerP.ColorAmbient != null)
 				{
-					color = _sano.ColorPanel.SelectedColor = (Color)CreatureVisualizerP.ColorAmbient;
-					alpha = _sano.ColorPanel.Alpha = ((Color)CreatureVisualizerP.ColorAmbient).A;
+					color = _sano.ColorPanel.SelectedColor =  (Color)CreatureVisualizerP.ColorAmbient;
+					alpha = _sano.ColorPanel.Alpha         = ((Color)CreatureVisualizerP.ColorAmbient).A;
 				}
 				else
 				{
 					color = _sano.ColorPanel.SelectedColor = _panel.Light.Color.AmbientColor;
-					alpha = _sano.ColorPanel.Alpha = _panel.Light.Color.AmbientColor.A;
+					alpha = _sano.ColorPanel.Alpha         = _panel.Light.Color.AmbientColor.A;
 				}
 
 

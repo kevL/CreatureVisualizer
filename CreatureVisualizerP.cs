@@ -468,11 +468,11 @@ namespace creaturevisualizer
 				{
 					ClearObjects();
 
-//					if (Scene.DayNightCycleStages[(int)DayNightStageType.Default] != null)
-//					{
-//						Scene.DayNightCycleStages[(int)DayNightStageType.Default].SunMoonDirection = new Vector3(-0.33F, -0.67F, -0.67F);
-//						Scene.DayNightCycleStages[(int)DayNightStageType.Default].ShadowIntensity = 0F;
-//					}
+					if (Scene.DayNightCycleStages[(int)DayNightStageType.Default] != null)
+					{
+						Scene.DayNightCycleStages[(int)DayNightStageType.Default].SunMoonDirection = new Vector3(-0.33F, -0.67F, -0.67F);
+						Scene.DayNightCycleStages[(int)DayNightStageType.Default].ShadowIntensity = 0F;
+					}
 /*		case DayNightStageType.Default:								// OEIShared.NetDisplay.DayNightState ->
 			SunMoonDirection = new Vector3(-0.05f, 0.08f, -0.1f);
 			SunMoon.DiffuseColor = Color.FromArgb(194, 139, 87);

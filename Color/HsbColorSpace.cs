@@ -31,8 +31,6 @@ namespace creaturevisualizer
 			ColorSpaceComponents.Add(cscHue);
 			ColorSpaceComponents.Add(cscSaturation);
 			ColorSpaceComponents.Add(cscBrightness);
-
-			space = ColorSpace.ColorSpaceType.Hsb;
 		}
 		#endregion cTor
 

@@ -34,10 +34,10 @@ namespace creaturevisualizer
 			{
 				0.0000f,
 				0.1667f,
-				0.3372f,
-				0.5020f,
-				0.6686f,
-				0.8313f,
+				0.3333f, //0.3372f,
+				0.5000f, //0.5020f,
+				0.6667f, //0.6686f,
+				0.8333f, //0.8313f,
 				1.0000f
 			};
 		}
@@ -218,6 +218,14 @@ namespace creaturevisualizer
 
 				graphics.FillRectangle(brush, rect);
 			}
+		}
+
+
+		internal static bool IsBright(Color color)
+		{
+			return color.R > 223
+				|| color.G > 223
+				|| color.B > 223;
 		}
 		#endregion Methods (static)
 	}
