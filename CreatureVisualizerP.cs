@@ -468,12 +468,47 @@ namespace creaturevisualizer
 				{
 					ClearObjects();
 
-					if (Scene.DayNightCycleStages[(int)DayNightStageType.Default] != null)
-					{
-						Scene.DayNightCycleStages[(int)DayNightStageType.Default].SunMoonDirection = new Vector3(-0.33F, -0.67F, -0.67F);
-						Scene.DayNightCycleStages[(int)DayNightStageType.Default].ShadowIntensity = 0F;
-					}
-
+//					if (Scene.DayNightCycleStages[(int)DayNightStageType.Default] != null)
+//					{
+//						Scene.DayNightCycleStages[(int)DayNightStageType.Default].SunMoonDirection = new Vector3(-0.33F, -0.67F, -0.67F);
+//						Scene.DayNightCycleStages[(int)DayNightStageType.Default].ShadowIntensity = 0F;
+//					}
+/*		case DayNightStageType.Default:								// OEIShared.NetDisplay.DayNightState ->
+			SunMoonDirection = new Vector3(-0.05f, 0.08f, -0.1f);
+			SunMoon.DiffuseColor = Color.FromArgb(194, 139, 87);
+			SunMoon.SpecularColor = Color.FromArgb(173, 188, 163);
+			SunMoon.AmbientColor = Color.FromArgb(255, 255, 255);
+			SunMoon.Intensity = 1f;
+			SkyLight.DiffuseColor = Color.FromArgb(215, 229, 250);
+			SkyLight.SpecularColor = Color.FromArgb(194, 139, 87);
+			SkyLight.AmbientColor = Color.FromArgb(255, 255, 255);
+			SkyLight.Intensity = 0.2f;
+			GroundLight.DiffuseColor = Color.FromArgb(221, 194, 161);
+			GroundLight.SpecularColor = Color.FromArgb(221, 194, 161);
+			GroundLight.AmbientColor = Color.FromArgb(255, 255, 255);
+			GroundLight.Intensity = 0.45f;
+			SkyHorizon = Color.FromArgb(163, 189, 255);
+			SkyZenith = Color.FromArgb(173, 194, 255);
+			Fog.FogColor = Color.FromArgb(134, 153, 211);
+			Fog.FarClip = 200f;
+			Fog.FogStart = 60f;
+			Fog.FogEnd = 170f;
+			AvgLuminance = 0.65f;
+			BloomBlurRadius = 6.4f;
+			BloomGlowIntensity = 0f;
+			BloomHighlightIntensity = 0.54f;
+			BloomHighlightThreshold = 0.86f;
+			BloomSceneIntensity = 1f;
+			CloudCover = 0.8f;
+			CloudMovementRateX = 0.04f;
+			CloudMovementRateY = 0f;
+			Exposure = 5f;
+			HighlightThreshold = 5f;
+			MaxLuminance = 3.65f;
+			ShadowIntensity = 0.42f;
+			SunCoronaIntensity = 0.33f;
+			break;
+*/
 
 					Light = new NetDisplayLightPoint();
 

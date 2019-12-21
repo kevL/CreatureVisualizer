@@ -53,17 +53,40 @@
     <Reference Include="SandBar">
       <HintPath>..\..\Neverwinter Nights 2\SandBar.dll</HintPath>
     </Reference>
-    <Reference Include="Sano.PersonalProjects.ColorPicker.Controls">
-      <HintPath>..\..\Neverwinter Nights 2\Sano.PersonalProjects.ColorPicker.Controls.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Color\ColorSwatchF.cs" />
+    <Compile Include="Color\ColorBox_cv.cs" />
+    <Compile Include="Color\ColorConverter_cv.cs" />
+    <Compile Include="Color\ColorF.cs" />
+    <Compile Include="Color\ColorField.cs" />
+    <Compile Include="Color\ColorPanelSettings_cv.cs" />
+    <Compile Include="Color\ColorPanel_cv.cs" />
+    <Compile Include="Color\GradientService.cs" />
+    <Compile Include="Color\ColorSelectedEventArgs_cv.cs" />
+    <Compile Include="Color\ColorSelectedEventHandler_x.cs" />
+    <Compile Include="Color\ColorSlider_cv.cs" />
+    <Compile Include="Color\ColorSpaceComponentEventHandler_cv.cs" />
+    <Compile Include="Color\ColorSpaceComponentTextBox_cv.cs" />
+    <Compile Include="Color\ColorSpaceComponent_cv.cs" />
+    <Compile Include="Color\ColorSpace_cv.cs" />
+    <Compile Include="Color\ColorSwatchPanel_cv.cs" />
+    <Compile Include="Color\ColorSwatchXml_cv.cs" />
+    <Compile Include="Color\ColorSwatch_cv.cs" />
+    <Compile Include="Color\DragForm_cv.cs" />
+    <Compile Include="Color\HexTextBox_cv.cs" />
+    <Compile Include="Color\HsbColorSpace_cv.cs" />
+    <Compile Include="Color\HSB_cv.cs" />
+    <Compile Include="Color\RgbColorSpace_cv.cs" />
+    <Compile Include="Color\RGB_cv.cs" />
+    <Compile Include="Color\SanoResources.cs" />
     <Compile Include="CreatureVisualizerF.cs" />
     <Compile Include="CreatureVisualizerF.Designer.cs">
       <DependentUpon>CreatureVisualizerF.cs</DependentUpon>
@@ -75,12 +98,51 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Color\ColorSwatchF.resx">
+      <DependentUpon>ColorSwatchF.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Color\ColorBox_cv.resx">
+      <DependentUpon>ColorBox_cv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Color\ColorF.resx">
+      <DependentUpon>ColorF.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Color\ColorField.resx">
+      <DependentUpon>ColorField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Color\ColorPanel_cv.resx">
+      <DependentUpon>ColorPanel_cv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Color\ColorSlider_cv.resx">
+      <DependentUpon>ColorSlider_cv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Color\ColorSpaceComponent_cv.resx">
+      <DependentUpon>ColorSpaceComponent_cv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Color\ColorSpace_cv.resx">
+      <DependentUpon>ColorSpace_cv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Color\ColorSwatchPanel_cv.resx">
+      <DependentUpon>ColorSwatchPanel_cv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Color\DragForm_cv.resx">
+      <DependentUpon>DragForm_cv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Color\HsbColorSpace_cv.resx">
+      <DependentUpon>HsbColorSpace_cv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Color\RgbColorSpace_cv.resx">
+      <DependentUpon>RgbColorSpace_cv.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CreatureVisualizerF.resx">
       <DependentUpon>CreatureVisualizerF.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HelpF.resx">
       <DependentUpon>HelpF.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Color" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -1130,7 +1130,7 @@ namespace creaturevisualizer
 
 		internal static bool BypassCreate;
 
-		Sano.PersonalProjects.ColorPicker.Controls.ColorEditForm _sano;
+		ColorF _sano;
 
 		void click_pa_light_diffuse(object sender, EventArgs e)
 		{
@@ -1138,19 +1138,19 @@ namespace creaturevisualizer
 			{
 				BypassCreate = true;
 
-				_sano = new Sano.PersonalProjects.ColorPicker.Controls.ColorEditForm();
-				_sano.colorPanel.ColorValueChanged += colorchanged_diff;
+				_sano = new ColorF();
+				_sano.ColorPanel.ColorValueChanged += colorchanged_diff;
 
 				Color color; byte alpha;
 				if (CreatureVisualizerP.ColorDiffuse != null)
 				{
-					color = _sano.colorPanel.SelectedColor = (Color)CreatureVisualizerP.ColorDiffuse;
-					alpha = _sano.colorPanel.Alpha = ((Color)CreatureVisualizerP.ColorDiffuse).A;
+					color = _sano.ColorPanel.SelectedColor = (Color)CreatureVisualizerP.ColorDiffuse;
+					alpha = _sano.ColorPanel.Alpha = ((Color)CreatureVisualizerP.ColorDiffuse).A;
 				}
 				else
 				{
-					color = _sano.colorPanel.SelectedColor = _panel.Light.Color.DiffuseColor;
-					alpha = _sano.colorPanel.Alpha = _panel.Light.Color.DiffuseColor.A;
+					color = _sano.ColorPanel.SelectedColor = _panel.Light.Color.DiffuseColor;
+					alpha = _sano.ColorPanel.Alpha = _panel.Light.Color.DiffuseColor.A;
 				}
 
 
@@ -1162,8 +1162,8 @@ namespace creaturevisualizer
 
 					CreatureVisualizerP.ColorDiffuse =
 					pa_light_diffuse.BackColor =
-					_panel.Light.Color.DiffuseColor = Color.FromArgb(_sano.colorPanel.Alpha,
-																	 _sano.colorPanel.SelectedColor);
+					_panel.Light.Color.DiffuseColor = Color.FromArgb(_sano.ColorPanel.Alpha,
+																	 _sano.ColorPanel.SelectedColor);
 				}
 				else
 				{
@@ -1181,8 +1181,8 @@ namespace creaturevisualizer
 		void colorchanged_diff(object sender, EventArgs e)
 		{
 			pa_light_diffuse.BackColor =
-			_panel.Light.Color.DiffuseColor = Color.FromArgb(_sano.colorPanel.Alpha,
-															 _sano.colorPanel.SelectedColor);
+			_panel.Light.Color.DiffuseColor = Color.FromArgb(_sano.ColorPanel.Alpha,
+															 _sano.ColorPanel.SelectedColor);
 		}
 
 		void click_pa_light_specular(object sender, EventArgs e)
@@ -1191,19 +1191,19 @@ namespace creaturevisualizer
 			{
 				BypassCreate = true;
 
-				_sano = new Sano.PersonalProjects.ColorPicker.Controls.ColorEditForm();
-				_sano.colorPanel.ColorValueChanged += colorchanged_spec;
+				_sano = new ColorF();
+				_sano.ColorPanel.ColorValueChanged += colorchanged_spec;
 
 				Color color; byte alpha;
 				if (CreatureVisualizerP.ColorSpecular != null)
 				{
-					color = _sano.colorPanel.SelectedColor = (Color)CreatureVisualizerP.ColorSpecular;
-					alpha = _sano.colorPanel.Alpha = ((Color)CreatureVisualizerP.ColorSpecular).A;
+					color = _sano.ColorPanel.SelectedColor = (Color)CreatureVisualizerP.ColorSpecular;
+					alpha = _sano.ColorPanel.Alpha = ((Color)CreatureVisualizerP.ColorSpecular).A;
 				}
 				else
 				{
-					color = _sano.colorPanel.SelectedColor = _panel.Light.Color.SpecularColor;
-					alpha = _sano.colorPanel.Alpha = _panel.Light.Color.SpecularColor.A;
+					color = _sano.ColorPanel.SelectedColor = _panel.Light.Color.SpecularColor;
+					alpha = _sano.ColorPanel.Alpha = _panel.Light.Color.SpecularColor.A;
 				}
 
 
@@ -1215,8 +1215,8 @@ namespace creaturevisualizer
 
 					CreatureVisualizerP.ColorSpecular =
 					pa_light_specular.BackColor =
-					_panel.Light.Color.SpecularColor = Color.FromArgb(_sano.colorPanel.Alpha,
-																	  _sano.colorPanel.SelectedColor);
+					_panel.Light.Color.SpecularColor = Color.FromArgb(_sano.ColorPanel.Alpha,
+																	  _sano.ColorPanel.SelectedColor);
 				}
 				else
 				{
@@ -1234,8 +1234,8 @@ namespace creaturevisualizer
 		void colorchanged_spec(object sender, EventArgs e)
 		{
 			pa_light_specular.BackColor =
-			_panel.Light.Color.SpecularColor = Color.FromArgb(_sano.colorPanel.Alpha,
-															  _sano.colorPanel.SelectedColor);
+			_panel.Light.Color.SpecularColor = Color.FromArgb(_sano.ColorPanel.Alpha,
+															  _sano.ColorPanel.SelectedColor);
 		}
 
 
@@ -1245,19 +1245,19 @@ namespace creaturevisualizer
 			{
 				BypassCreate = true;
 
-				_sano = new Sano.PersonalProjects.ColorPicker.Controls.ColorEditForm();
-				_sano.colorPanel.ColorValueChanged += colorchanged_ambi;
+				_sano = new ColorF();
+				_sano.ColorPanel.ColorValueChanged += colorchanged_ambi;
 
 				Color color; byte alpha;
 				if (CreatureVisualizerP.ColorAmbient != null)
 				{
-					color = _sano.colorPanel.SelectedColor = (Color)CreatureVisualizerP.ColorAmbient;
-					alpha = _sano.colorPanel.Alpha = ((Color)CreatureVisualizerP.ColorAmbient).A;
+					color = _sano.ColorPanel.SelectedColor = (Color)CreatureVisualizerP.ColorAmbient;
+					alpha = _sano.ColorPanel.Alpha = ((Color)CreatureVisualizerP.ColorAmbient).A;
 				}
 				else
 				{
-					color = _sano.colorPanel.SelectedColor = _panel.Light.Color.AmbientColor;
-					alpha = _sano.colorPanel.Alpha = _panel.Light.Color.AmbientColor.A;
+					color = _sano.ColorPanel.SelectedColor = _panel.Light.Color.AmbientColor;
+					alpha = _sano.ColorPanel.Alpha = _panel.Light.Color.AmbientColor.A;
 				}
 
 
@@ -1269,8 +1269,8 @@ namespace creaturevisualizer
 
 					CreatureVisualizerP.ColorAmbient =
 					pa_light_ambient.BackColor =
-					_panel.Light.Color.AmbientColor = Color.FromArgb(_sano.colorPanel.Alpha,
-																	 _sano.colorPanel.SelectedColor);
+					_panel.Light.Color.AmbientColor = Color.FromArgb(_sano.ColorPanel.Alpha,
+																	 _sano.ColorPanel.SelectedColor);
 				}
 				else
 				{
@@ -1288,8 +1288,8 @@ namespace creaturevisualizer
 		void colorchanged_ambi(object sender, EventArgs e)
 		{
 			pa_light_ambient.BackColor =
-			_panel.Light.Color.AmbientColor = Color.FromArgb(_sano.colorPanel.Alpha,
-															 _sano.colorPanel.SelectedColor);
+			_panel.Light.Color.AmbientColor = Color.FromArgb(_sano.ColorPanel.Alpha,
+															 _sano.ColorPanel.SelectedColor);
 		}
 
 
