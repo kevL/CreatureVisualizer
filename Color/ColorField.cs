@@ -1,5 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
+//using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -11,7 +11,7 @@ namespace creaturevisualizer
 		: UserControl
 	{
 		#region Events
-		[EditorBrowsable(EditorBrowsableState.Always)]
+//		[EditorBrowsable(EditorBrowsableState.Always)]
 		internal event ColorSelectedEventHandler ColorSelected;
 		#endregion Events
 

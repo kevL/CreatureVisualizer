@@ -7,6 +7,16 @@ namespace creaturevisualizer
 	// Sano.PersonalProjects.ColorPicker.Controls.ColorConverter
 	static class ColorConverter
 	{
+		// NOTE: HSB is usually called HSL.
+		// but in this model sat and bri range 0..100 instead of 0..1
+		//
+		// hue: 360 deg. 0=red, 120=green, 240=blue, 360=0
+		// sat: 0=fully desaturated (bri=black(0) to gray(50) to white(100))
+		//      100=fully saturated (bri=black(0) to hue (50) to white(100))
+		// bri: 0=black, 50=hue/gray*, 100=white
+		//
+		// *if sat=0 50=gray.
+
 		#region Methods (static)
 		internal static RGB ColorToRgb(Color color)
 		{
@@ -83,37 +93,39 @@ namespace creaturevisualizer
 		} */
 		internal static HSB RgbToHsb(RGB rgb)
 		{
-			double d1 = (double)rgb.Red   / 255.0;
-			double d2 = (double)rgb.Green / 255.0;
-			double d3 = (double)rgb.Blue  / 255.0;
+			double r = (double)rgb.Red   / 255.0;
+			double g = (double)rgb.Green / 255.0;
+			double b = (double)rgb.Blue  / 255.0;
 
-			double min = getmindouble(d1,d2,d3);
-			double max = getmaxdouble(d1,d2,d3);
+			double min = getmindouble(r,g,b);
+			double max = getmaxdouble(r,g,b);
 
 			double d4 = max - min;
-			double d5;
-			double d6;
+			double d5,d6;
 
-//			if (max == 0.0 || d4 == 0.0)
 			if (max < Single.Epsilon || d4 < Single.Epsilon)
 			{
-				d5 = 0.0;
-				d6 = 0.0;
+				d5 = d6 = 0.0;
 			}
 			else
 			{
-				if      (Math.Abs(d1 - max) < Single.Epsilon) d5 =       (d2 - d3) / d4;
-				else if (Math.Abs(d2 - max) < Single.Epsilon) d5 = 2.0 + (d3 - d1) / d4; 
-				else if (Math.Abs(d3 - max) < Single.Epsilon) d5 = 4.0 + (d1 - d2) / d4;
-				else                                          d5 = 0.0;
+				if      (Math.Abs(r - max) < Single.Epsilon) d5 =       (g - b) / d4;
+				else if (Math.Abs(g - max) < Single.Epsilon) d5 = 2.0 + (b - r) / d4; 
+				else if (Math.Abs(b - max) < Single.Epsilon) d5 = 4.0 + (r - g) / d4;
+				else                                         d5 = 0.0;
 
-				d6 = ((min > Single.Epsilon) ? (d4 / max * 100.0) : 100.0);
-//				d6 = ((min != 0.0) ? (d4 / max * 100.0) : 100.0);
+				if (min > Single.Epsilon)
+					d6 = d4 / max * 100.0;
+				else
+					d6 = 100.0;
 			}
 
 			while ((d5 *= 60.0) < 0.0) d5 += 360.0;
 
-			//System.Windows.Forms.MessageBox.Show("h= " + (int)Math.Round(d5) + "\ns= " + (int)Math.Round(d6) + "\nb= " + (int)Math.Round(max * 100.0));
+//			System.Windows.Forms.MessageBox.Show(
+//				"h= " + (int)Math.Round(d5) +
+//				"\ns= " + (int)Math.Round(d6) +
+//				"\nb= " + (int)Math.Round(max * 100.0));
 
 			return new HSB((int)Math.Round(d5),
 						   (int)Math.Round(d6),
@@ -122,62 +134,61 @@ namespace creaturevisualizer
 
 		internal static RGB HsbToRgb(HSB hsb)
 		{
-			double d1 = 0.0;
-			double d2 = 0.0;
-			double d3 = 0.0;
+			double d1,d2,d3;
+			double d_bri = hsb.Brightness / 100.0;
 
-			double d4 = hsb.Hue;
-			double d5 = (double)hsb.Saturation / 100.0;
-			double d6 = (double)hsb.Brightness / 100.0;
-
-			if (d5 == 0.0)
+			if (hsb.Saturation == 0)
 			{
-				d1 = d6;
-				d2 = d6;
-				d3 = d6;
+				d1 = d2 = d3 = d_bri;
 			}
 			else
 			{
-				double d7 = d4 / 60.0;
-				double d8 = (int)Math.Floor(d7);
-				double d9 = d7 - (double)d8;
+				double d_sat = hsb.Saturation / 100.0;
 
-				switch ((int)d8)
+				double d7 = hsb.Hue / 60.0;
+				int    d8 = (int)Math.Floor(d7);
+				double d9 = d7 - d8;
+
+				switch (d8)
 				{
 					case 0:
-						d1 = d6;
-						d2 = d6 * (1.0 - d5 * (1.0 - d9));
-						d3 = d6 * (1.0 - d5);
+						d1 = d_bri;
+						d2 = d_bri * (1.0 - d_sat * (1.0 - d9));
+						d3 = d_bri * (1.0 - d_sat);
 						break;
 
 					case 1:
-						d1 = d6 * (1.0 - d5 * d9);
-						d2 = d6;
-						d3 = d6 * (1.0 - d5);
+						d1 = d_bri * (1.0 - d_sat * d9);
+						d2 = d_bri;
+						d3 = d_bri * (1.0 - d_sat);
 						break;
 
 					case 2:
-						d1 = d6 * (1.0 - d5);
-						d2 = d6;
-						d3 = d6 * (1.0 - d5 * (1.0 - d9));
+						d1 = d_bri * (1.0 - d_sat);
+						d2 = d_bri;
+						d3 = d_bri * (1.0 - d_sat * (1.0 - d9));
 						break;
 
 					case 3:
-						d1 = d6 * (1.0 - d5);
-						d2 = d6 * (1.0 - d5 * d9);
-						d3 = d6;
+						d1 = d_bri * (1.0 - d_sat);
+						d2 = d_bri * (1.0 - d_sat * d9);
+						d3 = d_bri;
 						break;
 
 					case 4:
-						d1 = d6 * (1.0 - d5 * (1.0 - d9));
-						d2 = d6 * (1.0 - d5);
-						d3 = d6;
+						d1 = d_bri * (1.0 - d_sat * (1.0 - d9));
+						d2 = d_bri * (1.0 - d_sat);
+						d3 = d_bri;
 						break;
 
 					case 5:
-						d1 = d6;
-						d2 = d6 * (1.0 - d5);
-						d3 = d6 * (1.0 - d5 * d9);
+						d1 = d_bri;
+						d2 = d_bri * (1.0 - d_sat);
+						d3 = d_bri * (1.0 - d_sat * d9);
+						break;
+
+					default:
+						d1 = d2 = d3 = 0.0;
 						break;
 				}
 			}
@@ -186,6 +197,7 @@ namespace creaturevisualizer
 						   (int)Math.Round(d2 * 255.0),
 						   (int)Math.Round(d3 * 255.0));
 		}
+
 
 		internal static RGB HexToRgb(string hextext)
 		{
@@ -225,6 +237,7 @@ namespace creaturevisualizer
 
 			return val;
 		}
+
 		static double getmindouble(params double[] vals)
 		{
 			double val = vals[0];
