@@ -39,24 +39,21 @@ namespace creaturevisualizer
 		#region Handlers (override)
 		protected override void OnPaint(PaintEventArgs e)
 		{
+			// Muahaha
+			e.Graphics.DrawLine(Pens.Black, 1,         0, 1,         Height);
+			e.Graphics.DrawLine(Pens.Black, Width - 2, 0, Width - 2, Height);
+
 			if (IsActive)
 			{
-				if (GradientService.IsBright(BackColor))
-				{
-					e.Graphics.DrawString("a", Font, Brushes.Black, 2,2);
-				}
-				else
-				{
-					using (var font = new Font(Font, FontStyle.Bold))
-						e.Graphics.DrawString("a", font, Brushes.White, 2,2);
-				}
+				e.Graphics.DrawLine(Pens.Black, 0,         0, 0,         Height);
+				e.Graphics.DrawLine(Pens.Black, Width - 1, 0, Width - 1, Height);
+			}
+			else
+			{
+				e.Graphics.DrawLine(SystemPens.Control, 0,         0, 0,         Height);
+				e.Graphics.DrawLine(SystemPens.Control, Width - 1, 0, Width - 1, Height);
 			}
 		}
-
-//		protected override void OnLoad(EventArgs e)
-//		{
-//			_dragger = new DragForm();
-//		}
 
 		protected override void OnMouseDown(MouseEventArgs e)
 		{

@@ -159,9 +159,15 @@ namespace creaturevisualizer
 									 colorfield.Left  - 1, colorfield.Top    - 1,
 									 colorfield.Width + 1, colorfield.Height + 1);
 
-			e.Graphics.DrawRectangle(Pens.Black,
-									 colorbox1.Left  - 1, colorbox1.Top                       - 1,
-									 colorbox1.Width + 1, colorbox1.Height + colorbox0.Height + 1);
+//			e.Graphics.DrawRectangle(Pens.Black,
+//									 colorbox1.Left  - 1, colorbox1.Top                       - 1,
+//									 colorbox1.Width + 1, colorbox1.Height + colorbox0.Height + 1);
+			e.Graphics.DrawLine(Pens.Black,
+								colorbox1.Location.X                   + 1, colorbox1.Top - 1,
+								colorbox1.Location.X + colorbox1.Width - 2, colorbox1.Top - 1);
+			e.Graphics.DrawLine(Pens.Black,
+								colorbox0.Location.X                   + 1, colorbox0.Bottom,
+								colorbox0.Location.X + colorbox0.Width - 2, colorbox0.Bottom);
 
 			e.Graphics.DrawRectangle(Pens.Black,
 									 swatches.Left  - 1, swatches.Top    - 1,
@@ -202,10 +208,12 @@ namespace creaturevisualizer
 		#region Handlers
 		void mousedown_colorbox(object sender, MouseEventArgs e)
 		{
-			if (e.Button == MouseButtons.Right && SetActiveColorbox(sender as ColorBox))
+			if (e.Button == MouseButtons.Right)
 			{
-				rgbColorSpace.Structure = ColorConverter.ColorToRgb(GetActiveColorbox().BackColor);
-				hsbColorSpace.Structure = ColorConverter.ColorToHsb(GetActiveColorbox().BackColor);
+				ColorBox bo = SwapActiveColorbox();
+
+				rgbColorSpace.Structure = ColorConverter.ColorToRgb(bo.BackColor);
+				hsbColorSpace.Structure = ColorConverter.ColorToHsb(bo.BackColor);
 
 				colorslider.Value = CalculateSliderPosition(_csCurrent.Selected);
 
@@ -349,8 +357,8 @@ namespace creaturevisualizer
 
 				case 'S':
 				{
-					int saturation = ((HSB)hsbColorSpace.Structure).Saturation;
-					hsbColorSpace.Structure = new HSB(hsb.Hue, saturation, hsb.Brightness);
+					int sat = ((HSB)hsbColorSpace.Structure).Saturation;
+					hsbColorSpace.Structure = new HSB(hsb.Hue, sat, hsb.Brightness);
 					break;
 				}
 
@@ -470,7 +478,7 @@ namespace creaturevisualizer
 		}
 
 
-		bool SetActiveColorbox(ColorBox bo)
+/*		bool SetActiveColorbox(ColorBox bo)
 		{
 			if (!bo.IsActive)
 			{
@@ -487,6 +495,19 @@ namespace creaturevisualizer
 				return true;
 			}
 			return false;
+		} */
+		ColorBox SwapActiveColorbox()
+		{
+			if (GetActiveColorbox() == colorbox0)
+			{
+				colorbox1.IsActive = true;
+				colorbox0.IsActive = false;
+				return colorbox1;
+			}
+
+			colorbox1.IsActive = false;
+			colorbox0.IsActive = true;
+			return colorbox0;
 		}
 
 		ColorBox GetActiveColorbox()

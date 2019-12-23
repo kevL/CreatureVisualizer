@@ -44,10 +44,8 @@ namespace creaturevisualizer
 				DrawField(e.Graphics);
 
 				Pen pen;
-				if (GradientService.IsBright(GetCurrentColor()))
-					pen = Pens.Black;
-				else
-					pen = Pens.White;
+				if (GradientService.IsBright(GetCurrentColor())) pen = Pens.Black;
+				else                                             pen = Pens.White;
 
 				e.Graphics.DrawEllipse(pen,
 									   _pt.X - 4,

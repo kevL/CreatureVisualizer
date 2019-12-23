@@ -223,9 +223,9 @@ namespace creaturevisualizer
 
 		internal static bool IsBright(Color color)
 		{
-			return color.R > 223
-				|| color.G > 223
-				|| color.B > 223;
+			return color.R > 230
+				|| color.G > 223;
+//				|| color.B > 253;
 		}
 		#endregion Methods (static)
 	}
