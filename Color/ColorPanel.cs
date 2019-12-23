@@ -206,7 +206,7 @@ namespace creaturevisualizer
 
 
 		#region Handlers
-		void mousedown_colorbox(object sender, MouseEventArgs e)
+		internal void mousedown_colorbox(object sender, MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Right)
 			{
@@ -522,6 +522,20 @@ namespace creaturevisualizer
 		{
 			colorbox0.BackColor = Color.FromArgb(alpha, color);
 		}
+
+
+		internal bool IsTextboxFocused(ControlCollection controls)
+		{
+			foreach (Control control in controls)
+			{
+				if ((control as TextBoxBase) != null && control.Focused)
+					return true;
+
+				if (IsTextboxFocused(control.Controls))
+					return true;
+			}
+			return false;
+		}
 		#endregion Methods
 
 
@@ -624,7 +638,7 @@ namespace creaturevisualizer
 			this.swatches.Location = new System.Drawing.Point(395, 8);
 			this.swatches.Margin = new System.Windows.Forms.Padding(0);
 			this.swatches.Name = "swatches";
-			this.swatches.Size = new System.Drawing.Size(100, 260);
+			this.swatches.Size = new System.Drawing.Size(100, 222);
 			this.swatches.TabIndex = 10;
 			// 
 			// rgbColorSpace

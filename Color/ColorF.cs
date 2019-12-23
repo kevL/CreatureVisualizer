@@ -27,6 +27,25 @@ namespace creaturevisualizer
 		#endregion cTor
 
 
+		#region Handlers (override)
+		protected override void OnKeyDown(KeyEventArgs e)
+		{
+			switch (e.KeyData)
+			{
+				case Keys.B:
+					if (!ColorPanel.IsTextboxFocused(Controls))
+					{
+						e.Handled = e.SuppressKeyPress = true;
+
+						var args = new MouseEventArgs(MouseButtons.Right, 0, 0,0, 0);
+						ColorPanel.mousedown_colorbox(null, args);
+					}
+					break;
+			}
+		}
+		#endregion Handlers (override)
+
+
 
 		#region Designer
 		Container components = null;
@@ -94,6 +113,7 @@ namespace creaturevisualizer
 			this.Controls.Add(this.colorPanel);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.KeyPreview = true;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "ColorF";

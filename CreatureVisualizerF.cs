@@ -14,15 +14,6 @@ using OEIShared.UI.Input;
 
 namespace creaturevisualizer
 {
-	/// <summary>
-	/// The direction of the controlpanel popout.
-	/// </summary>
-	enum CpDir
-	{
-		n,e,s,w
-	}
-
-
 	sealed partial class CreatureVisualizerF
 		: Form
 	{
@@ -1648,5 +1639,14 @@ namespace creaturevisualizer
 
 			return epoch.AddSeconds(secondsSince1970);
 		}
+	}
+
+
+	/// <summary>
+	/// The direction of the controlpanel popout.
+	/// </summary>
+	enum CpDir
+	{
+		n,e,s,w
 	}
 }
