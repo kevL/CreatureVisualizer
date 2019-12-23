@@ -48,9 +48,7 @@ namespace creaturevisualizer
 				else
 				{
 					using (var font = new Font(Font, FontStyle.Bold))
-					{
 						e.Graphics.DrawString("a", font, Brushes.White, 2,2);
-					}
 				}
 			}
 		}

@@ -16,34 +16,31 @@ namespace creaturevisualizer
 
 
 		#region Fields (static)
-		internal const int width  =  18;
-		internal const int height = 256;
+		internal const int width  =  18; // w of the gradient rectangle 
+		internal const int height = 256; // h of the gradient rectangle 
 		#endregion Fields (static)
 
 
 		#region Fields
-		bool _lb;
-		bool _track;
-
-		int _y;
-
-		Rectangle _l;
-		Rectangle _r;
-
-		readonly Rectangle _rectOuter = new Rectangle(10,4, 26,264);
-		readonly Rectangle _rectInner = new Rectangle(13,7, width, height);
-
 		ColorSpace _colorspace;
+
+		readonly Rectangle _rectInner;
+
+		Rectangle _l; // for invalidating/redrawing the left  tri
+		Rectangle _r; // for invalidating/redrawing the right tri
+
+		bool _track;
 		#endregion Fields
 
 
 		#region Properties
+		int _y;
 		public int Value
 		{
 			get { return 255 - _y + _rectInner.Y; }
 			set
 			{
-				_y = _rectInner.Y + (255 - value);
+				_y = _rectInner.Y + 255 - value;
 				InvalidateTris(_y);
 			}
 		}
@@ -54,8 +51,10 @@ namespace creaturevisualizer
 		public ColorSlider()
 		{
 			InitializeComponent();
-
-			_y = _rectInner.Top;
+			_rectInner = new Rectangle((Width  - width)  / 2,
+									   (Height - height) / 2,
+									   width,
+									   height);
 		}
 		#endregion cTor
 
@@ -67,9 +66,7 @@ namespace creaturevisualizer
 
 			Graphics graphics = e.Graphics;
 
-			DrawTriL(graphics, _y);
-			DrawTriR(graphics, _y);
-
+			DrawTris(graphics, _y);
 			DrawGradient(graphics);
 
 			graphics.DrawRectangle(Pens.Black,
@@ -81,29 +78,19 @@ namespace creaturevisualizer
 		{
 			if (e.Button == MouseButtons.Left)
 			{
-				_lb = true;
+				_track = true;
 				ChangeValue(e.Y);
 			}
-
-			base.OnMouseDown(e);
 		}
 
 		protected override void OnMouseUp(MouseEventArgs e)
 		{
-			_lb = _track = false;
-
-			base.OnMouseUp(e);
+			_track = false;
 		}
 
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
-			if (_lb)
-			{
-				_track = true;
-				ChangeValue(e.Y);
-			}
-
-			base.OnMouseMove(e);
+			if (_track) ChangeValue(e.Y);
 		}
 		#endregion Handlers (override)
 
@@ -117,24 +104,15 @@ namespace creaturevisualizer
 
 		void ChangeValue(int y)
 		{
-			if (_lb && !_track)
-			{
-				if (y < _rectInner.Top || y > _rectInner.Bottom)
-					return;
-			}
-			else
-			{
-				if (!_track)
-					return;
-
-				if      (y <  _rectInner.Top)    y = _rectInner.Top;
-				else if (y >= _rectInner.Bottom) y = _rectInner.Bottom - 1;
-			}
+			if (y < _rectInner.Y)
+				y = _rectInner.Y;
+			else if (y >= _rectInner.Y + _rectInner.Height)
+					 y  = _rectInner.Y + _rectInner.Height - 1;
 
 			InvalidateTris(_y = y);
 
 			if (ValueChanged != null)
-				ValueChanged(this, new ValueChangedEventArgs(255 - (_y - _rectInner.Y)));
+				ValueChanged(this, new ValueChangedEventArgs(255 - _y + _rectInner.Y));
 		}
 
 		void InvalidateTris(int y)
@@ -142,8 +120,8 @@ namespace creaturevisualizer
 			Invalidate(_l);
 			Invalidate(_r);
 
-			_l = GetRegionTriL(y);
-			_r = GetRegionTriR(y);
+			_l = GetRectangleTriL(y);
+			_r = GetRectangleTriR(y);
 
 			Invalidate(_l);
 			Invalidate(_r);
@@ -151,38 +129,37 @@ namespace creaturevisualizer
 			Update(); // quick refresh. Just say no to sticky tris.
 		}
 
-		Rectangle GetRegionTriL(int y)
+		Rectangle GetRectangleTriL(int y)
 		{
-			int x = _rectOuter.Left - 8;
-			y -= 6;
-			return new Rectangle(x,y, 8,13);
+			int x = _rectInner.X - 9;
+			y -= 5;
+			return new Rectangle(x,y, 6,11);
 		}
 
-		Rectangle GetRegionTriR(int y)
+		Rectangle GetRectangleTriR(int y)
 		{
-			int x = _rectOuter.Right - 1;
-			y -= 6;
-			return new Rectangle(x,y, 8,13);
+			int x = _rectInner.X + _rectInner.Width + 3;
+			y -= 5;
+			return new Rectangle(x,y, 6,11);
 		}
 
-		void DrawTriL(Graphics graphics, int y)
+		void DrawTris(Graphics graphics, int y)
 		{
-			var tri = new Point[3]
+			Point[] tri;
+
+			tri = new Point[3]
 			{
-				new Point(_rectOuter.Left - 7, y - 5),
-				new Point(_rectOuter.Left - 2, y),
-				new Point(_rectOuter.Left - 7, y + 5)
+				new Point(_rectInner.X - 9, y - 5),
+				new Point(_rectInner.X - 4, y),
+				new Point(_rectInner.X - 9, y + 5)
 			};
 			graphics.DrawPolygon(Pens.Black, tri);
-		}
 
-		void DrawTriR(Graphics graphics, int y)
-		{
-			var tri = new Point[3]
+			tri = new Point[3]
 			{
-				new Point(_rectOuter.Right + 4, y - 5),
-				new Point(_rectOuter.Right - 1, y),
-				new Point(_rectOuter.Right + 4, y + 5)
+				new Point(_rectInner.X + _rectInner.Width + 8, y - 5),
+				new Point(_rectInner.X + _rectInner.Width + 3, y),
+				new Point(_rectInner.X + _rectInner.Width + 8, y + 5)
 			};
 			graphics.DrawPolygon(Pens.Black, tri);
 		}
@@ -284,6 +261,7 @@ namespace creaturevisualizer
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Margin = new System.Windows.Forms.Padding(0);
 			this.Name = "ColorSlider";
+			this.Size = new System.Drawing.Size(36, 267);
 			this.ResumeLayout(false);
 
 		}

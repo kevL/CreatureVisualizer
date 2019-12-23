@@ -162,6 +162,10 @@ namespace creaturevisualizer
 			e.Graphics.DrawRectangle(Pens.Black,
 									 colorbox1.Left  - 1, colorbox1.Top                       - 1,
 									 colorbox1.Width + 1, colorbox1.Height + colorbox0.Height + 1);
+
+			e.Graphics.DrawRectangle(Pens.Black,
+									 swatches.Left  - 1, swatches.Top    - 1,
+									 swatches.Width + 1, swatches.Height + 1);
 		}
 
 
@@ -438,7 +442,7 @@ namespace creaturevisualizer
 				{
 					case 'H':
 					{
-						Color color = _hueSlider.GetPixel(10, 255 - colorslider.Value);
+						Color color = _hueSlider.GetPixel(0, 255 - colorslider.Value);
 						colorfield.ChangeColor(color, _csCurrent, updatePoint);
 						break;
 					}
@@ -534,7 +538,7 @@ namespace creaturevisualizer
 			// 
 			this.colorfield.BackColor = System.Drawing.SystemColors.ControlLight;
 			this.colorfield.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.colorfield.Location = new System.Drawing.Point(10, 10);
+			this.colorfield.Location = new System.Drawing.Point(5, 8);
 			this.colorfield.Margin = new System.Windows.Forms.Padding(0);
 			this.colorfield.Name = "colorfield";
 			this.colorfield.Size = new System.Drawing.Size(256, 256);
@@ -543,7 +547,7 @@ namespace creaturevisualizer
 			// tb_Hex
 			// 
 			this.tb_Hex.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.tb_Hex.Location = new System.Drawing.Point(360, 220);
+			this.tb_Hex.Location = new System.Drawing.Point(345, 220);
 			this.tb_Hex.Margin = new System.Windows.Forms.Padding(0);
 			this.tb_Hex.MaxLength = 6;
 			this.tb_Hex.Name = "tb_Hex";
@@ -556,9 +560,9 @@ namespace creaturevisualizer
 			// colorbox1
 			// 
 			this.colorbox1.AllowDrop = true;
-			this.colorbox1.BackColor = System.Drawing.SystemColors.Control;
+			this.colorbox1.BackColor = System.Drawing.SystemColors.ControlLight;
 			this.colorbox1.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.colorbox1.Location = new System.Drawing.Point(320, 10);
+			this.colorbox1.Location = new System.Drawing.Point(305, 8);
 			this.colorbox1.Margin = new System.Windows.Forms.Padding(0);
 			this.colorbox1.Name = "colorbox1";
 			this.colorbox1.Size = new System.Drawing.Size(80, 30);
@@ -570,9 +574,9 @@ namespace creaturevisualizer
 			// colorbox0
 			// 
 			this.colorbox0.AllowDrop = true;
-			this.colorbox0.BackColor = System.Drawing.SystemColors.Control;
+			this.colorbox0.BackColor = System.Drawing.SystemColors.ControlLight;
 			this.colorbox0.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.colorbox0.Location = new System.Drawing.Point(320, 40);
+			this.colorbox0.Location = new System.Drawing.Point(305, 38);
 			this.colorbox0.Margin = new System.Windows.Forms.Padding(0);
 			this.colorbox0.Name = "colorbox0";
 			this.colorbox0.Size = new System.Drawing.Size(80, 30);
@@ -584,10 +588,10 @@ namespace creaturevisualizer
 			// colorslider
 			// 
 			this.colorslider.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.colorslider.Location = new System.Drawing.Point(270, 3);
+			this.colorslider.Location = new System.Drawing.Point(265, 3);
 			this.colorslider.Margin = new System.Windows.Forms.Padding(0);
 			this.colorslider.Name = "colorslider";
-			this.colorslider.Size = new System.Drawing.Size(45, 270);
+			this.colorslider.Size = new System.Drawing.Size(36, 267);
 			this.colorslider.TabIndex = 1;
 			this.colorslider.Value = 0;
 			this.colorslider.ValueChanged += new creaturevisualizer.ValueChangedEventHandler(this.valuechanged_slider);
@@ -595,9 +599,8 @@ namespace creaturevisualizer
 			// swatches
 			// 
 			this.swatches.AllowDrop = true;
-			this.swatches.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.swatches.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.swatches.Location = new System.Drawing.Point(410, 10);
+			this.swatches.Location = new System.Drawing.Point(395, 8);
 			this.swatches.Margin = new System.Windows.Forms.Padding(0);
 			this.swatches.Name = "swatches";
 			this.swatches.Size = new System.Drawing.Size(100, 260);
@@ -606,7 +609,7 @@ namespace creaturevisualizer
 			// rgbColorSpace
 			// 
 			this.rgbColorSpace.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.rgbColorSpace.Location = new System.Drawing.Point(325, 150);
+			this.rgbColorSpace.Location = new System.Drawing.Point(310, 150);
 			this.rgbColorSpace.Margin = new System.Windows.Forms.Padding(0);
 			this.rgbColorSpace.Name = "rgbColorSpace";
 			this.rgbColorSpace.Size = new System.Drawing.Size(75, 60);
@@ -617,7 +620,7 @@ namespace creaturevisualizer
 			// hsbColorSpace
 			// 
 			this.hsbColorSpace.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.hsbColorSpace.Location = new System.Drawing.Point(325, 80);
+			this.hsbColorSpace.Location = new System.Drawing.Point(310, 80);
 			this.hsbColorSpace.Margin = new System.Windows.Forms.Padding(0);
 			this.hsbColorSpace.Name = "hsbColorSpace";
 			this.hsbColorSpace.Size = new System.Drawing.Size(75, 60);
@@ -627,7 +630,7 @@ namespace creaturevisualizer
 			// 
 			// la_Hex
 			// 
-			this.la_Hex.Location = new System.Drawing.Point(320, 220);
+			this.la_Hex.Location = new System.Drawing.Point(305, 220);
 			this.la_Hex.Margin = new System.Windows.Forms.Padding(0);
 			this.la_Hex.Name = "la_Hex";
 			this.la_Hex.Size = new System.Drawing.Size(40, 20);
@@ -637,7 +640,7 @@ namespace creaturevisualizer
 			// 
 			// la_Alpha
 			// 
-			this.la_Alpha.Location = new System.Drawing.Point(320, 245);
+			this.la_Alpha.Location = new System.Drawing.Point(305, 245);
 			this.la_Alpha.Margin = new System.Windows.Forms.Padding(0);
 			this.la_Alpha.Name = "la_Alpha";
 			this.la_Alpha.Size = new System.Drawing.Size(40, 20);
@@ -648,7 +651,7 @@ namespace creaturevisualizer
 			// tb_Alpha
 			// 
 			this.tb_Alpha.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.tb_Alpha.Location = new System.Drawing.Point(360, 245);
+			this.tb_Alpha.Location = new System.Drawing.Point(345, 245);
 			this.tb_Alpha.Margin = new System.Windows.Forms.Padding(0);
 			this.tb_Alpha.MaxLength = 3;
 			this.tb_Alpha.Name = "tb_Alpha";
@@ -659,7 +662,6 @@ namespace creaturevisualizer
 			// 
 			// ColorPanel
 			// 
-			this.AllowDrop = true;
 			this.Controls.Add(this.colorfield);
 			this.Controls.Add(this.colorslider);
 			this.Controls.Add(this.colorbox1);
@@ -674,7 +676,7 @@ namespace creaturevisualizer
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Margin = new System.Windows.Forms.Padding(0);
 			this.Name = "ColorPanel";
-			this.Size = new System.Drawing.Size(515, 275);
+			this.Size = new System.Drawing.Size(500, 270);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

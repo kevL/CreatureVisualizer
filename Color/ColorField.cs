@@ -41,7 +41,7 @@ namespace creaturevisualizer
 		{
 			if (!DesignMode)
 			{
-				UpdateCurrentColor(e.Graphics);
+				DrawField(e.Graphics);
 
 				Pen pen;
 				if (GradientService.IsBright(GetCurrentColor()))
@@ -49,8 +49,10 @@ namespace creaturevisualizer
 				else
 					pen = Pens.White;
 
-				var location = new Point(_pt.X - 4, _pt.Y - 4);
-				e.Graphics.DrawEllipse(pen, new Rectangle(location, new Size(8,8)));
+				e.Graphics.DrawEllipse(pen,
+									   _pt.X - 4,
+									   _pt.Y - 4,
+									   8,8);
 			}
 		}
 
@@ -61,7 +63,7 @@ namespace creaturevisualizer
 				_track = true;
 
 				var point = new Point(e.X, e.Y);
-				InvalidateRegions(_pt, point);
+				InvalidatePoints(_pt, point);
 
 				_pt = point;
 				OnColorSelected(new ColorSelectedEventArgs(CalculateSelectedColor()));
@@ -75,22 +77,20 @@ namespace creaturevisualizer
 
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
-			base.OnMouseMove(e);
-
-			const int leeway = 5;
-
-			if (_track
-				&& (   (e.X > -1 - leeway && e.X < 256 + leeway)
-					|| (e.Y > -1 - leeway && e.Y < 256 + leeway)))
+			if (_track)
 			{
-				int x = Math.Max(Math.Min(e.X, 255), 0);
-				int y = Math.Max(Math.Min(e.Y, 255), 0);
-				var point = new Point(x, y);
+				const int leeway = 5;
+				if (   (e.X > -1 - leeway && e.X < 256 + leeway)
+					|| (e.Y > -1 - leeway && e.Y < 256 + leeway))
+				{
+					var point = new Point(Math.Max(0, Math.Min(e.X, 255)),
+										  Math.Max(0, Math.Min(e.Y, 255)));
 
-				InvalidateRegions(_pt, point);
+					InvalidatePoints(_pt, point);
 
-				_pt = point;
-				OnColorSelected(new ColorSelectedEventArgs(CalculateSelectedColor()));
+					_pt = point;
+					OnColorSelected(new ColorSelectedEventArgs(CalculateSelectedColor()));
+				}
 			}
 		}
 
@@ -117,7 +117,7 @@ namespace creaturevisualizer
 
 
 		#region Methods
-		void UpdateCurrentColor(Graphics graphics)
+		void DrawField(Graphics graphics)
 		{
 			if (_cs is HsbColorSpace)
 			{
@@ -162,7 +162,7 @@ namespace creaturevisualizer
 			}
 		}
 
-		void InvalidateRegions(Point pt0, Point pt1)
+		void InvalidatePoints(Point pt0, Point pt1)
 		{
 			Rectangle rect;
 

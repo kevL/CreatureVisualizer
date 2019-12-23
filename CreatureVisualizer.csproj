@@ -64,7 +64,7 @@
   <ItemGroup>
     <Compile Include="Color\ColorSwatchF.cs" />
     <Compile Include="Color\ColorBox_cv.cs" />
-    <Compile Include="Color\ColorConverter_cv.cs" />
+    <Compile Include="Color\ColorConverter.cs" />
     <Compile Include="Color\ColorF.cs" />
     <Compile Include="Color\ColorField.cs" />
     <Compile Include="Color\ColorPanelSettings_cv.cs" />

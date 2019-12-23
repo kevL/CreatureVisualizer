@@ -47,19 +47,19 @@ namespace creaturevisualizer
 		{
 			Rectangle rect;
 
-			int val = 255;
+			int g = 255;
 			for (int y = 0; y != 256; ++y)
 			{
 				rect = new Rectangle(0,y, 256,1);
 				using (var brush = new LinearGradientBrush(rect,
-														   Color.FromArgb(red, val,   0),
-														   Color.FromArgb(red, val, 255),
+														   Color.FromArgb(red, g,   0),
+														   Color.FromArgb(red, g, 255),
 														   0f,
 														   false))
 				{
 					graphics.FillRectangle(brush, rect);
 				}
-				--val;
+				--g;
 			}
 		}
 
@@ -67,18 +67,18 @@ namespace creaturevisualizer
 		{
 			Rectangle rect;
 
-			int val = 255;
+			int r = 255;
 			for (int y = 0; y != 256; ++y)
 			{
 				rect = new Rectangle(0,y, 256,1);
 				using (var brush = new LinearGradientBrush(rect,
-														   Color.FromArgb(val, green,   0),
-														   Color.FromArgb(val, green, 255),
+														   Color.FromArgb(r, green,   0),
+														   Color.FromArgb(r, green, 255),
 														   LinearGradientMode.Horizontal))
 				{
 					graphics.FillRectangle(brush, rect);
 				}
-				--val;
+				--r;
 			}
 		}
 
@@ -86,18 +86,18 @@ namespace creaturevisualizer
 		{
 			Rectangle rect;
 
-			int val = 255;
+			int g = 255;
 			for (int y = 0; y != 256; ++y)
 			{
 				rect = new Rectangle(0,y, 256,1);
 				using (var brush = new LinearGradientBrush(rect,
-														   Color.FromArgb(  0, val, blue),
-														   Color.FromArgb(255, val, blue),
+														   Color.FromArgb(  0, g, blue),
+														   Color.FromArgb(255, g, blue),
 														   LinearGradientMode.Horizontal))
 				{
 					graphics.FillRectangle(brush, rect);
 				}
-				--val;
+				--g;
 			}
 		}
 
