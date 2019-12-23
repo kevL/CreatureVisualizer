@@ -48,98 +48,109 @@ namespace creaturevisualizer
 			return RgbToColor(HsbToRgb(hsb));
 		}
 
-/*		internal static HSB RgbToHsb(RGB rgb)
-		{
-			Color color = RgbToColor(rgb);
 
-			//var trace = new System.Diagnostics.StackTrace();
-			//System.Windows.Forms.MessageBox.Show("h= " + (int)Math.Round(color.GetHue()) + "\ns= "
-			//+ ((int)Math.Round(color.GetSaturation()) * 100) + "\nb= " + ((int)Math.Round(color.GetBrightness()) * 100)
-			//+ "\n" + trace);
-
-			return new HSB((int)Math.Round(color.GetHue()),
-						   (int)Math.Round(color.GetSaturation()) * 100,
-						   (int)Math.Round(color.GetBrightness()) * 100);
-
-
-//			int r = rgb.Red;
-//			int g = rgb.Green;
-//			int b = rgb.Blue;
-//
-//			int bri = getmaxint(r,g,b);
-//			if (bri != 0)
-//			{
-//				int darkest = getminint(r,g,b);
-//
-//				double delta = (bri - darkest) / 255.0;
-//
-//				int hue;
-//				if      (bri == r) hue = (int)Math.Round(      (g - b) / 255.0 / delta);
-//				else if (bri == g) hue = (int)Math.Round(2.0 + (b - r) / 255.0 / delta);
-//				else if (bri == b) hue = (int)Math.Round(4.0 + (r - g) / 255.0 / delta);
-//				else               hue = 0;
-//
-//				int sat;
-//				if (darkest != 0) sat = (int)Math.Round(delta / bri * 2.55);
-//				else              sat = 100;
-//
-//				while ((hue *= 60) < 0) hue += 360;
-//
-//				return new HSB(hue,
-//							   sat,
-//							   (int)Math.Round(bri * 100.0));
-//			}
-//			return new HSB(0,0,0);
-		} */
 		internal static HSB RgbToHsb(RGB rgb)
 		{
-			double r = (double)rgb.Red   / 255.0;
-			double g = (double)rgb.Green / 255.0;
-			double b = (double)rgb.Blue  / 255.0;
+			double r = rgb.Red   / 255.0;
+			double g = rgb.Green / 255.0;
+			double b = rgb.Blue  / 255.0;
 
 			double min = getmindouble(r,g,b);
 			double max = getmaxdouble(r,g,b);
 
-			double d4 = max - min;
-			double d5,d6;
+			double delta = max - min;
+			double d_hue, d_sat;
 
-			if (max < Single.Epsilon || d4 < Single.Epsilon)
+			if (max < Single.Epsilon || delta < Single.Epsilon)
 			{
-				d5 = d6 = 0.0;
+				d_hue = d_sat = 0.0;
 			}
 			else
 			{
-				if      (Math.Abs(r - max) < Single.Epsilon) d5 =       (g - b) / d4;
-				else if (Math.Abs(g - max) < Single.Epsilon) d5 = 2.0 + (b - r) / d4; 
-				else if (Math.Abs(b - max) < Single.Epsilon) d5 = 4.0 + (r - g) / d4;
-				else                                         d5 = 0.0;
+				if      (Math.Abs(max - r) < Single.Epsilon) d_hue =       (g - b) / delta;
+				else if (Math.Abs(max - g) < Single.Epsilon) d_hue = 2.0 + (b - r) / delta; 
+				else if (Math.Abs(max - b) < Single.Epsilon) d_hue = 4.0 + (r - g) / delta;
+//				if      (max - r < Single.Epsilon) d_hue =       (g - b) / delta;
+//				else if (max - g < Single.Epsilon) d_hue = 2.0 + (b - r) / delta; 
+//				else if (max - b < Single.Epsilon) d_hue = 4.0 + (r - g) / delta;
+				else                               d_hue = 0.0;
 
 				if (min > Single.Epsilon)
-					d6 = d4 / max * 100.0;
+					d_sat = delta / max * 100.0;
 				else
-					d6 = 100.0;
+					d_sat = 100.0;
 			}
 
-			while ((d5 *= 60.0) < 0.0) d5 += 360.0;
+			if ((d_hue *= 60.0) < 0.0) d_hue += 360.0;
 
-//			System.Windows.Forms.MessageBox.Show(
-//				"h= " + (int)Math.Round(d5) +
-//				"\ns= " + (int)Math.Round(d6) +
-//				"\nb= " + (int)Math.Round(max * 100.0));
-
-			return new HSB((int)Math.Round(d5),
-						   (int)Math.Round(d6),
+			return new HSB((int)Math.Round(d_hue),
+						   (int)Math.Round(d_sat),
 						   (int)Math.Round(max * 100.0));
 		}
+		// https://en.wikipedia.org/wiki/HSL_and_HSV
+/*		internal static HSB RgbToHsb(RGB rgb)
+		{
+			int r = rgb.Red;
+			int g = rgb.Green;
+			int b = rgb.Blue;
+
+			double dr = r / 255.0;
+			double dg = g / 255.0;
+			double db = b / 255.0;
+
+			double min = getmindouble(dr,dg,db);
+			double max = getmaxdouble(dr,dg,db);
+
+
+			double d_hue;
+
+			if (r > g && r > b)
+			{
+				d_hue = 60 * ((dg - db) / (max - min));
+			}
+			else if (g > r && g > b)
+			{
+				d_hue = 60 * ((db - dr) / (max - min) + 2);
+			}
+			else if (b > r && b > g)
+			{
+				d_hue = 60 * ((dr - dg) / (max - min) + 4);
+			}
+			else //if (r == g && r == b)
+			{
+				d_hue = 0;
+			}
+
+			if (d_hue < 0) d_hue += 360;
+
+
+			double d_sat;
+
+			if (   (r ==   0 && g ==   0 && b ==   0)
+				|| (r == 255 && g == 255 && b == 255))
+			{
+				d_sat = 0;
+			}
+			else
+				d_sat = (max - min) / (1 - Math.Abs(max + min - 1));
+
+
+			double d_bri = (max + min) / 2;
+
+
+			return new HSB((int)Math.Round(d_hue),
+						   (int)Math.Round(d_sat * 100),
+						   (int)Math.Round(d_bri * 100));
+		} */
 
 		internal static RGB HsbToRgb(HSB hsb)
 		{
-			double d1,d2,d3;
+			double r,g,b;
 			double d_bri = hsb.Brightness / 100.0;
 
 			if (hsb.Saturation == 0)
 			{
-				d1 = d2 = d3 = d_bri;
+				r = g = b = d_bri;
 			}
 			else
 			{
@@ -152,51 +163,91 @@ namespace creaturevisualizer
 				switch (d8)
 				{
 					case 0:
-						d1 = d_bri;
-						d2 = d_bri * (1.0 - d_sat * (1.0 - d9));
-						d3 = d_bri * (1.0 - d_sat);
+						r = d_bri;
+						g = d_bri * (1.0 - d_sat * (1.0 - d9));
+						b = d_bri * (1.0 - d_sat);
 						break;
 
 					case 1:
-						d1 = d_bri * (1.0 - d_sat * d9);
-						d2 = d_bri;
-						d3 = d_bri * (1.0 - d_sat);
+						r = d_bri * (1.0 - d_sat * d9);
+						g = d_bri;
+						b = d_bri * (1.0 - d_sat);
 						break;
 
 					case 2:
-						d1 = d_bri * (1.0 - d_sat);
-						d2 = d_bri;
-						d3 = d_bri * (1.0 - d_sat * (1.0 - d9));
+						r = d_bri * (1.0 - d_sat);
+						g = d_bri;
+						b = d_bri * (1.0 - d_sat * (1.0 - d9));
 						break;
 
 					case 3:
-						d1 = d_bri * (1.0 - d_sat);
-						d2 = d_bri * (1.0 - d_sat * d9);
-						d3 = d_bri;
+						r = d_bri * (1.0 - d_sat);
+						g = d_bri * (1.0 - d_sat * d9);
+						b = d_bri;
 						break;
 
 					case 4:
-						d1 = d_bri * (1.0 - d_sat * (1.0 - d9));
-						d2 = d_bri * (1.0 - d_sat);
-						d3 = d_bri;
+						r = d_bri * (1.0 - d_sat * (1.0 - d9));
+						g = d_bri * (1.0 - d_sat);
+						b = d_bri;
 						break;
 
 					case 5:
-						d1 = d_bri;
-						d2 = d_bri * (1.0 - d_sat);
-						d3 = d_bri * (1.0 - d_sat * d9);
+						r = d_bri;
+						g = d_bri * (1.0 - d_sat);
+						b = d_bri * (1.0 - d_sat * d9);
 						break;
 
 					default:
-						d1 = d2 = d3 = 0.0;
+						r = g = b = 0.0;
 						break;
 				}
 			}
 
-			return new RGB((int)Math.Round(d1 * 255.0),
-						   (int)Math.Round(d2 * 255.0),
-						   (int)Math.Round(d3 * 255.0));
+			return new RGB((int)Math.Round(r * 255.0),
+						   (int)Math.Round(g * 255.0),
+						   (int)Math.Round(b * 255.0));
 		}
+		// https://en.wikipedia.org/wiki/HSL_and_HSV
+/*		internal static RGB HsbToRgb(HSB hsb)
+		{
+			int      hue = hsb.Hue;
+			double f_sat = hsb.Saturation / 100.0;
+			double f_bri = hsb.Brightness / 100.0;
+
+			double c = (1 - Math.Abs(f_bri * 2 - 1)) * f_sat;
+
+			hue /= 60;
+
+			double x = c * (1 - Math.Abs(hue % 2 - 1));
+
+			double dr,dg,db;
+			switch (hue)
+			{
+				default:
+				case 0: dr = c; dg = x; db = 0; break;
+				case 1: dr = x; dg = c; db = 0; break;
+				case 2: dr = 0; dg = c; db = x; break;
+				case 3: dr = 0; dg = x; db = c; break;
+				case 4: dr = x; dg = 0; db = c; break;
+				case 5: dr = c; dg = 0; db = x; break;
+			}
+
+			double delta = f_bri - c / 2;
+			dr += delta;
+			dg += delta;
+			db += delta;
+
+//			string text;
+//			text = "hue= " + hue + " d_sat= " + d_sat + " d_bri= " + d_bri;
+//			text += "\nc= " + c + " x= " + x + " delta= " + delta;
+//			text += "\ndr= " + dr + " dg= " + dg + " db= " + db;
+//			System.Windows.Forms.MessageBox.Show(text);
+
+			return new RGB((int)Math.Round(dr * 255),
+						   (int)Math.Round(dg * 255),
+						   (int)Math.Round(db * 255));
+		} */
 
 
 		internal static RGB HexToRgb(string hextext)
