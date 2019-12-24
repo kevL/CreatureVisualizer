@@ -16,13 +16,13 @@ namespace creaturevisualizer
 
 
 		#region Properties
-		readonly List<ColorSpaceComponent> _cscs = new List<ColorSpaceComponent>();
-		internal List<ColorSpaceComponent> ColorSpaceComponents
+		readonly List<ColorSpaceControl> _cscs = new List<ColorSpaceControl>();
+		internal List<ColorSpaceControl> ColorSpaceControls
 		{
 			get { return _cscs; }
 		}
 
-		internal ColorSpaceComponent Selected
+		internal ColorSpaceControl Selected
 		{ get; set; }
 		#endregion Properties
 
@@ -43,7 +43,7 @@ namespace creaturevisualizer
 
 
 		#region Methods
-		internal void SelectComponent(ColorSpaceComponent csc)
+		internal void SelectComponent(ColorSpaceControl csc)
 		{
 			ResetComponents();
 
@@ -54,7 +54,7 @@ namespace creaturevisualizer
 
 		internal void ResetComponents()
 		{
-			foreach (ColorSpaceComponent csc in _cscs)
+			foreach (ColorSpaceControl csc in _cscs)
 				csc.Selected = false;
 		}
 		#endregion Methods

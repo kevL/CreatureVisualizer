@@ -164,11 +164,11 @@ namespace creaturevisualizer
 
 			switch (_csCurrent.Selected.Unit)
 			{
-				case ColorSpaceComponent.Units.Percent:
+				case ColorSpaceControl.Units.Percent:
 					val = (int)Math.Ceiling((double)val / 2.55);
 					break;
 
-				case ColorSpaceComponent.Units.Degree:
+				case ColorSpaceControl.Units.Degree:
 					val = (int)Math.Ceiling((double)val / (17.0 / 24.0));
 					if (val == 360)
 						val = 0;
@@ -294,12 +294,17 @@ namespace creaturevisualizer
 		}
 
 
-		void textchanged_hexbox(object sender, EventArgs e)
+		void textchanged_hecate(object sender, EventArgs e)
 		{
-			ApplyHexValue();
+			RGB rgb = ColorConverter.HexToRgb(tb_Hex.Text);
+			rgbColorSpace.Structure = rgb;
+			hsbColorSpace.Structure = ColorConverter.RgbToHsb(rgb);
+
+			SetSliderValue();
+			Satisfy(true, true, false);
 		}
 
-		void textchanged_alphabox(object sender, EventArgs e)
+		void textchanged_alpha(object sender, EventArgs e)
 		{
 			string alpha;
 			if (!String.IsNullOrEmpty(tb_Alpha.Text))
@@ -308,9 +313,6 @@ namespace creaturevisualizer
 				alpha = "0";
 
 			SelectColor(GetActiveColorbox().BackColor, false, false);
-
-//			if (ColorValueChanged != null)
-//				ColorValueChanged(this, EventArgs.Empty);
 		}
 		#endregion Handlers
 
@@ -318,8 +320,8 @@ namespace creaturevisualizer
 		#region Methods
 		void SelectColor(Color color, bool resetslider, bool setHexText = true)
 		{
-			if (!ColorConverter.ColorToRgb(color).Equals(rgbColorSpace.Structure)
-				|| !setHexText)
+			if (!ColorConverter.ColorToRgb(color).Equals(rgbColorSpace.Structure)	// TODO: store alpha in the Structure(s)
+				|| !setHexText)														// and remove 'setHextText' shenanigans
 			{
 				RGB rgb = ColorConverter.ColorToRgb(color);
 				rgbColorSpace.Structure = rgb;
@@ -339,16 +341,16 @@ namespace creaturevisualizer
 			colorslider.Value = CalculateSliderPosition(_csCurrent.Selected);
 		}
 
-		int CalculateSliderPosition(ColorSpaceComponent csc)
+		int CalculateSliderPosition(ColorSpaceControl csc)
 		{
 			int val = csc.Value;
 			switch (csc.Unit)
 			{
-				case ColorSpaceComponent.Units.Degree:
+				case ColorSpaceControl.Units.Degree:
 					val = (int)Math.Ceiling(17.0 / 24.0 * (double)val);
 					break;
 
-				case ColorSpaceComponent.Units.Percent:
+				case ColorSpaceControl.Units.Percent:
 					val = (int)Math.Ceiling(2.55 * (double)val);
 					break;
 			}
@@ -401,16 +403,6 @@ namespace creaturevisualizer
 			{
 				colorfield.ChangeColor(val, _csCurrent, updatePoint);
 			}
-		}
-
-		void ApplyHexValue()
-		{
-			RGB rgb = ColorConverter.HexToRgb(tb_Hex.Text);
-			rgbColorSpace.Structure = rgb;
-			hsbColorSpace.Structure = ColorConverter.RgbToHsb(rgb);
-
-			SetSliderValue();
-			Satisfy(true, true, false);
 		}
 
 
@@ -525,7 +517,7 @@ namespace creaturevisualizer
 			this.tb_Hex.Size = new System.Drawing.Size(45, 20);
 			this.tb_Hex.TabIndex = 7;
 			this.tb_Hex.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.tb_Hex.TextChanged += new System.EventHandler(this.textchanged_hexbox);
+			this.tb_Hex.TextChanged += new System.EventHandler(this.textchanged_hecate);
 			// 
 			// colorbox1
 			// 
@@ -624,7 +616,7 @@ namespace creaturevisualizer
 			this.tb_Alpha.Size = new System.Drawing.Size(45, 20);
 			this.tb_Alpha.TabIndex = 9;
 			this.tb_Alpha.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.tb_Alpha.TextChanged += new System.EventHandler(this.textchanged_alphabox);
+			this.tb_Alpha.TextChanged += new System.EventHandler(this.textchanged_alpha);
 			// 
 			// ColorPanel
 			// 
@@ -675,7 +667,7 @@ namespace creaturevisualizer
 				{
 					bool flag = false;
 
-					foreach (ColorSpaceComponent csc in rgbColorSpace.ColorSpaceComponents)
+					foreach (ColorSpaceControl csc in rgbColorSpace.ColorSpaceControls)
 					{
 						if (csc.Name.Equals(_settings.SelectedColorSpaceComponent))
 						{
@@ -687,7 +679,7 @@ namespace creaturevisualizer
 
 					if (!flag)
 					{
-						foreach (ColorSpaceComponent csc in hsbColorSpace.ColorSpaceComponents)
+						foreach (ColorSpaceControl csc in hsbColorSpace.ColorSpaceControls)
 						{
 							if (csc.Name.Equals(_settings.SelectedColorSpaceComponent))
 							{

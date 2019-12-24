@@ -5,7 +5,7 @@ using System.Windows.Forms;
 namespace creaturevisualizer
 {
 	// Sano.PersonalProjects.ColorPicker.Controls.ColorSpaceComponent
-	sealed class ColorSpaceComponent
+	sealed class ColorSpaceControl
 		: UserControl
 	{
 		// Sano.PersonalProjects.ColorPicker.Controls.ComponentUnit
@@ -48,20 +48,20 @@ namespace creaturevisualizer
 		{
 			get // TODO ->
 			{
-				if (csctb_Val.Text.Length == 0)
+				if (tb_Val.Text.Length == 0)
 					return 0;
 
-				int val = Int32.Parse(csctb_Val.Text);
+				int val = Int32.Parse(tb_Val.Text);
 
 				if (val > MaximumValue)
-					val = Int32.Parse(csctb_Val.Text.Substring(0, csctb_Val.Text.Length - 1));
+					val = Int32.Parse(tb_Val.Text.Substring(0, tb_Val.Text.Length - 1));
 
 				return val;
 			}
 			set
 			{
-				csctb_Val.Text = (_val = value).ToString();
-				csctb_Val.SelectionStart = csctb_Val.Text.Length;
+				tb_Val.Text = (_val = value).ToString();
+				tb_Val.SelectionStart = tb_Val.Text.Length;
 			}
 		}
 
@@ -101,7 +101,7 @@ namespace creaturevisualizer
 
 
 		#region cTor
-		public ColorSpaceComponent()
+		public ColorSpaceControl()
 		{
 			InitializeComponent();
 		}
@@ -126,11 +126,11 @@ namespace creaturevisualizer
 
 		void txtComponentValue_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (csctb_Val.Text.Length > 0
+			if (tb_Val.Text.Length > 0
 				&& (   (e.KeyData | Keys.Shift) == (Keys.Shift | Keys.Space | Keys.RButton | Keys.MButton)
 					|| (e.KeyData | Keys.Shift) == (Keys.Shift | Keys.Space | Keys.Back)))
 			{
-				int val1 = Int16.Parse(csctb_Val.Text);
+				int val1 = Int16.Parse(tb_Val.Text);
 				int num2 = (((e.KeyData & Keys.Shift) != Keys.Shift) ? 1 : 10);
 
 				if ((e.KeyData & Keys.Up) == Keys.Up)
@@ -143,19 +143,19 @@ namespace creaturevisualizer
 					val1 = ((val1 + num2 <= MinimumValue) ? MinimumValue : (val1 + num2));
 				}
 
-				csctb_Val.Text = val1.ToString();
+				tb_Val.Text = val1.ToString();
 				this.ComponentTextKeyUp(this, EventArgs.Empty);
 
 				if (e.KeyData == (Keys.Back | Keys.Space | Keys.Shift))
 				{
-					csctb_Val.SelectionStart = csctb_Val.Text.Length;
+					tb_Val.SelectionStart = tb_Val.Text.Length;
 				}
 			}
 		}
 
 		void txtComponentValue_LostFocus(object sender, EventArgs e)
 		{
-			var tb = (ColorSpaceComponentTextBox)sender;
+			var tb = (TextboxRestrictive)sender;
 
 			int val;
 
@@ -190,7 +190,7 @@ namespace creaturevisualizer
 
 
 		#region Designer
-		ColorSpaceComponentTextBox csctb_Val;
+		internal TextboxRestrictive tb_Val;
 
 		Label la_Component;
 		Label la_Units;
@@ -199,25 +199,26 @@ namespace creaturevisualizer
 
 		void InitializeComponent()
 		{
-			this.csctb_Val = new creaturevisualizer.ColorSpaceComponentTextBox();
+			this.tb_Val = new creaturevisualizer.TextboxRestrictive();
 			this.la_Units = new System.Windows.Forms.Label();
 			this.rb_Component = new System.Windows.Forms.RadioButton();
 			this.la_Component = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
-			// csctb_Val
+			// tb_Val
 			// 
-			this.csctb_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.csctb_Val.Location = new System.Drawing.Point(30, 0);
-			this.csctb_Val.Margin = new System.Windows.Forms.Padding(0);
-			this.csctb_Val.MaxLength = 3;
-			this.csctb_Val.Name = "csctb_Val";
-			this.csctb_Val.Size = new System.Drawing.Size(25, 20);
-			this.csctb_Val.TabIndex = 2;
-			this.csctb_Val.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.csctb_Val.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtComponentValue_KeyDown);
-			this.csctb_Val.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtComponentValue_KeyUp);
-			this.csctb_Val.LostFocus += new System.EventHandler(this.txtComponentValue_LostFocus);
+			this.tb_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.tb_Val.Location = new System.Drawing.Point(30, 0);
+			this.tb_Val.Margin = new System.Windows.Forms.Padding(0);
+			this.tb_Val.MaxLength = 3;
+			this.tb_Val.Name = "tb_Val";
+			this.tb_Val.Restrict = creaturevisualizer.TextboxRestrictive.Type.Byte;
+			this.tb_Val.Size = new System.Drawing.Size(25, 20);
+			this.tb_Val.TabIndex = 2;
+			this.tb_Val.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.tb_Val.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtComponentValue_KeyDown);
+			this.tb_Val.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtComponentValue_KeyUp);
+			this.tb_Val.LostFocus += new System.EventHandler(this.txtComponentValue_LostFocus);
 			// 
 			// la_Units
 			// 
@@ -246,15 +247,15 @@ namespace creaturevisualizer
 			this.la_Component.TabIndex = 1;
 			this.la_Component.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
-			// ColorSpaceComponent
+			// ColorSpaceControl
 			// 
 			this.Controls.Add(this.rb_Component);
-			this.Controls.Add(this.csctb_Val);
+			this.Controls.Add(this.tb_Val);
 			this.Controls.Add(this.la_Component);
 			this.Controls.Add(this.la_Units);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Margin = new System.Windows.Forms.Padding(0);
-			this.Name = "ColorSpaceComponent";
+			this.Name = "ColorSpaceControl";
 			this.Size = new System.Drawing.Size(75, 20);
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -266,5 +267,5 @@ namespace creaturevisualizer
 
 
 	// Sano.PersonalProjects.ColorPicker.Controls.ColorSpaceComponentEventHandler
-	internal delegate void ColorSpaceComponentEventHandler(ColorSpaceComponent sender, EventArgs e);
+	internal delegate void ColorSpaceComponentEventHandler(ColorSpaceControl sender, EventArgs e);
 }

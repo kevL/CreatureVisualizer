@@ -29,20 +29,20 @@ namespace creaturevisualizer
 		{
 			InitializeComponent();
 
-			ColorSpaceComponents.Add(cscRed);
-			ColorSpaceComponents.Add(cscGreen);
-			ColorSpaceComponents.Add(cscBlue);
+			ColorSpaceControls.Add(cscRed);
+			ColorSpaceControls.Add(cscGreen);
+			ColorSpaceControls.Add(cscBlue);
 		}
 		#endregion cTor
 
 
 		#region Handlers
-		void ComponentSelected(ColorSpaceComponent sender, EventArgs e)
+		void ComponentSelected(ColorSpaceControl sender, EventArgs e)
 		{
 			SelectComponent(sender);
 		}
 
-		void ComponentTextKeyUp(ColorSpaceComponent sender, EventArgs e)
+		void ComponentTextKeyUp(ColorSpaceControl sender, EventArgs e)
 		{
 			OnComponentValueChanged(e);
 		}
@@ -69,16 +69,16 @@ namespace creaturevisualizer
 
 
 		#region Designer
-		ColorSpaceComponent cscRed;
-		ColorSpaceComponent cscGreen;
-		ColorSpaceComponent cscBlue;
+		ColorSpaceControl cscRed;
+		ColorSpaceControl cscGreen;
+		ColorSpaceControl cscBlue;
 
 
 		void InitializeComponent()
 		{
-			this.cscRed = new creaturevisualizer.ColorSpaceComponent();
-			this.cscGreen = new creaturevisualizer.ColorSpaceComponent();
-			this.cscBlue = new creaturevisualizer.ColorSpaceComponent();
+			this.cscRed = new creaturevisualizer.ColorSpaceControl();
+			this.cscGreen = new creaturevisualizer.ColorSpaceControl();
+			this.cscBlue = new creaturevisualizer.ColorSpaceControl();
 			this.SuspendLayout();
 			// 
 			// cscRed
@@ -92,7 +92,7 @@ namespace creaturevisualizer
 			this.cscRed.Selected = false;
 			this.cscRed.Size = new System.Drawing.Size(70, 20);
 			this.cscRed.TabIndex = 0;
-			this.cscRed.Unit = creaturevisualizer.ColorSpaceComponent.Units.Byte;
+			this.cscRed.Unit = creaturevisualizer.ColorSpaceControl.Units.Byte;
 			this.cscRed.Value = 0;
 			this.cscRed.ComponentSelected += new creaturevisualizer.ColorSpaceComponentEventHandler(this.ComponentSelected);
 			this.cscRed.ComponentTextKeyUp += new creaturevisualizer.ColorSpaceComponentEventHandler(this.ComponentTextKeyUp);
@@ -108,7 +108,7 @@ namespace creaturevisualizer
 			this.cscGreen.Selected = false;
 			this.cscGreen.Size = new System.Drawing.Size(70, 20);
 			this.cscGreen.TabIndex = 1;
-			this.cscGreen.Unit = creaturevisualizer.ColorSpaceComponent.Units.Byte;
+			this.cscGreen.Unit = creaturevisualizer.ColorSpaceControl.Units.Byte;
 			this.cscGreen.Value = 0;
 			this.cscGreen.ComponentSelected += new creaturevisualizer.ColorSpaceComponentEventHandler(this.ComponentSelected);
 			this.cscGreen.ComponentTextKeyUp += new creaturevisualizer.ColorSpaceComponentEventHandler(this.ComponentTextKeyUp);
@@ -124,7 +124,7 @@ namespace creaturevisualizer
 			this.cscBlue.Selected = false;
 			this.cscBlue.Size = new System.Drawing.Size(70, 20);
 			this.cscBlue.TabIndex = 2;
-			this.cscBlue.Unit = creaturevisualizer.ColorSpaceComponent.Units.Byte;
+			this.cscBlue.Unit = creaturevisualizer.ColorSpaceControl.Units.Byte;
 			this.cscBlue.Value = 0;
 			this.cscBlue.ComponentSelected += new creaturevisualizer.ColorSpaceComponentEventHandler(this.ComponentSelected);
 			this.cscBlue.ComponentTextKeyUp += new creaturevisualizer.ColorSpaceComponentEventHandler(this.ComponentTextKeyUp);

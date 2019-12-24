@@ -28,12 +28,6 @@ namespace creaturevisualizer
 		#endregion Properties
 
 
-//		#region cTor
-//		public TextboxRestrictive()
-//		{}
-//		#endregion cTor
-
-
 		#region Handlers (override)
 		protected override void OnKeyDown(KeyEventArgs e)
 		{
@@ -138,5 +132,13 @@ namespace creaturevisualizer
 			}
 		}
 		#endregion Handlers (override)
+
+
+		#region Methods
+		internal void SetRestrict(Type type)
+		{
+			Restrict = type;
+		}
+		#endregion Methods
 	}
 }
