@@ -9,40 +9,46 @@ namespace creaturevisualizer
 		: ColorSpaceComponentTextBox
 	{
 		#region Handlers (override)
-		protected override bool IsInputChar(char charCode)
-		{
-			return base.IsInputChar(charCode)
-				||  charCode == '.'
-				|| (charCode >= 'A' && charCode <= 'F');
-		}
-
 		protected override void OnKeyDown(KeyEventArgs e)
 		{
-			base.OnKeyDown(e);
-
-			if (Text.Length > 0
-				&& (   (e.KeyData | Keys.Shift) == (Keys.Shift | Keys.Space | Keys.RButton | Keys.MButton)
-					|| (e.KeyData | Keys.Shift) == (Keys.Shift | Keys.Space | Keys.Back)))
+			switch (e.KeyData)
 			{
-				string text = "0x" + Text;
+				case Keys.Left:
+				case Keys.Right:
+				case Keys.Shift | Keys.Left:  // select char left
+				case Keys.Shift | Keys.Right: // select char right
+				case Keys.Home:
+				case Keys.End:
+				case Keys.Shift | Keys.Home: // select to start
+				case Keys.Shift | Keys.End:  // select to end
+				case Keys.Back:
+				case Keys.Delete:
 
-				int val;
-				int val1 = Convert.ToInt32(text, 16);
-				int val2 = ((e.KeyData & Keys.Shift) != Keys.Shift) ? 1 : 10;
+				// don't bother w/
+				// Ctrl+Home
+				// Ctrl+End
+				// Shift+Ctrl+Home
+				// Shift+Ctrl+End
+				// PageUp
+				// PageDown
 
-				if ((e.KeyData & Keys.Up) == Keys.Up)
-				{
-					val = Math.Min(val1 + val2, 16777215);
-				}
-				else
-					val = Math.Max(val1 - val2, 0);
+				case Keys.Control | Keys.C: // copy
+				case Keys.Control | Keys.X: // cut
+				case Keys.Control | Keys.V: // paste
 
-				Text = val.ToString("X6").ToUpper();
+				case Keys.Control | Keys.Insert: // copy
+				case Keys.Shift   | Keys.Delete: // cut
+				case Keys.Shift   | Keys.Insert: // paste
+					return;
+			}
 
-				if (e.KeyData == (Keys.Shift | Keys.Space | Keys.Back)) // wtf does that even mean
-				{
-					SelectionStart = Text.Length;
-				}
+			int ascii = (int)e.KeyData;
+			if (    ascii < 48
+				|| (ascii > 57 && ascii < 65)
+				|| (ascii > 70 && ascii < 97)
+				||  ascii > 102)
+			{
+				e.Handled = e.SuppressKeyPress = true;
 			}
 		}
 		#endregion Handlers (override)

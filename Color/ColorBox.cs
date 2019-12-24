@@ -39,6 +39,9 @@ namespace creaturevisualizer
 		#region Handlers (override)
 		protected override void OnPaint(PaintEventArgs e)
 		{
+			using (var brush = new SolidBrush(BackColor))
+				e.Graphics.FillRectangle(brush, ClientRectangle);
+
 			// Muahaha
 			e.Graphics.DrawLine(Pens.Black, 1,         0, 1,         Height);
 			e.Graphics.DrawLine(Pens.Black, Width - 2, 0, Width - 2, Height);
@@ -128,7 +131,6 @@ namespace creaturevisualizer
 			// 
 			// ColorBox
 			// 
-			this.AllowDrop = true;
 			this.DoubleBuffered = true;
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Margin = new System.Windows.Forms.Padding(0);

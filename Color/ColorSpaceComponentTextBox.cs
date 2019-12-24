@@ -10,7 +10,13 @@ namespace creaturevisualizer
 	class ColorSpaceComponentTextBox
 		: TextBox
 	{
-		#region Fields
+//		protected override void OnKeyDown(KeyEventArgs e)
+//		{
+//			e.Handled = e.SuppressKeyPress = (e.KeyValue > 47 && e.KeyValue < 58);
+//		}
+
+
+/*		#region Fields
 		bool _caretHidden;
 		#endregion Fields
 
@@ -137,6 +143,6 @@ namespace creaturevisualizer
 			}
 			return false;
 		}
-		#endregion Methods (static)
+		#endregion Methods (static) */
 	}
 }

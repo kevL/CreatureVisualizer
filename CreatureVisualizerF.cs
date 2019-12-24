@@ -1132,19 +1132,15 @@ namespace creaturevisualizer
 				_sano = new ColorF();
 				_sano.ColorPanel.ColorValueChanged += colorchanged_diff;
 
-				Color color; byte alpha;
+				Color color;
 				if (CreatureVisualizerP.ColorDiffuse != null)
 				{
-					color = _sano.ColorPanel.SelectedColor =  (Color)CreatureVisualizerP.ColorDiffuse;
-					alpha = _sano.ColorPanel.Alpha         = ((Color)CreatureVisualizerP.ColorDiffuse).A;
+					color = _sano.ColorPanel.Color = (Color)CreatureVisualizerP.ColorDiffuse;
 				}
 				else
-				{
-					color = _sano.ColorPanel.SelectedColor = _panel.Light.Color.DiffuseColor;
-					alpha = _sano.ColorPanel.Alpha         = _panel.Light.Color.DiffuseColor.A;
-				}
+					color = _sano.ColorPanel.Color = _panel.Light.Color.DiffuseColor;
 
-				_sano.ColorPanel.InitInactiveColorbox(color, alpha);
+				_sano.ColorPanel.InitInactiveColorbox(color);
 
 
 				if (_sano.ShowDialog(this) == DialogResult.OK)
@@ -1155,13 +1151,12 @@ namespace creaturevisualizer
 
 					CreatureVisualizerP.ColorDiffuse =
 					pa_light_diffuse.BackColor =
-					_panel.Light.Color.DiffuseColor = Color.FromArgb(_sano.ColorPanel.Alpha,
-																	 _sano.ColorPanel.SelectedColor);
+					_panel.Light.Color.DiffuseColor = _sano.ColorPanel.Color;
 				}
 				else
 				{
 					pa_light_diffuse.BackColor =
-					_panel.Light.Color.DiffuseColor = Color.FromArgb(alpha, color);
+					_panel.Light.Color.DiffuseColor = color;
 				}
 
 				_sano.Dispose();
@@ -1174,8 +1169,7 @@ namespace creaturevisualizer
 		void colorchanged_diff(object sender, EventArgs e)
 		{
 			pa_light_diffuse.BackColor =
-			_panel.Light.Color.DiffuseColor = Color.FromArgb(_sano.ColorPanel.Alpha,
-															 _sano.ColorPanel.SelectedColor);
+			_panel.Light.Color.DiffuseColor = _sano.ColorPanel.Color;
 		}
 
 		void click_pa_light_specular(object sender, EventArgs e)
@@ -1187,19 +1181,15 @@ namespace creaturevisualizer
 				_sano = new ColorF();
 				_sano.ColorPanel.ColorValueChanged += colorchanged_spec;
 
-				Color color; byte alpha;
+				Color color;
 				if (CreatureVisualizerP.ColorSpecular != null)
 				{
-					color = _sano.ColorPanel.SelectedColor =  (Color)CreatureVisualizerP.ColorSpecular;
-					alpha = _sano.ColorPanel.Alpha         = ((Color)CreatureVisualizerP.ColorSpecular).A;
+					color = _sano.ColorPanel.Color = (Color)CreatureVisualizerP.ColorSpecular;
 				}
 				else
-				{
-					color = _sano.ColorPanel.SelectedColor = _panel.Light.Color.SpecularColor;
-					alpha = _sano.ColorPanel.Alpha         = _panel.Light.Color.SpecularColor.A;
-				}
+					color = _sano.ColorPanel.Color = _panel.Light.Color.SpecularColor;
 
-				_sano.ColorPanel.InitInactiveColorbox(color, alpha);
+				_sano.ColorPanel.InitInactiveColorbox(color);
 
 
 				if (_sano.ShowDialog(this) == DialogResult.OK)
@@ -1210,13 +1200,12 @@ namespace creaturevisualizer
 
 					CreatureVisualizerP.ColorSpecular =
 					pa_light_specular.BackColor =
-					_panel.Light.Color.SpecularColor = Color.FromArgb(_sano.ColorPanel.Alpha,
-																	  _sano.ColorPanel.SelectedColor);
+					_panel.Light.Color.SpecularColor = _sano.ColorPanel.Color;
 				}
 				else
 				{
 					pa_light_specular.BackColor =
-					_panel.Light.Color.SpecularColor = Color.FromArgb(alpha, color);
+					_panel.Light.Color.SpecularColor = color;
 				}
 
 				_sano.Dispose();
@@ -1229,8 +1218,7 @@ namespace creaturevisualizer
 		void colorchanged_spec(object sender, EventArgs e)
 		{
 			pa_light_specular.BackColor =
-			_panel.Light.Color.SpecularColor = Color.FromArgb(_sano.ColorPanel.Alpha,
-															  _sano.ColorPanel.SelectedColor);
+			_panel.Light.Color.SpecularColor = _sano.ColorPanel.Color;
 		}
 
 
@@ -1243,19 +1231,15 @@ namespace creaturevisualizer
 				_sano = new ColorF();
 				_sano.ColorPanel.ColorValueChanged += colorchanged_ambi;
 
-				Color color; byte alpha;
+				Color color;
 				if (CreatureVisualizerP.ColorAmbient != null)
 				{
-					color = _sano.ColorPanel.SelectedColor =  (Color)CreatureVisualizerP.ColorAmbient;
-					alpha = _sano.ColorPanel.Alpha         = ((Color)CreatureVisualizerP.ColorAmbient).A;
+					color = _sano.ColorPanel.Color = (Color)CreatureVisualizerP.ColorAmbient;
 				}
 				else
-				{
-					color = _sano.ColorPanel.SelectedColor = _panel.Light.Color.AmbientColor;
-					alpha = _sano.ColorPanel.Alpha         = _panel.Light.Color.AmbientColor.A;
-				}
+					color = _sano.ColorPanel.Color = _panel.Light.Color.AmbientColor;
 
-				_sano.ColorPanel.InitInactiveColorbox(color, alpha);
+				_sano.ColorPanel.InitInactiveColorbox(color);
 
 
 				if (_sano.ShowDialog(this) == DialogResult.OK)
@@ -1266,13 +1250,12 @@ namespace creaturevisualizer
 
 					CreatureVisualizerP.ColorAmbient =
 					pa_light_ambient.BackColor =
-					_panel.Light.Color.AmbientColor = Color.FromArgb(_sano.ColorPanel.Alpha,
-																	 _sano.ColorPanel.SelectedColor);
+					_panel.Light.Color.AmbientColor = _sano.ColorPanel.Color;
 				}
 				else
 				{
 					pa_light_ambient.BackColor =
-					_panel.Light.Color.AmbientColor = Color.FromArgb(alpha, color);
+					_panel.Light.Color.AmbientColor = color;
 				}
 
 				_sano.Dispose();
@@ -1285,8 +1268,7 @@ namespace creaturevisualizer
 		void colorchanged_ambi(object sender, EventArgs e)
 		{
 			pa_light_ambient.BackColor =
-			_panel.Light.Color.AmbientColor = Color.FromArgb(_sano.ColorPanel.Alpha,
-															 _sano.ColorPanel.SelectedColor);
+			_panel.Light.Color.AmbientColor = _sano.ColorPanel.Color;
 		}
 
 
