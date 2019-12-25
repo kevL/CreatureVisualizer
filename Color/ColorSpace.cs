@@ -44,7 +44,7 @@ namespace creaturevisualizer
 		#region Methods
 		internal void SelectCsc(ColorSpaceControl csc)
 		{
-			ResetComponents();
+			DeselectComponents();
 
 			csc.Selected = true;
 			Selected = csc;
@@ -53,7 +53,7 @@ namespace creaturevisualizer
 				SelectedCscChanged(this);
 		}
 
-		internal void ResetComponents()
+		internal void DeselectComponents()
 		{
 			foreach (ColorSpaceControl csc in _cscs)
 				csc.Selected = false;

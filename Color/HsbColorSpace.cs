@@ -10,7 +10,10 @@ namespace creaturevisualizer
 		#region Properties (override)
 		internal object Structure
 		{
-			get { return new HSB(cscHue.Value, cscSaturation.Value, cscBrightness.Value); }
+			get
+			{
+				return new HSB(cscHue.Value, cscSaturation.Value, cscBrightness.Value);
+			}
 			set
 			{
 				var hsb = (HSB)value;

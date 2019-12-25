@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 
@@ -25,7 +26,7 @@ namespace creaturevisualizer
 		#region Properties
 		public bool Selected
 		{
-			get { return rb_Co.Checked; }
+//			get { return rb_Co.Checked; }
 			set { rb_Co.Checked = value; }
 		}
 
@@ -62,6 +63,7 @@ namespace creaturevisualizer
 		}
 
 		int _max = Byte.MaxValue;
+		[DefaultValue(Byte.MaxValue)]
 		public int Max
 		{
 			get { return _max; }
@@ -94,69 +96,51 @@ namespace creaturevisualizer
 
 
 		#region Handlers
-		void rdoComponent_Click(object sender, EventArgs e)
+		void checkedchanged_rb(object sender, EventArgs e)
 		{
-			var radioButton = (RadioButton)sender;
-			if (radioButton.Checked)
-				OnComponentSelected(EventArgs.Empty);
-		}
-
-		void txtComponentValue_KeyDown(object sender, KeyEventArgs e)
-		{
-			if (tb_Val.Text.Length > 0
-				&& (   (e.KeyData | Keys.Shift) == (Keys.Shift | Keys.Space | Keys.RButton | Keys.MButton)
-					|| (e.KeyData | Keys.Shift) == (Keys.Shift | Keys.Space | Keys.Back)))
-			{
-				int val1 = Int16.Parse(tb_Val.Text);
-				int num2 = (((e.KeyData & Keys.Shift) != Keys.Shift) ? 1 : 10);
-
-				if ((e.KeyData & Keys.Up) == Keys.Up)
-				{
-					val1 = ((val1 + num2 > Max) ? Max : (val1 + num2));
-				}
-				else if ((e.KeyData | Keys.Shift) == (Keys.Shift | Keys.Space | Keys.Back))
-				{
-					num2 = ((e.KeyData != (Keys.Shift | Keys.Space | Keys.Back)) ? (-1) : (-10));
-					val1 = ((val1 + num2 <= 0) ? 0 : (val1 + num2));
-				}
-
-				tb_Val.Text = val1.ToString();
-
-				if (e.KeyData == (Keys.Back | Keys.Space | Keys.Shift))
-				{
-					tb_Val.SelectionStart = tb_Val.Text.Length;
-				}
-			}
-		}
-
-		void txtComponentValue_LostFocus(object sender, EventArgs e)
-		{
-			var tb = (TextboxRestrictive)sender;
-
-			int val;
-
-			if (!String.IsNullOrEmpty(tb.Text))
-			{
-				val = Int32.Parse(tb.Text);
-				if      (val > Max) val = Max;
-				else if (val < 0) val = 0;
-			}
-			else
-				val = 0;
-
-			tb.Text = val.ToString();
-		}
-		#endregion Handlers
-
-
-		#region Handlers (virtual)
-		void OnComponentSelected(EventArgs e)
-		{
-			if (CscSelected != null)
+			if (((RadioButton)sender).Checked && CscSelected != null)
 				CscSelected(this);
 		}
-		#endregion Handlers (virtual)
+//		void click_rb(object sender, EventArgs e)
+//		{}
 
+		void leave_val(object sender, EventArgs e)
+		{
+			var tb = sender as TextboxRestrictive;
+			if (String.IsNullOrEmpty(tb.Text))
+				tb.Text = "0"; // WARNING: That will fire the TextChanged event but the control's value shall already be 0.
+		}
+//		void lostfocus_val(object sender, EventArgs e)
+//		{}
+
+//		void txtComponentValue_KeyDown(object sender, KeyEventArgs e)
+//		{
+//			if (tb_Val.Text.Length > 0
+//				&& (   (e.KeyData | Keys.Shift) == (Keys.Shift | Keys.Space | Keys.RButton | Keys.MButton)
+//					|| (e.KeyData | Keys.Shift) == (Keys.Shift | Keys.Space | Keys.Back)))
+//			{
+//				int val1 = Int16.Parse(tb_Val.Text);
+//				int num2 = (((e.KeyData & Keys.Shift) != Keys.Shift) ? 1 : 10);
+//
+//				if ((e.KeyData & Keys.Up) == Keys.Up)
+//				{
+//					val1 = ((val1 + num2 > Max) ? Max : (val1 + num2));
+//				}
+//				else if ((e.KeyData | Keys.Shift) == (Keys.Shift | Keys.Space | Keys.Back))
+//				{
+//					num2 = ((e.KeyData != (Keys.Shift | Keys.Space | Keys.Back)) ? (-1) : (-10));
+//					val1 = ((val1 + num2 <= 0) ? 0 : (val1 + num2));
+//				}
+//
+//				tb_Val.Text = val1.ToString();
+//
+//				if (e.KeyData == (Keys.Back | Keys.Space | Keys.Shift))
+//				{
+//					tb_Val.SelectionStart = tb_Val.Text.Length;
+//				}
+//			}
+//		}
+		#endregion Handlers
 
 
 		#region Designer
@@ -184,8 +168,7 @@ namespace creaturevisualizer
 			this.tb_Val.Size = new System.Drawing.Size(25, 20);
 			this.tb_Val.TabIndex = 1;
 			this.tb_Val.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.tb_Val.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtComponentValue_KeyDown);
-			this.tb_Val.LostFocus += new System.EventHandler(this.txtComponentValue_LostFocus);
+			this.tb_Val.Leave += new System.EventHandler(this.leave_val);
 			// 
 			// la_Units
 			// 
@@ -203,7 +186,7 @@ namespace creaturevisualizer
 			this.rb_Co.Name = "rb_Co";
 			this.rb_Co.Size = new System.Drawing.Size(30, 20);
 			this.rb_Co.TabIndex = 0;
-			this.rb_Co.Click += new System.EventHandler(this.rdoComponent_Click);
+			this.rb_Co.CheckedChanged += new System.EventHandler(this.checkedchanged_rb);
 			// 
 			// ColorSpaceControl
 			// 

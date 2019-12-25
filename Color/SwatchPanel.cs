@@ -427,7 +427,7 @@ namespace creaturevisualizer
 
 		ColorSwatch GetColorSwatch(int x, int y)
 		{
-			return _swatchArray[GetSwatchId(x, y)];
+			return _swatchArray[GetSwatchId(x,y)];
 		}
 
 		int GetSwatchId(int x, int y)

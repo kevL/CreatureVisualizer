@@ -209,13 +209,13 @@ namespace creaturevisualizer
 
 		void selectedcscchanged_colorspace(ColorSpace sender)
 		{
-			if (sender is RgbColorSpace)
-			{
-				hsbColorSpace.ResetComponents();
+			if (sender is RgbColorSpace)			// TODO: uh, since these are RadioButtons shouldn't they deselect auto ...
+			{										// ... and shouldn't they ALL go deselected whether HSB or RGB
+				hsbColorSpace.DeselectComponents();
 			}
 			else if (sender is HsbColorSpace)
 			{
-				rgbColorSpace.ResetComponents();
+				rgbColorSpace.DeselectComponents();
 			}
 
 			_csCurrent = sender;

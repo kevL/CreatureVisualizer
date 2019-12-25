@@ -11,7 +11,10 @@ namespace creaturevisualizer
 		#region Properties (override)
 		internal object Structure
 		{
-			get { return new RGB(cscRed.Value, cscGreen.Value, cscBlue.Value); }
+			get
+			{
+				return new RGB(cscRed.Value, cscGreen.Value, cscBlue.Value);
+			}
 			set
 			{
 				var rgb = (RGB)value;
