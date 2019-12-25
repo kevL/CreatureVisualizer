@@ -1166,7 +1166,7 @@ namespace creaturevisualizer
 			}
 		}
 
-		void colorchanged_diff(object sender, EventArgs e)
+		void colorchanged_diff()
 		{
 			pa_light_diffuse.BackColor =
 			_panel.Light.Color.DiffuseColor = _sano.ColorPanel.Color;
@@ -1215,7 +1215,7 @@ namespace creaturevisualizer
 			}
 		}
 
-		void colorchanged_spec(object sender, EventArgs e)
+		void colorchanged_spec()
 		{
 			pa_light_specular.BackColor =
 			_panel.Light.Color.SpecularColor = _sano.ColorPanel.Color;
@@ -1265,7 +1265,7 @@ namespace creaturevisualizer
 			}
 		}
 
-		void colorchanged_ambi(object sender, EventArgs e)
+		void colorchanged_ambi()
 		{
 			pa_light_ambient.BackColor =
 			_panel.Light.Color.AmbientColor = _sano.ColorPanel.Color;

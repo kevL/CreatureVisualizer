@@ -17,7 +17,7 @@ namespace creaturevisualizer
 		: UserControl
 	{
 		#region Events
-		internal event EventHandler ColorChanged;
+		internal event ColorChangedEventHandler ColorChanged;
 		#endregion Events
 
 
@@ -151,7 +151,7 @@ namespace creaturevisualizer
 				Satisfy(true, true, true);
 
 				if (ColorChanged != null)
-					ColorChanged(this, EventArgs.Empty);
+					ColorChanged();
 			}
 		}
 
@@ -189,7 +189,7 @@ namespace creaturevisualizer
 			GetActiveColorbox().BackColor = ColorConverter.RgbToColor((RGB)rgbColorSpace.Structure);
 
 			if (ColorChanged != null)
-				ColorChanged(this, EventArgs.Empty);
+				ColorChanged();
 		}
 
 		void dragdrop_colorbox(object sender, DragEventArgs e)
@@ -246,7 +246,7 @@ namespace creaturevisualizer
 			GetActiveColorbox().BackColor = ColorConverter.RgbToColor((RGB)rgbColorSpace.Structure);
 
 			if (ColorChanged != null)
-				ColorChanged(this, EventArgs.Empty);
+				ColorChanged();
 		}
 
 		void colorswatchselected_swatches(object sender, ColorSelectedEventArgs e)
@@ -286,7 +286,7 @@ namespace creaturevisualizer
 			GetActiveColorbox().BackColor = ColorConverter.RgbToColor(rgb);
 
 			if (ColorChanged != null)
-				ColorChanged(this, EventArgs.Empty);
+				ColorChanged();
 		}
 
 
@@ -327,7 +327,7 @@ namespace creaturevisualizer
 				Satisfy(false, true, setHexText);
 
 				if (ColorChanged != null)
-					ColorChanged(this, EventArgs.Empty);
+					ColorChanged();
 			}
 		}
 
@@ -621,7 +621,6 @@ namespace creaturevisualizer
 		}
 		#endregion Designer
 	}
-}
 /*		ColorPanelSettings _settings;
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		[Browsable(false)]
@@ -692,3 +691,8 @@ namespace creaturevisualizer
 				}
 			}
 		} */
+
+
+
+	internal delegate void ColorChangedEventHandler();
+}
