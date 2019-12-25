@@ -132,7 +132,7 @@ namespace creaturevisualizer
 						}
 
 						case MouseButtons.Right:
-							_currentSwatchId = GetColorSwatchIndex(e.X, e.Y);
+							_currentSwatchId = GetSwatchId(e.X, e.Y);
 							break;
 					}
 				}
@@ -160,7 +160,7 @@ namespace creaturevisualizer
 								break;
 
 							case MouseButtons.Right:
-								contextMenu.Show(this, new Point(e.X, e.Y));
+								context.Show(this, new Point(e.X, e.Y));
 								break;
 						}
 					}
@@ -269,17 +269,12 @@ namespace creaturevisualizer
 						}
 
 						if (_swatchArray[val2].Color == Color.Empty)
-						{
-							DrawEmptyColorSwatch(graphics, val2);
 							_nextSwatchId = val2;
-						}
-						else
-						{
-							DrawColorSwatch(graphics, val2);
-						}
+
+						DrawSwatch(graphics, val2);
 
 						Rectangle rect = _swatchArray[val2].Rect;
-						rect.Inflate(1, 1);
+						rect.Inflate(1,1);
 						Invalidate(rect);
 					}
 
@@ -339,24 +334,21 @@ namespace creaturevisualizer
 			} */
 		}
 
-		void DrawColorSwatch(Graphics g, int swatchIndex)
+		void DrawSwatch(Graphics graphics, int id)
 		{
-			PaintSwatch(g, swatchIndex, _swatchArray[swatchIndex].Color);
-			g.DrawRectangle(Pens.Black, _swatchArray[swatchIndex].Location.X, _swatchArray[swatchIndex].Location.Y, 10, 10);
-		}
+			ColorSwatch swatch = _swatchArray[id];
 
-		void DrawEmptyColorSwatch(Graphics g, int swatchIndex)
-		{
-			PaintSwatch(g, swatchIndex, BackColor);
-			g.DrawRectangle(Pens.DarkGray, _swatchArray[swatchIndex].Location.X, _swatchArray[swatchIndex].Location.Y, 10, 10);
-		}
+			int x = swatch.Location.X;
+			int y = swatch.Location.Y;
 
-		void PaintSwatch(Graphics g, int swatchIndex, Color color)
-		{
+			Color color = swatch.Color;
+			if (color == Color.Empty)
+				color = BackColor;
+
 			using (var brush = new SolidBrush(color))
-			{
-				g.FillRectangle(brush, _swatchArray[swatchIndex].Location.X, _swatchArray[swatchIndex].Location.Y, 10, 10);
-			}
+				graphics.FillRectangle(brush, x,y, 10,10);
+
+			graphics.DrawRectangle(Pens.Black, x,y, 10,10);
 		}
 
 		Bitmap BuildSwatchBitmap()
@@ -375,12 +367,12 @@ namespace creaturevisualizer
 
 				using (Graphics graphics = Graphics.FromImage(b))
 				{
-					for (int i = 0; i != _swatches.Count; ++i)
+					for (int id = 0; id != _swatches.Count; ++id)
 					{
-						_swatchArray[val++] = _swatches[i];
+						_swatchArray[val++] = _swatches[id];
 						_swatchArray[val].Location = new Point(x,y);
 
-						DrawColorSwatch(graphics, i);
+						DrawSwatch(graphics, id);
 						UpdatePositions(ref x, ref y, ref col, ref row);
 
 						if (y + 10 > _outerHeight)
@@ -398,7 +390,7 @@ namespace creaturevisualizer
 
 						_swatchArray[val] = new ColorSwatch(new Point(x,y));
 
-						DrawEmptyColorSwatch(graphics, val++);
+						DrawSwatch(graphics, val++);
 						UpdatePositions(ref x, ref y, ref col, ref row);
 
 						++_totalSwatches;
@@ -429,20 +421,18 @@ namespace creaturevisualizer
 
 		bool IsCursorWithinSwatchGridBorders(int x, int y)
 		{
-			int width = _outerWidth - 12;
-			int height = _outerHeight - 12;
-			var rect = new Rectangle(_startX, _startY, width, height);
-			return new Rectangle(x, y, 1, 1).IntersectsWith(rect);
+			var rect = new Rectangle(_startX, _startY, _outerWidth - 12, _outerHeight - 12);
+			return new Rectangle(x,y, 1,1).IntersectsWith(rect);
 		}
 
 		ColorSwatch GetColorSwatch(int x, int y)
 		{
-			return _swatchArray[GetColorSwatchIndex(x, y)];
+			return _swatchArray[GetSwatchId(x, y)];
 		}
 
-		int GetColorSwatchIndex(int x, int y)
+		int GetSwatchId(int x, int y)
 		{
-			return GetSwatchRowIndex(y) * _hori + GetSwatchColumnIndex(x);
+			return ((y - 6) / 12) * _hori + ((x - 6) / 12);
 		}
 
 		void AddColor(Color color)
@@ -559,8 +549,7 @@ namespace creaturevisualizer
 
 		void InvalidateSwatch(Point swatchPoint)
 		{
-			var rect = new Rectangle(swatchPoint, new Size(10,10));
-			rect.Inflate(1, 1);
+			var rect = new Rectangle(swatchPoint, new Size(11,11)); // why.
 			Invalidate(rect);
 		}
 		#endregion Methods
@@ -572,16 +561,6 @@ namespace creaturevisualizer
 			var location = new Point(x, y);
 			return new Rectangle(location, new Size(1,1)).IntersectsWith(swatch.Rect);
 		}
-
-		static int GetSwatchColumnIndex(int x)
-		{
-			return (x - 6) / 12;
-		}
-
-		static int GetSwatchRowIndex(int y)
-		{
-			return (y - 6) / 12;
-		}
 		#endregion Methods (static)
 
 
@@ -590,9 +569,9 @@ namespace creaturevisualizer
 		IContainer components;
 
 		ToolTip colorTip; // TODO
-		MenuItem deleteSwatchMenuItem;
-		MenuItem renameSwatchMenuItem;
-		ContextMenu contextMenu;
+		MenuItem itDelete;
+		MenuItem itRelabel;
+		ContextMenu context;
 
 
 		protected override void Dispose(bool disposing)
@@ -608,32 +587,32 @@ namespace creaturevisualizer
 		{
 			this.components = new System.ComponentModel.Container();
 			this.colorTip = new System.Windows.Forms.ToolTip(this.components);
-			this.deleteSwatchMenuItem = new System.Windows.Forms.MenuItem();
-			this.renameSwatchMenuItem = new System.Windows.Forms.MenuItem();
-			this.contextMenu = new System.Windows.Forms.ContextMenu();
+			this.itDelete = new System.Windows.Forms.MenuItem();
+			this.itRelabel = new System.Windows.Forms.MenuItem();
+			this.context = new System.Windows.Forms.ContextMenu();
 			this.SuspendLayout();
 			// 
 			// colorTip
 			// 
 			this.colorTip.Active = false;
 			// 
-			// deleteSwatchMenuItem
+			// itDelete
 			// 
-			this.deleteSwatchMenuItem.Index = 1;
-			this.deleteSwatchMenuItem.Text = "";
-			this.deleteSwatchMenuItem.Click += new System.EventHandler(this.click_delete);
+			this.itDelete.Index = 0;
+			this.itDelete.Text = "itDelete";
+			this.itDelete.Click += new System.EventHandler(this.click_delete);
 			// 
-			// renameSwatchMenuItem
+			// itRelabel
 			// 
-			this.renameSwatchMenuItem.Index = 0;
-			this.renameSwatchMenuItem.Text = "";
-			this.renameSwatchMenuItem.Click += new System.EventHandler(this.click_relabel);
+			this.itRelabel.Index = 1;
+			this.itRelabel.Text = "itRelabel";
+			this.itRelabel.Click += new System.EventHandler(this.click_relabel);
 			// 
 			// contextMenu
 			// 
-			this.contextMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-			this.renameSwatchMenuItem,
-			this.deleteSwatchMenuItem});
+			this.context.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.itRelabel,
+			this.itDelete});
 			// 
 			// SwatchPanel
 			// 
