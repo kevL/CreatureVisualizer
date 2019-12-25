@@ -10,8 +10,8 @@ namespace creaturevisualizer
 		: UserControl
 	{
 		#region Events
-		public event ColorSpaceEventHandler ComponentValueChanged;
 		public event ColorSpaceEventHandler SelectedComponentChanged;
+		public event ColorSpaceEventHandler ComponentValueChanged;
 		#endregion Events
 
 

@@ -95,7 +95,6 @@ namespace creaturevisualizer
 			this.cscRed.Unit = creaturevisualizer.ColorSpaceControl.Units.Byte;
 			this.cscRed.Value = 0;
 			this.cscRed.ComponentSelected += new creaturevisualizer.ColorSpaceComponentEventHandler(this.ComponentSelected);
-			this.cscRed.ComponentTextKeyUp += new creaturevisualizer.ColorSpaceComponentEventHandler(this.ComponentTextKeyUp);
 			// 
 			// cscGreen
 			// 
@@ -111,7 +110,6 @@ namespace creaturevisualizer
 			this.cscGreen.Unit = creaturevisualizer.ColorSpaceControl.Units.Byte;
 			this.cscGreen.Value = 0;
 			this.cscGreen.ComponentSelected += new creaturevisualizer.ColorSpaceComponentEventHandler(this.ComponentSelected);
-			this.cscGreen.ComponentTextKeyUp += new creaturevisualizer.ColorSpaceComponentEventHandler(this.ComponentTextKeyUp);
 			// 
 			// cscBlue
 			// 
@@ -127,7 +125,6 @@ namespace creaturevisualizer
 			this.cscBlue.Unit = creaturevisualizer.ColorSpaceControl.Units.Byte;
 			this.cscBlue.Value = 0;
 			this.cscBlue.ComponentSelected += new creaturevisualizer.ColorSpaceComponentEventHandler(this.ComponentSelected);
-			this.cscBlue.ComponentTextKeyUp += new creaturevisualizer.ColorSpaceComponentEventHandler(this.ComponentTextKeyUp);
 			// 
 			// RgbColorSpace
 			// 

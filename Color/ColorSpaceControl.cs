@@ -19,7 +19,6 @@ namespace creaturevisualizer
 
 		#region Events
 		public event ColorSpaceComponentEventHandler ComponentSelected;
-		public event ColorSpaceComponentEventHandler ComponentTextKeyUp;
 		#endregion Events
 
 
@@ -77,17 +76,9 @@ namespace creaturevisualizer
 			{
 				switch (_unit = value)
 				{
-					case Units.Degree:
-						la_Units.Text = "d";
-						break;
-
-					case Units.Percent:
-						la_Units.Text = "p";
-						break;
-
-					case Units.Byte:
-						la_Units.Text = "b";
-						break;
+					case Units.Degree:  la_Units.Text = "d"; break;
+					case Units.Percent: la_Units.Text = "p"; break;
+					case Units.Byte:    la_Units.Text = "b"; break;
 				}
 			}
 		}
@@ -110,14 +101,6 @@ namespace creaturevisualizer
 				OnComponentSelected(EventArgs.Empty);
 		}
 
-		void txtComponentValue_KeyUp(object sender, KeyEventArgs e)
-		{
-			if (e.KeyData != Keys.Tab)
-			{
-				OnComponentTextKeyUp(EventArgs.Empty);
-			}
-		}
-
 		void txtComponentValue_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (tb_Val.Text.Length > 0
@@ -138,7 +121,6 @@ namespace creaturevisualizer
 				}
 
 				tb_Val.Text = val1.ToString();
-				this.ComponentTextKeyUp(this, EventArgs.Empty);
 
 				if (e.KeyData == (Keys.Back | Keys.Space | Keys.Shift))
 				{
@@ -173,12 +155,6 @@ namespace creaturevisualizer
 			if (ComponentSelected != null)
 				ComponentSelected(this, EventArgs.Empty);
 		}
-
-		void OnComponentTextKeyUp(EventArgs e)
-		{
-			if (ComponentTextKeyUp != null)
-				ComponentTextKeyUp(this, EventArgs.Empty);
-		}
 		#endregion Handlers (virtual)
 
 
@@ -209,7 +185,6 @@ namespace creaturevisualizer
 			this.tb_Val.TabIndex = 1;
 			this.tb_Val.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.tb_Val.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtComponentValue_KeyDown);
-			this.tb_Val.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtComponentValue_KeyUp);
 			this.tb_Val.LostFocus += new System.EventHandler(this.txtComponentValue_LostFocus);
 			// 
 			// la_Units

@@ -40,31 +40,23 @@ namespace creaturevisualizer
 
 
 		#region Handlers
-		void ComponentSelected(ColorSpaceControl sender, EventArgs e)
+		void OnComponentSelected(ColorSpaceControl sender, EventArgs e)
 		{
 			SelectComponent(sender);
 		}
 
-		void ComponentTextKeyUp(ColorSpaceControl sender, EventArgs e)
+		void OnComponentTextKeyUp(ColorSpaceControl sender, EventArgs e)
 		{
 			OnComponentValueChanged(e);
 		}
 		#endregion Handlers
 
 
-		#region Methods (override)
-		internal void SetDefaultSelection()
-		{
-			SelectComponent(cscHue);
-		}
-		#endregion Methods (override)
-
-
 
 		#region Designer
-		ColorSpaceControl cscBrightness;
+		internal ColorSpaceControl cscHue; // default
 		ColorSpaceControl cscSaturation;
-		ColorSpaceControl cscHue;
+		ColorSpaceControl cscBrightness;
 
 
 		void InitializeComponent()
@@ -87,8 +79,7 @@ namespace creaturevisualizer
 			this.cscHue.TabIndex = 0;
 			this.cscHue.Unit = creaturevisualizer.ColorSpaceControl.Units.Degree;
 			this.cscHue.Value = 0;
-			this.cscHue.ComponentSelected += new creaturevisualizer.ColorSpaceComponentEventHandler(this.ComponentSelected);
-			this.cscHue.ComponentTextKeyUp += new creaturevisualizer.ColorSpaceComponentEventHandler(this.ComponentTextKeyUp);
+			this.cscHue.ComponentSelected += new creaturevisualizer.ColorSpaceComponentEventHandler(this.OnComponentSelected);
 			// 
 			// cscSaturation
 			// 
@@ -103,8 +94,7 @@ namespace creaturevisualizer
 			this.cscSaturation.TabIndex = 1;
 			this.cscSaturation.Unit = creaturevisualizer.ColorSpaceControl.Units.Percent;
 			this.cscSaturation.Value = 0;
-			this.cscSaturation.ComponentSelected += new creaturevisualizer.ColorSpaceComponentEventHandler(this.ComponentSelected);
-			this.cscSaturation.ComponentTextKeyUp += new creaturevisualizer.ColorSpaceComponentEventHandler(this.ComponentTextKeyUp);
+			this.cscSaturation.ComponentSelected += new creaturevisualizer.ColorSpaceComponentEventHandler(this.OnComponentSelected);
 			// 
 			// cscBrightness
 			// 
@@ -119,8 +109,7 @@ namespace creaturevisualizer
 			this.cscBrightness.TabIndex = 2;
 			this.cscBrightness.Unit = creaturevisualizer.ColorSpaceControl.Units.Percent;
 			this.cscBrightness.Value = 0;
-			this.cscBrightness.ComponentSelected += new creaturevisualizer.ColorSpaceComponentEventHandler(this.ComponentSelected);
-			this.cscBrightness.ComponentTextKeyUp += new creaturevisualizer.ColorSpaceComponentEventHandler(this.ComponentTextKeyUp);
+			this.cscBrightness.ComponentSelected += new creaturevisualizer.ColorSpaceComponentEventHandler(this.OnComponentSelected);
 			// 
 			// HsbColorSpace
 			// 

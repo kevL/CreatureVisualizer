@@ -69,7 +69,7 @@ namespace creaturevisualizer
 
 			colorbox1.IsActive = true;
 
-			hsbColorSpace.SetDefaultSelection();
+			hsbColorSpace.SelectComponent(hsbColorSpace.cscHue);
 		}
 		#endregion cTor
 
@@ -79,20 +79,16 @@ namespace creaturevisualizer
 		{
 			base.OnPaint(e);
 
-// draw checkers under colorboxes ->
-			var checkers = new ResourceManager("CreatureVisualizer.Properties.Resources",
-											   typeof(Resources).Assembly).GetObject("checkers") as Image;
-			e.Graphics.DrawImage(checkers, colorbox1.Location.X, colorbox1.Location.Y);
-
 // draw border around colorfield ->
 			e.Graphics.DrawRectangle(Pens.Black,
 									 colorfield.Left  - 1, colorfield.Top    - 1,
 									 colorfield.Width + 1, colorfield.Height + 1);
 
-// draw border around colorboxes ->
-//			e.Graphics.DrawRectangle(Pens.Black,
-//									 colorbox1.Left  - 1, colorbox1.Top                       - 1,
-//									 colorbox1.Width + 1, colorbox1.Height + colorbox0.Height + 1);
+
+// draw checkers under colorboxes ->
+			var checkers = new ResourceManager("CreatureVisualizer.Properties.Resources",
+											   typeof(Resources).Assembly).GetObject("checkers") as Image;
+			e.Graphics.DrawImage(checkers, colorbox1.Location.X, colorbox1.Location.Y);
 
 // draw borders top/bot for colorboxes -> (left/right borders is handled by the colorboxes' OnPaint())
 			e.Graphics.DrawLine(Pens.Black,
@@ -101,6 +97,7 @@ namespace creaturevisualizer
 			e.Graphics.DrawLine(Pens.Black,
 								colorbox0.Location.X                   + 1, colorbox0.Bottom,
 								colorbox0.Location.X + colorbox0.Width - 2, colorbox0.Bottom);
+
 
 // draw border around swatches ->
 			e.Graphics.DrawRectangle(Pens.Black,
