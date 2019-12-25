@@ -69,7 +69,7 @@ namespace creaturevisualizer
 
 			colorbox1.IsActive = true;
 
-			hsbColorSpace.SelectComponent(hsbColorSpace.cscHue);
+			hsbColorSpace.SelectCsc(hsbColorSpace.cscHue);
 
 		}
 		#endregion cTor
@@ -212,7 +212,7 @@ namespace creaturevisualizer
 			}
 		}
 
-		void selectedcomponentchanged_colorspace(ColorSpace sender)
+		void selectedcscchanged_colorspace(ColorSpace sender)
 		{
 			if (sender is RgbColorSpace)
 			{
@@ -551,7 +551,7 @@ namespace creaturevisualizer
 			this.rgbColorSpace.Name = "rgbColorSpace";
 			this.rgbColorSpace.Size = new System.Drawing.Size(75, 60);
 			this.rgbColorSpace.TabIndex = 5;
-			this.rgbColorSpace.SelectedComponentChanged += new creaturevisualizer.ColorSpaceEventHandler(this.selectedcomponentchanged_colorspace);
+			this.rgbColorSpace.SelectedCscChanged += new creaturevisualizer.ColorSpaceEventHandler(this.selectedcscchanged_colorspace);
 			this.rgbColorSpace.ValueChanged += new creaturevisualizer.ColorSpaceEventHandler(this.valuechanged_colorspace);
 			// 
 			// hsbColorSpace
@@ -562,7 +562,7 @@ namespace creaturevisualizer
 			this.hsbColorSpace.Name = "hsbColorSpace";
 			this.hsbColorSpace.Size = new System.Drawing.Size(75, 60);
 			this.hsbColorSpace.TabIndex = 4;
-			this.hsbColorSpace.SelectedComponentChanged += new creaturevisualizer.ColorSpaceEventHandler(this.selectedcomponentchanged_colorspace);
+			this.hsbColorSpace.SelectedCscChanged += new creaturevisualizer.ColorSpaceEventHandler(this.selectedcscchanged_colorspace);
 			this.hsbColorSpace.ValueChanged += new creaturevisualizer.ColorSpaceEventHandler(this.valuechanged_colorspace);
 			// 
 			// la_Hex

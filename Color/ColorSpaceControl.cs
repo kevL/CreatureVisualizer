@@ -18,7 +18,7 @@ namespace creaturevisualizer
 
 
 		#region Events
-		public event ColorSpaceComponentEventHandler ComponentSelected;
+		public event CscSelectedEventHandler CscSelected;
 		#endregion Events
 
 
@@ -152,8 +152,8 @@ namespace creaturevisualizer
 		#region Handlers (virtual)
 		void OnComponentSelected(EventArgs e)
 		{
-			if (ComponentSelected != null)
-				ComponentSelected(this);
+			if (CscSelected != null)
+				CscSelected(this);
 		}
 		#endregion Handlers (virtual)
 
@@ -224,5 +224,5 @@ namespace creaturevisualizer
 
 
 	// Sano.PersonalProjects.ColorPicker.Controls.ColorSpaceComponentEventHandler
-	internal delegate void ColorSpaceComponentEventHandler(ColorSpaceControl sender);
+	internal delegate void CscSelectedEventHandler(ColorSpaceControl sender);
 }

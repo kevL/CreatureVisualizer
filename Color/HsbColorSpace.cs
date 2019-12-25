@@ -79,7 +79,7 @@ namespace creaturevisualizer
 			this.cscHue.TabIndex = 0;
 			this.cscHue.Unit = creaturevisualizer.ColorSpaceControl.Units.Degree;
 			this.cscHue.Value = 0;
-			this.cscHue.ComponentSelected += new creaturevisualizer.ColorSpaceComponentEventHandler(this.OnComponentSelected);
+			this.cscHue.CscSelected += new creaturevisualizer.CscSelectedEventHandler(this.OnCscSelected);
 			// 
 			// cscSaturation
 			// 
@@ -94,7 +94,7 @@ namespace creaturevisualizer
 			this.cscSaturation.TabIndex = 1;
 			this.cscSaturation.Unit = creaturevisualizer.ColorSpaceControl.Units.Percent;
 			this.cscSaturation.Value = 0;
-			this.cscSaturation.ComponentSelected += new creaturevisualizer.ColorSpaceComponentEventHandler(this.OnComponentSelected);
+			this.cscSaturation.CscSelected += new creaturevisualizer.CscSelectedEventHandler(this.OnCscSelected);
 			// 
 			// cscBrightness
 			// 
@@ -109,7 +109,7 @@ namespace creaturevisualizer
 			this.cscBrightness.TabIndex = 2;
 			this.cscBrightness.Unit = creaturevisualizer.ColorSpaceControl.Units.Percent;
 			this.cscBrightness.Value = 0;
-			this.cscBrightness.ComponentSelected += new creaturevisualizer.ColorSpaceComponentEventHandler(this.OnComponentSelected);
+			this.cscBrightness.CscSelected += new creaturevisualizer.CscSelectedEventHandler(this.OnCscSelected);
 			// 
 			// HsbColorSpace
 			// 

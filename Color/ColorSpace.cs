@@ -10,7 +10,7 @@ namespace creaturevisualizer
 		: UserControl
 	{
 		#region Events
-		public event ColorSpaceEventHandler SelectedComponentChanged;
+		public event ColorSpaceEventHandler SelectedCscChanged;
 		public event ColorSpaceEventHandler ValueChanged;
 		#endregion Events
 
@@ -28,12 +28,12 @@ namespace creaturevisualizer
 
 
 		#region Handlers
-		internal void OnComponentSelected(ColorSpaceControl sender)
+		internal void OnCscSelected(ColorSpaceControl sender)
 		{
-			SelectComponent(sender);
+			SelectCsc(sender);
 		}
 
-		internal void OnValueChanged()
+		internal void OnValueChanged() // TODO: implement that
 		{
 			if (ValueChanged != null)
 				ValueChanged(this);
@@ -42,15 +42,15 @@ namespace creaturevisualizer
 
 
 		#region Methods
-		internal void SelectComponent(ColorSpaceControl csc)
+		internal void SelectCsc(ColorSpaceControl csc)
 		{
 			ResetComponents();
 
 			csc.Selected = true;
 			Selected = csc;
 
-			if (SelectedComponentChanged != null)
-				SelectedComponentChanged(this);
+			if (SelectedCscChanged != null)
+				SelectedCscChanged(this);
 		}
 
 		internal void ResetComponents()
