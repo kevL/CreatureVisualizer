@@ -40,15 +40,15 @@ namespace creaturevisualizer
 
 
 		#region Handlers
-		void OnComponentSelected(ColorSpaceControl sender, EventArgs e)
-		{
-			SelectComponent(sender);
-		}
+//		void OnComponentSelected(ColorSpaceControl sender)
+//		{
+//			SelectComponent(sender);
+//		}
 
-		void OnComponentTextKeyUp(ColorSpaceControl sender, EventArgs e)
-		{
-			OnComponentValueChanged(e);
-		}
+//		void OnComponentTextKeyUp(ColorSpaceControl sender, EventArgs e)
+//		{
+//			OnComponentValueChanged();
+//		}
 		#endregion Handlers
 
 

@@ -153,7 +153,7 @@ namespace creaturevisualizer
 		void OnComponentSelected(EventArgs e)
 		{
 			if (ComponentSelected != null)
-				ComponentSelected(this, EventArgs.Empty);
+				ComponentSelected(this);
 		}
 		#endregion Handlers (virtual)
 
@@ -224,5 +224,5 @@ namespace creaturevisualizer
 
 
 	// Sano.PersonalProjects.ColorPicker.Controls.ColorSpaceComponentEventHandler
-	internal delegate void ColorSpaceComponentEventHandler(ColorSpaceControl sender, EventArgs e);
+	internal delegate void ColorSpaceComponentEventHandler(ColorSpaceControl sender);
 }

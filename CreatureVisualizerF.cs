@@ -1130,7 +1130,7 @@ namespace creaturevisualizer
 				BypassCreate = true;
 
 				_sano = new ColorF();
-				_sano.ColorPanel.ColorValueChanged += colorchanged_diff;
+				_sano.ColorPanel.ColorChanged += colorchanged_diff;
 
 				Color color;
 				if (CreatureVisualizerP.ColorDiffuse != null)
@@ -1179,7 +1179,7 @@ namespace creaturevisualizer
 				BypassCreate = true;
 
 				_sano = new ColorF();
-				_sano.ColorPanel.ColorValueChanged += colorchanged_spec;
+				_sano.ColorPanel.ColorChanged += colorchanged_spec;
 
 				Color color;
 				if (CreatureVisualizerP.ColorSpecular != null)
@@ -1229,7 +1229,7 @@ namespace creaturevisualizer
 				BypassCreate = true;
 
 				_sano = new ColorF();
-				_sano.ColorPanel.ColorValueChanged += colorchanged_ambi;
+				_sano.ColorPanel.ColorChanged += colorchanged_ambi;
 
 				Color color;
 				if (CreatureVisualizerP.ColorAmbient != null)

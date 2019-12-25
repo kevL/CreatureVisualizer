@@ -17,7 +17,7 @@ namespace creaturevisualizer
 		: UserControl
 	{
 		#region Events
-		internal event EventHandler ColorValueChanged;
+		internal event EventHandler ColorChanged;
 		#endregion Events
 
 
@@ -32,8 +32,8 @@ namespace creaturevisualizer
 
 		#region Properties
 		// Good god, those bastards go about things in a cockamamie way ...
-		// TODO: Consolidate firing the ColorValueChanged event in a central
-		// function like SelectColor() or Satisfy() or similar.
+		// TODO: Consolidate firing the ColorChanged event in a central function
+		// such as SelectColor() or Satisfy() or similar.
 
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		[Browsable(false)]
@@ -70,6 +70,7 @@ namespace creaturevisualizer
 			colorbox1.IsActive = true;
 
 			hsbColorSpace.SelectComponent(hsbColorSpace.cscHue);
+
 		}
 		#endregion cTor
 
@@ -146,12 +147,11 @@ namespace creaturevisualizer
 				rgbColorSpace.Structure = ColorConverter.ColorToRgb(bo.BackColor);
 				hsbColorSpace.Structure = ColorConverter.ColorToHsb(bo.BackColor);
 
-				colorslider.Value = CalculateSliderPosition(_csCurrent.Selected);
-
+				SetSliderValue();
 				Satisfy(true, true, true);
 
-				if (ColorValueChanged != null)
-					ColorValueChanged(this, EventArgs.Empty);
+				if (ColorChanged != null)
+					ColorChanged(this, EventArgs.Empty);
 			}
 		}
 
@@ -188,8 +188,8 @@ namespace creaturevisualizer
 
 			GetActiveColorbox().BackColor = ColorConverter.RgbToColor((RGB)rgbColorSpace.Structure);
 
-			if (ColorValueChanged != null)
-				ColorValueChanged(this, EventArgs.Empty);
+			if (ColorChanged != null)
+				ColorChanged(this, EventArgs.Empty);
 		}
 
 		void dragdrop_colorbox(object sender, DragEventArgs e)
@@ -205,15 +205,14 @@ namespace creaturevisualizer
 						rgbColorSpace.Structure = ColorConverter.ColorToRgb(color);
 						hsbColorSpace.Structure = ColorConverter.ColorToHsb(color);
 
-						colorslider.Value = CalculateSliderPosition(_csCurrent.Selected);
-
+						SetSliderValue();
 						Satisfy(true, true, true);
 					}
 				}
 			}
 		}
 
-		void selectedcomponentchanged_colorspace(ColorSpace sender, EventArgs e)
+		void selectedcomponentchanged_colorspace(ColorSpace sender)
 		{
 			if (sender is RgbColorSpace)
 			{
@@ -230,7 +229,7 @@ namespace creaturevisualizer
 			Satisfy(true, true, true);
 		}
 
-		void componentvaluechanged_colorspace(ColorSpace sender, EventArgs e)
+		void valuechanged_colorspace(ColorSpace sender)
 		{
 			if (sender is RgbColorSpace)
 			{
@@ -246,8 +245,8 @@ namespace creaturevisualizer
 
 			GetActiveColorbox().BackColor = ColorConverter.RgbToColor((RGB)rgbColorSpace.Structure);
 
-			if (ColorValueChanged != null)
-				ColorValueChanged(this, EventArgs.Empty);
+			if (ColorChanged != null)
+				ColorChanged(this, EventArgs.Empty);
 		}
 
 		void colorswatchselected_swatches(object sender, ColorSelectedEventArgs e)
@@ -286,8 +285,8 @@ namespace creaturevisualizer
 			tb_Hex.Text = rgbColorSpace.ConvertToHex();
 			GetActiveColorbox().BackColor = ColorConverter.RgbToColor(rgb);
 
-			if (ColorValueChanged != null)
-				ColorValueChanged(this, EventArgs.Empty);
+			if (ColorChanged != null)
+				ColorChanged(this, EventArgs.Empty);
 		}
 
 
@@ -325,23 +324,18 @@ namespace creaturevisualizer
 				hsbColorSpace.Structure = ColorConverter.RgbToHsb(rgb);
 
 				if (resetslider) SetSliderValue();
-
 				Satisfy(false, true, setHexText);
 
-				if (ColorValueChanged != null)
-					ColorValueChanged(this, EventArgs.Empty);
+				if (ColorChanged != null)
+					ColorChanged(this, EventArgs.Empty);
 			}
 		}
 
 		void SetSliderValue()
 		{
-			colorslider.Value = CalculateSliderPosition(_csCurrent.Selected);
-		}
+			int val = _csCurrent.Selected.Value;
 
-		int CalculateSliderPosition(ColorSpaceControl csc)
-		{
-			int val = csc.Value;
-			switch (csc.Unit)
+			switch (_csCurrent.Selected.Unit)
 			{
 				case ColorSpaceControl.Units.Degree:
 					val = (int)Math.Ceiling(17.0 / 24.0 * (double)val);
@@ -351,7 +345,7 @@ namespace creaturevisualizer
 					val = (int)Math.Ceiling(2.55 * (double)val);
 					break;
 			}
-			return val;
+			colorslider.Value = val;
 		}
 
 		void Satisfy(bool setSliderColorspace, bool updatePoint, bool setHexText)
@@ -541,11 +535,12 @@ namespace creaturevisualizer
 			// 
 			// swatches
 			// 
+			this.swatches.AllowDrop = true;
 			this.swatches.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.swatches.Location = new System.Drawing.Point(395, 8);
 			this.swatches.Margin = new System.Windows.Forms.Padding(0);
 			this.swatches.Name = "swatches";
-			this.swatches.Size = new System.Drawing.Size(100, 222);
+			this.swatches.Size = new System.Drawing.Size(100, 227);
 			this.swatches.TabIndex = 10;
 			// 
 			// rgbColorSpace
@@ -556,8 +551,8 @@ namespace creaturevisualizer
 			this.rgbColorSpace.Name = "rgbColorSpace";
 			this.rgbColorSpace.Size = new System.Drawing.Size(75, 60);
 			this.rgbColorSpace.TabIndex = 5;
-			this.rgbColorSpace.ComponentValueChanged += new creaturevisualizer.ColorSpaceEventHandler(this.componentvaluechanged_colorspace);
 			this.rgbColorSpace.SelectedComponentChanged += new creaturevisualizer.ColorSpaceEventHandler(this.selectedcomponentchanged_colorspace);
+			this.rgbColorSpace.ValueChanged += new creaturevisualizer.ColorSpaceEventHandler(this.valuechanged_colorspace);
 			// 
 			// hsbColorSpace
 			// 
@@ -567,8 +562,8 @@ namespace creaturevisualizer
 			this.hsbColorSpace.Name = "hsbColorSpace";
 			this.hsbColorSpace.Size = new System.Drawing.Size(75, 60);
 			this.hsbColorSpace.TabIndex = 4;
-			this.hsbColorSpace.ComponentValueChanged += new creaturevisualizer.ColorSpaceEventHandler(this.componentvaluechanged_colorspace);
 			this.hsbColorSpace.SelectedComponentChanged += new creaturevisualizer.ColorSpaceEventHandler(this.selectedcomponentchanged_colorspace);
+			this.hsbColorSpace.ValueChanged += new creaturevisualizer.ColorSpaceEventHandler(this.valuechanged_colorspace);
 			// 
 			// la_Hex
 			// 
