@@ -72,12 +72,12 @@ namespace creaturevisualizer
 
 //			if (File.Exists(CustomSwatchesFile))
 //			{
-//				m_swatches = ColorSwatchXml.ReadSwatches(CustomSwatchesFile, false);
+//				_swatches = ColorSwatchXml.ReadSwatches(CustomSwatchesFile, false);
 //			}
 //			else
 //			{
 //				CreateCustomSwatchesFile();
-//				m_swatches = ColorSwatchXml.ReadSwatches("ColorSwatches.xml", true);
+//				_swatches = ColorSwatchXml.ReadSwatches("ColorSwatches.xml", true);
 //			}
 			_swatches = null;
 
@@ -95,18 +95,13 @@ namespace creaturevisualizer
 //			ControlPaint.DrawBorder3D(e.Graphics, new Rectangle(0,0, _outerWidth, _outerHeight));
 
 			if (_swatchB != null || (_swatchB = BuildSwatchBitmap()) != null)
-			{
 				e.Graphics.DrawImage(_swatchB,
 									 new Rectangle(new Point(0,0),
 												   new Size(_swatchB.Width,
 															_swatchB.Height)));
-			}
 
 			if (_paintActiveBlankSwatch)
-			{
-				Rectangle rect = _swatchArray[_nextSwatchId].Rect;
-				e.Graphics.DrawRectangle(Pens.Yellow, rect);
-			}
+				e.Graphics.DrawRectangle(Pens.Yellow, _swatchArray[_nextSwatchId].Rect);
 		}
 
 		protected override void OnMouseDown(MouseEventArgs e)
@@ -178,21 +173,20 @@ namespace creaturevisualizer
 //			else
 			if (IsCursorWithinSwatchGridBorders(e.X, e.Y))
 			{
-				ColorSwatch colorSwatch = GetColorSwatch(e.X, e.Y);
-				if (DoesCursorIntersectWithSwatch(colorSwatch, e.X, e.Y) && colorSwatch.Color != Color.Empty)
-				{
-					if (!_lastSwatch.Equals(colorSwatch))
-					{
-						colorTip.Active = false; // wtf
-					}
+				ColorSwatch swatch = GetColorSwatch(e.X, e.Y);
 
-					if (colorSwatch.Description != null && !colorSwatch.Description.Equals(colorTip.GetToolTip(this)))
-					{
-						colorTip.SetToolTip(this, colorSwatch.Description);
-					}
+				if (swatch.Color != Color.Empty
+					&& DoesCursorIntersectWithSwatch(swatch, e.X, e.Y))
+				{
+					if (!_lastSwatch.Equals(swatch))
+						colorTip.Active = false; // wtf
+
+					if (swatch.Description != null && !swatch.Description.Equals(colorTip.GetToolTip(this)))
+						colorTip.SetToolTip(this, swatch.Description);
 
 					colorTip.Active = true; // wtf
-					_lastSwatch = colorSwatch;
+
+					_lastSwatch = swatch;
 					Cursor = Cursors.Hand;
 				}
 				else
@@ -259,13 +253,17 @@ namespace creaturevisualizer
 					{
 						if (val2 + 1 < _swatchArray.Length - 1)
 						{
-							_swatchArray[val2].Color = _swatchArray[val2 + 1].Color;
-							_swatchArray[val2].Description = _swatchArray[val2 + 1].Description;
+							ColorSwatch swatch = _swatchArray[val2];
+							swatch.Color       = _swatchArray[val2 + 1].Color;
+							swatch.Description = _swatchArray[val2 + 1].Description;
+							_swatchArray[val2] = swatch; // effin structs
 						}
 						else
 						{
-							_swatchArray[val2].Color = Color.Empty;
-							_swatchArray[val2].Description = String.Empty;
+							ColorSwatch swatch = _swatchArray[val2];
+							swatch.Color = Color.Empty;
+							swatch.Description = String.Empty;
+							_swatchArray[val2] = swatch; // effin structs
 						}
 
 						if (_swatchArray[val2].Color == Color.Empty)
@@ -369,8 +367,9 @@ namespace creaturevisualizer
 				{
 					for (int id = 0; id != _swatches.Count; ++id)
 					{
-						_swatchArray[val++] = _swatches[id];
-						_swatchArray[val].Location = new Point(x,y);
+						ColorSwatch swatch = _swatches[id];
+						swatch.Location = new Point(x,y);
+						_swatchArray[val++] = swatch; // effin structs
 
 						DrawSwatch(graphics, id);
 						UpdatePositions(ref x, ref y, ref col, ref row);
@@ -422,7 +421,7 @@ namespace creaturevisualizer
 		bool IsCursorWithinSwatchGridBorders(int x, int y)
 		{
 			var rect = new Rectangle(_startX, _startY, _outerWidth - 12, _outerHeight - 12);
-			return new Rectangle(x,y, 1,1).IntersectsWith(rect);
+			return rect.Contains(x,y);
 		}
 
 		ColorSwatch GetColorSwatch(int x, int y)
@@ -445,23 +444,26 @@ namespace creaturevisualizer
 				{
 					f.StartPosition = FormStartPosition.CenterParent;
 					f.ShowInTaskbar = false;
+
 					if (f.ShowDialog() == DialogResult.OK && _swatchB != null)
 					{
 						int x = _swatchArray[_nextSwatchId].Location.X;
 						int y = _swatchArray[_nextSwatchId].Location.Y;
+
 						using (Graphics graphics = Graphics.FromImage(_swatchB))
 						{
 							using (var brush = new SolidBrush(color))
-							{
 								graphics.FillRectangle(brush, x,y, 10,10);
-							}
+
 							graphics.DrawRectangle(Pens.Black, x,y, 10,10);
 						}
 
 						--_blankSwatches;
 
-						_swatchArray[_nextSwatchId].Color       = color;
-						_swatchArray[_nextSwatchId].Description = f.ColorDescription;
+						ColorSwatch swatch = _swatchArray[_nextSwatchId];
+						swatch.Color       = color;
+						swatch.Description = f.ColorDescription;
+						_swatchArray[_nextSwatchId] = swatch;
 
 						++_nextSwatchId;
 
@@ -558,8 +560,7 @@ namespace creaturevisualizer
 		#region Methods (static)
 		static bool DoesCursorIntersectWithSwatch(ColorSwatch swatch, int x, int y)
 		{
-			var location = new Point(x, y);
-			return new Rectangle(location, new Size(1,1)).IntersectsWith(swatch.Rect);
+			return swatch.Rect.Contains(x,y);
 		}
 		#endregion Methods (static)
 

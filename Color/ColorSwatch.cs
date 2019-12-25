@@ -5,7 +5,7 @@ using System.Drawing;
 namespace creaturevisualizer
 {
 	// Sano.PersonalProjects.ColorPicker.Controls.ColorSwatch
-	sealed class ColorSwatch
+	struct ColorSwatch
 	{
 		#region Fields (static)
 		const int width  = 10;
@@ -32,6 +32,7 @@ namespace creaturevisualizer
 
 		#region cTor
 		internal ColorSwatch(Point location)
+			: this()
 		{
 			Color       = Color.Empty;
 			Description = String.Empty;
@@ -39,6 +40,7 @@ namespace creaturevisualizer
 		}
 
 		internal ColorSwatch(Color color, string description)
+			: this()
 		{
 			Color       = color;
 			Description = description;

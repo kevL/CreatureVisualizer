@@ -271,24 +271,6 @@ namespace creaturevisualizer
 		}
 
 
-		static int getminint(params int[] vals)
-		{
-			int val = vals[0];
-			for (int i = 1; i != vals.Length; ++i)
-				val = Math.Min(val, vals[i]);
-
-			return val;
-		}
-
-		static int getmaxint(params int[] vals)
-		{
-			int val = vals[0];
-			for (int i = 1; i != vals.Length; ++i)
-				val = Math.Max(val, vals[i]);
-
-			return val;
-		}
-
 		static double getmindouble(params double[] vals)
 		{
 			double val = vals[0];
@@ -306,6 +288,23 @@ namespace creaturevisualizer
 
 			return val;
 		}
+
+//		static int getminint(params int[] vals)
+//		{
+//			int val = vals[0];
+//			for (int i = 1; i != vals.Length; ++i)
+//				val = Math.Min(val, vals[i]);
+//
+//			return val;
+//		}
+//		static int getmaxint(params int[] vals)
+//		{
+//			int val = vals[0];
+//			for (int i = 1; i != vals.Length; ++i)
+//				val = Math.Max(val, vals[i]);
+//
+//			return val;
+//		}
 		#endregion Methods (static)
 	}
 }

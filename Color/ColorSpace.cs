@@ -23,7 +23,7 @@ namespace creaturevisualizer
 		}
 
 		internal ColorSpaceControl Selected
-		{ get; set; }
+		{ get; private set; }
 		#endregion Properties
 
 
@@ -60,7 +60,6 @@ namespace creaturevisualizer
 		}
 		#endregion Methods
 	}
-
 
 
 	// Sano.PersonalProjects.ColorPicker.Controls.ColorSpaceEventHandler

@@ -12,15 +12,15 @@ namespace creaturevisualizer
 		{
 			get
 			{
-				return new HSB(cscHue.Value, cscSaturation.Value, cscBrightness.Value);
+				return new HSB(cscHue.Val, cscSaturation.Val, cscBrightness.Val);
 			}
 			set
 			{
 				var hsb = (HSB)value;
 
-				cscHue       .Value = hsb.Hue;
-				cscSaturation.Value = hsb.Saturation;
-				cscBrightness.Value = hsb.Brightness;
+				cscHue       .Val = hsb.Hue;
+				cscSaturation.Val = hsb.Saturation;
+				cscBrightness.Val = hsb.Brightness;
 			}
 		}
 		#endregion Properties (override)
@@ -81,7 +81,7 @@ namespace creaturevisualizer
 			this.cscHue.Size = new System.Drawing.Size(75, 20);
 			this.cscHue.TabIndex = 0;
 			this.cscHue.Unit = creaturevisualizer.ColorSpaceControl.Units.Degree;
-			this.cscHue.Value = 0;
+			this.cscHue.Val = 0;
 			this.cscHue.CscSelected += new creaturevisualizer.CscSelectedEventHandler(this.OnCscSelected);
 			// 
 			// cscSaturation
@@ -96,7 +96,7 @@ namespace creaturevisualizer
 			this.cscSaturation.Size = new System.Drawing.Size(75, 20);
 			this.cscSaturation.TabIndex = 1;
 			this.cscSaturation.Unit = creaturevisualizer.ColorSpaceControl.Units.Percent;
-			this.cscSaturation.Value = 0;
+			this.cscSaturation.Val = 0;
 			this.cscSaturation.CscSelected += new creaturevisualizer.CscSelectedEventHandler(this.OnCscSelected);
 			// 
 			// cscBrightness
@@ -111,7 +111,7 @@ namespace creaturevisualizer
 			this.cscBrightness.Size = new System.Drawing.Size(75, 20);
 			this.cscBrightness.TabIndex = 2;
 			this.cscBrightness.Unit = creaturevisualizer.ColorSpaceControl.Units.Percent;
-			this.cscBrightness.Value = 0;
+			this.cscBrightness.Val = 0;
 			this.cscBrightness.CscSelected += new creaturevisualizer.CscSelectedEventHandler(this.OnCscSelected);
 			// 
 			// HsbColorSpace

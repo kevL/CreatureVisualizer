@@ -11,7 +11,7 @@ namespace creaturevisualizer
 		: UserControl
 	{
 		#region Events
-		public event ValueChangedEventHandler ValueChanged;
+		public event SliderChangedEventHandler SliderChanged;
 		#endregion Events
 
 
@@ -37,7 +37,10 @@ namespace creaturevisualizer
 		int _y;
 		public int Value
 		{
-			get { return 255 - _y + _rectInner.Y; }
+			get
+			{
+				return 255 - _y + _rectInner.Y;
+			}
 			set
 			{
 				_y = _rectInner.Y + 255 - value;
@@ -111,8 +114,8 @@ namespace creaturevisualizer
 
 			InvalidateTris(_y = y);
 
-			if (ValueChanged != null)
-				ValueChanged(this, new ValueChangedEventArgs(255 - _y + _rectInner.Y));
+			if (SliderChanged != null)
+				SliderChanged(new SliderChangedEventArgs(255 - _y + _rectInner.Y));
 		}
 
 		void InvalidateTris(int y)
@@ -271,22 +274,18 @@ namespace creaturevisualizer
 
 
 
-	sealed class ValueChangedEventArgs
+	sealed class SliderChangedEventArgs
 		: EventArgs
 	{
-		readonly int m_value;
-
 		internal int Value
-		{
-			get { return m_value; }
-		}
+		{ get; private set; }
 
-		internal ValueChangedEventArgs(int newValue)
+		internal SliderChangedEventArgs(int val)
 		{
-			m_value = newValue;
+			Value = val;
 		}
 	}
 
 
-	internal delegate void ValueChangedEventHandler(object sender, ValueChangedEventArgs e);
+	internal delegate void SliderChangedEventHandler(SliderChangedEventArgs e);
 }

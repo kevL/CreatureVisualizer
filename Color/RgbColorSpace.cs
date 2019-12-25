@@ -13,15 +13,15 @@ namespace creaturevisualizer
 		{
 			get
 			{
-				return new RGB(cscRed.Value, cscGreen.Value, cscBlue.Value);
+				return new RGB(cscRed.Val, cscGreen.Val, cscBlue.Val);
 			}
 			set
 			{
 				var rgb = (RGB)value;
 
-				cscRed  .Value = rgb.Red;
-				cscGreen.Value = rgb.Green;
-				cscBlue .Value = rgb.Blue;
+				cscRed  .Val = rgb.Red;
+				cscGreen.Val = rgb.Green;
+				cscBlue .Val = rgb.Blue;
 			}
 		}
 		#endregion Properties (override)
@@ -52,20 +52,17 @@ namespace creaturevisualizer
 		#endregion Handlers
 
 
-		#region Methods (override)
+		#region Methods
 		internal Color GetColor()
 		{
-			return Color.FromArgb(cscRed.Value, cscGreen.Value, cscBlue.Value);
+			return Color.FromArgb(cscRed.Val, cscGreen.Val, cscBlue.Val);
 		}
-		#endregion Methods (override)
 
-
-		#region Methods
-		internal string ConvertToHex()
+		internal string GetHecate()
 		{
-			return cscRed  .Value.ToString("X2")
-				 + cscGreen.Value.ToString("X2")
-				 + cscBlue .Value.ToString("X2");
+			return cscRed  .Val.ToString("X2")
+				 + cscGreen.Val.ToString("X2")
+				 + cscBlue .Val.ToString("X2");
 		}
 		#endregion Methods
 
@@ -95,8 +92,7 @@ namespace creaturevisualizer
 			this.cscRed.Selected = false;
 			this.cscRed.Size = new System.Drawing.Size(75, 20);
 			this.cscRed.TabIndex = 0;
-			this.cscRed.Unit = creaturevisualizer.ColorSpaceControl.Units.Byte;
-			this.cscRed.Value = 0;
+			this.cscRed.Val = 0;
 			this.cscRed.CscSelected += new creaturevisualizer.CscSelectedEventHandler(this.OnCscSelected);
 			// 
 			// cscGreen
@@ -110,8 +106,7 @@ namespace creaturevisualizer
 			this.cscGreen.Selected = false;
 			this.cscGreen.Size = new System.Drawing.Size(75, 20);
 			this.cscGreen.TabIndex = 1;
-			this.cscGreen.Unit = creaturevisualizer.ColorSpaceControl.Units.Byte;
-			this.cscGreen.Value = 0;
+			this.cscGreen.Val = 0;
 			this.cscGreen.CscSelected += new creaturevisualizer.CscSelectedEventHandler(this.OnCscSelected);
 			// 
 			// cscBlue
@@ -125,8 +120,7 @@ namespace creaturevisualizer
 			this.cscBlue.Selected = false;
 			this.cscBlue.Size = new System.Drawing.Size(75, 20);
 			this.cscBlue.TabIndex = 2;
-			this.cscBlue.Unit = creaturevisualizer.ColorSpaceControl.Units.Byte;
-			this.cscBlue.Value = 0;
+			this.cscBlue.Val = 0;
 			this.cscBlue.CscSelected += new creaturevisualizer.CscSelectedEventHandler(this.OnCscSelected);
 			// 
 			// RgbColorSpace

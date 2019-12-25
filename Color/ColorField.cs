@@ -310,6 +310,5 @@ namespace creaturevisualizer
 	}
 
 
-
 	internal delegate void ColorSelectedEventHandler(ColorEventArgs e);
 }

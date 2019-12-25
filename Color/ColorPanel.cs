@@ -150,7 +150,7 @@ namespace creaturevisualizer
 			}
 		}
 
-		void valuechanged_slider(object sender, ValueChangedEventArgs e)
+		void sliderchanged_slider(SliderChangedEventArgs e)
 		{
 			int val = e.Value;
 
@@ -168,7 +168,7 @@ namespace creaturevisualizer
 					break;
 			}
 
-			_csCurrent.Selected.Value = val;
+			_csCurrent.Selected.Val = val;
 
 			if (_csCurrent is RgbColorSpace)
 			{
@@ -277,7 +277,7 @@ namespace creaturevisualizer
 					break;
 			}
 
-			tb_Hex.Text = rgbColorSpace.ConvertToHex();
+			tb_Hex.Text = rgbColorSpace.GetHecate();
 			GetActiveColorbox().BackColor = ColorConverter.RgbToColor(rgb);
 
 			if (ColorChanged != null)
@@ -328,7 +328,7 @@ namespace creaturevisualizer
 
 		void SetSliderValue()
 		{
-			int val = _csCurrent.Selected.Value;
+			int val = _csCurrent.Selected.Val;
 
 			switch (_csCurrent.Selected.Unit)
 			{
@@ -367,16 +367,16 @@ namespace creaturevisualizer
 					colorfield.ChangeColor(color, _csCurrent, updatePoint);
 				}
 				else // 'S','B'
-					colorfield.ChangeColor(_csCurrent.Selected.Value, _csCurrent, updatePoint);
+					colorfield.ChangeColor(_csCurrent.Selected.Val, _csCurrent, updatePoint);
 			}
 			else if (_csCurrent is RgbColorSpace) // 'R','G','B'
 			{
-				colorfield.ChangeColor(_csCurrent.Selected.Value, _csCurrent, updatePoint);
+				colorfield.ChangeColor(_csCurrent.Selected.Val, _csCurrent, updatePoint);
 			}
 
 
 			if (setHexText)
-				tb_Hex.Text = rgbColorSpace.ConvertToHex();
+				tb_Hex.Text = rgbColorSpace.GetHecate();
 		}
 
 
@@ -527,7 +527,7 @@ namespace creaturevisualizer
 			this.colorslider.Size = new System.Drawing.Size(36, 267);
 			this.colorslider.TabIndex = 1;
 			this.colorslider.Value = 0;
-			this.colorslider.ValueChanged += new creaturevisualizer.ValueChangedEventHandler(this.valuechanged_slider);
+			this.colorslider.SliderChanged += new creaturevisualizer.SliderChangedEventHandler(this.sliderchanged_slider);
 			// 
 			// swatches
 			// 

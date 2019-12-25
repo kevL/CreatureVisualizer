@@ -85,8 +85,7 @@ namespace creaturevisualizer
 					else if (flag && reader.NodeType == XmlNodeType.Text)
 					{
 						Color color = Color.FromArgb(result4, result1, result2, result3);
-						string description = reader.ReadString();
-						swatches.Add(new ColorSwatch(color, description));
+						swatches.Add(new ColorSwatch(color, reader.ReadString()));
 
 						flag = false;
 					}

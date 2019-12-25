@@ -26,7 +26,7 @@ namespace creaturevisualizer
 		#region Properties
 		public bool Selected
 		{
-//			get { return rb_Co.Checked; }
+			get { return rb_Co.Checked; }
 			set { rb_Co.Checked = value; }
 		}
 
@@ -36,28 +36,27 @@ namespace creaturevisualizer
 			get { return _displayCharacter; }
 			set
 			{
-				rb_Co.Text = (_displayCharacter = value).ToString().ToUpper();
+				rb_Co.Text = (_displayCharacter = value).ToString();
 			}
 		}
 
-		int _val;
-		public int Value
+		public int Val
 		{
-			get // TODO ->
+			get
 			{
-				if (tb_Val.Text.Length == 0)
-					return 0;
+				if (!String.IsNullOrEmpty(tb_Val.Text))
+					return Int32.Parse(tb_Val.Text);
 
-				int val = Int32.Parse(tb_Val.Text);
-
-				if (val > Max)
-					val = Int32.Parse(tb_Val.Text.Substring(0, tb_Val.Text.Length - 1));
-
-				return val;
+				return 0;
 			}
 			set
 			{
-				tb_Val.Text = (_val = value).ToString();
+				if      (value > Max) value = Max; // should be just a safety ->
+				else if (value < 0)   value = 0;
+
+				tb_Val.Text = value.ToString();
+
+				tb_Val.SelectionLength = 0;
 				tb_Val.SelectionStart = tb_Val.Text.Length;
 			}
 		}
@@ -71,6 +70,7 @@ namespace creaturevisualizer
 		}
 
 		Units _unit = Units.Byte;
+		[DefaultValue(Units.Byte)]
 		public Units Unit
 		{
 			get { return _unit; }
@@ -96,13 +96,22 @@ namespace creaturevisualizer
 
 
 		#region Handlers
-		void checkedchanged_rb(object sender, EventArgs e)
+/*		void checkedchanged_rb(object sender, EventArgs e)
 		{
-			if (((RadioButton)sender).Checked && CscSelected != null)
-				CscSelected(this);
+//			if (((RadioButton)sender).Checked)
+//			{
+//				if (CscSelected != null)
+//					CscSelected(this);
+//			}
+		} */
+		void click_rb(object sender, EventArgs e)
+		{
+			if (((RadioButton)sender).Checked)
+			{
+				if (CscSelected != null)
+					CscSelected(this);
+			}
 		}
-//		void click_rb(object sender, EventArgs e)
-//		{}
 
 		void leave_val(object sender, EventArgs e)
 		{
@@ -110,36 +119,6 @@ namespace creaturevisualizer
 			if (String.IsNullOrEmpty(tb.Text))
 				tb.Text = "0"; // WARNING: That will fire the TextChanged event but the control's value shall already be 0.
 		}
-//		void lostfocus_val(object sender, EventArgs e)
-//		{}
-
-//		void txtComponentValue_KeyDown(object sender, KeyEventArgs e)
-//		{
-//			if (tb_Val.Text.Length > 0
-//				&& (   (e.KeyData | Keys.Shift) == (Keys.Shift | Keys.Space | Keys.RButton | Keys.MButton)
-//					|| (e.KeyData | Keys.Shift) == (Keys.Shift | Keys.Space | Keys.Back)))
-//			{
-//				int val1 = Int16.Parse(tb_Val.Text);
-//				int num2 = (((e.KeyData & Keys.Shift) != Keys.Shift) ? 1 : 10);
-//
-//				if ((e.KeyData & Keys.Up) == Keys.Up)
-//				{
-//					val1 = ((val1 + num2 > Max) ? Max : (val1 + num2));
-//				}
-//				else if ((e.KeyData | Keys.Shift) == (Keys.Shift | Keys.Space | Keys.Back))
-//				{
-//					num2 = ((e.KeyData != (Keys.Shift | Keys.Space | Keys.Back)) ? (-1) : (-10));
-//					val1 = ((val1 + num2 <= 0) ? 0 : (val1 + num2));
-//				}
-//
-//				tb_Val.Text = val1.ToString();
-//
-//				if (e.KeyData == (Keys.Back | Keys.Space | Keys.Shift))
-//				{
-//					tb_Val.SelectionStart = tb_Val.Text.Length;
-//				}
-//			}
-//		}
 		#endregion Handlers
 
 
@@ -186,7 +165,7 @@ namespace creaturevisualizer
 			this.rb_Co.Name = "rb_Co";
 			this.rb_Co.Size = new System.Drawing.Size(30, 20);
 			this.rb_Co.TabIndex = 0;
-			this.rb_Co.CheckedChanged += new System.EventHandler(this.checkedchanged_rb);
+			this.rb_Co.Click += new System.EventHandler(this.click_rb);
 			// 
 			// ColorSpaceControl
 			// 
@@ -203,7 +182,6 @@ namespace creaturevisualizer
 		}
 		#endregion Designer
 	}
-
 
 
 	// Sano.PersonalProjects.ColorPicker.Controls.ColorSpaceComponentEventHandler
