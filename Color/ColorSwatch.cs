@@ -5,61 +5,44 @@ using System.Drawing;
 namespace creaturevisualizer
 {
 	// Sano.PersonalProjects.ColorPicker.Controls.ColorSwatch
-	struct ColorSwatch
+	sealed class ColorSwatch
 	{
+		#region Fields (static)
+		const int width  = 10;
+		const int height = 10;
+		#endregion Fields (static)
+
+
 		#region Properties
-		Color _color;
 		internal Color Color
-		{
-			get { return _color; }
-			set { _color = value; }
-		}
+		{ get; set; }
 
-		string _description;
 		internal string Description
-		{
-			get { return _description; }
-			set { _description = value; }
-		}
+		{ get; set; }
 
-		Point _location;
 		internal Point Location
-		{
-			get { return _location; }
-			set { _location = value; }
-		}
+		{ get; set; }
 
-		Size _size;
-		internal Size Size // always 10x10
+		internal Rectangle Rect
 		{
-			get { return _size; }
-			set { _size = value; }
-		}
-
-		internal Rectangle Region
-		{
-			get { return new Rectangle(Location, Size); }
+			get { return new Rectangle(Location, new Size(width, height)); }
 		}
 		#endregion Properties
 
 
 		#region cTor
-		internal ColorSwatch(Point location, Size size)
+		internal ColorSwatch(Point location)
 		{
-			this = new ColorSwatch(Color.Empty, String.Empty, location, size);
+			Color       = Color.Empty;
+			Description = String.Empty;
+			Location    = location;
 		}
 
 		internal ColorSwatch(Color color, string description)
 		{
-			this = new ColorSwatch(color, description, new Point(0,0), new Size(10,10));
-		}
-
-		ColorSwatch(Color color, string description, Point location, Size size)
-		{
-			_color       = color;
-			_description = description;
-			_location    = location;
-			_size        = size;
+			Color       = color;
+			Description = description;
+			Location    = new Point(0,0);
 		}
 		#endregion cTor
 
@@ -74,12 +57,12 @@ namespace creaturevisualizer
 
 		public override int GetHashCode()
 		{
-			return ((ValueType)this).GetHashCode();
+			return base.GetHashCode();
 		}
 
 		public override string ToString()
 		{
-			return "Description: " + Description + " Color: " + Color;
+			return "description: " + Description + " color: " + Color;
 		}
 		#endregion Methods (override)
 

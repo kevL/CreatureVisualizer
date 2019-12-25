@@ -10,7 +10,7 @@ namespace creaturevisualizer
 		: UserControl
 	{
 		#region Fields
-		DragForm _dragger = new DragForm();
+		readonly DragForm _dragger = new DragForm();
 		#endregion Fields
 
 

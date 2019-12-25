@@ -76,7 +76,7 @@
     <Compile Include="Color\ColorSpace.cs" />
     <Compile Include="Color\SwatchPanel.cs" />
     <Compile Include="Color\ColorSwatchXml_cv.cs" />
-    <Compile Include="Color\ColorSwatch_cv.cs" />
+    <Compile Include="Color\ColorSwatch.cs" />
     <Compile Include="Color\DragForm_cv.cs" />
     <Compile Include="Color\HsbColorSpace.cs" />
     <Compile Include="Color\HSB.cs" />
