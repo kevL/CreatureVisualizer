@@ -75,7 +75,7 @@ namespace creaturevisualizer
 			this.cscHue.Max = 360;
 			this.cscHue.Name = "cscHue";
 			this.cscHue.Selected = false;
-			this.cscHue.Size = new System.Drawing.Size(70, 20);
+			this.cscHue.Size = new System.Drawing.Size(75, 20);
 			this.cscHue.TabIndex = 0;
 			this.cscHue.Unit = creaturevisualizer.ColorSpaceControl.Units.Degree;
 			this.cscHue.Value = 0;
@@ -90,7 +90,7 @@ namespace creaturevisualizer
 			this.cscSaturation.Max = 100;
 			this.cscSaturation.Name = "cscSaturation";
 			this.cscSaturation.Selected = false;
-			this.cscSaturation.Size = new System.Drawing.Size(70, 20);
+			this.cscSaturation.Size = new System.Drawing.Size(75, 20);
 			this.cscSaturation.TabIndex = 1;
 			this.cscSaturation.Unit = creaturevisualizer.ColorSpaceControl.Units.Percent;
 			this.cscSaturation.Value = 0;
@@ -105,7 +105,7 @@ namespace creaturevisualizer
 			this.cscBrightness.Max = 100;
 			this.cscBrightness.Name = "cscBrightness";
 			this.cscBrightness.Selected = false;
-			this.cscBrightness.Size = new System.Drawing.Size(70, 20);
+			this.cscBrightness.Size = new System.Drawing.Size(75, 20);
 			this.cscBrightness.TabIndex = 2;
 			this.cscBrightness.Unit = creaturevisualizer.ColorSpaceControl.Units.Percent;
 			this.cscBrightness.Value = 0;

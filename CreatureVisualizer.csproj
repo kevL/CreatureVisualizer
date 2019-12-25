@@ -70,11 +70,11 @@
     <Compile Include="Color\ColorPanelSettings_cv.cs" />
     <Compile Include="Color\ColorPanel.cs" />
     <Compile Include="Color\GradientService.cs" />
-    <Compile Include="Color\ColorSelectedEventArgs.cs" />
+    <Compile Include="Color\ColorEventArgs.cs" />
     <Compile Include="Color\ColorSlider.cs" />
     <Compile Include="Color\ColorSpaceControl.cs" />
     <Compile Include="Color\ColorSpace.cs" />
-    <Compile Include="Color\ColorSwatchPanel_cv.cs" />
+    <Compile Include="Color\SwatchPanel.cs" />
     <Compile Include="Color\ColorSwatchXml_cv.cs" />
     <Compile Include="Color\ColorSwatch_cv.cs" />
     <Compile Include="Color\DragForm_cv.cs" />
@@ -102,6 +102,9 @@
     <EmbeddedResource Include="Color\ColorPanel.resx">
       <DependentUpon>ColorPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Color\ColorSpaceControl.resx">
+      <DependentUpon>ColorSpaceControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Color\ColorSwatchF.resx">
       <DependentUpon>ColorSwatchF.cs</DependentUpon>
     </EmbeddedResource>
@@ -117,14 +120,11 @@
     <EmbeddedResource Include="Color\ColorSlider.resx">
       <DependentUpon>ColorSlider.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Color\ColorSpaceControl.resx">
-      <DependentUpon>ColorSpaceControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Color\ColorSpace.resx">
       <DependentUpon>ColorSpace.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Color\ColorSwatchPanel_cv.resx">
-      <DependentUpon>ColorSwatchPanel_cv.cs</DependentUpon>
+    <EmbeddedResource Include="Color\SwatchPanel.resx">
+      <DependentUpon>SwatchPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Color\DragForm_cv.resx">
       <DependentUpon>DragForm_cv.cs</DependentUpon>

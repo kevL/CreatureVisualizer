@@ -1,5 +1,4 @@
 ﻿using System;
-//using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -11,8 +10,7 @@ namespace creaturevisualizer
 		: UserControl
 	{
 		#region Events
-//		[EditorBrowsable(EditorBrowsableState.Always)]
-		internal event ColorSelectedEventHandler ColorSelected;
+		public event ColorSelectedEventHandler ColorSelected;
 		#endregion Events
 
 
@@ -64,7 +62,7 @@ namespace creaturevisualizer
 				InvalidatePoints(_pt, point);
 
 				_pt = point;
-				OnColorSelected(new ColorSelectedEventArgs(CalculateSelectedColor()));
+				OnColorSelected(new ColorEventArgs(CalculateSelectedColor()));
 			}
 		}
 
@@ -87,7 +85,7 @@ namespace creaturevisualizer
 					InvalidatePoints(_pt, point);
 
 					_pt = point;
-					OnColorSelected(new ColorSelectedEventArgs(CalculateSelectedColor()));
+					OnColorSelected(new ColorEventArgs(CalculateSelectedColor()));
 				}
 			}
 		}
@@ -106,10 +104,10 @@ namespace creaturevisualizer
 
 
 		#region Handlers
-		void OnColorSelected(ColorSelectedEventArgs e)
+		void OnColorSelected(ColorEventArgs e)
 		{
 			if (ColorSelected != null)
-				ColorSelected(this, e);
+				ColorSelected(e);
 		}
 		#endregion Handlers
 
@@ -313,5 +311,5 @@ namespace creaturevisualizer
 
 
 
-	internal delegate void ColorSelectedEventHandler(object sender, ColorSelectedEventArgs e);
+	internal delegate void ColorSelectedEventHandler(ColorEventArgs e);
 }

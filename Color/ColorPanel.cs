@@ -59,18 +59,13 @@ namespace creaturevisualizer
 		{
 			InitializeComponent();
 
-			colorfield.ColorSelected += colorselected_field;
-			swatches.ColorSwatchSelected += colorswatchselected_swatches;
-
 			GradientService.InstantiateConstantObjects();
-
 			using (Graphics graphics = Graphics.FromImage(_hueSlider))
-				GradientService.DrawSlider(graphics, new Rectangle(new Point(0,0), _hueSlider.Size));
+				GradientService.DrawSlider(graphics, new Rectangle(0,0, ColorSlider.width, ColorSlider.height));
 
 			colorbox1.IsActive = true;
 
 			hsbColorSpace.SelectCsc(hsbColorSpace.cscHue);
-
 		}
 		#endregion cTor
 
@@ -249,12 +244,12 @@ namespace creaturevisualizer
 				ColorChanged();
 		}
 
-		void colorswatchselected_swatches(object sender, ColorSelectedEventArgs e)
+		void swatchselected_swatches(ColorEventArgs e)
 		{
 			SelectColor(e.Color, true);
 		}
 
-		void colorselected_field(object sender, ColorSelectedEventArgs e)
+		void colorselected_field(ColorEventArgs e)
 		{
 			RGB rgb = ColorConverter.ColorToRgb(e.Color);
 			rgbColorSpace.Structure = rgb;
@@ -458,7 +453,7 @@ namespace creaturevisualizer
 		TextboxRestrictive tb_Hex;
 		Label la_Alpha;
 		TextboxRestrictive tb_Alpha;
-		ColorSwatchPanel swatches;
+		SwatchPanel swatches;
 
 
 		void InitializeComponent()
@@ -468,7 +463,7 @@ namespace creaturevisualizer
 			this.colorbox1 = new creaturevisualizer.ColorBox();
 			this.colorbox0 = new creaturevisualizer.ColorBox();
 			this.colorslider = new creaturevisualizer.ColorSlider();
-			this.swatches = new creaturevisualizer.ColorSwatchPanel();
+			this.swatches = new creaturevisualizer.SwatchPanel();
 			this.rgbColorSpace = new creaturevisualizer.RgbColorSpace();
 			this.hsbColorSpace = new creaturevisualizer.HsbColorSpace();
 			this.la_Hex = new System.Windows.Forms.Label();
@@ -484,6 +479,7 @@ namespace creaturevisualizer
 			this.colorfield.Name = "colorfield";
 			this.colorfield.Size = new System.Drawing.Size(256, 256);
 			this.colorfield.TabIndex = 0;
+			this.colorfield.ColorSelected += new creaturevisualizer.ColorSelectedEventHandler(this.colorselected_field);
 			// 
 			// tb_Hex
 			// 
@@ -542,6 +538,7 @@ namespace creaturevisualizer
 			this.swatches.Name = "swatches";
 			this.swatches.Size = new System.Drawing.Size(100, 227);
 			this.swatches.TabIndex = 10;
+			this.swatches.SwatchSelected += new creaturevisualizer.SwatchSelectedEventHandler(this.swatchselected_swatches);
 			// 
 			// rgbColorSpace
 			// 

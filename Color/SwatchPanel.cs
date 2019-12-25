@@ -9,21 +9,21 @@ using System.Windows.Forms;
 namespace creaturevisualizer
 {
 	// Sano.PersonalProjects.ColorPicker.Controls.ColorSwatchPanel
-	sealed class ColorSwatchPanel
+	sealed class SwatchPanel
 		: UserControl
 	{
 		#region Events
-		internal event ColorSwatchSelectedHandler ColorSwatchSelected;
+		public event SwatchSelectedEventHandler SwatchSelected;
 		#endregion Events
 
 
 		#region Fields (static)
-		public static string CustomSwatchesFile = "CustomSwatches.xml";
+		const string CustomSwatchesFile = "CustomSwatches.xml";
 		#endregion Fields (static)
 
 
 		#region Fields
-		DragForm _dragger;
+		readonly DragForm _dragger = new DragForm();
 
 		readonly Rectangle _swatchRegion = new Rectangle(0,0, 164,263);
 		readonly Size _swatchSize = new Size(10,10);
@@ -56,15 +56,12 @@ namespace creaturevisualizer
 
 
 		#region cTor
-		public ColorSwatchPanel()
+		public SwatchPanel()
 		{
 			InitializeComponent();
 
 			_startX = _swatchRegion.X + 6;
 			_startY = _swatchRegion.Y + 6;
-
-			_dragger = new DragForm();
-			AllowDrop = true;
 		}
 		#endregion cTor
 
@@ -148,7 +145,7 @@ namespace creaturevisualizer
 				{
 					if (!_lastSwatch.Equals(colorSwatch))
 					{
-						colorTip.Active = false;
+						colorTip.Active = false; // wtf
 					}
 
 					if (colorSwatch.Description != null && !colorSwatch.Description.Equals(colorTip.GetToolTip(this)))
@@ -156,7 +153,7 @@ namespace creaturevisualizer
 						colorTip.SetToolTip(this, colorSwatch.Description);
 					}
 
-					colorTip.Active = true;
+					colorTip.Active = true; // wtf
 					_lastSwatch = colorSwatch;
 					Cursor = Cursors.Hand;
 				}
@@ -176,24 +173,25 @@ namespace creaturevisualizer
 
 			if (IsCursorWithinSwatchGridBorders(e.X, e.Y))
 			{
-				ColorSwatch colorSwatch = GetColorSwatch(e.X, e.Y);
-				if (DoesCursorIntersectWithSwatch(colorSwatch, e.X, e.Y) && colorSwatch.Color != Color.Empty)
+				ColorSwatch swatch = GetColorSwatch(e.X, e.Y);
+
+				if (swatch.Color != Color.Empty
+					&& DoesCursorIntersectWithSwatch(swatch, e.X, e.Y))
 				{
-					if (e.Button == MouseButtons.Right)
+					switch (e.Button)
 					{
-						contextMenu.Show(this, new Point(e.X, e.Y));
+						case MouseButtons.Left:
+							if (SwatchSelected != null)
+								SwatchSelected(new ColorEventArgs(swatch.Color));
+							break;
+
+						case MouseButtons.Right:
+							contextMenu.Show(this, new Point(e.X, e.Y));
+							break;
 					}
-					else
-						OnColorSwatchSelected(new ColorSelectedEventArgs(colorSwatch.Color));
 				}
 			}
 //			else _track = false;
-		}
-
-		void OnColorSwatchSelected(ColorSelectedEventArgs e)
-		{
-			if (ColorSwatchSelected != null)
-				ColorSwatchSelected(this, e);
 		}
 
 		protected override void OnMouseLeave(EventArgs e)
@@ -611,11 +609,13 @@ namespace creaturevisualizer
 			// deleteSwatchMenuItem
 			// 
 			this.deleteSwatchMenuItem.Index = 1;
+			this.deleteSwatchMenuItem.Text = "";
 			this.deleteSwatchMenuItem.Click += new System.EventHandler(this.deleteSwatchMenuItem_Click);
 			// 
 			// renameSwatchMenuItem
 			// 
 			this.renameSwatchMenuItem.Index = 0;
+			this.renameSwatchMenuItem.Text = "";
 			this.renameSwatchMenuItem.Click += new System.EventHandler(this.renameSwatchMenuItem_Click);
 			// 
 			// contextMenu
@@ -624,42 +624,18 @@ namespace creaturevisualizer
 			this.renameSwatchMenuItem,
 			this.deleteSwatchMenuItem});
 			// 
-			// ColorSwatchPanel
+			// SwatchPanel
 			// 
+			this.AllowDrop = true;
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Margin = new System.Windows.Forms.Padding(0);
-			this.Name = "ColorSwatchPanel";
+			this.Name = "SwatchPanel";
 			this.ResumeLayout(false);
 
 		}
-/*		void InitializeComponent()
-		{
-			components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(creaturevisualizer.ColorSwatchPanel));
-			colorTip = new System.Windows.Forms.ToolTip(components);
-			deleteSwatchMenuItem = new System.Windows.Forms.MenuItem();
-			renameSwatchMenuItem = new System.Windows.Forms.MenuItem();
-			contextMenu = new System.Windows.Forms.ContextMenu();
-			SuspendLayout();
-			colorTip.Active = false;
-			deleteSwatchMenuItem.Index = 1;
-			resources.ApplyResources(deleteSwatchMenuItem, "deleteSwatchMenuItem");
-			deleteSwatchMenuItem.Click += new System.EventHandler(deleteSwatchMenuItem_Click);
-			renameSwatchMenuItem.Index = 0;
-			resources.ApplyResources(renameSwatchMenuItem, "renameSwatchMenuItem");
-			renameSwatchMenuItem.Click += new System.EventHandler(renameSwatchMenuItem_Click);
-			contextMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[2]
-			{
-				renameSwatchMenuItem,
-				deleteSwatchMenuItem
-			});
-			base.Name = "ColorSwatchPanel";
-			ResumeLayout(false);
-		} */
 		#endregion Designer
 	}
 
 
-
-	internal delegate void ColorSwatchSelectedHandler(object sender, ColorSelectedEventArgs e);
+	internal delegate void SwatchSelectedEventHandler(ColorEventArgs e);
 }

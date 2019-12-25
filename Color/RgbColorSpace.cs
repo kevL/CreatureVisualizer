@@ -90,7 +90,7 @@ namespace creaturevisualizer
 			this.cscRed.Max = 255;
 			this.cscRed.Name = "cscRed";
 			this.cscRed.Selected = false;
-			this.cscRed.Size = new System.Drawing.Size(70, 20);
+			this.cscRed.Size = new System.Drawing.Size(75, 20);
 			this.cscRed.TabIndex = 0;
 			this.cscRed.Unit = creaturevisualizer.ColorSpaceControl.Units.Byte;
 			this.cscRed.Value = 0;
@@ -105,7 +105,7 @@ namespace creaturevisualizer
 			this.cscGreen.Max = 255;
 			this.cscGreen.Name = "cscGreen";
 			this.cscGreen.Selected = false;
-			this.cscGreen.Size = new System.Drawing.Size(70, 20);
+			this.cscGreen.Size = new System.Drawing.Size(75, 20);
 			this.cscGreen.TabIndex = 1;
 			this.cscGreen.Unit = creaturevisualizer.ColorSpaceControl.Units.Byte;
 			this.cscGreen.Value = 0;
@@ -120,7 +120,7 @@ namespace creaturevisualizer
 			this.cscBlue.Max = 255;
 			this.cscBlue.Name = "cscBlue";
 			this.cscBlue.Selected = false;
-			this.cscBlue.Size = new System.Drawing.Size(70, 20);
+			this.cscBlue.Size = new System.Drawing.Size(75, 20);
 			this.cscBlue.TabIndex = 2;
 			this.cscBlue.Unit = creaturevisualizer.ColorSpaceControl.Units.Byte;
 			this.cscBlue.Value = 0;

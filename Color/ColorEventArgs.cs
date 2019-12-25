@@ -5,26 +5,19 @@ using System.Drawing;
 namespace creaturevisualizer
 {
 	// Sano.PersonalProjects.ColorPicker.Controls.ColorSelectedEventArgs
-	public class ColorSelectedEventArgs
+	public class ColorEventArgs
 		: EventArgs
 	{
-		#region Fields
-		Color m_color;
-		#endregion Fields
-
-
 		#region Properties
 		internal Color Color
-		{
-			get { return m_color; }
-		}
+		{ get; private set; }
 		#endregion Properties
 
 
 		#region cTor
-		internal ColorSelectedEventArgs(Color color)
+		internal ColorEventArgs(Color color)
 		{
-			m_color = color;
+			Color = color;
 		}
 		#endregion cTor
 	}
