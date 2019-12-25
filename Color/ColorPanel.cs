@@ -368,41 +368,29 @@ namespace creaturevisualizer
 			GetActiveColorbox().BackColor = Color.FromArgb(Byte.Parse(text),
 														   ColorConverter.RgbToColor((RGB)rgbColorSpace.Structure));
 
+
 			if (setSliderColorspace)
 				colorslider.ChangeColorspace(_csCurrent);
 
-			UpdateColorField(updatePoint);
-
-			if (setHexText)
-				tb_Hex.Text = rgbColorSpace.ConvertToHex();
-		}
-
-		void UpdateColorField(bool updatePoint)
-		{
-			int val = _csCurrent.Selected.Value;
-			char displayCharacter = _csCurrent.Selected.DisplayCharacter;
 
 			if (_csCurrent is HsbColorSpace)
 			{
-				switch (displayCharacter)
+				if (_csCurrent.Selected.DisplayCharacter == 'H')
 				{
-					case 'H':
-					{
-						Color color = _hueSlider.GetPixel(0, 255 - colorslider.Value);
-						colorfield.ChangeColor(color, _csCurrent, updatePoint);
-						break;
-					}
-
-					case 'S':
-					case 'B':
-						colorfield.ChangeColor(val, _csCurrent, updatePoint);
-						break;
+					Color color = _hueSlider.GetPixel(0, 255 - colorslider.Value);
+					colorfield.ChangeColor(color, _csCurrent, updatePoint);
 				}
+				else // 'S','B'
+					colorfield.ChangeColor(_csCurrent.Selected.Value, _csCurrent, updatePoint);
 			}
-			else if (_csCurrent is RgbColorSpace)
+			else if (_csCurrent is RgbColorSpace) // 'R','G','B'
 			{
-				colorfield.ChangeColor(val, _csCurrent, updatePoint);
+				colorfield.ChangeColor(_csCurrent.Selected.Value, _csCurrent, updatePoint);
 			}
+
+
+			if (setHexText)
+				tb_Hex.Text = rgbColorSpace.ConvertToHex();
 		}
 
 

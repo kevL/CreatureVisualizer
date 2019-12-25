@@ -26,8 +26,8 @@ namespace creaturevisualizer
 		#region Properties
 		public bool Selected
 		{
-			get { return rb_Component.Checked; }
-			set { rb_Component.Checked = value; }
+			get { return rb_Co.Checked; }
+			set { rb_Co.Checked = value; }
 		}
 
 		char _displayCharacter;
@@ -36,10 +36,7 @@ namespace creaturevisualizer
 			get { return _displayCharacter; }
 			set
 			{
-				_displayCharacter = value;
-
-				rb_Component.Text = _displayCharacter.ToString().ToUpper();
-				la_Component.Text = _displayCharacter.ToString().ToUpper();
+				rb_Co.Text = (_displayCharacter = value).ToString().ToUpper();
 			}
 		}
 
@@ -53,7 +50,7 @@ namespace creaturevisualizer
 
 				int val = Int32.Parse(tb_Val.Text);
 
-				if (val > MaximumValue)
+				if (val > Max)
 					val = Int32.Parse(tb_Val.Text.Substring(0, tb_Val.Text.Length - 1));
 
 				return val;
@@ -65,11 +62,8 @@ namespace creaturevisualizer
 			}
 		}
 
-		int MinimumValue
-		{ get; set; }
-
-		int _max = 255;
-		public int MaximumValue
+		int _max = Byte.MaxValue;
+		public int Max
 		{
 			get { return _max; }
 			set { _max = value; }
@@ -135,12 +129,12 @@ namespace creaturevisualizer
 
 				if ((e.KeyData & Keys.Up) == Keys.Up)
 				{
-					val1 = ((val1 + num2 > MaximumValue) ? MaximumValue : (val1 + num2));
+					val1 = ((val1 + num2 > Max) ? Max : (val1 + num2));
 				}
 				else if ((e.KeyData | Keys.Shift) == (Keys.Shift | Keys.Space | Keys.Back))
 				{
 					num2 = ((e.KeyData != (Keys.Shift | Keys.Space | Keys.Back)) ? (-1) : (-10));
-					val1 = ((val1 + num2 <= MinimumValue) ? MinimumValue : (val1 + num2));
+					val1 = ((val1 + num2 <= 0) ? 0 : (val1 + num2));
 				}
 
 				tb_Val.Text = val1.ToString();
@@ -162,11 +156,11 @@ namespace creaturevisualizer
 			if (!String.IsNullOrEmpty(tb.Text))
 			{
 				val = Int32.Parse(tb.Text);
-				if      (val > MaximumValue) val = MaximumValue;
-				else if (val < MinimumValue) val = MinimumValue;
+				if      (val > Max) val = Max;
+				else if (val < 0) val = 0;
 			}
 			else
-				val = MinimumValue;
+				val = 0;
 
 			tb.Text = val.ToString();
 		}
@@ -192,17 +186,15 @@ namespace creaturevisualizer
 		#region Designer
 		internal TextboxRestrictive tb_Val;
 
-		Label la_Component;
 		Label la_Units;
-		RadioButton rb_Component;
+		RadioButton rb_Co;
 
 
 		void InitializeComponent()
 		{
 			this.tb_Val = new creaturevisualizer.TextboxRestrictive();
 			this.la_Units = new System.Windows.Forms.Label();
-			this.rb_Component = new System.Windows.Forms.RadioButton();
-			this.la_Component = new System.Windows.Forms.Label();
+			this.rb_Co = new System.Windows.Forms.RadioButton();
 			this.SuspendLayout();
 			// 
 			// tb_Val
@@ -214,7 +206,7 @@ namespace creaturevisualizer
 			this.tb_Val.Name = "tb_Val";
 			this.tb_Val.Restrict = creaturevisualizer.TextboxRestrictive.Type.Byte;
 			this.tb_Val.Size = new System.Drawing.Size(25, 20);
-			this.tb_Val.TabIndex = 2;
+			this.tb_Val.TabIndex = 1;
 			this.tb_Val.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.tb_Val.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtComponentValue_KeyDown);
 			this.tb_Val.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtComponentValue_KeyUp);
@@ -226,32 +218,22 @@ namespace creaturevisualizer
 			this.la_Units.Margin = new System.Windows.Forms.Padding(0);
 			this.la_Units.Name = "la_Units";
 			this.la_Units.Size = new System.Drawing.Size(15, 20);
-			this.la_Units.TabIndex = 3;
+			this.la_Units.TabIndex = 2;
 			this.la_Units.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
-			// rb_Component
+			// rb_Co
 			// 
-			this.rb_Component.Location = new System.Drawing.Point(0, 0);
-			this.rb_Component.Margin = new System.Windows.Forms.Padding(0);
-			this.rb_Component.Name = "rb_Component";
-			this.rb_Component.Size = new System.Drawing.Size(15, 20);
-			this.rb_Component.TabIndex = 0;
-			this.rb_Component.Click += new System.EventHandler(this.rdoComponent_Click);
-			// 
-			// la_Component
-			// 
-			this.la_Component.Location = new System.Drawing.Point(15, 0);
-			this.la_Component.Margin = new System.Windows.Forms.Padding(0);
-			this.la_Component.Name = "la_Component";
-			this.la_Component.Size = new System.Drawing.Size(15, 20);
-			this.la_Component.TabIndex = 1;
-			this.la_Component.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.rb_Co.Location = new System.Drawing.Point(0, 0);
+			this.rb_Co.Margin = new System.Windows.Forms.Padding(0);
+			this.rb_Co.Name = "rb_Co";
+			this.rb_Co.Size = new System.Drawing.Size(30, 20);
+			this.rb_Co.TabIndex = 0;
+			this.rb_Co.Click += new System.EventHandler(this.rdoComponent_Click);
 			// 
 			// ColorSpaceControl
 			// 
-			this.Controls.Add(this.rb_Component);
+			this.Controls.Add(this.rb_Co);
 			this.Controls.Add(this.tb_Val);
-			this.Controls.Add(this.la_Component);
 			this.Controls.Add(this.la_Units);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Margin = new System.Windows.Forms.Padding(0);

@@ -87,7 +87,7 @@ namespace creaturevisualizer
 			this.cscRed.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.cscRed.Location = new System.Drawing.Point(0, 0);
 			this.cscRed.Margin = new System.Windows.Forms.Padding(0);
-			this.cscRed.MaximumValue = 255;
+			this.cscRed.Max = 255;
 			this.cscRed.Name = "cscRed";
 			this.cscRed.Selected = false;
 			this.cscRed.Size = new System.Drawing.Size(70, 20);
@@ -103,7 +103,7 @@ namespace creaturevisualizer
 			this.cscGreen.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.cscGreen.Location = new System.Drawing.Point(0, 19);
 			this.cscGreen.Margin = new System.Windows.Forms.Padding(0);
-			this.cscGreen.MaximumValue = 255;
+			this.cscGreen.Max = 255;
 			this.cscGreen.Name = "cscGreen";
 			this.cscGreen.Selected = false;
 			this.cscGreen.Size = new System.Drawing.Size(70, 20);
@@ -119,7 +119,7 @@ namespace creaturevisualizer
 			this.cscBlue.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.cscBlue.Location = new System.Drawing.Point(0, 38);
 			this.cscBlue.Margin = new System.Windows.Forms.Padding(0);
-			this.cscBlue.MaximumValue = 255;
+			this.cscBlue.Max = 255;
 			this.cscBlue.Name = "cscBlue";
 			this.cscBlue.Selected = false;
 			this.cscBlue.Size = new System.Drawing.Size(70, 20);

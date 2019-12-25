@@ -80,7 +80,7 @@ namespace creaturevisualizer
 			this.cscHue.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.cscHue.Location = new System.Drawing.Point(0, 0);
 			this.cscHue.Margin = new System.Windows.Forms.Padding(0);
-			this.cscHue.MaximumValue = 360;
+			this.cscHue.Max = 360;
 			this.cscHue.Name = "cscHue";
 			this.cscHue.Selected = false;
 			this.cscHue.Size = new System.Drawing.Size(70, 20);
@@ -96,7 +96,7 @@ namespace creaturevisualizer
 			this.cscSaturation.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.cscSaturation.Location = new System.Drawing.Point(0, 19);
 			this.cscSaturation.Margin = new System.Windows.Forms.Padding(0);
-			this.cscSaturation.MaximumValue = 100;
+			this.cscSaturation.Max = 100;
 			this.cscSaturation.Name = "cscSaturation";
 			this.cscSaturation.Selected = false;
 			this.cscSaturation.Size = new System.Drawing.Size(70, 20);
@@ -112,7 +112,7 @@ namespace creaturevisualizer
 			this.cscBrightness.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.cscBrightness.Location = new System.Drawing.Point(0, 38);
 			this.cscBrightness.Margin = new System.Windows.Forms.Padding(0);
-			this.cscBrightness.MaximumValue = 100;
+			this.cscBrightness.Max = 100;
 			this.cscBrightness.Name = "cscBrightness";
 			this.cscBrightness.Selected = false;
 			this.cscBrightness.Size = new System.Drawing.Size(70, 20);
