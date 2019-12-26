@@ -456,7 +456,7 @@ namespace creaturevisualizer
 		TextboxRestrictive tb_Hex;
 		Label la_Alpha;
 		TextboxRestrictive tb_Alpha;
-		SwatchPanel swatches;
+		SwatchControl swatches;
 
 
 		void InitializeComponent()
@@ -466,7 +466,7 @@ namespace creaturevisualizer
 			this.colortop = new creaturevisualizer.ColorBox();
 			this.colorbot = new creaturevisualizer.ColorBox();
 			this.colorslider = new creaturevisualizer.ColorSlider();
-			this.swatches = new creaturevisualizer.SwatchPanel();
+			this.swatches = new creaturevisualizer.SwatchControl();
 			this.rgbColorSpace = new creaturevisualizer.RgbColorSpace();
 			this.hsbColorSpace = new creaturevisualizer.HsbColorSpace();
 			this.la_Hex = new System.Windows.Forms.Label();
@@ -539,7 +539,7 @@ namespace creaturevisualizer
 			this.swatches.Location = new System.Drawing.Point(395, 8);
 			this.swatches.Margin = new System.Windows.Forms.Padding(0);
 			this.swatches.Name = "swatches";
-			this.swatches.Size = new System.Drawing.Size(100, 227);
+			this.swatches.Size = new System.Drawing.Size(93, 309);
 			this.swatches.TabIndex = 10;
 			this.swatches.SwatchSelected += new creaturevisualizer.SwatchSelectedEventHandler(this.swatchselected_swatches);
 			// 
@@ -614,7 +614,7 @@ namespace creaturevisualizer
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Margin = new System.Windows.Forms.Padding(0);
 			this.Name = "ColorPanel";
-			this.Size = new System.Drawing.Size(500, 270);
+			this.Size = new System.Drawing.Size(490, 317);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

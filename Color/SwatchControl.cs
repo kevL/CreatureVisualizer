@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-//using System.IO;
+using System.IO;
 using System.Windows.Forms;
 
 
 namespace creaturevisualizer
 {
 	// Sano.PersonalProjects.ColorPicker.Controls.ColorSwatchPanel
-	sealed class SwatchPanel
+	sealed class SwatchControl
 		: UserControl
 	{
 		#region Events
@@ -18,90 +18,87 @@ namespace creaturevisualizer
 
 
 		#region Fields (static)
-		const string CustomSwatchesFile = "CustomSwatches.xml";
+		internal static string _path;
+
+		const int MaxSwatches = 175;
+
+		const int _width     =  93; // width  of the graphic
+		const int _height    = 309; // height of the graphic
+
+		const  int _tile     =  12; // x/y tile pixels
+
+		const int _x         =   5; // x-start of 1st tile location in pixels
+		const int _y         =   5; // y-start of 1st tile location in pixels
+
+		const int _horitiles =   7; // count of tiles in a row
 		#endregion Fields (static)
 
 
 		#region Fields
+		string SwatchFile = "NWN2 Toolset" + Path.DirectorySeparatorChar + "CustomSwatches.xml";
+
 		readonly DragForm _dragger = new DragForm();
 
-		readonly Rectangle _swatchRegion = new Rectangle(0,0, 164,263);
+		List<Swatch> _swatchlist;
 
-		List<ColorSwatch> _swatches;
+		Bitmap _graphic;
 
-		Bitmap _swatchB;
+		Swatch[] _swatcharray = new Swatch[MaxSwatches];
+		Swatch _lastswatch;
 
-		ColorSwatch[] _swatchArray;
-		ColorSwatch _lastSwatch;
+		int _id;
+		int _id1;
 
-		int _currentSwatchId;
-		int _nextSwatchId;
+		int _count;
+		int _blank;
 
-		int _startX;
-		int _startY;
-
-		int _totalSwatches;
-		int _blankSwatches;
-		int _hori;
-		int _vert;
-
-		int _outerWidth;
-		int _outerHeight;
-
-		bool _paintActiveBlankSwatch;
+		bool _highlight;
 
 //		bool _track;
 		#endregion Fields
 
 
 		#region cTor
-		public SwatchPanel()
+		public SwatchControl()
 		{
 			InitializeComponent();
 
-			_startX = _swatchRegion.X + 6;
-			_startY = _swatchRegion.Y + 6;
+			_path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+			_path = Path.Combine(_path, SwatchFile);
+
+			if (!File.Exists(_path))
+			{
+				_path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+				_path = Path.Combine(_path, SwatchFile);
+			}
+
+			if (File.Exists(_path))
+			{
+				_swatchlist = ColorSwatchXml.ReadSwatches(_path);
+			}
+/*			else
+			{
+//				ColorSwatchXml.CreateCustomSwatchesFile();
+//				_swatchlist = ColorSwatchXml.ReadSwatches("ColorSwatches.xml", true);
+
+				// TODO: "CustomSwatches.xml was not found in either the Local or Roaming directories."
+			} */
 		}
 		#endregion cTor
 
 
 		#region Handlers (override)
-		protected override void OnLoad(EventArgs e)
-		{
-			base.OnLoad(e);
-
-//			if (File.Exists(CustomSwatchesFile))
-//			{
-//				_swatches = ColorSwatchXml.ReadSwatches(CustomSwatchesFile, false);
-//			}
-//			else
-//			{
-//				CreateCustomSwatchesFile();
-//				_swatches = ColorSwatchXml.ReadSwatches("ColorSwatches.xml", true);
-//			}
-			_swatches = null;
-
-
-			_outerWidth  = Width  - (Width  - 12) % 12;
-			_outerHeight = Height - (Height - 12) % 12;
-			_hori = (_outerWidth  - 12) / 12;
-			_vert = (_outerHeight - 12) / 12;
-
-			_swatchArray = new ColorSwatch[_hori * _vert];
-		}
-
 		protected override void OnPaint(PaintEventArgs e)
 		{
 //			ControlPaint.DrawBorder3D(e.Graphics, new Rectangle(0,0, _outerWidth, _outerHeight));
 
-			if (_swatchB != null || (_swatchB = BuildSwatchBitmap()) != null)
-				e.Graphics.DrawImage(_swatchB,
-									 new Rectangle(new Point(0,0),
-												   new Size(_swatchB.Width,
-															_swatchB.Height)));
+			if (_graphic != null || (_graphic = CreateGraphic()) != null)
+			{
+				e.Graphics.DrawImage(_graphic, 0,0);
 
-			if (_paintActiveBlankSwatch)
-				e.Graphics.DrawRectangle(Pens.Yellow, _swatchArray[_nextSwatchId].Rect);
+				if (_highlight)
+					e.Graphics.DrawRectangle(Pens.Yellow, _swatcharray[_id1].Rect);
+			}
 		}
 
 		protected override void OnMouseDown(MouseEventArgs e)
@@ -110,24 +107,22 @@ namespace creaturevisualizer
 
 			if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right)
 			{
-				if (IsCursorWithinSwatchGridBorders(e.X, e.Y))
+				if (InsideGrid(e.X, e.Y))
 				{
 					switch (e.Button)
 					{
 						case MouseButtons.Left:
 						{
-							ColorSwatch swatch = GetColorSwatch(e.X, e.Y);
+							Swatch swatch = GetColorSwatch(e.X, e.Y);
 
-							if (swatch.Color != Color.Empty
-								&& DoesCursorIntersectWithSwatch(swatch, e.X, e.Y))
-							{
+							if (swatch.Color != Color.Empty && swatch.Rect.Contains(e.X, e.Y))
 								Cursor = Cursors.Hand;
-							}
+
 							break;
 						}
 
 						case MouseButtons.Right:
-							_currentSwatchId = GetSwatchId(e.X, e.Y);
+							_id = GetSwatchId(e.X, e.Y);
 							break;
 					}
 				}
@@ -140,12 +135,11 @@ namespace creaturevisualizer
 
 			if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right)
 			{
-				if (IsCursorWithinSwatchGridBorders(e.X, e.Y))
+				if (InsideGrid(e.X, e.Y))
 				{
-					ColorSwatch swatch = GetColorSwatch(e.X, e.Y);
+					Swatch swatch = GetColorSwatch(e.X, e.Y);
 
-					if (swatch.Color != Color.Empty
-						&& DoesCursorIntersectWithSwatch(swatch, e.X, e.Y))
+					if (swatch.Color != Color.Empty && swatch.Rect.Contains(e.X, e.Y))
 					{
 						switch (e.Button)
 						{
@@ -171,14 +165,13 @@ namespace creaturevisualizer
 //				_dragger.Location = PointToScreen(new Point(e.X - _dragger.CursorXDifference, e.Y - _dragger.CursorYDifference));
 //			}
 //			else
-			if (IsCursorWithinSwatchGridBorders(e.X, e.Y))
+			if (InsideGrid(e.X, e.Y))
 			{
-				ColorSwatch swatch = GetColorSwatch(e.X, e.Y);
+				Swatch swatch = GetColorSwatch(e.X, e.Y);
 
-				if (swatch.Color != Color.Empty
-					&& DoesCursorIntersectWithSwatch(swatch, e.X, e.Y))
+				if (swatch.Color != Color.Empty && swatch.Rect.Contains(e.X, e.Y))
 				{
-					if (!_lastSwatch.Equals(swatch))
+					if (!_lastswatch.Equals(swatch))
 						colorTip.Active = false; // wtf
 
 					if (swatch.Description != null && !swatch.Description.Equals(colorTip.GetToolTip(this)))
@@ -186,7 +179,7 @@ namespace creaturevisualizer
 
 					colorTip.Active = true; // wtf
 
-					_lastSwatch = swatch;
+					_lastswatch = swatch;
 					Cursor = Cursors.Hand;
 				}
 				else
@@ -242,59 +235,59 @@ namespace creaturevisualizer
 		#region Handlers
 		void click_delete(object sender, EventArgs e)
 		{
-			if (_currentSwatchId != -1)
+			if (_id != -1)
 			{
-				using (Graphics graphics = Graphics.FromImage(_swatchB))
+				using (Graphics graphics = Graphics.FromImage(_graphic))
 				{
-					int val1 = _currentSwatchId + (_totalSwatches - 1) - _currentSwatchId - _blankSwatches;
-					int val2 = 0;
+					int valid = _id + (_count - 1) - _id - _blank;
 
-					for (val2 = _currentSwatchId; val2 <= val1; ++val2)
+					for (int id = _id; id <= valid; ++id)
 					{
-						if (val2 + 1 < _swatchArray.Length - 1)
+						if (id + 1 < _swatcharray.Length - 1)
 						{
-							ColorSwatch swatch = _swatchArray[val2];
-							swatch.Color       = _swatchArray[val2 + 1].Color;
-							swatch.Description = _swatchArray[val2 + 1].Description;
-							_swatchArray[val2] = swatch; // effin structs
+							Swatch swatch = _swatcharray[id];
+							swatch.Color       = _swatcharray[id + 1].Color;
+							swatch.Description = _swatcharray[id + 1].Description;
+							_swatcharray[id] = swatch; // effin structs
 						}
-						else
+						else // clean the last valid swatch ->
 						{
-							ColorSwatch swatch = _swatchArray[val2];
+							Swatch swatch = _swatcharray[id];
 							swatch.Color = Color.Empty;
 							swatch.Description = String.Empty;
-							_swatchArray[val2] = swatch; // effin structs
+							_swatcharray[id] = swatch; // effin structs
+
+							_id1 = id;
 						}
+//						if (_swatcharray[id].Color == Color.Empty)
+//							_id1 = id;
 
-						if (_swatchArray[val2].Color == Color.Empty)
-							_nextSwatchId = val2;
+						DrawSwatch(graphics, id);
 
-						DrawSwatch(graphics, val2);
-
-						Rectangle rect = _swatchArray[val2].Rect;
+						Rectangle rect = _swatcharray[id].Rect;
 						rect.Inflate(1,1);
 						Invalidate(rect);
 					}
 
-					++_blankSwatches;
+					++_blank;
 				}
 
-				_currentSwatchId = -1;
-				ColorSwatchXml.WriteSwatches(CustomSwatchesFile, _swatchArray);
+				_id = -1;
+				ColorSwatchXml.WriteSwatches(SwatchFile, _swatcharray);
 			}
 		}
 
 		void click_relabel(object sender, EventArgs e)
 		{
-			using (var f = new ColorSwatchF(_swatchArray[_currentSwatchId]))
+			using (var f = new SwatchDialog(_swatcharray[_id]))
 			{
 				f.StartPosition = FormStartPosition.CenterParent;
 				f.ShowInTaskbar = false;
 
 				if (f.ShowDialog() == DialogResult.OK)
 				{
-					_swatchArray[_currentSwatchId].Description = f.ColorDescription;
-					ColorSwatchXml.WriteSwatches(CustomSwatchesFile, _swatchArray);
+					_swatcharray[_id].Description = f.ColorDescription;
+					ColorSwatchXml.WriteSwatches(SwatchFile, _swatcharray);
 				}
 			}
 		}
@@ -302,39 +295,49 @@ namespace creaturevisualizer
 
 
 		#region Methods
-		void CreateCustomSwatchesFile()
+		Bitmap CreateGraphic()
 		{
-			// TODO: using etc.
-
-/*			var streamReader = new StreamReader(SanoResources.GetFileResource("ColorSwatches.xml")); // TODO ->>
-			if (streamReader != null)
+			if (_swatchlist != null)
 			{
-				StreamWriter streamWriter = null;
-				try
-				{
-					string directoryName = Path.GetDirectoryName(CustomSwatchesFile);
-					if (!Directory.Exists(directoryName))
-						Directory.CreateDirectory(directoryName);
+				int x = _x;
+				int y = _y;
 
-					streamWriter = new StreamWriter(CustomSwatchesFile);
-					streamWriter.Write(streamReader.ReadToEnd());
-					streamWriter.Flush();
-				}
-				catch (DirectoryNotFoundException)
-				{}
-//				catch (Exception)
-//				{}
-				finally
+				var b = new Bitmap(_width, _height);
+
+				using (Graphics graphics = Graphics.FromImage(b))
 				{
-					streamReader.Close();
-					streamWriter.Close();
+					int id = 0;
+					for (; id != _swatchlist.Count && id != MaxSwatches; ++id)
+					{
+						Swatch swatch = _swatchlist[id];
+						swatch.Location = new Point(x,y);
+						_swatcharray[id] = swatch; // effin structs
+
+						DrawSwatch(graphics, id);
+						UpdatePositions(id, ref x, ref y);
+					}
+
+					_count = _id1 = id; // TODO: '_id1' shall always equal '_count+1' (ie. delete '_id1')
+
+					_blank = 0;
+					for (; id != MaxSwatches; ++id)
+					{
+						++_blank;
+						_swatcharray[id] = new Swatch(new Point(x,y));
+
+						DrawSwatch(graphics, id);
+						UpdatePositions(id, ref x, ref y);
+					}
+
+					return b;
 				}
-			} */
+			}
+			return null;
 		}
 
 		void DrawSwatch(Graphics graphics, int id)
 		{
-			ColorSwatch swatch = _swatchArray[id];
+			Swatch swatch = _swatcharray[id];
 
 			int x = swatch.Location.X;
 			int y = swatch.Location.Y;
@@ -349,108 +352,54 @@ namespace creaturevisualizer
 			graphics.DrawRectangle(Pens.Black, x,y, 10,10);
 		}
 
-		Bitmap BuildSwatchBitmap()
+		void UpdatePositions(int id, ref int x, ref int y)
 		{
-			if (_swatches != null) // kL
+			if ((id + 1) % 7 == 0) // wrap to next row
 			{
-				int x = _startX;
-				int y = _startY;
-
-				int col = 0;
-				int row = 0;
-
-				int val = 0;
-
-				var b = new Bitmap(_outerWidth, _outerHeight);
-
-				using (Graphics graphics = Graphics.FromImage(b))
-				{
-					for (int id = 0; id != _swatches.Count; ++id)
-					{
-						ColorSwatch swatch = _swatches[id];
-						swatch.Location = new Point(x,y);
-						_swatchArray[val++] = swatch; // effin structs
-
-						DrawSwatch(graphics, id);
-						UpdatePositions(ref x, ref y, ref col, ref row);
-
-						if (y + 10 > _outerHeight)
-							return b;
-
-						++_totalSwatches; // TODO: why are you not increasing total
-					}
-
-					_blankSwatches = 0;
-
-					do
-					{
-						if (++_blankSwatches == 1)
-							_nextSwatchId = _totalSwatches;
-
-						_swatchArray[val] = new ColorSwatch(new Point(x,y));
-
-						DrawSwatch(graphics, val++);
-						UpdatePositions(ref x, ref y, ref col, ref row);
-
-						++_totalSwatches;
-					}
-					while (y + 10 <= _outerHeight);
-
-					return b;
-				}
-			}
-			return null;
-		}
-
-		void UpdatePositions(ref int x, ref int y, ref int col, ref int row)
-		{
-			if (x + 24 > _outerWidth)
-			{
-				x = _startX;
-				y += 12;
-				col = 0;
-				++row;
+				x = _x;
+				y += _tile;
 			}
 			else
-			{
-				++col;
-				x += 12;
-			}
+				x += _tile;
 		}
 
-		bool IsCursorWithinSwatchGridBorders(int x, int y)
+		bool InsideGrid(int x, int y)
 		{
-			var rect = new Rectangle(_startX, _startY, _outerWidth - 12, _outerHeight - 12);
+			var rect = new Rectangle(_x, _y, _width - _x * 2, _height - _y * 2);
 			return rect.Contains(x,y);
 		}
 
-		ColorSwatch GetColorSwatch(int x, int y)
+		Swatch GetColorSwatch(int x, int y)
 		{
-			return _swatchArray[GetSwatchId(x,y)];
+			int id = GetSwatchId(x,y);
+			if (id >= MaxSwatches)
+				id  = MaxSwatches - 1;
+
+			return _swatcharray[id];
 		}
 
 		int GetSwatchId(int x, int y)
 		{
-			return ((y - 6) / 12) * _hori + ((x - 6) / 12);
+			return ((y - _y) / _tile) * _horitiles + ((x - _x) / _tile);
 		}
 
 		void AddColor(Color color)
 		{
-			int id = _nextSwatchId;
+			int id = _id1;
 
-			if (!DoesColorAlreadyExist(color) && _blankSwatches > 0)
+			if (!DoesColorAlreadyExist(color) && _blank > 0)
 			{
-				using (var f = new ColorSwatchF(color))
+				using (var f = new SwatchDialog(color))
 				{
 					f.StartPosition = FormStartPosition.CenterParent;
 					f.ShowInTaskbar = false;
 
-					if (f.ShowDialog() == DialogResult.OK && _swatchB != null)
+					if (f.ShowDialog() == DialogResult.OK && _graphic != null)
 					{
-						int x = _swatchArray[_nextSwatchId].Location.X;
-						int y = _swatchArray[_nextSwatchId].Location.Y;
+						int x = _swatcharray[_id1].Location.X;
+						int y = _swatcharray[_id1].Location.Y;
 
-						using (Graphics graphics = Graphics.FromImage(_swatchB))
+						using (Graphics graphics = Graphics.FromImage(_graphic))
 						{
 							using (var brush = new SolidBrush(color))
 								graphics.FillRectangle(brush, x,y, 10,10);
@@ -458,16 +407,16 @@ namespace creaturevisualizer
 							graphics.DrawRectangle(Pens.Black, x,y, 10,10);
 						}
 
-						--_blankSwatches;
+						--_blank;
 
-						ColorSwatch swatch = _swatchArray[_nextSwatchId];
+						Swatch swatch = _swatcharray[_id1];
 						swatch.Color       = color;
 						swatch.Description = f.ColorDescription;
-						_swatchArray[_nextSwatchId] = swatch;
+						_swatcharray[_id1] = swatch;
 
-						++_nextSwatchId;
+						++_id1;
 
-						ColorSwatchXml.WriteSwatches(CustomSwatchesFile, _swatchArray);
+						ColorSwatchXml.WriteSwatches(SwatchFile, _swatcharray);
 					}
 				}
 			}
@@ -493,7 +442,7 @@ namespace creaturevisualizer
 			}
 			else
 			{
-				using (var addNewColorSwatchForm = new ColorSwatchF(c))
+				using (var addNewColorSwatchForm = new SwatchDialog(c))
 				{
 					addNewColorSwatchForm.StartPosition = FormStartPosition.CenterParent;
 					addNewColorSwatchForm.ShowInTaskbar = false;
@@ -524,15 +473,15 @@ namespace creaturevisualizer
 			if (flag)
 				ColorSwatchXml.WriteSwatches(CustomSwatchesFile, m_swatchArray); */
 
-			_paintActiveBlankSwatch = false;
-			InvalidateSwatch(_swatchArray[id].Location);
+			_highlight = false;
+			InvalidateSwatch(_swatcharray[id].Location);
 		}
 
 		bool DoesColorAlreadyExist(object color)
 		{
-			for (int i = 0; i != _swatchArray.Length; ++i)
+			for (int i = 0; i != _swatcharray.Length; ++i)
 			{
-				if (_swatchArray[i].Color.Equals(color))
+				if (_swatcharray[i].Color.Equals(color))
 					return true;
 			}
 			return false;
@@ -540,13 +489,13 @@ namespace creaturevisualizer
 
 		void ToggleEmptySwatchState(bool isActive)
 		{
-			if (_blankSwatches > 0)
+			if (_blank > 0)
 			{
-				_paintActiveBlankSwatch = isActive;
-				InvalidateSwatch(_swatchArray[_nextSwatchId].Location);
+				_highlight = isActive;
+				InvalidateSwatch(_swatcharray[_id1].Location);
 			}
 			else
-				_paintActiveBlankSwatch = false;
+				_highlight = false;
 		}
 
 		void InvalidateSwatch(Point swatchPoint)
@@ -555,14 +504,6 @@ namespace creaturevisualizer
 			Invalidate(rect);
 		}
 		#endregion Methods
-
-
-		#region Methods (static)
-		static bool DoesCursorIntersectWithSwatch(ColorSwatch swatch, int x, int y)
-		{
-			return swatch.Rect.Contains(x,y);
-		}
-		#endregion Methods (static)
 
 
 
@@ -615,12 +556,12 @@ namespace creaturevisualizer
 			this.itRelabel,
 			this.itDelete});
 			// 
-			// SwatchPanel
+			// SwatchControl
 			// 
 			this.AllowDrop = true;
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Margin = new System.Windows.Forms.Padding(0);
-			this.Name = "SwatchPanel";
+			this.Name = "SwatchControl";
 			this.ResumeLayout(false);
 
 		}

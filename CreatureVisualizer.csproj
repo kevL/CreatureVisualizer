@@ -62,7 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Color\ColorSwatchF.cs" />
+    <Compile Include="Color\SwatchDialog.cs" />
     <Compile Include="Color\ColorBox.cs" />
     <Compile Include="Color\ColorConverter.cs" />
     <Compile Include="Color\ColorF.cs" />
@@ -74,15 +74,14 @@
     <Compile Include="Color\ColorSlider.cs" />
     <Compile Include="Color\ColorSpaceControl.cs" />
     <Compile Include="Color\ColorSpace.cs" />
-    <Compile Include="Color\SwatchPanel.cs" />
+    <Compile Include="Color\SwatchControl.cs" />
     <Compile Include="Color\ColorSwatchXml_cv.cs" />
-    <Compile Include="Color\ColorSwatch.cs" />
+    <Compile Include="Color\Swatch.cs" />
     <Compile Include="Color\DragForm_cv.cs" />
     <Compile Include="Color\HsbColorSpace.cs" />
     <Compile Include="Color\HSB.cs" />
     <Compile Include="Color\RgbColorSpace.cs" />
     <Compile Include="Color\RGB.cs" />
-    <Compile Include="Color\SanoResources.cs" />
     <Compile Include="Color\TextboxRestrictive.cs" />
     <Compile Include="CreatureVisualizerF.cs" />
     <Compile Include="CreatureVisualizerF.Designer.cs">
@@ -105,8 +104,8 @@
     <EmbeddedResource Include="Color\ColorSpaceControl.resx">
       <DependentUpon>ColorSpaceControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Color\ColorSwatchF.resx">
-      <DependentUpon>ColorSwatchF.cs</DependentUpon>
+    <EmbeddedResource Include="Color\SwatchDialog.resx">
+      <DependentUpon>SwatchDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Color\ColorBox.resx">
       <DependentUpon>ColorBox.cs</DependentUpon>
@@ -123,8 +122,8 @@
     <EmbeddedResource Include="Color\ColorSpace.resx">
       <DependentUpon>ColorSpace.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Color\SwatchPanel.resx">
-      <DependentUpon>SwatchPanel.cs</DependentUpon>
+    <EmbeddedResource Include="Color\SwatchControl.resx">
+      <DependentUpon>SwatchControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Color\DragForm_cv.resx">
       <DependentUpon>DragForm_cv.cs</DependentUpon>

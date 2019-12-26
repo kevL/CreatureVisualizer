@@ -6,7 +6,7 @@ using System.Windows.Forms;
 namespace creaturevisualizer
 {
 	// Sano.PersonalProjects.ColorPicker.Controls.AddNewColorSwatchForm
-	sealed class ColorSwatchF
+	sealed class SwatchDialog
 		: Form
 	{
 		#region Properties
@@ -18,19 +18,19 @@ namespace creaturevisualizer
 
 
 		#region cTor
-		internal ColorSwatchF()
+		internal SwatchDialog()
 		{
 			InitializeComponent();
 		}
 
-		internal ColorSwatchF(Color colorToAdd)
-			: this()
+		internal SwatchDialog(Color colorToAdd)
+//			: this()
 		{
 			pb_Color.BackColor = colorToAdd;
 		}
 
-		internal ColorSwatchF(ColorSwatch colorSwatch)
-			: this()
+		internal SwatchDialog(Swatch colorSwatch)
+//			: this()
 		{
 			pb_Color.BackColor = colorSwatch.Color;
 			tb_Description.Text = colorSwatch.Description;
@@ -137,7 +137,7 @@ namespace creaturevisualizer
 			this.bu_Ok.Text = "Ok";
 			this.bu_Ok.Click += new System.EventHandler(this.btnOk_Click);
 			// 
-			// ColorSwatchF
+			// SwatchDialog
 			// 
 			this.ClientSize = new System.Drawing.Size(292, 274);
 			this.Controls.Add(this.bu_Ok);
@@ -149,7 +149,7 @@ namespace creaturevisualizer
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
-			this.Name = "ColorSwatchF";
+			this.Name = "SwatchDialog";
 			this.ShowInTaskbar = false;
 			((System.ComponentModel.ISupportInitialize)(this.pb_Color)).EndInit();
 			this.ResumeLayout(false);

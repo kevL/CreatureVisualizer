@@ -62,7 +62,7 @@ namespace creaturevisualizer
 				InvalidatePoints(_pt, point);
 
 				_pt = point;
-				OnColorSelected(new ColorEventArgs(CalculateSelectedColor()));
+				OnColorSelected(new ColorEventArgs(GetCurrentColor()));
 			}
 		}
 
@@ -85,7 +85,7 @@ namespace creaturevisualizer
 					InvalidatePoints(_pt, point);
 
 					_pt = point;
-					OnColorSelected(new ColorEventArgs(CalculateSelectedColor()));
+					OnColorSelected(new ColorEventArgs(GetCurrentColor()));
 				}
 			}
 		}
@@ -233,7 +233,7 @@ namespace creaturevisualizer
 			Invalidate();
 		}
 
-		Color CalculateSelectedColor()
+		Color GetCurrentColor()
 		{
 			if ((_cs as HsbColorSpace) != null)
 			{
@@ -279,14 +279,6 @@ namespace creaturevisualizer
 				}
 				return ColorConverter.RgbToColor(rgb);
 			}
-		}
-
-		internal Color GetCurrentColor()
-		{
-			if (_pt != Point.Empty)
-				return CalculateSelectedColor();
-
-			return Color.White;
 		}
 		#endregion Methods
 

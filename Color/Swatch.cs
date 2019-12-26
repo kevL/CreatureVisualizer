@@ -5,7 +5,7 @@ using System.Drawing;
 namespace creaturevisualizer
 {
 	// Sano.PersonalProjects.ColorPicker.Controls.ColorSwatch
-	struct ColorSwatch
+	struct Swatch
 	{
 		#region Fields (static)
 		const int width  = 10;
@@ -31,7 +31,7 @@ namespace creaturevisualizer
 
 
 		#region cTor
-		internal ColorSwatch(Point location)
+		internal Swatch(Point location)
 			: this()
 		{
 			Color       = Color.Empty;
@@ -39,7 +39,7 @@ namespace creaturevisualizer
 			Location    = location;
 		}
 
-		internal ColorSwatch(Color color, string description)
+		internal Swatch(Color color, string description)
 			: this()
 		{
 			Color       = color;
@@ -52,9 +52,9 @@ namespace creaturevisualizer
 		#region Methods (override)
 		public override bool Equals(object obj)
 		{
-			var colorSwatch = (ColorSwatch)obj;
-			return colorSwatch.Color == Color
-				&& Description != null && Description.Equals(colorSwatch.Description);
+			var swatch = (Swatch)obj;
+			return swatch.Color == Color
+				&& Description != null && Description.Equals(swatch.Description);
 		}
 
 		public override int GetHashCode()
@@ -70,12 +70,12 @@ namespace creaturevisualizer
 
 
 		#region Operators
-		public static bool operator ==(ColorSwatch swatch1, ColorSwatch swatch2)
+		public static bool operator ==(Swatch swatch1, Swatch swatch2)
 		{
 			return swatch1.Equals(swatch2);
 		}
 
-		public static bool operator !=(ColorSwatch swatch1, ColorSwatch swatch2)
+		public static bool operator !=(Swatch swatch1, Swatch swatch2)
 		{
 			return !swatch1.Equals(swatch2);
 		}

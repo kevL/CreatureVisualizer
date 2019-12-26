@@ -16,8 +16,8 @@ namespace creaturevisualizer
 
 
 		#region Fields (static)
-		internal const int width  =  18; // w of the gradient rectangle 
-		internal const int height = 256; // h of the gradient rectangle 
+		internal const int width  =  18; // w of the gradient rectangle
+		internal const int height = 256; // h of the gradient rectangle
 		#endregion Fields (static)
 
 
