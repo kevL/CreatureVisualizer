@@ -10,10 +10,7 @@ using CreatureVisualizer.Properties;
 namespace creaturevisualizer
 {
 	// Sano.PersonalProjects.ColorPicker.Controls.ColorPanel
-	/// <summary>
-	/// ColorPanel is not a panel.
-	/// </summary>
-	sealed class ColorPanel
+	sealed class ColorControl
 		: UserControl
 	{
 		#region Events
@@ -60,7 +57,7 @@ namespace creaturevisualizer
 
 
 		#region cTor
-		public ColorPanel()
+		public ColorControl()
 		{
 			InitializeComponent();
 
@@ -598,7 +595,7 @@ namespace creaturevisualizer
 			this.tb_Alpha.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.tb_Alpha.TextChanged += new System.EventHandler(this.textchanged_alpha);
 			// 
-			// ColorPanel
+			// ColorControl
 			// 
 			this.Controls.Add(this.colorfield);
 			this.Controls.Add(this.colorslider);
@@ -613,7 +610,7 @@ namespace creaturevisualizer
 			this.Controls.Add(this.swatches);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Margin = new System.Windows.Forms.Padding(0);
-			this.Name = "ColorPanel";
+			this.Name = "ColorControl";
 			this.Size = new System.Drawing.Size(490, 317);
 			this.ResumeLayout(false);
 			this.PerformLayout();

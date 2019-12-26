@@ -68,7 +68,7 @@
     <Compile Include="Color\ColorF.cs" />
     <Compile Include="Color\ColorField.cs" />
     <Compile Include="Color\ColorPanelSettings_cv.cs" />
-    <Compile Include="Color\ColorPanel.cs" />
+    <Compile Include="Color\ColorControl.cs" />
     <Compile Include="Color\GradientService.cs" />
     <Compile Include="Color\ColorEventArgs.cs" />
     <Compile Include="Color\ColorSlider.cs" />
@@ -98,8 +98,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Color\ColorPanel.resx">
-      <DependentUpon>ColorPanel.cs</DependentUpon>
+    <EmbeddedResource Include="Color\ColorControl.resx">
+      <DependentUpon>ColorControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Color\ColorSpaceControl.resx">
       <DependentUpon>ColorSpaceControl.cs</DependentUpon>

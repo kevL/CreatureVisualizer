@@ -10,7 +10,7 @@ namespace creaturevisualizer
 		: Form
 	{
 		#region Properties
-		internal ColorPanel ColorPanel
+		internal ColorControl ColorPanel
 		{
 			get { return colorPanel; }
 		}
@@ -50,7 +50,7 @@ namespace creaturevisualizer
 		#region Designer
 		Container components = null;
 
-		ColorPanel colorPanel;
+		ColorControl colorPanel;
 
 		Button bu_Okay;
 		Button bu_Cancel;
@@ -67,7 +67,7 @@ namespace creaturevisualizer
 
 		void InitializeComponent()
 		{
-			this.colorPanel = new creaturevisualizer.ColorPanel();
+			this.colorPanel = new creaturevisualizer.ColorControl();
 			this.bu_Okay = new System.Windows.Forms.Button();
 			this.bu_Cancel = new System.Windows.Forms.Button();
 			this.SuspendLayout();
