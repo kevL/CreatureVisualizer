@@ -22,9 +22,6 @@ namespace creaturevisualizer
 
 		const int MaxSwatches = 175;
 
-		const int _width     =  93; // width  of the graphic
-		const int _height    = 309; // height of the graphic
-
 		const  int _tile     =  12; // x/y tile pixels
 
 		const int _x         =   5; // x-start of 1st tile location in pixels
@@ -263,10 +260,7 @@ namespace creaturevisualizer
 //							_id1 = id;
 
 						DrawSwatch(graphics, id);
-
-						Rectangle rect = _swatcharray[id].Rect;
-						rect.Inflate(1,1);
-						Invalidate(rect);
+						InvalidateSwatch(_swatcharray[id].Location); // is that redundant
 					}
 
 					++_blank;
@@ -299,13 +293,13 @@ namespace creaturevisualizer
 		{
 			if (_swatchlist != null)
 			{
-				int x = _x;
-				int y = _y;
-
-				var b = new Bitmap(_width, _height);
+				var b = new Bitmap(Width, Height);
 
 				using (Graphics graphics = Graphics.FromImage(b))
 				{
+					int x = _x;
+					int y = _y;
+
 					int id = 0;
 					for (; id != _swatchlist.Count && id != MaxSwatches; ++id)
 					{
@@ -356,8 +350,7 @@ namespace creaturevisualizer
 		{
 			if ((id + 1) % 7 == 0) // wrap to next row
 			{
-				x = _x;
-				y += _tile;
+				x = _x; y += _tile;
 			}
 			else
 				x += _tile;
@@ -365,7 +358,7 @@ namespace creaturevisualizer
 
 		bool InsideGrid(int x, int y)
 		{
-			var rect = new Rectangle(_x, _y, _width - _x * 2, _height - _y * 2);
+			var rect = new Rectangle(_x, _y, Width - _x * 2, Height - _y * 2);
 			return rect.Contains(x,y);
 		}
 
@@ -454,9 +447,9 @@ namespace creaturevisualizer
 						{
 							using (var brush = new SolidBrush(c))
 							{
-								graphics.FillRectangle(brush, x, y, 10, 10);
+								graphics.FillRectangle(brush, x,y, 10,10);
 							}
-							graphics.DrawRectangle(Pens.Black, x, y, 10, 10);
+							graphics.DrawRectangle(Pens.Black, x,y, 10,10);
 						}
 
 						--m_numberOfEmptySwatches;
@@ -498,9 +491,9 @@ namespace creaturevisualizer
 				_highlight = false;
 		}
 
-		void InvalidateSwatch(Point swatchPoint)
+		void InvalidateSwatch(Point pt)
 		{
-			var rect = new Rectangle(swatchPoint, new Size(11,11)); // why.
+			var rect = new Rectangle(pt, new Size(11,11)); // why 11.
 			Invalidate(rect);
 		}
 		#endregion Methods
@@ -541,13 +534,13 @@ namespace creaturevisualizer
 			// itDelete
 			// 
 			this.itDelete.Index = 0;
-			this.itDelete.Text = "itDelete";
+			this.itDelete.Text = "delete";
 			this.itDelete.Click += new System.EventHandler(this.click_delete);
 			// 
 			// itRelabel
 			// 
 			this.itRelabel.Index = 1;
-			this.itRelabel.Text = "itRelabel";
+			this.itRelabel.Text = "relabel";
 			this.itRelabel.Click += new System.EventHandler(this.click_relabel);
 			// 
 			// contextMenu

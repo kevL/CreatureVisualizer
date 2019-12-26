@@ -174,20 +174,20 @@ namespace creaturevisualizer
 				writer.WriteStartDocument(standalone: false);
 				writer.WriteStartElement("swatches");
 				writer.WriteStartElement("swatch");
-				writer.WriteAttributeString("id", "CustomSwatches");
+				writer.WriteAttributeString("id", "CustomSwatches"); // -> "GeneralRgb"
 				writer.WriteStartElement("colors");
 
 				for (int i = 0; i != colors.Length; ++i)
 				{
-					Swatch colorSwatch = colors[i];
-					if (colorSwatch.Color != Color.Empty)
+					Swatch swatch = colors[i];
+					if (swatch.Color != Color.Empty)
 					{
 						writer.WriteStartElement("color");
-						writer.WriteAttributeString("red",   colorSwatch.Color.R.ToString());
-						writer.WriteAttributeString("green", colorSwatch.Color.G.ToString());
-						writer.WriteAttributeString("blue",  colorSwatch.Color.B.ToString());
-						writer.WriteAttributeString("alpha", colorSwatch.Color.A.ToString());
-						writer.WriteString(colorSwatch.Description);
+						writer.WriteAttributeString("red",   swatch.Color.R.ToString());
+						writer.WriteAttributeString("green", swatch.Color.G.ToString());
+						writer.WriteAttributeString("blue",  swatch.Color.B.ToString());
+						writer.WriteAttributeString("alpha", swatch.Color.A.ToString());
+						writer.WriteString(swatch.Description);
 						writer.WriteEndElement();
 					}
 				}
