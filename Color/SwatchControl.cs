@@ -41,7 +41,7 @@ namespace creaturevisualizer
 		Bitmap _graphic;
 
 		Swatch[] _swatcharray = new Swatch[MaxSwatches];
-		Swatch _lastswatch;
+		Swatch _lastover;
 
 		int _id;
 		int _id1;
@@ -71,12 +71,12 @@ namespace creaturevisualizer
 
 			if (File.Exists(_path))
 			{
-				_swatchlist = ColorSwatchXml.ReadSwatches(_path);
+				_swatchlist = SwatchXml.ReadSwatches(_path);
 			}
 /*			else
 			{
-//				ColorSwatchXml.CreateCustomSwatchesFile();
-//				_swatchlist = ColorSwatchXml.ReadSwatches("ColorSwatches.xml", true);
+//				SwatchXml.CreateCustomSwatchesFile();
+//				_swatchlist = SwatchXml.ReadSwatches("ColorSwatches.xml", true);
 
 				// TODO: "CustomSwatches.xml was not found in either the Local or Roaming directories."
 			} */
@@ -168,7 +168,7 @@ namespace creaturevisualizer
 
 				if (swatch.Color != Color.Empty && swatch.Rect.Contains(e.X, e.Y))
 				{
-					if (!_lastswatch.Equals(swatch))
+					if (!_lastover.Equals(swatch))
 						colorTip.Active = false; // wtf
 
 					if (swatch.Description != null && !swatch.Description.Equals(colorTip.GetToolTip(this)))
@@ -176,7 +176,7 @@ namespace creaturevisualizer
 
 					colorTip.Active = true; // wtf
 
-					_lastswatch = swatch;
+					_lastover = swatch;
 					Cursor = Cursors.Hand;
 				}
 				else
@@ -198,14 +198,14 @@ namespace creaturevisualizer
 
 		protected override void OnDragEnter(DragEventArgs drgevent)
 		{
-			ToggleEmptySwatchState(true);
+			SetHighlight(true);
 
 			base.OnDragEnter(drgevent);
 		}
 
 		protected override void OnDragLeave(EventArgs e)
 		{
-			ToggleEmptySwatchState(false);
+			SetHighlight(false);
 
 			base.OnDragLeave(e);
 		}
@@ -220,7 +220,7 @@ namespace creaturevisualizer
 		protected override void OnDragDrop(DragEventArgs drgevent)
 		{
 			var color = (Color)drgevent.Data.GetData(typeof(Color));
-			AddColor(color);
+			ColorSwatch(color);
 
 			drgevent.Effect = DragDropEffects.None;
 
@@ -267,7 +267,7 @@ namespace creaturevisualizer
 				}
 
 				_id = -1;
-				ColorSwatchXml.WriteSwatches(SwatchFile, _swatcharray);
+				SwatchXml.WriteSwatches(SwatchFile, _swatcharray);
 			}
 		}
 
@@ -281,7 +281,7 @@ namespace creaturevisualizer
 				if (f.ShowDialog() == DialogResult.OK)
 				{
 					_swatcharray[_id].Description = f.ColorDescription;
-					ColorSwatchXml.WriteSwatches(SwatchFile, _swatcharray);
+					SwatchXml.WriteSwatches(SwatchFile, _swatcharray);
 				}
 			}
 		}
@@ -376,11 +376,11 @@ namespace creaturevisualizer
 			return ((y - _y) / _tile) * _horitiles + ((x - _x) / _tile);
 		}
 
-		void AddColor(Color color)
+		void ColorSwatch(Color color)
 		{
 			int id = _id1;
 
-			if (!DoesColorAlreadyExist(color) && _blank > 0)
+			if (!ColorExists(color) && _blank > 0)
 			{
 				using (var f = new SwatchDialog(color))
 				{
@@ -409,7 +409,7 @@ namespace creaturevisualizer
 
 						++_id1;
 
-						ColorSwatchXml.WriteSwatches(SwatchFile, _swatcharray);
+						SwatchXml.WriteSwatches(SwatchFile, _swatcharray);
 					}
 				}
 			}
@@ -464,13 +464,13 @@ namespace creaturevisualizer
 			}
 
 			if (flag)
-				ColorSwatchXml.WriteSwatches(CustomSwatchesFile, m_swatchArray); */
+				SwatchXml.WriteSwatches(CustomSwatchesFile, m_swatchArray); */
 
 			_highlight = false;
 			InvalidateSwatch(_swatcharray[id].Location);
 		}
 
-		bool DoesColorAlreadyExist(object color)
+		bool ColorExists(object color)
 		{
 			for (int i = 0; i != _swatcharray.Length; ++i)
 			{
@@ -480,11 +480,11 @@ namespace creaturevisualizer
 			return false;
 		}
 
-		void ToggleEmptySwatchState(bool isActive)
+		void SetHighlight(bool highlight)
 		{
 			if (_blank > 0)
 			{
-				_highlight = isActive;
+				_highlight = highlight;
 				InvalidateSwatch(_swatcharray[_id1].Location);
 			}
 			else

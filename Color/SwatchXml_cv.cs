@@ -9,7 +9,7 @@ using System.Xml;
 namespace creaturevisualizer
 {
 	// Sano.PersonalProjects.ColorPicker.Controls.ColorSwatchXml
-	static class ColorSwatchXml
+	static class SwatchXml
 	{
 		internal static List<Swatch> ReadSwatches(string path)
 		{
