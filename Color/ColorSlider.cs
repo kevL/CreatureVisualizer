@@ -24,7 +24,7 @@ namespace creaturevisualizer
 		#region Fields
 		ColorSpace _colorspace;
 
-		readonly Rectangle _rectInner;
+		readonly Rectangle _rect;
 
 		Rectangle _l; // for invalidating/redrawing the left  tri
 		Rectangle _r; // for invalidating/redrawing the right tri
@@ -39,11 +39,11 @@ namespace creaturevisualizer
 		{
 			get
 			{
-				return 255 - _y + _rectInner.Y;
+				return 255 - _y + _rect.Y;
 			}
 			set
 			{
-				_y = _rectInner.Y + 255 - value;
+				_y = _rect.Y + 255 - value;
 				InvalidateTris(_y);
 			}
 		}
@@ -54,10 +54,10 @@ namespace creaturevisualizer
 		public ColorSlider()
 		{
 			InitializeComponent();
-			_rectInner = new Rectangle((Width  - width)  / 2,
-									   (Height - height) / 2,
-									   width,
-									   height);
+			_rect = new Rectangle((Width  - width)  / 2,
+								  (Height - height) / 2,
+								   width,
+								   height);
 		}
 		#endregion cTor
 
@@ -73,8 +73,8 @@ namespace creaturevisualizer
 			DrawGradient(graphics);
 
 			graphics.DrawRectangle(Pens.Black,
-								   _rectInner.X     - 1, _rectInner.Y      - 1,
-								   _rectInner.Width + 1, _rectInner.Height + 1);
+								   _rect.X     - 1, _rect.Y      - 1,
+								   _rect.Width + 1, _rect.Height + 1);
 		}
 
 		protected override void OnMouseDown(MouseEventArgs e)
@@ -102,20 +102,20 @@ namespace creaturevisualizer
 		public void ChangeColorspace(ColorSpace colorspace)
 		{
 			_colorspace = colorspace;
-			Invalidate(_rectInner);
+			Invalidate(_rect);
 		}
 
 		void ChangeValue(int y)
 		{
-			if (y < _rectInner.Y)
-				y = _rectInner.Y;
-			else if (y >= _rectInner.Y + _rectInner.Height)
-					 y  = _rectInner.Y + _rectInner.Height - 1;
+			if (y < _rect.Y)
+				y = _rect.Y;
+			else if (y >= _rect.Y + _rect.Height)
+					 y  = _rect.Y + _rect.Height - 1;
 
 			InvalidateTris(_y = y);
 
 			if (SliderChanged != null)
-				SliderChanged(new SliderChangedEventArgs(255 - _y + _rectInner.Y));
+				SliderChanged(new SliderChangedEventArgs(255 - _y + _rect.Y));
 		}
 
 		void InvalidateTris(int y)
@@ -134,14 +134,14 @@ namespace creaturevisualizer
 
 		Rectangle GetRectangleTriL(int y)
 		{
-			int x = _rectInner.X - 9;
+			int x = _rect.X - 9;
 			y -= 5;
 			return new Rectangle(x,y, 6,11);
 		}
 
 		Rectangle GetRectangleTriR(int y)
 		{
-			int x = _rectInner.X + _rectInner.Width + 3;
+			int x = _rect.X + _rect.Width + 3;
 			y -= 5;
 			return new Rectangle(x,y, 6,11);
 		}
@@ -152,17 +152,17 @@ namespace creaturevisualizer
 
 			tri = new Point[3]
 			{
-				new Point(_rectInner.X - 9, y - 5),
-				new Point(_rectInner.X - 4, y),
-				new Point(_rectInner.X - 9, y + 5)
+				new Point(_rect.X - 9, y - 5),
+				new Point(_rect.X - 4, y),
+				new Point(_rect.X - 9, y + 5)
 			};
 			graphics.DrawPolygon(Pens.Black, tri);
 
 			tri = new Point[3]
 			{
-				new Point(_rectInner.X + _rectInner.Width + 8, y - 5),
-				new Point(_rectInner.X + _rectInner.Width + 3, y),
-				new Point(_rectInner.X + _rectInner.Width + 8, y + 5)
+				new Point(_rect.X + _rect.Width + 8, y - 5),
+				new Point(_rect.X + _rect.Width + 3, y),
+				new Point(_rect.X + _rect.Width + 8, y + 5)
 			};
 			graphics.DrawPolygon(Pens.Black, tri);
 		}
@@ -178,18 +178,18 @@ namespace creaturevisualizer
 					switch (_colorspace.Selected.DisplayCharacter)
 					{
 						case 'H':
-							using (var linearGradientBrush = new LinearGradientBrush(_rectInner,
+							using (var linearGradientBrush = new LinearGradientBrush(_rect,
 																					 Color.Blue,
 																					 Color.Red,
 																					 90f,
 																					 false))
 							{
-								var colorBlend = new ColorBlend();
-								colorBlend.Colors    = GradientService._colors;
-								colorBlend.Positions = GradientService._positions;
-								linearGradientBrush.InterpolationColors = colorBlend;
+								var blend = new ColorBlend();
+								blend.Colors    = GradientService._colors;
+								blend.Positions = GradientService._positions;
+								linearGradientBrush.InterpolationColors = blend;
 
-								graphics.FillRectangle(linearGradientBrush, _rectInner);
+								graphics.FillRectangle(linearGradientBrush, _rect);
 							}
 							break;
 
@@ -200,10 +200,8 @@ namespace creaturevisualizer
 							Color color1 = Color.FromArgb(rgb1.Red, rgb1.Green, rgb1.Blue);
 							Color color2 = Color.FromArgb(rgb2.Red, rgb2.Green, rgb2.Blue);
 
-							using (var brush = new LinearGradientBrush(_rectInner, color1, color2, 90f))
-							{
-								graphics.FillRectangle(brush, _rectInner);
-							}
+							using (var brush = new LinearGradientBrush(_rect, color1, color2, 90f))
+								graphics.FillRectangle(brush, _rect);
 							break;
 						}
 
@@ -214,10 +212,8 @@ namespace creaturevisualizer
 							Color color1 = Color.FromArgb(rgb1.Red, rgb1.Green, rgb1.Blue);
 							Color color2 = Color.FromArgb(rgb2.Red, rgb2.Green, rgb2.Blue);
 
-							using (var brush = new LinearGradientBrush(_rectInner, color1, color2, 90f))
-							{
-								graphics.FillRectangle(brush, _rectInner);
-							}
+							using (var brush = new LinearGradientBrush(_rect, color1, color2, 90f))
+								graphics.FillRectangle(brush, _rect);
 							break;
 						}
 					}
@@ -245,8 +241,8 @@ namespace creaturevisualizer
 							break;
 					}
 
-					using (var brush = new LinearGradientBrush(_rectInner, color1, color2, 270f))
-						graphics.FillRectangle(brush, _rectInner);
+					using (var brush = new LinearGradientBrush(_rect, color1, color2, 270f))
+						graphics.FillRectangle(brush, _rect);
 				}
 			}
 		}

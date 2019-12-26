@@ -97,9 +97,9 @@ namespace creaturevisualizer
 				switch (Restrict)
 				{
 					default:
-					case Type.Degree:
+//					case Type.Degree:
 						bork = !Int32.TryParse(Text, out result)
-							|| result < 0 || result > 360;
+							|| result < 0 || result > 359;
 						break;
 
 					case Type.Percent:
@@ -114,7 +114,7 @@ namespace creaturevisualizer
 
 					case Type.Hecate:
 						bork = !Int32.TryParse(Text, NumberStyles.AllowHexSpecifier, null, out result)
-							|| result < 0 || result > 0x00FFFFFF;
+							|| result < 0 || result > 0xFFFFFF;
 						break;
 				}
 			}

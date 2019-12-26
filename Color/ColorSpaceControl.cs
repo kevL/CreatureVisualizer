@@ -51,10 +51,7 @@ namespace creaturevisualizer
 			}
 			set
 			{
-				if      (value > Max) value = Max; // should be just a safety ->
-				else if (value < 0)   value = 0;
-
-				tb_Val.Text = value.ToString();
+				tb_Val.Text = Math.Max(0, Math.Min(value, Max)).ToString();
 
 				tb_Val.SelectionLength = 0;
 				tb_Val.SelectionStart = tb_Val.Text.Length;

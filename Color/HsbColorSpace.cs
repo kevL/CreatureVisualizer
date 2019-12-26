@@ -75,7 +75,7 @@ namespace creaturevisualizer
 			this.cscHue.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.cscHue.Location = new System.Drawing.Point(0, 0);
 			this.cscHue.Margin = new System.Windows.Forms.Padding(0);
-			this.cscHue.Max = 360;
+			this.cscHue.Max = 359;
 			this.cscHue.Name = "cscHue";
 			this.cscHue.Selected = false;
 			this.cscHue.Size = new System.Drawing.Size(75, 20);

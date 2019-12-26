@@ -145,9 +145,7 @@ namespace creaturevisualizer
 
 			Color color = Color.FromArgb(alpha, 255,255,255);
 			using (var brush = new LinearGradientBrush(rect, color, Color.Black, 90f))
-			{
 				graphics.FillRectangle(brush, rect);
-			}
 		}
 
 		internal static void DrawFieldBrightness(Graphics graphics, int brightness)
@@ -160,9 +158,7 @@ namespace creaturevisualizer
 			graphics.DrawImage(_gradient, 0,0);
 
 			using (var brush = new SolidBrush(Color.FromArgb(alpha, 0,0,0)))
-			{
 				graphics.FillRectangle(brush, 0,0, 256,256);
-			}
 		}
 
 		static Bitmap DrawGradient()
@@ -190,10 +186,10 @@ namespace creaturevisualizer
 							Color.FromArgb(255,   y,   y)
 						};
 
-						var colorBlend = new ColorBlend();
-						colorBlend.Colors    = colors;
-						colorBlend.Positions = _positions;
-						brush.InterpolationColors = colorBlend;
+						var blend = new ColorBlend();
+						blend.Colors    = colors;
+						blend.Positions = _positions;
+						brush.InterpolationColors = blend;
 
 						graphics.FillRectangle(brush, rect);
 					}
@@ -211,10 +207,10 @@ namespace creaturevisualizer
 													   90f,
 													   false))
 			{
-				var colorBlend = new ColorBlend();
-				colorBlend.Colors    = _colors;
-				colorBlend.Positions = _positions;
-				brush.InterpolationColors = colorBlend;
+				var blend = new ColorBlend();
+				blend.Colors    = _colors;
+				blend.Positions = _positions;
+				brush.InterpolationColors = blend;
 
 				graphics.FillRectangle(brush, rect);
 			}

@@ -65,10 +65,15 @@ namespace creaturevisualizer
 			if (e.Button == MouseButtons.Left)
 			{
 				_dragger.UpdateLocation(Parent.PointToScreen(Location));
+
 				_dragger.CursorXDifference = Cursor.Position.X - _dragger.Location.X;
 				_dragger.CursorYDifference = Cursor.Position.Y - _dragger.Location.Y;
-				_dragger.BackColor = BackColor;
+
+//				_dragger.BackColor = BackColor; // "Control does not support transparent background colors."
+				_dragger.BackColor = Color.FromArgb(BackColor.R, BackColor.G, BackColor.B);
+
 				_dragger.ChangeSize(Size);
+
 				_dragger.ShowForm();
 
 				DoDragDrop(BackColor, DragDropEffects.Move);

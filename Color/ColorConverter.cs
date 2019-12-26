@@ -58,34 +58,34 @@ namespace creaturevisualizer
 			double min = getmindouble(r,g,b);
 			double max = getmaxdouble(r,g,b);
 
-			double delta = max - min;
-			double d_hue, d_sat;
+			double d = max - min;
+			double hue, sat;
 
-			if (max < Single.Epsilon || delta < Single.Epsilon)
+			if (max < Single.Epsilon || d < Single.Epsilon)
 			{
-				d_hue = d_sat = 0.0;
+				hue = sat = 0;
 			}
 			else
 			{
-				if      (Math.Abs(max - r) < Single.Epsilon) d_hue =       (g - b) / delta;
-				else if (Math.Abs(max - g) < Single.Epsilon) d_hue = 2.0 + (b - r) / delta; 
-				else if (Math.Abs(max - b) < Single.Epsilon) d_hue = 4.0 + (r - g) / delta;
-//				if      (max - r < Single.Epsilon) d_hue =       (g - b) / delta;
-//				else if (max - g < Single.Epsilon) d_hue = 2.0 + (b - r) / delta; 
-//				else if (max - b < Single.Epsilon) d_hue = 4.0 + (r - g) / delta;
-				else                               d_hue = 0.0;
+				if      (Math.Abs(max - r) < Single.Epsilon) hue = (g - b) / d;
+				else if (Math.Abs(max - g) < Single.Epsilon) hue = (b - r) / d + 2;
+				else if (Math.Abs(max - b) < Single.Epsilon) hue = (r - g) / d + 4;
+//				if      (max - r < Single.Epsilon) hue = (g - b) / delta;
+//				else if (max - g < Single.Epsilon) hue = (b - r) / delta + 2;
+//				else if (max - b < Single.Epsilon) hue = (r - g) / delta + 4;
+				else                               hue = 0;
 
 				if (min > Single.Epsilon)
-					d_sat = delta / max * 100.0;
+					sat = d / max * 100;
 				else
-					d_sat = 100.0;
+					sat = 100;
 			}
 
-			if ((d_hue *= 60.0) < 0.0) d_hue += 360.0;
+			if ((hue *= 60) < 0) hue += 360;
 
-			return new HSB((int)Math.Round(d_hue),
-						   (int)Math.Round(d_sat),
-						   (int)Math.Round(max * 100.0));
+			return new HSB((int)Math.Round(hue),
+						   (int)Math.Round(sat),
+						   (int)Math.Round(max * 100));
 		}
 		// https://en.wikipedia.org/wiki/HSL_and_HSV
 /*		internal static HSB RgbToHsb(RGB rgb)
@@ -146,67 +146,67 @@ namespace creaturevisualizer
 		internal static RGB HsbToRgb(HSB hsb)
 		{
 			double r,g,b;
-			double d_bri = hsb.Brightness / 100.0;
+			double bri = hsb.Brightness / 100.0;
 
 			if (hsb.Saturation == 0)
 			{
-				r = g = b = d_bri;
+				r = g = b = bri;
 			}
 			else
 			{
-				double d_sat = hsb.Saturation / 100.0;
+				double sat = hsb.Saturation / 100.0;
 
-				double d7 = hsb.Hue / 60.0;
-				int    d8 = (int)Math.Floor(d7);
-				double d9 = d7 - d8;
+				double d1 = hsb.Hue / 60.0;
+				int    d2 = hsb.Hue / 60; //(int)Math.Floor(d1); // NOTE: Do not allow a hue of 360.
+				double d = d1 - d2;
 
-				switch (d8)
+				switch (d2)
 				{
 					case 0:
-						r = d_bri;
-						g = d_bri * (1.0 - d_sat * (1.0 - d9));
-						b = d_bri * (1.0 - d_sat);
+						r = bri;
+						g = bri * (1 - sat * (1 - d));
+						b = bri * (1 - sat);
 						break;
 
 					case 1:
-						r = d_bri * (1.0 - d_sat * d9);
-						g = d_bri;
-						b = d_bri * (1.0 - d_sat);
+						r = bri * (1 - sat * d);
+						g = bri;
+						b = bri * (1 - sat);
 						break;
 
 					case 2:
-						r = d_bri * (1.0 - d_sat);
-						g = d_bri;
-						b = d_bri * (1.0 - d_sat * (1.0 - d9));
+						r = bri * (1 - sat);
+						g = bri;
+						b = bri * (1 - sat * (1 - d));
 						break;
 
 					case 3:
-						r = d_bri * (1.0 - d_sat);
-						g = d_bri * (1.0 - d_sat * d9);
-						b = d_bri;
+						r = bri * (1 - sat);
+						g = bri * (1 - sat * d);
+						b = bri;
 						break;
 
 					case 4:
-						r = d_bri * (1.0 - d_sat * (1.0 - d9));
-						g = d_bri * (1.0 - d_sat);
-						b = d_bri;
+						r = bri * (1 - sat * (1 - d));
+						g = bri * (1 - sat);
+						b = bri;
 						break;
 
 					case 5:
-						r = d_bri;
-						g = d_bri * (1.0 - d_sat);
-						b = d_bri * (1.0 - d_sat * d9);
+						r = bri;
+						g = bri * (1 - sat);
+						b = bri * (1 - sat * d);
 						break;
 
 					default:
-						r = g = b = 0.0;
+						r = g = b = 0;
 						break;
 				}
 			}
 
-			return new RGB((int)Math.Round(r * 255.0),
-						   (int)Math.Round(g * 255.0),
-						   (int)Math.Round(b * 255.0));
+			return new RGB((int)Math.Round(r * 255),
+						   (int)Math.Round(g * 255),
+						   (int)Math.Round(b * 255));
 		}
 		// https://en.wikipedia.org/wiki/HSL_and_HSV
 /*		internal static RGB HsbToRgb(HSB hsb)
@@ -250,20 +250,20 @@ namespace creaturevisualizer
 		} */
 
 
-		internal static RGB HexToRgb(string hextext)
+		internal static RGB HexToRgb(string hecate)
 		{
-			Color color = HexToColor(hextext);
+			Color color = HexToColor(hecate);
 			return new RGB(color.R,
 						   color.G,
 						   color.B);
 		}
 
-		static Color HexToColor(string hextext)
+		static Color HexToColor(string hecate)
 		{
-			if (String.IsNullOrEmpty(hextext))
-				hextext = "0";
+			if (String.IsNullOrEmpty(hecate))
+				hecate = "0";
 
-			int val = Convert.ToInt32(hextext, 16);
+			int val = Convert.ToInt32(hecate, 16);
 
 			return Color.FromArgb((val & 0xFF0000) >> 16,
 								  (val & 0x00FF00) >>  8,
