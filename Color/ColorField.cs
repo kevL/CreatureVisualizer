@@ -15,7 +15,7 @@ namespace creaturevisualizer
 
 
 		#region Fields
-		ColorSpaceControl _cs;
+		ColorSpaceControl _csc;
 		Color _color;
 		int _val;
 
@@ -115,9 +115,9 @@ namespace creaturevisualizer
 		#region Methods
 		void DrawField(Graphics graphics)
 		{
-			if (_cs is ColorSpaceHsb)
+			if (_csc is ColorSpaceHsb)
 			{
-				switch (_cs.Co.DisplayCharacter)
+				switch (_csc.Co.DisplayCharacter)
 				{
 					case 'H':
 					{
@@ -139,9 +139,9 @@ namespace creaturevisualizer
 						break;
 				}
 			}
-			else if (_cs is ColorSpaceRgb)
+			else if (_csc is ColorSpaceRgb)
 			{
-				switch (_cs.Co.DisplayCharacter)
+				switch (_csc.Co.DisplayCharacter)
 				{
 					case 'R':
 						GradientService.DrawFieldRed(graphics, _val);
@@ -174,11 +174,11 @@ namespace creaturevisualizer
 			int x = 0;
 			int y = 0;
 
-			if ((_cs as ColorSpaceHsb) != null)
+			if ((_csc as ColorSpaceHsb) != null)
 			{
-				var hsb = (HSB)((ColorSpaceHsb)_cs).Structure;
+				var hsb = (HSB)((ColorSpaceHsb)_csc).Structure;
 
-				switch (_cs.Co.DisplayCharacter)
+				switch (_csc.Co.DisplayCharacter)
 				{
 					case 'H':
 						x =       (int)Math.Round((double)hsb.Saturation * 2.55);
@@ -196,11 +196,11 @@ namespace creaturevisualizer
 						break;
 				}
 			}
-			else if ((_cs as ColorSpaceRgb) != null)
+			else if ((_csc as ColorSpaceRgb) != null)
 			{
-				Color color = ((ColorSpaceRgb)_cs).GetColor();
+				Color color = ((ColorSpaceRgb)_csc).GetColor();
 
-				switch (_cs.Co.DisplayCharacter)
+				switch (_csc.Co.DisplayCharacter)
 				{
 					case 'R': x = color.B; y = 255 - color.G; break;
 					case 'G': x = color.B; y = 255 - color.R; break;
@@ -225,7 +225,7 @@ namespace creaturevisualizer
 
 		void ChangeColorspace(ColorSpaceControl csc, bool updatePoint)
 		{
-			_cs = csc;
+			_csc = csc;
 
 			if (updatePoint)
 				_pt = CalculatePoint();
@@ -235,11 +235,11 @@ namespace creaturevisualizer
 
 		Color GetCurrentColor()
 		{
-			if ((_cs as ColorSpaceHsb) != null)
+			if ((_csc as ColorSpaceHsb) != null)
 			{
-				var hsb = (HSB)((ColorSpaceHsb)_cs).Structure;
+				var hsb = (HSB)((ColorSpaceHsb)_csc).Structure;
 
-				switch (_cs.Co.DisplayCharacter)
+				switch (_csc.Co.DisplayCharacter)
 				{
 					case 'H':
 					{
@@ -267,11 +267,11 @@ namespace creaturevisualizer
 				}
 				return ColorConverter.HsbToColor(hsb);
 			}
-			else //if ((_colorspace as ColorSpaceRgb) != null)
+			else //if ((_csc as ColorSpaceRgb) != null)
 			{
-				var rgb = (RGB)((ColorSpaceRgb)_cs).Structure;
+				var rgb = (RGB)((ColorSpaceRgb)_csc).Structure;
 
-				switch (_cs.Co.DisplayCharacter)
+				switch (_csc.Co.DisplayCharacter)
 				{
 					case 'R': rgb = new RGB(rgb.Red,     255 - _pt.Y, _pt.X);    break;
 					case 'G': rgb = new RGB(255 - _pt.Y, rgb.Green,   _pt.X);    break;

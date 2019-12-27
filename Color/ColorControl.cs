@@ -643,11 +643,11 @@ namespace creaturevisualizer
 				{
 					bool flag = false;
 
-					foreach (ColorSpaceControlCo csc in rgbColorSpace.ColorSpaceControls)
+					foreach (ColorSpaceControlCo co in rgbColorSpace.ColorSpaceControls)
 					{
-						if (csc.Name.Equals(_settings.SelectedColorSpaceComponent))
+						if (co.Name.Equals(_settings.SelectedColorSpaceComponent))
 						{
-							rgbColorSpace.ChangeCurrentlySelectedComponent(csc);
+							rgbColorSpace.ChangeCurrentlySelectedComponent(co);
 							flag = true;
 							break;
 						}
@@ -655,11 +655,11 @@ namespace creaturevisualizer
 
 					if (!flag)
 					{
-						foreach (ColorSpaceControlCo csc in hsbColorSpace.ColorSpaceControls)
+						foreach (ColorSpaceControlCo co in hsbColorSpace.ColorSpaceControls)
 						{
-							if (csc.Name.Equals(_settings.SelectedColorSpaceComponent))
+							if (co.Name.Equals(_settings.SelectedColorSpaceComponent))
 							{
-								hsbColorSpace.ChangeCurrentlySelectedComponent(csc);
+								hsbColorSpace.ChangeCurrentlySelectedComponent(co);
 								break;
 							}
 						}
