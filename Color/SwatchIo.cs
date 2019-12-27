@@ -9,7 +9,7 @@ using System.Xml;
 namespace creaturevisualizer
 {
 	// Sano.PersonalProjects.ColorPicker.Controls.ColorSwatchXml
-	static class SwatchXml
+	static class SwatchIo
 	{
 		internal static List<Swatch> ReadSwatches(string path)
 		{
@@ -77,6 +77,82 @@ namespace creaturevisualizer
 				reader.Close();
 			}
 		}
+
+		internal static void WriteSwatches(string path, Swatch[] colors)
+		{
+			XmlTextWriter writer = null;
+			try
+			{
+				writer = new XmlTextWriter(path, Encoding.UTF8);
+				writer.Formatting = Formatting.Indented;
+				writer.WriteStartDocument(standalone: false);
+				writer.WriteStartElement("swatches");
+				writer.WriteStartElement("swatch");
+				writer.WriteAttributeString("id", "CustomSwatches"); // -> "GeneralRgb"
+				writer.WriteStartElement("colors");
+
+				for (int i = 0; i != colors.Length; ++i)
+				{
+					Swatch swatch = colors[i];
+					if (swatch.Color != Color.Empty)
+					{
+						writer.WriteStartElement("color");
+						writer.WriteAttributeString("red",   swatch.Color.R.ToString());
+						writer.WriteAttributeString("green", swatch.Color.G.ToString());
+						writer.WriteAttributeString("blue",  swatch.Color.B.ToString());
+						writer.WriteAttributeString("alpha", swatch.Color.A.ToString());
+						writer.WriteString(swatch.Description);
+						writer.WriteEndElement();
+					}
+				}
+
+				writer.WriteEndElement();
+				writer.WriteEndElement();
+				writer.WriteEndElement();
+				writer.WriteEndDocument();
+			}
+//			catch (IOException)
+//			{
+//				throw;
+//			}
+			finally
+			{
+				writer.Close();
+			}
+		}
+
+
+		internal static void CreateCustomSwatchesFile()
+		{
+			// TODO: using etc.
+
+/*			var streamReader = new StreamReader(SanoResources.GetFileResource("ColorSwatches.xml")); // TODO ->>
+			if (streamReader != null)
+			{
+				StreamWriter streamWriter = null;
+				try
+				{
+					string directoryName = Path.GetDirectoryName(CustomSwatchesFile);
+					if (!Directory.Exists(directoryName))
+						Directory.CreateDirectory(directoryName);
+
+					streamWriter = new StreamWriter(CustomSwatchesFile);
+					streamWriter.Write(streamReader.ReadToEnd());
+					streamWriter.Flush();
+				}
+				catch (DirectoryNotFoundException)
+				{}
+//				catch (Exception)
+//				{}
+				finally
+				{
+					streamReader.Close();
+					streamWriter.Close();
+				}
+			} */
+		}
+	}
+}
 /*		internal static List<ColorSwatch> ReadSwatches(string path, bool isResourceFile)
 		{
 			var swatches = new List<ColorSwatch>();
@@ -163,79 +239,3 @@ namespace creaturevisualizer
 				reader.Close();
 			}
 		} */
-
-		internal static void WriteSwatches(string path, Swatch[] colors)
-		{
-			XmlTextWriter writer = null;
-			try
-			{
-				writer = new XmlTextWriter(path, Encoding.UTF8);
-				writer.Formatting = Formatting.Indented;
-				writer.WriteStartDocument(standalone: false);
-				writer.WriteStartElement("swatches");
-				writer.WriteStartElement("swatch");
-				writer.WriteAttributeString("id", "CustomSwatches"); // -> "GeneralRgb"
-				writer.WriteStartElement("colors");
-
-				for (int i = 0; i != colors.Length; ++i)
-				{
-					Swatch swatch = colors[i];
-					if (swatch.Color != Color.Empty)
-					{
-						writer.WriteStartElement("color");
-						writer.WriteAttributeString("red",   swatch.Color.R.ToString());
-						writer.WriteAttributeString("green", swatch.Color.G.ToString());
-						writer.WriteAttributeString("blue",  swatch.Color.B.ToString());
-						writer.WriteAttributeString("alpha", swatch.Color.A.ToString());
-						writer.WriteString(swatch.Description);
-						writer.WriteEndElement();
-					}
-				}
-
-				writer.WriteEndElement();
-				writer.WriteEndElement();
-				writer.WriteEndElement();
-				writer.WriteEndDocument();
-			}
-//			catch (IOException)
-//			{
-//				throw;
-//			}
-			finally
-			{
-				writer.Close();
-			}
-		}
-
-
-		internal static void CreateCustomSwatchesFile()
-		{
-			// TODO: using etc.
-
-/*			var streamReader = new StreamReader(SanoResources.GetFileResource("ColorSwatches.xml")); // TODO ->>
-			if (streamReader != null)
-			{
-				StreamWriter streamWriter = null;
-				try
-				{
-					string directoryName = Path.GetDirectoryName(CustomSwatchesFile);
-					if (!Directory.Exists(directoryName))
-						Directory.CreateDirectory(directoryName);
-
-					streamWriter = new StreamWriter(CustomSwatchesFile);
-					streamWriter.Write(streamReader.ReadToEnd());
-					streamWriter.Flush();
-				}
-				catch (DirectoryNotFoundException)
-				{}
-//				catch (Exception)
-//				{}
-				finally
-				{
-					streamReader.Close();
-					streamWriter.Close();
-				}
-			} */
-		}
-	}
-}

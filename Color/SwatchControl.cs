@@ -71,12 +71,12 @@ namespace creaturevisualizer
 
 			if (File.Exists(_path))
 			{
-				_swatchlist = SwatchXml.ReadSwatches(_path);
+				_swatchlist = SwatchIo.ReadSwatches(_path);
 			}
 /*			else
 			{
-//				SwatchXml.CreateCustomSwatchesFile();
-//				_swatchlist = SwatchXml.ReadSwatches("ColorSwatches.xml", true);
+//				SwatchIo.CreateCustomSwatchesFile();
+//				_swatchlist = SwatchIo.ReadSwatches("ColorSwatches.xml", true);
 
 				// TODO: "CustomSwatches.xml was not found in either the Local or Roaming directories."
 			} */
@@ -267,7 +267,7 @@ namespace creaturevisualizer
 				}
 
 				_id = -1;
-				SwatchXml.WriteSwatches(SwatchFile, _swatcharray);
+				SwatchIo.WriteSwatches(SwatchFile, _swatcharray);
 			}
 		}
 
@@ -281,7 +281,7 @@ namespace creaturevisualizer
 				if (f.ShowDialog() == DialogResult.OK)
 				{
 					_swatcharray[_id].Description = f.ColorDescription;
-					SwatchXml.WriteSwatches(SwatchFile, _swatcharray);
+					SwatchIo.WriteSwatches(SwatchFile, _swatcharray);
 				}
 			}
 		}
@@ -409,7 +409,7 @@ namespace creaturevisualizer
 
 						++_id1;
 
-						SwatchXml.WriteSwatches(SwatchFile, _swatcharray);
+						SwatchIo.WriteSwatches(SwatchFile, _swatcharray);
 					}
 				}
 			}
@@ -464,7 +464,7 @@ namespace creaturevisualizer
 			}
 
 			if (flag)
-				SwatchXml.WriteSwatches(CustomSwatchesFile, m_swatchArray); */
+				SwatchIo.WriteSwatches(CustomSwatchesFile, m_swatchArray); */
 
 			_highlight = false;
 			InvalidateSwatch(_swatcharray[id].Location);
