@@ -10,6 +10,8 @@ namespace creaturevisualizer
 		#region Fields (static)
 		const int width  = 10;
 		const int height = 10;
+
+		internal const string NoLabel = "unnamed";
 		#endregion Fields (static)
 
 
@@ -31,19 +33,28 @@ namespace creaturevisualizer
 
 
 		#region cTor
+		/// <summary>
+		/// Creates a blank swatch for the tile-array.
+		/// </summary>
+		/// <param name="location"></param>
 		internal Swatch(Point location)
 			: this()
 		{
 			Color       = Color.Empty;
-			Description = String.Empty;
+			Description = NoLabel;
 			Location    = location;
 		}
 
+		/// <summary>
+		/// Creates a colored swatch for the file-swatches.
+		/// </summary>
+		/// <param name="color"></param>
+		/// <param name="description"></param>
 		internal Swatch(Color color, string description)
 			: this()
 		{
 			Color       = color;
-			Description = description;
+			Description = String.IsNullOrEmpty(description) ? NoLabel : description;
 			Location    = new Point(0,0);
 		}
 		#endregion cTor
@@ -54,7 +65,7 @@ namespace creaturevisualizer
 		{
 			var swatch = (Swatch)obj;
 			return swatch.Color == Color
-				&& Description != null && Description.Equals(swatch.Description);
+				&& Description.Equals(swatch.Description);
 		}
 
 		public override int GetHashCode()

@@ -26,7 +26,7 @@ namespace creaturevisualizer
 
 				bool flag = false;
 
-				var swatchlist = new List<Swatch>();
+				var swatches = new List<Swatch>();
 
 				while (reader.Read())
 				{
@@ -65,12 +65,12 @@ namespace creaturevisualizer
 					else if (flag && reader.NodeType == XmlNodeType.Text)
 					{
 						Color color = Color.FromArgb(a,r,g,b);
-						swatchlist.Add(new Swatch(color, reader.ReadString()));
+						swatches.Add(new Swatch(color, reader.ReadString()));
 
 						flag = false;
 					}
 				}
-				return swatchlist;
+				return swatches;
 			}
 			finally
 			{
