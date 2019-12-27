@@ -215,7 +215,7 @@ namespace creaturevisualizer
 					_tiles[id] = swatch; // effin structs
 
 					DrawSwatch(graphics, swatch);
-					InvalidateSwatch(swatch.Location); // is that redundant
+					InvalidateSwatch(swatch.Location);
 
 					if (swatch.Color == Color.Empty)
 						break;
