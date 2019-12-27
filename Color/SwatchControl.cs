@@ -32,7 +32,8 @@ namespace creaturevisualizer
 
 
 		#region Fields
-		string SwatchFile = "NWN2 Toolset" + Path.DirectorySeparatorChar + "CustomSwatches.xml";
+		string SwatchFile = "NWN2 Toolset" + Path.DirectorySeparatorChar
+						  + "CustomSwatches.xml";
 
 		readonly Dragger _dragger = new Dragger();
 
@@ -103,7 +104,10 @@ namespace creaturevisualizer
 		{
 //			base.OnMouseDown(e);
 
-			if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right)
+			if (e.Button == MouseButtons.Right)
+				_idcontext = GetSwatchId(e.X, e.Y);
+
+/*			if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right)
 			{
 				if (InsideGrid(e.X, e.Y))
 				{
@@ -124,7 +128,7 @@ namespace creaturevisualizer
 							break;
 					}
 				}
-			}
+			} */
 		}
 
 		protected override void OnMouseUp(MouseEventArgs e)
@@ -178,16 +182,16 @@ namespace creaturevisualizer
 					colorTip.Active = true; // wtf
 
 					_lastover = swatch;
-					Cursor = Cursors.Hand;
+//					Cursor = Cursors.Hand;
 				}
 				else
 				{
-					Cursor = Cursors.Default;
+//					Cursor = Cursors.Default;
 					colorTip.Active = false;
 				}
 			}
-			else
-				Cursor = Cursors.Default;
+//			else
+//				Cursor = Cursors.Default;
 		}
 
 		protected override void OnMouseLeave(EventArgs e)
