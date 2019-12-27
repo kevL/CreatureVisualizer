@@ -67,7 +67,7 @@ namespace creaturevisualizer
 		}
 
 		Units _unit = Units.Byte;
-		[DefaultValue(Units.Byte)]
+//		[DefaultValue(Units.Byte)] // don't default this. It needs to be called so the text gets set.
 		public Units Unit
 		{
 			get { return _unit; }

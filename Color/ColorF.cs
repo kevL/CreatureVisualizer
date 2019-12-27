@@ -80,7 +80,7 @@ namespace creaturevisualizer
 			this.colorPanel.Location = new System.Drawing.Point(0, 0);
 			this.colorPanel.Margin = new System.Windows.Forms.Padding(0);
 			this.colorPanel.Name = "colorPanel";
-			this.colorPanel.Size = new System.Drawing.Size(495, 322);
+			this.colorPanel.Size = new System.Drawing.Size(494, 322);
 			this.colorPanel.TabIndex = 2;
 			// 
 			// bu_Okay
@@ -107,7 +107,7 @@ namespace creaturevisualizer
 			// 
 			this.AcceptButton = this.bu_Okay;
 			this.CancelButton = this.bu_Cancel;
-			this.ClientSize = new System.Drawing.Size(495, 322);
+			this.ClientSize = new System.Drawing.Size(494, 322);
 			this.Controls.Add(this.bu_Cancel);
 			this.Controls.Add(this.bu_Okay);
 			this.Controls.Add(this.colorPanel);
