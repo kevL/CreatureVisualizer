@@ -159,6 +159,7 @@ namespace creaturevisualizer
 
 		protected override void OnDragEnter(DragEventArgs drgevent)
 		{
+//			if (_firstBlankId != MaxTiles && !ColorExists(color))
 			SetHighlight(true);
 
 			base.OnDragEnter(drgevent);
@@ -216,7 +217,7 @@ namespace creaturevisualizer
 					_tiles[id] = swatch; // effin structs
 
 					DrawSwatch(graphics, swatch);
-					InvalidateSwatch(swatch.Location);
+					InvalidateSwatch(swatch);
 
 					if (swatch.Color == Color.Empty)
 						break;
@@ -290,9 +291,9 @@ namespace creaturevisualizer
 			int y = swatch.Location.Y;
 
 			using (var brush = new SolidBrush(color))
-				graphics.FillRectangle(brush, x,y, Swatch.width,Swatch.height);
+				graphics.FillRectangle(brush, x,y, Swatch.width, Swatch.height);
 
-			graphics.DrawRectangle(Pens.Black, x,y, Swatch.width,Swatch.height);
+			graphics.DrawRectangle(Pens.Black, x,y, Swatch.width, Swatch.height);
 		}
 
 		void UpdatePositions(int id, ref int x, ref int y)
@@ -338,7 +339,7 @@ namespace creaturevisualizer
 						swatch.Description = f.Description;
 						_tiles[_firstBlankId] = swatch;
 
-						InvalidateSwatch(_tiles[_firstBlankId].Location);
+						InvalidateSwatch(_tiles[_firstBlankId]);
 
 						++_firstBlankId;
 
@@ -351,9 +352,9 @@ namespace creaturevisualizer
 
 		bool ColorExists(object color)
 		{
-			for (int i = 0; i != _tiles.Length; ++i)
+			for (int id = 0; id != _tiles.Length; ++id)
 			{
-				if (_tiles[i].Color.Equals(color))
+				if (_tiles[id].Color.Equals(color))
 					return true;
 			}
 			return false;
@@ -364,15 +365,16 @@ namespace creaturevisualizer
 			if (_firstBlankId != MaxTiles)
 			{
 				_highlight = highlight;
-				InvalidateSwatch(_tiles[_firstBlankId].Location);
+				InvalidateSwatch(_tiles[_firstBlankId]);
 			}
 			else
 				_highlight = false;
 		}
 
-		void InvalidateSwatch(Point pt)
+		void InvalidateSwatch(Swatch swatch)
 		{
-			var rect = new Rectangle(pt, new Size(11,11)); // why 11.
+			var rect = new Rectangle(swatch.Location.X, swatch.Location.Y,
+									 Swatch.width + 1,  Swatch.height + 1); // why +1. because .net
 			Invalidate(rect);
 		}
 		#endregion Methods
