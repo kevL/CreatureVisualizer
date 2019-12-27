@@ -8,8 +8,8 @@ namespace creaturevisualizer
 	struct Swatch
 	{
 		#region Fields (static)
-		const int width  = 10;
-		const int height = 10;
+		internal const int width  = 10;
+		internal const int height = 10;
 
 		internal const string NoLabel = "unnamed";
 		#endregion Fields (static)
@@ -58,6 +58,16 @@ namespace creaturevisualizer
 			Location    = new Point(0,0);
 		}
 		#endregion cTor
+
+
+		#region Methods
+		internal bool Contains(int x, int y)
+		{
+			var rect = new Rectangle(Location.X + 1, Location.Y + 1,
+									 width      - 1, height     - 1);
+			return rect.Contains(x,y);
+		}
+		#endregion Methods
 
 
 		#region Methods (override)

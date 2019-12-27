@@ -24,8 +24,8 @@ namespace creaturevisualizer
 
 		const  int _tile = 12; // x/y tile pixels
 
-		const int _x =  5; // x-start of 1st tile location in pixels
-		const int _y =  5; // y-start of 1st tile location in pixels
+		const int _x = 5; // x-start of 1st tile location in pixels
+		const int _y = 5; // y-start of 1st tile location in pixels
 
 		const int _horitiles =  7; // count of tiles in a row
 		const int _verttiles = 25; // count of tiles in a col
@@ -98,14 +98,15 @@ namespace creaturevisualizer
 		{
 			_dragger.Hide();
 
-			if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right)
+			if (_graphic != null
+				&& e.Button == MouseButtons.Left || e.Button == MouseButtons.Right)
 			{
 				int id = GetTileId(e.X, e.Y);
 				if (id != -1)
 				{
 					Swatch tile = _tiles[id];
 
-					if (tile.Color != Color.Empty && tile.Rect.Contains(e.X, e.Y))
+					if (tile.Color != Color.Empty && tile.Contains(e.X, e.Y))
 					{
 						switch (e.Button)
 						{
@@ -138,7 +139,7 @@ namespace creaturevisualizer
 			{
 				Swatch tile = _tiles[id];
 
-				if (tile.Color != Color.Empty && tile.Rect.Contains(e.X, e.Y))
+				if (tile.Color != Color.Empty && tile.Contains(e.X, e.Y))
 				{
 					if (!tile.Description.Equals(colorTip.GetToolTip(this)))
 						colorTip.SetToolTip(this, tile.Description);
@@ -289,9 +290,9 @@ namespace creaturevisualizer
 			int y = swatch.Location.Y;
 
 			using (var brush = new SolidBrush(color))
-				graphics.FillRectangle(brush, x,y, 10,10);
+				graphics.FillRectangle(brush, x,y, Swatch.width,Swatch.height);
 
-			graphics.DrawRectangle(Pens.Black, x,y, 10,10);
+			graphics.DrawRectangle(Pens.Black, x,y, Swatch.width,Swatch.height);
 		}
 
 		void UpdatePositions(int id, ref int x, ref int y)
