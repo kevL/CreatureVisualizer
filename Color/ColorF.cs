@@ -10,9 +10,9 @@ namespace creaturevisualizer
 		: Form
 	{
 		#region Properties
-		internal ColorControl ColorPanel
+		internal ColorControl ColorControl
 		{
-			get { return colorPanel; }
+			get { return colorControl; }
 		}
 		#endregion Properties
 
@@ -33,12 +33,12 @@ namespace creaturevisualizer
 			switch (e.KeyData)
 			{
 				case Keys.B:
-					if (!ColorPanel.IsTextboxFocused(Controls))
+					if (!ColorControl.IsTextboxFocused(Controls))
 					{
 						e.Handled = e.SuppressKeyPress = true;
 
 						var args = new MouseEventArgs(MouseButtons.Right, 0, 0,0, 0);
-						ColorPanel.mousedown_colorbox(null, args);
+						ColorControl.mousedown_colorbox(null, args);
 					}
 					break;
 			}
@@ -50,7 +50,7 @@ namespace creaturevisualizer
 		#region Designer
 		Container components = null;
 
-		ColorControl colorPanel;
+		ColorControl colorControl;
 
 		Button bu_Okay;
 		Button bu_Cancel;
@@ -67,21 +67,21 @@ namespace creaturevisualizer
 
 		void InitializeComponent()
 		{
-			this.colorPanel = new creaturevisualizer.ColorControl();
+			this.colorControl = new creaturevisualizer.ColorControl();
 			this.bu_Okay = new System.Windows.Forms.Button();
 			this.bu_Cancel = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
-			// colorPanel
+			// colorControl
 			// 
-			this.colorPanel.AllowDrop = true;
-			this.colorPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.colorPanel.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.colorPanel.Location = new System.Drawing.Point(0, 0);
-			this.colorPanel.Margin = new System.Windows.Forms.Padding(0);
-			this.colorPanel.Name = "colorPanel";
-			this.colorPanel.Size = new System.Drawing.Size(494, 322);
-			this.colorPanel.TabIndex = 2;
+			this.colorControl.AllowDrop = true;
+			this.colorControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.colorControl.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.colorControl.Location = new System.Drawing.Point(0, 0);
+			this.colorControl.Margin = new System.Windows.Forms.Padding(0);
+			this.colorControl.Name = "colorControl";
+			this.colorControl.Size = new System.Drawing.Size(494, 322);
+			this.colorControl.TabIndex = 2;
 			// 
 			// bu_Okay
 			// 
@@ -110,7 +110,7 @@ namespace creaturevisualizer
 			this.ClientSize = new System.Drawing.Size(494, 322);
 			this.Controls.Add(this.bu_Cancel);
 			this.Controls.Add(this.bu_Okay);
-			this.Controls.Add(this.colorPanel);
+			this.Controls.Add(this.colorControl);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.KeyPreview = true;
