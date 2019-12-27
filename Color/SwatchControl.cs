@@ -22,12 +22,12 @@ namespace creaturevisualizer
 
 		const int MaxSwatches = 175;
 
-		const  int _tile     =  12; // x/y tile pixels
+		const  int _tile      = 12; // x/y tile pixels
 
-		const int _x         =   5; // x-start of 1st tile location in pixels
-		const int _y         =   5; // y-start of 1st tile location in pixels
+		const int _x          =  5; // x-start of 1st tile location in pixels
+		const int _y          =  5; // y-start of 1st tile location in pixels
 
-		const int _horitiles =   7; // count of tiles in a row
+		const int _horitiles  =  7; // count of tiles in a row
 		#endregion Fields (static)
 
 
@@ -36,18 +36,19 @@ namespace creaturevisualizer
 
 		readonly Dragger _dragger = new Dragger();
 
-		List<Swatch> _swatchlist;
+		List<Swatch> _fileSwatches; // the swatches in the XML file
+
+		Swatch[] _tiles = new Swatch[MaxSwatches]; // the tiles of the table
 
 		Bitmap _graphic;
 
-		Swatch[] _swatcharray = new Swatch[MaxSwatches];
 		Swatch _lastover;
 
-		int _id;
-		int _id1;
+		int _idcontext;
+		int _idfirstblank;
 
-		int _count;
-		int _blank;
+		int _countAssignedTiles;
+		int _countBlankTiles;
 
 		bool _highlight;
 
@@ -71,11 +72,11 @@ namespace creaturevisualizer
 
 			if (File.Exists(_path))
 			{
-				_swatchlist = SwatchIo.ReadSwatches(_path);
+				_fileSwatches = SwatchIo.Read(_path);
 			}
 /*			else
 			{
-//				SwatchIo.CreateCustomSwatchesFile();
+//				SwatchIo.Create();
 //				_swatchlist = SwatchIo.ReadSwatches("ColorSwatches.xml", true);
 
 				// TODO: "CustomSwatches.xml was not found in either the Local or Roaming directories."
@@ -94,7 +95,7 @@ namespace creaturevisualizer
 				e.Graphics.DrawImage(_graphic, 0,0);
 
 				if (_highlight)
-					e.Graphics.DrawRectangle(Pens.Yellow, _swatcharray[_id1].Rect);
+					e.Graphics.DrawRectangle(Pens.Yellow, _tiles[_idfirstblank].Rect);
 			}
 		}
 
@@ -119,7 +120,7 @@ namespace creaturevisualizer
 						}
 
 						case MouseButtons.Right:
-							_id = GetSwatchId(e.X, e.Y);
+							_idcontext = GetSwatchId(e.X, e.Y);
 							break;
 					}
 				}
@@ -232,56 +233,59 @@ namespace creaturevisualizer
 		#region Handlers
 		void click_delete(object sender, EventArgs e)
 		{
-			if (_id != -1)
+			if (_idcontext != -1)
 			{
 				using (Graphics graphics = Graphics.FromImage(_graphic))
 				{
-					int valid = _id + (_count - 1) - _id - _blank;
+					int valid = _idcontext + (_countAssignedTiles - 1) - _idcontext - _countBlankTiles;
 
-					for (int id = _id; id <= valid; ++id)
+					for (int id = _idcontext; id <= valid; ++id)
 					{
-						if (id + 1 < _swatcharray.Length - 1)
+						if (id + 1 < _tiles.Length - 1)
 						{
-							Swatch swatch = _swatcharray[id];
-							swatch.Color       = _swatcharray[id + 1].Color;
-							swatch.Description = _swatcharray[id + 1].Description;
-							_swatcharray[id] = swatch; // effin structs
+							Swatch swatch = _tiles[id];
+							swatch.Color       = _tiles[id + 1].Color;
+							swatch.Description = _tiles[id + 1].Description;
+							_tiles[id] = swatch; // effin structs
 						}
 						else // clean the last valid swatch ->
 						{
-							Swatch swatch = _swatcharray[id];
+							Swatch swatch = _tiles[id];
 							swatch.Color = Color.Empty;
 							swatch.Description = String.Empty;
-							_swatcharray[id] = swatch; // effin structs
+							_tiles[id] = swatch; // effin structs
 
-							_id1 = id;
+							_idfirstblank = id;
 						}
 //						if (_swatcharray[id].Color == Color.Empty)
 //							_id1 = id;
 
 						DrawSwatch(graphics, id);
-						InvalidateSwatch(_swatcharray[id].Location); // is that redundant
+						InvalidateSwatch(_tiles[id].Location); // is that redundant
 					}
 
-					++_blank;
+					++_countBlankTiles;
 				}
 
-				_id = -1;
-				SwatchIo.WriteSwatches(SwatchFile, _swatcharray);
+				_idcontext = -1;
+				SwatchIo.Write(SwatchFile, _tiles);
 			}
 		}
 
 		void click_relabel(object sender, EventArgs e)
 		{
-			using (var f = new SwatchDialog(_swatcharray[_id]))
+			using (var f = new SwatchDialog(_tiles[_idcontext]))
 			{
 				f.StartPosition = FormStartPosition.CenterParent;
 				f.ShowInTaskbar = false;
 
 				if (f.ShowDialog() == DialogResult.OK)
 				{
-					_swatcharray[_id].Description = f.ColorDescription;
-					SwatchIo.WriteSwatches(SwatchFile, _swatcharray);
+					Swatch swatch = _tiles[_idcontext];
+					swatch.Description = f.ColorDescription;
+					_tiles[_idcontext] = swatch; // effin structs
+
+					SwatchIo.Write(SwatchFile, _tiles);
 				}
 			}
 		}
@@ -291,7 +295,7 @@ namespace creaturevisualizer
 		#region Methods
 		Bitmap CreateGraphic()
 		{
-			if (_swatchlist != null)
+			if (_fileSwatches != null)
 			{
 				var b = new Bitmap(Width, Height);
 
@@ -301,23 +305,23 @@ namespace creaturevisualizer
 					int y = _y;
 
 					int id = 0;
-					for (; id != _swatchlist.Count && id != MaxSwatches; ++id)
+					for (; id != _fileSwatches.Count && id != MaxSwatches; ++id)
 					{
-						Swatch swatch = _swatchlist[id];
+						Swatch swatch = _fileSwatches[id];
 						swatch.Location = new Point(x,y);
-						_swatcharray[id] = swatch; // effin structs
+						_tiles[id] = swatch; // effin structs
 
 						DrawSwatch(graphics, id);
 						UpdatePositions(id, ref x, ref y);
 					}
 
-					_count = _id1 = id; // TODO: '_id1' shall always equal '_count+1' (ie. delete '_id1')
+					_countAssignedTiles = _idfirstblank = id; // TODO: '_id1' shall always equal '_count+1' (ie. delete '_id1')
 
-					_blank = 0;
+					_countBlankTiles = 0;
 					for (; id != MaxSwatches; ++id)
 					{
-						++_blank;
-						_swatcharray[id] = new Swatch(new Point(x,y));
+						++_countBlankTiles;
+						_tiles[id] = new Swatch(new Point(x,y));
 
 						DrawSwatch(graphics, id);
 						UpdatePositions(id, ref x, ref y);
@@ -331,7 +335,7 @@ namespace creaturevisualizer
 
 		void DrawSwatch(Graphics graphics, int id)
 		{
-			Swatch swatch = _swatcharray[id];
+			Swatch swatch = _tiles[id];
 
 			int x = swatch.Location.X;
 			int y = swatch.Location.Y;
@@ -368,7 +372,7 @@ namespace creaturevisualizer
 			if (id >= MaxSwatches)
 				id  = MaxSwatches - 1;
 
-			return _swatcharray[id];
+			return _tiles[id];
 		}
 
 		int GetSwatchId(int x, int y)
@@ -378,9 +382,9 @@ namespace creaturevisualizer
 
 		void ColorSwatch(Color color)
 		{
-			int id = _id1;
+			int id = _idfirstblank;
 
-			if (!ColorExists(color) && _blank > 0)
+			if (!ColorExists(color) && _countBlankTiles > 0)
 			{
 				using (var f = new SwatchDialog(color))
 				{
@@ -389,8 +393,8 @@ namespace creaturevisualizer
 
 					if (f.ShowDialog() == DialogResult.OK && _graphic != null)
 					{
-						int x = _swatcharray[_id1].Location.X;
-						int y = _swatcharray[_id1].Location.Y;
+						int x = _tiles[_idfirstblank].Location.X;
+						int y = _tiles[_idfirstblank].Location.Y;
 
 						using (Graphics graphics = Graphics.FromImage(_graphic))
 						{
@@ -400,16 +404,16 @@ namespace creaturevisualizer
 							graphics.DrawRectangle(Pens.Black, x,y, 10,10);
 						}
 
-						--_blank;
+						--_countBlankTiles;
 
-						Swatch swatch = _swatcharray[_id1];
+						Swatch swatch = _tiles[_idfirstblank];
 						swatch.Color       = color;
 						swatch.Description = f.ColorDescription;
-						_swatcharray[_id1] = swatch;
+						_tiles[_idfirstblank] = swatch;
 
-						++_id1;
+						++_idfirstblank;
 
-						SwatchIo.WriteSwatches(SwatchFile, _swatcharray);
+						SwatchIo.Write(SwatchFile, _tiles);
 					}
 				}
 			}
@@ -467,14 +471,14 @@ namespace creaturevisualizer
 				SwatchIo.WriteSwatches(CustomSwatchesFile, m_swatchArray); */
 
 			_highlight = false;
-			InvalidateSwatch(_swatcharray[id].Location);
+			InvalidateSwatch(_tiles[id].Location);
 		}
 
 		bool ColorExists(object color)
 		{
-			for (int i = 0; i != _swatcharray.Length; ++i)
+			for (int i = 0; i != _tiles.Length; ++i)
 			{
-				if (_swatcharray[i].Color.Equals(color))
+				if (_tiles[i].Color.Equals(color))
 					return true;
 			}
 			return false;
@@ -482,10 +486,10 @@ namespace creaturevisualizer
 
 		void SetHighlight(bool highlight)
 		{
-			if (_blank > 0)
+			if (_countBlankTiles > 0)
 			{
 				_highlight = highlight;
-				InvalidateSwatch(_swatcharray[_id1].Location);
+				InvalidateSwatch(_tiles[_idfirstblank].Location);
 			}
 			else
 				_highlight = false;

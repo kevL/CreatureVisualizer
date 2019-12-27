@@ -11,7 +11,7 @@ namespace creaturevisualizer
 	// Sano.PersonalProjects.ColorPicker.Controls.ColorSwatchXml
 	static class SwatchIo
 	{
-		internal static List<Swatch> ReadSwatches(string path)
+		internal static List<Swatch> Read(string path)
 		{
 			XmlTextReader reader = null;
 			try
@@ -78,7 +78,7 @@ namespace creaturevisualizer
 			}
 		}
 
-		internal static void WriteSwatches(string path, Swatch[] colors)
+		internal static void Write(string path, Swatch[] colors)
 		{
 			XmlTextWriter writer = null;
 			try
@@ -122,7 +122,7 @@ namespace creaturevisualizer
 		}
 
 
-		internal static void CreateCustomSwatchesFile()
+		internal static void Create()
 		{
 			// TODO: using etc.
 
