@@ -195,33 +195,30 @@ namespace creaturevisualizer
 			using (Graphics graphics = Graphics.FromImage(_graphic))
 			{
 				Swatch swatch, swatch1;
-				bool done = false;
 
 				for (int id = _id; id != MaxTiles; ++id)
 				{
 					swatch  = _tiles[id];
-					swatch1 = _tiles[id + 1];
 
-					if (swatch1.Color != Color.Empty)
+					if (id + 1 != MaxTiles)
 					{
+						swatch1 = _tiles[id + 1];
+
 						swatch.Color       = swatch1.Color;
 						swatch.Description = swatch1.Description;
-						_tiles[id] = swatch; // effin structs
 					}
 					else
 					{
 						swatch.Color       = Color.Empty;
 						swatch.Description = Swatch.NoLabel;
-						_tiles[id] = swatch; // effin structs
-
-						_firstBlankId = id;
-						done = true;
 					}
+					_tiles[id] = swatch; // effin structs
 
-					DrawSwatch(graphics, id);
-					InvalidateSwatch(_tiles[id].Location); // is that redundant
+					DrawSwatch(graphics, swatch);
+					InvalidateSwatch(swatch.Location); // is that redundant
 
-					if (done) break;
+					if (swatch.Color == Color.Empty)
+						break;
 				}
 			}
 //			SwatchIo.Write(SwatchFile, _tiles);
@@ -264,7 +261,7 @@ namespace creaturevisualizer
 						swatch.Location = new Point(x,y);
 						_tiles[id] = swatch; // effin structs
 
-						DrawSwatch(graphics, id);
+						DrawSwatch(graphics, swatch);
 						UpdatePositions(id, ref x, ref y);
 					}
 
@@ -272,9 +269,7 @@ namespace creaturevisualizer
 
 					for (; id != MaxTiles; ++id)
 					{
-						_tiles[id] = new Swatch(new Point(x,y));
-
-						DrawSwatch(graphics, id);
+						DrawSwatch(graphics, (_tiles[id] = new Swatch(new Point(x,y))));
 						UpdatePositions(id, ref x, ref y);
 					}
 
@@ -284,16 +279,14 @@ namespace creaturevisualizer
 			return null;
 		}
 
-		void DrawSwatch(Graphics graphics, int id)
+		void DrawSwatch(Graphics graphics, Swatch swatch)
 		{
-			Swatch swatch = _tiles[id];
-
-			int x = swatch.Location.X;
-			int y = swatch.Location.Y;
-
 			Color color = swatch.Color;
 			if (color == Color.Empty)
 				color = BackColor;
+
+			int x = swatch.Location.X;
+			int y = swatch.Location.Y;
 
 			using (var brush = new SolidBrush(color))
 				graphics.FillRectangle(brush, x,y, 10,10);
