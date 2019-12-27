@@ -72,15 +72,15 @@
     <Compile Include="Color\GradientService.cs" />
     <Compile Include="Color\ColorEventArgs.cs" />
     <Compile Include="Color\ColorSlider.cs" />
+    <Compile Include="Color\ColorSpaceControlCo.cs" />
     <Compile Include="Color\ColorSpaceControl.cs" />
-    <Compile Include="Color\ColorSpace.cs" />
     <Compile Include="Color\SwatchControl.cs" />
-    <Compile Include="Color\SwatchXml_cv.cs" />
+    <Compile Include="Color\SwatchXml.cs" />
     <Compile Include="Color\Swatch.cs" />
-    <Compile Include="Color\DragForm_cv.cs" />
-    <Compile Include="Color\HsbColorSpace.cs" />
+    <Compile Include="Color\Dragger.cs" />
+    <Compile Include="Color\ColorSpaceHsb.cs" />
     <Compile Include="Color\HSB.cs" />
-    <Compile Include="Color\RgbColorSpace.cs" />
+    <Compile Include="Color\ColorSpaceRgb.cs" />
     <Compile Include="Color\RGB.cs" />
     <Compile Include="Color\TextboxRestrictive.cs" />
     <Compile Include="CreatureVisualizerF.cs" />
@@ -101,8 +101,8 @@
     <EmbeddedResource Include="Color\ColorControl.resx">
       <DependentUpon>ColorControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Color\ColorSpaceControl.resx">
-      <DependentUpon>ColorSpaceControl.cs</DependentUpon>
+    <EmbeddedResource Include="Color\ColorSpaceControlCo.resx">
+      <DependentUpon>ColorSpaceControlCo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Color\SwatchDialog.resx">
       <DependentUpon>SwatchDialog.cs</DependentUpon>
@@ -119,20 +119,20 @@
     <EmbeddedResource Include="Color\ColorSlider.resx">
       <DependentUpon>ColorSlider.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Color\ColorSpace.resx">
-      <DependentUpon>ColorSpace.cs</DependentUpon>
+    <EmbeddedResource Include="Color\ColorSpaceControl.resx">
+      <DependentUpon>ColorSpaceControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Color\SwatchControl.resx">
       <DependentUpon>SwatchControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Color\DragForm_cv.resx">
-      <DependentUpon>DragForm_cv.cs</DependentUpon>
+    <EmbeddedResource Include="Color\Dragger.resx">
+      <DependentUpon>Dragger.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Color\HsbColorSpace.resx">
-      <DependentUpon>HsbColorSpace.cs</DependentUpon>
+    <EmbeddedResource Include="Color\ColorSpaceHsb.resx">
+      <DependentUpon>ColorSpaceHsb.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Color\RgbColorSpace.resx">
-      <DependentUpon>RgbColorSpace.cs</DependentUpon>
+    <EmbeddedResource Include="Color\ColorSpaceRgb.resx">
+      <DependentUpon>ColorSpaceRgb.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CreatureVisualizerF.resx">
       <DependentUpon>CreatureVisualizerF.cs</DependentUpon>

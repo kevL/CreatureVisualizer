@@ -7,7 +7,7 @@ using System.Windows.Forms;
 namespace creaturevisualizer
 {
 	// Sano.PersonalProjects.ColorPicker.Controls.DragForm
-	sealed class DragForm
+	sealed class Dragger
 		: Form
 	{
 		#region Fields
@@ -24,7 +24,7 @@ namespace creaturevisualizer
 		#endregion Properties
 
 
-		internal DragForm()
+		internal Dragger()
 		{
 			ShowInTaskbar = false;
 			TopMost = true;
@@ -95,11 +95,11 @@ namespace creaturevisualizer
 		{
 			this.SuspendLayout();
 			// 
-			// DragForm
+			// Dragger
 			// 
 			this.ClientSize = new System.Drawing.Size(292, 274);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.Name = "DragForm";
+			this.Name = "Dragger";
 			this.ResumeLayout(false);
 
 		}

@@ -22,7 +22,7 @@ namespace creaturevisualizer
 
 
 		#region Fields
-		ColorSpace _colorspace;
+		ColorSpaceControl _csc;
 
 		readonly Rectangle _rect;
 
@@ -99,9 +99,9 @@ namespace creaturevisualizer
 
 
 		#region Methods
-		public void ChangeColorspace(ColorSpace colorspace)
+		public void ChangeColorspace(ColorSpaceControl colorspace)
 		{
-			_colorspace = colorspace;
+			_csc = colorspace;
 			Invalidate(_rect);
 		}
 
@@ -169,13 +169,13 @@ namespace creaturevisualizer
 
 		void DrawGradient(Graphics graphics)
 		{
-			if (_colorspace != null)
+			if (_csc != null)
 			{
-				if ((_colorspace as HsbColorSpace) != null)
+				if ((_csc as ColorSpaceHsb) != null)
 				{
-					var hsb = (_colorspace as HsbColorSpace).Structure as HSB;
+					var hsb = (_csc as ColorSpaceHsb).Structure as HSB;
 
-					switch (_colorspace.Selected.DisplayCharacter)
+					switch (_csc.Co.DisplayCharacter)
 					{
 						case 'H':
 							using (var linearGradientBrush = new LinearGradientBrush(_rect,
@@ -218,12 +218,12 @@ namespace creaturevisualizer
 						}
 					}
 				}
-				else // RgbColorSpace
+				else // ColorSpaceRgb
 				{
-					var rgb = (_colorspace as RgbColorSpace).Structure as RGB;
+					var rgb = (_csc as ColorSpaceRgb).Structure as RGB;
 
 					Color color1, color2;
-					switch (_colorspace.Selected.DisplayCharacter)
+					switch (_csc.Co.DisplayCharacter)
 					{
 						case 'R':
 							color1 = Color.FromArgb(  0, rgb.Green, rgb.Blue);

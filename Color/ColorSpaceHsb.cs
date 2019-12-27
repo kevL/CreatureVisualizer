@@ -4,8 +4,8 @@
 namespace creaturevisualizer
 {
 	// Sano.PersonalProjects.ColorPicker.Controls.HsbColorSpace
-	sealed class HsbColorSpace
-		: ColorSpace
+	sealed class ColorSpaceHsb
+		: ColorSpaceControl
 	{
 		#region Properties (override)
 		internal object Structure
@@ -27,7 +27,7 @@ namespace creaturevisualizer
 
 
 		#region cTor
-		public HsbColorSpace()
+		public ColorSpaceHsb()
 		{
 			InitializeComponent();
 
@@ -43,12 +43,12 @@ namespace creaturevisualizer
 
 
 		#region Handlers
-//		void OnComponentSelected(ColorSpaceControl sender)
+//		void OnComponentSelected(ColorSpaceControlCo sender)
 //		{
 //			SelectComponent(sender);
 //		}
 
-//		void OnComponentTextKeyUp(ColorSpaceControl sender, EventArgs e)
+//		void OnComponentTextKeyUp(ColorSpaceControlCo sender, EventArgs e)
 //		{
 //			OnComponentValueChanged();
 //		}
@@ -57,16 +57,16 @@ namespace creaturevisualizer
 
 
 		#region Designer
-		internal ColorSpaceControl cscHue; // default
-		ColorSpaceControl cscSaturation;
-		ColorSpaceControl cscBrightness;
+		internal ColorSpaceControlCo cscHue; // default
+		ColorSpaceControlCo cscSaturation;
+		ColorSpaceControlCo cscBrightness;
 
 
 		void InitializeComponent()
 		{
-			this.cscHue = new creaturevisualizer.ColorSpaceControl();
-			this.cscSaturation = new creaturevisualizer.ColorSpaceControl();
-			this.cscBrightness = new creaturevisualizer.ColorSpaceControl();
+			this.cscHue = new creaturevisualizer.ColorSpaceControlCo();
+			this.cscSaturation = new creaturevisualizer.ColorSpaceControlCo();
+			this.cscBrightness = new creaturevisualizer.ColorSpaceControlCo();
 			this.SuspendLayout();
 			// 
 			// cscHue
@@ -80,9 +80,9 @@ namespace creaturevisualizer
 			this.cscHue.Selected = false;
 			this.cscHue.Size = new System.Drawing.Size(75, 20);
 			this.cscHue.TabIndex = 0;
-			this.cscHue.Unit = creaturevisualizer.ColorSpaceControl.Units.Degree;
+			this.cscHue.Unit = creaturevisualizer.ColorSpaceControlCo.Units.Degree;
 			this.cscHue.Val = 0;
-			this.cscHue.CscSelected += new creaturevisualizer.CscSelectedEventHandler(this.OnCscSelected);
+			this.cscHue.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
 			// 
 			// cscSaturation
 			// 
@@ -95,9 +95,9 @@ namespace creaturevisualizer
 			this.cscSaturation.Selected = false;
 			this.cscSaturation.Size = new System.Drawing.Size(75, 20);
 			this.cscSaturation.TabIndex = 1;
-			this.cscSaturation.Unit = creaturevisualizer.ColorSpaceControl.Units.Percent;
+			this.cscSaturation.Unit = creaturevisualizer.ColorSpaceControlCo.Units.Percent;
 			this.cscSaturation.Val = 0;
-			this.cscSaturation.CscSelected += new creaturevisualizer.CscSelectedEventHandler(this.OnCscSelected);
+			this.cscSaturation.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
 			// 
 			// cscBrightness
 			// 
@@ -110,18 +110,18 @@ namespace creaturevisualizer
 			this.cscBrightness.Selected = false;
 			this.cscBrightness.Size = new System.Drawing.Size(75, 20);
 			this.cscBrightness.TabIndex = 2;
-			this.cscBrightness.Unit = creaturevisualizer.ColorSpaceControl.Units.Percent;
+			this.cscBrightness.Unit = creaturevisualizer.ColorSpaceControlCo.Units.Percent;
 			this.cscBrightness.Val = 0;
-			this.cscBrightness.CscSelected += new creaturevisualizer.CscSelectedEventHandler(this.OnCscSelected);
+			this.cscBrightness.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
 			// 
-			// HsbColorSpace
+			// ColorSpaceHsb
 			// 
 			this.Controls.Add(this.cscHue);
 			this.Controls.Add(this.cscSaturation);
 			this.Controls.Add(this.cscBrightness);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Margin = new System.Windows.Forms.Padding(0);
-			this.Name = "HsbColorSpace";
+			this.Name = "ColorSpaceHsb";
 			this.Size = new System.Drawing.Size(75, 58);
 			this.ResumeLayout(false);
 

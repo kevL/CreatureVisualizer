@@ -34,7 +34,7 @@ namespace creaturevisualizer
 		#region Fields
 		string SwatchFile = "NWN2 Toolset" + Path.DirectorySeparatorChar + "CustomSwatches.xml";
 
-		readonly DragForm _dragger = new DragForm();
+		readonly Dragger _dragger = new Dragger();
 
 		List<Swatch> _swatchlist;
 

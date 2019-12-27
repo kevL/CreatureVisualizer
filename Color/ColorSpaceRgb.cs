@@ -5,8 +5,8 @@ using System.Drawing;
 namespace creaturevisualizer
 {
 	// Sano.PersonalProjects.ColorPicker.Controls.RgbColorSpace
-	sealed class RgbColorSpace
-		: ColorSpace
+	sealed class ColorSpaceRgb
+		: ColorSpaceControl
 	{
 		#region Properties (override)
 		internal object Structure
@@ -28,7 +28,7 @@ namespace creaturevisualizer
 
 
 		#region cTor
-		public RgbColorSpace()
+		public ColorSpaceRgb()
 		{
 			InitializeComponent();
 
@@ -40,12 +40,12 @@ namespace creaturevisualizer
 
 
 		#region Handlers
-//		void OnComponentSelected(ColorSpaceControl sender)
+//		void OnComponentSelected(ColorSpaceControlCo sender)
 //		{
 //			SelectComponent(sender);
 //		}
 
-//		void OnComponentTextKeyUp(ColorSpaceControl sender, EventArgs e)
+//		void OnComponentTextKeyUp(ColorSpaceControlCo sender, EventArgs e)
 //		{
 //			OnComponentValueChanged();
 //		}
@@ -69,16 +69,16 @@ namespace creaturevisualizer
 
 
 		#region Designer
-		ColorSpaceControl cscRed;
-		ColorSpaceControl cscGreen;
-		ColorSpaceControl cscBlue;
+		ColorSpaceControlCo cscRed;
+		ColorSpaceControlCo cscGreen;
+		ColorSpaceControlCo cscBlue;
 
 
 		void InitializeComponent()
 		{
-			this.cscRed = new creaturevisualizer.ColorSpaceControl();
-			this.cscGreen = new creaturevisualizer.ColorSpaceControl();
-			this.cscBlue = new creaturevisualizer.ColorSpaceControl();
+			this.cscRed = new creaturevisualizer.ColorSpaceControlCo();
+			this.cscGreen = new creaturevisualizer.ColorSpaceControlCo();
+			this.cscBlue = new creaturevisualizer.ColorSpaceControlCo();
 			this.SuspendLayout();
 			// 
 			// cscRed
@@ -92,9 +92,9 @@ namespace creaturevisualizer
 			this.cscRed.Selected = false;
 			this.cscRed.Size = new System.Drawing.Size(75, 20);
 			this.cscRed.TabIndex = 0;
-			this.cscRed.Unit = creaturevisualizer.ColorSpaceControl.Units.Byte;
+			this.cscRed.Unit = creaturevisualizer.ColorSpaceControlCo.Units.Byte;
 			this.cscRed.Val = 0;
-			this.cscRed.CscSelected += new creaturevisualizer.CscSelectedEventHandler(this.OnCscSelected);
+			this.cscRed.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
 			// 
 			// cscGreen
 			// 
@@ -107,9 +107,9 @@ namespace creaturevisualizer
 			this.cscGreen.Selected = false;
 			this.cscGreen.Size = new System.Drawing.Size(75, 20);
 			this.cscGreen.TabIndex = 1;
-			this.cscGreen.Unit = creaturevisualizer.ColorSpaceControl.Units.Byte;
+			this.cscGreen.Unit = creaturevisualizer.ColorSpaceControlCo.Units.Byte;
 			this.cscGreen.Val = 0;
-			this.cscGreen.CscSelected += new creaturevisualizer.CscSelectedEventHandler(this.OnCscSelected);
+			this.cscGreen.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
 			// 
 			// cscBlue
 			// 
@@ -122,18 +122,18 @@ namespace creaturevisualizer
 			this.cscBlue.Selected = false;
 			this.cscBlue.Size = new System.Drawing.Size(75, 20);
 			this.cscBlue.TabIndex = 2;
-			this.cscBlue.Unit = creaturevisualizer.ColorSpaceControl.Units.Byte;
+			this.cscBlue.Unit = creaturevisualizer.ColorSpaceControlCo.Units.Byte;
 			this.cscBlue.Val = 0;
-			this.cscBlue.CscSelected += new creaturevisualizer.CscSelectedEventHandler(this.OnCscSelected);
+			this.cscBlue.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
 			// 
-			// RgbColorSpace
+			// ColorSpaceRgb
 			// 
 			this.Controls.Add(this.cscRed);
 			this.Controls.Add(this.cscGreen);
 			this.Controls.Add(this.cscBlue);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Margin = new System.Windows.Forms.Padding(0);
-			this.Name = "RgbColorSpace";
+			this.Name = "ColorSpaceRgb";
 			this.Size = new System.Drawing.Size(75, 58);
 			this.ResumeLayout(false);
 

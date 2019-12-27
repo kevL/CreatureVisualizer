@@ -15,7 +15,7 @@ namespace creaturevisualizer
 
 
 		#region Fields
-		ColorSpace _cs;
+		ColorSpaceControl _cs;
 		Color _color;
 		int _val;
 
@@ -115,9 +115,9 @@ namespace creaturevisualizer
 		#region Methods
 		void DrawField(Graphics graphics)
 		{
-			if (_cs is HsbColorSpace)
+			if (_cs is ColorSpaceHsb)
 			{
-				switch (_cs.Selected.DisplayCharacter)
+				switch (_cs.Co.DisplayCharacter)
 				{
 					case 'H':
 					{
@@ -139,9 +139,9 @@ namespace creaturevisualizer
 						break;
 				}
 			}
-			else if (_cs is RgbColorSpace)
+			else if (_cs is ColorSpaceRgb)
 			{
-				switch (_cs.Selected.DisplayCharacter)
+				switch (_cs.Co.DisplayCharacter)
 				{
 					case 'R':
 						GradientService.DrawFieldRed(graphics, _val);
@@ -174,11 +174,11 @@ namespace creaturevisualizer
 			int x = 0;
 			int y = 0;
 
-			if ((_cs as HsbColorSpace) != null)
+			if ((_cs as ColorSpaceHsb) != null)
 			{
-				var hsb = (HSB)((HsbColorSpace)_cs).Structure;
+				var hsb = (HSB)((ColorSpaceHsb)_cs).Structure;
 
-				switch (_cs.Selected.DisplayCharacter)
+				switch (_cs.Co.DisplayCharacter)
 				{
 					case 'H':
 						x =       (int)Math.Round((double)hsb.Saturation * 2.55);
@@ -196,11 +196,11 @@ namespace creaturevisualizer
 						break;
 				}
 			}
-			else if ((_cs as RgbColorSpace) != null)
+			else if ((_cs as ColorSpaceRgb) != null)
 			{
-				Color color = ((RgbColorSpace)_cs).GetColor();
+				Color color = ((ColorSpaceRgb)_cs).GetColor();
 
-				switch (_cs.Selected.DisplayCharacter)
+				switch (_cs.Co.DisplayCharacter)
 				{
 					case 'R': x = color.B; y = 255 - color.G; break;
 					case 'G': x = color.B; y = 255 - color.R; break;
@@ -210,22 +210,22 @@ namespace creaturevisualizer
 			return new Point(x,y);
 		}
 
-		internal void ChangeColor(Color color, ColorSpace colorspace, bool updatePoint)
+		internal void ChangeColor(Color color, ColorSpaceControl csc, bool updatePoint)
 		{
 			_color = color;
-			ChangeColorspace(colorspace, updatePoint);
+			ChangeColorspace(csc, updatePoint);
 		}
 
-		internal void ChangeColor(int val, ColorSpace colorspace, bool updatePoint)
+		internal void ChangeColor(int val, ColorSpaceControl csc, bool updatePoint)
 		{
 			_val = val;
 			_color = Color.Empty;
-			ChangeColorspace(colorspace, updatePoint);
+			ChangeColorspace(csc, updatePoint);
 		}
 
-		void ChangeColorspace(ColorSpace colorspace, bool updatePoint)
+		void ChangeColorspace(ColorSpaceControl csc, bool updatePoint)
 		{
-			_cs = colorspace;
+			_cs = csc;
 
 			if (updatePoint)
 				_pt = CalculatePoint();
@@ -235,11 +235,11 @@ namespace creaturevisualizer
 
 		Color GetCurrentColor()
 		{
-			if ((_cs as HsbColorSpace) != null)
+			if ((_cs as ColorSpaceHsb) != null)
 			{
-				var hsb = (HSB)((HsbColorSpace)_cs).Structure;
+				var hsb = (HSB)((ColorSpaceHsb)_cs).Structure;
 
-				switch (_cs.Selected.DisplayCharacter)
+				switch (_cs.Co.DisplayCharacter)
 				{
 					case 'H':
 					{
@@ -267,11 +267,11 @@ namespace creaturevisualizer
 				}
 				return ColorConverter.HsbToColor(hsb);
 			}
-			else //if ((_colorspace as RgbColorSpace) != null)
+			else //if ((_colorspace as ColorSpaceRgb) != null)
 			{
-				var rgb = (RGB)((RgbColorSpace)_cs).Structure;
+				var rgb = (RGB)((ColorSpaceRgb)_cs).Structure;
 
-				switch (_cs.Selected.DisplayCharacter)
+				switch (_cs.Co.DisplayCharacter)
 				{
 					case 'R': rgb = new RGB(rgb.Red,     255 - _pt.Y, _pt.X);    break;
 					case 'G': rgb = new RGB(255 - _pt.Y, rgb.Green,   _pt.X);    break;
