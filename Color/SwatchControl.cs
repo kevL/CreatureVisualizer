@@ -99,12 +99,10 @@ namespace creaturevisualizer
 					_id = -1;
 				}
 
-				Swatch tile;
-
 				int id = GetTileId(e.X, e.Y);
 				if (id != -1)
 				{
-					tile = _tiles[id];
+					Swatch tile = _tiles[id];
 
 					if (tile.Color != Color.Empty && tile.Contains(e.X, e.Y))
 					{
@@ -224,7 +222,42 @@ namespace creaturevisualizer
 
 		void click_context_color(object sender, EventArgs e)
 		{
-			ColorSwatch(ColorF.That.ColorControl.GetActiveColorbox().BackColor);
+			if (_id != -1)
+				InvalidateSwatch(_tiles[_id]);
+
+			Color color = ColorF.That.ColorControl.GetActiveColorbox().BackColor;
+
+			if ((_id = ColorExists(color)) == _firstBlankId)
+			{
+				using (var f = new SwatchDialog(color))
+				{
+					if (f.ShowDialog(this) == DialogResult.OK)
+					{
+						Swatch swatch = _tiles[_id];
+
+						using (Graphics graphics = Graphics.FromImage(_graphic))
+						{
+							using (var brush = new SolidBrush(color))
+								graphics.FillRectangle(brush, swatch.Rect);
+
+							graphics.DrawRectangle(Pens.Black, swatch.Rect);
+						}
+
+						swatch.Color       = color;
+						swatch.Description = f.Description;
+						_tiles[_id] = swatch;
+
+						++_firstBlankId;
+
+//						SwatchIo.Write(SwatchFile, _tiles);
+					}
+					else
+						_id = -1;
+				}
+			}
+
+			if (_id != -1)
+				InvalidateSwatch(_tiles[_id]);
 		}
 		#endregion Handlers
 
@@ -300,44 +333,6 @@ namespace creaturevisualizer
 					 + (y - _y) / _tile * _horitiles;
 			}
 			return -1;
-		}
-
-		void ColorSwatch(Color color)
-		{
-			if (_id != -1)
-				InvalidateSwatch(_tiles[_id]);
-
-			if ((_id = ColorExists(color)) == _firstBlankId)
-			{
-				using (var f = new SwatchDialog(color))
-				{
-					if (f.ShowDialog(this) == DialogResult.OK)
-					{
-						Swatch swatch = _tiles[_id];
-
-						using (Graphics graphics = Graphics.FromImage(_graphic))
-						{
-							using (var brush = new SolidBrush(color))
-								graphics.FillRectangle(brush, swatch.Rect);
-
-							graphics.DrawRectangle(Pens.Black, swatch.Rect);
-						}
-
-						swatch.Color       = color;
-						swatch.Description = f.Description;
-						_tiles[_id] = swatch;
-
-						++_firstBlankId;
-
-//						SwatchIo.Write(SwatchFile, _tiles);
-					}
-					else
-						_id = -1;
-				}
-			}
-
-			if (_id != -1)
-				InvalidateSwatch(_tiles[_id]);
 		}
 
 		int ColorExists(object color)
