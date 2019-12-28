@@ -36,20 +36,14 @@ namespace creaturevisualizer
 		string SwatchFile = "NWN2 Toolset" + Path.DirectorySeparatorChar
 						  + "CustomSwatches.xml";
 
-		readonly Dragger _dragger = new Dragger();
-
 		List<Swatch> _fileSwatches; // the swatches in the XML file
 
 		Swatch[] _tiles = new Swatch[MaxTiles]; // the tiles of the table
 
 		Bitmap _graphic;
 
-		int _id; // for context
+		int _id = -1;
 		int _firstBlankId;
-
-		bool _highlight;
-
-//		bool _track;
 		#endregion Fields
 
 
@@ -89,22 +83,28 @@ namespace creaturevisualizer
 			{
 				e.Graphics.DrawImage(_graphic, 0,0);
 
-				if (_highlight)
-					e.Graphics.DrawRectangle(Pens.White, _tiles[_firstBlankId].Rect);
+				if (_id != -1)
+					e.Graphics.DrawRectangle(Pens.White, _tiles[_id].Rect);
 			}
 		}
 
 		protected override void OnMouseUp(MouseEventArgs e)
 		{
-			_dragger.Hide();
-
 			if (_graphic != null
 				&& e.Button == MouseButtons.Left || e.Button == MouseButtons.Right)
 			{
+				if (_id != -1)
+				{
+					InvalidateSwatch(_tiles[_id]);
+					_id = -1;
+				}
+
+				Swatch tile;
+
 				int id = GetTileId(e.X, e.Y);
 				if (id != -1)
 				{
-					Swatch tile = _tiles[id];
+					tile = _tiles[id];
 
 					if (tile.Color != Color.Empty && tile.Contains(e.X, e.Y))
 					{
@@ -113,27 +113,42 @@ namespace creaturevisualizer
 							case MouseButtons.Left:
 								if (SwatchSelected != null)
 									SwatchSelected(new ColorEventArgs(tile.Color));
-								break;
+
+								goto case MouseButtons.Right;
 
 							case MouseButtons.Right:
 								_id = id;
-								context.Show(this, new Point(e.X, e.Y));
 								break;
 						}
 					}
 				}
-//				else _track = false;
+
+				if (_id != -1)
+					InvalidateSwatch(_tiles[_id]);
+
+
+				if (e.Button == MouseButtons.Right)
+				{
+					context.MenuItems.Clear();
+
+					if (_firstBlankId != MaxTiles)
+						context.MenuItems.Add(itColor);
+
+					if (_id != -1)
+					{
+						if (_firstBlankId != MaxTiles)
+							context.MenuItems.Add("-");
+
+						context.MenuItems.Add(itDelete);
+						context.MenuItems.Add(itRelabel);
+					}
+					context.Show(this, new Point(e.X, e.Y));
+				}
 			}
 		}
 
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
-//			if (_track)
-//			{
-//				_dragger.Location = PointToScreen(new Point(e.X - _dragger.CursorXDifference, e.Y - _dragger.CursorYDifference));
-//			}
-//			else
-
 			int id = GetTileId(e.X, e.Y);
 			if (id != -1)
 			{
@@ -150,44 +165,6 @@ namespace creaturevisualizer
 			}
 			colorTip.Active = false;
 		}
-
-		protected override void OnMouseLeave(EventArgs e)
-		{
-			_dragger.Hide();
-		}
-
-
-		protected override void OnDragEnter(DragEventArgs drgevent)
-		{
-//			if (_firstBlankId != MaxTiles && !ColorExists(color))
-			SetHighlight(true);
-
-			base.OnDragEnter(drgevent);
-		}
-
-		protected override void OnDragLeave(EventArgs e)
-		{
-			SetHighlight(false);
-
-			base.OnDragLeave(e);
-		}
-
-		protected override void OnDragOver(DragEventArgs drgevent)
-		{
-			drgevent.Effect = DragDropEffects.Move;
-
-			base.OnDragOver(drgevent);
-		}
-
-		protected override void OnDragDrop(DragEventArgs drgevent)
-		{
-			var color = (Color)drgevent.Data.GetData(typeof(Color));
-			ColorSwatch(color);
-
-			drgevent.Effect = DragDropEffects.None;
-
-			base.OnDragDrop(drgevent);
-		}
 		#endregion Handlers (override)
 
 
@@ -196,9 +173,12 @@ namespace creaturevisualizer
 		{
 			using (Graphics graphics = Graphics.FromImage(_graphic))
 			{
-				Swatch swatch, swatch1;
+				--_firstBlankId;
 
-				for (int id = _id; id != MaxTiles; ++id)
+				Swatch swatch, swatch1;
+				int id = _id; _id = -1;
+
+				for (; id != MaxTiles; ++id)
 				{
 					swatch  = _tiles[id];
 
@@ -240,6 +220,11 @@ namespace creaturevisualizer
 //					SwatchIo.Write(SwatchFile, _tiles);
 				}
 			}
+		}
+
+		void click_context_color(object sender, EventArgs e)
+		{
+			ColorSwatch(ColorF.That.ColorControl.GetActiveColorbox().BackColor);
 		}
 		#endregion Handlers
 
@@ -319,13 +304,16 @@ namespace creaturevisualizer
 
 		void ColorSwatch(Color color)
 		{
-			if (_graphic != null && !ColorExists(color))
+			if (_id != -1)
+				InvalidateSwatch(_tiles[_id]);
+
+			if ((_id = ColorExists(color)) == _firstBlankId)
 			{
 				using (var f = new SwatchDialog(color))
 				{
 					if (f.ShowDialog(this) == DialogResult.OK)
 					{
-						Swatch swatch = _tiles[_firstBlankId];
+						Swatch swatch = _tiles[_id];
 
 						using (Graphics graphics = Graphics.FromImage(_graphic))
 						{
@@ -337,38 +325,29 @@ namespace creaturevisualizer
 
 						swatch.Color       = color;
 						swatch.Description = f.Description;
-						_tiles[_firstBlankId] = swatch;
-
-						InvalidateSwatch(_tiles[_firstBlankId]);
+						_tiles[_id] = swatch;
 
 						++_firstBlankId;
 
 //						SwatchIo.Write(SwatchFile, _tiles);
 					}
+					else
+						_id = -1;
 				}
 			}
-			_highlight = false;
+
+			if (_id != -1)
+				InvalidateSwatch(_tiles[_id]);
 		}
 
-		bool ColorExists(object color)
+		int ColorExists(object color)
 		{
 			for (int id = 0; id != _tiles.Length; ++id)
 			{
 				if (_tiles[id].Color.Equals(color))
-					return true;
+					return id;
 			}
-			return false;
-		}
-
-		void SetHighlight(bool highlight)
-		{
-			if (_firstBlankId != MaxTiles)
-			{
-				_highlight = highlight;
-				InvalidateSwatch(_tiles[_firstBlankId]);
-			}
-			else
-				_highlight = false;
+			return _firstBlankId;
 		}
 
 		void InvalidateSwatch(Swatch swatch)
@@ -387,6 +366,7 @@ namespace creaturevisualizer
 		ToolTip colorTip;
 		MenuItem itDelete;
 		MenuItem itRelabel;
+		MenuItem itColor;
 		ContextMenu context;
 
 
@@ -405,6 +385,7 @@ namespace creaturevisualizer
 			this.colorTip = new System.Windows.Forms.ToolTip(this.components);
 			this.itDelete = new System.Windows.Forms.MenuItem();
 			this.itRelabel = new System.Windows.Forms.MenuItem();
+			this.itColor = new System.Windows.Forms.MenuItem();
 			this.context = new System.Windows.Forms.ContextMenu();
 			this.SuspendLayout();
 			// 
@@ -414,25 +395,25 @@ namespace creaturevisualizer
 			// 
 			// itDelete
 			// 
-			this.itDelete.Index = 0;
+			this.itDelete.Index = -1;
 			this.itDelete.Text = "delete";
 			this.itDelete.Click += new System.EventHandler(this.click_context_delete);
 			// 
 			// itRelabel
 			// 
-			this.itRelabel.Index = 1;
+			this.itRelabel.Index = -1;
 			this.itRelabel.Text = "relabel";
 			this.itRelabel.Click += new System.EventHandler(this.click_context_relabel);
 			// 
-			// contextMenu
+			// itColor
 			// 
-			this.context.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-			this.itRelabel,
-			this.itDelete});
+			this.itColor.Index = -1;
+			this.itColor.Text = "add active color";
+			this.itColor.Click += new System.EventHandler(this.click_context_color);
 			// 
 			// SwatchControl
 			// 
-			this.AllowDrop = true;
+			this.DoubleBuffered = true;
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Margin = new System.Windows.Forms.Padding(0);
 			this.Name = "SwatchControl";

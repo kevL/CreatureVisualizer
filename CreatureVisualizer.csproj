@@ -77,7 +77,6 @@
     <Compile Include="Color\SwatchControl.cs" />
     <Compile Include="Color\SwatchIo.cs" />
     <Compile Include="Color\Swatch.cs" />
-    <Compile Include="Color\Dragger.cs" />
     <Compile Include="Color\ColorSpaceHsb.cs" />
     <Compile Include="Color\HSB.cs" />
     <Compile Include="Color\ColorSpaceRgb.cs" />
@@ -124,9 +123,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Color\SwatchControl.resx">
       <DependentUpon>SwatchControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Color\Dragger.resx">
-      <DependentUpon>Dragger.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Color\ColorSpaceHsb.resx">
       <DependentUpon>ColorSpaceHsb.cs</DependentUpon>

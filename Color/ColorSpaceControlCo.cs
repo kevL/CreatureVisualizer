@@ -162,6 +162,7 @@ namespace creaturevisualizer
 			this.rb_Co.Name = "rb_Co";
 			this.rb_Co.Size = new System.Drawing.Size(30, 20);
 			this.rb_Co.TabIndex = 0;
+			this.rb_Co.TabStop = true;
 			this.rb_Co.Click += new System.EventHandler(this.click_rb);
 			// 
 			// ColorSpaceControlCo

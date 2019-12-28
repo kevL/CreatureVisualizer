@@ -380,24 +380,6 @@ namespace creaturevisualizer
 		}
 
 
-/*		bool SetActiveColorbox(ColorBox bo)
-		{
-			if (!bo.IsActive)
-			{
-				if (bo == colorbox1)
-				{
-					colorbox1.IsActive = true;
-					colorbox0.IsActive = false;
-				}
-				else //if (bo == colorbox0)
-				{
-					colorbox1.IsActive = false;
-					colorbox0.IsActive = true;
-				}
-				return true;
-			}
-			return false;
-		} */
 		ColorBox SwapActiveColorbox()
 		{
 			if (GetActiveColorbox() == colorbot)
@@ -412,7 +394,7 @@ namespace creaturevisualizer
 			return colorbot;
 		}
 
-		ColorBox GetActiveColorbox()
+		internal ColorBox GetActiveColorbox()
 		{
 			if (colortop.IsActive)
 				return colortop;
@@ -479,6 +461,7 @@ namespace creaturevisualizer
 			this.colorfield.Name = "colorfield";
 			this.colorfield.Size = new System.Drawing.Size(256, 256);
 			this.colorfield.TabIndex = 0;
+			this.colorfield.TabStop = false;
 			this.colorfield.ColorSelected += new creaturevisualizer.ColorSelectedEventHandler(this.colorselected_field);
 			// 
 			// tb_Hex
@@ -526,18 +509,19 @@ namespace creaturevisualizer
 			this.colorslider.Name = "colorslider";
 			this.colorslider.Size = new System.Drawing.Size(36, 267);
 			this.colorslider.TabIndex = 1;
+			this.colorslider.TabStop = false;
 			this.colorslider.Value = 0;
 			this.colorslider.SliderChanged += new creaturevisualizer.SliderChangedEventHandler(this.sliderchanged_slider);
 			// 
 			// swatches
 			// 
-			this.swatches.AllowDrop = true;
 			this.swatches.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.swatches.Location = new System.Drawing.Point(395, 8);
 			this.swatches.Margin = new System.Windows.Forms.Padding(0);
 			this.swatches.Name = "swatches";
 			this.swatches.Size = new System.Drawing.Size(93, 309);
 			this.swatches.TabIndex = 10;
+			this.swatches.TabStop = false;
 			this.swatches.SwatchSelected += new creaturevisualizer.SwatchSelectedEventHandler(this.swatchselected_swatches);
 			// 
 			// rgbColorSpace
