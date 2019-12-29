@@ -1140,7 +1140,7 @@ namespace creaturevisualizer
 				else
 					color = _sano.ColorControl.Color = _panel.Light.Color.DiffuseColor;
 
-				_sano.ColorControl.InitInactiveColorbox(color);
+				_sano.ColorControl.InitializeColor(color);
 
 
 				if (_sano.ShowDialog(this) == DialogResult.OK)
@@ -1189,7 +1189,7 @@ namespace creaturevisualizer
 				else
 					color = _sano.ColorControl.Color = _panel.Light.Color.SpecularColor;
 
-				_sano.ColorControl.InitInactiveColorbox(color);
+				_sano.ColorControl.InitializeColor(color);
 
 
 				if (_sano.ShowDialog(this) == DialogResult.OK)
@@ -1239,7 +1239,7 @@ namespace creaturevisualizer
 				else
 					color = _sano.ColorControl.Color = _panel.Light.Color.AmbientColor;
 
-				_sano.ColorControl.InitInactiveColorbox(color);
+				_sano.ColorControl.InitializeColor(color);
 
 
 				if (_sano.ShowDialog(this) == DialogResult.OK)

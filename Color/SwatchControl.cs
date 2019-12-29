@@ -53,26 +53,31 @@ namespace creaturevisualizer
 
 			if (!ColorF.reallyDesignMode)
 			{
-				_path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+				_path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData); // local userdir
 				_path = Path.Combine(_path, SwatchFile);
 
 				if (!File.Exists(_path))
 				{
-					_path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+					_path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData); // roaming userdir
 					_path = Path.Combine(_path, SwatchFile);
 				}
 
 				if (File.Exists(_path))
 				{
 					_fileSwatches = SwatchIo.Read(_path);
-				}
-/*				else
-				{
-//					SwatchIo.Create();
-//					_swatchlist = SwatchIo.ReadSwatches("ColorSwatches.xml", true);
 
-					// TODO: "CustomSwatches.xml was not found in either the Local or Roaming directories."
-				} */
+					if (_fileSwatches.Count < MaxTiles)
+						_firstBlankId = _fileSwatches.Count;
+					else
+						_firstBlankId = MaxTiles;
+
+					CreateGraphic();
+				}
+//				else
+//				{
+//					SwatchIo.Create();
+//					_fileSwatches = SwatchIo.ReadSwatches("ColorSwatches.xml", true);
+//				}
 			}
 		}
 		#endregion cTor
@@ -81,7 +86,7 @@ namespace creaturevisualizer
 		#region Handlers (override)
 		protected override void OnPaint(PaintEventArgs e)
 		{
-			if (_graphic != null || (_graphic = CreateGraphic()) != null)
+			if (_graphic != null)
 			{
 				e.Graphics.DrawImage(_graphic, 0,0);
 
@@ -218,7 +223,7 @@ namespace creaturevisualizer
 			}
 		}
 
-		void click_context_color(object sender, EventArgs e)
+		void click_context_append(object sender, EventArgs e)
 		{
 			Color color = ColorF.That.ColorControl.GetActiveColorbox().BackColor;
 
@@ -229,6 +234,8 @@ namespace creaturevisualizer
 				{
 					if (f.ShowDialog(this) == DialogResult.OK)
 					{
+						++_firstBlankId;
+
 						Swatch swatch = _tiles[id];
 
 						using (Graphics graphics = Graphics.FromImage(_graphic))
@@ -243,8 +250,6 @@ namespace creaturevisualizer
 						swatch.Description = f.Description;
 						_tiles[id] = swatch;
 
-						++_firstBlankId;
-
 //						SwatchIo.Write(SwatchFile, _tiles);
 					}
 				}
@@ -256,19 +261,19 @@ namespace creaturevisualizer
 
 
 		#region Methods
-		Bitmap CreateGraphic()
+		void CreateGraphic()
 		{
 			if (_fileSwatches != null)
 			{
-				var graphic = new Bitmap(Width, Height);
+				_graphic = new Bitmap(Width, Height);
 
-				using (Graphics graphics = Graphics.FromImage(graphic))
+				using (Graphics graphics = Graphics.FromImage(_graphic))
 				{
 					int x = _x;
 					int y = _y;
 
 					int id = 0;
-					for (; id != _fileSwatches.Count && id != MaxTiles; ++id)
+					for (; id != _firstBlankId; ++id)
 					{
 						Swatch swatch = _fileSwatches[id];
 						swatch.Location = new Point(x,y);
@@ -278,17 +283,15 @@ namespace creaturevisualizer
 						UpdatePositions(id, ref x, ref y);
 					}
 
-					_firstBlankId = id;
-
 					for (; id != MaxTiles; ++id)
 					{
 						DrawSwatch(graphics, (_tiles[id] = new Swatch(new Point(x,y))));
 						UpdatePositions(id, ref x, ref y);
 					}
 				}
-				return graphic;
 			}
-			return null;
+			else
+				_graphic = null;
 		}
 
 		void DrawSwatch(Graphics graphics, Swatch swatch)
@@ -327,14 +330,34 @@ namespace creaturevisualizer
 			return -1;
 		}
 
-		int ColorExists(object color)
+		int ColorExists(Color color)
 		{
+			Color color0;
 			for (int id = 0; id != _tiles.Length; ++id)
 			{
-				if (_tiles[id].Color.Equals(color))
+				color0 = _tiles[id].Color;
+				if (   color0.A == color.A
+					&& color0.R == color.R
+					&& color0.G == color.G
+					&& color0.B == color.B)
+				{
 					return id;
+				}
 			}
 			return _firstBlankId;
+		}
+
+		internal void SelectSwatch(Color color)
+		{
+			int id;
+			if (_sel != -1)
+			{
+				id = _sel; _sel = -1;
+				InvalidateSwatch(_tiles[id]);
+			}
+
+			if ((id = ColorExists(color)) != _firstBlankId)
+				InvalidateSwatch(_tiles[_sel = id]);
 		}
 
 		void InvalidateSwatch(Swatch swatch)
@@ -378,7 +401,7 @@ namespace creaturevisualizer
 			// 
 			this.itAppend.Index = -1;
 			this.itAppend.Text = "append color";
-			this.itAppend.Click += new System.EventHandler(this.click_context_color);
+			this.itAppend.Click += new System.EventHandler(this.click_context_append);
 			// 
 			// SwatchControl
 			// 
@@ -386,6 +409,7 @@ namespace creaturevisualizer
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Margin = new System.Windows.Forms.Padding(0);
 			this.Name = "SwatchControl";
+			this.Size = new System.Drawing.Size(93, 309);
 			this.ResumeLayout(false);
 
 		}

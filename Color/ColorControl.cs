@@ -382,16 +382,23 @@ namespace creaturevisualizer
 
 		ColorBox SwapActiveColorbox()
 		{
+			ColorBox act;
+
 			if (GetActiveColorbox() == colorbot)
 			{
 				colortop.IsActive = true;
 				colorbot.IsActive = false;
-				return colortop;
+				act = colortop;
+			}
+			else
+			{
+				colortop.IsActive = false;
+				colorbot.IsActive = true;
+				act = colorbot;
 			}
 
-			colortop.IsActive = false;
-			colorbot.IsActive = true;
-			return colorbot;
+			swatches.SelectSwatch(act.BackColor);
+			return act;
 		}
 
 		internal ColorBox GetActiveColorbox()
@@ -402,9 +409,10 @@ namespace creaturevisualizer
 			return colorbot;
 		}
 
-		internal void InitInactiveColorbox(Color color)
+		internal void InitializeColor(Color color)
 		{
 			colorbot.BackColor = color;
+			swatches.SelectSwatch(color);
 		}
 
 
