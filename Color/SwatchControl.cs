@@ -101,8 +101,7 @@ namespace creaturevisualizer
 					InvalidateSwatch(_tiles[id]);
 				}
 
-				id = GetTileId(e.X, e.Y);
-				if (id != -1)
+				if ((id = GetTileId(e.X, e.Y)) != -1)
 				{
 					Swatch tile = _tiles[id];
 
@@ -117,15 +116,11 @@ namespace creaturevisualizer
 								goto case MouseButtons.Right;
 
 							case MouseButtons.Right:
-								_sel = id;
+								InvalidateSwatch(_tiles[_sel = id]);
 								break;
 						}
 					}
 				}
-
-				if (_sel != -1)
-					InvalidateSwatch(_tiles[_sel]);
-
 
 				if (e.Button == MouseButtons.Right)
 				{
