@@ -42,7 +42,7 @@ namespace creaturevisualizer
 
 		Bitmap _graphic;
 
-		int _id = -1;
+		int _sel = -1;
 		int _firstBlankId;
 		#endregion Fields
 
@@ -83,8 +83,8 @@ namespace creaturevisualizer
 			{
 				e.Graphics.DrawImage(_graphic, 0,0);
 
-				if (_id != -1)
-					e.Graphics.DrawRectangle(Pens.White, _tiles[_id].Rect);
+				if (_sel != -1)
+					e.Graphics.DrawRectangle(Pens.White, _tiles[_sel].Rect);
 			}
 		}
 
@@ -93,13 +93,15 @@ namespace creaturevisualizer
 			if (_graphic != null
 				&& e.Button == MouseButtons.Left || e.Button == MouseButtons.Right)
 			{
-				if (_id != -1)
+				int id;
+
+				if (_sel != -1)
 				{
-					InvalidateSwatch(_tiles[_id]);
-					_id = -1;
+					id = _sel; _sel = -1;
+					InvalidateSwatch(_tiles[id]);
 				}
 
-				int id = GetTileId(e.X, e.Y);
+				id = GetTileId(e.X, e.Y);
 				if (id != -1)
 				{
 					Swatch tile = _tiles[id];
@@ -115,14 +117,14 @@ namespace creaturevisualizer
 								goto case MouseButtons.Right;
 
 							case MouseButtons.Right:
-								_id = id;
+								_sel = id;
 								break;
 						}
 					}
 				}
 
-				if (_id != -1)
-					InvalidateSwatch(_tiles[_id]);
+				if (_sel != -1)
+					InvalidateSwatch(_tiles[_sel]);
 
 
 				if (e.Button == MouseButtons.Right)
@@ -130,9 +132,9 @@ namespace creaturevisualizer
 					context.MenuItems.Clear();
 
 					if (_firstBlankId != MaxTiles)
-						context.MenuItems.Add(itColor);
+						context.MenuItems.Add(itAppend);
 
-					if (_id != -1)
+					if (_sel != -1)
 					{
 						if (_firstBlankId != MaxTiles)
 							context.MenuItems.Add("-");
@@ -174,7 +176,7 @@ namespace creaturevisualizer
 				--_firstBlankId;
 
 				Swatch swatch, swatch1;
-				int id = _id; _id = -1;
+				int id = _sel; _sel = -1;
 
 				for (; id != MaxTiles; ++id)
 				{
@@ -206,14 +208,14 @@ namespace creaturevisualizer
 
 		void click_context_relabel(object sender, EventArgs e)
 		{
-			Swatch swatch = _tiles[_id];
+			Swatch swatch = _tiles[_sel];
 			using (var f = new SwatchDialog(swatch))
 			{
 				if (f.ShowDialog(this) == DialogResult.OK
 					&& f.Description != swatch.Description)
 				{
 					swatch.Description = f.Description;
-					_tiles[_id] = swatch; // effin structs
+					_tiles[_sel] = swatch; // effin structs
 
 //					SwatchIo.Write(SwatchFile, _tiles);
 				}
@@ -222,18 +224,16 @@ namespace creaturevisualizer
 
 		void click_context_color(object sender, EventArgs e)
 		{
-			if (_id != -1)
-				InvalidateSwatch(_tiles[_id]);
-
 			Color color = ColorF.That.ColorControl.GetActiveColorbox().BackColor;
 
-			if ((_id = ColorExists(color)) == _firstBlankId)
+			int id = ColorExists(color);
+			if (id == _firstBlankId)
 			{
 				using (var f = new SwatchDialog(color))
 				{
 					if (f.ShowDialog(this) == DialogResult.OK)
 					{
-						Swatch swatch = _tiles[_id];
+						Swatch swatch = _tiles[id];
 
 						using (Graphics graphics = Graphics.FromImage(_graphic))
 						{
@@ -245,19 +245,16 @@ namespace creaturevisualizer
 
 						swatch.Color       = color;
 						swatch.Description = f.Description;
-						_tiles[_id] = swatch;
+						_tiles[id] = swatch;
 
 						++_firstBlankId;
 
 //						SwatchIo.Write(SwatchFile, _tiles);
 					}
-					else
-						_id = -1;
 				}
 			}
 
-			if (_id != -1)
-				InvalidateSwatch(_tiles[_id]);
+			InvalidateSwatch(_tiles[_sel = id]);
 		}
 		#endregion Handlers
 
@@ -361,7 +358,7 @@ namespace creaturevisualizer
 		ToolTip colorTip;
 		MenuItem itDelete;
 		MenuItem itRelabel;
-		MenuItem itColor;
+		MenuItem itAppend;
 		ContextMenu context;
 
 
@@ -380,7 +377,7 @@ namespace creaturevisualizer
 			this.colorTip = new System.Windows.Forms.ToolTip(this.components);
 			this.itDelete = new System.Windows.Forms.MenuItem();
 			this.itRelabel = new System.Windows.Forms.MenuItem();
-			this.itColor = new System.Windows.Forms.MenuItem();
+			this.itAppend = new System.Windows.Forms.MenuItem();
 			this.context = new System.Windows.Forms.ContextMenu();
 			this.SuspendLayout();
 			// 
@@ -400,11 +397,11 @@ namespace creaturevisualizer
 			this.itRelabel.Text = "relabel";
 			this.itRelabel.Click += new System.EventHandler(this.click_context_relabel);
 			// 
-			// itColor
+			// itAppend
 			// 
-			this.itColor.Index = -1;
-			this.itColor.Text = "add active color";
-			this.itColor.Click += new System.EventHandler(this.click_context_color);
+			this.itAppend.Index = -1;
+			this.itAppend.Text = "append";
+			this.itAppend.Click += new System.EventHandler(this.click_context_color);
 			// 
 			// SwatchControl
 			// 
