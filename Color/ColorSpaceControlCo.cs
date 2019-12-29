@@ -135,6 +135,7 @@ namespace creaturevisualizer
 			// 
 			// tb_Val
 			// 
+			this.tb_Val.BackColor = System.Drawing.Color.White;
 			this.tb_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.tb_Val.Location = new System.Drawing.Point(30, 0);
 			this.tb_Val.Margin = new System.Windows.Forms.Padding(0);

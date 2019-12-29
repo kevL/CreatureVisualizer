@@ -441,16 +441,16 @@ namespace creaturevisualizer
 		void InitializeComponent()
 		{
 			this.colorfield = new creaturevisualizer.ColorField();
-			this.tb_Hex = new creaturevisualizer.TextboxRestrictive();
 			this.colortop = new creaturevisualizer.ColorBox();
 			this.colorbot = new creaturevisualizer.ColorBox();
 			this.colorslider = new creaturevisualizer.ColorSlider();
 			this.swatches = new creaturevisualizer.SwatchControl();
 			this.rgbColorSpace = new creaturevisualizer.ColorSpaceRgb();
 			this.hsbColorSpace = new creaturevisualizer.ColorSpaceHsb();
+			this.tb_Hex = new creaturevisualizer.TextboxRestrictive();
+			this.tb_Alpha = new creaturevisualizer.TextboxRestrictive();
 			this.la_Hex = new System.Windows.Forms.Label();
 			this.la_Alpha = new System.Windows.Forms.Label();
-			this.tb_Alpha = new creaturevisualizer.TextboxRestrictive();
 			this.SuspendLayout();
 			// 
 			// colorfield
@@ -463,19 +463,6 @@ namespace creaturevisualizer
 			this.colorfield.TabIndex = 0;
 			this.colorfield.TabStop = false;
 			this.colorfield.ColorSelected += new creaturevisualizer.ColorSelectedEventHandler(this.colorselected_field);
-			// 
-			// tb_Hex
-			// 
-			this.tb_Hex.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.tb_Hex.Location = new System.Drawing.Point(344, 220);
-			this.tb_Hex.Margin = new System.Windows.Forms.Padding(0);
-			this.tb_Hex.MaxLength = 6;
-			this.tb_Hex.Name = "tb_Hex";
-			this.tb_Hex.Restrict = creaturevisualizer.TextboxRestrictive.Type.Hecate;
-			this.tb_Hex.Size = new System.Drawing.Size(45, 20);
-			this.tb_Hex.TabIndex = 7;
-			this.tb_Hex.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.tb_Hex.TextChanged += new System.EventHandler(this.textchanged_hecate);
 			// 
 			// colortop
 			// 
@@ -546,6 +533,34 @@ namespace creaturevisualizer
 			this.hsbColorSpace.SelectedCoChanged += new creaturevisualizer.ColorSpaceEventHandler(this.selectedcscchanged_colorspace);
 			this.hsbColorSpace.ValueChanged += new creaturevisualizer.ColorSpaceEventHandler(this.valuechanged_colorspace);
 			// 
+			// tb_Hex
+			// 
+			this.tb_Hex.BackColor = System.Drawing.Color.White;
+			this.tb_Hex.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.tb_Hex.Location = new System.Drawing.Point(344, 220);
+			this.tb_Hex.Margin = new System.Windows.Forms.Padding(0);
+			this.tb_Hex.MaxLength = 6;
+			this.tb_Hex.Name = "tb_Hex";
+			this.tb_Hex.Restrict = creaturevisualizer.TextboxRestrictive.Type.Hecate;
+			this.tb_Hex.Size = new System.Drawing.Size(45, 20);
+			this.tb_Hex.TabIndex = 7;
+			this.tb_Hex.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.tb_Hex.TextChanged += new System.EventHandler(this.textchanged_hecate);
+			// 
+			// tb_Alpha
+			// 
+			this.tb_Alpha.BackColor = System.Drawing.Color.White;
+			this.tb_Alpha.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.tb_Alpha.Location = new System.Drawing.Point(344, 245);
+			this.tb_Alpha.Margin = new System.Windows.Forms.Padding(0);
+			this.tb_Alpha.MaxLength = 3;
+			this.tb_Alpha.Name = "tb_Alpha";
+			this.tb_Alpha.Restrict = creaturevisualizer.TextboxRestrictive.Type.Byte;
+			this.tb_Alpha.Size = new System.Drawing.Size(45, 20);
+			this.tb_Alpha.TabIndex = 9;
+			this.tb_Alpha.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.tb_Alpha.TextChanged += new System.EventHandler(this.textchanged_alpha);
+			// 
 			// la_Hex
 			// 
 			this.la_Hex.Location = new System.Drawing.Point(305, 220);
@@ -565,19 +580,6 @@ namespace creaturevisualizer
 			this.la_Alpha.TabIndex = 8;
 			this.la_Alpha.Text = "alpha";
 			this.la_Alpha.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// tb_Alpha
-			// 
-			this.tb_Alpha.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.tb_Alpha.Location = new System.Drawing.Point(344, 245);
-			this.tb_Alpha.Margin = new System.Windows.Forms.Padding(0);
-			this.tb_Alpha.MaxLength = 3;
-			this.tb_Alpha.Name = "tb_Alpha";
-			this.tb_Alpha.Restrict = creaturevisualizer.TextboxRestrictive.Type.Byte;
-			this.tb_Alpha.Size = new System.Drawing.Size(45, 20);
-			this.tb_Alpha.TabIndex = 9;
-			this.tb_Alpha.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.tb_Alpha.TextChanged += new System.EventHandler(this.textchanged_alpha);
 			// 
 			// ColorControl
 			// 
