@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel;
 using System.Windows.Forms;
 
 
@@ -74,22 +73,11 @@ namespace creaturevisualizer
 
 
 		#region Designer
-		Container components = null;
-
 		ColorControl colorControl;
 
 		Button bu_Okay;
 		Button bu_Cancel;
 		Label la_console;
-
-
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && components != null)
-				components.Dispose();
-
-			base.Dispose(disposing);
-		}
 
 
 		void InitializeComponent()
