@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+//using System.IO;
 //using System.Globalization;
-using System.Text;
+//using System.Text;
 using System.Xml;
 
 
@@ -13,111 +14,149 @@ namespace creaturevisualizer
 	{
 		internal static List<Swatch> Read(string path)
 		{
-			XmlTextReader reader = null;
+//			XmlTextReader reader = null;
+			XmlReader reader = null;
 			try
 			{
-				reader = new XmlTextReader(path);
+				var swatches = new List<Swatch>();
 
-				string text;
+//				reader = new XmlTextReader(path);
+//				var @set = new XmlReaderSettings();
+//				@set.IgnoreComments   = true;
+//				@set.IgnoreWhitespace = true;
+				reader = XmlReader.Create(path);
+
+				string val;
 				int r = 0;
 				int g = 0;
 				int b = 0;
 				int a = 255;
 
-				bool flag = false;
-
-				var swatches = new List<Swatch>();
+				bool checkfortext = false;
 
 				while (reader.Read())
 				{
 					if (reader.NodeType == XmlNodeType.Element && reader.Name == "color")
 					{
-						if ((text = reader.GetAttribute("red")) == null
-							|| !Int32.TryParse(text, out r)
+						if ((val = reader.GetAttribute("red")) == null
+							|| !Int32.TryParse(val, out r)
 							|| r < 0 || r > Byte.MaxValue)
 						{
 							r = 0;
 						}
 
-						if ((text = reader.GetAttribute("green")) == null
-							|| !Int32.TryParse(text, out g)
+						if ((val = reader.GetAttribute("green")) == null
+							|| !Int32.TryParse(val, out g)
 							|| g < 0 || g > Byte.MaxValue)
 						{
 							g = 0;
 						}
 
-						if ((text = reader.GetAttribute("blue")) == null
-							|| !Int32.TryParse(text, out b)
+						if ((val = reader.GetAttribute("blue")) == null
+							|| !Int32.TryParse(val, out b)
 							|| b < 0 || b > Byte.MaxValue)
 						{
 							b = 0;
 						}
 
-						if ((text = reader.GetAttribute("alpha")) == null
-							|| !Int32.TryParse(text, out a)
+						if ((val = reader.GetAttribute("alpha")) == null
+							|| !Int32.TryParse(val, out a)
 							|| a < 0 || a > Byte.MaxValue)
 						{
 							a = 255;
 						}
 
-						flag = true;
-					}
-					else if (flag && reader.NodeType == XmlNodeType.Text)
+						checkfortext = true;	// -> deal w/ text on next iteration (ie. the text is not in
+					}							// an element per se, so the reader has to do its next read)
+					else if (checkfortext)
 					{
-						Color color = Color.FromArgb(a,r,g,b);
-						swatches.Add(new Swatch(color, reader.ReadString()));
-
-						flag = false;
+						checkfortext = false;
+						if (reader.NodeType == XmlNodeType.Text)
+						{
+							Color color = Color.FromArgb(a,r,g,b);
+							swatches.Add(new Swatch(color, reader.ReadString()));
+						}
 					}
 				}
+				ColorF.That.Print("Swatches file loaded");
 				return swatches;
+			}
+			catch
+			{
+				ColorF.That.Print("ERROR reading swatches file");
+				return null;
 			}
 			finally
 			{
-				reader.Close();
+				if (reader != null)
+				{
+					reader.Close();
+					((IDisposable)reader).Dispose(); // not sure if both are needed
+				}
 			}
 		}
 
-		internal static void Write(string path, Swatch[] colors)
+		internal static void Write(string path, Swatch[] tiles)
 		{
-			XmlTextWriter writer = null;
+			var @set = new XmlWriterSettings();
+			@set.Indent = true;
+
+//			XmlTextWriter writer = null;
+			XmlWriter writer = null;
 			try
 			{
-				writer = new XmlTextWriter(path, Encoding.UTF8);
-				writer.Formatting = Formatting.Indented;
-				writer.WriteStartDocument(standalone: false);
+//				writer = new XmlTextWriter(path, Encoding.UTF8);
+//				writer.Formatting = Formatting.Indented;
+
+				writer = XmlWriter.Create(path, @set);
+
+				writer.WriteStartDocument(false);
+
 				writer.WriteStartElement("swatches");
 				writer.WriteStartElement("swatch");
-				writer.WriteAttributeString("id", "CustomSwatches"); // -> "GeneralRgb"
-				writer.WriteStartElement("colors");
+				writer.WriteAttributeString("id", "GeneralRgb");	// kL_note: used to be "CustomSwatches"
+				writer.WriteStartElement("colors");					// but my CustomSwatches.xml file, which hasn't been touched
+																	// says "GeneralRgb"
 
-				for (int i = 0; i != colors.Length; ++i)
+				Swatch swatch;
+				for (int i = 0; i != tiles.Length; ++i)
 				{
-					Swatch swatch = colors[i];
+					swatch = tiles[i];
 					if (swatch.Color != Color.Empty)
 					{
 						writer.WriteStartElement("color");
+
 						writer.WriteAttributeString("red",   swatch.Color.R.ToString());
 						writer.WriteAttributeString("green", swatch.Color.G.ToString());
 						writer.WriteAttributeString("blue",  swatch.Color.B.ToString());
 						writer.WriteAttributeString("alpha", swatch.Color.A.ToString());
+
 						writer.WriteString(swatch.Description);
-						writer.WriteEndElement();
+
+						writer.WriteEndElement(); // "color"
 					}
+					else
+						break;
 				}
 
-				writer.WriteEndElement();
-				writer.WriteEndElement();
-				writer.WriteEndElement();
+				writer.WriteEndElement(); // "colors"
+				writer.WriteEndElement(); // "swatch"
+				writer.WriteEndElement(); // "swatches"
 				writer.WriteEndDocument();
+
+				ColorF.That.Print("Swatch file saved");
 			}
-//			catch (IOException)
-//			{
-//				throw;
-//			}
+			catch //(IOException)
+			{
+				ColorF.That.Print("ERROR writing swatch file");
+			}
 			finally
 			{
-				writer.Close();
+				if (writer != null)
+				{
+					writer.Close();
+					((IDisposable)writer).Dispose(); // not sure if both are needed
+				}
 			}
 		}
 

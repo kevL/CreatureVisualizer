@@ -467,7 +467,7 @@ namespace creaturevisualizer
 			// tb_Hex
 			// 
 			this.tb_Hex.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.tb_Hex.Location = new System.Drawing.Point(345, 220);
+			this.tb_Hex.Location = new System.Drawing.Point(344, 220);
 			this.tb_Hex.Margin = new System.Windows.Forms.Padding(0);
 			this.tb_Hex.MaxLength = 6;
 			this.tb_Hex.Name = "tb_Hex";
@@ -551,7 +551,7 @@ namespace creaturevisualizer
 			this.la_Hex.Location = new System.Drawing.Point(305, 220);
 			this.la_Hex.Margin = new System.Windows.Forms.Padding(0);
 			this.la_Hex.Name = "la_Hex";
-			this.la_Hex.Size = new System.Drawing.Size(40, 20);
+			this.la_Hex.Size = new System.Drawing.Size(39, 20);
 			this.la_Hex.TabIndex = 6;
 			this.la_Hex.Text = "hex";
 			this.la_Hex.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -561,7 +561,7 @@ namespace creaturevisualizer
 			this.la_Alpha.Location = new System.Drawing.Point(305, 245);
 			this.la_Alpha.Margin = new System.Windows.Forms.Padding(0);
 			this.la_Alpha.Name = "la_Alpha";
-			this.la_Alpha.Size = new System.Drawing.Size(40, 20);
+			this.la_Alpha.Size = new System.Drawing.Size(39, 20);
 			this.la_Alpha.TabIndex = 8;
 			this.la_Alpha.Text = "alpha";
 			this.la_Alpha.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -569,7 +569,7 @@ namespace creaturevisualizer
 			// tb_Alpha
 			// 
 			this.tb_Alpha.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.tb_Alpha.Location = new System.Drawing.Point(345, 245);
+			this.tb_Alpha.Location = new System.Drawing.Point(344, 245);
 			this.tb_Alpha.Margin = new System.Windows.Forms.Padding(0);
 			this.tb_Alpha.MaxLength = 3;
 			this.tb_Alpha.Name = "tb_Alpha";

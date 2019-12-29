@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -52,26 +51,29 @@ namespace creaturevisualizer
 		{
 			InitializeComponent();
 
-			_path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-			_path = Path.Combine(_path, SwatchFile);
-
-			if (!File.Exists(_path))
+			if (!ColorF.reallyDesignMode)
 			{
-				_path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+				_path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 				_path = Path.Combine(_path, SwatchFile);
-			}
 
-			if (File.Exists(_path))
-			{
-				_fileSwatches = SwatchIo.Read(_path);
-			}
-/*			else
-			{
-//				SwatchIo.Create();
-//				_swatchlist = SwatchIo.ReadSwatches("ColorSwatches.xml", true);
+				if (!File.Exists(_path))
+				{
+					_path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+					_path = Path.Combine(_path, SwatchFile);
+				}
 
-				// TODO: "CustomSwatches.xml was not found in either the Local or Roaming directories."
-			} */
+				if (File.Exists(_path))
+				{
+					_fileSwatches = SwatchIo.Read(_path);
+				}
+/*				else
+				{
+//					SwatchIo.Create();
+//					_swatchlist = SwatchIo.ReadSwatches("ColorSwatches.xml", true);
+
+					// TODO: "CustomSwatches.xml was not found in either the Local or Roaming directories."
+				} */
+			}
 		}
 		#endregion cTor
 
@@ -142,6 +144,9 @@ namespace creaturevisualizer
 			}
 		}
 
+
+		string _desc;
+
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
 			int id = GetTileId(e.X, e.Y);
@@ -149,16 +154,12 @@ namespace creaturevisualizer
 			{
 				Swatch tile = _tiles[id];
 
-				if (tile.Color != Color.Empty && tile.Contains(e.X, e.Y))
+				if (tile.Color != Color.Empty && tile.Contains(e.X, e.Y)
+					&& tile.Description != _desc)
 				{
-					if (!tile.Description.Equals(colorTip.GetToolTip(this)))
-						colorTip.SetToolTip(this, tile.Description);
-
-					colorTip.Active = true;
-					return;
+					ColorF.That.Print(_desc = tile.Description);
 				}
 			}
-			colorTip.Active = false;
 		}
 		#endregion Handlers (override)
 
@@ -259,9 +260,9 @@ namespace creaturevisualizer
 		{
 			if (_fileSwatches != null)
 			{
-				var b = new Bitmap(Width, Height);
+				var graphic = new Bitmap(Width, Height);
 
-				using (Graphics graphics = Graphics.FromImage(b))
+				using (Graphics graphics = Graphics.FromImage(graphic))
 				{
 					int x = _x;
 					int y = _y;
@@ -284,9 +285,8 @@ namespace creaturevisualizer
 						DrawSwatch(graphics, (_tiles[id] = new Swatch(new Point(x,y))));
 						UpdatePositions(id, ref x, ref y);
 					}
-
-					return b;
 				}
+				return graphic;
 			}
 			return null;
 		}
@@ -348,37 +348,19 @@ namespace creaturevisualizer
 
 
 		#region Designer
-		IContainer components;
-
-		ToolTip colorTip;
 		MenuItem itDelete;
 		MenuItem itRelabel;
 		MenuItem itAppend;
 		ContextMenu context;
 
 
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && components != null)
-				components.Dispose();
-
-			base.Dispose(disposing);
-		}
-
-
 		void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
-			this.colorTip = new System.Windows.Forms.ToolTip(this.components);
 			this.itDelete = new System.Windows.Forms.MenuItem();
 			this.itRelabel = new System.Windows.Forms.MenuItem();
 			this.itAppend = new System.Windows.Forms.MenuItem();
 			this.context = new System.Windows.Forms.ContextMenu();
 			this.SuspendLayout();
-			// 
-			// colorTip
-			// 
-			this.colorTip.Active = false;
 			// 
 			// itDelete
 			// 
@@ -395,7 +377,7 @@ namespace creaturevisualizer
 			// itAppend
 			// 
 			this.itAppend.Index = -1;
-			this.itAppend.Text = "append";
+			this.itAppend.Text = "append color";
 			this.itAppend.Click += new System.EventHandler(this.click_context_color);
 			// 
 			// SwatchControl

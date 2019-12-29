@@ -9,6 +9,13 @@ namespace creaturevisualizer
 	sealed class ColorF
 		: Form
 	{
+		#region Fields (static)
+		internal static ColorF That;
+
+		internal static bool reallyDesignMode = true;
+		#endregion Fields (static)
+
+
 		#region Properties
 		internal ColorControl ColorControl
 		{
@@ -17,13 +24,13 @@ namespace creaturevisualizer
 		#endregion Properties
 
 
-		internal static ColorF That;
-
 		#region cTor
 		internal ColorF()
 		{
+			reallyDesignMode = false;	// -> cTor doesn't run in DesignMode.
+			That = this;				// -> req'd before InitializeComponent() by SwatchIo.Read()
+
 			InitializeComponent();
-			That = this;
 		}
 		#endregion cTor
 
@@ -34,7 +41,7 @@ namespace creaturevisualizer
 		string line3 = String.Empty;
 		string line4 = String.Empty;
 
-		// ColorF.That.Print("info you want to read");
+		// ColorF.That.Print("info that you want to user to see");
 		internal void Print(string text)
 		{
 			line4 = line3; line3 = line2; line2 = line1; line1 = text;
@@ -87,11 +94,43 @@ namespace creaturevisualizer
 
 		void InitializeComponent()
 		{
-			this.colorControl = new creaturevisualizer.ColorControl();
+			this.la_console = new System.Windows.Forms.Label();
 			this.bu_Okay = new System.Windows.Forms.Button();
 			this.bu_Cancel = new System.Windows.Forms.Button();
-			this.la_console = new System.Windows.Forms.Label();
+			this.colorControl = new creaturevisualizer.ColorControl();
 			this.SuspendLayout();
+			// 
+			// la_console
+			// 
+			this.la_console.BackColor = System.Drawing.SystemColors.Info;
+			this.la_console.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.la_console.ForeColor = System.Drawing.SystemColors.InfoText;
+			this.la_console.Location = new System.Drawing.Point(91, 301);
+			this.la_console.Margin = new System.Windows.Forms.Padding(0);
+			this.la_console.Name = "la_console";
+			this.la_console.Padding = new System.Windows.Forms.Padding(0, 1, 0, 0);
+			this.la_console.Size = new System.Drawing.Size(298, 17);
+			this.la_console.TabIndex = 3;
+			// 
+			// bu_Okay
+			// 
+			this.bu_Okay.DialogResult = System.Windows.Forms.DialogResult.OK;
+			this.bu_Okay.Location = new System.Drawing.Point(90, 270);
+			this.bu_Okay.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_Okay.Name = "bu_Okay";
+			this.bu_Okay.Size = new System.Drawing.Size(300, 29);
+			this.bu_Okay.TabIndex = 0;
+			this.bu_Okay.Text = "Book em Dano";
+			// 
+			// bu_Cancel
+			// 
+			this.bu_Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.bu_Cancel.Location = new System.Drawing.Point(3, 270);
+			this.bu_Cancel.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_Cancel.Name = "bu_Cancel";
+			this.bu_Cancel.Size = new System.Drawing.Size(83, 49);
+			this.bu_Cancel.TabIndex = 1;
+			this.bu_Cancel.Text = "Cancel";
 			// 
 			// colorControl
 			// 
@@ -104,44 +143,14 @@ namespace creaturevisualizer
 			this.colorControl.Size = new System.Drawing.Size(494, 322);
 			this.colorControl.TabIndex = 2;
 			// 
-			// bu_Okay
-			// 
-			this.bu_Okay.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.bu_Okay.Location = new System.Drawing.Point(90, 272);
-			this.bu_Okay.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_Okay.Name = "bu_Okay";
-			this.bu_Okay.Size = new System.Drawing.Size(300, 46);
-			this.bu_Okay.TabIndex = 0;
-			this.bu_Okay.Text = "BhereNOW";
-			// 
-			// bu_Cancel
-			// 
-			this.bu_Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.bu_Cancel.Location = new System.Drawing.Point(5, 272);
-			this.bu_Cancel.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_Cancel.Name = "bu_Cancel";
-			this.bu_Cancel.Size = new System.Drawing.Size(80, 46);
-			this.bu_Cancel.TabIndex = 1;
-			this.bu_Cancel.Text = "Cancel";
-			// 
-			// la_console
-			// 
-			this.la_console.Location = new System.Drawing.Point(135, 270);
-			this.la_console.Margin = new System.Windows.Forms.Padding(0);
-			this.la_console.Name = "la_console";
-			this.la_console.Size = new System.Drawing.Size(255, 55);
-			this.la_console.TabIndex = 3;
-			this.la_console.Text = "console output";
-			this.la_console.Visible = false;
-			// 
 			// ColorF
 			// 
 			this.AcceptButton = this.bu_Okay;
 			this.CancelButton = this.bu_Cancel;
 			this.ClientSize = new System.Drawing.Size(494, 322);
 			this.Controls.Add(this.la_console);
-			this.Controls.Add(this.bu_Cancel);
 			this.Controls.Add(this.bu_Okay);
+			this.Controls.Add(this.bu_Cancel);
 			this.Controls.Add(this.colorControl);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
