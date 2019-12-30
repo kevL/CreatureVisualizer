@@ -10,16 +10,19 @@ namespace creaturevisualizer
 		: UserControl
 	{
 		#region Properties
-		bool _isActive;
-		internal bool IsActive
+		bool _activated;
+		internal bool Activated
 		{
-			get { return _isActive; }
+			get { return _activated; }
 			set
 			{
-				_isActive = value;
+				_activated = value;
 				Invalidate();
 			}
 		}
+
+		byte Alpha
+		{ get; set; }
 		#endregion Properties
 
 
@@ -41,7 +44,7 @@ namespace creaturevisualizer
 			e.Graphics.DrawLine(Pens.Black, 1,         0, 1,         Height);
 			e.Graphics.DrawLine(Pens.Black, Width - 2, 0, Width - 2, Height);
 
-			if (IsActive)
+			if (Activated)
 			{
 				e.Graphics.DrawLine(Pens.Black, 0,         0, 0,         Height);
 				e.Graphics.DrawLine(Pens.Black, Width - 1, 0, Width - 1, Height);

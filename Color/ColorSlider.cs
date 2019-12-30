@@ -273,12 +273,12 @@ namespace creaturevisualizer
 	sealed class SliderChangedEventArgs
 		: EventArgs
 	{
-		internal int Value
+		internal int Val
 		{ get; private set; }
 
 		internal SliderChangedEventArgs(int val)
 		{
-			Value = val;
+			Val = val;
 		}
 	}
 

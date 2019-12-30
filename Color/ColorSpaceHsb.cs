@@ -12,15 +12,15 @@ namespace creaturevisualizer
 		{
 			get
 			{
-				return new HSB(cscHue.Val, cscSaturation.Val, cscBrightness.Val);
+				return new HSB(coHue.Val, coSat.Val, coBri.Val);
 			}
 			set
 			{
 				var hsb = (HSB)value;
 
-				cscHue       .Val = hsb.Hue;
-				cscSaturation.Val = hsb.Saturation;
-				cscBrightness.Val = hsb.Brightness;
+				coHue.Val = hsb.Hue;
+				coSat.Val = hsb.Saturation;
+				coBri.Val = hsb.Brightness;
 			}
 		}
 		#endregion Properties (override)
@@ -31,13 +31,13 @@ namespace creaturevisualizer
 		{
 			InitializeComponent();
 
-			cscHue       .tb_Val.SetRestrict(TextboxRestrictive.Type.Degree);
-			cscSaturation.tb_Val.SetRestrict(TextboxRestrictive.Type.Percent);
-			cscBrightness.tb_Val.SetRestrict(TextboxRestrictive.Type.Percent);
+			coHue.tb_Val.SetRestrict(TextboxRestrictive.Type.Degree);
+			coSat.tb_Val.SetRestrict(TextboxRestrictive.Type.Percent);
+			coBri.tb_Val.SetRestrict(TextboxRestrictive.Type.Percent);
 
-			ColorSpaceControls.Add(cscHue);
-			ColorSpaceControls.Add(cscSaturation);
-			ColorSpaceControls.Add(cscBrightness);
+			ColorSpaceControls.Add(coHue);
+			ColorSpaceControls.Add(coSat);
+			ColorSpaceControls.Add(coBri);
 		}
 		#endregion cTor
 
@@ -57,68 +57,68 @@ namespace creaturevisualizer
 
 
 		#region Designer
-		internal ColorSpaceControlCo cscHue; // default
-		ColorSpaceControlCo cscSaturation;
-		ColorSpaceControlCo cscBrightness;
+		internal ColorSpaceControlCo coHue; // default
+		ColorSpaceControlCo coSat;
+		ColorSpaceControlCo coBri;
 
 
 		void InitializeComponent()
 		{
-			this.cscHue = new creaturevisualizer.ColorSpaceControlCo();
-			this.cscSaturation = new creaturevisualizer.ColorSpaceControlCo();
-			this.cscBrightness = new creaturevisualizer.ColorSpaceControlCo();
+			this.coHue = new creaturevisualizer.ColorSpaceControlCo();
+			this.coSat = new creaturevisualizer.ColorSpaceControlCo();
+			this.coBri = new creaturevisualizer.ColorSpaceControlCo();
 			this.SuspendLayout();
 			// 
-			// cscHue
+			// coHue
 			// 
-			this.cscHue.DisplayCharacter = 'H';
-			this.cscHue.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.cscHue.Location = new System.Drawing.Point(0, 0);
-			this.cscHue.Margin = new System.Windows.Forms.Padding(0);
-			this.cscHue.Max = 359;
-			this.cscHue.Name = "cscHue";
-			this.cscHue.Selected = false;
-			this.cscHue.Size = new System.Drawing.Size(75, 20);
-			this.cscHue.TabIndex = 0;
-			this.cscHue.Units = creaturevisualizer.ColorSpaceControlCo.Unit.Degree;
-			this.cscHue.Val = 0;
-			this.cscHue.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
+			this.coHue.DisplayCharacter = 'H';
+			this.coHue.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.coHue.Location = new System.Drawing.Point(0, 0);
+			this.coHue.Margin = new System.Windows.Forms.Padding(0);
+			this.coHue.Max = 359;
+			this.coHue.Name = "coHue";
+			this.coHue.Selected = false;
+			this.coHue.Size = new System.Drawing.Size(75, 20);
+			this.coHue.TabIndex = 0;
+			this.coHue.Units = creaturevisualizer.ColorSpaceControlCo.Unit.Degree;
+			this.coHue.Val = 0;
+			this.coHue.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
 			// 
-			// cscSaturation
+			// coSat
 			// 
-			this.cscSaturation.DisplayCharacter = 'S';
-			this.cscSaturation.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.cscSaturation.Location = new System.Drawing.Point(0, 19);
-			this.cscSaturation.Margin = new System.Windows.Forms.Padding(0);
-			this.cscSaturation.Max = 100;
-			this.cscSaturation.Name = "cscSaturation";
-			this.cscSaturation.Selected = false;
-			this.cscSaturation.Size = new System.Drawing.Size(75, 20);
-			this.cscSaturation.TabIndex = 1;
-			this.cscSaturation.Units = creaturevisualizer.ColorSpaceControlCo.Unit.Percent;
-			this.cscSaturation.Val = 0;
-			this.cscSaturation.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
+			this.coSat.DisplayCharacter = 'S';
+			this.coSat.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.coSat.Location = new System.Drawing.Point(0, 19);
+			this.coSat.Margin = new System.Windows.Forms.Padding(0);
+			this.coSat.Max = 100;
+			this.coSat.Name = "coSat";
+			this.coSat.Selected = false;
+			this.coSat.Size = new System.Drawing.Size(75, 20);
+			this.coSat.TabIndex = 1;
+			this.coSat.Units = creaturevisualizer.ColorSpaceControlCo.Unit.Percent;
+			this.coSat.Val = 0;
+			this.coSat.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
 			// 
-			// cscBrightness
+			// coBri
 			// 
-			this.cscBrightness.DisplayCharacter = 'B';
-			this.cscBrightness.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.cscBrightness.Location = new System.Drawing.Point(0, 38);
-			this.cscBrightness.Margin = new System.Windows.Forms.Padding(0);
-			this.cscBrightness.Max = 100;
-			this.cscBrightness.Name = "cscBrightness";
-			this.cscBrightness.Selected = false;
-			this.cscBrightness.Size = new System.Drawing.Size(75, 20);
-			this.cscBrightness.TabIndex = 2;
-			this.cscBrightness.Units = creaturevisualizer.ColorSpaceControlCo.Unit.Percent;
-			this.cscBrightness.Val = 0;
-			this.cscBrightness.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
+			this.coBri.DisplayCharacter = 'B';
+			this.coBri.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.coBri.Location = new System.Drawing.Point(0, 38);
+			this.coBri.Margin = new System.Windows.Forms.Padding(0);
+			this.coBri.Max = 100;
+			this.coBri.Name = "coBri";
+			this.coBri.Selected = false;
+			this.coBri.Size = new System.Drawing.Size(75, 20);
+			this.coBri.TabIndex = 2;
+			this.coBri.Units = creaturevisualizer.ColorSpaceControlCo.Unit.Percent;
+			this.coBri.Val = 0;
+			this.coBri.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
 			// 
 			// ColorSpaceHsb
 			// 
-			this.Controls.Add(this.cscHue);
-			this.Controls.Add(this.cscSaturation);
-			this.Controls.Add(this.cscBrightness);
+			this.Controls.Add(this.coHue);
+			this.Controls.Add(this.coSat);
+			this.Controls.Add(this.coBri);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Margin = new System.Windows.Forms.Padding(0);
 			this.Name = "ColorSpaceHsb";

@@ -24,8 +24,6 @@ namespace creaturevisualizer
 		Bitmap _slider   = new Bitmap(ColorSlider.width, ColorSlider.height);
 		Image  _checkers = new ResourceManager("CreatureVisualizer.Properties.Resources",
 											   typeof(Resources).Assembly).GetObject("checkers") as Image;
-
-//		bool _isLeftMouseButtonDown;
 		#endregion Fields
 
 
@@ -65,9 +63,9 @@ namespace creaturevisualizer
 			using (Graphics graphics = Graphics.FromImage(_slider))
 				GradientService.DrawSlider(graphics, new Rectangle(0,0, ColorSlider.width, ColorSlider.height));
 
-			colortop.IsActive = true;
+			colortop.Activated = true;
 
-			hsbColorSpace.SelectCo(hsbColorSpace.cscHue);
+			hsbColorSpace.SelectCo(hsbColorSpace.coHue);
 		}
 		#endregion cTor
 
@@ -100,35 +98,6 @@ namespace creaturevisualizer
 									 swatches.Left  - 1, swatches.Top    - 1,
 									 swatches.Width + 1, swatches.Height + 1);
 		}
-
-
-		// what ...
-/*		protected override void OnMouseDown(MouseEventArgs e)
-		{
-			base.OnMouseDown(e);
-
-			if (e.Button == MouseButtons.Left)
-			{
-				_isLeftMouseButtonDown = true;
-
-				UpdateColorPanels(false, false, true);
-
-				if (m_currentColorSpace.SelectedComponent.DisplayCharacter == 'H')
-				{
-					activeColorBox.BackColor = colorFieldPanel.GetCurrentColor();
-				}
-			}
-		}
-
-		protected override void OnMouseUp(MouseEventArgs e)
-		{
-			base.OnMouseUp(e);
-
-			if (_isLeftMouseButtonDown)
-				UpdateColorField(false);
-
-			_isLeftMouseButtonDown = false;
-		} */
 		#endregion Handlers (override)
 
 
@@ -142,7 +111,7 @@ namespace creaturevisualizer
 				rgbColorSpace.Structure = ColorConverter.ColorToRgb(bo.BackColor);
 				hsbColorSpace.Structure = ColorConverter.ColorToHsb(bo.BackColor);
 
-				SetSliderValue();
+				SetSlider();
 				Satisfy(true, true, true);
 
 				if (ColorChanged != null)
@@ -152,7 +121,7 @@ namespace creaturevisualizer
 
 		void sliderchanged_slider(SliderChangedEventArgs e)
 		{
-			int val = e.Value;
+			int val = e.Val;
 
 			switch (_csCurrent.Co.Units)
 			{
@@ -193,27 +162,7 @@ namespace creaturevisualizer
 			bo           .Refresh();
 		}
 
-		void dragdrop_colorbox(object sender, DragEventArgs e)
-		{
-			if (((ColorBox)sender).IsActive)
-			{
-				object data = e.Data.GetData(typeof(Color));
-				if (data != null)
-				{
-					var color = (Color)data;
-					if (color != Color.Empty)
-					{
-						rgbColorSpace.Structure = ColorConverter.ColorToRgb(color);
-						hsbColorSpace.Structure = ColorConverter.ColorToHsb(color);
-
-						SetSliderValue();
-						Satisfy(true, true, true);
-					}
-				}
-			}
-		}
-
-		void selectedcscchanged_colorspace(ColorSpaceControl sender)
+		void selectedcochanged_csc(ColorSpaceControl sender)
 		{
 			if (sender is ColorSpaceRgb)
 			{
@@ -226,7 +175,7 @@ namespace creaturevisualizer
 
 			_csCurrent = sender;
 
-			SetSliderValue();
+			SetSlider();
 			Satisfy(true, true, true);
 		}
 
@@ -241,7 +190,7 @@ namespace creaturevisualizer
 				rgbColorSpace.Structure = ColorConverter.HsbToRgb((HSB)hsbColorSpace.Structure);
 			}
 
-			SetSliderValue();
+			SetSlider();
 			Satisfy(true, true, true);
 
 			GetActiveColorbox().BackColor = ColorConverter.RgbToColor((RGB)rgbColorSpace.Structure);
@@ -297,7 +246,7 @@ namespace creaturevisualizer
 			rgbColorSpace.Structure = rgb;
 			hsbColorSpace.Structure = ColorConverter.RgbToHsb(rgb);
 
-			SetSliderValue();
+			SetSlider();
 			Satisfy(true, true, false);
 		}
 
@@ -336,7 +285,7 @@ namespace creaturevisualizer
 				rgbColorSpace.Structure = rgb;
 				hsbColorSpace.Structure = ColorConverter.RgbToHsb(rgb);
 
-				if (resetslider) SetSliderValue();
+				if (resetslider) SetSlider();
 				Satisfy(false, true, setHecateText);
 
 				if (ColorChanged != null)
@@ -344,7 +293,7 @@ namespace creaturevisualizer
 			}
 		}
 
-		void SetSliderValue()
+		void SetSlider()
 		{
 			int val = _csCurrent.Co.Val;
 
@@ -404,14 +353,14 @@ namespace creaturevisualizer
 
 			if (GetActiveColorbox() == colorbot)
 			{
-				colortop.IsActive = true;
-				colorbot.IsActive = false;
+				colortop.Activated = true;
+				colorbot.Activated = false;
 				act = colortop;
 			}
 			else
 			{
-				colortop.IsActive = false;
-				colorbot.IsActive = true;
+				colortop.Activated = false;
+				colorbot.Activated = true;
 				act = colorbot;
 			}
 
@@ -421,7 +370,7 @@ namespace creaturevisualizer
 
 		internal ColorBox GetActiveColorbox()
 		{
-			if (colortop.IsActive)
+			if (colortop.Activated)
 				return colortop;
 
 			return colorbot;
@@ -499,7 +448,6 @@ namespace creaturevisualizer
 			this.colortop.Size = new System.Drawing.Size(80, 30);
 			this.colortop.TabIndex = 2;
 			this.colortop.TabStop = false;
-			this.colortop.DragDrop += new System.Windows.Forms.DragEventHandler(this.dragdrop_colorbox);
 			this.colortop.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_colorbox);
 			// 
 			// colorbot
@@ -511,7 +459,6 @@ namespace creaturevisualizer
 			this.colorbot.Size = new System.Drawing.Size(80, 30);
 			this.colorbot.TabIndex = 3;
 			this.colorbot.TabStop = false;
-			this.colorbot.DragDrop += new System.Windows.Forms.DragEventHandler(this.dragdrop_colorbox);
 			this.colorbot.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_colorbox);
 			// 
 			// colorslider
@@ -545,7 +492,7 @@ namespace creaturevisualizer
 			this.rgbColorSpace.Name = "rgbColorSpace";
 			this.rgbColorSpace.Size = new System.Drawing.Size(75, 60);
 			this.rgbColorSpace.TabIndex = 5;
-			this.rgbColorSpace.SelectedCoChanged += new creaturevisualizer.ColorSpaceEventHandler(this.selectedcscchanged_colorspace);
+			this.rgbColorSpace.SelectedCoChanged += new creaturevisualizer.ColorSpaceEventHandler(this.selectedcochanged_csc);
 			this.rgbColorSpace.ValueChanged += new creaturevisualizer.ColorSpaceEventHandler(this.valuechanged_colorspace);
 			// 
 			// hsbColorSpace
@@ -556,7 +503,7 @@ namespace creaturevisualizer
 			this.hsbColorSpace.Name = "hsbColorSpace";
 			this.hsbColorSpace.Size = new System.Drawing.Size(75, 60);
 			this.hsbColorSpace.TabIndex = 4;
-			this.hsbColorSpace.SelectedCoChanged += new creaturevisualizer.ColorSpaceEventHandler(this.selectedcscchanged_colorspace);
+			this.hsbColorSpace.SelectedCoChanged += new creaturevisualizer.ColorSpaceEventHandler(this.selectedcochanged_csc);
 			this.hsbColorSpace.ValueChanged += new creaturevisualizer.ColorSpaceEventHandler(this.valuechanged_colorspace);
 			// 
 			// tb_Hex
@@ -702,7 +649,6 @@ namespace creaturevisualizer
 				}
 			}
 		} */
-
 
 
 	internal delegate void ColorChangedEventHandler();
