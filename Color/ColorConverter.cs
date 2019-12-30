@@ -30,9 +30,9 @@ namespace creaturevisualizer
 
 		internal static Color RgbToColor(RGB rgb)
 		{
-			return Color.FromArgb(Math.Max(0, Math.Min(rgb.Red,   255)),
-								  Math.Max(0, Math.Min(rgb.Green, 255)),
-								  Math.Max(0, Math.Min(rgb.Blue,  255)));
+			return Color.FromArgb(Math.Max(0, Math.Min(rgb.R, 255)),
+								  Math.Max(0, Math.Min(rgb.G, 255)),
+								  Math.Max(0, Math.Min(rgb.B, 255)));
 		}
 
 //		internal static Color RgbToColor(RGB rgb, int a)
@@ -51,9 +51,9 @@ namespace creaturevisualizer
 
 		internal static HSB RgbToHsb(RGB rgb)
 		{
-			double r = rgb.Red   / 255.0;
-			double g = rgb.Green / 255.0;
-			double b = rgb.Blue  / 255.0;
+			double r = rgb.R / 255.0;
+			double g = rgb.G / 255.0;
+			double b = rgb.B / 255.0;
 
 			double min = getmindouble(r,g,b);
 			double max = getmaxdouble(r,g,b);
@@ -146,19 +146,19 @@ namespace creaturevisualizer
 		internal static RGB HsbToRgb(HSB hsb)
 		{
 			double r,g,b;
-			double bri = hsb.Brightness / 100.0;
+			double bri = hsb.B / 100.0;
 
-			if (hsb.Saturation == 0)
+			if (hsb.S == 0)
 			{
 				r = g = b = bri;
 			}
 			else
 			{
-				double sat = hsb.Saturation / 100.0;
+				double sat = hsb.S / 100.0;
 
-				double d1 = hsb.Hue / 60.0;
-				int    d2 = hsb.Hue / 60; //(int)Math.Floor(d1); // NOTE: Do not allow a hue of 360.
-				double d = d1 - d2;
+				double d1 = hsb.H / 60.0;
+				int    d2 = hsb.H / 60; //(int)Math.Floor(d1); // NOTE: Do not allow a hue of 360.
+				double d  = d1 - d2;
 
 				switch (d2)
 				{

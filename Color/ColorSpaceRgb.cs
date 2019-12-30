@@ -13,15 +13,15 @@ namespace creaturevisualizer
 		{
 			get
 			{
-				return new RGB(coRed.Val, coGreen.Val, coBlue.Val);
+				return new RGB(coRed.Val, coGre.Val, coBlu.Val);
 			}
 			set
 			{
 				var rgb = (RGB)value;
 
-				coRed  .Val = rgb.Red;
-				coGreen.Val = rgb.Green;
-				coBlue .Val = rgb.Blue;
+				coRed.Val = rgb.R;
+				coGre.Val = rgb.G;
+				coBlu.Val = rgb.B;
 			}
 		}
 		#endregion Properties (override)
@@ -33,8 +33,8 @@ namespace creaturevisualizer
 			InitializeComponent();
 
 			ColorSpaceControls.Add(coRed);
-			ColorSpaceControls.Add(coGreen);
-			ColorSpaceControls.Add(coBlue);
+			ColorSpaceControls.Add(coGre);
+			ColorSpaceControls.Add(coBlu);
 		}
 		#endregion cTor
 
@@ -55,14 +55,14 @@ namespace creaturevisualizer
 		#region Methods
 		internal Color GetColor()
 		{
-			return Color.FromArgb(coRed.Val, coGreen.Val, coBlue.Val);
+			return Color.FromArgb(coRed.Val, coGre.Val, coBlu.Val);
 		}
 
 		internal string GetHecate()
 		{
-			return coRed  .Val.ToString("X2")
-				 + coGreen.Val.ToString("X2")
-				 + coBlue .Val.ToString("X2");
+			return coRed.Val.ToString("X2")
+				 + coGre.Val.ToString("X2")
+				 + coBlu.Val.ToString("X2");
 		}
 		#endregion Methods
 
@@ -70,15 +70,15 @@ namespace creaturevisualizer
 
 		#region Designer
 		ColorSpaceControlCo coRed;
-		ColorSpaceControlCo coGreen;
-		ColorSpaceControlCo coBlue;
+		ColorSpaceControlCo coGre;
+		ColorSpaceControlCo coBlu;
 
 
 		void InitializeComponent()
 		{
 			this.coRed = new creaturevisualizer.ColorSpaceControlCo();
-			this.coGreen = new creaturevisualizer.ColorSpaceControlCo();
-			this.coBlue = new creaturevisualizer.ColorSpaceControlCo();
+			this.coGre = new creaturevisualizer.ColorSpaceControlCo();
+			this.coBlu = new creaturevisualizer.ColorSpaceControlCo();
 			this.SuspendLayout();
 			// 
 			// coRed
@@ -96,41 +96,41 @@ namespace creaturevisualizer
 			this.coRed.Val = 0;
 			this.coRed.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
 			// 
-			// coGreen
+			// coGre
 			// 
-			this.coGreen.DisplayCharacter = 'G';
-			this.coGreen.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.coGreen.Location = new System.Drawing.Point(0, 19);
-			this.coGreen.Margin = new System.Windows.Forms.Padding(0);
-			this.coGreen.Max = 255;
-			this.coGreen.Name = "coGreen";
-			this.coGreen.Selected = false;
-			this.coGreen.Size = new System.Drawing.Size(75, 20);
-			this.coGreen.TabIndex = 1;
-			this.coGreen.Units = creaturevisualizer.ColorSpaceControlCo.Unit.Byte;
-			this.coGreen.Val = 0;
-			this.coGreen.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
+			this.coGre.DisplayCharacter = 'G';
+			this.coGre.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.coGre.Location = new System.Drawing.Point(0, 19);
+			this.coGre.Margin = new System.Windows.Forms.Padding(0);
+			this.coGre.Max = 255;
+			this.coGre.Name = "coGre";
+			this.coGre.Selected = false;
+			this.coGre.Size = new System.Drawing.Size(75, 20);
+			this.coGre.TabIndex = 1;
+			this.coGre.Units = creaturevisualizer.ColorSpaceControlCo.Unit.Byte;
+			this.coGre.Val = 0;
+			this.coGre.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
 			// 
-			// coBlue
+			// coBlu
 			// 
-			this.coBlue.DisplayCharacter = 'B';
-			this.coBlue.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.coBlue.Location = new System.Drawing.Point(0, 38);
-			this.coBlue.Margin = new System.Windows.Forms.Padding(0);
-			this.coBlue.Max = 255;
-			this.coBlue.Name = "coBlue";
-			this.coBlue.Selected = false;
-			this.coBlue.Size = new System.Drawing.Size(75, 20);
-			this.coBlue.TabIndex = 2;
-			this.coBlue.Units = creaturevisualizer.ColorSpaceControlCo.Unit.Byte;
-			this.coBlue.Val = 0;
-			this.coBlue.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
+			this.coBlu.DisplayCharacter = 'B';
+			this.coBlu.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.coBlu.Location = new System.Drawing.Point(0, 38);
+			this.coBlu.Margin = new System.Windows.Forms.Padding(0);
+			this.coBlu.Max = 255;
+			this.coBlu.Name = "coBlu";
+			this.coBlu.Selected = false;
+			this.coBlu.Size = new System.Drawing.Size(75, 20);
+			this.coBlu.TabIndex = 2;
+			this.coBlu.Units = creaturevisualizer.ColorSpaceControlCo.Unit.Byte;
+			this.coBlu.Val = 0;
+			this.coBlu.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
 			// 
 			// ColorSpaceRgb
 			// 
 			this.Controls.Add(this.coRed);
-			this.Controls.Add(this.coGreen);
-			this.Controls.Add(this.coBlue);
+			this.Controls.Add(this.coGre);
+			this.Controls.Add(this.coBlu);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Margin = new System.Windows.Forms.Padding(0);
 			this.Name = "ColorSpaceRgb";

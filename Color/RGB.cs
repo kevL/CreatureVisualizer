@@ -7,23 +7,23 @@ namespace creaturevisualizer
 	sealed class RGB
 	{
 		#region Properties
-		internal int Red
+		internal int R
 		{ get; set; }
 
-		internal int Green
+		internal int G
 		{ get; set; }
 
-		internal int Blue
+		internal int B
 		{ get; set; }
 		#endregion Properties
 
 
 		#region cTor
-		internal RGB(int red, int green, int blue)
+		internal RGB(int r, int g, int b)
 		{
-			Red   = red;
-			Green = green;
-			Blue  = blue;
+			R = r;
+			G = g;
+			B = b;
 		}
 		#endregion cTor
 
@@ -31,16 +31,16 @@ namespace creaturevisualizer
 		#region Methods (override)
 		public override string ToString()
 		{
-			return "r: " + Red + " g: " + Green + " b: " + Blue;
+			return "r: " + R + " g: " + G + " b: " + B;
 		}
 
 		public override bool Equals(object obj)
 		{
 			var rgb = obj as RGB;
 			return rgb != null
-				&& rgb.Red == Red
-				&& rgb.Green == Green
-				&& rgb.Blue == Blue;
+				&& rgb.R == R
+				&& rgb.G == G
+				&& rgb.B == B;
 		}
 
 		public override int GetHashCode()

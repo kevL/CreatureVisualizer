@@ -195,10 +195,10 @@ namespace creaturevisualizer
 
 						case 'S':
 						{
-							RGB rgb1 = ColorConverter.HsbToRgb(new HSB(hsb.Hue, 100, hsb.Brightness));
-							RGB rgb2 = ColorConverter.HsbToRgb(new HSB(hsb.Hue,   0, hsb.Brightness));
-							Color color1 = Color.FromArgb(rgb1.Red, rgb1.Green, rgb1.Blue);
-							Color color2 = Color.FromArgb(rgb2.Red, rgb2.Green, rgb2.Blue);
+							RGB rgb1 = ColorConverter.HsbToRgb(new HSB(hsb.H, 100, hsb.B));
+							RGB rgb2 = ColorConverter.HsbToRgb(new HSB(hsb.H,   0, hsb.B));
+							Color color1 = Color.FromArgb(rgb1.R, rgb1.G, rgb1.B);
+							Color color2 = Color.FromArgb(rgb2.R, rgb2.G, rgb2.B);
 
 							using (var brush = new LinearGradientBrush(_rect, color1, color2, 90f))
 								graphics.FillRectangle(brush, _rect);
@@ -207,10 +207,10 @@ namespace creaturevisualizer
 
 						case 'B':
 						{
-							RGB rgb1 = ColorConverter.HsbToRgb(new HSB(hsb.Hue, hsb.Saturation, 100));
-							RGB rgb2 = ColorConverter.HsbToRgb(new HSB(hsb.Hue, hsb.Saturation,   0));
-							Color color1 = Color.FromArgb(rgb1.Red, rgb1.Green, rgb1.Blue);
-							Color color2 = Color.FromArgb(rgb2.Red, rgb2.Green, rgb2.Blue);
+							RGB rgb1 = ColorConverter.HsbToRgb(new HSB(hsb.H, hsb.S, 100));
+							RGB rgb2 = ColorConverter.HsbToRgb(new HSB(hsb.H, hsb.S,   0));
+							Color color1 = Color.FromArgb(rgb1.R, rgb1.G, rgb1.B);
+							Color color2 = Color.FromArgb(rgb2.R, rgb2.G, rgb2.B);
 
 							using (var brush = new LinearGradientBrush(_rect, color1, color2, 90f))
 								graphics.FillRectangle(brush, _rect);
@@ -226,18 +226,18 @@ namespace creaturevisualizer
 					switch (_csc.Co.DisplayCharacter)
 					{
 						case 'R':
-							color1 = Color.FromArgb(  0, rgb.Green, rgb.Blue);
-							color2 = Color.FromArgb(255, rgb.Green, rgb.Blue);
+							color1 = Color.FromArgb(  0, rgb.G, rgb.B);
+							color2 = Color.FromArgb(255, rgb.G, rgb.B);
 							break;
 
 						case 'G':
-							color1 = Color.FromArgb(rgb.Red,   0, rgb.Blue);
-							color2 = Color.FromArgb(rgb.Red, 255, rgb.Blue);
+							color1 = Color.FromArgb(rgb.R,   0, rgb.B);
+							color2 = Color.FromArgb(rgb.R, 255, rgb.B);
 							break;
 
 						default: // case 'B':
-							color1 = Color.FromArgb(rgb.Red, rgb.Green,   0);
-							color2 = Color.FromArgb(rgb.Red, rgb.Green, 255);
+							color1 = Color.FromArgb(rgb.R, rgb.G,   0);
+							color2 = Color.FromArgb(rgb.R, rgb.G, 255);
 							break;
 					}
 

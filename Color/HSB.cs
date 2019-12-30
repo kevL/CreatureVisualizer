@@ -7,23 +7,23 @@ namespace creaturevisualizer
 	sealed class HSB
 	{
 		#region Properties
-		internal int Hue
+		internal int H
 		{ get; set; }
 
-		internal int Saturation
+		internal int S
 		{ get; set; }
 
-		internal int Brightness
+		internal int B
 		{ get; set; }
 		#endregion Properties
 
 
 		#region cTor
-		internal HSB(int hue, int saturation, int brightness)
+		internal HSB(int h, int s, int b)
 		{
-			Hue        = hue;
-			Saturation = saturation;
-			Brightness = brightness;
+			H = h;
+			S = s;
+			B = b;
 		}
 		#endregion cTor
 
@@ -31,16 +31,16 @@ namespace creaturevisualizer
 		#region Methods (override)
 		public override string ToString()
 		{
-			return "h: " + Hue + " s: " + Saturation + " b: " + Brightness;
+			return "h: " + H + " s: " + S + " b: " + B;
 		}
 
 		public override bool Equals(object obj)
 		{
 			var hsb = obj as HSB;
 			return hsb != null
-				&& hsb.Hue == Hue
-				&& hsb.Saturation == Saturation
-				&& hsb.Brightness == Brightness;
+				&& hsb.H == H
+				&& hsb.S == S
+				&& hsb.B == B;
 		}
 
 		public override int GetHashCode()

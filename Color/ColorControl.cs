@@ -215,15 +215,15 @@ namespace creaturevisualizer
 			{
 				case 'H':
 				{
-					int hue = ((HSB)hsbColorSpace.Structure).Hue;
-					hsbColorSpace.Structure = new HSB(hue, hsb.Saturation, hsb.Brightness);
+					int hue = ((HSB)hsbColorSpace.Structure).H;
+					hsbColorSpace.Structure = new HSB(hue, hsb.S, hsb.B);
 					break;
 				}
 
 				case 'S':
 				{
-					int sat = ((HSB)hsbColorSpace.Structure).Saturation;
-					hsbColorSpace.Structure = new HSB(hsb.Hue, sat, hsb.Brightness);
+					int sat = ((HSB)hsbColorSpace.Structure).S;
+					hsbColorSpace.Structure = new HSB(hsb.H, sat, hsb.B);
 					break;
 				}
 

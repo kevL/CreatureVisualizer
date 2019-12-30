@@ -185,18 +185,18 @@ namespace creaturevisualizer
 				switch (_csc.Co.DisplayCharacter)
 				{
 					case 'H':
-						x =       (int)Math.Round((double)hsb.Saturation * 2.55);
-						y = 255 - (int)Math.Round((double)hsb.Brightness * 2.55);
+						x =       (int)Math.Round((double)hsb.S * 2.55);
+						y = 255 - (int)Math.Round((double)hsb.B * 2.55);
 						break;
 
 					case 'S':
-						x = (int)Math.Ceiling((double)hsb.Hue        * 17.0 / 24.0);
-						y = (int)(    255.0 - (double)hsb.Brightness * 2.55);
+						x = (int)Math.Ceiling((double)hsb.H * 17.0 / 24.0);
+						y = (int)(    255.0 - (double)hsb.B * 2.55);
 						break;
 
 					case 'B':
-						x =       (int)Math.Ceiling((double)hsb.Hue        * 17.0 / 24.0);
-						y = 255 - (int)Math.Round(  (double)hsb.Saturation * 2.55);
+						x =       (int)Math.Ceiling((double)hsb.H * 17.0 / 24.0);
+						y = 255 - (int)Math.Round(  (double)hsb.S * 2.55);
 						break;
 				}
 			}
@@ -247,25 +247,25 @@ namespace creaturevisualizer
 				{
 					case 'H':
 					{
-						int brightness = (int)((255f - _pt.Y) / 2.55f);
-						int saturation = (int)(        _pt.X  / 2.55f);
-						hsb = new HSB(hsb.Hue, saturation, brightness);
+						int bri = (int)((255f - _pt.Y) / 2.55f);
+						int sat = (int)(        _pt.X  / 2.55f);
+						hsb = new HSB(hsb.H, sat, bri);
 						break;
 					}
 
 					case 'S':
 					{
-						int hue        = (int)(_pt.X * 24.0f / 17.0f);
-						int brightness = (int)((255f - _pt.Y) / 2.55f);
-						hsb = new HSB(hue % 360, hsb.Saturation, brightness);
+						int hue = (int)(_pt.X * 24.0f / 17.0f);
+						int bri = (int)((255f - _pt.Y) / 2.55f);
+						hsb = new HSB(hue % 360, hsb.S, bri);
 						break;
 					}
 
 					case 'B':
 					{
-						int hue        = (int)(_pt.X * 24.0f / 17.0f);
-						int saturation = (int)((255f - _pt.Y) / 2.55f);
-						hsb = new HSB(hue % 360, saturation, hsb.Brightness);
+						int hue = (int)(_pt.X * 24.0f / 17.0f);
+						int sat = (int)((255f - _pt.Y) / 2.55f);
+						hsb = new HSB(hue % 360, sat, hsb.B);
 						break;
 					}
 				}
@@ -277,9 +277,9 @@ namespace creaturevisualizer
 
 				switch (_csc.Co.DisplayCharacter)
 				{
-					case 'R': rgb = new RGB(rgb.Red,     255 - _pt.Y, _pt.X);    break;
-					case 'G': rgb = new RGB(255 - _pt.Y, rgb.Green,   _pt.X);    break;
-					case 'B': rgb = new RGB(_pt.X,       255 - _pt.Y, rgb.Blue); break;
+					case 'R': rgb = new RGB(rgb.R,       255 - _pt.Y, _pt.X); break;
+					case 'G': rgb = new RGB(255 - _pt.Y, rgb.G,       _pt.X); break;
+					case 'B': rgb = new RGB(_pt.X,       255 - _pt.Y, rgb.B); break;
 				}
 				return ColorConverter.RgbToColor(rgb);
 			}

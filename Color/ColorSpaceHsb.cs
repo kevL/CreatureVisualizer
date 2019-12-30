@@ -18,9 +18,9 @@ namespace creaturevisualizer
 			{
 				var hsb = (HSB)value;
 
-				coHue.Val = hsb.Hue;
-				coSat.Val = hsb.Saturation;
-				coBri.Val = hsb.Brightness;
+				coHue.Val = hsb.H;
+				coSat.Val = hsb.S;
+				coBri.Val = hsb.B;
 			}
 		}
 		#endregion Properties (override)
