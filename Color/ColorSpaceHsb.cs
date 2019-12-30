@@ -35,9 +35,9 @@ namespace creaturevisualizer
 			coSat.tb_Val.SetRestrict(TextboxRestrictive.Type.Percent);
 			coBri.tb_Val.SetRestrict(TextboxRestrictive.Type.Percent);
 
-			ColorSpaceControls.Add(coHue);
-			ColorSpaceControls.Add(coSat);
-			ColorSpaceControls.Add(coBri);
+			SpaceControls.Add(coHue);
+			SpaceControls.Add(coSat);
+			SpaceControls.Add(coBri);
 		}
 		#endregion cTor
 

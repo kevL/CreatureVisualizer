@@ -120,14 +120,6 @@ namespace creaturevisualizer
 			ColorF.That.Print(ifo);
 		}
 
-/*		void checkedchanged_rb(object sender, EventArgs e)
-		{
-//			if (((RadioButton)sender).Checked)
-//			{
-//				if (CscSelected != null)
-//					CscSelected(this);
-//			}
-		} */
 		void click_rb(object sender, EventArgs e)
 		{
 			if (((RadioButton)sender).Checked)

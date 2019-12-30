@@ -17,7 +17,7 @@ namespace creaturevisualizer
 
 		#region Properties
 		readonly List<ColorSpaceControlCo> _cos = new List<ColorSpaceControlCo>();
-		internal List<ColorSpaceControlCo> ColorSpaceControls
+		internal List<ColorSpaceControlCo> SpaceControls
 		{
 			get { return _cos; }
 		}
@@ -46,8 +46,7 @@ namespace creaturevisualizer
 		{
 			DeselectComponents();
 
-			co.Selected = true;
-			Co = co;
+			(Co = co).Selected = true;
 
 			if (SelectedCoChanged != null)
 				SelectedCoChanged(this);
@@ -55,7 +54,7 @@ namespace creaturevisualizer
 
 		internal void DeselectComponents()
 		{
-			foreach (ColorSpaceControlCo co in ColorSpaceControls)
+			foreach (ColorSpaceControlCo co in SpaceControls)
 				co.Selected = false;
 		}
 		#endregion Methods

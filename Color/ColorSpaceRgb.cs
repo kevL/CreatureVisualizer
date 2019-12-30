@@ -32,9 +32,9 @@ namespace creaturevisualizer
 		{
 			InitializeComponent();
 
-			ColorSpaceControls.Add(coRed);
-			ColorSpaceControls.Add(coGre);
-			ColorSpaceControls.Add(coBlu);
+			SpaceControls.Add(coRed);
+			SpaceControls.Add(coGre);
+			SpaceControls.Add(coBlu);
 		}
 		#endregion cTor
 

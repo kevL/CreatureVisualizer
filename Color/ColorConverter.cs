@@ -37,10 +37,10 @@ namespace creaturevisualizer
 
 //		internal static Color RgbToColor(RGB rgb, int a)
 //		{
-//			return Color.FromArgb(Math.Max(0, Math.Min(a,         255)),
-//								  Math.Max(0, Math.Min(rgb.Red,   255)),
-//								  Math.Max(0, Math.Min(rgb.Green, 255)),
-//								  Math.Max(0, Math.Min(rgb.Blue,  255)));
+//			return Color.FromArgb(Math.Max(0, Math.Min(a,     255)),
+//								  Math.Max(0, Math.Min(rgb.R, 255)),
+//								  Math.Max(0, Math.Min(rgb.G, 255)),
+//								  Math.Max(0, Math.Min(rgb.B, 255)));
 //		}
 
 		internal static Color HsbToColor(HSB hsb)
