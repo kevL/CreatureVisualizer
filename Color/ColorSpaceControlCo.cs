@@ -10,7 +10,7 @@ namespace creaturevisualizer
 		: UserControl
 	{
 		// Sano.PersonalProjects.ColorPicker.Controls.ComponentUnit
-		internal enum Units
+		internal enum Unit
 		{
 			Degree,
 			Percent,
@@ -66,18 +66,18 @@ namespace creaturevisualizer
 			set { _max = value; }
 		}
 
-		Units _unit = Units.Byte;
-//		[DefaultValue(Units.Byte)] // don't default this. It needs to be called so the text gets set.
-		public Units Unit
+		Unit _units;// = Unit.Byte;
+//		[DefaultValue(Unit.Byte)] // don't default this. It needs to be called so the text gets set.
+		public Unit Units
 		{
-			get { return _unit; }
+			get { return _units; }
 			set
 			{
-				switch (_unit = value)
+				switch (_units = value)
 				{
-					case Units.Degree:  la_Units.Text = "d"; break;
-					case Units.Percent: la_Units.Text = "p"; break;
-					case Units.Byte:    la_Units.Text = "b"; break;
+					case Unit.Degree:  la_Units.Text = "d"; break;
+					case Unit.Percent: la_Units.Text = "p"; break;
+					case Unit.Byte:    la_Units.Text = "b"; break;
 				}
 			}
 		}
@@ -93,6 +93,33 @@ namespace creaturevisualizer
 
 
 		#region Handlers
+		void mousehover_rb(object sender, EventArgs e)
+		{
+			string ifo;
+			switch (DisplayCharacter)
+			{
+				case 'H': ifo = "Hue 0..359 degrees";
+					break;
+				case 'S': ifo = "Saturation 0..100 percent";
+					break;
+
+				case 'R': ifo = "Red 0..255 byte";
+					break;
+				case 'G': ifo = "Green 0..255 byte";
+					break;
+
+				default:
+//				case 'B': // TODO: change 'B' of HSB to 'L' of HSL
+					if (Units == Unit.Percent) // hsb
+						 ifo = "Brightness 0..100 percent";
+					else // rgb
+						 ifo = "Blue 0..255 byte";
+					break;
+			}
+
+			ColorF.That.Print(ifo);
+		}
+
 /*		void checkedchanged_rb(object sender, EventArgs e)
 		{
 //			if (((RadioButton)sender).Checked)
@@ -165,6 +192,7 @@ namespace creaturevisualizer
 			this.rb_Co.TabIndex = 0;
 			this.rb_Co.TabStop = true;
 			this.rb_Co.Click += new System.EventHandler(this.click_rb);
+			this.rb_Co.MouseHover += new System.EventHandler(this.mousehover_rb);
 			// 
 			// ColorSpaceControlCo
 			// 

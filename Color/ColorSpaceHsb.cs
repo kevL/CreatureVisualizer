@@ -80,7 +80,7 @@ namespace creaturevisualizer
 			this.cscHue.Selected = false;
 			this.cscHue.Size = new System.Drawing.Size(75, 20);
 			this.cscHue.TabIndex = 0;
-			this.cscHue.Unit = creaturevisualizer.ColorSpaceControlCo.Units.Degree;
+			this.cscHue.Units = creaturevisualizer.ColorSpaceControlCo.Unit.Degree;
 			this.cscHue.Val = 0;
 			this.cscHue.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
 			// 
@@ -95,7 +95,7 @@ namespace creaturevisualizer
 			this.cscSaturation.Selected = false;
 			this.cscSaturation.Size = new System.Drawing.Size(75, 20);
 			this.cscSaturation.TabIndex = 1;
-			this.cscSaturation.Unit = creaturevisualizer.ColorSpaceControlCo.Units.Percent;
+			this.cscSaturation.Units = creaturevisualizer.ColorSpaceControlCo.Unit.Percent;
 			this.cscSaturation.Val = 0;
 			this.cscSaturation.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
 			// 
@@ -110,7 +110,7 @@ namespace creaturevisualizer
 			this.cscBrightness.Selected = false;
 			this.cscBrightness.Size = new System.Drawing.Size(75, 20);
 			this.cscBrightness.TabIndex = 2;
-			this.cscBrightness.Unit = creaturevisualizer.ColorSpaceControlCo.Units.Percent;
+			this.cscBrightness.Units = creaturevisualizer.ColorSpaceControlCo.Unit.Percent;
 			this.cscBrightness.Val = 0;
 			this.cscBrightness.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
 			// 

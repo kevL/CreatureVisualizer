@@ -154,13 +154,13 @@ namespace creaturevisualizer
 		{
 			int val = e.Value;
 
-			switch (_csCurrent.Co.Unit)
+			switch (_csCurrent.Co.Units)
 			{
-				case ColorSpaceControlCo.Units.Percent:
+				case ColorSpaceControlCo.Unit.Percent:
 					val = (int)Math.Ceiling((double)val / 2.55);
 					break;
 
-				case ColorSpaceControlCo.Units.Degree:
+				case ColorSpaceControlCo.Unit.Degree:
 					val = (int)Math.Ceiling((double)val / (17.0 / 24.0));
 					if (val == 360)
 						val  = 0;
@@ -305,6 +305,18 @@ namespace creaturevisualizer
 
 			SelectColor(GetActiveColorbox().BackColor, false, false);
 		}
+
+		void mousehover_label(object sender, EventArgs e)
+		{
+			if ((sender as Label) == la_Alpha)
+			{
+				ColorF.That.Print("Alpha 0..255 byte");
+			}
+			else //if ((sender as Label) == la_Hex)
+			{
+				ColorF.That.Print("RGB 000000..FFFFFF hexadecimal");
+			}
+		}
 		#endregion Handlers
 
 
@@ -330,13 +342,13 @@ namespace creaturevisualizer
 		{
 			int val = _csCurrent.Co.Val;
 
-			switch (_csCurrent.Co.Unit)
+			switch (_csCurrent.Co.Units)
 			{
-				case ColorSpaceControlCo.Units.Degree:
+				case ColorSpaceControlCo.Unit.Degree:
 					val = (int)Math.Ceiling(17.0 / 24.0 * (double)val);
 					break;
 
-				case ColorSpaceControlCo.Units.Percent:
+				case ColorSpaceControlCo.Unit.Percent:
 					val = (int)Math.Ceiling(2.55 * (double)val);
 					break;
 			}
@@ -578,6 +590,7 @@ namespace creaturevisualizer
 			this.la_Hex.TabIndex = 6;
 			this.la_Hex.Text = "hex";
 			this.la_Hex.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.la_Hex.MouseHover += new System.EventHandler(this.mousehover_label);
 			// 
 			// la_Alpha
 			// 
@@ -588,6 +601,7 @@ namespace creaturevisualizer
 			this.la_Alpha.TabIndex = 8;
 			this.la_Alpha.Text = "alpha";
 			this.la_Alpha.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.la_Alpha.MouseHover += new System.EventHandler(this.mousehover_label);
 			// 
 			// ColorControl
 			// 
