@@ -62,7 +62,7 @@ namespace creaturevisualizer
 				InvalidatePoints(_pt, point);
 
 				_pt = point;
-				OnColorSelected(new ColorEventArgs(GetCurrentColor()));
+				SelectColor(new ColorEventArgs(GetCurrentColor()));
 			}
 		}
 
@@ -73,6 +73,9 @@ namespace creaturevisualizer
 
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
+//			Color color = GetCurrentColor();
+//			ColorF.That.Print("r= " + color.R + " g= " + color.G + " b= " + color.B + " a= " + color.A);
+
 			if (_track)
 			{
 				const int leeway = 5;
@@ -85,7 +88,8 @@ namespace creaturevisualizer
 					InvalidatePoints(_pt, point);
 
 					_pt = point;
-					OnColorSelected(new ColorEventArgs(GetCurrentColor()));
+					SelectColor(new ColorEventArgs(GetCurrentColor()));
+//					SelectColor(new ColorEventArgs(color));
 				}
 			}
 		}
@@ -104,7 +108,7 @@ namespace creaturevisualizer
 
 
 		#region Handlers
-		void OnColorSelected(ColorEventArgs e)
+		void SelectColor(ColorEventArgs e)
 		{
 			if (ColorSelected != null)
 				ColorSelected(e);
@@ -210,27 +214,27 @@ namespace creaturevisualizer
 			return new Point(x,y);
 		}
 
-		internal void ChangeColor(Color color, ColorSpaceControl csc, bool updatePoint)
+		internal void ChangeColor(Color color, ColorSpaceControl csc, bool updateFieldPoint)
 		{
 			_color = color;
-			ChangeColorspace(csc, updatePoint);
+			ChangeColorspace(csc, updateFieldPoint);
 		}
 
-		internal void ChangeColor(int val, ColorSpaceControl csc, bool updatePoint)
+		internal void ChangeColor(int val, ColorSpaceControl csc, bool updateFieldPoint)
 		{
 			_val = val;
 			_color = Color.Empty;
-			ChangeColorspace(csc, updatePoint);
+			ChangeColorspace(csc, updateFieldPoint);
 		}
 
-		void ChangeColorspace(ColorSpaceControl csc, bool updatePoint)
+		void ChangeColorspace(ColorSpaceControl csc, bool updateFieldPoint)
 		{
 			_csc = csc;
 
-			if (updatePoint)
+			if (updateFieldPoint)
 				_pt = CalculatePoint();
 
-			Invalidate();
+			Refresh();
 		}
 
 		Color GetCurrentColor()
@@ -243,24 +247,24 @@ namespace creaturevisualizer
 				{
 					case 'H':
 					{
-						int brightness = (int)((255f - (float)_pt.Y) / 2.55f);
-						int saturation = (int)(        (float)_pt.X  / 2.55f);
+						int brightness = (int)((255f - _pt.Y) / 2.55f);
+						int saturation = (int)(        _pt.X  / 2.55f);
 						hsb = new HSB(hsb.Hue, saturation, brightness);
 						break;
 					}
 
 					case 'S':
 					{
-						int hue        = (int)((float)_pt.X * 1.40625f); // 1.411764705882353
-						int brightness = (int)((255f - (float)_pt.Y) / 2.55f);
+						int hue        = (int)(_pt.X * 24.0f / 17.0f);
+						int brightness = (int)((255f - _pt.Y) / 2.55f);
 						hsb = new HSB(hue % 360, hsb.Saturation, brightness);
 						break;
 					}
 
 					case 'B':
 					{
-						int hue        = (int)((float)_pt.X * 1.40625f); // 1.411764705882353
-						int saturation = (int)((255f - (float)_pt.Y) / 2.55f);
+						int hue        = (int)(_pt.X * 24.0f / 17.0f);
+						int saturation = (int)((255f - _pt.Y) / 2.55f);
 						hsb = new HSB(hue % 360, saturation, hsb.Brightness);
 						break;
 					}

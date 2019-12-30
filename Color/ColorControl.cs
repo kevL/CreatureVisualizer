@@ -44,7 +44,7 @@ namespace creaturevisualizer
 			}
 			set
 			{
-				SelectColor(value, true);
+				SetColor(value, true);
 				tb_Alpha.Text = value.A.ToString();
 			}
 		}
@@ -156,15 +156,14 @@ namespace creaturevisualizer
 
 			switch (_csCurrent.Co.Units)
 			{
-				case ColorSpaceControlCo.Unit.Percent:
-					val = (int)Math.Ceiling((double)val / 2.55);
-					break;
-
 				case ColorSpaceControlCo.Unit.Degree:
-					val = (int)Math.Ceiling((double)val / (17.0 / 24.0));
+					val = (int)Math.Ceiling(val * 24.0 / 17.0);
 					if (val == 360)
 						val  = 0;
+					break;
 
+				case ColorSpaceControlCo.Unit.Percent:
+					val = (int)Math.Ceiling(val / 2.55);
 					break;
 			}
 
@@ -181,10 +180,17 @@ namespace creaturevisualizer
 
 			Satisfy(false, false, true);
 
-			GetActiveColorbox().BackColor = ColorConverter.RgbToColor((RGB)rgbColorSpace.Structure);
+			ColorBox bo = GetActiveColorbox();
+			bo.BackColor = ColorConverter.RgbToColor((RGB)rgbColorSpace.Structure);
 
 			if (ColorChanged != null)
 				ColorChanged();
+
+
+			hsbColorSpace.Refresh(); // fast updates ->
+			rgbColorSpace.Refresh();
+			tb_Hex       .Refresh();
+			bo           .Refresh();
 		}
 
 		void dragdrop_colorbox(object sender, DragEventArgs e)
@@ -246,7 +252,7 @@ namespace creaturevisualizer
 
 		void swatchselected_swatches(ColorEventArgs e)
 		{
-			SelectColor(e.Color, true);
+			SetColor(e.Color, true);
 		}
 
 		void colorselected_field(ColorEventArgs e)
@@ -303,7 +309,7 @@ namespace creaturevisualizer
 			else
 				alpha = "0";
 
-			SelectColor(GetActiveColorbox().BackColor, false, false);
+			SetColor(GetActiveColorbox().BackColor, false, false);
 		}
 
 		void mousehover_label(object sender, EventArgs e)
@@ -321,17 +327,17 @@ namespace creaturevisualizer
 
 
 		#region Methods
-		void SelectColor(Color color, bool resetslider, bool setHexText = true)
+		void SetColor(Color color, bool resetslider, bool setHecateText = true)
 		{
 			if (!ColorConverter.ColorToRgb(color).Equals(rgbColorSpace.Structure)	// TODO: store alpha in the Structure(s)
-				|| !setHexText)														// and remove 'setHextText' shenanigans
+				|| !setHecateText)													// and remove 'setHecateText' shenanigans
 			{
 				RGB rgb = ColorConverter.ColorToRgb(color);
 				rgbColorSpace.Structure = rgb;
 				hsbColorSpace.Structure = ColorConverter.RgbToHsb(rgb);
 
 				if (resetslider) SetSliderValue();
-				Satisfy(false, true, setHexText);
+				Satisfy(false, true, setHecateText);
 
 				if (ColorChanged != null)
 					ColorChanged();
@@ -345,25 +351,25 @@ namespace creaturevisualizer
 			switch (_csCurrent.Co.Units)
 			{
 				case ColorSpaceControlCo.Unit.Degree:
-					val = (int)Math.Ceiling(17.0 / 24.0 * (double)val);
+					val = (int)Math.Ceiling(val * 17.0 / 24.0);
 					break;
 
 				case ColorSpaceControlCo.Unit.Percent:
-					val = (int)Math.Ceiling(2.55 * (double)val);
+					val = (int)Math.Ceiling(val * 2.55);
 					break;
 			}
 			colorslider.Value = val;
 		}
 
-		void Satisfy(bool setSliderColorspace, bool updatePoint, bool setHecate)
+		void Satisfy(bool setSliderColorspace, bool updateFieldPoint, bool setHecateText)
 		{
-			string text;
+			string alpha;
 			if (!String.IsNullOrEmpty(tb_Alpha.Text))
-				text = tb_Alpha.Text;
+				alpha = tb_Alpha.Text;
 			else
-				text = "0";
+				alpha = "0";
 
-			GetActiveColorbox().BackColor = Color.FromArgb(Byte.Parse(text),
+			GetActiveColorbox().BackColor = Color.FromArgb(Byte.Parse(alpha),
 														   ColorConverter.RgbToColor((RGB)rgbColorSpace.Structure));
 
 
@@ -376,18 +382,18 @@ namespace creaturevisualizer
 				if (_csCurrent.Co.DisplayCharacter == 'H')
 				{
 					Color color = _slider.GetPixel(0, 255 - colorslider.Value);
-					colorfield.ChangeColor(color, _csCurrent, updatePoint);
+					colorfield.ChangeColor(color, _csCurrent, updateFieldPoint);
 				}
 				else // 'S','B'
-					colorfield.ChangeColor(_csCurrent.Co.Val, _csCurrent, updatePoint);
+					colorfield.ChangeColor(_csCurrent.Co.Val, _csCurrent, updateFieldPoint);
 			}
 			else if (_csCurrent is ColorSpaceRgb) // 'R','G','B'
 			{
-				colorfield.ChangeColor(_csCurrent.Co.Val, _csCurrent, updatePoint);
+				colorfield.ChangeColor(_csCurrent.Co.Val, _csCurrent, updateFieldPoint);
 			}
 
 
-			if (setHecate)
+			if (setHecateText)
 				tb_Hex.Text = rgbColorSpace.GetHecate();
 		}
 
