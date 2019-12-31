@@ -406,7 +406,7 @@ namespace creaturevisualizer
 		ColorBox colorbot;
 		ColorSpaceHsb hsbColorSpace;
 		ColorSpaceRgb rgbColorSpace;
-		Label la_Hex;
+		Label la_Hecate;
 		TextboxRestrictive tb_Hecate;
 		Label la_Alpha;
 		TextboxRestrictive tb_Alpha;
@@ -424,7 +424,7 @@ namespace creaturevisualizer
 			this.hsbColorSpace = new creaturevisualizer.ColorSpaceHsb();
 			this.tb_Hecate = new creaturevisualizer.TextboxRestrictive();
 			this.tb_Alpha = new creaturevisualizer.TextboxRestrictive();
-			this.la_Hex = new System.Windows.Forms.Label();
+			this.la_Hecate = new System.Windows.Forms.Label();
 			this.la_Alpha = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
@@ -534,16 +534,16 @@ namespace creaturevisualizer
 			this.tb_Alpha.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.tb_Alpha.TextChanged += new System.EventHandler(this.textchanged_alpha);
 			// 
-			// la_Hex
+			// la_Hecate
 			// 
-			this.la_Hex.Location = new System.Drawing.Point(305, 220);
-			this.la_Hex.Margin = new System.Windows.Forms.Padding(0);
-			this.la_Hex.Name = "la_Hex";
-			this.la_Hex.Size = new System.Drawing.Size(39, 20);
-			this.la_Hex.TabIndex = 6;
-			this.la_Hex.Text = "hex";
-			this.la_Hex.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.la_Hex.MouseHover += new System.EventHandler(this.mousehover_label);
+			this.la_Hecate.Location = new System.Drawing.Point(305, 220);
+			this.la_Hecate.Margin = new System.Windows.Forms.Padding(0);
+			this.la_Hecate.Name = "la_Hecate";
+			this.la_Hecate.Size = new System.Drawing.Size(39, 20);
+			this.la_Hecate.TabIndex = 6;
+			this.la_Hecate.Text = "hex";
+			this.la_Hecate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.la_Hecate.MouseHover += new System.EventHandler(this.mousehover_label);
 			// 
 			// la_Alpha
 			// 
@@ -564,7 +564,7 @@ namespace creaturevisualizer
 			this.Controls.Add(this.colorbot);
 			this.Controls.Add(this.hsbColorSpace);
 			this.Controls.Add(this.rgbColorSpace);
-			this.Controls.Add(this.la_Hex);
+			this.Controls.Add(this.la_Hecate);
 			this.Controls.Add(this.tb_Hecate);
 			this.Controls.Add(this.la_Alpha);
 			this.Controls.Add(this.tb_Alpha);

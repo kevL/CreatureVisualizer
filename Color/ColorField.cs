@@ -59,8 +59,7 @@ namespace creaturevisualizer
 				_track = true;
 
 				var pt = new Point(e.X, e.Y);
-				InvalidatePoints(pt);
-				_pt = pt;
+				UpdatePoint(pt);
 
 				if (PointSelected != null)
 					PointSelected(new ColorEventArgs(GetCurrentColor()));
@@ -85,8 +84,7 @@ namespace creaturevisualizer
 				{
 					var pt = new Point(Math.Max(0, Math.Min(e.X, 255)),
 									   Math.Max(0, Math.Min(e.Y, 255)));
-					InvalidatePoints(pt);
-					_pt = pt;
+					UpdatePoint(pt);
 
 					if (PointSelected != null)
 						PointSelected(new ColorEventArgs(GetCurrentColor()));
@@ -153,15 +151,17 @@ namespace creaturevisualizer
 			}
 		}
 
-		void InvalidatePoints(Point pt1)
+		void UpdatePoint(Point pt)
 		{
 			Rectangle rect;
 
 			rect = new Rectangle(_pt.X - 4, _pt.Y - 4, 9,9);
 			Invalidate(rect);
 
-			rect = new Rectangle(pt1.X - 4, pt1.Y - 4, 9,9);
+			rect = new Rectangle(pt.X - 4, pt.Y - 4, 9,9);
 			Invalidate(rect);
+
+			_pt = pt;
 		}
 
 		Point CalculatePoint()
