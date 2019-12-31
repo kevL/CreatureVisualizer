@@ -60,6 +60,31 @@ namespace creaturevisualizer
 				case Keys.Shift   | Keys.Delete: // cut
 				case Keys.Shift   | Keys.Insert: // paste
 					return;
+
+
+				case Keys.Add: // Keys.Oemplus
+					if (Restrict != Type.Hecate)
+					{
+						int val = Int32.Parse(Text) + 1;
+						switch (Restrict)
+						{
+							case Type.Degree:  if (val <= 359) goto case Type.Hecate; break;
+							case Type.Percent: if (val <= 100) goto case Type.Hecate; break;
+							case Type.Byte:    if (val <= 255) goto case Type.Hecate; break;
+							case Type.Hecate:  Text = val.ToString();                 break;
+						}
+					}
+					e.Handled = e.SuppressKeyPress = true;
+					return;
+
+				case Keys.Subtract: // Keys.OemMinus
+					if (Restrict != Type.Hecate)
+					{
+						int val = Int32.Parse(Text) - 1;
+						if (val >= 0) Text = val.ToString();
+					}
+					e.Handled = e.SuppressKeyPress = true;
+					return;
 			}
 
 
