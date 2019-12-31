@@ -10,57 +10,57 @@ namespace creaturevisualizer
 		: UserControl
 	{
 		#region Events
-		public event ColorSpaceEventHandler SelectedCoChanged;
-		public event ColorSpaceEventHandler CoValueChanged;
+		public event ColorSpaceEvent CiscoSelected;
+		public event ColorSpaceEvent CiscoValueChanged;
 		#endregion Events
 
 
 		#region Properties
-		readonly List<ColorSpaceControlCo> _cos = new List<ColorSpaceControlCo>();
-		internal protected List<ColorSpaceControlCo> SpaceControls
+		readonly List<ColorSpaceControlCisco> _ciscos = new List<ColorSpaceControlCisco>();
+		internal protected List<ColorSpaceControlCisco> SpaceControls
 		{
-			get { return _cos; }
+			get { return _ciscos; }
 		}
 
-		internal ColorSpaceControlCo Co
+		internal ColorSpaceControlCisco Cisco
 		{ get; private set; }
 		#endregion Properties
 
 
 		#region Handlers
-		internal protected void OnCoSelected(ColorSpaceControlCo sender)
+		internal protected void OnCiscoSelected(ColorSpaceControlCisco sender)
 		{
-			SelectCo(sender);
+			SelectCisco(sender);
 		}
 
-		internal protected void OnValueChanged(ColorSpaceControlCo sender)
+		internal protected void OnCiscoValueChanged(ColorSpaceControlCisco sender)
 		{
-			if (CoValueChanged != null)
-				CoValueChanged(this);
+			if (CiscoValueChanged != null)
+				CiscoValueChanged(this);
 		}
 		#endregion Handlers
 
 
 		#region Methods
-		internal void SelectCo(ColorSpaceControlCo co)
+		internal void SelectCisco(ColorSpaceControlCisco cisco)
 		{
-			DeselectComponents();
+			DeselectCiscos();
 
-			(Co = co).Selected = true;
+			(Cisco = cisco).Selected = true;
 
-			if (SelectedCoChanged != null)
-				SelectedCoChanged(this);
+			if (CiscoSelected != null)
+				CiscoSelected(this);
 		}
 
-		internal void DeselectComponents()
+		internal void DeselectCiscos()
 		{
-			foreach (ColorSpaceControlCo co in SpaceControls)
-				co.Selected = false;
+			foreach (ColorSpaceControlCisco cisco in SpaceControls)
+				cisco.Selected = false;
 		}
 		#endregion Methods
 	}
 
 
 	// Sano.PersonalProjects.ColorPicker.Controls.ColorSpaceEventHandler
-	internal delegate void ColorSpaceEventHandler(ColorSpaceControl sender);
+	internal delegate void ColorSpaceEvent(ColorSpaceControl sender);
 }

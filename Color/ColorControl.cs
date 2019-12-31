@@ -14,7 +14,7 @@ namespace creaturevisualizer
 		: UserControl
 	{
 		#region Events
-		internal event ColorChangedEventHandler ColorChanged;
+		internal event ColorChangedEvent ColorChanged;
 		#endregion Events
 
 
@@ -65,7 +65,7 @@ namespace creaturevisualizer
 
 			colortop.Activated = true;
 
-			hsbColorSpace.SelectCo(hsbColorSpace.coHue);
+			hsbColorSpace.SelectCisco(hsbColorSpace.coHue);
 		}
 		#endregion cTor
 
@@ -126,28 +126,31 @@ namespace creaturevisualizer
 
 		void sliderchanged_slider(SliderChangedEventArgs e)
 		{
-			int val = e.Val;
-
-			switch (_csCurrent.Co.Units)
+			int val;
+			switch (_csCurrent.Cisco.Units)
 			{
-				case ColorSpaceControlCo.Unit.Degree:
-					val = (int)Math.Ceiling(val * 24.0 / 17.0);
+				case ColorSpaceControlCisco.Unit.Degree:
+					val = (int)Math.Ceiling(e.Val * 24.0 / 17.0);
 					if (val == 360)
 						val  = 0;
 					break;
 
-				case ColorSpaceControlCo.Unit.Percent:
-					val = (int)Math.Ceiling(val / 2.55);
+				case ColorSpaceControlCisco.Unit.Percent:
+					val = (int)Math.Ceiling(e.Val / 2.55);
+					break;
+
+				default:
+					val = e.Val;
 					break;
 			}
 
-			_csCurrent.Co.Val = val;
+			_csCurrent.Cisco.Val = val;
 
-			if (_csCurrent is ColorSpaceRgb)
+			if (_csCurrent is ColorSpaceControlRGB)
 			{
 				hsbColorSpace.Structure = ColorConverter.RgbToHsb((RGB)rgbColorSpace.Structure);
 			}
-			else if (_csCurrent is ColorSpaceHsb)
+			else if (_csCurrent is ColorSpaceControlHSB)
 			{
 				rgbColorSpace.Structure = ColorConverter.HsbToRgb((HSB)hsbColorSpace.Structure);
 			}
@@ -166,15 +169,15 @@ namespace creaturevisualizer
 				ColorChanged();
 		}
 
-		void selectedcochanged_csc(ColorSpaceControl sender)
+		void ciscoselected_csc(ColorSpaceControl sender)
 		{
-			if (sender is ColorSpaceRgb)
+			if (sender is ColorSpaceControlRGB)
 			{
-				hsbColorSpace.DeselectComponents();
+				hsbColorSpace.DeselectCiscos();
 			}
-			else if (sender is ColorSpaceHsb)
+			else if (sender is ColorSpaceControlHSB)
 			{
-				rgbColorSpace.DeselectComponents();
+				rgbColorSpace.DeselectCiscos();
 			}
 
 			_csCurrent = sender;
@@ -183,13 +186,13 @@ namespace creaturevisualizer
 			Satisfy(true, true, true);
 		}
 
-		void covaluechanged_csc(ColorSpaceControl sender)
+		void ciscovaluechanged_csc(ColorSpaceControl sender)
 		{
-			if (sender is ColorSpaceRgb)
+			if (sender is ColorSpaceControlRGB)
 			{
 				hsbColorSpace.Structure = ColorConverter.RgbToHsb((RGB)rgbColorSpace.Structure);
 			}
-			else if (sender is ColorSpaceHsb)
+			else if (sender is ColorSpaceControlHSB)
 			{
 				rgbColorSpace.Structure = ColorConverter.HsbToRgb((HSB)hsbColorSpace.Structure);
 			}
@@ -216,7 +219,7 @@ namespace creaturevisualizer
 
 			HSB hsb = ColorConverter.RgbToHsb(rgb);
 
-			switch (_csCurrent.Co.DisplayCharacter)
+			switch (_csCurrent.Cisco.DisplayCharacter)
 			{
 				case 'H':
 				{
@@ -309,15 +312,15 @@ namespace creaturevisualizer
 
 		void SetSlider()
 		{
-			int val = _csCurrent.Co.Val;
+			int val = _csCurrent.Cisco.Val;
 
-			switch (_csCurrent.Co.Units)
+			switch (_csCurrent.Cisco.Units)
 			{
-				case ColorSpaceControlCo.Unit.Degree:
+				case ColorSpaceControlCisco.Unit.Degree:
 					val = (int)Math.Ceiling(val * 17.0 / 24.0);
 					break;
 
-				case ColorSpaceControlCo.Unit.Percent:
+				case ColorSpaceControlCisco.Unit.Percent:
 					val = (int)Math.Ceiling(val * 2.55);
 					break;
 			}
@@ -339,19 +342,19 @@ namespace creaturevisualizer
 				colorslider.ChangeColorspace(_csCurrent);
 
 
-			if (_csCurrent is ColorSpaceHsb)
+			if (_csCurrent is ColorSpaceControlHSB)
 			{
-				if (_csCurrent.Co.DisplayCharacter == 'H')
+				if (_csCurrent.Cisco.DisplayCharacter == 'H')
 				{
 					Color color = _slider.GetPixel(0, 255 - colorslider.Value);
 					colorfield.ChangeColor(color, _csCurrent, setPoint);
 				}
 				else // 'S','B'
-					colorfield.ChangeColor(_csCurrent.Co.Val, _csCurrent, setPoint);
+					colorfield.ChangeColor(_csCurrent.Cisco.Val, _csCurrent, setPoint);
 			}
-			else if (_csCurrent is ColorSpaceRgb) // 'R','G','B'
+			else if (_csCurrent is ColorSpaceControlRGB) // 'R','G','B'
 			{
-				colorfield.ChangeColor(_csCurrent.Co.Val, _csCurrent, setPoint);
+				colorfield.ChangeColor(_csCurrent.Cisco.Val, _csCurrent, setPoint);
 			}
 
 
@@ -417,8 +420,8 @@ namespace creaturevisualizer
 		ColorSlider colorslider;
 		ColorBox colortop;
 		ColorBox colorbot;
-		ColorSpaceHsb hsbColorSpace;
-		ColorSpaceRgb rgbColorSpace;
+		ColorSpaceControlHSB hsbColorSpace;
+		ColorSpaceControlRGB rgbColorSpace;
 		Label la_Hecate;
 		TextboxRestrictive tb_Hecate;
 		Label la_Alpha;
@@ -433,8 +436,8 @@ namespace creaturevisualizer
 			this.colorbot = new creaturevisualizer.ColorBox();
 			this.colorslider = new creaturevisualizer.ColorSlider();
 			this.swatches = new creaturevisualizer.SwatchControl();
-			this.rgbColorSpace = new creaturevisualizer.ColorSpaceRgb();
-			this.hsbColorSpace = new creaturevisualizer.ColorSpaceHsb();
+			this.rgbColorSpace = new creaturevisualizer.ColorSpaceControlRGB();
+			this.hsbColorSpace = new creaturevisualizer.ColorSpaceControlHSB();
 			this.tb_Hecate = new creaturevisualizer.TextboxRestrictive();
 			this.tb_Alpha = new creaturevisualizer.TextboxRestrictive();
 			this.la_Hecate = new System.Windows.Forms.Label();
@@ -450,7 +453,7 @@ namespace creaturevisualizer
 			this.colorfield.Size = new System.Drawing.Size(256, 256);
 			this.colorfield.TabIndex = 0;
 			this.colorfield.TabStop = false;
-			this.colorfield.PointSelected += new creaturevisualizer.PointSelectedEventHandler(this.pointselected_colorfield);
+			this.colorfield.PointSelected += new creaturevisualizer.PointSelectedEvent(this.pointselected_colorfield);
 			// 
 			// colortop
 			// 
@@ -484,7 +487,7 @@ namespace creaturevisualizer
 			this.colorslider.TabIndex = 1;
 			this.colorslider.TabStop = false;
 			this.colorslider.Value = 0;
-			this.colorslider.SliderChanged += new creaturevisualizer.SliderChangedEventHandler(this.sliderchanged_slider);
+			this.colorslider.SliderChanged += new creaturevisualizer.SliderChangedEvent(this.sliderchanged_slider);
 			// 
 			// swatches
 			// 
@@ -495,7 +498,7 @@ namespace creaturevisualizer
 			this.swatches.Size = new System.Drawing.Size(93, 309);
 			this.swatches.TabIndex = 10;
 			this.swatches.TabStop = false;
-			this.swatches.SwatchSelected += new creaturevisualizer.SwatchSelectedEventHandler(this.swatchselected_swatches);
+			this.swatches.SwatchSelected += new creaturevisualizer.SwatchSelectedEvent(this.swatchselected_swatches);
 			// 
 			// rgbColorSpace
 			// 
@@ -505,8 +508,8 @@ namespace creaturevisualizer
 			this.rgbColorSpace.Name = "rgbColorSpace";
 			this.rgbColorSpace.Size = new System.Drawing.Size(75, 60);
 			this.rgbColorSpace.TabIndex = 5;
-			this.rgbColorSpace.SelectedCoChanged += new creaturevisualizer.ColorSpaceEventHandler(this.selectedcochanged_csc);
-			this.rgbColorSpace.CoValueChanged += new creaturevisualizer.ColorSpaceEventHandler(this.covaluechanged_csc);
+			this.rgbColorSpace.CiscoSelected += new creaturevisualizer.ColorSpaceEvent(this.ciscoselected_csc);
+			this.rgbColorSpace.CiscoValueChanged += new creaturevisualizer.ColorSpaceEvent(this.ciscovaluechanged_csc);
 			// 
 			// hsbColorSpace
 			// 
@@ -516,8 +519,8 @@ namespace creaturevisualizer
 			this.hsbColorSpace.Name = "hsbColorSpace";
 			this.hsbColorSpace.Size = new System.Drawing.Size(75, 60);
 			this.hsbColorSpace.TabIndex = 4;
-			this.hsbColorSpace.SelectedCoChanged += new creaturevisualizer.ColorSpaceEventHandler(this.selectedcochanged_csc);
-			this.hsbColorSpace.CoValueChanged += new creaturevisualizer.ColorSpaceEventHandler(this.covaluechanged_csc);
+			this.hsbColorSpace.CiscoSelected += new creaturevisualizer.ColorSpaceEvent(this.ciscoselected_csc);
+			this.hsbColorSpace.CiscoValueChanged += new creaturevisualizer.ColorSpaceEvent(this.ciscovaluechanged_csc);
 			// 
 			// tb_Hecate
 			// 
@@ -617,7 +620,7 @@ namespace creaturevisualizer
 				{
 					bool flag = false;
 
-					foreach (ColorSpaceControlCo co in rgbColorSpace.ColorSpaceControls)
+					foreach (ColorSpaceControlCisco co in rgbColorSpace.ColorSpaceControls)
 					{
 						if (co.Name.Equals(_settings.SelectedColorSpaceComponent))
 						{
@@ -629,7 +632,7 @@ namespace creaturevisualizer
 
 					if (!flag)
 					{
-						foreach (ColorSpaceControlCo co in hsbColorSpace.ColorSpaceControls)
+						foreach (ColorSpaceControlCisco co in hsbColorSpace.ColorSpaceControls)
 						{
 							if (co.Name.Equals(_settings.SelectedColorSpaceComponent))
 							{
@@ -664,5 +667,5 @@ namespace creaturevisualizer
 		} */
 
 
-	internal delegate void ColorChangedEventHandler();
+	internal delegate void ColorChangedEvent();
 }

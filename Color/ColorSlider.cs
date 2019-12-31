@@ -11,7 +11,7 @@ namespace creaturevisualizer
 		: UserControl
 	{
 		#region Events
-		public event SliderChangedEventHandler SliderChanged;
+		public event SliderChangedEvent SliderChanged;
 		#endregion Events
 
 
@@ -171,11 +171,11 @@ namespace creaturevisualizer
 		{
 			if (_csc != null)
 			{
-				if ((_csc as ColorSpaceHsb) != null)
+				if ((_csc as ColorSpaceControlHSB) != null)
 				{
-					var hsb = (_csc as ColorSpaceHsb).Structure as HSB;
+					var hsb = (_csc as ColorSpaceControlHSB).Structure as HSB;
 
-					switch (_csc.Co.DisplayCharacter)
+					switch (_csc.Cisco.DisplayCharacter)
 					{
 						case 'H':
 							using (var linearGradientBrush = new LinearGradientBrush(_rect,
@@ -218,12 +218,12 @@ namespace creaturevisualizer
 						}
 					}
 				}
-				else // ColorSpaceRgb
+				else // ColorSpaceControlRGB
 				{
-					var rgb = (_csc as ColorSpaceRgb).Structure as RGB;
+					var rgb = (_csc as ColorSpaceControlRGB).Structure as RGB;
 
 					Color color1, color2;
-					switch (_csc.Co.DisplayCharacter)
+					switch (_csc.Cisco.DisplayCharacter)
 					{
 						case 'R':
 							color1 = Color.FromArgb(  0, rgb.G, rgb.B);
@@ -283,5 +283,5 @@ namespace creaturevisualizer
 	}
 
 
-	internal delegate void SliderChangedEventHandler(SliderChangedEventArgs e);
+	internal delegate void SliderChangedEvent(SliderChangedEventArgs e);
 }

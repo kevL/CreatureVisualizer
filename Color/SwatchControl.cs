@@ -12,7 +12,7 @@ namespace creaturevisualizer
 		: UserControl
 	{
 		#region Events
-		public event SwatchSelectedEventHandler SwatchSelected;
+		public event SwatchSelectedEvent SwatchSelected;
 		#endregion Events
 
 
@@ -425,5 +425,5 @@ namespace creaturevisualizer
 	}
 
 
-	internal delegate void SwatchSelectedEventHandler(ColorEventArgs e);
+	internal delegate void SwatchSelectedEvent(ColorEventArgs e);
 }

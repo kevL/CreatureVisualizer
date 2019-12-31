@@ -4,7 +4,7 @@
 namespace creaturevisualizer
 {
 	// Sano.PersonalProjects.ColorPicker.Controls.HsbColorSpace
-	sealed class ColorSpaceHsb
+	sealed class ColorSpaceControlHSB
 		: ColorSpaceControl
 	{
 		#region Properties (override)
@@ -27,7 +27,7 @@ namespace creaturevisualizer
 
 
 		#region cTor
-		public ColorSpaceHsb()
+		public ColorSpaceControlHSB()
 		{
 			InitializeComponent();
 
@@ -42,31 +42,17 @@ namespace creaturevisualizer
 		#endregion cTor
 
 
-		#region Handlers
-//		void OnComponentSelected(ColorSpaceControlCo sender)
-//		{
-//			SelectComponent(sender);
-//		}
-
-//		void OnComponentTextKeyUp(ColorSpaceControlCo sender, EventArgs e)
-//		{
-//			OnComponentValueChanged();
-//		}
-		#endregion Handlers
-
-
-
 		#region Designer
-		internal ColorSpaceControlCo coHue; // default
-		ColorSpaceControlCo coSat;
-		ColorSpaceControlCo coBri;
+		internal ColorSpaceControlCisco coHue; // default
+		ColorSpaceControlCisco coSat;
+		ColorSpaceControlCisco coBri;
 
 
 		void InitializeComponent()
 		{
-			this.coHue = new creaturevisualizer.ColorSpaceControlCo();
-			this.coSat = new creaturevisualizer.ColorSpaceControlCo();
-			this.coBri = new creaturevisualizer.ColorSpaceControlCo();
+			this.coHue = new creaturevisualizer.ColorSpaceControlCisco();
+			this.coSat = new creaturevisualizer.ColorSpaceControlCisco();
+			this.coBri = new creaturevisualizer.ColorSpaceControlCisco();
 			this.SuspendLayout();
 			// 
 			// coHue
@@ -80,10 +66,10 @@ namespace creaturevisualizer
 			this.coHue.Selected = false;
 			this.coHue.Size = new System.Drawing.Size(75, 20);
 			this.coHue.TabIndex = 0;
-			this.coHue.Units = creaturevisualizer.ColorSpaceControlCo.Unit.Degree;
+			this.coHue.Units = creaturevisualizer.ColorSpaceControlCisco.Unit.Degree;
 			this.coHue.Val = 0;
-			this.coHue.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
-			this.coHue.CoValueChanged += new creaturevisualizer.CoValueChangedEventHandler(this.OnValueChanged);
+			this.coHue.CiscoSelected += new creaturevisualizer.CiscoSelectedEvent(this.OnCiscoSelected);
+			this.coHue.CiscoValueChanged += new creaturevisualizer.CiscoValueChangedEvent(this.OnCiscoValueChanged);
 			// 
 			// coSat
 			// 
@@ -96,10 +82,10 @@ namespace creaturevisualizer
 			this.coSat.Selected = false;
 			this.coSat.Size = new System.Drawing.Size(75, 20);
 			this.coSat.TabIndex = 1;
-			this.coSat.Units = creaturevisualizer.ColorSpaceControlCo.Unit.Percent;
+			this.coSat.Units = creaturevisualizer.ColorSpaceControlCisco.Unit.Percent;
 			this.coSat.Val = 0;
-			this.coSat.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
-			this.coSat.CoValueChanged += new creaturevisualizer.CoValueChangedEventHandler(this.OnValueChanged);
+			this.coSat.CiscoSelected += new creaturevisualizer.CiscoSelectedEvent(this.OnCiscoSelected);
+			this.coSat.CiscoValueChanged += new creaturevisualizer.CiscoValueChangedEvent(this.OnCiscoValueChanged);
 			// 
 			// coBri
 			// 
@@ -112,19 +98,19 @@ namespace creaturevisualizer
 			this.coBri.Selected = false;
 			this.coBri.Size = new System.Drawing.Size(75, 20);
 			this.coBri.TabIndex = 2;
-			this.coBri.Units = creaturevisualizer.ColorSpaceControlCo.Unit.Percent;
+			this.coBri.Units = creaturevisualizer.ColorSpaceControlCisco.Unit.Percent;
 			this.coBri.Val = 0;
-			this.coBri.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
-			this.coBri.CoValueChanged += new creaturevisualizer.CoValueChangedEventHandler(this.OnValueChanged);
+			this.coBri.CiscoSelected += new creaturevisualizer.CiscoSelectedEvent(this.OnCiscoSelected);
+			this.coBri.CiscoValueChanged += new creaturevisualizer.CiscoValueChangedEvent(this.OnCiscoValueChanged);
 			// 
-			// ColorSpaceHsb
+			// ColorSpaceControlHSB
 			// 
 			this.Controls.Add(this.coHue);
 			this.Controls.Add(this.coSat);
 			this.Controls.Add(this.coBri);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Margin = new System.Windows.Forms.Padding(0);
-			this.Name = "ColorSpaceHsb";
+			this.Name = "ColorSpaceControlHSB";
 			this.Size = new System.Drawing.Size(75, 58);
 			this.ResumeLayout(false);
 

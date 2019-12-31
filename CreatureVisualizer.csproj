@@ -72,14 +72,14 @@
     <Compile Include="Color\GradientService.cs" />
     <Compile Include="Color\ColorEventArgs.cs" />
     <Compile Include="Color\ColorSlider.cs" />
-    <Compile Include="Color\ColorSpaceControlCo.cs" />
+    <Compile Include="Color\ColorSpaceControlCisco.cs" />
     <Compile Include="Color\ColorSpaceControl.cs" />
     <Compile Include="Color\SwatchControl.cs" />
     <Compile Include="Color\SwatchIo.cs" />
     <Compile Include="Color\Swatch.cs" />
-    <Compile Include="Color\ColorSpaceHsb.cs" />
+    <Compile Include="Color\ColorSpaceControlHSB.cs" />
     <Compile Include="Color\HSB.cs" />
-    <Compile Include="Color\ColorSpaceRgb.cs" />
+    <Compile Include="Color\ColorSpaceControlRGB.cs" />
     <Compile Include="Color\RGB.cs" />
     <Compile Include="Color\TextboxRestrictive.cs" />
     <Compile Include="CreatureVisualizerF.cs" />
@@ -100,8 +100,8 @@
     <EmbeddedResource Include="Color\ColorControl.resx">
       <DependentUpon>ColorControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Color\ColorSpaceControlCo.resx">
-      <DependentUpon>ColorSpaceControlCo.cs</DependentUpon>
+    <EmbeddedResource Include="Color\ColorSpaceControlCisco.resx">
+      <DependentUpon>ColorSpaceControlCisco.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Color\SwatchDialog.resx">
       <DependentUpon>SwatchDialog.cs</DependentUpon>
@@ -124,11 +124,11 @@
     <EmbeddedResource Include="Color\SwatchControl.resx">
       <DependentUpon>SwatchControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Color\ColorSpaceHsb.resx">
-      <DependentUpon>ColorSpaceHsb.cs</DependentUpon>
+    <EmbeddedResource Include="Color\ColorSpaceControlHSB.resx">
+      <DependentUpon>ColorSpaceControlHSB.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Color\ColorSpaceRgb.resx">
-      <DependentUpon>ColorSpaceRgb.cs</DependentUpon>
+    <EmbeddedResource Include="Color\ColorSpaceControlRGB.resx">
+      <DependentUpon>ColorSpaceControlRGB.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CreatureVisualizerF.resx">
       <DependentUpon>CreatureVisualizerF.cs</DependentUpon>

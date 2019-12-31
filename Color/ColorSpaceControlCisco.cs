@@ -6,7 +6,7 @@ using System.Windows.Forms;
 namespace creaturevisualizer
 {
 	// Sano.PersonalProjects.ColorPicker.Controls.ColorSpaceComponent
-	sealed class ColorSpaceControlCo
+	sealed class ColorSpaceControlCisco
 		: UserControl
 	{
 		// Sano.PersonalProjects.ColorPicker.Controls.ComponentUnit
@@ -19,8 +19,8 @@ namespace creaturevisualizer
 
 
 		#region Events
-		public event CoSelectedEventHandler CoSelected;
-		public event CoValueChangedEventHandler CoValueChanged;
+		public event CiscoSelectedEvent CiscoSelected;
+		public event CiscoValueChangedEvent CiscoValueChanged;
 		#endregion Events
 
 
@@ -86,7 +86,7 @@ namespace creaturevisualizer
 
 
 		#region cTor
-		public ColorSpaceControlCo()
+		public ColorSpaceControlCisco()
 		{
 			InitializeComponent();
 		}
@@ -125,15 +125,15 @@ namespace creaturevisualizer
 		{
 			if (((RadioButton)sender).Checked)
 			{
-				if (CoSelected != null)
-					CoSelected(this);
+				if (CiscoSelected != null)
+					CiscoSelected(this);
 			}
 		}
 
 		void textchanged_val(object sender, EventArgs e)
 		{
-			if (CoValueChanged != null)
-				CoValueChanged(this);
+			if (CiscoValueChanged != null)
+				CiscoValueChanged(this);
 		}
 
 		void leave_val(object sender, EventArgs e)
@@ -194,14 +194,14 @@ namespace creaturevisualizer
 			this.rb_Co.Click += new System.EventHandler(this.click_rb);
 			this.rb_Co.MouseHover += new System.EventHandler(this.mousehover_rb);
 			// 
-			// ColorSpaceControlCo
+			// ColorSpaceControlCisco
 			// 
 			this.Controls.Add(this.rb_Co);
 			this.Controls.Add(this.tb_Val);
 			this.Controls.Add(this.la_Units);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Margin = new System.Windows.Forms.Padding(0);
-			this.Name = "ColorSpaceControlCo";
+			this.Name = "ColorSpaceControlCisco";
 			this.Size = new System.Drawing.Size(75, 20);
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -212,6 +212,6 @@ namespace creaturevisualizer
 
 
 	// Sano.PersonalProjects.ColorPicker.Controls.ColorSpaceComponentEventHandler
-	internal delegate void CoSelectedEventHandler(ColorSpaceControlCo sender);
-	internal delegate void CoValueChangedEventHandler(ColorSpaceControlCo sender);
+	internal delegate void CiscoSelectedEvent(ColorSpaceControlCisco sender);
+	internal delegate void CiscoValueChangedEvent(ColorSpaceControlCisco sender);
 }

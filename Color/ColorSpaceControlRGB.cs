@@ -5,7 +5,7 @@ using System.Drawing;
 namespace creaturevisualizer
 {
 	// Sano.PersonalProjects.ColorPicker.Controls.RgbColorSpace
-	sealed class ColorSpaceRgb
+	sealed class ColorSpaceControlRGB
 		: ColorSpaceControl
 	{
 		#region Properties (override)
@@ -28,7 +28,7 @@ namespace creaturevisualizer
 
 
 		#region cTor
-		public ColorSpaceRgb()
+		public ColorSpaceControlRGB()
 		{
 			InitializeComponent();
 
@@ -37,19 +37,6 @@ namespace creaturevisualizer
 			SpaceControls.Add(coBlu);
 		}
 		#endregion cTor
-
-
-		#region Handlers
-//		void OnComponentSelected(ColorSpaceControlCo sender)
-//		{
-//			SelectComponent(sender);
-//		}
-
-//		void OnComponentTextKeyUp(ColorSpaceControlCo sender, EventArgs e)
-//		{
-//			OnComponentValueChanged();
-//		}
-		#endregion Handlers
 
 
 		#region Methods
@@ -69,16 +56,16 @@ namespace creaturevisualizer
 
 
 		#region Designer
-		ColorSpaceControlCo coRed;
-		ColorSpaceControlCo coGre;
-		ColorSpaceControlCo coBlu;
+		ColorSpaceControlCisco coRed;
+		ColorSpaceControlCisco coGre;
+		ColorSpaceControlCisco coBlu;
 
 
 		void InitializeComponent()
 		{
-			this.coRed = new creaturevisualizer.ColorSpaceControlCo();
-			this.coGre = new creaturevisualizer.ColorSpaceControlCo();
-			this.coBlu = new creaturevisualizer.ColorSpaceControlCo();
+			this.coRed = new creaturevisualizer.ColorSpaceControlCisco();
+			this.coGre = new creaturevisualizer.ColorSpaceControlCisco();
+			this.coBlu = new creaturevisualizer.ColorSpaceControlCisco();
 			this.SuspendLayout();
 			// 
 			// coRed
@@ -92,10 +79,10 @@ namespace creaturevisualizer
 			this.coRed.Selected = false;
 			this.coRed.Size = new System.Drawing.Size(75, 20);
 			this.coRed.TabIndex = 0;
-			this.coRed.Units = creaturevisualizer.ColorSpaceControlCo.Unit.Byte;
+			this.coRed.Units = creaturevisualizer.ColorSpaceControlCisco.Unit.Byte;
 			this.coRed.Val = 0;
-			this.coRed.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
-			this.coRed.CoValueChanged += new creaturevisualizer.CoValueChangedEventHandler(this.OnValueChanged);
+			this.coRed.CiscoSelected += new creaturevisualizer.CiscoSelectedEvent(this.OnCiscoSelected);
+			this.coRed.CiscoValueChanged += new creaturevisualizer.CiscoValueChangedEvent(this.OnCiscoValueChanged);
 			// 
 			// coGre
 			// 
@@ -108,10 +95,10 @@ namespace creaturevisualizer
 			this.coGre.Selected = false;
 			this.coGre.Size = new System.Drawing.Size(75, 20);
 			this.coGre.TabIndex = 1;
-			this.coGre.Units = creaturevisualizer.ColorSpaceControlCo.Unit.Byte;
+			this.coGre.Units = creaturevisualizer.ColorSpaceControlCisco.Unit.Byte;
 			this.coGre.Val = 0;
-			this.coGre.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
-			this.coGre.CoValueChanged += new creaturevisualizer.CoValueChangedEventHandler(this.OnValueChanged);
+			this.coGre.CiscoSelected += new creaturevisualizer.CiscoSelectedEvent(this.OnCiscoSelected);
+			this.coGre.CiscoValueChanged += new creaturevisualizer.CiscoValueChangedEvent(this.OnCiscoValueChanged);
 			// 
 			// coBlu
 			// 
@@ -124,19 +111,19 @@ namespace creaturevisualizer
 			this.coBlu.Selected = false;
 			this.coBlu.Size = new System.Drawing.Size(75, 20);
 			this.coBlu.TabIndex = 2;
-			this.coBlu.Units = creaturevisualizer.ColorSpaceControlCo.Unit.Byte;
+			this.coBlu.Units = creaturevisualizer.ColorSpaceControlCisco.Unit.Byte;
 			this.coBlu.Val = 0;
-			this.coBlu.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
-			this.coBlu.CoValueChanged += new creaturevisualizer.CoValueChangedEventHandler(this.OnValueChanged);
+			this.coBlu.CiscoSelected += new creaturevisualizer.CiscoSelectedEvent(this.OnCiscoSelected);
+			this.coBlu.CiscoValueChanged += new creaturevisualizer.CiscoValueChangedEvent(this.OnCiscoValueChanged);
 			// 
-			// ColorSpaceRgb
+			// ColorSpaceControlRGB
 			// 
 			this.Controls.Add(this.coRed);
 			this.Controls.Add(this.coGre);
 			this.Controls.Add(this.coBlu);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Margin = new System.Windows.Forms.Padding(0);
-			this.Name = "ColorSpaceRgb";
+			this.Name = "ColorSpaceControlRGB";
 			this.Size = new System.Drawing.Size(75, 58);
 			this.ResumeLayout(false);
 

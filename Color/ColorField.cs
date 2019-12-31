@@ -10,7 +10,7 @@ namespace creaturevisualizer
 		: UserControl
 	{
 		#region Events
-		public event PointSelectedEventHandler PointSelected;
+		public event PointSelectedEvent PointSelected;
 		#endregion Events
 
 
@@ -108,9 +108,9 @@ namespace creaturevisualizer
 		#region Methods
 		void DrawField(Graphics graphics)
 		{
-			if (_csc is ColorSpaceHsb)
+			if (_csc is ColorSpaceControlHSB)
 			{
-				switch (_csc.Co.DisplayCharacter)
+				switch (_csc.Cisco.DisplayCharacter)
 				{
 					case 'H':
 					{
@@ -132,9 +132,9 @@ namespace creaturevisualizer
 						break;
 				}
 			}
-			else if (_csc is ColorSpaceRgb)
+			else if (_csc is ColorSpaceControlRGB)
 			{
-				switch (_csc.Co.DisplayCharacter)
+				switch (_csc.Cisco.DisplayCharacter)
 				{
 					case 'R':
 						GradientService.DrawFieldRed(graphics, _val);
@@ -163,11 +163,11 @@ namespace creaturevisualizer
 			int x = 0;
 			int y = 0;
 
-			if ((_csc as ColorSpaceHsb) != null)
+			if ((_csc as ColorSpaceControlHSB) != null)
 			{
-				var hsb = (HSB)((ColorSpaceHsb)_csc).Structure;
+				var hsb = (HSB)((ColorSpaceControlHSB)_csc).Structure;
 
-				switch (_csc.Co.DisplayCharacter)
+				switch (_csc.Cisco.DisplayCharacter)
 				{
 					case 'H':
 						x =       (int)Math.Round((double)hsb.S * 2.55);
@@ -185,11 +185,11 @@ namespace creaturevisualizer
 						break;
 				}
 			}
-			else if ((_csc as ColorSpaceRgb) != null)
+			else if ((_csc as ColorSpaceControlRGB) != null)
 			{
-				Color color = ((ColorSpaceRgb)_csc).GetColor();
+				Color color = ((ColorSpaceControlRGB)_csc).GetColor();
 
-				switch (_csc.Co.DisplayCharacter)
+				switch (_csc.Cisco.DisplayCharacter)
 				{
 					case 'R': x = color.B; y = 255 - color.G; break;
 					case 'G': x = color.B; y = 255 - color.R; break;
@@ -224,11 +224,11 @@ namespace creaturevisualizer
 
 		Color GetCurrentColor()
 		{
-			if ((_csc as ColorSpaceHsb) != null)
+			if ((_csc as ColorSpaceControlHSB) != null)
 			{
-				var hsb = (HSB)((ColorSpaceHsb)_csc).Structure;
+				var hsb = (HSB)((ColorSpaceControlHSB)_csc).Structure;
 
-				switch (_csc.Co.DisplayCharacter)
+				switch (_csc.Cisco.DisplayCharacter)
 				{
 					case 'H':
 					{
@@ -256,11 +256,11 @@ namespace creaturevisualizer
 				}
 				return ColorConverter.HsbToColor(hsb);
 			}
-			else //if ((_csc as ColorSpaceRgb) != null)
+			else //if ((_csc as ColorSpaceControlRGB) != null)
 			{
-				var rgb = (RGB)((ColorSpaceRgb)_csc).Structure;
+				var rgb = (RGB)((ColorSpaceControlRGB)_csc).Structure;
 
-				switch (_csc.Co.DisplayCharacter)
+				switch (_csc.Cisco.DisplayCharacter)
 				{
 					case 'R': rgb = new RGB(rgb.R,       255 - _pt.Y, _pt.X); break;
 					case 'G': rgb = new RGB(255 - _pt.Y, rgb.G,       _pt.X); break;
@@ -291,5 +291,5 @@ namespace creaturevisualizer
 	}
 
 
-	internal delegate void PointSelectedEventHandler(ColorEventArgs e);
+	internal delegate void PointSelectedEvent(ColorEventArgs e);
 }
