@@ -155,16 +155,15 @@ namespace creaturevisualizer
 			Satisfy(false, false, true);
 
 			ColorBox bo = GetActiveColorbox();
-			bo.BackColor = ColorConverter.RgbToColor((RGB)rgbColorSpace.Structure);
-
-			if (ColorChanged != null)
-				ColorChanged();
-
+			bo.BackColor = Color.FromArgb(bo.Alpha, ColorConverter.RgbToColor((RGB)rgbColorSpace.Structure));
 
 			hsbColorSpace.Refresh(); // fast updates ->
 			rgbColorSpace.Refresh();
 			tb_Hecate    .Refresh();
 			bo           .Refresh();
+
+			if (ColorChanged != null)
+				ColorChanged();
 		}
 
 		void selectedcochanged_csc(ColorSpaceControl sender)
@@ -198,7 +197,8 @@ namespace creaturevisualizer
 			SetSlider();
 			Satisfy(true, true, true);
 
-			GetActiveColorbox().BackColor = ColorConverter.RgbToColor((RGB)rgbColorSpace.Structure);
+			ColorBox bo = GetActiveColorbox();
+			bo.BackColor = Color.FromArgb(bo.Alpha, ColorConverter.RgbToColor((RGB)rgbColorSpace.Structure));
 
 			if (ColorChanged != null)
 				ColorChanged();
@@ -239,7 +239,13 @@ namespace creaturevisualizer
 
 			tb_Hecate.Text = rgbColorSpace.GetHecate();
 
-			GetActiveColorbox().BackColor = ColorConverter.RgbToColor(rgb);
+			ColorBox bo = GetActiveColorbox();
+			bo.BackColor = Color.FromArgb(bo.Alpha, ColorConverter.RgbToColor(rgb));
+
+			hsbColorSpace.Refresh(); // fast updates ->
+			rgbColorSpace.Refresh();
+			tb_Hecate    .Refresh();
+			bo           .Refresh();
 
 			if (ColorChanged != null)
 				ColorChanged();
@@ -287,7 +293,7 @@ namespace creaturevisualizer
 		void SetColor(Color color, bool setSlider, bool setHecateText = true)
 		{
 			if (!ColorConverter.ColorToRgb(color).Equals(rgbColorSpace.Structure)	// TODO: store alpha in the Structure(s)
-				|| !setHecateText)													// and remove 'setHecateText' shenanigans
+				|| !setHecateText)													// TODO: remove 'setHecateText' shenanigans
 			{
 				RGB rgb = ColorConverter.ColorToRgb(color);
 				rgbColorSpace.Structure = rgb;
@@ -324,8 +330,9 @@ namespace creaturevisualizer
 			if (!String.IsNullOrEmpty(tb_Alpha.Text)) alpha = tb_Alpha.Text;
 			else                                      alpha = "0";
 
-			GetActiveColorbox().BackColor = Color.FromArgb(Byte.Parse(alpha),
-														   ColorConverter.RgbToColor((RGB)rgbColorSpace.Structure));
+			ColorBox bo = GetActiveColorbox();
+			bo.BackColor = Color.FromArgb(bo.Alpha, ColorConverter.RgbToColor((RGB)rgbColorSpace.Structure));
+			bo.Invalidate();
 
 
 			if (setSliderColorspace)
