@@ -238,6 +238,7 @@ namespace creaturevisualizer
 			}
 
 			tb_Hecate.Text = rgbColorSpace.GetHecate();
+
 			GetActiveColorbox().BackColor = ColorConverter.RgbToColor(rgb);
 
 			if (ColorChanged != null)
@@ -262,7 +263,9 @@ namespace creaturevisualizer
 			else                                      alpha = "0";
 
 			ColorBox bo = GetActiveColorbox();
-			bo.Alpha = Byte.Parse(alpha);
+			bo.BackColor = Color.FromArgb(Byte.Parse(alpha), bo.BackColor);
+			bo.Invalidate();
+
 			SetColor(bo.BackColor, false, false);
 		}
 
@@ -281,7 +284,7 @@ namespace creaturevisualizer
 
 
 		#region Methods
-		void SetColor(Color color, bool resetSlider, bool setHecateText = true)
+		void SetColor(Color color, bool setSlider, bool setHecateText = true)
 		{
 			if (!ColorConverter.ColorToRgb(color).Equals(rgbColorSpace.Structure)	// TODO: store alpha in the Structure(s)
 				|| !setHecateText)													// and remove 'setHecateText' shenanigans
@@ -290,7 +293,7 @@ namespace creaturevisualizer
 				rgbColorSpace.Structure = rgb;
 				hsbColorSpace.Structure = ColorConverter.RgbToHsb(rgb);
 
-				if (resetSlider) SetSlider();
+				if (setSlider) SetSlider();
 				Satisfy(false, true, setHecateText);
 
 				if (ColorChanged != null)
@@ -315,7 +318,7 @@ namespace creaturevisualizer
 			colorslider.Value = val;
 		}
 
-		void Satisfy(bool setSliderColorspace, bool updateFieldPoint, bool setHecateText)
+		void Satisfy(bool setSliderColorspace, bool setPoint, bool setHecateText)
 		{
 			string alpha;
 			if (!String.IsNullOrEmpty(tb_Alpha.Text)) alpha = tb_Alpha.Text;
@@ -334,14 +337,14 @@ namespace creaturevisualizer
 				if (_csCurrent.Co.DisplayCharacter == 'H')
 				{
 					Color color = _slider.GetPixel(0, 255 - colorslider.Value);
-					colorfield.ChangeColor(color, _csCurrent, updateFieldPoint);
+					colorfield.ChangeColor(color, _csCurrent, setPoint);
 				}
 				else // 'S','B'
-					colorfield.ChangeColor(_csCurrent.Co.Val, _csCurrent, updateFieldPoint);
+					colorfield.ChangeColor(_csCurrent.Co.Val, _csCurrent, setPoint);
 			}
 			else if (_csCurrent is ColorSpaceRgb) // 'R','G','B'
 			{
-				colorfield.ChangeColor(_csCurrent.Co.Val, _csCurrent, updateFieldPoint);
+				colorfield.ChangeColor(_csCurrent.Co.Val, _csCurrent, setPoint);
 			}
 
 
@@ -382,8 +385,6 @@ namespace creaturevisualizer
 		internal void InitializeColor(Color color)
 		{
 			colorbot.BackColor = color;
-			colorbot.Alpha = color.A; // TODO: set ColorBox's Alpha val w/ BackColor changed event
-
 			swatches.SelectSwatch(color);
 		}
 

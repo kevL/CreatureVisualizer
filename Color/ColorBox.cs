@@ -22,7 +22,7 @@ namespace creaturevisualizer
 		}
 
 		internal byte Alpha
-		{ get; set; }
+		{ get; private set; }
 		#endregion Properties
 
 
@@ -54,6 +54,11 @@ namespace creaturevisualizer
 				e.Graphics.DrawLine(SystemPens.Control, 0,         0, 0,         Height);
 				e.Graphics.DrawLine(SystemPens.Control, Width - 1, 0, Width - 1, Height);
 			}
+		}
+
+		protected override void OnBackColorChanged(EventArgs e)
+		{
+			Alpha = BackColor.A;
 		}
 		#endregion Handlers (override)
 

@@ -199,24 +199,24 @@ namespace creaturevisualizer
 			return new Point(x,y);
 		}
 
-		internal void ChangeColor(Color color, ColorSpaceControl csc, bool updateFieldPoint)
+		internal void ChangeColor(Color color, ColorSpaceControl csc, bool setPoint)
 		{
 			_color = color;
-			ChangeColorspace(csc, updateFieldPoint);
+			ChangeColorspace(csc, setPoint);
 		}
 
-		internal void ChangeColor(int val, ColorSpaceControl csc, bool updateFieldPoint)
+		internal void ChangeColor(int val, ColorSpaceControl csc, bool setPoint)
 		{
 			_val = val;
 			_color = Color.Empty;
-			ChangeColorspace(csc, updateFieldPoint);
+			ChangeColorspace(csc, setPoint);
 		}
 
-		void ChangeColorspace(ColorSpaceControl csc, bool updateFieldPoint)
+		void ChangeColorspace(ColorSpaceControl csc, bool setPoint)
 		{
 			_csc = csc;
 
-			if (updateFieldPoint)
+			if (setPoint)
 				_pt = CalculatePoint();
 
 			Refresh();
