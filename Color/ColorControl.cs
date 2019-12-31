@@ -102,9 +102,11 @@ namespace creaturevisualizer
 
 
 		#region Handlers
-		internal void mousedown_colorbox(object sender, MouseEventArgs e)
+		internal void mouseup_colorbox(object sender, MouseEventArgs e)
 		{
-			if (e.Button == MouseButtons.Right)
+			if (sender == null														// -> fired by ColorF.OnKeyDown()
+				|| (e.Button == MouseButtons.Right
+					&& ((sender as ColorBox).ClientRectangle.Contains(e.X, e.Y))))	// -> don't fire if user moves cursor out of the box.
 			{
 				ColorBox bo = SwapActiveColorbox();
 
@@ -272,7 +274,7 @@ namespace creaturevisualizer
 			}
 			else //if ((sender as Label) == la_Hex)
 			{
-				ColorF.That.Print("RGB 000000..FFFFFF hexadecimal");
+				ColorF.That.Print("RGB 000000..FFFFFF");
 			}
 		}
 		#endregion Handlers
@@ -380,6 +382,8 @@ namespace creaturevisualizer
 		internal void InitializeColor(Color color)
 		{
 			colorbot.BackColor = color;
+			colorbot.Alpha = color.A; // TODO: set ColorBox's Alpha val w/ BackColor changed event
+
 			swatches.SelectSwatch(color);
 		}
 
@@ -449,7 +453,7 @@ namespace creaturevisualizer
 			this.colortop.Size = new System.Drawing.Size(80, 30);
 			this.colortop.TabIndex = 2;
 			this.colortop.TabStop = false;
-			this.colortop.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_colorbox);
+			this.colortop.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_colorbox);
 			// 
 			// colorbot
 			// 
@@ -460,7 +464,7 @@ namespace creaturevisualizer
 			this.colorbot.Size = new System.Drawing.Size(80, 30);
 			this.colorbot.TabIndex = 3;
 			this.colorbot.TabStop = false;
-			this.colorbot.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_colorbox);
+			this.colorbot.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_colorbox);
 			// 
 			// colorslider
 			// 

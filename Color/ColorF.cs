@@ -53,7 +53,7 @@ namespace creaturevisualizer
 
 
 		#region Handlers (override)
-		protected override void OnKeyDown(KeyEventArgs e)
+		protected override void OnKeyUp(KeyEventArgs e)
 		{
 			switch (e.KeyData)
 			{
@@ -63,7 +63,7 @@ namespace creaturevisualizer
 						e.Handled = e.SuppressKeyPress = true;
 
 						var args = new MouseEventArgs(MouseButtons.Right, 0, 0,0, 0);
-						ColorControl.mousedown_colorbox(null, args);
+						ColorControl.mouseup_colorbox(null, args);
 					}
 					break;
 			}

@@ -95,20 +95,19 @@ namespace creaturevisualizer
 			}
 		}
 
+		protected override void OnMouseDown(MouseEventArgs e)
+		{
+			if (_graphic != null) ClearSelector();
+		}
+
 		protected override void OnMouseUp(MouseEventArgs e)
 		{
 			if (_graphic != null
-				&& e.Button == MouseButtons.Left || e.Button == MouseButtons.Right)
+				&& (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right)
+				&& ClientRectangle.Contains(e.X, e.Y))
 			{
-				int id;
-
-				if (_sel != -1)
-				{
-					id = _sel; _sel = -1;
-					InvalidateSwatch(_tiles[id]);
-				}
-
-				if ((id = GetTileId(e.X, e.Y)) != -1)
+				int id = GetTileId(e.X, e.Y);
+				if (id != -1)
 				{
 					Swatch tile = _tiles[id];
 
@@ -225,6 +224,8 @@ namespace creaturevisualizer
 
 		void click_context_append(object sender, EventArgs e)
 		{
+			ClearSelector();
+
 			Color color = ColorF.That.ColorControl.GetActiveColorbox().BackColor;
 
 			int id = ColorExists(color);
@@ -250,12 +251,14 @@ namespace creaturevisualizer
 						swatch.Description = f.Description;
 						_tiles[id] = swatch;
 
+						InvalidateSwatch(_tiles[_sel = id]);
+
 //						SwatchIo.Write(SwatchFile, _tiles);
 					}
 				}
 			}
-
-			InvalidateSwatch(_tiles[_sel = id]);
+			else
+				InvalidateSwatch(_tiles[_sel = id]);
 		}
 		#endregion Handlers
 
@@ -349,15 +352,20 @@ namespace creaturevisualizer
 
 		internal void SelectSwatch(Color color)
 		{
-			int id;
+			ClearSelector();
+
+			int id = ColorExists(color);
+			if (id != _firstBlankId)
+				InvalidateSwatch(_tiles[_sel = id]);
+		}
+
+		void ClearSelector()
+		{
 			if (_sel != -1)
 			{
-				id = _sel; _sel = -1;
+				int id = _sel; _sel = -1;
 				InvalidateSwatch(_tiles[id]);
 			}
-
-			if ((id = ColorExists(color)) != _firstBlankId)
-				InvalidateSwatch(_tiles[_sel = id]);
 		}
 
 		void InvalidateSwatch(Swatch swatch)
