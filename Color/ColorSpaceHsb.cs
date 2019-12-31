@@ -83,6 +83,7 @@ namespace creaturevisualizer
 			this.coHue.Units = creaturevisualizer.ColorSpaceControlCo.Unit.Degree;
 			this.coHue.Val = 0;
 			this.coHue.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
+			this.coHue.CoValueChanged += new creaturevisualizer.CoValueChangedEventHandler(this.OnValueChanged);
 			// 
 			// coSat
 			// 
@@ -98,6 +99,7 @@ namespace creaturevisualizer
 			this.coSat.Units = creaturevisualizer.ColorSpaceControlCo.Unit.Percent;
 			this.coSat.Val = 0;
 			this.coSat.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
+			this.coSat.CoValueChanged += new creaturevisualizer.CoValueChangedEventHandler(this.OnValueChanged);
 			// 
 			// coBri
 			// 
@@ -113,6 +115,7 @@ namespace creaturevisualizer
 			this.coBri.Units = creaturevisualizer.ColorSpaceControlCo.Unit.Percent;
 			this.coBri.Val = 0;
 			this.coBri.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
+			this.coBri.CoValueChanged += new creaturevisualizer.CoValueChangedEventHandler(this.OnValueChanged);
 			// 
 			// ColorSpaceHsb
 			// 

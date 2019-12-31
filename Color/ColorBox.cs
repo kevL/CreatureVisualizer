@@ -41,19 +41,18 @@ namespace creaturevisualizer
 				e.Graphics.FillRectangle(brush, ClientRectangle);
 
 			// Muahaha
-			e.Graphics.DrawLine(Pens.Black, 1,         0, 1,         Height);
-			e.Graphics.DrawLine(Pens.Black, Width - 2, 0, Width - 2, Height);
+			e.Graphics.DrawLine(Pens.Black, 2,         0, 2,         Height);
+			e.Graphics.DrawLine(Pens.Black, Width - 3, 0, Width - 3, Height);
 
-			if (Activated)
-			{
-				e.Graphics.DrawLine(Pens.Black, 0,         0, 0,         Height);
-				e.Graphics.DrawLine(Pens.Black, Width - 1, 0, Width - 1, Height);
-			}
-			else
-			{
-				e.Graphics.DrawLine(SystemPens.Control, 0,         0, 0,         Height);
-				e.Graphics.DrawLine(SystemPens.Control, Width - 1, 0, Width - 1, Height);
-			}
+			e.Graphics.DrawLine(SystemPens.Control, 1,         0, 1,         Height);
+			e.Graphics.DrawLine(SystemPens.Control, Width - 2, 0, Width - 2, Height);
+
+			Pen pen;
+			if (Activated) pen = Pens.Black;
+			else           pen = SystemPens.Control;
+
+			e.Graphics.DrawLine(pen, 0,         0, 0,         Height);
+			e.Graphics.DrawLine(pen, Width - 1, 0, Width - 1, Height);
 		}
 
 		protected override void OnBackColorChanged(EventArgs e)

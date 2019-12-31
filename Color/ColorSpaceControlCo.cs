@@ -20,6 +20,7 @@ namespace creaturevisualizer
 
 		#region Events
 		public event CoSelectedEventHandler CoSelected;
+		public event CoValueChangedEventHandler CoValueChanged;
 		#endregion Events
 
 
@@ -129,6 +130,12 @@ namespace creaturevisualizer
 			}
 		}
 
+		void textchanged_val(object sender, EventArgs e)
+		{
+			if (CoValueChanged != null)
+				CoValueChanged(this);
+		}
+
 		void leave_val(object sender, EventArgs e)
 		{
 			var tb = sender as TextboxRestrictive;
@@ -164,6 +171,7 @@ namespace creaturevisualizer
 			this.tb_Val.Size = new System.Drawing.Size(25, 20);
 			this.tb_Val.TabIndex = 1;
 			this.tb_Val.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.tb_Val.TextChanged += new System.EventHandler(this.textchanged_val);
 			this.tb_Val.Leave += new System.EventHandler(this.leave_val);
 			// 
 			// la_Units
@@ -205,4 +213,5 @@ namespace creaturevisualizer
 
 	// Sano.PersonalProjects.ColorPicker.Controls.ColorSpaceComponentEventHandler
 	internal delegate void CoSelectedEventHandler(ColorSpaceControlCo sender);
+	internal delegate void CoValueChangedEventHandler(ColorSpaceControlCo sender);
 }

@@ -11,13 +11,13 @@ namespace creaturevisualizer
 	{
 		#region Events
 		public event ColorSpaceEventHandler SelectedCoChanged;
-		public event ColorSpaceEventHandler ValueChanged;
+		public event ColorSpaceEventHandler CoValueChanged;
 		#endregion Events
 
 
 		#region Properties
 		readonly List<ColorSpaceControlCo> _cos = new List<ColorSpaceControlCo>();
-		internal List<ColorSpaceControlCo> SpaceControls
+		internal protected List<ColorSpaceControlCo> SpaceControls
 		{
 			get { return _cos; }
 		}
@@ -28,15 +28,15 @@ namespace creaturevisualizer
 
 
 		#region Handlers
-		internal void OnCoSelected(ColorSpaceControlCo sender)
+		internal protected void OnCoSelected(ColorSpaceControlCo sender)
 		{
 			SelectCo(sender);
 		}
 
-		internal void OnValueChanged() // TODO: implement that
+		internal protected void OnValueChanged(ColorSpaceControlCo sender)
 		{
-			if (ValueChanged != null)
-				ValueChanged(this);
+			if (CoValueChanged != null)
+				CoValueChanged(this);
 		}
 		#endregion Handlers
 

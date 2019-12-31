@@ -86,11 +86,11 @@ namespace creaturevisualizer
 
 // draw borders top/bot for colorboxes -> (left/right borders is handled by the colorboxes' OnPaint())
 			e.Graphics.DrawLine(Pens.Black,
-								colortop.Location.X                  + 1, colortop.Top - 1,
-								colortop.Location.X + colortop.Width - 2, colortop.Top - 1);
+								colortop.Location.X                  + 2, colortop.Top - 1,
+								colortop.Location.X + colortop.Width - 3, colortop.Top - 1);
 			e.Graphics.DrawLine(Pens.Black,
-								colorbot.Location.X                  + 1, colorbot.Bottom,
-								colorbot.Location.X + colorbot.Width - 2, colorbot.Bottom);
+								colorbot.Location.X                  + 2, colorbot.Bottom,
+								colorbot.Location.X + colorbot.Width - 3, colorbot.Bottom);
 
 
 // draw border around swatches ->
@@ -183,7 +183,7 @@ namespace creaturevisualizer
 			Satisfy(true, true, true);
 		}
 
-		void valuechanged_csc(ColorSpaceControl sender)
+		void covaluechanged_csc(ColorSpaceControl sender)
 		{
 			if (sender is ColorSpaceRgb)
 			{
@@ -506,7 +506,7 @@ namespace creaturevisualizer
 			this.rgbColorSpace.Size = new System.Drawing.Size(75, 60);
 			this.rgbColorSpace.TabIndex = 5;
 			this.rgbColorSpace.SelectedCoChanged += new creaturevisualizer.ColorSpaceEventHandler(this.selectedcochanged_csc);
-			this.rgbColorSpace.ValueChanged += new creaturevisualizer.ColorSpaceEventHandler(this.valuechanged_csc);
+			this.rgbColorSpace.CoValueChanged += new creaturevisualizer.ColorSpaceEventHandler(this.covaluechanged_csc);
 			// 
 			// hsbColorSpace
 			// 
@@ -517,7 +517,7 @@ namespace creaturevisualizer
 			this.hsbColorSpace.Size = new System.Drawing.Size(75, 60);
 			this.hsbColorSpace.TabIndex = 4;
 			this.hsbColorSpace.SelectedCoChanged += new creaturevisualizer.ColorSpaceEventHandler(this.selectedcochanged_csc);
-			this.hsbColorSpace.ValueChanged += new creaturevisualizer.ColorSpaceEventHandler(this.valuechanged_csc);
+			this.hsbColorSpace.CoValueChanged += new creaturevisualizer.ColorSpaceEventHandler(this.covaluechanged_csc);
 			// 
 			// tb_Hecate
 			// 

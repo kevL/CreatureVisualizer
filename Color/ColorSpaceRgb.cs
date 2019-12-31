@@ -95,6 +95,7 @@ namespace creaturevisualizer
 			this.coRed.Units = creaturevisualizer.ColorSpaceControlCo.Unit.Byte;
 			this.coRed.Val = 0;
 			this.coRed.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
+			this.coRed.CoValueChanged += new creaturevisualizer.CoValueChangedEventHandler(this.OnValueChanged);
 			// 
 			// coGre
 			// 
@@ -110,6 +111,7 @@ namespace creaturevisualizer
 			this.coGre.Units = creaturevisualizer.ColorSpaceControlCo.Unit.Byte;
 			this.coGre.Val = 0;
 			this.coGre.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
+			this.coGre.CoValueChanged += new creaturevisualizer.CoValueChangedEventHandler(this.OnValueChanged);
 			// 
 			// coBlu
 			// 
@@ -125,6 +127,7 @@ namespace creaturevisualizer
 			this.coBlu.Units = creaturevisualizer.ColorSpaceControlCo.Unit.Byte;
 			this.coBlu.Val = 0;
 			this.coBlu.CoSelected += new creaturevisualizer.CoSelectedEventHandler(this.OnCoSelected);
+			this.coBlu.CoValueChanged += new creaturevisualizer.CoValueChangedEventHandler(this.OnValueChanged);
 			// 
 			// ColorSpaceRgb
 			// 
