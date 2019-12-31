@@ -111,6 +111,9 @@ namespace creaturevisualizer
 				rgbColorSpace.Structure = ColorConverter.ColorToRgb(bo.BackColor);
 				hsbColorSpace.Structure = ColorConverter.ColorToHsb(bo.BackColor);
 
+				if (tb_Alpha.Text != bo.Alpha.ToString())
+					tb_Alpha.Text  = bo.Alpha.ToString();
+
 				SetSlider();
 				Satisfy(true, true, true);
 
@@ -253,12 +256,12 @@ namespace creaturevisualizer
 		void textchanged_alpha(object sender, EventArgs e)
 		{
 			string alpha;
-			if (!String.IsNullOrEmpty(tb_Alpha.Text))
-				alpha = tb_Alpha.Text;
-			else
-				alpha = "0";
+			if (!String.IsNullOrEmpty(tb_Alpha.Text)) alpha = tb_Alpha.Text;
+			else                                      alpha = "0";
 
-			SetColor(GetActiveColorbox().BackColor, false, false);
+			ColorBox bo = GetActiveColorbox();
+			bo.Alpha = Byte.Parse(alpha);
+			SetColor(bo.BackColor, false, false);
 		}
 
 		void mousehover_label(object sender, EventArgs e)
@@ -276,7 +279,7 @@ namespace creaturevisualizer
 
 
 		#region Methods
-		void SetColor(Color color, bool resetslider, bool setHecateText = true)
+		void SetColor(Color color, bool resetSlider, bool setHecateText = true)
 		{
 			if (!ColorConverter.ColorToRgb(color).Equals(rgbColorSpace.Structure)	// TODO: store alpha in the Structure(s)
 				|| !setHecateText)													// and remove 'setHecateText' shenanigans
@@ -285,7 +288,7 @@ namespace creaturevisualizer
 				rgbColorSpace.Structure = rgb;
 				hsbColorSpace.Structure = ColorConverter.RgbToHsb(rgb);
 
-				if (resetslider) SetSlider();
+				if (resetSlider) SetSlider();
 				Satisfy(false, true, setHecateText);
 
 				if (ColorChanged != null)
@@ -313,10 +316,8 @@ namespace creaturevisualizer
 		void Satisfy(bool setSliderColorspace, bool updateFieldPoint, bool setHecateText)
 		{
 			string alpha;
-			if (!String.IsNullOrEmpty(tb_Alpha.Text))
-				alpha = tb_Alpha.Text;
-			else
-				alpha = "0";
+			if (!String.IsNullOrEmpty(tb_Alpha.Text)) alpha = tb_Alpha.Text;
+			else                                      alpha = "0";
 
 			GetActiveColorbox().BackColor = Color.FromArgb(Byte.Parse(alpha),
 														   ColorConverter.RgbToColor((RGB)rgbColorSpace.Structure));

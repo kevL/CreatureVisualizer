@@ -21,7 +21,7 @@ namespace creaturevisualizer
 			}
 		}
 
-		byte Alpha
+		internal byte Alpha
 		{ get; set; }
 		#endregion Properties
 
