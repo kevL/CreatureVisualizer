@@ -153,14 +153,8 @@ namespace creaturevisualizer
 
 		void UpdatePoint(Point pt)
 		{
-			Rectangle rect;
-
-			rect = new Rectangle(_pt.X - 4, _pt.Y - 4, 9,9);
-			Invalidate(rect);
-
-			rect = new Rectangle(pt.X - 4, pt.Y - 4, 9,9);
-			Invalidate(rect);
-
+			Invalidate(new Rectangle(_pt.X - 4, _pt.Y - 4, 9,9));
+			Invalidate(new Rectangle( pt.X - 4,  pt.Y - 4, 9,9));
 			_pt = pt;
 		}
 
