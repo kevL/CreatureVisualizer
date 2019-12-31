@@ -158,7 +158,7 @@ namespace creaturevisualizer
 
 			hsbColorSpace.Refresh(); // fast updates ->
 			rgbColorSpace.Refresh();
-			tb_Hex       .Refresh();
+			tb_Hecate    .Refresh();
 			bo           .Refresh();
 		}
 
@@ -179,7 +179,7 @@ namespace creaturevisualizer
 			Satisfy(true, true, true);
 		}
 
-		void valuechanged_colorspace(ColorSpaceControl sender)
+		void valuechanged_csc(ColorSpaceControl sender)
 		{
 			if (sender is ColorSpaceRgb)
 			{
@@ -204,7 +204,7 @@ namespace creaturevisualizer
 			SetColor(e.Color, true);
 		}
 
-		void colorselected_field(ColorEventArgs e)
+		void pointselected_colorfield(ColorEventArgs e)
 		{
 			RGB rgb = ColorConverter.ColorToRgb(e.Color);
 			rgbColorSpace.Structure = rgb;
@@ -232,7 +232,7 @@ namespace creaturevisualizer
 					break;
 			}
 
-			tb_Hex.Text = rgbColorSpace.GetHecate();
+			tb_Hecate.Text = rgbColorSpace.GetHecate();
 			GetActiveColorbox().BackColor = ColorConverter.RgbToColor(rgb);
 
 			if (ColorChanged != null)
@@ -242,7 +242,7 @@ namespace creaturevisualizer
 
 		void textchanged_hecate(object sender, EventArgs e)
 		{
-			RGB rgb = ColorConverter.HexToRgb(tb_Hex.Text);
+			RGB rgb = ColorConverter.HexToRgb(tb_Hecate.Text);
 			rgbColorSpace.Structure = rgb;
 			hsbColorSpace.Structure = ColorConverter.RgbToHsb(rgb);
 
@@ -343,7 +343,7 @@ namespace creaturevisualizer
 
 
 			if (setHecateText)
-				tb_Hex.Text = rgbColorSpace.GetHecate();
+				tb_Hecate.Text = rgbColorSpace.GetHecate();
 		}
 
 
@@ -407,7 +407,7 @@ namespace creaturevisualizer
 		ColorSpaceHsb hsbColorSpace;
 		ColorSpaceRgb rgbColorSpace;
 		Label la_Hex;
-		TextboxRestrictive tb_Hex;
+		TextboxRestrictive tb_Hecate;
 		Label la_Alpha;
 		TextboxRestrictive tb_Alpha;
 		SwatchControl swatches;
@@ -422,7 +422,7 @@ namespace creaturevisualizer
 			this.swatches = new creaturevisualizer.SwatchControl();
 			this.rgbColorSpace = new creaturevisualizer.ColorSpaceRgb();
 			this.hsbColorSpace = new creaturevisualizer.ColorSpaceHsb();
-			this.tb_Hex = new creaturevisualizer.TextboxRestrictive();
+			this.tb_Hecate = new creaturevisualizer.TextboxRestrictive();
 			this.tb_Alpha = new creaturevisualizer.TextboxRestrictive();
 			this.la_Hex = new System.Windows.Forms.Label();
 			this.la_Alpha = new System.Windows.Forms.Label();
@@ -437,7 +437,7 @@ namespace creaturevisualizer
 			this.colorfield.Size = new System.Drawing.Size(256, 256);
 			this.colorfield.TabIndex = 0;
 			this.colorfield.TabStop = false;
-			this.colorfield.ColorSelected += new creaturevisualizer.ColorSelectedEventHandler(this.colorselected_field);
+			this.colorfield.PointSelected += new creaturevisualizer.PointSelectedEventHandler(this.pointselected_colorfield);
 			// 
 			// colortop
 			// 
@@ -493,7 +493,7 @@ namespace creaturevisualizer
 			this.rgbColorSpace.Size = new System.Drawing.Size(75, 60);
 			this.rgbColorSpace.TabIndex = 5;
 			this.rgbColorSpace.SelectedCoChanged += new creaturevisualizer.ColorSpaceEventHandler(this.selectedcochanged_csc);
-			this.rgbColorSpace.ValueChanged += new creaturevisualizer.ColorSpaceEventHandler(this.valuechanged_colorspace);
+			this.rgbColorSpace.ValueChanged += new creaturevisualizer.ColorSpaceEventHandler(this.valuechanged_csc);
 			// 
 			// hsbColorSpace
 			// 
@@ -504,21 +504,21 @@ namespace creaturevisualizer
 			this.hsbColorSpace.Size = new System.Drawing.Size(75, 60);
 			this.hsbColorSpace.TabIndex = 4;
 			this.hsbColorSpace.SelectedCoChanged += new creaturevisualizer.ColorSpaceEventHandler(this.selectedcochanged_csc);
-			this.hsbColorSpace.ValueChanged += new creaturevisualizer.ColorSpaceEventHandler(this.valuechanged_colorspace);
+			this.hsbColorSpace.ValueChanged += new creaturevisualizer.ColorSpaceEventHandler(this.valuechanged_csc);
 			// 
-			// tb_Hex
+			// tb_Hecate
 			// 
-			this.tb_Hex.BackColor = System.Drawing.Color.White;
-			this.tb_Hex.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.tb_Hex.Location = new System.Drawing.Point(344, 220);
-			this.tb_Hex.Margin = new System.Windows.Forms.Padding(0);
-			this.tb_Hex.MaxLength = 6;
-			this.tb_Hex.Name = "tb_Hex";
-			this.tb_Hex.Restrict = creaturevisualizer.TextboxRestrictive.Type.Hecate;
-			this.tb_Hex.Size = new System.Drawing.Size(45, 20);
-			this.tb_Hex.TabIndex = 7;
-			this.tb_Hex.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.tb_Hex.TextChanged += new System.EventHandler(this.textchanged_hecate);
+			this.tb_Hecate.BackColor = System.Drawing.Color.White;
+			this.tb_Hecate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.tb_Hecate.Location = new System.Drawing.Point(344, 220);
+			this.tb_Hecate.Margin = new System.Windows.Forms.Padding(0);
+			this.tb_Hecate.MaxLength = 6;
+			this.tb_Hecate.Name = "tb_Hecate";
+			this.tb_Hecate.Restrict = creaturevisualizer.TextboxRestrictive.Type.Hecate;
+			this.tb_Hecate.Size = new System.Drawing.Size(45, 20);
+			this.tb_Hecate.TabIndex = 7;
+			this.tb_Hecate.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.tb_Hecate.TextChanged += new System.EventHandler(this.textchanged_hecate);
 			// 
 			// tb_Alpha
 			// 
@@ -565,7 +565,7 @@ namespace creaturevisualizer
 			this.Controls.Add(this.hsbColorSpace);
 			this.Controls.Add(this.rgbColorSpace);
 			this.Controls.Add(this.la_Hex);
-			this.Controls.Add(this.tb_Hex);
+			this.Controls.Add(this.tb_Hecate);
 			this.Controls.Add(this.la_Alpha);
 			this.Controls.Add(this.tb_Alpha);
 			this.Controls.Add(this.swatches);

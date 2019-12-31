@@ -10,7 +10,7 @@ namespace creaturevisualizer
 		: UserControl
 	{
 		#region Events
-		public event ColorSelectedEventHandler ColorSelected;
+		public event PointSelectedEventHandler PointSelected;
 		#endregion Events
 
 
@@ -58,11 +58,12 @@ namespace creaturevisualizer
 			{
 				_track = true;
 
-				var point = new Point(e.X, e.Y);
-				InvalidatePoints(_pt, point);
+				var pt = new Point(e.X, e.Y);
+				InvalidatePoints(pt);
+				_pt = pt;
 
-				_pt = point;
-				SelectColor(new ColorEventArgs(GetCurrentColor()));
+				if (PointSelected != null)
+					PointSelected(new ColorEventArgs(GetCurrentColor()));
 			}
 		}
 
@@ -82,14 +83,13 @@ namespace creaturevisualizer
 				if (   (e.X > -1 - leeway && e.X < 256 + leeway)
 					|| (e.Y > -1 - leeway && e.Y < 256 + leeway))
 				{
-					var point = new Point(Math.Max(0, Math.Min(e.X, 255)),
-										  Math.Max(0, Math.Min(e.Y, 255)));
+					var pt = new Point(Math.Max(0, Math.Min(e.X, 255)),
+									   Math.Max(0, Math.Min(e.Y, 255)));
+					InvalidatePoints(pt);
+					_pt = pt;
 
-					InvalidatePoints(_pt, point);
-
-					_pt = point;
-					SelectColor(new ColorEventArgs(GetCurrentColor()));
-//					SelectColor(new ColorEventArgs(color));
+					if (PointSelected != null)
+						PointSelected(new ColorEventArgs(GetCurrentColor()));
 				}
 			}
 		}
@@ -105,15 +105,6 @@ namespace creaturevisualizer
 //			ParentForm.Cursor = Cursors.Default;
 //		}
 		#endregion Handlers (override)
-
-
-		#region Handlers
-		void SelectColor(ColorEventArgs e)
-		{
-			if (ColorSelected != null)
-				ColorSelected(e);
-		}
-		#endregion Handlers
 
 
 		#region Methods
@@ -162,11 +153,11 @@ namespace creaturevisualizer
 			}
 		}
 
-		void InvalidatePoints(Point pt0, Point pt1)
+		void InvalidatePoints(Point pt1)
 		{
 			Rectangle rect;
 
-			rect = new Rectangle(pt0.X - 4, pt0.Y - 4, 9,9);
+			rect = new Rectangle(_pt.X - 4, _pt.Y - 4, 9,9);
 			Invalidate(rect);
 
 			rect = new Rectangle(pt1.X - 4, pt1.Y - 4, 9,9);
@@ -306,5 +297,5 @@ namespace creaturevisualizer
 	}
 
 
-	internal delegate void ColorSelectedEventHandler(ColorEventArgs e);
+	internal delegate void PointSelectedEventHandler(ColorEventArgs e);
 }
