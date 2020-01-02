@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Drawing;
 using System.Resources;
 using System.Windows.Forms;
@@ -18,40 +17,21 @@ namespace creaturevisualizer
 		#endregion Events
 
 
+		#region Fields (static)
+		internal static bool _bypassCisco;
+		#endregion Fields (static)
+
+
 		#region Fields
-		ColorSpaceControl _csCurrent;
+		ColorSpaceControl _csc;
 
 		Bitmap _slider   = new Bitmap(ColorSlider.width, ColorSlider.height);
 		Image  _checkers = new ResourceManager("CreatureVisualizer.Properties.Resources",
 											   typeof(Resources).Assembly).GetObject("checkers") as Image;
+
+		bool _bypassAlpha;
+		bool _bypassHecate;
 		#endregion Fields
-
-
-		#region Properties
-		// Good god, those bastards go about things in a cockamamie way ...
-		// TODO: Consolidate firing the ColorChanged event in a central function
-		// such as SelectColor() or Satisfy() or similar.
-
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		[Browsable(false)]
-		public Color Color
-		{
-			get
-			{
-				return GetActiveColorbox().BackColor;
-			}
-			set
-			{
-				SetColor(value, true);
-				tb_Alpha.Text = value.A.ToString();
-			}
-		}
-
-//		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-//		[Browsable(false)]
-//		public byte Alpha // IMPORTANT: Set alpha by its textbox.
-//		{ get; set; }
-		#endregion Properties
 
 
 		#region cTor
@@ -60,12 +40,36 @@ namespace creaturevisualizer
 			InitializeComponent();
 
 			GradientService.InstantiateConstantObjects();
+
+			// this has nothing to do with the Slider ...
 			using (Graphics graphics = Graphics.FromImage(_slider))
-				GradientService.DrawSlider(graphics, new Rectangle(0,0, ColorSlider.width, ColorSlider.height));
+				GradientService.DrawSlider_hue(graphics, new Rectangle(0,0, 1,256)); //ColorSlider.width,ColorSlider.height
+		}
+
+		/// <summary>
+		/// This must be called after the Color form is instantiated and before
+		/// the form is shown. It sets up the form's initial display.
+		/// </summary>
+		/// <param name="color"></param>
+		internal void InitialColor(Color color)
+		{
+			swatches.UpdateSelector(color);
 
 			colortop.Activated = true;
+			colortop.BackColor =
+			colorbot.BackColor = color;
 
-			hsbColorSpace.SelectCisco(hsbColorSpace.coHue);
+			_bypassCisco = true;
+			cscRgb.rgb = ColorConverter.ColorToRgb(color);
+			cscHsl.hsl = ColorConverter.ColorToHsl(color);
+			_bypassCisco = false;
+
+			_bypassAlpha = true;
+			tb_Alpha.Text = color.A.ToString();
+			_bypassAlpha = false;
+
+
+			cscHsl.SelectCisco(cscHsl.cH); // this shall start things -> 'ciscoselected(cscHsl)'
 		}
 		#endregion cTor
 
@@ -102,6 +106,218 @@ namespace creaturevisualizer
 
 
 		#region Handlers
+		void ciscoselected(ColorSpaceControl sender)
+		{
+			if (sender is ColorSpaceControlRGB)
+			{
+				cscHsl.DeselectCiscos();
+			}
+			else
+				cscRgb.DeselectCiscos();
+
+//			_bypassHecate = true;
+//			tb_Hecate.Text = cscRgb.GetHecate();
+//			_bypassHecate = false;
+
+			colorslider.Configurate(_csc = sender);
+			UpdateField(true);
+		}
+
+		void ciscovaluechanged(ColorSpaceControl sender)
+		{
+			_bypassCisco = true;
+			if (sender is ColorSpaceControlRGB)
+			{
+				cscHsl.hsl = ColorConverter.RgbToHsl(cscRgb.rgb);
+			}
+			else
+				cscRgb.rgb = ColorConverter.HslToRgb(cscHsl.hsl);
+			_bypassCisco = false;
+
+			_bypassHecate = true;
+			tb_Hecate.Text = cscRgb.GetHecate();
+			_bypassHecate = false;
+
+			ColorBox bo = GetActiveColorbox();
+			bo.BackColor = Color.FromArgb(Byte.Parse(tb_Alpha.Text),
+										  ColorConverter.RgbToColor(cscRgb.rgb));
+			bo.Invalidate();
+
+			colorslider.Configurate(_csc);
+			UpdateField(true);
+
+			if (ColorChanged != null)
+				ColorChanged();
+		}
+
+		void sliderchanged(SliderChangedEventArgs e)
+		{
+			int val;
+			switch (_csc.Cisco.Units)
+			{
+				case ColorSpaceControlCisco.Unit.Degree:
+					val = (int)Math.Ceiling(e.Val * 24.0 / 17.0);
+					val = Math.Max(0, Math.Min(val, 359));
+					break;
+
+				case ColorSpaceControlCisco.Unit.Percent:
+					val = (int)Math.Ceiling(e.Val / 2.55);
+					val = Math.Max(0, Math.Min(val, 100));
+					break;
+
+				default:
+//				case ColorSpaceControlCisco.Unit.Byte:
+					val = Math.Max(0, Math.Min(e.Val, 255));
+					break;
+			}
+
+			_bypassCisco = true;
+			_csc.Cisco.Val = val;	// that changes the cisco-text, which calls 'ColorSpaceControlCisco.textchanged_val()'
+									// which invokes 'CiscoValueChanged_lo', which is handled by 'ColorSpaceControl*.OnCiscoValueChanged()'
+									// which invokes 'CiscoValueChanged_hi', which is handled by 'ciscovaluechanged()'
+									// which calls a 'ColorConverter.RgbToHsl()/HslToRgb()' that sets the 'ColorSpaceControl*' structure
+									// which changes the ciscos' values, which invokes a 'CiscoValueChangedEvent'
+									// which calls 'OnCiscoValueChanged()', which invokes another 'CiscoValueChanged_hi'
+									// and so it loops. FIXED.
+			_csc.Cisco.Refresh();
+
+			if (_csc is ColorSpaceControlRGB)
+			{
+				cscHsl.hsl = ColorConverter.RgbToHsl(cscRgb.rgb);
+				cscHsl.Refresh();
+			}
+			else
+			{
+				cscRgb.rgb = ColorConverter.HslToRgb(cscHsl.hsl);
+				cscRgb.Refresh();
+			}
+			_bypassCisco = false;
+
+			_bypassHecate = true;
+			tb_Hecate.Text = cscRgb.GetHecate();
+			tb_Hecate.Refresh();
+			_bypassHecate = false;
+
+			ColorBox bo = GetActiveColorbox();
+			bo.BackColor = Color.FromArgb(Byte.Parse(tb_Alpha.Text), cscRgb.GetColor());
+			bo.Refresh();
+
+			UpdateField(false);
+
+			if (ColorChanged != null)
+				ColorChanged();
+		}
+
+		void pointselected(ColorEventArgs e)
+		{
+			_bypassCisco = true;
+			cscRgb.rgb = ColorConverter.ColorToRgb(e.Color);
+			cscHsl.hsl = ColorConverter.ColorToHsl(e.Color);
+
+			cscHsl.Refresh();
+			cscRgb.Refresh();
+			_bypassCisco = false;
+
+/*			switch (_csc.Cisco.DisplayCharacter)
+			{
+				case 'H':
+				{
+					int hue = cscHsl.hsl.H;
+					cscHsl.hsl = new HSL(hue, cscHsl.hsl.S, cscHsl.hsl.L);
+					break;
+				}
+
+				case 'S':
+				{
+					int sat = cscHsl.hsl.S;
+					cscHsl.hsl = new HSL(cscHsl.hsl.H, sat, cscHsl.hsl.L);
+					break;
+				}
+
+				// TODO: huh ...
+//				default:
+//					cscHsb.Structure = cscHsb.Structure;
+//					break;
+			} */
+
+			_bypassHecate = true;
+			tb_Hecate.Text = cscRgb.GetHecate();
+			tb_Hecate.Refresh();
+			_bypassHecate = false;
+
+			ColorBox bo = GetActiveColorbox();
+			bo.BackColor = Color.FromArgb(Byte.Parse(tb_Alpha.Text), e.Color);
+			bo.Refresh();
+
+			if (ColorChanged != null)
+				ColorChanged();
+		}
+
+		void textchanged_alpha(object sender, EventArgs e)
+		{
+			if (!_bypassAlpha)
+			{
+				string alpha;
+				if (!String.IsNullOrEmpty(tb_Alpha.Text)) alpha = tb_Alpha.Text;
+				else                                      alpha = "0";
+
+				ColorBox bo = GetActiveColorbox();
+				bo.BackColor = Color.FromArgb(Byte.Parse(alpha), bo.BackColor);
+				bo.Invalidate();
+
+				if (ColorChanged != null)
+					ColorChanged();
+			}
+		}
+
+		void textchanged_hecate(object sender, EventArgs e)
+		{
+			if (!_bypassHecate)
+			{
+				_bypassCisco = true;
+				cscRgb.rgb = ColorConverter.HecateToStructure(tb_Hecate.Text);
+				cscHsl.hsl = ColorConverter.RgbToHsl(cscRgb.rgb);
+				_bypassCisco = false;
+
+				ColorBox bo = GetActiveColorbox();
+				bo.BackColor = Color.FromArgb(Byte.Parse(tb_Alpha.Text),
+											  ColorConverter.RgbToColor(cscRgb.rgb));
+				bo.Invalidate();
+
+				colorslider.Configurate(_csc);
+				UpdateField(true);
+
+				if (ColorChanged != null)
+					ColorChanged();
+			}
+		}
+
+		void swatchselected(ColorEventArgs e)
+		{
+			_bypassCisco = true;
+			cscRgb.rgb = ColorConverter.ColorToRgb(e.Color);
+			cscHsl.hsl = ColorConverter.ColorToHsl(e.Color);
+			_bypassCisco = false;
+
+			_bypassAlpha = true;
+			tb_Alpha.Text = e.Color.A.ToString();
+			_bypassAlpha = false;
+
+			_bypassHecate = true;
+			tb_Hecate.Text = cscRgb.GetHecate();
+			_bypassHecate = false;
+
+			ColorBox bo = GetActiveColorbox();
+			bo.BackColor = e.Color;
+			bo.Invalidate();
+
+			colorslider.Configurate(_csc);
+			UpdateField(true);
+
+			if (ColorChanged != null)
+				ColorChanged();
+		}
+
 		internal void mouseup_colorbox(object sender, MouseEventArgs e)
 		{
 			if (sender == null														// -> fired by ColorF.OnKeyDown()
@@ -110,258 +326,26 @@ namespace creaturevisualizer
 			{
 				ColorBox bo = SwapActiveColorbox();
 
-				rgbColorSpace.Structure = ColorConverter.ColorToRgb(bo.BackColor);
-				hsbColorSpace.Structure = ColorConverter.ColorToHsb(bo.BackColor);
+				_bypassCisco = true;
+				cscRgb.rgb = ColorConverter.ColorToRgb(bo.BackColor);
+				cscHsl.hsl = ColorConverter.ColorToHsl(bo.BackColor);
+				_bypassCisco = false;
 
-				if (tb_Alpha.Text != bo.Alpha.ToString())
-					tb_Alpha.Text  = bo.Alpha.ToString();
+				_bypassAlpha = true;
+				tb_Alpha.Text = bo.BackColor.A.ToString();
+				_bypassAlpha = false;
 
-				SetSlider();
-				Satisfy(true, true, true);
+				_bypassHecate = true;
+				tb_Hecate.Text = cscRgb.GetHecate();
+				_bypassHecate = false;
 
-				if (ColorChanged != null)
-					ColorChanged();
-			}
-		}
-
-		void sliderchanged_slider(SliderChangedEventArgs e)
-		{
-			int val;
-			switch (_csCurrent.Cisco.Units)
-			{
-				case ColorSpaceControlCisco.Unit.Degree:
-					val = (int)Math.Ceiling(e.Val * 24.0 / 17.0);
-					if (val == 360)
-						val  = 0;
-					break;
-
-				case ColorSpaceControlCisco.Unit.Percent:
-					val = (int)Math.Ceiling(e.Val / 2.55);
-					break;
-
-				default:
-					val = e.Val;
-					break;
-			}
-
-			_csCurrent.Cisco.Val = val;
-
-			if (_csCurrent is ColorSpaceControlRGB)
-			{
-				hsbColorSpace.Structure = ColorConverter.RgbToHsb((RGB)rgbColorSpace.Structure);
-			}
-			else if (_csCurrent is ColorSpaceControlHSB)
-			{
-				rgbColorSpace.Structure = ColorConverter.HsbToRgb((HSB)hsbColorSpace.Structure);
-			}
-
-			Satisfy(false, false, true);
-
-			ColorBox bo = GetActiveColorbox();
-			bo.BackColor = Color.FromArgb(bo.Alpha, ColorConverter.RgbToColor((RGB)rgbColorSpace.Structure));
-
-			hsbColorSpace.Refresh(); // fast updates ->
-			rgbColorSpace.Refresh();
-			tb_Hecate    .Refresh();
-			bo           .Refresh();
-
-			if (ColorChanged != null)
-				ColorChanged();
-		}
-
-		void ciscoselected_csc(ColorSpaceControl sender)
-		{
-			if (sender is ColorSpaceControlRGB)
-			{
-				hsbColorSpace.DeselectCiscos();
-			}
-			else if (sender is ColorSpaceControlHSB)
-			{
-				rgbColorSpace.DeselectCiscos();
-			}
-
-			_csCurrent = sender;
-
-			SetSlider();
-			Satisfy(true, true, true);
-		}
-
-		void ciscovaluechanged_csc(ColorSpaceControl sender)
-		{
-			if (sender is ColorSpaceControlRGB)
-			{
-				hsbColorSpace.Structure = ColorConverter.RgbToHsb((RGB)rgbColorSpace.Structure);
-			}
-			else if (sender is ColorSpaceControlHSB)
-			{
-				rgbColorSpace.Structure = ColorConverter.HsbToRgb((HSB)hsbColorSpace.Structure);
-			}
-
-			SetSlider();
-			Satisfy(true, true, true);
-
-			ColorBox bo = GetActiveColorbox();
-			bo.BackColor = Color.FromArgb(bo.Alpha, ColorConverter.RgbToColor((RGB)rgbColorSpace.Structure));
-
-			if (ColorChanged != null)
-				ColorChanged();
-		}
-
-		void swatchselected_swatches(ColorEventArgs e)
-		{
-			SetColor(e.Color, true);
-		}
-
-		void pointselected_colorfield(ColorEventArgs e)
-		{
-			RGB rgb = ColorConverter.ColorToRgb(e.Color);
-			rgbColorSpace.Structure = rgb;
-
-			HSB hsb = ColorConverter.RgbToHsb(rgb);
-
-			switch (_csCurrent.Cisco.DisplayCharacter)
-			{
-				case 'H':
-				{
-					int hue = ((HSB)hsbColorSpace.Structure).H;
-					hsbColorSpace.Structure = new HSB(hue, hsb.S, hsb.B);
-					break;
-				}
-
-				case 'S':
-				{
-					int sat = ((HSB)hsbColorSpace.Structure).S;
-					hsbColorSpace.Structure = new HSB(hsb.H, sat, hsb.B);
-					break;
-				}
-
-				default:
-					hsbColorSpace.Structure = hsb;
-					break;
-			}
-
-			tb_Hecate.Text = rgbColorSpace.GetHecate();
-
-			ColorBox bo = GetActiveColorbox();
-			bo.BackColor = Color.FromArgb(bo.Alpha, ColorConverter.RgbToColor(rgb));
-
-			hsbColorSpace.Refresh(); // fast updates ->
-			rgbColorSpace.Refresh();
-			tb_Hecate    .Refresh();
-			bo           .Refresh();
-
-			if (ColorChanged != null)
-				ColorChanged();
-		}
-
-
-		void textchanged_hecate(object sender, EventArgs e)
-		{
-			RGB rgb = ColorConverter.HexToRgb(tb_Hecate.Text);
-			rgbColorSpace.Structure = rgb;
-			hsbColorSpace.Structure = ColorConverter.RgbToHsb(rgb);
-
-			SetSlider();
-			Satisfy(true, true, false);
-		}
-
-		void textchanged_alpha(object sender, EventArgs e)
-		{
-			string alpha;
-			if (!String.IsNullOrEmpty(tb_Alpha.Text)) alpha = tb_Alpha.Text;
-			else                                      alpha = "0";
-
-			ColorBox bo = GetActiveColorbox();
-			bo.BackColor = Color.FromArgb(Byte.Parse(alpha), bo.BackColor);
-			bo.Invalidate();
-
-			SetColor(bo.BackColor, false, false);
-		}
-
-		void mousehover_label(object sender, EventArgs e)
-		{
-			if ((sender as Label) == la_Alpha)
-			{
-				ColorF.That.Print("Alpha 0..255 byte");
-			}
-			else //if ((sender as Label) == la_Hex)
-			{
-				ColorF.That.Print("RGB 000000..FFFFFF");
-			}
-		}
-		#endregion Handlers
-
-
-		#region Methods
-		void SetColor(Color color, bool setSlider, bool setHecateText = true)
-		{
-			if (!ColorConverter.ColorToRgb(color).Equals(rgbColorSpace.Structure)	// TODO: store alpha in the Structure(s)
-				|| !setHecateText)													// TODO: remove 'setHecateText' shenanigans
-			{
-				RGB rgb = ColorConverter.ColorToRgb(color);
-				rgbColorSpace.Structure = rgb;
-				hsbColorSpace.Structure = ColorConverter.RgbToHsb(rgb);
-
-				if (setSlider) SetSlider();
-				Satisfy(false, true, setHecateText);
+				colorslider.Configurate(_csc);
+				UpdateField(true);
 
 				if (ColorChanged != null)
 					ColorChanged();
 			}
 		}
-
-		void SetSlider()
-		{
-			int val = _csCurrent.Cisco.Val;
-
-			switch (_csCurrent.Cisco.Units)
-			{
-				case ColorSpaceControlCisco.Unit.Degree:
-					val = (int)Math.Ceiling(val * 17.0 / 24.0);
-					break;
-
-				case ColorSpaceControlCisco.Unit.Percent:
-					val = (int)Math.Ceiling(val * 2.55);
-					break;
-			}
-			colorslider.Value = val;
-		}
-
-		void Satisfy(bool setSliderColorspace, bool setPoint, bool setHecateText)
-		{
-			string alpha;
-			if (!String.IsNullOrEmpty(tb_Alpha.Text)) alpha = tb_Alpha.Text;
-			else                                      alpha = "0";
-
-			ColorBox bo = GetActiveColorbox();
-			bo.BackColor = Color.FromArgb(bo.Alpha, ColorConverter.RgbToColor((RGB)rgbColorSpace.Structure));
-			bo.Invalidate();
-
-
-			if (setSliderColorspace)
-				colorslider.ChangeColorspace(_csCurrent);
-
-
-			if (_csCurrent is ColorSpaceControlHSB)
-			{
-				if (_csCurrent.Cisco.DisplayCharacter == 'H')
-				{
-					Color color = _slider.GetPixel(0, 255 - colorslider.Value);
-					colorfield.ChangeColor(color, _csCurrent, setPoint);
-				}
-				else // 'S','B'
-					colorfield.ChangeColor(_csCurrent.Cisco.Val, _csCurrent, setPoint);
-			}
-			else if (_csCurrent is ColorSpaceControlRGB) // 'R','G','B'
-			{
-				colorfield.ChangeColor(_csCurrent.Cisco.Val, _csCurrent, setPoint);
-			}
-
-
-			if (setHecateText)
-				tb_Hecate.Text = rgbColorSpace.GetHecate();
-		}
-
 
 		ColorBox SwapActiveColorbox()
 		{
@@ -380,8 +364,51 @@ namespace creaturevisualizer
 				act = colorbot;
 			}
 
-			swatches.SelectSwatch(act.BackColor);
+			swatches.UpdateSelector(act.BackColor);
 			return act;
+		}
+
+		void mousehover_label(object sender, EventArgs e)
+		{
+			if ((sender as Label) == la_Alpha)
+			{
+				ColorF.That.Print("Alpha 0..255 byte");
+			}
+			else //if ((sender as Label) == la_Hex)
+			{
+				ColorF.That.Print("RGB 000000..FFFFFF");
+			}
+		}
+		#endregion Handlers
+
+
+		#region Methods
+		void UpdateField(bool setPoint)
+		{
+			switch (_csc.Cisco.DisplayCharacter)
+			{
+				// _csc is ColorSpaceControlHSL
+				case 'H':
+				{
+					Color color = _slider.GetPixel(0, 255 - colorslider.Val);
+					colorfield.ChangeColor(color, _csc, setPoint);
+					break;
+				}
+				case 'S':
+				case 'L':
+
+				// _csc is ColorSpaceControlRGB
+				case 'R':
+				case 'G':
+				case 'B':
+					colorfield.ChangeColor(_csc.Cisco.Val, _csc, setPoint);
+					break;
+			}
+		}
+
+		internal Color GetColor()
+		{
+			return GetActiveColorbox().BackColor;
 		}
 
 		internal ColorBox GetActiveColorbox()
@@ -391,13 +418,6 @@ namespace creaturevisualizer
 
 			return colorbot;
 		}
-
-		internal void InitializeColor(Color color)
-		{
-			colorbot.BackColor = color;
-			swatches.SelectSwatch(color);
-		}
-
 
 		internal bool IsTextboxFocused(ControlCollection controls)
 		{
@@ -420,8 +440,8 @@ namespace creaturevisualizer
 		ColorSlider colorslider;
 		ColorBox colortop;
 		ColorBox colorbot;
-		ColorSpaceControlHSB hsbColorSpace;
-		ColorSpaceControlRGB rgbColorSpace;
+		ColorSpaceControlHSL cscHsl;
+		ColorSpaceControlRGB cscRgb;
 		Label la_Hecate;
 		TextboxRestrictive tb_Hecate;
 		Label la_Alpha;
@@ -436,8 +456,8 @@ namespace creaturevisualizer
 			this.colorbot = new creaturevisualizer.ColorBox();
 			this.colorslider = new creaturevisualizer.ColorSlider();
 			this.swatches = new creaturevisualizer.SwatchControl();
-			this.rgbColorSpace = new creaturevisualizer.ColorSpaceControlRGB();
-			this.hsbColorSpace = new creaturevisualizer.ColorSpaceControlHSB();
+			this.cscRgb = new creaturevisualizer.ColorSpaceControlRGB();
+			this.cscHsl = new creaturevisualizer.ColorSpaceControlHSL();
 			this.tb_Hecate = new creaturevisualizer.TextboxRestrictive();
 			this.tb_Alpha = new creaturevisualizer.TextboxRestrictive();
 			this.la_Hecate = new System.Windows.Forms.Label();
@@ -453,7 +473,7 @@ namespace creaturevisualizer
 			this.colorfield.Size = new System.Drawing.Size(256, 256);
 			this.colorfield.TabIndex = 0;
 			this.colorfield.TabStop = false;
-			this.colorfield.PointSelected += new creaturevisualizer.PointSelectedEvent(this.pointselected_colorfield);
+			this.colorfield.PointSelected += new creaturevisualizer.PointSelectedEvent(this.pointselected);
 			// 
 			// colortop
 			// 
@@ -486,8 +506,7 @@ namespace creaturevisualizer
 			this.colorslider.Size = new System.Drawing.Size(36, 267);
 			this.colorslider.TabIndex = 1;
 			this.colorslider.TabStop = false;
-			this.colorslider.Value = 0;
-			this.colorslider.SliderChanged += new creaturevisualizer.SliderChangedEvent(this.sliderchanged_slider);
+			this.colorslider.SliderChanged += new creaturevisualizer.SliderChangedEvent(this.sliderchanged);
 			// 
 			// swatches
 			// 
@@ -498,29 +517,29 @@ namespace creaturevisualizer
 			this.swatches.Size = new System.Drawing.Size(93, 309);
 			this.swatches.TabIndex = 10;
 			this.swatches.TabStop = false;
-			this.swatches.SwatchSelected += new creaturevisualizer.SwatchSelectedEvent(this.swatchselected_swatches);
+			this.swatches.SwatchSelected += new creaturevisualizer.SwatchSelectedEvent(this.swatchselected);
 			// 
-			// rgbColorSpace
+			// cscRgb
 			// 
-			this.rgbColorSpace.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.rgbColorSpace.Location = new System.Drawing.Point(310, 150);
-			this.rgbColorSpace.Margin = new System.Windows.Forms.Padding(0);
-			this.rgbColorSpace.Name = "rgbColorSpace";
-			this.rgbColorSpace.Size = new System.Drawing.Size(75, 60);
-			this.rgbColorSpace.TabIndex = 5;
-			this.rgbColorSpace.CiscoSelected += new creaturevisualizer.ColorSpaceEvent(this.ciscoselected_csc);
-			this.rgbColorSpace.CiscoValueChanged += new creaturevisualizer.ColorSpaceEvent(this.ciscovaluechanged_csc);
+			this.cscRgb.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.cscRgb.Location = new System.Drawing.Point(310, 150);
+			this.cscRgb.Margin = new System.Windows.Forms.Padding(0);
+			this.cscRgb.Name = "cscRgb";
+			this.cscRgb.Size = new System.Drawing.Size(75, 60);
+			this.cscRgb.TabIndex = 5;
+			this.cscRgb.CiscoSelected_hi += new creaturevisualizer.ColorSpaceEvent(this.ciscoselected);
+			this.cscRgb.CiscoValueChanged_hi += new creaturevisualizer.ColorSpaceEvent(this.ciscovaluechanged);
 			// 
-			// hsbColorSpace
+			// cscHsl
 			// 
-			this.hsbColorSpace.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.hsbColorSpace.Location = new System.Drawing.Point(310, 80);
-			this.hsbColorSpace.Margin = new System.Windows.Forms.Padding(0);
-			this.hsbColorSpace.Name = "hsbColorSpace";
-			this.hsbColorSpace.Size = new System.Drawing.Size(75, 60);
-			this.hsbColorSpace.TabIndex = 4;
-			this.hsbColorSpace.CiscoSelected += new creaturevisualizer.ColorSpaceEvent(this.ciscoselected_csc);
-			this.hsbColorSpace.CiscoValueChanged += new creaturevisualizer.ColorSpaceEvent(this.ciscovaluechanged_csc);
+			this.cscHsl.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.cscHsl.Location = new System.Drawing.Point(310, 80);
+			this.cscHsl.Margin = new System.Windows.Forms.Padding(0);
+			this.cscHsl.Name = "cscHsl";
+			this.cscHsl.Size = new System.Drawing.Size(75, 60);
+			this.cscHsl.TabIndex = 4;
+			this.cscHsl.CiscoSelected_hi += new creaturevisualizer.ColorSpaceEvent(this.ciscoselected);
+			this.cscHsl.CiscoValueChanged_hi += new creaturevisualizer.ColorSpaceEvent(this.ciscovaluechanged);
 			// 
 			// tb_Hecate
 			// 
@@ -578,8 +597,8 @@ namespace creaturevisualizer
 			this.Controls.Add(this.colorslider);
 			this.Controls.Add(this.colortop);
 			this.Controls.Add(this.colorbot);
-			this.Controls.Add(this.hsbColorSpace);
-			this.Controls.Add(this.rgbColorSpace);
+			this.Controls.Add(this.cscHsl);
+			this.Controls.Add(this.cscRgb);
 			this.Controls.Add(this.la_Hecate);
 			this.Controls.Add(this.tb_Hecate);
 			this.Controls.Add(this.la_Alpha);

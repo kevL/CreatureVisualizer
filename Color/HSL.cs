@@ -4,7 +4,7 @@ using System;
 namespace creaturevisualizer
 {
 	// Sano.PersonalProjects.ColorPicker.Controls.HSB
-	sealed class HSB
+	sealed class HSL
 	{
 		#region Properties
 		internal int H
@@ -13,17 +13,17 @@ namespace creaturevisualizer
 		internal int S
 		{ get; set; }
 
-		internal int B
+		internal int L
 		{ get; set; }
 		#endregion Properties
 
 
 		#region cTor
-		internal HSB(int h, int s, int b)
+		internal HSL(int h, int s, int l)
 		{
 			H = h;
 			S = s;
-			B = b;
+			L = l;
 		}
 		#endregion cTor
 
@@ -31,16 +31,16 @@ namespace creaturevisualizer
 		#region Methods (override)
 		public override string ToString()
 		{
-			return "h: " + H + " s: " + S + " b: " + B;
+			return "h: " + H + " s: " + S + " l: " + L;
 		}
 
 		public override bool Equals(object obj)
 		{
-			var hsb = obj as HSB;
+			var hsb = obj as HSL;
 			return hsb != null
 				&& hsb.H == H
 				&& hsb.S == S
-				&& hsb.B == B;
+				&& hsb.L == L;
 		}
 
 		public override int GetHashCode()

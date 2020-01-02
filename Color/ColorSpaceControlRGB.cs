@@ -9,19 +9,17 @@ namespace creaturevisualizer
 		: ColorSpaceControl
 	{
 		#region Properties (override)
-		internal object Structure
+		internal RGB rgb
 		{
 			get
 			{
-				return new RGB(coRed.Val, coGre.Val, coBlu.Val);
+				return new RGB(cR.Val, cG.Val, cB.Val);
 			}
 			set
 			{
-				var rgb = (RGB)value;
-
-				coRed.Val = rgb.R;
-				coGre.Val = rgb.G;
-				coBlu.Val = rgb.B;
+				cR.Val = value.R;
+				cG.Val = value.G;
+				cB.Val = value.B;
 			}
 		}
 		#endregion Properties (override)
@@ -32,9 +30,9 @@ namespace creaturevisualizer
 		{
 			InitializeComponent();
 
-			SpaceControls.Add(coRed);
-			SpaceControls.Add(coGre);
-			SpaceControls.Add(coBlu);
+			SpaceControls.Add(cR);
+			SpaceControls.Add(cG);
+			SpaceControls.Add(cB);
 		}
 		#endregion cTor
 
@@ -42,85 +40,85 @@ namespace creaturevisualizer
 		#region Methods
 		internal Color GetColor()
 		{
-			return Color.FromArgb(coRed.Val, coGre.Val, coBlu.Val);
+			return Color.FromArgb(cR.Val, cG.Val, cB.Val);
 		}
 
 		internal string GetHecate()
 		{
-			return coRed.Val.ToString("X2")
-				 + coGre.Val.ToString("X2")
-				 + coBlu.Val.ToString("X2");
+			return cR.Val.ToString("X2")
+				 + cG.Val.ToString("X2")
+				 + cB.Val.ToString("X2");
 		}
 		#endregion Methods
 
 
 
 		#region Designer
-		ColorSpaceControlCisco coRed;
-		ColorSpaceControlCisco coGre;
-		ColorSpaceControlCisco coBlu;
+		ColorSpaceControlCisco cR;
+		ColorSpaceControlCisco cG;
+		ColorSpaceControlCisco cB;
 
 
 		void InitializeComponent()
 		{
-			this.coRed = new creaturevisualizer.ColorSpaceControlCisco();
-			this.coGre = new creaturevisualizer.ColorSpaceControlCisco();
-			this.coBlu = new creaturevisualizer.ColorSpaceControlCisco();
+			this.cR = new creaturevisualizer.ColorSpaceControlCisco();
+			this.cG = new creaturevisualizer.ColorSpaceControlCisco();
+			this.cB = new creaturevisualizer.ColorSpaceControlCisco();
 			this.SuspendLayout();
 			// 
-			// coRed
+			// cR
 			// 
-			this.coRed.DisplayCharacter = 'R';
-			this.coRed.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.coRed.Location = new System.Drawing.Point(0, 0);
-			this.coRed.Margin = new System.Windows.Forms.Padding(0);
-			this.coRed.Max = 255;
-			this.coRed.Name = "coRed";
-			this.coRed.Selected = false;
-			this.coRed.Size = new System.Drawing.Size(75, 20);
-			this.coRed.TabIndex = 0;
-			this.coRed.Units = creaturevisualizer.ColorSpaceControlCisco.Unit.Byte;
-			this.coRed.Val = 0;
-			this.coRed.CiscoSelected += new creaturevisualizer.CiscoSelectedEvent(this.OnCiscoSelected);
-			this.coRed.CiscoValueChanged += new creaturevisualizer.CiscoValueChangedEvent(this.OnCiscoValueChanged);
+			this.cR.DisplayCharacter = 'R';
+			this.cR.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.cR.Location = new System.Drawing.Point(0, 0);
+			this.cR.Margin = new System.Windows.Forms.Padding(0);
+			this.cR.Max = 255;
+			this.cR.Name = "cR";
+			this.cR.Selected = false;
+			this.cR.Size = new System.Drawing.Size(75, 20);
+			this.cR.TabIndex = 0;
+			this.cR.Units = creaturevisualizer.ColorSpaceControlCisco.Unit.Byte;
+			this.cR.Val = 0;
+			this.cR.CiscoSelected_lo += new creaturevisualizer.CiscoSelectedEvent(this.OnCiscoSelected);
+			this.cR.CiscoValueChanged_lo += new creaturevisualizer.CiscoValueChangedEvent(this.OnCiscoValueChanged);
 			// 
-			// coGre
+			// cG
 			// 
-			this.coGre.DisplayCharacter = 'G';
-			this.coGre.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.coGre.Location = new System.Drawing.Point(0, 19);
-			this.coGre.Margin = new System.Windows.Forms.Padding(0);
-			this.coGre.Max = 255;
-			this.coGre.Name = "coGre";
-			this.coGre.Selected = false;
-			this.coGre.Size = new System.Drawing.Size(75, 20);
-			this.coGre.TabIndex = 1;
-			this.coGre.Units = creaturevisualizer.ColorSpaceControlCisco.Unit.Byte;
-			this.coGre.Val = 0;
-			this.coGre.CiscoSelected += new creaturevisualizer.CiscoSelectedEvent(this.OnCiscoSelected);
-			this.coGre.CiscoValueChanged += new creaturevisualizer.CiscoValueChangedEvent(this.OnCiscoValueChanged);
+			this.cG.DisplayCharacter = 'G';
+			this.cG.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.cG.Location = new System.Drawing.Point(0, 19);
+			this.cG.Margin = new System.Windows.Forms.Padding(0);
+			this.cG.Max = 255;
+			this.cG.Name = "cG";
+			this.cG.Selected = false;
+			this.cG.Size = new System.Drawing.Size(75, 20);
+			this.cG.TabIndex = 1;
+			this.cG.Units = creaturevisualizer.ColorSpaceControlCisco.Unit.Byte;
+			this.cG.Val = 0;
+			this.cG.CiscoSelected_lo += new creaturevisualizer.CiscoSelectedEvent(this.OnCiscoSelected);
+			this.cG.CiscoValueChanged_lo += new creaturevisualizer.CiscoValueChangedEvent(this.OnCiscoValueChanged);
 			// 
-			// coBlu
+			// cB
 			// 
-			this.coBlu.DisplayCharacter = 'B';
-			this.coBlu.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.coBlu.Location = new System.Drawing.Point(0, 38);
-			this.coBlu.Margin = new System.Windows.Forms.Padding(0);
-			this.coBlu.Max = 255;
-			this.coBlu.Name = "coBlu";
-			this.coBlu.Selected = false;
-			this.coBlu.Size = new System.Drawing.Size(75, 20);
-			this.coBlu.TabIndex = 2;
-			this.coBlu.Units = creaturevisualizer.ColorSpaceControlCisco.Unit.Byte;
-			this.coBlu.Val = 0;
-			this.coBlu.CiscoSelected += new creaturevisualizer.CiscoSelectedEvent(this.OnCiscoSelected);
-			this.coBlu.CiscoValueChanged += new creaturevisualizer.CiscoValueChangedEvent(this.OnCiscoValueChanged);
+			this.cB.DisplayCharacter = 'B';
+			this.cB.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.cB.Location = new System.Drawing.Point(0, 38);
+			this.cB.Margin = new System.Windows.Forms.Padding(0);
+			this.cB.Max = 255;
+			this.cB.Name = "cB";
+			this.cB.Selected = false;
+			this.cB.Size = new System.Drawing.Size(75, 20);
+			this.cB.TabIndex = 2;
+			this.cB.Units = creaturevisualizer.ColorSpaceControlCisco.Unit.Byte;
+			this.cB.Val = 0;
+			this.cB.CiscoSelected_lo += new creaturevisualizer.CiscoSelectedEvent(this.OnCiscoSelected);
+			this.cB.CiscoValueChanged_lo += new creaturevisualizer.CiscoValueChangedEvent(this.OnCiscoValueChanged);
 			// 
 			// ColorSpaceControlRGB
 			// 
-			this.Controls.Add(this.coRed);
-			this.Controls.Add(this.coGre);
-			this.Controls.Add(this.coBlu);
+			this.Controls.Add(this.cR);
+			this.Controls.Add(this.cG);
+			this.Controls.Add(this.cB);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Margin = new System.Windows.Forms.Padding(0);
 			this.Name = "ColorSpaceControlRGB";

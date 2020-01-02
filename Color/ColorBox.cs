@@ -20,9 +20,6 @@ namespace creaturevisualizer
 				Invalidate();
 			}
 		}
-
-		internal byte Alpha
-		{ get; private set; }
 		#endregion Properties
 
 
@@ -47,17 +44,22 @@ namespace creaturevisualizer
 			e.Graphics.DrawLine(SystemPens.Control, 1,         0, 1,         Height);
 			e.Graphics.DrawLine(SystemPens.Control, Width - 2, 0, Width - 2, Height);
 
-			Pen pen;
-			if (Activated) pen = Pens.Black;
-			else           pen = SystemPens.Control;
+			e.Graphics.DrawLine(SystemPens.Control, 0,         0, 0,         Height);
+			e.Graphics.DrawLine(SystemPens.Control, Width - 1, 0, Width - 1, Height);
 
-			e.Graphics.DrawLine(pen, 0,         0, 0,         Height);
-			e.Graphics.DrawLine(pen, Width - 1, 0, Width - 1, Height);
-		}
-
-		protected override void OnBackColorChanged(EventArgs e)
-		{
-			Alpha = BackColor.A;
+			if (Activated)
+			{
+				if (Name == "colortop") // <- TODO.
+				{
+					e.Graphics.DrawLine(Pens.Black, 0,         0, 0,         Height - 1);
+					e.Graphics.DrawLine(Pens.Black, Width - 1, 0, Width - 1, Height - 1);
+				}
+				else
+				{
+					e.Graphics.DrawLine(Pens.Black, 0,         1, 0,         Height);
+					e.Graphics.DrawLine(Pens.Black, Width - 1, 1, Width - 1, Height);
+				}
+			}
 		}
 		#endregion Handlers (override)
 

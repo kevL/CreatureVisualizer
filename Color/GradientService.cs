@@ -42,71 +42,36 @@ namespace creaturevisualizer
 			};
 		}
 
-
-		internal static void DrawFieldRed(Graphics graphics, int red)
+		/// <summary>
+		/// Not sure what this is for. It's called by the ColorControl..cTor
+		/// using graphics of the Slider bitmap and rectangle. But it doesn't
+		/// draw the Slider; but if it's not invoked the HUE colorfield goes
+		/// grayscale.
+		/// </summary>
+		/// <param name="graphics"></param>
+		/// <param name="rect"></param>
+		internal static void DrawSlider_hue(Graphics graphics, Rectangle rect)
 		{
-			Rectangle rect;
-
-			int g = 255;
-			for (int y = 0; y != 256; ++y)
+			using (var brush = new LinearGradientBrush(rect,
+													   Color.Blue,
+													   Color.Red,
+													   90f,
+													   false))
 			{
-				rect = new Rectangle(0,y, 256,1);
-				using (var brush = new LinearGradientBrush(rect,
-														   Color.FromArgb(red, g,   0),
-														   Color.FromArgb(red, g, 255),
-														   0f,
-														   false))
-				{
-					graphics.FillRectangle(brush, rect);
-				}
-				--g;
+				var blend = new ColorBlend();
+				blend.Colors    = _colors;
+				blend.Positions = _positions;
+				brush.InterpolationColors = blend;
+
+				graphics.FillRectangle(brush, rect);
 			}
 		}
 
-		internal static void DrawFieldGreen(Graphics graphics, int green)
+		internal static void DrawField_hue(Graphics graphics, Color color)
 		{
-			Rectangle rect;
-
-			int r = 255;
-			for (int y = 0; y != 256; ++y)
-			{
-				rect = new Rectangle(0,y, 256,1);
-				using (var brush = new LinearGradientBrush(rect,
-														   Color.FromArgb(r, green,   0),
-														   Color.FromArgb(r, green, 255),
-														   LinearGradientMode.Horizontal))
-				{
-					graphics.FillRectangle(brush, rect);
-				}
-				--r;
-			}
-		}
-
-		internal static void DrawFieldBlue(Graphics graphics, int blue)
-		{
-			Rectangle rect;
-
-			int g = 255;
-			for (int y = 0; y != 256; ++y)
-			{
-				rect = new Rectangle(0,y, 256,1);
-				using (var brush = new LinearGradientBrush(rect,
-														   Color.FromArgb(  0, g, blue),
-														   Color.FromArgb(255, g, blue),
-														   LinearGradientMode.Horizontal))
-				{
-					graphics.FillRectangle(brush, rect);
-				}
-				--g;
-			}
-		}
-
-
-		internal static void DrawFieldHue(Graphics graphics, Color color)
-		{
-			double d1 = (double)(255 - color.R) / 255.0;
-			double d2 = (double)(255 - color.G) / 255.0;
-			double d3 = (double)(255 - color.B) / 255.0;
+			double d1 = (255 - color.R) / 255.0;
+			double d2 = (255 - color.G) / 255.0;
+			double d3 = (255 - color.B) / 255.0;
 			double d4 = 255.0;
 			double d5 = 255.0;
 			double d6 = 255.0;
@@ -133,30 +98,29 @@ namespace creaturevisualizer
 			}
 		}
 
-		internal static void DrawFieldSaturation(Graphics graphics, int saturation)
+		internal static void DrawField_sat(Graphics graphics, int sat)
 		{
-			var rect = new Rectangle(0,0, 256,256);
-			int alpha = (int)(255.0 - Math.Round(255.0 * ((double)saturation / 100.0)));
-
 			if (_gradient == null)
 				_gradient = DrawGradient();
 
 			graphics.DrawImage(_gradient, 0,0);
 
+			int alpha = (int)(255 - Math.Round(255 * (sat / 100.0)));
 			Color color = Color.FromArgb(alpha, 255,255,255);
+
+			var rect = new Rectangle(0,0, 256,256);
 			using (var brush = new LinearGradientBrush(rect, color, Color.Black, 90f))
 				graphics.FillRectangle(brush, rect);
 		}
 
-		internal static void DrawFieldBrightness(Graphics graphics, int brightness)
+		internal static void DrawField_lit(Graphics graphics, int lit)
 		{
-			int alpha = (int)(255.0 - Math.Round((double)brightness * 2.55));
-
 			if (_gradient == null)
 				_gradient = DrawGradient();
 
 			graphics.DrawImage(_gradient, 0,0);
 
+			int alpha = (int)(255 - Math.Round(lit * 2.55));
 			using (var brush = new SolidBrush(Color.FromArgb(alpha, 0,0,0)))
 				graphics.FillRectangle(brush, 0,0, 256,256);
 		}
@@ -198,24 +162,63 @@ namespace creaturevisualizer
 			}
 		}
 
-
-		internal static void DrawSlider(Graphics graphics, Rectangle rect)
+		internal static void DrawField_r(Graphics graphics, int red)
 		{
-			using (var brush = new LinearGradientBrush(rect,
-													   Color.Blue,
-													   Color.Red,
-													   90f,
-													   false))
-			{
-				var blend = new ColorBlend();
-				blend.Colors    = _colors;
-				blend.Positions = _positions;
-				brush.InterpolationColors = blend;
+			Rectangle rect;
 
-				graphics.FillRectangle(brush, rect);
+			int g = 255;
+			for (int y = 0; y != 256; ++y)
+			{
+				rect = new Rectangle(0,y, 256,1);
+				using (var brush = new LinearGradientBrush(rect,
+														   Color.FromArgb(red, g,   0),
+														   Color.FromArgb(red, g, 255),
+														   0f,
+														   false))
+				{
+					graphics.FillRectangle(brush, rect);
+				}
+				--g;
 			}
 		}
 
+		internal static void DrawField_g(Graphics graphics, int green)
+		{
+			Rectangle rect;
+
+			int r = 255;
+			for (int y = 0; y != 256; ++y)
+			{
+				rect = new Rectangle(0,y, 256,1);
+				using (var brush = new LinearGradientBrush(rect,
+														   Color.FromArgb(r, green,   0),
+														   Color.FromArgb(r, green, 255),
+														   LinearGradientMode.Horizontal))
+				{
+					graphics.FillRectangle(brush, rect);
+				}
+				--r;
+			}
+		}
+
+		internal static void DrawField_b(Graphics graphics, int blue)
+		{
+			Rectangle rect;
+
+			int g = 255;
+			for (int y = 0; y != 256; ++y)
+			{
+				rect = new Rectangle(0,y, 256,1);
+				using (var brush = new LinearGradientBrush(rect,
+														   Color.FromArgb(  0, g, blue),
+														   Color.FromArgb(255, g, blue),
+														   LinearGradientMode.Horizontal))
+				{
+					graphics.FillRectangle(brush, rect);
+				}
+				--g;
+			}
+		}
 
 		internal static bool IsBright(Color color)
 		{

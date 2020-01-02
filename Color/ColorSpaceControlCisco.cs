@@ -19,8 +19,8 @@ namespace creaturevisualizer
 
 
 		#region Events
-		public event CiscoSelectedEvent CiscoSelected;
-		public event CiscoValueChangedEvent CiscoValueChanged;
+		public event CiscoSelectedEvent CiscoSelected_lo;
+		public event CiscoValueChangedEvent CiscoValueChanged_lo;
 		#endregion Events
 
 
@@ -41,34 +41,8 @@ namespace creaturevisualizer
 			}
 		}
 
-		public int Val
-		{
-			get
-			{
-				if (!String.IsNullOrEmpty(tb_Val.Text))
-					return Int32.Parse(tb_Val.Text);
-
-				return 0;
-			}
-			set
-			{
-				tb_Val.Text = Math.Max(0, Math.Min(value, Max)).ToString();
-
-				tb_Val.SelectionLength = 0;
-				tb_Val.SelectionStart = tb_Val.Text.Length;
-			}
-		}
-
-		int _max = Byte.MaxValue;
-		[DefaultValue(Byte.MaxValue)]
-		public int Max
-		{
-			get { return _max; }
-			set { _max = value; }
-		}
-
 		Unit _units;// = Unit.Byte;
-//		[DefaultValue(Unit.Byte)] // don't default this. It needs to be called so the text gets set.
+//		[DefaultValue(Unit.Byte)] // don't default this. It needs to run so the 'DisplayCharacter' gets set.
 		public Unit Units
 		{
 			get { return _units; }
@@ -80,6 +54,35 @@ namespace creaturevisualizer
 					case Unit.Percent: la_Units.Text = "p"; break;
 					case Unit.Byte:    la_Units.Text = "b"; break;
 				}
+			}
+		}
+
+		int _max = 255;
+		[DefaultValue(255)]
+		public int Max
+		{
+			get { return _max; }
+			set { _max = value; }
+		}
+
+		/// <summary>
+		/// @note Strict conditions are placed on allowable text in 'tb_Val' by
+		/// 'TextboxRestrictive'. The text will never have whitespace or
+		/// anything but integers within the proper range of this cisco's
+		/// 'Units'. So always check the value before tossing it into the
+		/// setter in order to be consistent.
+		/// </summary>
+		public int Val
+		{
+			get
+			{
+				if (!String.IsNullOrEmpty(tb_Val.Text))
+					return Int32.Parse(tb_Val.Text);
+				return 0;
+			}
+			set
+			{
+				tb_Val.Text = value.ToString();
 			}
 		}
 		#endregion Properties
@@ -99,23 +102,14 @@ namespace creaturevisualizer
 			string ifo;
 			switch (DisplayCharacter)
 			{
-				case 'H': ifo = "Hue 0..359 degrees";
-					break;
-				case 'S': ifo = "Saturation 0..100 percent";
-					break;
-
-				case 'R': ifo = "Red 0..255 byte";
-					break;
-				case 'G': ifo = "Green 0..255 byte";
-					break;
-
 				default:
-//				case 'B': // TODO: change 'B' of HSB to 'L' of HSL
-					if (Units == Unit.Percent) // hsb
-						 ifo = "Brightness 0..100 percent";
-					else // rgb
-						 ifo = "Blue 0..255 byte";
-					break;
+				case 'H': ifo = "Hue 0..359 degrees";        break;
+				case 'S': ifo = "Saturation 0..100 percent"; break;
+				case 'L': ifo = "Lightness 0..100 percent";  break;
+
+				case 'R': ifo = "Red 0..255 byte";           break;
+				case 'G': ifo = "Green 0..255 byte";         break;
+				case 'B': ifo = "Blue 0..255 byte";          break;
 			}
 
 			ColorF.That.Print(ifo);
@@ -125,15 +119,18 @@ namespace creaturevisualizer
 		{
 			if (((RadioButton)sender).Checked)
 			{
-				if (CiscoSelected != null)
-					CiscoSelected(this);
+				if (CiscoSelected_lo != null)
+					CiscoSelected_lo(this);
 			}
 		}
 
 		void textchanged_val(object sender, EventArgs e)
 		{
-			if (CiscoValueChanged != null)
-				CiscoValueChanged(this);
+			if (!ColorControl._bypassCisco)
+			{
+				if (CiscoValueChanged_lo != null)
+					CiscoValueChanged_lo();
+			}
 		}
 
 		void leave_val(object sender, EventArgs e)
@@ -213,5 +210,5 @@ namespace creaturevisualizer
 
 	// Sano.PersonalProjects.ColorPicker.Controls.ColorSpaceComponentEventHandler
 	internal delegate void CiscoSelectedEvent(ColorSpaceControlCisco sender);
-	internal delegate void CiscoValueChangedEvent(ColorSpaceControlCisco sender);
+	internal delegate void CiscoValueChangedEvent();
 }

@@ -8,12 +8,12 @@ namespace creaturevisualizer
 	static class ColorConverter
 	{
 		// NOTE: HSB is usually called HSL.
-		// but in this model sat and bri range 0..100 instead of 0..1
+		// but in this model sat and lit range 0..100 instead of 0..1
 		//
 		// hue: 360 deg. 0=red, 120=green, 240=blue, 360=0
-		// sat: 0=fully desaturated (bri=black(0) to gray(50) to white(100))
-		//      100=fully saturated (bri=black(0) to hue (50) to white(100))
-		// bri: 0=black, 50=hue/gray*, 100=white
+		// sat: 0=fully desaturated (lit=black(0) to gray(50) to white(100))
+		//      100=fully saturated (lit=black(0) to hue (50) to white(100))
+		// lit: 0=black, 50=hue/gray*, 100=white
 		//
 		// *if sat=0 50=gray.
 
@@ -23,9 +23,9 @@ namespace creaturevisualizer
 			return new RGB(color.R, color.G, color.B);
 		}
 
-		internal static HSB ColorToHsb(Color color)
+		internal static HSL ColorToHsl(Color color)
 		{
-			return RgbToHsb(ColorToRgb(color));
+			return RgbToHsl(ColorToRgb(color));
 		}
 
 		internal static Color RgbToColor(RGB rgb)
@@ -43,13 +43,13 @@ namespace creaturevisualizer
 //								  Math.Max(0, Math.Min(rgb.B, 255)));
 //		}
 
-		internal static Color HsbToColor(HSB hsb)
+		internal static Color HslToColor(HSL hsl)
 		{
-			return RgbToColor(HsbToRgb(hsb));
+			return RgbToColor(HslToRgb(hsl));
 		}
 
 
-		internal static HSB RgbToHsb(RGB rgb)
+		internal static HSL RgbToHsl(RGB rgb)
 		{
 			double r = rgb.R / 255.0;
 			double g = rgb.G / 255.0;
@@ -83,7 +83,7 @@ namespace creaturevisualizer
 
 			if ((hue *= 60) < 0) hue += 360;
 
-			return new HSB((int)Math.Round(hue),
+			return new HSL((int)Math.Round(hue),
 						   (int)Math.Round(sat),
 						   (int)Math.Round(max * 100));
 		}
@@ -135,67 +135,67 @@ namespace creaturevisualizer
 				d_sat = (max - min) / (1 - Math.Abs(max + min - 1));
 
 
-			double d_bri = (max + min) / 2;
+			double d_lit = (max + min) / 2;
 
 
 			return new HSB((int)Math.Round(d_hue),
 						   (int)Math.Round(d_sat * 100),
-						   (int)Math.Round(d_bri * 100));
+						   (int)Math.Round(d_lit * 100));
 		} */
 
-		internal static RGB HsbToRgb(HSB hsb)
+		internal static RGB HslToRgb(HSL hsl)
 		{
 			double r,g,b;
-			double bri = hsb.B / 100.0;
+			double lit = hsl.L / 100.0;
 
-			if (hsb.S == 0)
+			if (hsl.S == 0)
 			{
-				r = g = b = bri;
+				r = g = b = lit;
 			}
 			else
 			{
-				double sat = hsb.S / 100.0;
+				double sat = hsl.S / 100.0;
 
-				double d1 = hsb.H / 60.0;
-				int    d2 = hsb.H / 60; //(int)Math.Floor(d1); // NOTE: Do not allow a hue of 360.
+				double d1 = hsl.H / 60.0;
+				int    d2 = hsl.H / 60; //(int)Math.Floor(d1); // NOTE: Do not allow a hue of 360.
 				double d  = d1 - d2;
 
 				switch (d2)
 				{
 					case 0:
-						r = bri;
-						g = bri * (1 - sat * (1 - d));
-						b = bri * (1 - sat);
+						r = lit;
+						g = lit * (1 - sat * (1 - d));
+						b = lit * (1 - sat);
 						break;
 
 					case 1:
-						r = bri * (1 - sat * d);
-						g = bri;
-						b = bri * (1 - sat);
+						r = lit * (1 - sat * d);
+						g = lit;
+						b = lit * (1 - sat);
 						break;
 
 					case 2:
-						r = bri * (1 - sat);
-						g = bri;
-						b = bri * (1 - sat * (1 - d));
+						r = lit * (1 - sat);
+						g = lit;
+						b = lit * (1 - sat * (1 - d));
 						break;
 
 					case 3:
-						r = bri * (1 - sat);
-						g = bri * (1 - sat * d);
-						b = bri;
+						r = lit * (1 - sat);
+						g = lit * (1 - sat * d);
+						b = lit;
 						break;
 
 					case 4:
-						r = bri * (1 - sat * (1 - d));
-						g = bri * (1 - sat);
-						b = bri;
+						r = lit * (1 - sat * (1 - d));
+						g = lit * (1 - sat);
+						b = lit;
 						break;
 
 					case 5:
-						r = bri;
-						g = bri * (1 - sat);
-						b = bri * (1 - sat * d);
+						r = lit;
+						g = lit * (1 - sat);
+						b = lit * (1 - sat * d);
 						break;
 
 					default:
@@ -211,11 +211,11 @@ namespace creaturevisualizer
 		// https://en.wikipedia.org/wiki/HSL_and_HSV
 /*		internal static RGB HsbToRgb(HSB hsb)
 		{
-			int      hue = hsb.Hue;
-			double f_sat = hsb.Saturation / 100.0;
-			double f_bri = hsb.Brightness / 100.0;
+			int      hue = hsb.H;
+			double f_sat = hsb.S / 100.0;
+			double f_lit = hsb.L / 100.0;
 
-			double c = (1 - Math.Abs(f_bri * 2 - 1)) * f_sat;
+			double c = (1 - Math.Abs(f_lit * 2 - 1)) * f_sat;
 
 			hue /= 60;
 
@@ -233,13 +233,13 @@ namespace creaturevisualizer
 				case 5: dr = c; dg = 0; db = x; break;
 			}
 
-			double delta = f_bri - c / 2;
+			double delta = f_lit - c / 2;
 			dr += delta;
 			dg += delta;
 			db += delta;
 
 //			string text;
-//			text = "hue= " + hue + " d_sat= " + d_sat + " d_bri= " + d_bri;
+//			text = "hue= " + hue + " d_sat= " + d_sat + " d_lit= " + d_lit;
 //			text += "\nc= " + c + " x= " + x + " delta= " + delta;
 //			text += "\ndr= " + dr + " dg= " + dg + " db= " + db;
 //			System.Windows.Forms.MessageBox.Show(text);
@@ -250,24 +250,18 @@ namespace creaturevisualizer
 		} */
 
 
-		internal static RGB HexToRgb(string hecate)
-		{
-			Color color = HexToColor(hecate);
-			return new RGB(color.R,
-						   color.G,
-						   color.B);
-		}
-
-		static Color HexToColor(string hecate)
+		internal static RGB HecateToStructure(string hecate)
 		{
 			if (String.IsNullOrEmpty(hecate))
 				hecate = "0";
 
 			int val = Convert.ToInt32(hecate, 16);
-
-			return Color.FromArgb((val & 0xFF0000) >> 16,
-								  (val & 0x00FF00) >>  8,
-								   val & 0x0000FF);
+			Color color = Color.FromArgb((val & 0xFF0000) >> 16,
+										 (val & 0x00FF00) >>  8,
+										  val & 0x0000FF);
+			return new RGB(color.R,
+						   color.G,
+						   color.B);
 		}
 
 

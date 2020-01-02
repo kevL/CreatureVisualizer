@@ -10,8 +10,8 @@ namespace creaturevisualizer
 		: UserControl
 	{
 		#region Events
-		public event ColorSpaceEvent CiscoSelected;
-		public event ColorSpaceEvent CiscoValueChanged;
+		public event ColorSpaceEvent CiscoSelected_hi;
+		public event ColorSpaceEvent CiscoValueChanged_hi;
 		#endregion Events
 
 
@@ -33,10 +33,10 @@ namespace creaturevisualizer
 			SelectCisco(sender);
 		}
 
-		internal protected void OnCiscoValueChanged(ColorSpaceControlCisco sender)
+		internal protected void OnCiscoValueChanged()
 		{
-			if (CiscoValueChanged != null)
-				CiscoValueChanged(this);
+			if (CiscoValueChanged_hi != null)
+				CiscoValueChanged_hi(this);
 		}
 		#endregion Handlers
 
@@ -48,8 +48,8 @@ namespace creaturevisualizer
 
 			(Cisco = cisco).Selected = true;
 
-			if (CiscoSelected != null)
-				CiscoSelected(this);
+			if (CiscoSelected_hi != null)
+				CiscoSelected_hi(this);
 		}
 
 		internal void DeselectCiscos()

@@ -24,7 +24,7 @@ namespace creaturevisualizer
 		#region Fields
 		ColorSpaceControl _csc;
 
-		readonly Rectangle _rect;
+		readonly Rectangle _grad;
 
 		Rectangle _l; // for invalidating/redrawing the left  tri
 		Rectangle _r; // for invalidating/redrawing the right tri
@@ -34,17 +34,18 @@ namespace creaturevisualizer
 
 
 		#region Properties
-		int _y;
-		public int Value
+		int _val;
+		/// <summary>
+		/// The colorslider's value always ranges [0..255] regardless of which
+		/// cisco is currently selected.
+		/// </summary>
+		internal int Val
 		{
-			get
-			{
-				return 255 - _y + _rect.Y;
-			}
+			get { return _val; }
 			set
 			{
-				_y = _rect.Y + 255 - value;
-				InvalidateTris(_y);
+				_val = value;
+				UpdateTris();
 			}
 		}
 		#endregion Properties
@@ -54,7 +55,7 @@ namespace creaturevisualizer
 		public ColorSlider()
 		{
 			InitializeComponent();
-			_rect = new Rectangle((Width  - width)  / 2,
+			_grad = new Rectangle((Width  - width)  / 2,
 								  (Height - height) / 2,
 								   width,
 								   height);
@@ -63,18 +64,120 @@ namespace creaturevisualizer
 
 
 		#region Handlers (override)
+		Graphics _graphics;
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			base.OnPaint(e);
 
-			Graphics graphics = e.Graphics;
+			_graphics = e.Graphics;
 
-			DrawTris(graphics, _y);
-			DrawGradient(graphics);
+			DrawTris();
+			DrawGradient();
 
-			graphics.DrawRectangle(Pens.Black,
-								   _rect.X     - 1, _rect.Y      - 1,
-								   _rect.Width + 1, _rect.Height + 1);
+			_graphics.DrawRectangle(Pens.Black,
+								   _grad.X     - 1, _grad.Y      - 1,
+								   _grad.Width + 1, _grad.Height + 1);
+		}
+
+		void DrawTris()
+		{
+			int y = _grad.Y + 255 - Val;
+
+			Point[] tri;
+
+			tri = new Point[3]
+			{
+				new Point(_grad.X - 9, y - 5),
+				new Point(_grad.X - 4, y),
+				new Point(_grad.X - 9, y + 5)
+			};
+			_graphics.DrawPolygon(Pens.Black, tri);
+
+			tri = new Point[3]
+			{
+				new Point(_grad.X + _grad.Width + 8, y - 5),
+				new Point(_grad.X + _grad.Width + 3, y),
+				new Point(_grad.X + _grad.Width + 8, y + 5)
+			};
+			_graphics.DrawPolygon(Pens.Black, tri);
+		}
+
+		void DrawGradient()
+		{
+			if ((_csc as ColorSpaceControlHSL) != null)
+			{
+				var hsl = (_csc as ColorSpaceControlHSL).hsl;
+
+				switch (_csc.Cisco.DisplayCharacter)
+				{
+					case 'H':
+						using (var linearGradientBrush = new LinearGradientBrush(_grad,
+																				 Color.Blue,
+																				 Color.Red,
+																				 90f,
+																				 false))
+						{
+							var blend = new ColorBlend();
+							blend.Colors    = GradientService._colors;
+							blend.Positions = GradientService._positions;
+							linearGradientBrush.InterpolationColors = blend;
+
+							_graphics.FillRectangle(linearGradientBrush, _grad);
+						}
+						break;
+
+					case 'S':
+					{
+						RGB rgb1 = ColorConverter.HslToRgb(new HSL(hsl.H, 100, hsl.L));
+						RGB rgb2 = ColorConverter.HslToRgb(new HSL(hsl.H,   0, hsl.L));
+						Color color1 = Color.FromArgb(rgb1.R, rgb1.G, rgb1.B);
+						Color color2 = Color.FromArgb(rgb2.R, rgb2.G, rgb2.B);
+
+						using (var brush = new LinearGradientBrush(_grad, color1, color2, 90f))
+							_graphics.FillRectangle(brush, _grad);
+						break;
+					}
+
+					case 'L':
+					{
+						RGB rgb1 = ColorConverter.HslToRgb(new HSL(hsl.H, hsl.S, 100));
+						RGB rgb2 = ColorConverter.HslToRgb(new HSL(hsl.H, hsl.S,   0));
+						Color color1 = Color.FromArgb(rgb1.R, rgb1.G, rgb1.B);
+						Color color2 = Color.FromArgb(rgb2.R, rgb2.G, rgb2.B);
+
+						using (var brush = new LinearGradientBrush(_grad, color1, color2, 90f))
+							_graphics.FillRectangle(brush, _grad);
+						break;
+					}
+				}
+			}
+			else if ((_csc as ColorSpaceControlRGB) != null)
+			{
+				var rgb = (_csc as ColorSpaceControlRGB).rgb;
+
+				Color color1, color2;
+				switch (_csc.Cisco.DisplayCharacter)
+				{
+					case 'R':
+						color1 = Color.FromArgb(  0, rgb.G, rgb.B);
+						color2 = Color.FromArgb(255, rgb.G, rgb.B);
+						break;
+
+					case 'G':
+						color1 = Color.FromArgb(rgb.R,   0, rgb.B);
+						color2 = Color.FromArgb(rgb.R, 255, rgb.B);
+						break;
+
+					default:
+//					case 'B':
+						color1 = Color.FromArgb(rgb.R, rgb.G,   0);
+						color2 = Color.FromArgb(rgb.R, rgb.G, 255);
+						break;
+				}
+
+				using (var brush = new LinearGradientBrush(_grad, color1, color2, 270f))
+					_graphics.FillRectangle(brush, _grad);
+			}
 		}
 
 		protected override void OnMouseDown(MouseEventArgs e)
@@ -95,36 +198,23 @@ namespace creaturevisualizer
 		{
 			if (_track) ChangeValue(e.Y);
 		}
-		#endregion Handlers (override)
-
-
-		#region Methods
-		public void ChangeColorspace(ColorSpaceControl colorspace)
-		{
-			_csc = colorspace;
-			Invalidate(_rect);
-		}
 
 		void ChangeValue(int y)
 		{
-			if (y < _rect.Y)
-				y = _rect.Y;
-			else if (y >= _rect.Y + _rect.Height)
-					 y  = _rect.Y + _rect.Height - 1;
+			y = Math.Max(_grad.Y, Math.Min(y, _grad.Y + 255));
 
-			InvalidateTris(_y = y);
+			Val = 255 - y + _grad.Y;
 
 			if (SliderChanged != null)
-				SliderChanged(new SliderChangedEventArgs(255 - _y + _rect.Y));
+				SliderChanged(new SliderChangedEventArgs(Val));
 		}
 
-		void InvalidateTris(int y)
+		void UpdateTris()
 		{
 			Invalidate(_l);
 			Invalidate(_r);
 
-			_l = GetRectangleTriL(y);
-			_r = GetRectangleTriR(y);
+			SetTriRects();
 
 			Invalidate(_l);
 			Invalidate(_r);
@@ -132,119 +222,44 @@ namespace creaturevisualizer
 			Update(); // quick refresh. Just say no to sticky tris.
 		}
 
-		Rectangle GetRectangleTriL(int y)
+		void SetTriRects()
 		{
-			int x = _rect.X - 9;
-			y -= 5;
-			return new Rectangle(x,y, 6,11);
+			int y = _grad.Y + 255 - _val - 5;
+
+			int x = _grad.X - 9;
+			_l = new Rectangle(x,y, 6,11);
+
+			x = _grad.X + _grad.Width + 3;
+			_r = new Rectangle(x,y, 6,11);
 		}
+		#endregion Handlers (override)
 
-		Rectangle GetRectangleTriR(int y)
+
+		#region Methods
+		internal void Configurate(ColorSpaceControl csc)
 		{
-			int x = _rect.X + _rect.Width + 3;
-			y -= 5;
-			return new Rectangle(x,y, 6,11);
-		}
+			_csc = csc;
+			Invalidate(_grad);
 
-		void DrawTris(Graphics graphics, int y)
-		{
-			Point[] tri;
-
-			tri = new Point[3]
+			int val;
+			switch (_csc.Cisco.Units)
 			{
-				new Point(_rect.X - 9, y - 5),
-				new Point(_rect.X - 4, y),
-				new Point(_rect.X - 9, y + 5)
-			};
-			graphics.DrawPolygon(Pens.Black, tri);
+				case ColorSpaceControlCisco.Unit.Degree:
+					val = (int)Math.Ceiling(_csc.Cisco.Val * 17.0 / 24.0);
+					val = Math.Max(0, Math.Min(val, 255));
+					break;
 
-			tri = new Point[3]
-			{
-				new Point(_rect.X + _rect.Width + 8, y - 5),
-				new Point(_rect.X + _rect.Width + 3, y),
-				new Point(_rect.X + _rect.Width + 8, y + 5)
-			};
-			graphics.DrawPolygon(Pens.Black, tri);
-		}
+				case ColorSpaceControlCisco.Unit.Percent:
+					val = (int)Math.Ceiling(_csc.Cisco.Val * 2.55);
+					val = Math.Max(0, Math.Min(val, 255));
+					break;
 
-		void DrawGradient(Graphics graphics)
-		{
-			if (_csc != null)
-			{
-				if ((_csc as ColorSpaceControlHSB) != null)
-				{
-					var hsb = (_csc as ColorSpaceControlHSB).Structure as HSB;
-
-					switch (_csc.Cisco.DisplayCharacter)
-					{
-						case 'H':
-							using (var linearGradientBrush = new LinearGradientBrush(_rect,
-																					 Color.Blue,
-																					 Color.Red,
-																					 90f,
-																					 false))
-							{
-								var blend = new ColorBlend();
-								blend.Colors    = GradientService._colors;
-								blend.Positions = GradientService._positions;
-								linearGradientBrush.InterpolationColors = blend;
-
-								graphics.FillRectangle(linearGradientBrush, _rect);
-							}
-							break;
-
-						case 'S':
-						{
-							RGB rgb1 = ColorConverter.HsbToRgb(new HSB(hsb.H, 100, hsb.B));
-							RGB rgb2 = ColorConverter.HsbToRgb(new HSB(hsb.H,   0, hsb.B));
-							Color color1 = Color.FromArgb(rgb1.R, rgb1.G, rgb1.B);
-							Color color2 = Color.FromArgb(rgb2.R, rgb2.G, rgb2.B);
-
-							using (var brush = new LinearGradientBrush(_rect, color1, color2, 90f))
-								graphics.FillRectangle(brush, _rect);
-							break;
-						}
-
-						case 'B':
-						{
-							RGB rgb1 = ColorConverter.HsbToRgb(new HSB(hsb.H, hsb.S, 100));
-							RGB rgb2 = ColorConverter.HsbToRgb(new HSB(hsb.H, hsb.S,   0));
-							Color color1 = Color.FromArgb(rgb1.R, rgb1.G, rgb1.B);
-							Color color2 = Color.FromArgb(rgb2.R, rgb2.G, rgb2.B);
-
-							using (var brush = new LinearGradientBrush(_rect, color1, color2, 90f))
-								graphics.FillRectangle(brush, _rect);
-							break;
-						}
-					}
-				}
-				else // ColorSpaceControlRGB
-				{
-					var rgb = (_csc as ColorSpaceControlRGB).Structure as RGB;
-
-					Color color1, color2;
-					switch (_csc.Cisco.DisplayCharacter)
-					{
-						case 'R':
-							color1 = Color.FromArgb(  0, rgb.G, rgb.B);
-							color2 = Color.FromArgb(255, rgb.G, rgb.B);
-							break;
-
-						case 'G':
-							color1 = Color.FromArgb(rgb.R,   0, rgb.B);
-							color2 = Color.FromArgb(rgb.R, 255, rgb.B);
-							break;
-
-						default: // case 'B':
-							color1 = Color.FromArgb(rgb.R, rgb.G,   0);
-							color2 = Color.FromArgb(rgb.R, rgb.G, 255);
-							break;
-					}
-
-					using (var brush = new LinearGradientBrush(_rect, color1, color2, 270f))
-						graphics.FillRectangle(brush, _rect);
-				}
+				default:
+//				case ColorSpaceControlCisco.Unit.Byte:
+					val = _csc.Cisco.Val;
+					break;
 			}
+			Val = val;
 		}
 		#endregion Methods
 

@@ -40,28 +40,28 @@ namespace creaturevisualizer
 					{
 						if ((val = reader.GetAttribute("red")) == null
 							|| !Int32.TryParse(val, out r)
-							|| r < 0 || r > Byte.MaxValue)
+							|| r < 0 || r > 255)
 						{
 							r = 0;
 						}
 
 						if ((val = reader.GetAttribute("green")) == null
 							|| !Int32.TryParse(val, out g)
-							|| g < 0 || g > Byte.MaxValue)
+							|| g < 0 || g > 255)
 						{
 							g = 0;
 						}
 
 						if ((val = reader.GetAttribute("blue")) == null
 							|| !Int32.TryParse(val, out b)
-							|| b < 0 || b > Byte.MaxValue)
+							|| b < 0 || b > 255)
 						{
 							b = 0;
 						}
 
 						if ((val = reader.GetAttribute("alpha")) == null
 							|| !Int32.TryParse(val, out a)
-							|| a < 0 || a > Byte.MaxValue)
+							|| a < 0 || a > 255)
 						{
 							a = 255;
 						}

@@ -28,8 +28,7 @@ namespace creaturevisualizer
 		public ColorField()
 		{
 			InitializeComponent();
-
-			_pt = CalculatePoint();
+//			_pt = CalculatePoint();
 		}
 		#endregion cTor
 
@@ -37,18 +36,41 @@ namespace creaturevisualizer
 		#region Handlers (override)
 		protected override void OnPaint(PaintEventArgs e)
 		{
-			if (!DesignMode)
+			if (!ColorF.reallyDesignMode)
 			{
-				DrawField(e.Graphics);
+				Color color = GetPointColor();
+				if (color != Color.Empty)
+				{
+					DrawField(e.Graphics);
 
-				Pen pen;
-				if (GradientService.IsBright(GetCurrentColor())) pen = Pens.Black;
-				else                                             pen = Pens.White;
+					Pen pen;
+					if (GradientService.IsBright(color)) pen = Pens.Black;
+					else                                 pen = Pens.White;
 
-				e.Graphics.DrawEllipse(pen,
-									   _pt.X - 4,
-									   _pt.Y - 4,
-									   8,8);
+					e.Graphics.DrawEllipse(pen, _pt.X - 4, _pt.Y - 4, 8,8);
+				}
+			}
+		}
+
+		void DrawField(Graphics graphics)
+		{
+			switch (_csc.Cisco.DisplayCharacter)
+			{
+				// _csc is ColorSpaceControlHSL
+				case 'H': GradientService.DrawField_hue(graphics, _color); break;
+//				{
+//					Color color = _color;
+//					if (color.Equals(Color.FromArgb(0,0,0,0)) || color.Equals(Color.FromArgb(0,0,0))) // TODO: wtf
+//						color = Color.FromArgb(255,0,0);
+//					GradientService.DrawField_hue(graphics, color);
+//				}
+				case 'S': GradientService.DrawField_sat(graphics, _val); break;
+				case 'L': GradientService.DrawField_lit(graphics, _val); break;
+
+				// _csc is ColorSpaceControlRGB
+				case 'R': GradientService.DrawField_r(graphics, _val); break;
+				case 'G': GradientService.DrawField_g(graphics, _val); break;
+				case 'B': GradientService.DrawField_b(graphics, _val); break;
 			}
 		}
 
@@ -62,7 +84,7 @@ namespace creaturevisualizer
 				UpdatePoint(pt);
 
 				if (PointSelected != null)
-					PointSelected(new ColorEventArgs(GetCurrentColor()));
+					PointSelected(new ColorEventArgs(GetPointColor()));
 			}
 		}
 
@@ -87,66 +109,7 @@ namespace creaturevisualizer
 					UpdatePoint(pt);
 
 					if (PointSelected != null)
-						PointSelected(new ColorEventArgs(GetCurrentColor()));
-				}
-			}
-		}
-
-//		protected override void OnMouseEnter(EventArgs e)
-//		{
-//			Cursor = new Cursor(SanoResources.GetFileResource("ColorFieldPanelCursor.cur")); // TODO ->>
-//		}
-
-//		protected override void OnMouseLeave(EventArgs e)
-//		{
-//			Cursor.Show();
-//			ParentForm.Cursor = Cursors.Default;
-//		}
-		#endregion Handlers (override)
-
-
-		#region Methods
-		void DrawField(Graphics graphics)
-		{
-			if (_csc is ColorSpaceControlHSB)
-			{
-				switch (_csc.Cisco.DisplayCharacter)
-				{
-					case 'H':
-					{
-						Color color = _color;
-
-						if (color.Equals(Color.FromArgb(0,0,0,0)) || color.Equals(Color.FromArgb(0,0,0))) // TODO: wtf
-							color = Color.FromArgb(255,0,0);
-
-						GradientService.DrawFieldHue(graphics, color);
-						break;
-					}
-
-					case 'S':
-						GradientService.DrawFieldSaturation(graphics, _val);
-						break;
-
-					case 'B':
-						GradientService.DrawFieldBrightness(graphics, _val);
-						break;
-				}
-			}
-			else if (_csc is ColorSpaceControlRGB)
-			{
-				switch (_csc.Cisco.DisplayCharacter)
-				{
-					case 'R':
-						GradientService.DrawFieldRed(graphics, _val);
-						break;
-
-					case 'G':
-						GradientService.DrawFieldGreen(graphics, _val);
-						break;
-
-					case 'B':
-						GradientService.DrawFieldBlue(graphics, _val);
-						break;
+						PointSelected(new ColorEventArgs(GetPointColor()));
 				}
 			}
 		}
@@ -155,50 +118,74 @@ namespace creaturevisualizer
 		{
 			Invalidate(new Rectangle(_pt.X - 4, _pt.Y - 4, 9,9));
 			Invalidate(new Rectangle( pt.X - 4,  pt.Y - 4, 9,9));
+			Update();
+
 			_pt = pt;
 		}
 
-		Point CalculatePoint()
+		Color GetPointColor()
 		{
-			int x = 0;
-			int y = 0;
-
-			if ((_csc as ColorSpaceControlHSB) != null)
+			if ((_csc as ColorSpaceControlHSL) != null)
 			{
-				var hsb = (HSB)((ColorSpaceControlHSB)_csc).Structure;
+				var hsl = (_csc as ColorSpaceControlHSL).hsl;
 
 				switch (_csc.Cisco.DisplayCharacter)
 				{
 					case 'H':
-						x =       (int)Math.Round((double)hsb.S * 2.55);
-						y = 255 - (int)Math.Round((double)hsb.B * 2.55);
+					{
+						int lit = (int)((255f - _pt.Y) / 2.55f);
+						int sat = (int)(        _pt.X  / 2.55f);
+						lit = Math.Max(0, Math.Min(lit, 100));
+						sat = Math.Max(0, Math.Min(sat, 100));
+
+						hsl = new HSL(hsl.H, sat, lit);
 						break;
+					}
 
 					case 'S':
-						x = (int)Math.Ceiling((double)hsb.H * 17.0 / 24.0);
-						y = (int)(    255.0 - (double)hsb.B * 2.55);
-						break;
+					{
+						int hue = (int)(_pt.X * 24.0f / 17.0f);
+						int lit = (int)((255f - _pt.Y) / 2.55f);
+						hue = Math.Max(0, Math.Min(hue, 359));
+						lit = Math.Max(0, Math.Min(lit, 100));
 
-					case 'B':
-						x =       (int)Math.Ceiling((double)hsb.H * 17.0 / 24.0);
-						y = 255 - (int)Math.Round(  (double)hsb.S * 2.55);
+						hsl = new HSL(hue, hsl.S, lit);
 						break;
+					}
+
+					case 'L':
+					{
+						int hue = (int)(_pt.X * 24.0f / 17.0f);
+						int sat = (int)((255f - _pt.Y) / 2.55f);
+						hue = Math.Max(0, Math.Min(hue, 359));
+						sat = Math.Max(0, Math.Min(sat, 100));
+
+						hsl = new HSL(hue, sat, hsl.L);
+						break;
+					}
 				}
+				return ColorConverter.HslToColor(hsl);
 			}
-			else if ((_csc as ColorSpaceControlRGB) != null)
+
+			if ((_csc as ColorSpaceControlRGB) != null) // can be null i guess
 			{
-				Color color = ((ColorSpaceControlRGB)_csc).GetColor();
+				var rgb = (_csc as ColorSpaceControlRGB).rgb;
 
 				switch (_csc.Cisco.DisplayCharacter)
 				{
-					case 'R': x = color.B; y = 255 - color.G; break;
-					case 'G': x = color.B; y = 255 - color.R; break;
-					case 'B': x = color.R; y = 255 - color.G; break;
+					case 'R': rgb = new RGB(rgb.R,       255 - _pt.Y, _pt.X); break;
+					case 'G': rgb = new RGB(255 - _pt.Y, rgb.G,       _pt.X); break;
+					case 'B': rgb = new RGB(_pt.X,       255 - _pt.Y, rgb.B); break;
 				}
+				return ColorConverter.RgbToColor(rgb);
 			}
-			return new Point(x,y);
-		}
 
+			return Color.Empty;
+		}
+		#endregion Handlers (override)
+
+
+		#region Methods
 		internal void ChangeColor(Color color, ColorSpaceControl csc, bool setPoint)
 		{
 			_color = color;
@@ -208,7 +195,7 @@ namespace creaturevisualizer
 		internal void ChangeColor(int val, ColorSpaceControl csc, bool setPoint)
 		{
 			_val = val;
-			_color = Color.Empty;
+//			_color = Color.Empty;
 			ChangeColorspace(csc, setPoint);
 		}
 
@@ -222,52 +209,45 @@ namespace creaturevisualizer
 			Refresh();
 		}
 
-		Color GetCurrentColor()
+		Point CalculatePoint()
 		{
-			if ((_csc as ColorSpaceControlHSB) != null)
+			int x = 0;
+			int y = 0;
+
+			if ((_csc as ColorSpaceControlHSL) != null)
 			{
-				var hsb = (HSB)((ColorSpaceControlHSB)_csc).Structure;
+				var hsl = (_csc as ColorSpaceControlHSL).hsl;
 
 				switch (_csc.Cisco.DisplayCharacter)
 				{
 					case 'H':
-					{
-						int bri = (int)((255f - _pt.Y) / 2.55f);
-						int sat = (int)(        _pt.X  / 2.55f);
-						hsb = new HSB(hsb.H, sat, bri);
+						x =       (int)Math.Round(hsl.S * 2.55);
+						y = 255 - (int)Math.Round(hsl.L * 2.55);
 						break;
-					}
 
 					case 'S':
-					{
-						int hue = (int)(_pt.X * 24.0f / 17.0f);
-						int bri = (int)((255f - _pt.Y) / 2.55f);
-						hsb = new HSB(hue % 360, hsb.S, bri);
+						x = (int)Math.Ceiling(hsl.H * 17.0 / 24.0);
+						y = (int)(      255 - hsl.L * 2.55);
 						break;
-					}
 
-					case 'B':
-					{
-						int hue = (int)(_pt.X * 24.0f / 17.0f);
-						int sat = (int)((255f - _pt.Y) / 2.55f);
-						hsb = new HSB(hue % 360, sat, hsb.B);
+					case 'L':
+						x =       (int)Math.Ceiling(hsl.H * 17.0 / 24.0);
+						y = 255 - (int)Math.Round(  hsl.S * 2.55);
 						break;
-					}
 				}
-				return ColorConverter.HsbToColor(hsb);
 			}
 			else //if ((_csc as ColorSpaceControlRGB) != null)
 			{
-				var rgb = (RGB)((ColorSpaceControlRGB)_csc).Structure;
+				Color color = (_csc as ColorSpaceControlRGB).GetColor();
 
 				switch (_csc.Cisco.DisplayCharacter)
 				{
-					case 'R': rgb = new RGB(rgb.R,       255 - _pt.Y, _pt.X); break;
-					case 'G': rgb = new RGB(255 - _pt.Y, rgb.G,       _pt.X); break;
-					case 'B': rgb = new RGB(_pt.X,       255 - _pt.Y, rgb.B); break;
+					case 'R': x = color.B; y = 255 - color.G; break;
+					case 'G': x = color.B; y = 255 - color.R; break;
+					case 'B': x = color.R; y = 255 - color.G; break;
 				}
-				return ColorConverter.RgbToColor(rgb);
 			}
+			return new Point(x,y);
 		}
 		#endregion Methods
 

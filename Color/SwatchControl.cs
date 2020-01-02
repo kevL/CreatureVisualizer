@@ -350,7 +350,7 @@ namespace creaturevisualizer
 			return _firstBlankId;
 		}
 
-		internal void SelectSwatch(Color color)
+		internal void UpdateSelector(Color color)
 		{
 			ClearSelector();
 

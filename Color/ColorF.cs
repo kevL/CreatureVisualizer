@@ -5,7 +5,7 @@ using System.Windows.Forms;
 namespace creaturevisualizer
 {
 	// Sano.PersonalProjects.ColorPicker.Controls.ColorEditForm
-	sealed class ColorF
+	public sealed class ColorF
 		: Form
 	{
 		#region Fields (static)
@@ -24,12 +24,16 @@ namespace creaturevisualizer
 
 
 		#region cTor
-		internal ColorF()
+		public ColorF()
 		{
 			reallyDesignMode = false;	// -> cTor doesn't run in DesignMode.
 			That = this;				// -> req'd before InitializeComponent() by SwatchIo.Read()
 
 			InitializeComponent();
+
+#if DEBUG
+			ColorControl.InitialColor(System.Drawing.Color.White); // <- STANDALONE PROGRAM START - TEST ONLY <<-
+#endif
 		}
 		#endregion cTor
 
@@ -122,7 +126,6 @@ namespace creaturevisualizer
 			// 
 			// colorControl
 			// 
-			this.colorControl.AllowDrop = true;
 			this.colorControl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.colorControl.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.colorControl.Location = new System.Drawing.Point(0, 0);

@@ -45,7 +45,7 @@ namespace creaturevisualizer
 
 		public override int GetHashCode()
 		{
-			return base.GetHashCode(); // are you a fucking moron - no, actually the designers of c#/.Net were fucking morons.
+			return base.GetHashCode();
 		}
 		#endregion Methods (override)
 	}
