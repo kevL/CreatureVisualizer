@@ -97,31 +97,10 @@ namespace creaturevisualizer
 
 
 		#region Handlers
-		void mousehover_rb(object sender, EventArgs e)
-		{
-			string ifo;
-			switch (DisplayCharacter)
-			{
-				default:
-				case 'H': ifo = "Hue 0..359 degrees";        break;
-				case 'S': ifo = "Saturation 0..100 percent"; break;
-				case 'L': ifo = "Lightness 0..100 percent";  break;
-
-				case 'R': ifo = "Red 0..255 byte";           break;
-				case 'G': ifo = "Green 0..255 byte";         break;
-				case 'B': ifo = "Blue 0..255 byte";          break;
-			}
-
-			ColorF.That.Print(ifo);
-		}
-
 		void click_rb(object sender, EventArgs e)
 		{
-			if (((RadioButton)sender).Checked)
-			{
-				if (CiscoSelected_lo != null)
-					CiscoSelected_lo(this);
-			}
+			if (CiscoSelected_lo != null)
+				CiscoSelected_lo(this);
 		}
 
 		void textchanged_val(object sender, EventArgs e)
@@ -133,11 +112,46 @@ namespace creaturevisualizer
 			}
 		}
 
+		/// <summary>
+		/// Handles the KeyUp [Space] event to select the radio-button because
+		/// their tabstops don't work correctly probably due to the control
+		/// within a control within a control (within a control within a
+		/// control) shenanigans. I mean what genius figured that would work
+		/// out ... hint, it doesn't. Don't do it again. Ever
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		void keyup_val(object sender, KeyEventArgs e)
+		{
+			if (!Selected && e.KeyData == Keys.Space)
+			{
+				click_rb(rb_Co, EventArgs.Empty);
+				e.Handled = e.SuppressKeyPress = true;
+			}
+		}
+
 		void leave_val(object sender, EventArgs e)
 		{
 			var tb = sender as TextboxRestrictive;
 			if (String.IsNullOrEmpty(tb.Text))
 				tb.Text = "0"; // WARNING: That will fire the TextChanged event but the control's value shall already be 0.
+		}
+
+		void mousehover_rb(object sender, EventArgs e)
+		{
+			string ifo;
+			switch (DisplayCharacter)
+			{
+//				case 'H':
+				default:  ifo = "Hue 0..359 degrees";        break;
+				case 'S': ifo = "Saturation 0..100 percent"; break;
+				case 'L': ifo = "Lightness 0..100 percent";  break;
+
+				case 'R': ifo = "Red 0..255 byte";           break;
+				case 'G': ifo = "Green 0..255 byte";         break;
+				case 'B': ifo = "Blue 0..255 byte";          break;
+			}
+			ColorF.That.Print(ifo);
 		}
 		#endregion Handlers
 
@@ -169,6 +183,7 @@ namespace creaturevisualizer
 			this.tb_Val.TabIndex = 1;
 			this.tb_Val.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.tb_Val.TextChanged += new System.EventHandler(this.textchanged_val);
+			this.tb_Val.KeyUp += new System.Windows.Forms.KeyEventHandler(this.keyup_val);
 			this.tb_Val.Leave += new System.EventHandler(this.leave_val);
 			// 
 			// la_Units
@@ -187,7 +202,6 @@ namespace creaturevisualizer
 			this.rb_Co.Name = "rb_Co";
 			this.rb_Co.Size = new System.Drawing.Size(30, 20);
 			this.rb_Co.TabIndex = 0;
-			this.rb_Co.TabStop = true;
 			this.rb_Co.Click += new System.EventHandler(this.click_rb);
 			this.rb_Co.MouseHover += new System.EventHandler(this.mousehover_rb);
 			// 
