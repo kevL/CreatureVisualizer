@@ -29,6 +29,16 @@ namespace creaturevisualizer
 
 
 		#region Handlers (override)
+		protected override void OnMouseWheel(MouseEventArgs e)
+		{
+			Keys                  keydata = Keys.None;
+			if      (e.Delta > 0) keydata = Keys.Add;
+			else if (e.Delta < 0) keydata = Keys.Subtract;
+
+			if (keydata != Keys.None)
+				OnKeyDown(new KeyEventArgs(keydata));
+		}
+
 		protected override void OnKeyDown(KeyEventArgs e)
 		{
 			switch (e.KeyData)
