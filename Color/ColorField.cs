@@ -188,7 +188,10 @@ namespace creaturevisualizer
 		{
 			_csc = csc;
 			if (setPoint)
+			{
 				CalculatePoint();
+				SetPointColor();
+			}
 
 			Refresh();
 		}
