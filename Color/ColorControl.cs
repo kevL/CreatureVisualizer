@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Resources;
 using System.Windows.Forms;
 
@@ -43,7 +44,10 @@ namespace creaturevisualizer
 
 			// this has nothing to do with the Slider ...
 			using (Graphics graphics = Graphics.FromImage(_slider))
+			{
+				graphics.PixelOffsetMode = PixelOffsetMode.Half;
 				GradientService.DrawSlider_hue(graphics, new Rectangle(0,0, 1,256)); //ColorSlider.width,ColorSlider.height
+			}
 		}
 
 		/// <summary>
@@ -81,7 +85,7 @@ namespace creaturevisualizer
 		#region Handlers (override)
 		protected override void OnPaint(PaintEventArgs e)
 		{
-			base.OnPaint(e);
+//			base.OnPaint(e);
 
 // draw border around colorfield ->
 			e.Graphics.DrawRectangle(Pens.Black,

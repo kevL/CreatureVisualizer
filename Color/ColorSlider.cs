@@ -67,16 +67,15 @@ namespace creaturevisualizer
 		Graphics _graphics;
 		protected override void OnPaint(PaintEventArgs e)
 		{
-			base.OnPaint(e);
+//			base.OnPaint(e);
 
 			_graphics = e.Graphics;
 
 			DrawTris();
-			DrawGradient();
-
 			_graphics.DrawRectangle(Pens.Black,
 								   _grad.X     - 1, _grad.Y      - 1,
 								   _grad.Width + 1, _grad.Height + 1);
+			DrawGradient();
 		}
 
 		void DrawTris()
@@ -104,10 +103,38 @@ namespace creaturevisualizer
 
 		void DrawGradient()
 		{
-			if ((_csc as ColorSpaceControlHSL) != null)
+			_graphics.PixelOffsetMode = PixelOffsetMode.Half;
+
+			var csc = _csc as ColorSpaceControlRGB;
+			if (csc != null)
+			{
+				var rgb = csc.rgb;
+				Color color1, color2;
+				switch (_csc.Cisco.DisplayCharacter)
+				{
+					case 'R':
+						color1 = Color.FromArgb(  0, rgb.G, rgb.B);
+						color2 = Color.FromArgb(255, rgb.G, rgb.B);
+						break;
+
+					case 'G':
+						color1 = Color.FromArgb(rgb.R,   0, rgb.B);
+						color2 = Color.FromArgb(rgb.R, 255, rgb.B);
+						break;
+
+					default:
+//					case 'B':
+						color1 = Color.FromArgb(rgb.R, rgb.G,   0);
+						color2 = Color.FromArgb(rgb.R, rgb.G, 255);
+						break;
+				}
+
+				using (var brush = new LinearGradientBrush(_grad, color1, color2, 270f))
+					_graphics.FillRectangle(brush, _grad);
+			}
+			else
 			{
 				var hsl = (_csc as ColorSpaceControlHSL).hsl;
-
 				switch (_csc.Cisco.DisplayCharacter)
 				{
 					case 'H':
@@ -150,33 +177,6 @@ namespace creaturevisualizer
 						break;
 					}
 				}
-			}
-			else if ((_csc as ColorSpaceControlRGB) != null)
-			{
-				var rgb = (_csc as ColorSpaceControlRGB).rgb;
-
-				Color color1, color2;
-				switch (_csc.Cisco.DisplayCharacter)
-				{
-					case 'R':
-						color1 = Color.FromArgb(  0, rgb.G, rgb.B);
-						color2 = Color.FromArgb(255, rgb.G, rgb.B);
-						break;
-
-					case 'G':
-						color1 = Color.FromArgb(rgb.R,   0, rgb.B);
-						color2 = Color.FromArgb(rgb.R, 255, rgb.B);
-						break;
-
-					default:
-//					case 'B':
-						color1 = Color.FromArgb(rgb.R, rgb.G,   0);
-						color2 = Color.FromArgb(rgb.R, rgb.G, 255);
-						break;
-				}
-
-				using (var brush = new LinearGradientBrush(_grad, color1, color2, 270f))
-					_graphics.FillRectangle(brush, _grad);
 			}
 		}
 

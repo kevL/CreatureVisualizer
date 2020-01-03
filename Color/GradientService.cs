@@ -85,7 +85,7 @@ namespace creaturevisualizer
 														   Color.FromArgb((int)Math.Round(d4),
 																		  (int)Math.Round(d5),
 																		  (int)Math.Round(d6)),
-														   Color.FromArgb(0,0,0),
+														   Color.Black,
 														   90f,
 														   false))
 				{
