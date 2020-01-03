@@ -109,10 +109,10 @@ namespace creaturevisualizer
 			| System.Windows.Forms.AnchorStyles.Right)));
 			this.pa_Color.BackgroundImage = global::CreatureVisualizer.Properties.Resources.checkers;
 			this.pa_Color.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pa_Color.Location = new System.Drawing.Point(5, 25);
+			this.pa_Color.Location = new System.Drawing.Point(5, 23);
 			this.pa_Color.Margin = new System.Windows.Forms.Padding(0);
 			this.pa_Color.Name = "pa_Color";
-			this.pa_Color.Size = new System.Drawing.Size(102, 62);
+			this.pa_Color.Size = new System.Drawing.Size(162, 62);
 			this.pa_Color.TabIndex = 3;
 			this.pa_Color.Paint += new System.Windows.Forms.PaintEventHandler(this.paint_color);
 			// 
@@ -122,32 +122,30 @@ namespace creaturevisualizer
 			this.tb_Description.Location = new System.Drawing.Point(0, 0);
 			this.tb_Description.Margin = new System.Windows.Forms.Padding(0);
 			this.tb_Description.Name = "tb_Description";
-			this.tb_Description.Size = new System.Drawing.Size(196, 20);
+			this.tb_Description.Size = new System.Drawing.Size(172, 20);
 			this.tb_Description.TabIndex = 0;
 			this.tb_Description.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.tb_Description.KeyUp += new System.Windows.Forms.KeyEventHandler(this.keyup_description);
 			// 
 			// bu_Cancel
 			// 
-			this.bu_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.bu_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.bu_Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.bu_Cancel.Location = new System.Drawing.Point(4, 90);
+			this.bu_Cancel.Location = new System.Drawing.Point(4, 88);
 			this.bu_Cancel.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_Cancel.Name = "bu_Cancel";
-			this.bu_Cancel.Size = new System.Drawing.Size(104, 25);
+			this.bu_Cancel.Size = new System.Drawing.Size(82, 25);
 			this.bu_Cancel.TabIndex = 2;
 			this.bu_Cancel.Text = "Cancel";
 			// 
 			// bu_Ok
 			// 
-			this.bu_Ok.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.bu_Ok.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.bu_Ok.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.bu_Ok.Location = new System.Drawing.Point(112, 24);
+			this.bu_Ok.Location = new System.Drawing.Point(87, 88);
 			this.bu_Ok.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_Ok.Name = "bu_Ok";
-			this.bu_Ok.Size = new System.Drawing.Size(80, 91);
+			this.bu_Ok.Size = new System.Drawing.Size(82, 25);
 			this.bu_Ok.TabIndex = 1;
 			this.bu_Ok.Text = "Ok";
 			this.bu_Ok.Click += new System.EventHandler(this.click_ok);
@@ -156,7 +154,7 @@ namespace creaturevisualizer
 			// 
 			this.AcceptButton = this.bu_Ok;
 			this.CancelButton = this.bu_Cancel;
-			this.ClientSize = new System.Drawing.Size(196, 119);
+			this.ClientSize = new System.Drawing.Size(172, 115);
 			this.Controls.Add(this.bu_Ok);
 			this.Controls.Add(this.bu_Cancel);
 			this.Controls.Add(this.pa_Color);
@@ -166,6 +164,7 @@ namespace creaturevisualizer
 			this.MinimizeBox = false;
 			this.Name = "SwatchDialog";
 			this.ShowInTaskbar = false;
+			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.ResumeLayout(false);
 			this.PerformLayout();
