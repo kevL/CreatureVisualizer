@@ -129,13 +129,6 @@ namespace creaturevisualizer
 				e.Handled = e.SuppressKeyPress = true;
 			}
 		}
-
-		void leave_tb(object sender, EventArgs e)
-		{
-			var tb = sender as TextboxRestrictive;
-			if (String.IsNullOrEmpty(tb.Text))
-				tb.Text = "0"; // WARNING: That will fire the TextChanged event but the control's value shall already be 0.
-		}
 		#endregion Handlers
 
 
@@ -167,7 +160,6 @@ namespace creaturevisualizer
 			this.tb_Val.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.tb_Val.TextChanged += new System.EventHandler(this.textchanged_tb);
 			this.tb_Val.KeyUp += new System.Windows.Forms.KeyEventHandler(this.keyup_tb);
-			this.tb_Val.Leave += new System.EventHandler(this.leave_tb);
 			// 
 			// la_Units
 			// 

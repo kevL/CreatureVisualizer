@@ -250,7 +250,7 @@ namespace creaturevisualizer
 		} */
 
 
-		internal static RGB HecateToStructure(string hecate)
+		internal static RGB HecateToRgb(string hecate)
 		{
 			if (String.IsNullOrEmpty(hecate))
 				hecate = "0";

@@ -121,8 +121,7 @@ namespace creaturevisualizer
 				int result;
 				switch (Restrict)
 				{
-					default:
-//					case Type.Degree:
+					case Type.Degree:
 						bork = !Int32.TryParse(Text, out result)
 							|| result < 0 || result > 359;
 						break;
@@ -154,6 +153,27 @@ namespace creaturevisualizer
 				Text = _pre; // revert & Recurse.
 				SelectionLength = 0;
 				SelectionStart = Text.Length;
+			}
+		}
+
+		protected override void OnLeave(EventArgs e)
+		{
+			if (String.IsNullOrEmpty(Text)) // Recurse.
+			{
+				if (Restrict == Type.Hecate)
+				{
+					ColorControl._bypassHecate = true;
+					Text = "000000";
+					ColorControl._bypassHecate = false;
+				}
+				else
+				{
+					ColorControl._bypassCisco = true; // <- relevant only to the ciscos
+					ColorControl._bypassAlpha = true; // <- relevant only to the alpha-text
+					Text = "0";
+					ColorControl._bypassAlpha = false;
+					ColorControl._bypassCisco = false;
+				}
 			}
 		}
 

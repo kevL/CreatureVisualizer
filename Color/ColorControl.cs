@@ -20,6 +20,8 @@ namespace creaturevisualizer
 
 		#region Fields (static)
 		internal static bool _bypassCisco;
+		internal static bool _bypassAlpha;
+		internal static bool _bypassHecate;
 		#endregion Fields (static)
 
 
@@ -29,9 +31,6 @@ namespace creaturevisualizer
 		Bitmap _slider   = new Bitmap(ColorSlider.width, ColorSlider.height);
 		Image  _checkers = new ResourceManager("CreatureVisualizer.Properties.Resources",
 											   typeof(Resources).Assembly).GetObject("checkers") as Image;
-
-		bool _bypassAlpha;
-		bool _bypassHecate;
 		#endregion Fields
 
 
@@ -221,28 +220,6 @@ namespace creaturevisualizer
 			cscRgb.Refresh();
 			_bypassCisco = false;
 
-/*			switch (_csc.Cisco.DisplayCharacter)
-			{
-				case 'H':
-				{
-					int hue = cscHsl.hsl.H;
-					cscHsl.hsl = new HSL(hue, cscHsl.hsl.S, cscHsl.hsl.L);
-					break;
-				}
-
-				case 'S':
-				{
-					int sat = cscHsl.hsl.S;
-					cscHsl.hsl = new HSL(cscHsl.hsl.H, sat, cscHsl.hsl.L);
-					break;
-				}
-
-				// TODO: huh ...
-//				default:
-//					cscHsb.Structure = cscHsb.Structure;
-//					break;
-			} */
-
 			_bypassHecate = true;
 			tb_Hecate.Text = cscRgb.GetHecate();
 			tb_Hecate.Refresh();
@@ -279,13 +256,12 @@ namespace creaturevisualizer
 			if (!_bypassHecate)
 			{
 				_bypassCisco = true;
-				cscRgb.rgb = ColorConverter.HecateToStructure(tb_Hecate.Text);
+				cscRgb.rgb = ColorConverter.HecateToRgb(tb_Hecate.Text);
 				cscHsl.hsl = ColorConverter.RgbToHsl(cscRgb.rgb);
 				_bypassCisco = false;
 
-				ColorBox bo = GetActiveColorbox();
-				bo.BackColor = Color.FromArgb(Byte.Parse(tb_Alpha.Text),
-											  ColorConverter.RgbToColor(cscRgb.rgb));
+				GetActiveColorbox().BackColor = Color.FromArgb(Byte.Parse(tb_Alpha.Text),
+															   ColorConverter.RgbToColor(cscRgb.rgb));
 
 				colorslider.Configurate(_csc);
 				UpdateField();
