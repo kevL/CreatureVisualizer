@@ -148,9 +148,7 @@ namespace creaturevisualizer
 			}
 		}
 
-
 		string _desc;
-
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
 			int id = GetTileId(e.X, e.Y);
@@ -158,12 +156,20 @@ namespace creaturevisualizer
 			{
 				Swatch tile = _tiles[id];
 
-				if (tile.Color != Color.Empty && tile.Contains(e.X, e.Y)
-					&& tile.Description != _desc)
+				if (tile.Color == Color.Empty)
+				{
+					ColorF.That.Print(String.Empty);
+				}
+				else if (tile.Contains(e.X, e.Y) && tile.Description != _desc)
 				{
 					ColorF.That.Print(_desc = tile.Description);
 				}
 			}
+		}
+
+		protected override void OnMouseLeave(EventArgs e)
+		{
+			ColorF.That.Print(String.Empty);
 		}
 		#endregion Handlers (override)
 
