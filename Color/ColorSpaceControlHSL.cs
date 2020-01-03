@@ -40,6 +40,7 @@ namespace creaturevisualizer
 		#endregion cTor
 
 
+
 		#region Designer
 		internal ColorSpaceControlCisco cH; // initial selected.
 		ColorSpaceControlCisco cS;

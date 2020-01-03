@@ -369,18 +369,6 @@ namespace creaturevisualizer
 			swatches.UpdateSelector(act.BackColor);
 			return act;
 		}
-
-		void mousehover_label(object sender, EventArgs e)
-		{
-			if ((sender as Label) == la_Alpha)
-			{
-				ColorF.That.Print("Alpha 0..255 byte");
-			}
-			else //if ((sender as Label) == la_Hex)
-			{
-				ColorF.That.Print("RGB 000000..FFFFFF");
-			}
-		}
 		#endregion Handlers
 
 
@@ -580,7 +568,6 @@ namespace creaturevisualizer
 			this.la_Hecate.TabIndex = 6;
 			this.la_Hecate.Text = "hex";
 			this.la_Hecate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.la_Hecate.MouseHover += new System.EventHandler(this.mousehover_label);
 			// 
 			// la_Alpha
 			// 
@@ -591,7 +578,6 @@ namespace creaturevisualizer
 			this.la_Alpha.TabIndex = 8;
 			this.la_Alpha.Text = "alpha";
 			this.la_Alpha.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.la_Alpha.MouseHover += new System.EventHandler(this.mousehover_label);
 			// 
 			// ColorControl
 			// 

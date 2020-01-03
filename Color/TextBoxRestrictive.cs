@@ -156,6 +156,41 @@ namespace creaturevisualizer
 				SelectionStart = Text.Length;
 			}
 		}
+
+		protected override void OnGotFocus(EventArgs e)
+		{
+			string ifo = String.Empty;
+
+			var parent = (Parent as ColorSpaceControlCisco);
+			if (parent != null)
+			{
+				switch (parent.DisplayCharacter)
+				{
+					case 'H': ifo = "Hue 0..359 degrees";        break;
+					case 'S': ifo = "Saturation 0..100 percent"; break;
+					case 'L': ifo = "Lightness 0..100 percent";  break;
+
+					case 'R': ifo = "Red 0..255 byte";           break;
+					case 'G': ifo = "Green 0..255 byte";         break;
+					case 'B': ifo = "Blue 0..255 byte";          break;
+				}
+			}
+			else
+			{
+				switch (Restrict)
+				{
+					case Type.Hecate: ifo = "rgb 000000..FFFFFF"; break;
+					case Type.Byte:   ifo = "alpha 0..255";       break;
+				}
+			}
+
+			ColorF.That.Print(ifo);
+		}
+
+		protected override void OnLostFocus(EventArgs e)
+		{
+			ColorF.That.Print(String.Empty);
+		}
 		#endregion Handlers (override)
 
 
