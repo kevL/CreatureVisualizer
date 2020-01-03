@@ -68,6 +68,10 @@ namespace creaturevisualizer
 			tb_Alpha.Text = color.A.ToString();
 			_bypassAlpha = false;
 
+			_bypassHecate = true;
+			tb_Hecate.Text = cscRgb.GetHecate();
+			_bypassHecate = false;
+
 
 			cscHsl.SelectCisco(cscHsl.cH); // this shall start things -> 'ciscoselected(cscHsl)'
 		}
@@ -115,12 +119,8 @@ namespace creaturevisualizer
 			else
 				cscRgb.DeselectCiscos();
 
-//			_bypassHecate = true;
-//			tb_Hecate.Text = cscRgb.GetHecate();
-//			_bypassHecate = false;
-
 			colorslider.Configurate(_csc = sender);
-			UpdateField(true);
+			UpdateField();
 		}
 
 		void ciscovaluechanged(ColorSpaceControl sender)
@@ -141,10 +141,9 @@ namespace creaturevisualizer
 			ColorBox bo = GetActiveColorbox();
 			bo.BackColor = Color.FromArgb(Byte.Parse(tb_Alpha.Text),
 										  ColorConverter.RgbToColor(cscRgb.rgb));
-			bo.Invalidate();
 
 			colorslider.Configurate(_csc);
-			UpdateField(true);
+			UpdateField();
 
 			if (ColorChanged != null)
 				ColorChanged();
@@ -249,6 +248,8 @@ namespace creaturevisualizer
 			bo.BackColor = Color.FromArgb(Byte.Parse(tb_Alpha.Text), e.Color);
 			bo.Refresh();
 
+			colorslider.Configurate(_csc);
+
 			if (ColorChanged != null)
 				ColorChanged();
 		}
@@ -263,7 +264,6 @@ namespace creaturevisualizer
 
 				ColorBox bo = GetActiveColorbox();
 				bo.BackColor = Color.FromArgb(Byte.Parse(alpha), bo.BackColor);
-				bo.Invalidate();
 
 				if (ColorChanged != null)
 					ColorChanged();
@@ -282,10 +282,9 @@ namespace creaturevisualizer
 				ColorBox bo = GetActiveColorbox();
 				bo.BackColor = Color.FromArgb(Byte.Parse(tb_Alpha.Text),
 											  ColorConverter.RgbToColor(cscRgb.rgb));
-				bo.Invalidate();
 
 				colorslider.Configurate(_csc);
-				UpdateField(true);
+				UpdateField();
 
 				if (ColorChanged != null)
 					ColorChanged();
@@ -309,10 +308,9 @@ namespace creaturevisualizer
 
 			ColorBox bo = GetActiveColorbox();
 			bo.BackColor = e.Color;
-			bo.Invalidate();
 
 			colorslider.Configurate(_csc);
-			UpdateField(true);
+			UpdateField();
 
 			if (ColorChanged != null)
 				ColorChanged();
@@ -340,7 +338,7 @@ namespace creaturevisualizer
 				_bypassHecate = false;
 
 				colorslider.Configurate(_csc);
-				UpdateField(true);
+				UpdateField();
 
 				if (ColorChanged != null)
 					ColorChanged();
@@ -383,15 +381,15 @@ namespace creaturevisualizer
 
 
 		#region Methods
-		void UpdateField(bool setPoint)
+		void UpdateField(bool setPoint = true)
 		{
 			switch (_csc.Cisco.DisplayCharacter)
 			{
 				// _csc is ColorSpaceControlHSL
 				case 'H':
 				{
-					Color color = _slider.GetPixel(0, 255 - colorslider.Val);
-					colorfield.ChangeColor(color, _csc, setPoint);
+					Color slidecol = _slider.GetPixel(0, 255 - colorslider.Val);
+					colorfield.ChangeField(slidecol, _csc, setPoint);
 					break;
 				}
 				case 'S':
@@ -401,7 +399,7 @@ namespace creaturevisualizer
 				case 'R':
 				case 'G':
 				case 'B':
-					colorfield.ChangeColor(_csc.Cisco.Val, _csc, setPoint);
+					colorfield.ChangeField(_csc.Cisco.Val, _csc, setPoint);
 					break;
 			}
 		}

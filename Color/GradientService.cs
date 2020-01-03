@@ -67,11 +67,11 @@ namespace creaturevisualizer
 			}
 		}
 
-		internal static void DrawField_hue(Graphics graphics, Color color)
+		internal static void DrawField_hue(Graphics graphics, Color slidercolor)
 		{
-			double d1 = (255 - color.R) / 255.0;
-			double d2 = (255 - color.G) / 255.0;
-			double d3 = (255 - color.B) / 255.0;
+			double d1 = (255 - slidercolor.R) / 255.0;
+			double d2 = (255 - slidercolor.G) / 255.0;
+			double d3 = (255 - slidercolor.B) / 255.0;
 			double d4 = 255.0;
 			double d5 = 255.0;
 			double d6 = 255.0;
