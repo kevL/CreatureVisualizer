@@ -31,6 +31,9 @@ namespace creaturevisualizer
 
 			InitializeComponent();
 
+			_tconsole.Interval = 3500;
+			_tconsole.Tick += tick_console;
+
 #if DEBUG
 			ColorControl.InitialColor(System.Drawing.Color.White); // <- STANDALONE PROGRAM START - TEST ONLY <<-
 #endif
@@ -39,19 +42,28 @@ namespace creaturevisualizer
 
 
 		#region Console
-		string line1 = String.Empty;
-		string line2 = String.Empty;
-		string line3 = String.Empty;
-		string line4 = String.Empty;
+		Timer _tconsole = new Timer();
+		bool _busy;
 
-		// ColorF.That.Print("info that you want to user to see");
-		internal void Print(string text)
+		internal void Print(string text, bool force = false)
 		{
-			line4 = line3; line3 = line2; line2 = line1; line1 = text;
-			la_console.Text = line1 + Environment.NewLine
-							+ line2 + Environment.NewLine
-							+ line3 + Environment.NewLine
-							+ line4;
+			if (force || !_busy)
+			{
+				la_console.Text = text;
+
+				if (force)
+				{
+					_busy = true;
+					_tconsole.Stop();
+					_tconsole.Start(); // ie. restart
+				}
+			}
+		}
+
+		void tick_console(object sender, EventArgs e)
+		{
+			_busy = false;
+			_tconsole.Stop();
 		}
 		#endregion Console
 

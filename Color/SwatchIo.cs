@@ -84,15 +84,15 @@ namespace creaturevisualizer
 				}
 
 				if (!_created)
-					ColorF.That.Print("Swatches file loaded");
+					ColorF.That.Print("Swatches file loaded", true);
 				else
-					ColorF.That.Print("Swatches file created");
+					ColorF.That.Print("Swatches file created", true);
 
 				return swatches;
 			}
 			catch
 			{
-				ColorF.That.Print("ERROR reading swatches file");
+				ColorF.That.Print("ERROR reading swatches file", true);
 				return null;
 			}
 			finally
@@ -149,12 +149,12 @@ namespace creaturevisualizer
 				writer.WriteEndElement(); // "/swatches"
 				writer.WriteEndDocument();
 
-				ColorF.That.Print("Swatch file saved");
+				ColorF.That.Print("Swatch file saved", true);
 			}
 			catch
 			{
 				_errored = true;
-				ColorF.That.Print("ERROR writing swatch file");
+				ColorF.That.Print("ERROR writing swatch file", true);
 			}
 			finally
 			{
@@ -204,7 +204,7 @@ namespace creaturevisualizer
 			catch
 			{
 				_errored = true;
-				ColorF.That.Print("ERROR creating swatch file");
+				ColorF.That.Print("ERROR creating swatch file", true);
 			}
 			finally
 			{
