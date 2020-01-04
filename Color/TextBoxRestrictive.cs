@@ -202,13 +202,13 @@ namespace creaturevisualizer
 			{
 				switch (parent.DisplayCharacter)
 				{
-					case 'H': ifo = "Hue 0..359 degrees";        break;
-					case 'S': ifo = "Saturation 0..100 percent"; break;
-					case 'L': ifo = "Lightness 0..100 percent";  break;
+					case 'H': ifo = "hue 0..359 degrees";        break;
+					case 'S': ifo = "saturation 0..100 percent"; break;
+					case 'L': ifo = "lightness 0..100 percent";  break;
 
-					case 'R': ifo = "Red 0..255 byte";           break;
-					case 'G': ifo = "Green 0..255 byte";         break;
-					case 'B': ifo = "Blue 0..255 byte";          break;
+					case 'R': ifo = "red 0..255 byte";           break;
+					case 'G': ifo = "green 0..255 byte";         break;
+					case 'B': ifo = "blue 0..255 byte";          break;
 				}
 			}
 			else
