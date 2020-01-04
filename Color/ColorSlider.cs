@@ -122,11 +122,13 @@ namespace creaturevisualizer
 						color2 = Color.FromArgb(rgb.R, 255, rgb.B);
 						break;
 
-					default:
-//					case 'B':
+					case 'B':
 						color1 = Color.FromArgb(rgb.R, rgb.G,   0);
 						color2 = Color.FromArgb(rgb.R, rgb.G, 255);
 						break;
+
+					default: // shall never happen.
+						return;
 				}
 
 				using (var brush = new LinearGradientBrush(_grad, color1, color2, 270f))
