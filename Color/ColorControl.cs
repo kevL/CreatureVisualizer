@@ -374,7 +374,7 @@ namespace creaturevisualizer
 
 
 		#region Designer
-		ColorField colorfield;
+		internal ColorField colorfield;
 		internal ColorSlider colorslider;
 		ColorBox colortop;
 		ColorBox colorbot;

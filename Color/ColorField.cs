@@ -10,6 +10,14 @@ namespace creaturevisualizer
 	sealed class ColorField
 		: UserControl
 	{
+		internal enum DirPoint
+		{
+			nul,
+			l,r,u,d,
+			lu,ld,ru,rd
+		}
+
+
 		#region Events
 		public event PointSelectedEvent PointSelected;
 		#endregion Events
@@ -76,8 +84,43 @@ namespace creaturevisualizer
 			if (e.Button == MouseButtons.Left)
 			{
 				_track = true;
-				UpdatePoint(new Point(e.X, e.Y));
+				ChangePoint(new Point(e.X, e.Y));
 			}
+		}
+
+		internal void ChangePoint_key(DirPoint dir)
+		{
+			int x = _pt.X;
+			int y = _pt.Y;
+
+			switch (dir)
+			{
+				case DirPoint.l: if (x !=   0) --x; break;
+				case DirPoint.r: if (x != 255) ++x; break;
+				case DirPoint.u: if (y !=   0) --y; break;
+				case DirPoint.d: if (y != 255) ++y; break;
+
+				case DirPoint.lu:
+					if (x !=   0) --x;
+					if (y !=   0) --y;
+					break;
+
+				case DirPoint.ld:
+					if (x !=   0) --x;
+					if (y != 255) ++y;
+					break;
+
+				case DirPoint.ru:
+					if (x != 255) ++x;
+					if (y !=   0) --y;
+					break;
+
+				case DirPoint.rd:
+					if (x != 255) ++x;
+					if (y != 255) ++y;
+					break;
+			}
+			ChangePoint(new Point(x,y));
 		}
 
 		protected override void OnMouseUp(MouseEventArgs e)
@@ -87,9 +130,6 @@ namespace creaturevisualizer
 
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
-//			Color color = GetCurrentColor();
-//			ColorF.That.Print("r= " + color.R + " g= " + color.G + " b= " + color.B + " a= " + color.A);
-
 			if (_track)
 			{
 				const int leeway = 5;
@@ -98,12 +138,12 @@ namespace creaturevisualizer
 				{
 					var pt = new Point(Math.Max(0, Math.Min(e.X, 255)),
 									   Math.Max(0, Math.Min(e.Y, 255)));
-					UpdatePoint(pt);
+					ChangePoint(pt);
 				}
 			}
 		}
 
-		void UpdatePoint(Point pt)
+		void ChangePoint(Point pt)
 		{
 			Invalidate(new Rectangle(_pt.X - 4, _pt.Y - 4, 9,9));
 			Invalidate(new Rectangle( pt.X - 4,  pt.Y - 4, 9,9));
@@ -226,8 +266,8 @@ namespace creaturevisualizer
 						break;
 
 					case 'S':
-						x = (int)Math.Ceiling(hsl.H * 17.0 / 24.0);
-						y = (int)(      255 - hsl.L * 2.55);
+						x =       (int)Math.Ceiling(hsl.H * 17.0 / 24.0);
+						y = 255 - (int)Math.Round(  hsl.L * 2.55);
 						break;
 
 					case 'L':

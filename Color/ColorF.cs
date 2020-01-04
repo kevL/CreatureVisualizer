@@ -41,6 +41,40 @@ namespace creaturevisualizer
 		#endregion cTor
 
 
+		#region Disable arrow-navigation
+		// https://stackoverflow.com/questions/1318236/how-to-disable-navigation-on-winform-with-arrows-in-c#answer-1318403
+		protected override void OnLoad(EventArgs e)
+		{
+			DisableArrowNavigation(Controls);
+		}
+
+		void DisableArrowNavigation(Control.ControlCollection controls)
+		{
+			if (controls != null)
+			{
+				foreach (Control control in controls)
+				{
+					control.PreviewKeyDown += previewkeydown;
+					DisableArrowNavigation(control.Controls);
+				}
+			}
+		}
+
+		void previewkeydown(object sender, PreviewKeyDownEventArgs e)
+		{
+			switch (e.KeyData)
+			{
+				case Keys.Up:
+				case Keys.Down:
+				case Keys.Left:
+				case Keys.Right:
+					e.IsInputKey = true;
+					break;
+			}
+		}
+		#endregion Disable arrow-navigation
+
+
 		#region Console
 		Timer _tconsole = new Timer();
 		bool _busy;
@@ -90,41 +124,52 @@ namespace creaturevisualizer
 			switch (e.KeyData)
 			{
 				case Keys.Enter:
-					e.Handled = e.SuppressKeyPress = true;
-
-					if (!ColorControl.IsTextboxFocused(Controls))
-					{
-						DialogResult = DialogResult.OK;
-						click_close(null, EventArgs.Empty);
-					}
-					else
-						ColorControl.GetActiveColorbox().Select();
-					break;
-
 				case Keys.Escape:
 					e.Handled = e.SuppressKeyPress = true;
-
 					if (!ColorControl.IsTextboxFocused(Controls))
 					{
+						if (e.KeyData == Keys.Enter)
+							DialogResult = DialogResult.OK;
+
 						click_close(null, EventArgs.Empty);
 					}
 					else
-						ColorControl.GetActiveColorbox().Select();
+						ColorControl.GetActiveColorbox().Select(); // take focus off tb
 					break;
 
-				case Keys.PageUp:
+				default:
 					if (!ColorControl.IsTextboxFocused(Controls))
 					{
-						e.Handled = e.SuppressKeyPress = true;
-						ColorControl.colorslider.ChangeValue_key(+1);
-					}
-					break;
+						int dir = 0;
+						ColorField.DirPoint dirpt = ColorField.DirPoint.nul;
 
-				case Keys.PageDown:
-					if (!ColorControl.IsTextboxFocused(Controls))
-					{
-						e.Handled = e.SuppressKeyPress = true;
-						ColorControl.colorslider.ChangeValue_key(-1);
+						switch (e.KeyData)
+						{
+							case Keys.Subtract:
+							case Keys.Insert: dir = +1; break;
+							case Keys.Add:
+							case Keys.Delete: dir = -1; break;
+
+							case Keys.Left:     dirpt = ColorField.DirPoint.l;  break;
+							case Keys.Right:    dirpt = ColorField.DirPoint.r;  break;
+							case Keys.Up:       dirpt = ColorField.DirPoint.u;  break;
+							case Keys.Down:     dirpt = ColorField.DirPoint.d;  break;
+							case Keys.Home:     dirpt = ColorField.DirPoint.lu; break;
+							case Keys.End:      dirpt = ColorField.DirPoint.ld; break;
+							case Keys.PageUp:   dirpt = ColorField.DirPoint.ru; break;
+							case Keys.PageDown: dirpt = ColorField.DirPoint.rd; break;
+						}
+
+						if (dir != 0)
+						{
+							e.Handled = e.SuppressKeyPress = true;
+							ColorControl.colorslider.ChangeValue_key(dir);
+						}
+						else if (dirpt != ColorField.DirPoint.nul)
+						{
+							e.Handled = e.SuppressKeyPress = true;
+							ColorControl.colorfield.ChangePoint_key(dirpt);
+						}
 					}
 					break;
 			}
