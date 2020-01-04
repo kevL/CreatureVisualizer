@@ -113,7 +113,7 @@ namespace creaturevisualizer
 			this.pa_Color.Margin = new System.Windows.Forms.Padding(0);
 			this.pa_Color.Name = "pa_Color";
 			this.pa_Color.Size = new System.Drawing.Size(162, 62);
-			this.pa_Color.TabIndex = 3;
+			this.pa_Color.TabIndex = 1;
 			this.pa_Color.Paint += new System.Windows.Forms.PaintEventHandler(this.paint_color);
 			// 
 			// tb_Description
@@ -146,7 +146,7 @@ namespace creaturevisualizer
 			this.bu_Ok.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_Ok.Name = "bu_Ok";
 			this.bu_Ok.Size = new System.Drawing.Size(82, 25);
-			this.bu_Ok.TabIndex = 1;
+			this.bu_Ok.TabIndex = 3;
 			this.bu_Ok.Text = "Ok";
 			this.bu_Ok.Click += new System.EventHandler(this.click_ok);
 			// 

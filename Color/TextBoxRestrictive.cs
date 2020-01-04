@@ -172,7 +172,7 @@ namespace creaturevisualizer
 			{
 				if (Restrict == Type.Hecate)
 				{
-					ColorControl._bypassHecate = true;
+					ColorControl._bypassHecate = true; // <- relevant only to the hecate-text
 					Text = "000000";
 					ColorControl._bypassHecate = false;
 				}
@@ -191,7 +191,7 @@ namespace creaturevisualizer
 		{
 			string ifo = String.Empty;
 
-			var parent = (Parent as ColorSpaceControlCisco);
+			var parent = Parent as ColorSpaceControlCisco;
 			if (parent != null)
 			{
 				switch (parent.DisplayCharacter)

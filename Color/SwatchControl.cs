@@ -17,11 +17,9 @@ namespace creaturevisualizer
 
 
 		#region Fields (static)
-		internal static string _path;
-
 		const int MaxTiles = 175;
 
-		const  int _tile = 12; // x/y tile pixels
+		const int _tile = 12; // x/y tile pixels
 
 		const int _x = 5; // x-start of 1st tile location in pixels
 		const int _y = 5; // y-start of 1st tile location in pixels
@@ -32,9 +30,6 @@ namespace creaturevisualizer
 
 
 		#region Fields
-		string SwatchFile = "NWN2 Toolset" + Path.DirectorySeparatorChar
-						  + "CustomSwatches.xml";
-
 		List<Swatch> _fileSwatches; // the swatches in the XML file
 
 		Swatch[] _tiles = new Swatch[MaxTiles]; // the tiles of the table
@@ -53,18 +48,21 @@ namespace creaturevisualizer
 
 			if (!ColorF.reallyDesignMode)
 			{
-				_path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData); // local userdir
-				_path = Path.Combine(_path, SwatchFile);
+				SwatchIo.Fullpath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData); // local userdir
+				SwatchIo.Fullpath = Path.Combine(SwatchIo.Fullpath, SwatchIo.SwatchFile);
 
-				if (!File.Exists(_path))
-				{
-					_path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData); // roaming userdir
-					_path = Path.Combine(_path, SwatchFile);
-				}
+//				if (!File.Exists(SwatchIo.Fullpath))
+//				{
+//					SwatchIo.Fullpath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData); // roaming userdir
+//					SwatchIo.Fullpath = Path.Combine(SwatchIo.Fullpath, SwatchIo.SwatchFile);
+//				}
 
-				if (File.Exists(_path))
+				if (!File.Exists(SwatchIo.Fullpath))
+					SwatchIo.Create();
+
+				if (!SwatchIo._errored && File.Exists(SwatchIo.Fullpath))
 				{
-					_fileSwatches = SwatchIo.Read(_path);
+					_fileSwatches = SwatchIo.Read(SwatchIo.Fullpath);
 
 					if (_fileSwatches.Count < MaxTiles)
 						_firstBlankId = _fileSwatches.Count;
@@ -73,11 +71,6 @@ namespace creaturevisualizer
 
 					CreateGraphic();
 				}
-//				else
-//				{
-//					SwatchIo.Create();
-//					_fileSwatches = SwatchIo.ReadSwatches("ColorSwatches.xml", true);
-//				}
 			}
 		}
 		#endregion cTor
@@ -128,7 +121,8 @@ namespace creaturevisualizer
 					}
 				}
 
-				if (e.Button == MouseButtons.Right)
+				if (e.Button == MouseButtons.Right
+				    && _fileSwatches != null && !SwatchIo._errored)
 				{
 					context.MenuItems.Clear();
 
@@ -148,7 +142,7 @@ namespace creaturevisualizer
 			}
 		}
 
-		string _desc;
+		string _desc = String.Empty;
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
 			int id = GetTileId(e.X, e.Y);
@@ -175,6 +169,45 @@ namespace creaturevisualizer
 
 
 		#region Handlers
+		void click_context_append(object sender, EventArgs e)
+		{
+			ClearSelector();
+
+			Color color = ColorF.That.ColorControl.GetActiveColorbox().BackColor;
+
+			int id = ColorExists(color);
+			if (id == _firstBlankId)
+			{
+				using (var f = new SwatchDialog(color))
+				{
+					if (f.ShowDialog(this) == DialogResult.OK)
+					{
+						++_firstBlankId;
+
+						Swatch swatch = _tiles[id];
+
+						using (Graphics graphics = Graphics.FromImage(_graphic))
+						{
+							using (var brush = new SolidBrush(color))
+								graphics.FillRectangle(brush, swatch.Rect);
+
+							graphics.DrawRectangle(Pens.Black, swatch.Rect);
+						}
+
+						swatch.Color       = color;
+						swatch.Description = f.Description;
+						_tiles[id] = swatch;
+
+						InvalidateSwatch(_tiles[_sel = id]);
+
+						SwatchIo.Write(_tiles);
+					}
+				}
+			}
+			else
+				InvalidateSwatch(_tiles[_sel = id]);
+		}
+
 		void click_context_delete(object sender, EventArgs e)
 		{
 			using (Graphics graphics = Graphics.FromImage(_graphic))
@@ -209,7 +242,7 @@ namespace creaturevisualizer
 						break;
 				}
 			}
-//			SwatchIo.Write(SwatchFile, _tiles);
+			SwatchIo.Write(_tiles);
 		}
 
 		void click_context_relabel(object sender, EventArgs e)
@@ -223,48 +256,9 @@ namespace creaturevisualizer
 					swatch.Description = f.Description;
 					_tiles[_sel] = swatch; // effin structs
 
-//					SwatchIo.Write(SwatchFile, _tiles);
+					SwatchIo.Write(_tiles);
 				}
 			}
-		}
-
-		void click_context_append(object sender, EventArgs e)
-		{
-			ClearSelector();
-
-			Color color = ColorF.That.ColorControl.GetActiveColorbox().BackColor;
-
-			int id = ColorExists(color);
-			if (id == _firstBlankId)
-			{
-				using (var f = new SwatchDialog(color))
-				{
-					if (f.ShowDialog(this) == DialogResult.OK)
-					{
-						++_firstBlankId;
-
-						Swatch swatch = _tiles[id];
-
-						using (Graphics graphics = Graphics.FromImage(_graphic))
-						{
-							using (var brush = new SolidBrush(color))
-								graphics.FillRectangle(brush, swatch.Rect);
-
-							graphics.DrawRectangle(Pens.Black, swatch.Rect);
-						}
-
-						swatch.Color       = color;
-						swatch.Description = f.Description;
-						_tiles[id] = swatch;
-
-						InvalidateSwatch(_tiles[_sel = id]);
-
-//						SwatchIo.Write(SwatchFile, _tiles);
-					}
-				}
-			}
-			else
-				InvalidateSwatch(_tiles[_sel = id]);
 		}
 		#endregion Handlers
 

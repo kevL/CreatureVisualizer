@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-//using System.IO;
-//using System.Globalization;
-//using System.Text;
+using System.IO;
 using System.Xml;
 
 
@@ -12,18 +10,24 @@ namespace creaturevisualizer
 	// Sano.PersonalProjects.ColorPicker.Controls.ColorSwatchXml
 	static class SwatchIo
 	{
+		#region Fields (static)
+		internal static string Fullpath;
+		internal static string SwatchFile = "NWN2 Toolset" + Path.DirectorySeparatorChar
+										  + "CustomSwatches.xml";
+
+		static bool _created;
+		internal static bool _errored;
+		#endregion Fields (static)
+
+
+		#region Methods (static)
 		internal static List<Swatch> Read(string path)
 		{
-//			XmlTextReader reader = null;
 			XmlReader reader = null;
 			try
 			{
 				var swatches = new List<Swatch>();
 
-//				reader = new XmlTextReader(path);
-//				var @set = new XmlReaderSettings();
-//				@set.IgnoreComments   = true;
-//				@set.IgnoreWhitespace = true;
 				reader = XmlReader.Create(path);
 
 				string val;
@@ -78,7 +82,12 @@ namespace creaturevisualizer
 						}
 					}
 				}
-				ColorF.That.Print("Swatches file loaded");
+
+				if (!_created)
+					ColorF.That.Print("Swatches file loaded");
+				else
+					ColorF.That.Print("Swatches file created");
+
 				return swatches;
 			}
 			catch
@@ -96,21 +105,17 @@ namespace creaturevisualizer
 			}
 		}
 
-		internal static void Write(string path, Swatch[] tiles)
+		internal static void Write(Swatch[] tiles)
 		{
-			var @set = new XmlWriterSettings();
-			@set.Indent = true;
-
-//			XmlTextWriter writer = null;
 			XmlWriter writer = null;
 			try
 			{
-//				writer = new XmlTextWriter(path, Encoding.UTF8);
-//				writer.Formatting = Formatting.Indented;
+				var @set = new XmlWriterSettings();
+				@set.Indent = true;
 
-				writer = XmlWriter.Create(path, @set);
+				writer = XmlWriter.Create(Fullpath, @set);
 
-				writer.WriteStartDocument(false);
+				writer.WriteStartDocument();
 
 				writer.WriteStartElement("swatches");
 				writer.WriteStartElement("swatch");
@@ -133,21 +138,22 @@ namespace creaturevisualizer
 
 						writer.WriteString(swatch.Description);
 
-						writer.WriteEndElement(); // "color"
+						writer.WriteEndElement(); // "/color"
 					}
 					else
 						break;
 				}
 
-				writer.WriteEndElement(); // "colors"
-				writer.WriteEndElement(); // "swatch"
-				writer.WriteEndElement(); // "swatches"
+				writer.WriteEndElement(); // "/colors"
+				writer.WriteEndElement(); // "/swatch"
+				writer.WriteEndElement(); // "/swatches"
 				writer.WriteEndDocument();
 
 				ColorF.That.Print("Swatch file saved");
 			}
-			catch //(IOException)
+			catch
 			{
+				_errored = true;
 				ColorF.That.Print("ERROR writing swatch file");
 			}
 			finally
@@ -161,120 +167,54 @@ namespace creaturevisualizer
 		}
 
 
+		/// <summary>
+		/// TODO: Apparently there is a resource manifest buried somewhere in
+		/// the toolset libraries ... find it and write it to disk if possible.
+		/// </summary>
 		internal static void Create()
 		{
-			// TODO: using etc.
+//			Fullpath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData); // local userdir
+//			Fullpath = Path.Combine(Fullpath, SwatchFile);
 
-/*			var streamReader = new StreamReader(SanoResources.GetFileResource("ColorSwatches.xml")); // TODO ->>
-			if (streamReader != null)
-			{
-				StreamWriter streamWriter = null;
-				try
-				{
-					string directoryName = Path.GetDirectoryName(CustomSwatchesFile);
-					if (!Directory.Exists(directoryName))
-						Directory.CreateDirectory(directoryName);
+			// NOTE: Do not try to create the swatchfile in the user's roaming directory (for now) ...
 
-					streamWriter = new StreamWriter(CustomSwatchesFile);
-					streamWriter.Write(streamReader.ReadToEnd());
-					streamWriter.Flush();
-				}
-				catch (DirectoryNotFoundException)
-				{}
-//				catch (Exception)
-//				{}
-				finally
-				{
-					streamReader.Close();
-					streamWriter.Close();
-				}
-			} */
-		}
-	}
-}
-/*		internal static List<ColorSwatch> ReadSwatches(string path, bool isResourceFile)
-		{
-			var swatches = new List<ColorSwatch>();
-			XmlTextReader reader = null;
-
+			XmlWriter writer = null;
 			try
 			{
-				if (!isResourceFile)
-					reader = new XmlTextReader(path);
-				else
-					reader = new XmlTextReader(SanoResources.GetFileResource(path)); // TODO ->>
+				Directory.CreateDirectory(Path.GetDirectoryName(Fullpath));
 
-				int result1 = 0;
-				int result2 = 0;
-				int result3 = 0;
-				int result4 = 255;
+				var @set = new XmlWriterSettings();
+				@set.Indent = true;
 
-				bool flag = false;
+				writer = XmlWriter.Create(Fullpath, @set);
 
-				while (reader.Read())
-				{
-					if (reader.NodeType == XmlNodeType.Element
-						&& reader.Name == "color")
-//						&& reader.Name.CompareTo("color", CultureInfo.InvariantCulture) == 0)
-					{
-						string text = string.Empty;
-						try
-						{
-							text = reader.GetAttribute("red");
-						}
-						catch (ArgumentOutOfRangeException)
-						{}
+				writer.WriteStartDocument();
+				writer.WriteStartElement("swatches");
+				writer.WriteStartElement("swatch");
+				writer.WriteAttributeString("id", "GeneralRgb");	// kL_note: used to be "CustomSwatches"
+				writer.WriteStartElement("colors");					// but my CustomSwatches.xml file, which hasn't been touched
+																	// says "GeneralRgb"
+				writer.WriteEndElement(); // "/colors"
+				writer.WriteEndElement(); // "/swatch"
+				writer.WriteEndElement(); // "/swatches"
+				writer.WriteEndDocument();
 
-						if (text == null || !Int32.TryParse(text, out result1))
-							result1 = 0;
-
-						text = String.Empty;
-						try
-						{
-							text = reader.GetAttribute("green");
-						}
-						catch (ArgumentOutOfRangeException)
-						{}
-
-						if (text == null || !Int32.TryParse(text, out result2))
-							result2 = 0;
-
-						text = String.Empty;
-						try
-						{
-							text = reader.GetAttribute("blue");
-						}
-						catch (ArgumentOutOfRangeException)
-						{}
-
-						if (text == null || !Int32.TryParse(text, out result3))
-							result3 = 0;
-
-						text = string.Empty;
-						try
-						{
-							text = reader.GetAttribute("alpha");
-						}
-						catch (ArgumentOutOfRangeException)
-						{}
-
-						if (text == null || !Int32.TryParse(text, out result4))
-							result4 = 255;
-
-						flag = true;
-					}
-					else if (flag && reader.NodeType == XmlNodeType.Text)
-					{
-						Color color = Color.FromArgb(result4, result1, result2, result3);
-						swatches.Add(new ColorSwatch(color, reader.ReadString()));
-
-						flag = false;
-					}
-				}
-				return swatches;
+				_created = true;
+			}
+			catch
+			{
+				_errored = true;
+				ColorF.That.Print("ERROR creating swatch file");
 			}
 			finally
 			{
-				reader.Close();
+				if (writer != null)
+				{
+					writer.Close();
+					((IDisposable)writer).Dispose(); // not sure if both are needed
+				}
 			}
-		} */
+		}
+		#endregion Methods (static)
+	}
+}
