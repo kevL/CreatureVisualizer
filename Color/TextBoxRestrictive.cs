@@ -185,6 +185,12 @@ namespace creaturevisualizer
 					ColorControl._bypassCisco = false;
 				}
 			}
+			else if (Restrict == Type.Hecate)
+			{
+				ColorControl._bypassHecate = true; // <- relevant only to the hecate-text
+				Text = Text.ToUpper();
+				ColorControl._bypassHecate = false;
+			}
 		}
 
 		protected override void OnGotFocus(EventArgs e)
