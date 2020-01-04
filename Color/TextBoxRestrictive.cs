@@ -81,7 +81,10 @@ namespace creaturevisualizer
 							case Type.Degree:  if (val <= 359) goto case Type.Hecate; break;
 							case Type.Percent: if (val <= 100) goto case Type.Hecate; break;
 							case Type.Byte:    if (val <= 255) goto case Type.Hecate; break;
-							case Type.Hecate:  Text = val.ToString();                 break;
+
+							case Type.Hecate: // not a hecate, is only a label
+								Text = val.ToString();
+								break;
 						}
 					}
 					e.Handled = e.SuppressKeyPress = true;

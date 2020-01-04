@@ -154,35 +154,7 @@ namespace creaturevisualizer
 
 		void sliderchanged(SliderChangedEventArgs e)
 		{
-			int val;
-			switch (_csc.Cisco.Units)
-			{
-				case ColorSpaceControlCisco.Unit.Degree:
-					val = (int)Math.Ceiling(e.Val * 24.0 / 17.0);
-					val = Math.Max(0, Math.Min(val, 359));
-					break;
-
-				case ColorSpaceControlCisco.Unit.Percent:
-					val = (int)Math.Ceiling(e.Val / 2.55);
-					val = Math.Max(0, Math.Min(val, 100));
-					break;
-
-				default:
-//				case ColorSpaceControlCisco.Unit.Byte:
-					val = Math.Max(0, Math.Min(e.Val, 255));
-					break;
-			}
-
 			_bypassCisco = true;
-			_csc.Cisco.Val = val;	// that changes the cisco-text, which calls 'ColorSpaceControlCisco.textchanged_val()'
-									// which invokes 'CiscoValueChanged_lo', which is handled by 'ColorSpaceControl*.OnCiscoValueChanged()'
-									// which invokes 'CiscoValueChanged_hi', which is handled by 'ciscovaluechanged()'
-									// which calls a 'ColorConverter.RgbToHsl()/HslToRgb()' that sets the 'ColorSpaceControl*' structure
-									// which changes the ciscos' values, which invokes a 'CiscoValueChangedEvent'
-									// which calls 'OnCiscoValueChanged()', which invokes another 'CiscoValueChanged_hi'
-									// and so it loops. FIXED.
-			_csc.Cisco.Refresh();
-
 			if (_csc is ColorSpaceControlRGB)
 			{
 				cscHsl.hsl = ColorConverter.RgbToHsl(cscRgb.rgb);
@@ -403,7 +375,7 @@ namespace creaturevisualizer
 
 		#region Designer
 		ColorField colorfield;
-		ColorSlider colorslider;
+		internal ColorSlider colorslider;
 		ColorBox colortop;
 		ColorBox colorbot;
 		ColorSpaceControlHSL cscHsl;

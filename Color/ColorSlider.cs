@@ -185,7 +185,7 @@ namespace creaturevisualizer
 			if (e.Button == MouseButtons.Left)
 			{
 				_track = true;
-				ChangeValue(e.Y);
+				ChangeValue_mouse(e.Y);
 			}
 		}
 
@@ -196,17 +196,80 @@ namespace creaturevisualizer
 
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
-			if (_track) ChangeValue(e.Y);
+			if (_track) ChangeValue_mouse(e.Y);
 		}
 
-		void ChangeValue(int y)
+		void ChangeValue_mouse(int y)
 		{
 			y = Math.Max(_grad.Y, Math.Min(y, _grad.Y + 255));
 
 			Val = 255 - y + _grad.Y;
 
+			SetCiscoVal(Val);
+			_csc.Cisco.Refresh();
+
 			if (SliderChanged != null)
 				SliderChanged(new SliderChangedEventArgs(Val));
+		}
+
+		internal void ChangeValue_key(int dir)
+		{
+			if (dir > 0)
+			{
+				if (_csc.Cisco.Val != _csc.Cisco.Max)
+					++_csc.Cisco.Val;
+			}
+			else
+			{
+				if (_csc.Cisco.Val != 0)
+					--_csc.Cisco.Val;
+			}
+		}
+		#endregion Handlers (override)
+
+
+		#region Methods
+		void SetCiscoVal(int sliderval)
+		{
+			switch (_csc.Cisco.Units)
+			{
+				case ColorSpaceControlCisco.Unit.Degree:
+					sliderval = (int)Math.Ceiling(sliderval * 24.0 / 17.0);
+					_csc.Cisco.Val = Math.Max(0, Math.Min(sliderval, 359));
+					break;
+
+				case ColorSpaceControlCisco.Unit.Percent:
+					sliderval = (int)Math.Ceiling(sliderval / 2.55);
+					_csc.Cisco.Val = Math.Max(0, Math.Min(sliderval, 100));
+					break;
+
+				case ColorSpaceControlCisco.Unit.Byte:
+					_csc.Cisco.Val = Math.Max(0, Math.Min(sliderval, 255));
+					break;
+			}
+		}
+
+		void SetSliderVal(int ciscoval)
+		{
+			switch (_csc.Cisco.Units)
+			{
+				case ColorSpaceControlCisco.Unit.Degree:
+					ciscoval = (int)Math.Ceiling(ciscoval * 17.0 / 24.0);
+					break;
+
+				case ColorSpaceControlCisco.Unit.Percent:
+					ciscoval = (int)Math.Ceiling(ciscoval * 2.55);
+					break;
+			}
+			Val = Math.Max(0, Math.Min(ciscoval, 255));
+		}
+
+		internal void Configurate(ColorSpaceControl csc)
+		{
+			_csc = csc;
+			Invalidate(_grad);
+
+			SetSliderVal(_csc.Cisco.Val);
 		}
 
 		void UpdateTris()
@@ -231,35 +294,6 @@ namespace creaturevisualizer
 
 			x = _grad.X + _grad.Width + 3;
 			_r = new Rectangle(x,y, 6,11);
-		}
-		#endregion Handlers (override)
-
-
-		#region Methods
-		internal void Configurate(ColorSpaceControl csc)
-		{
-			_csc = csc;
-			Invalidate(_grad);
-
-			int val;
-			switch (_csc.Cisco.Units)
-			{
-				case ColorSpaceControlCisco.Unit.Degree:
-					val = (int)Math.Ceiling(_csc.Cisco.Val * 17.0 / 24.0);
-					val = Math.Max(0, Math.Min(val, 255));
-					break;
-
-				case ColorSpaceControlCisco.Unit.Percent:
-					val = (int)Math.Ceiling(_csc.Cisco.Val * 2.55);
-					val = Math.Max(0, Math.Min(val, 255));
-					break;
-
-				default:
-//				case ColorSpaceControlCisco.Unit.Byte:
-					val = _csc.Cisco.Val;
-					break;
-			}
-			Val = val;
 		}
 		#endregion Methods
 

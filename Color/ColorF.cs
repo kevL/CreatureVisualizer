@@ -84,6 +84,28 @@ namespace creaturevisualizer
 					break;
 			}
 		}
+
+		protected override void OnKeyDown(KeyEventArgs e)
+		{
+			switch (e.KeyData)
+			{
+				case Keys.PageUp:
+					if (!ColorControl.IsTextboxFocused(Controls))
+					{
+						e.Handled = e.SuppressKeyPress = true;
+						ColorControl.colorslider.ChangeValue_key(+1);
+					}
+					break;
+
+				case Keys.PageDown:
+					if (!ColorControl.IsTextboxFocused(Controls))
+					{
+						e.Handled = e.SuppressKeyPress = true;
+						ColorControl.colorslider.ChangeValue_key(-1);
+					}
+					break;
+			}
+		}
 		#endregion Handlers (override)
 
 
