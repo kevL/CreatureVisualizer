@@ -89,6 +89,29 @@ namespace creaturevisualizer
 		{
 			switch (e.KeyData)
 			{
+				case Keys.Enter:
+					e.Handled = e.SuppressKeyPress = true;
+
+					if (!ColorControl.IsTextboxFocused(Controls))
+					{
+						DialogResult = DialogResult.OK;
+						click_close(null, EventArgs.Empty);
+					}
+					else
+						ColorControl.GetActiveColorbox().Select();
+					break;
+
+				case Keys.Escape:
+					e.Handled = e.SuppressKeyPress = true;
+
+					if (!ColorControl.IsTextboxFocused(Controls))
+					{
+						click_close(null, EventArgs.Empty);
+					}
+					else
+						ColorControl.GetActiveColorbox().Select();
+					break;
+
 				case Keys.PageUp:
 					if (!ColorControl.IsTextboxFocused(Controls))
 					{
@@ -107,6 +130,14 @@ namespace creaturevisualizer
 			}
 		}
 		#endregion Handlers (override)
+
+
+		#region Handlers
+		void click_close(object sender, EventArgs e)
+		{
+			Close();
+		}
+		#endregion Handlers
 
 
 
@@ -147,16 +178,17 @@ namespace creaturevisualizer
 			this.bu_Okay.Size = new System.Drawing.Size(300, 29);
 			this.bu_Okay.TabIndex = 0;
 			this.bu_Okay.Text = "Book em Dano";
+			this.bu_Okay.Click += new System.EventHandler(this.click_close);
 			// 
 			// bu_Cancel
 			// 
-			this.bu_Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.bu_Cancel.Location = new System.Drawing.Point(3, 270);
 			this.bu_Cancel.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_Cancel.Name = "bu_Cancel";
 			this.bu_Cancel.Size = new System.Drawing.Size(83, 49);
 			this.bu_Cancel.TabIndex = 1;
 			this.bu_Cancel.Text = "Cancel";
+			this.bu_Cancel.Click += new System.EventHandler(this.click_close);
 			// 
 			// colorControl
 			// 
@@ -170,8 +202,6 @@ namespace creaturevisualizer
 			// 
 			// ColorF
 			// 
-			this.AcceptButton = this.bu_Okay;
-			this.CancelButton = this.bu_Cancel;
 			this.ClientSize = new System.Drawing.Size(494, 322);
 			this.Controls.Add(this.la_console);
 			this.Controls.Add(this.bu_Okay);
