@@ -67,15 +67,16 @@ namespace creaturevisualizer
 		Graphics _graphics;
 		protected override void OnPaint(PaintEventArgs e)
 		{
-//			base.OnPaint(e);
+			if (!ColorF.reallyDesignMode)
+			{
+				_graphics = e.Graphics;
 
-			_graphics = e.Graphics;
-
-			DrawTris();
-			_graphics.DrawRectangle(Pens.Black,
-								   _grad.X     - 1, _grad.Y      - 1,
-								   _grad.Width + 1, _grad.Height + 1);
-			DrawGradient();
+				DrawTris();
+				_graphics.DrawRectangle(Pens.Black,
+									   _grad.X     - 1, _grad.Y      - 1,
+									   _grad.Width + 1, _grad.Height + 1);
+				DrawGradient();
+			}
 		}
 
 		void DrawTris()
