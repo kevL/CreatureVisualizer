@@ -142,7 +142,7 @@ namespace creaturevisualizer
 			}
 		}
 
-		string _desc = String.Empty;
+//		string _desc = String.Empty;
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
 			int id = GetTileId(e.X, e.Y);
@@ -154,9 +154,9 @@ namespace creaturevisualizer
 				{
 					ColorF.That.Print(String.Empty);
 				}
-				else if (tile.Contains(e.X, e.Y) && tile.Description != _desc)
+				else if (tile.Contains(e.X, e.Y))// && tile.Description != _desc)
 				{
-					ColorF.That.Print(_desc = tile.Description);
+					ColorF.That.Print(tile.Description); //(_desc = tile.Description)
 				}
 			}
 		}
