@@ -143,6 +143,9 @@
   <ItemGroup>
     <Folder Include="Color" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Color\CustomSwatches.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy /y C:\GIT\CreatureVisualizer\bin\Release\CreatureVisualizer.dll "C:\Neverwinter Nights 2\NWN2Toolset\Plugins\"</PostBuildEvent>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Reflection;
 using System.Xml;
 
 
@@ -167,37 +168,23 @@ namespace creaturevisualizer
 		}
 
 
-		/// <summary>
-		/// TODO: Apparently there is a resource manifest buried somewhere in
-		/// the toolset libraries ... find it and write it to disk if possible.
-		/// </summary>
+		const string RES = "CreatureVisualizer.Color.CustomSwatches.xml";
+
 		internal static void Create()
 		{
-//			Fullpath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData); // local userdir
-//			Fullpath = Path.Combine(Fullpath, SwatchFile);
-
-			// NOTE: Do not try to create the swatchfile in the user's roaming directory (for now) ...
-
-			XmlWriter writer = null;
+			StreamReader reader = null;
+			StreamWriter writer = null;
 			try
 			{
+				var ass = Assembly.GetExecutingAssembly();
+				var str = ass.GetManifestResourceStream(RES);
+				reader = new StreamReader(str);
+
 				Directory.CreateDirectory(Path.GetDirectoryName(Fullpath));
 
-				var @set = new XmlWriterSettings();
-				@set.Indent = true;
-
-				writer = XmlWriter.Create(Fullpath, @set);
-
-				writer.WriteStartDocument();
-				writer.WriteStartElement("swatches");
-				writer.WriteStartElement("swatch");
-				writer.WriteAttributeString("id", "GeneralRgb");	// kL_note: used to be "CustomSwatches"
-				writer.WriteStartElement("colors");					// but my CustomSwatches.xml file, which hasn't been touched
-																	// says "GeneralRgb"
-				writer.WriteEndElement(); // "/colors"
-				writer.WriteEndElement(); // "/swatch"
-				writer.WriteEndElement(); // "/swatches"
-				writer.WriteEndDocument();
+				writer = new StreamWriter(Fullpath);
+				writer.Write(reader.ReadToEnd());
+				writer.Flush();
 
 				_created = true;
 			}
@@ -212,6 +199,12 @@ namespace creaturevisualizer
 				{
 					writer.Close();
 					((IDisposable)writer).Dispose(); // not sure if both are needed
+				}
+
+				if (reader != null)
+				{
+					reader.Close();
+					((IDisposable)reader).Dispose(); // not sure if both are needed
 				}
 			}
 		}
