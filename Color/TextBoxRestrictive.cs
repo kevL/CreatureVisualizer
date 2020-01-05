@@ -75,7 +75,12 @@ namespace creaturevisualizer
 				case Keys.Add: // Keys.Oemplus
 					if (Restrict != Type.Hecate)
 					{
-						int val = Int32.Parse(Text) + 1;
+						int val;
+						if (!String.IsNullOrEmpty(Text))
+							val = Int32.Parse(Text) + 1;
+						else
+							val = 1;
+
 						switch (Restrict)
 						{
 							case Type.Degree:  if (val <= 359) goto case Type.Hecate; break;
@@ -93,7 +98,12 @@ namespace creaturevisualizer
 				case Keys.Subtract: // Keys.OemMinus
 					if (Restrict != Type.Hecate)
 					{
-						int val = Int32.Parse(Text) - 1;
+						int val;
+						if (!String.IsNullOrEmpty(Text))
+							val = Int32.Parse(Text) - 1;
+						else
+							val = 0;
+
 						if (val >= 0) Text = val.ToString();
 					}
 					e.Handled = e.SuppressKeyPress = true;
