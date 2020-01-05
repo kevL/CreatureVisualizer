@@ -253,19 +253,28 @@ namespace creaturevisualizer
 			}
 		}
 
-		void SetSliderVal(int ciscoval)
+		internal void SetSliderVal()
 		{
 			switch (_csc.Cisco.Units)
 			{
 				case ColorSpaceControlCisco.Unit.Degree:
-					ciscoval = (int)Math.Round(ciscoval * 17.0 / 24.0, MidpointRounding.AwayFromZero);
+				{
+					int val = (int)Math.Round(_csc.Cisco.Val * 17.0 / 24.0, MidpointRounding.AwayFromZero);
+					Val = Math.Max(0, Math.Min(val, 255));
 					break;
+				}
 
 				case ColorSpaceControlCisco.Unit.Percent:
-					ciscoval = (int)Math.Round(ciscoval * 2.55, MidpointRounding.AwayFromZero);
+				{
+					int val = (int)Math.Round(_csc.Cisco.Val * 2.55, MidpointRounding.AwayFromZero);
+					Val = Math.Max(0, Math.Min(val, 255));
+					break;
+				}
+
+				case ColorSpaceControlCisco.Unit.Byte:
+					Val = _csc.Cisco.Val;
 					break;
 			}
-			Val = Math.Max(0, Math.Min(ciscoval, 255));
 		}
 
 		internal void Configurate(ColorSpaceControl csc)
@@ -273,7 +282,7 @@ namespace creaturevisualizer
 			_csc = csc;
 			Invalidate(_grad);
 
-			SetSliderVal(_csc.Cisco.Val);
+			SetSliderVal();
 		}
 
 		internal void UpdateSlider()

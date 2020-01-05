@@ -145,7 +145,7 @@ namespace creaturevisualizer
 			bo.BackColor = Color.FromArgb(Byte.Parse(tb_Alpha.Text),
 										  ColorConverter.RgbToColor(cscRgb.rgb));
 
-			colorslider.Configurate(_csc);
+			colorslider.SetSliderVal();
 			UpdateField();
 
 			if (ColorChanged != null)
