@@ -268,7 +268,7 @@ namespace creaturevisualizer
 				ColorChanged();
 		}
 
-		internal void mouseup_colorbox(object sender, MouseEventArgs e)
+		internal void mouseup_colorbo(object sender, MouseEventArgs e)
 		{
 			if (sender == null														// -> fired by ColorF.OnKeyDown()
 				|| (e.Button == MouseButtons.Right
@@ -405,7 +405,7 @@ namespace creaturevisualizer
 			this.colortop.Size = new System.Drawing.Size(80, 30);
 			this.colortop.TabIndex = 2;
 			this.colortop.TabStop = false;
-			this.colortop.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_colorbox);
+			this.colortop.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_colorbo);
 			// 
 			// colorbot
 			// 
@@ -416,7 +416,7 @@ namespace creaturevisualizer
 			this.colorbot.Size = new System.Drawing.Size(80, 30);
 			this.colorbot.TabIndex = 3;
 			this.colorbot.TabStop = false;
-			this.colorbot.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_colorbox);
+			this.colorbot.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_colorbo);
 			// 
 			// colorslider
 			// 

@@ -113,7 +113,7 @@ namespace creaturevisualizer
 						e.Handled = e.SuppressKeyPress = true;
 
 						var args = new MouseEventArgs(MouseButtons.Right, 0, 0,0, 0);
-						ColorControl.mouseup_colorbox(null, args);
+						ColorControl.mouseup_colorbo(null, args);
 					}
 					break;
 			}
