@@ -274,6 +274,12 @@ namespace creaturevisualizer
 			SetSliderVal(_csc.Cisco.Val);
 		}
 
+		internal void UpdateSlider()
+		{
+			Invalidate(_grad);
+			Update();
+		}
+
 		void UpdateTris()
 		{
 			Invalidate(_l);

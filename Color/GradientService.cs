@@ -44,13 +44,12 @@ namespace creaturevisualizer
 
 		/// <summary>
 		/// Not sure what this is for. It's called by the ColorControl..cTor
-		/// using graphics of the Slider bitmap and rectangle. But it doesn't
-		/// draw the Slider; but if it's not invoked the HUE colorfield goes
-		/// grayscale.
+		/// using graphics of the Slider bitmap. But it doesn't draw the Slider;
+		/// but if it's not invoked the HUE colorfield goes grayscale.
 		/// </summary>
 		/// <param name="graphics"></param>
 		/// <param name="rect"></param>
-		internal static void DrawSlider_hue(Graphics graphics, Rectangle rect)
+		internal static void DrawField_base(Graphics graphics, Rectangle rect)
 		{
 			using (var brush = new LinearGradientBrush(rect,
 													   Color.Blue,

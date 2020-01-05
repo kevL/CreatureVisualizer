@@ -45,7 +45,7 @@ namespace creaturevisualizer
 			using (Graphics graphics = Graphics.FromImage(_slider))
 			{
 				graphics.PixelOffsetMode = PixelOffsetMode.Half;
-				GradientService.DrawSlider_hue(graphics, new Rectangle(0,0, 1,256)); //ColorSlider.width,ColorSlider.height
+				GradientService.DrawField_base(graphics, new Rectangle(0,0, 1,256));
 			}
 		}
 
@@ -201,7 +201,7 @@ namespace creaturevisualizer
 			bo.BackColor = Color.FromArgb(Byte.Parse(tb_Alpha.Text), e.Color);
 			bo.Refresh();
 
-			colorslider.Configurate(_csc);
+			colorslider.UpdateSlider();
 
 			if (ColorChanged != null)
 				ColorChanged();
@@ -274,7 +274,11 @@ namespace creaturevisualizer
 				|| (e.Button == MouseButtons.Right
 					&& ((sender as ColorBox).ClientRectangle.Contains(e.X, e.Y))))	// -> don't fire if user moves cursor out of the box.
 			{
-				ColorBox bo = SwapActiveColorbox();
+				colortop.Activated = !colortop.Activated;
+				colorbot.Activated = !colorbot.Activated;
+	
+				ColorBox bo = GetActiveColorbox();
+				swatches.UpdateSelector(bo.BackColor);
 
 				_bypassCisco = true;
 				cscRgb.rgb = ColorConverter.ColorToRgb(bo.BackColor);
@@ -295,27 +299,6 @@ namespace creaturevisualizer
 				if (ColorChanged != null)
 					ColorChanged();
 			}
-		}
-
-		ColorBox SwapActiveColorbox()
-		{
-			ColorBox act;
-
-			if (GetActiveColorbox() == colorbot)
-			{
-				colortop.Activated = true;
-				colorbot.Activated = false;
-				act = colortop;
-			}
-			else
-			{
-				colortop.Activated = false;
-				colorbot.Activated = true;
-				act = colorbot;
-			}
-
-			swatches.UpdateSelector(act.BackColor);
-			return act;
 		}
 		#endregion Handlers
 

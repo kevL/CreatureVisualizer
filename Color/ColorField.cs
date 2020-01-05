@@ -10,7 +10,7 @@ namespace creaturevisualizer
 	sealed class ColorField
 		: UserControl
 	{
-		internal enum DirPoint
+		internal enum DirPoint // left,right,up,down, etc
 		{
 			nul,
 			l,r,u,d,
@@ -88,6 +88,26 @@ namespace creaturevisualizer
 			}
 		}
 
+		protected override void OnMouseUp(MouseEventArgs e)
+		{
+			_track = false;
+		}
+
+		protected override void OnMouseMove(MouseEventArgs e)
+		{
+			if (_track)
+			{
+				const int leeway = 5;
+				if (   (e.X > -1 - leeway && e.X < 256 + leeway)
+					|| (e.Y > -1 - leeway && e.Y < 256 + leeway))
+				{
+					var pt = new Point(Math.Max(0, Math.Min(e.X, 255)),
+									   Math.Max(0, Math.Min(e.Y, 255)));
+					ChangePoint(pt);
+				}
+			}
+		}
+
 		internal void ChangePoint_key(DirPoint dir)
 		{
 			int x = _pt.X;
@@ -121,26 +141,6 @@ namespace creaturevisualizer
 					break;
 			}
 			ChangePoint(new Point(x,y));
-		}
-
-		protected override void OnMouseUp(MouseEventArgs e)
-		{
-			_track = false;
-		}
-
-		protected override void OnMouseMove(MouseEventArgs e)
-		{
-			if (_track)
-			{
-				const int leeway = 5;
-				if (   (e.X > -1 - leeway && e.X < 256 + leeway)
-					|| (e.Y > -1 - leeway && e.Y < 256 + leeway))
-				{
-					var pt = new Point(Math.Max(0, Math.Min(e.X, 255)),
-									   Math.Max(0, Math.Min(e.Y, 255)));
-					ChangePoint(pt);
-				}
-			}
 		}
 
 		void ChangePoint(Point pt)
