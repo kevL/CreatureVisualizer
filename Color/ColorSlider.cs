@@ -207,11 +207,13 @@ namespace creaturevisualizer
 
 			Val = 255 - y + _grad.Y;
 
+			ColorControl._bypassCisco = true;
 			SetCiscoVal(Val);
 			_csc.Cisco.Refresh();
+			ColorControl._bypassCisco = false;
 
 			if (SliderChanged != null)
-				SliderChanged(new SliderChangedEventArgs(Val));
+				SliderChanged(new SliderChangedEventArgs(Val)); // ColorControl.sliderchanged()
 		}
 
 		internal void ChangeValue_key(int dir)
@@ -236,12 +238,12 @@ namespace creaturevisualizer
 			switch (_csc.Cisco.Units)
 			{
 				case ColorSpaceControlCisco.Unit.Degree:
-					sliderval = (int)Math.Ceiling(sliderval * 24.0 / 17.0);
+					sliderval = (int)Math.Round(sliderval * 24.0 / 17.0, MidpointRounding.AwayFromZero);
 					_csc.Cisco.Val = Math.Max(0, Math.Min(sliderval, 359));
 					break;
 
 				case ColorSpaceControlCisco.Unit.Percent:
-					sliderval = (int)Math.Ceiling(sliderval / 2.55);
+					sliderval = (int)Math.Round(sliderval / 2.55, MidpointRounding.AwayFromZero);
 					_csc.Cisco.Val = Math.Max(0, Math.Min(sliderval, 100));
 					break;
 
@@ -256,11 +258,11 @@ namespace creaturevisualizer
 			switch (_csc.Cisco.Units)
 			{
 				case ColorSpaceControlCisco.Unit.Degree:
-					ciscoval = (int)Math.Ceiling(ciscoval * 17.0 / 24.0);
+					ciscoval = (int)Math.Round(ciscoval * 17.0 / 24.0, MidpointRounding.AwayFromZero);
 					break;
 
 				case ColorSpaceControlCisco.Unit.Percent:
-					ciscoval = (int)Math.Ceiling(ciscoval * 2.55);
+					ciscoval = (int)Math.Round(ciscoval * 2.55, MidpointRounding.AwayFromZero);
 					break;
 			}
 			Val = Math.Max(0, Math.Min(ciscoval, 255));

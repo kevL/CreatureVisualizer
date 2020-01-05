@@ -83,9 +83,9 @@ namespace creaturevisualizer
 
 			if ((hue *= 60) < 0) hue += 360;
 
-			return new HSL((int)Math.Round(hue),
-						   (int)Math.Round(sat),
-						   (int)Math.Round(max * 100));
+			return new HSL((int)Math.Round(hue,       MidpointRounding.AwayFromZero),
+						   (int)Math.Round(sat,       MidpointRounding.AwayFromZero),
+						   (int)Math.Round(max * 100, MidpointRounding.AwayFromZero));
 		}
 		// https://en.wikipedia.org/wiki/HSL_and_HSV
 /*		internal static HSB RgbToHsb(RGB rgb)
@@ -204,9 +204,9 @@ namespace creaturevisualizer
 				}
 			}
 
-			return new RGB((int)Math.Round(r * 255),
-						   (int)Math.Round(g * 255),
-						   (int)Math.Round(b * 255));
+			return new RGB((int)Math.Round(r * 255, MidpointRounding.AwayFromZero),
+						   (int)Math.Round(g * 255, MidpointRounding.AwayFromZero),
+						   (int)Math.Round(b * 255, MidpointRounding.AwayFromZero));
 		}
 		// https://en.wikipedia.org/wiki/HSL_and_HSV
 /*		internal static RGB HsbToRgb(HSB hsb)

@@ -36,7 +36,7 @@ namespace creaturevisualizer
 		internal protected void OnCiscoValueChanged()
 		{
 			if (CiscoValueChanged_hi != null)
-				CiscoValueChanged_hi(this);
+				CiscoValueChanged_hi(this); // ColorControl.ciscovaluechanged()
 		}
 		#endregion Handlers
 
@@ -49,7 +49,7 @@ namespace creaturevisualizer
 			(Cisco = cisco).Selected = true;
 
 			if (CiscoSelected_hi != null)
-				CiscoSelected_hi(this);
+				CiscoSelected_hi(this); // ColorControl.ciscoselected()
 		}
 
 		internal void DeselectCiscos()

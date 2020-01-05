@@ -100,7 +100,7 @@ namespace creaturevisualizer
 		void click_rb(object sender, EventArgs e)
 		{
 			if (CiscoSelected_lo != null)
-				CiscoSelected_lo(this);
+				CiscoSelected_lo(this); // ColorSpaceControl*.OnCiscoSelected()
 		}
 
 		void textchanged_tb(object sender, EventArgs e)
@@ -108,7 +108,7 @@ namespace creaturevisualizer
 			if (!ColorControl._bypassCisco)
 			{
 				if (CiscoValueChanged_lo != null)
-					CiscoValueChanged_lo();
+					CiscoValueChanged_lo(); // ColorSpaceControl*.OnCiscoValueChanged()
 			}
 		}
 

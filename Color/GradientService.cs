@@ -81,9 +81,9 @@ namespace creaturevisualizer
 				rect = new Rectangle(x,0, 1,256);
 
 				using (var brush = new LinearGradientBrush(rect,
-														   Color.FromArgb((int)Math.Round(d4),
-																		  (int)Math.Round(d5),
-																		  (int)Math.Round(d6)),
+														   Color.FromArgb((int)Math.Round(d4, MidpointRounding.AwayFromZero),
+																		  (int)Math.Round(d5, MidpointRounding.AwayFromZero),
+																		  (int)Math.Round(d6, MidpointRounding.AwayFromZero)),
 														   Color.Black,
 														   90f,
 														   false))
@@ -104,7 +104,7 @@ namespace creaturevisualizer
 
 			graphics.DrawImage(_gradient, 0,0);
 
-			int alpha = (int)(255 - Math.Round(255 * (sat / 100.0)));
+			int alpha = (int)(255 - Math.Round(255 * (sat / 100.0), MidpointRounding.AwayFromZero));
 			Color color = Color.FromArgb(alpha, 255,255,255);
 
 			var rect = new Rectangle(0,0, 256,256);
@@ -119,7 +119,7 @@ namespace creaturevisualizer
 
 			graphics.DrawImage(_gradient, 0,0);
 
-			int alpha = (int)(255 - Math.Round(lit * 2.55));
+			int alpha = (int)(255 - Math.Round(lit * 2.55, MidpointRounding.AwayFromZero));
 			using (var brush = new SolidBrush(Color.FromArgb(alpha, 0,0,0)))
 				graphics.FillRectangle(brush, 0,0, 256,256);
 		}

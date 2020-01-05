@@ -177,8 +177,8 @@ namespace creaturevisualizer
 				{
 					case 'H':
 					{
-						int lit = (int)((255f - _pt.Y) / 2.55f);
-						int sat = (int)(        _pt.X  / 2.55f);
+						int lit = (int)Math.Round((255 - _pt.Y) / 2.55, MidpointRounding.AwayFromZero);
+						int sat = (int)Math.Round(       _pt.X  / 2.55, MidpointRounding.AwayFromZero);
 						lit = Math.Max(0, Math.Min(lit, 100));
 						sat = Math.Max(0, Math.Min(sat, 100));
 
@@ -188,8 +188,8 @@ namespace creaturevisualizer
 
 					case 'S':
 					{
-						int hue = (int)(_pt.X * 24.0f / 17.0f);
-						int lit = (int)((255f - _pt.Y) / 2.55f);
+						int hue = (int)Math.Round(_pt.X * 24.0 / 17.0,  MidpointRounding.AwayFromZero);
+						int lit = (int)Math.Round((255 - _pt.Y) / 2.55, MidpointRounding.AwayFromZero);
 						hue = Math.Max(0, Math.Min(hue, 359));
 						lit = Math.Max(0, Math.Min(lit, 100));
 
@@ -199,8 +199,8 @@ namespace creaturevisualizer
 
 					case 'L':
 					{
-						int hue = (int)(_pt.X * 24.0f / 17.0f);
-						int sat = (int)((255f - _pt.Y) / 2.55f);
+						int hue = (int)Math.Round(_pt.X * 24.0 / 17.0,  MidpointRounding.AwayFromZero);
+						int sat = (int)Math.Round((255 - _pt.Y) / 2.55, MidpointRounding.AwayFromZero);
 						hue = Math.Max(0, Math.Min(hue, 359));
 						sat = Math.Max(0, Math.Min(sat, 100));
 
@@ -261,18 +261,18 @@ namespace creaturevisualizer
 				switch (_csc.Cisco.DisplayCharacter)
 				{
 					case 'H':
-						x =       (int)Math.Round(hsl.S * 2.55);
-						y = 255 - (int)Math.Round(hsl.L * 2.55);
+						x =       (int)Math.Round(hsl.S * 2.55, MidpointRounding.AwayFromZero);
+						y = 255 - (int)Math.Round(hsl.L * 2.55, MidpointRounding.AwayFromZero);
 						break;
 
 					case 'S':
-						x =       (int)Math.Ceiling(hsl.H * 17.0 / 24.0);
-						y = 255 - (int)Math.Round(  hsl.L * 2.55);
+						x =       (int)Math.Round(hsl.H * 17.0 / 24.0, MidpointRounding.AwayFromZero);
+						y = 255 - (int)Math.Round(hsl.L * 2.55,        MidpointRounding.AwayFromZero);
 						break;
 
 					case 'L':
-						x =       (int)Math.Ceiling(hsl.H * 17.0 / 24.0);
-						y = 255 - (int)Math.Round(  hsl.S * 2.55);
+						x =       (int)Math.Round(hsl.H * 17.0 / 24.0, MidpointRounding.AwayFromZero);
+						y = 255 - (int)Math.Round(hsl.S * 2.55,        MidpointRounding.AwayFromZero);
 						break;
 				}
 			}
