@@ -293,7 +293,7 @@ namespace creaturevisualizer
 				tb_Hecate.Text = cscRgb.GetHecate();
 				_bypassHecate = false;
 
-				colorslider.Configurate(_csc);
+				colorslider.SetSliderVal();
 				UpdateField();
 
 				if (ColorChanged != null)

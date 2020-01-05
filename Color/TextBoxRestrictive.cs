@@ -102,7 +102,7 @@ namespace creaturevisualizer
 						if (!String.IsNullOrEmpty(Text))
 							val = Int32.Parse(Text) - 1;
 						else
-							val = 0;
+							val = 0; // note: Technically this should be nested w/ 'ColorControl._bypassCisco'.
 
 						if (val >= 0) Text = val.ToString();
 					}
