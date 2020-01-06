@@ -221,8 +221,25 @@ namespace creaturevisualizer
 			_pt = new Point(x,y);
 		}
 
+
+//		Bitmap _pixel = new Bitmap(1,1);
 		void SelectColor()
 		{
+/*			Point pt = PointToScreen(_pt);
+			var rect = new Rectangle(pt.X, pt.Y, 1,1);
+
+			using (Graphics g = Graphics.FromImage(_pixel))
+				g.CopyFromScreen(rect.Location, Point.Empty, rect.Size);
+
+			_color = _pixel.GetPixel(0,0); */
+
+//			if (GradientService._colorfield != null)
+//				_color = GradientService._colorfield.GetPixel(_pt.X, _pt.Y);
+
+//			ColorF.That.Print("color=" + _color);
+//			ColorF.That.Print("x=" + _pt.X + " y=" + _pt.Y + " color=" + _color);
+
+//			return;
 			var csc = _csc as ColorSpaceControlRGB;
 			if (csc != null)
 			{

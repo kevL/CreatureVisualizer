@@ -75,7 +75,10 @@ namespace creaturevisualizer
 			DrawTris();
 
 			if (!ColorF.reallyDesignMode)
+			{
+				_graphics.PixelOffsetMode = PixelOffsetMode.Half;
 				DrawGradient();
+			}
 		}
 
 		void DrawTris()
@@ -103,8 +106,6 @@ namespace creaturevisualizer
 
 		void DrawGradient()
 		{
-			_graphics.PixelOffsetMode = PixelOffsetMode.Half;
-
 			var csc = _csc as ColorSpaceControlRGB;
 			if (csc != null)
 			{
@@ -113,26 +114,31 @@ namespace creaturevisualizer
 				switch (_csc.Cisco.DisplayCharacter)
 				{
 					case 'R':
-						color1 = Color.FromArgb(  0, rgb.G, rgb.B);
-						color2 = Color.FromArgb(255, rgb.G, rgb.B);
+						color1 = Color.FromArgb(255, rgb.G, rgb.B);
+						color2 = Color.FromArgb(  0, rgb.G, rgb.B);
 						break;
 
 					case 'G':
-						color1 = Color.FromArgb(rgb.R,   0, rgb.B);
-						color2 = Color.FromArgb(rgb.R, 255, rgb.B);
+						color1 = Color.FromArgb(rgb.R, 255, rgb.B);
+						color2 = Color.FromArgb(rgb.R,   0, rgb.B);
 						break;
 
 					case 'B':
-						color1 = Color.FromArgb(rgb.R, rgb.G,   0);
-						color2 = Color.FromArgb(rgb.R, rgb.G, 255);
+						color1 = Color.FromArgb(rgb.R, rgb.G, 255);
+						color2 = Color.FromArgb(rgb.R, rgb.G,   0);
 						break;
 
 					default: // shall never happen.
 						return;
 				}
 
-				using (var brush = new LinearGradientBrush(_grad, color1, color2, 270f))
+				using (var brush = new LinearGradientBrush(_grad,
+														   color1,
+														   color2,
+														   LinearGradientMode.Vertical))
+				{
 					_graphics.FillRectangle(brush, _grad);
+				}
 			}
 			else
 			{
@@ -140,18 +146,17 @@ namespace creaturevisualizer
 				switch (_csc.Cisco.DisplayCharacter)
 				{
 					case 'H':
-						using (var linearGradientBrush = new LinearGradientBrush(_grad,
-																				 Color.Blue,
-																				 Color.Red,
-																				 90f,
-																				 false))
+						using (var brush = new LinearGradientBrush(_grad,
+																   Color.Transparent,
+																   Color.Transparent,
+																   LinearGradientMode.Vertical))
 						{
 							var blend = new ColorBlend();
 							blend.Colors    = GradientService._colors;
 							blend.Positions = GradientService._positions;
-							linearGradientBrush.InterpolationColors = blend;
+							brush.InterpolationColors = blend;
 
-							_graphics.FillRectangle(linearGradientBrush, _grad);
+							_graphics.FillRectangle(brush, _grad);
 						}
 						break;
 
@@ -162,8 +167,13 @@ namespace creaturevisualizer
 						Color color1 = Color.FromArgb(rgb1.R, rgb1.G, rgb1.B);
 						Color color2 = Color.FromArgb(rgb2.R, rgb2.G, rgb2.B);
 
-						using (var brush = new LinearGradientBrush(_grad, color1, color2, 90f))
+						using (var brush = new LinearGradientBrush(_grad,
+																   color1,
+																   color2,
+																   LinearGradientMode.Vertical))
+						{
 							_graphics.FillRectangle(brush, _grad);
+						}
 						break;
 					}
 
@@ -174,8 +184,13 @@ namespace creaturevisualizer
 						Color color1 = Color.FromArgb(rgb1.R, rgb1.G, rgb1.B);
 						Color color2 = Color.FromArgb(rgb2.R, rgb2.G, rgb2.B);
 
-						using (var brush = new LinearGradientBrush(_grad, color1, color2, 90f))
+						using (var brush = new LinearGradientBrush(_grad,
+																   color1,
+																   color2,
+																   LinearGradientMode.Vertical))
+						{
 							_graphics.FillRectangle(brush, _grad);
+						}
 						break;
 					}
 				}

@@ -28,9 +28,14 @@ namespace creaturevisualizer
 		#region Fields
 		ColorSpaceControl _csc;
 
-		Bitmap _slider   = new Bitmap(ColorSlider.width, ColorSlider.height);
-		Image  _checkers = new ResourceManager("CreatureVisualizer.Properties.Resources",
-											   typeof(Resources).Assembly).GetObject("checkers") as Image;
+		/// <summary>
+		/// This graphic is never drawn in the client. It is used only to get
+		/// the currently selected hue.
+		/// </summary>
+		Bitmap _huGraphic = new Bitmap(1,256);
+
+		Image _checkers = new ResourceManager("CreatureVisualizer.Properties.Resources",
+											  typeof(Resources).Assembly).GetObject("checkers") as Image;
 		#endregion Fields
 
 
@@ -41,11 +46,23 @@ namespace creaturevisualizer
 
 			GradientService.InstantiateConstantObjects();
 
-			// this has nothing to do with the Slider ...
-			using (Graphics graphics = Graphics.FromImage(_slider))
+			using (Graphics graphics = Graphics.FromImage(_huGraphic))
 			{
 				graphics.PixelOffsetMode = PixelOffsetMode.Half;
-				GradientService.DrawField_base(graphics, new Rectangle(0,0, 1,256));
+
+				var rect = new Rectangle(0,0, _huGraphic.Width, _huGraphic.Height);
+				using (var brush = new LinearGradientBrush(rect,
+														   Color.Transparent,
+														   Color.Transparent,
+														   LinearGradientMode.Vertical))
+				{
+					var blend = new ColorBlend();
+					blend.Colors    = GradientService._colors;
+					blend.Positions = GradientService._positions;
+					brush.InterpolationColors = blend;
+
+					graphics.FillRectangle(brush, rect);
+				}
 			}
 		}
 
@@ -311,7 +328,7 @@ namespace creaturevisualizer
 				// _csc is ColorSpaceControlHSL
 				case 'H':
 				{
-					Color slidecol = _slider.GetPixel(0, 255 - colorslider.Val);
+					Color slidecol = _huGraphic.GetPixel(0, 255 - colorslider.Val);
 					colorfield.ChangeField(slidecol, _csc, setPoint);
 					break;
 				}
