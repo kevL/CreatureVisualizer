@@ -9,10 +9,13 @@ namespace creaturevisualizer
 	static class GradientService
 	{
 		#region Fields (static)
-		static Bitmap _underlay = new Bitmap(256,256);
+		static Bitmap _huUnderlay = new Bitmap(256,256);
 
 		internal static Color[] _colors;
 		internal static float[] _positions;
+
+		static Rectangle _rectVert = new Rectangle(0,0, 1,256);
+		static Rectangle _rectHori = new Rectangle(0,0, 256,1);
 		#endregion Fields (static)
 
 
@@ -46,15 +49,14 @@ namespace creaturevisualizer
 
 		static void CreateUnderlay()
 		{
-			using (Graphics graphics = Graphics.FromImage(_underlay))
+			using (Graphics graphics = Graphics.FromImage(_huUnderlay))
 			{
-				Color[] colors;
+				Color[] colors; ColorBlend blend;
 
-				var rect = new Rectangle(0,0, 256,1);
 				for (int y = 0; y != 256; ++y)
 				{
-					rect.Y = y;
-					using (var brush = new LinearGradientBrush(rect,
+					_rectHori.Y = y;
+					using (var brush = new LinearGradientBrush(_rectHori,
 															   Color.Transparent,
 															   Color.Transparent,
 															   LinearGradientMode.Horizontal))
@@ -70,12 +72,12 @@ namespace creaturevisualizer
 							Color.FromArgb(255,   y,   y)
 						};
 
-						var blend = new ColorBlend();
+						blend = new ColorBlend();
 						blend.Colors    = colors;
 						blend.Positions = _positions;
 						brush.InterpolationColors = blend;
 
-						graphics.FillRectangle(brush, rect);
+						graphics.FillRectangle(brush, _rectHori);
 					}
 				}
 			}
@@ -91,20 +93,20 @@ namespace creaturevisualizer
 			double gd = (255 - slidercolor.G) / 255.0;
 			double bd = (255 - slidercolor.B) / 255.0;
 
-			Rectangle rect; Color color;
+			Color color;
 			for (int x = 0; x != 256; ++x)
 			{
-				rect = new Rectangle(x,0, 1,256);
+				_rectVert.X = x;
 				color = Color.FromArgb((int)Math.Round(r, MidpointRounding.AwayFromZero),
 									   (int)Math.Round(g, MidpointRounding.AwayFromZero),
 									   (int)Math.Round(b, MidpointRounding.AwayFromZero));
 
-				using (var brush = new LinearGradientBrush(rect,
+				using (var brush = new LinearGradientBrush(_rectVert,
 														   color,
 														   Color.Black,
 														   LinearGradientMode.Vertical))
 				{
-					graphics.FillRectangle(brush, rect);
+					graphics.FillRectangle(brush, _rectVert);
 				}
 				r -= rd;
 				g -= gd;
@@ -114,7 +116,7 @@ namespace creaturevisualizer
 
 		internal static void DrawField_sat(Graphics graphics, int sat)
 		{
-			graphics.DrawImage(_underlay, 0,0);
+			graphics.DrawImage(_huUnderlay, 0,0);
 
 // draw white to transparent gradient overlay ->
 			int a = (int)(255 - Math.Round(255 * (sat / 100.0), MidpointRounding.AwayFromZero));
@@ -132,7 +134,7 @@ namespace creaturevisualizer
 
 		internal static void DrawField_lit(Graphics graphics, int lit)
 		{
-			graphics.DrawImage(_underlay, 0,0);
+			graphics.DrawImage(_huUnderlay, 0,0);
 
 // draw black to transparent solid overlay ->
 			int a = (int)(255 - Math.Round(lit * 2.55, MidpointRounding.AwayFromZero));
@@ -144,18 +146,16 @@ namespace creaturevisualizer
 
 		internal static void DrawField_r(Graphics graphics, int red)
 		{
-			var rect = new Rectangle(0,0, 256,1);
-
 			int g = 255;
 			for (int y = 0; y != 256; ++y)
 			{
-				rect.Y = y;
-				using (var brush = new LinearGradientBrush(rect,
+				_rectHori.Y = y;
+				using (var brush = new LinearGradientBrush(_rectHori,
 														   Color.FromArgb(red, g,   0),
 														   Color.FromArgb(red, g, 255),
 														   LinearGradientMode.Horizontal))
 				{
-					graphics.FillRectangle(brush, rect);
+					graphics.FillRectangle(brush, _rectHori);
 				}
 				--g;
 			}
@@ -163,18 +163,16 @@ namespace creaturevisualizer
 
 		internal static void DrawField_g(Graphics graphics, int green)
 		{
-			var rect = new Rectangle(0,0, 256,1);
-
 			int r = 255;
 			for (int y = 0; y != 256; ++y)
 			{
-				rect.Y = y;
-				using (var brush = new LinearGradientBrush(rect,
+				_rectHori.Y = y;
+				using (var brush = new LinearGradientBrush(_rectHori,
 														   Color.FromArgb(r, green,   0),
 														   Color.FromArgb(r, green, 255),
 														   LinearGradientMode.Horizontal))
 				{
-					graphics.FillRectangle(brush, rect);
+					graphics.FillRectangle(brush, _rectHori);
 				}
 				--r;
 			}
@@ -182,18 +180,16 @@ namespace creaturevisualizer
 
 		internal static void DrawField_b(Graphics graphics, int blue)
 		{
-			var rect = new Rectangle(0,0, 256,1);
-
 			int g = 255;
 			for (int y = 0; y != 256; ++y)
 			{
-				rect.Y = y;
-				using (var brush = new LinearGradientBrush(rect,
+				_rectHori.Y = y;
+				using (var brush = new LinearGradientBrush(_rectHori,
 														   Color.FromArgb(  0, g, blue),
 														   Color.FromArgb(255, g, blue),
 														   LinearGradientMode.Horizontal))
 				{
-					graphics.FillRectangle(brush, rect);
+					graphics.FillRectangle(brush, _rectHori);
 				}
 				--g;
 			}
