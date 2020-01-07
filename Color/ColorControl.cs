@@ -77,6 +77,8 @@ namespace creaturevisualizer
 		{
 			swatches.UpdateSelector(color);
 
+			colortop.Select();
+
 			colortop.Activated = true;
 			colortop.BackColor =
 			colorbot.BackColor = color;
@@ -105,16 +107,16 @@ namespace creaturevisualizer
 		{
 //			base.OnPaint(e);
 
-// draw border around colorfield ->
+// draw border around colorfield-control ->
 			e.Graphics.DrawRectangle(Pens.Black,
 									 colorfield.Left  - 1, colorfield.Top    - 1,
 									 colorfield.Width + 1, colorfield.Height + 1);
 
 
-// draw checkers under colorboxes ->
+// draw checkers under colorbox-controls ->
 			e.Graphics.DrawImage(_checkers, colortop.Location.X, colortop.Location.Y);
 
-// draw borders top/bot for colorboxes -> (left/right borders is handled by the colorboxes' OnPaint())
+// draw borders top/bot for colorbox-controls -> (left/right borders is handled by the colorboxes' OnPaint())
 			e.Graphics.DrawLine(Pens.Black,
 								colortop.Location.X                  + 2, colortop.Top - 1,
 								colortop.Location.X + colortop.Width - 3, colortop.Top - 1);
@@ -123,10 +125,23 @@ namespace creaturevisualizer
 								colorbot.Location.X + colorbot.Width - 3, colorbot.Bottom);
 
 
-// draw border around swatches ->
+// draw border around swatch-control ->
 			e.Graphics.DrawRectangle(Pens.Black,
 									 swatches.Left  - 1, swatches.Top    - 1,
 									 swatches.Width + 1, swatches.Height + 1);
+		}
+
+		protected override void OnMouseWheel(MouseEventArgs e)
+		{
+			if (!IsTextboxFocused(Controls))
+			{
+				int dir = 0;
+				if      (e.Delta > 0) dir = +1;
+				else if (e.Delta < 0) dir = -1;
+				colorslider.ChangeValue_key(dir);
+			}
+			else
+				base.OnMouseWheel(e);
 		}
 		#endregion Handlers (override)
 
