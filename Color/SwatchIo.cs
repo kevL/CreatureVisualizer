@@ -85,15 +85,15 @@ namespace creaturevisualizer
 				}
 
 				if (!_created)
-					ColorF.That.Print("Swatches file loaded", true);
+					ColorF.That.Print("Swatch file loaded", true);
 				else
-					ColorF.That.Print("Swatches file created", true);
+					ColorF.That.Print("Swatch file created", true);
 
 				return swatches;
 			}
 			catch
 			{
-				ColorF.That.Print("ERROR reading swatches file", true);
+				ColorF.That.Print("ERROR reading swatch file", true);
 				return null;
 			}
 			finally
