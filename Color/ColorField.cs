@@ -79,6 +79,8 @@ namespace creaturevisualizer
 
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
+			ColorF.That.ColorControl.GetActiveColorbox().Select(); // take focus off tb if applicable
+
 			if (e.Button == MouseButtons.Left)
 			{
 				_track = true;
