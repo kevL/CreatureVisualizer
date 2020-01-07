@@ -43,8 +43,8 @@ namespace creaturevisualizer
 
 		#region Designer
 		internal ColorSpaceControlCisco cH; // initial selected.
-		ColorSpaceControlCisco cS;
-		ColorSpaceControlCisco cL;
+		internal ColorSpaceControlCisco cS;
+		internal ColorSpaceControlCisco cL;
 
 
 		void InitializeComponent()

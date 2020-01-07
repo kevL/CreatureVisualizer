@@ -54,9 +54,9 @@ namespace creaturevisualizer
 
 
 		#region Designer
-		ColorSpaceControlCisco cR;
-		ColorSpaceControlCisco cG;
-		ColorSpaceControlCisco cB;
+		internal ColorSpaceControlCisco cR;
+		internal ColorSpaceControlCisco cG;
+		internal ColorSpaceControlCisco cB;
 
 
 		void InitializeComponent()

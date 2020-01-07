@@ -105,35 +105,45 @@ namespace creaturevisualizer
 		#region Handlers (override)
 		protected override void OnKeyUp(KeyEventArgs e)
 		{
-			switch (e.KeyData)
+			if (!ColorControl.IsTextboxFocused(ColorControl.Controls))
 			{
-				case Keys.O:
-					if (!ColorControl.IsTextboxFocused(ColorControl.Controls))
-					{
+				switch (e.KeyData)
+				{
+					case Keys.O:
 						e.Handled = e.SuppressKeyPress = true;
+						ColorControl.mouseup_colorbo(null, new MouseEventArgs(MouseButtons.Right, 0, 0,0, 0));
+						break;
+	
+					case Keys.H:
+						e.Handled = e.SuppressKeyPress = true;
+						ColorControl.cscHsl.SelectCisco(ColorControl.cscHsl.cH);
+						break;
 
-						var args = new MouseEventArgs(MouseButtons.Right, 0, 0,0, 0);
-						ColorControl.mouseup_colorbo(null, args);
-					}
-					break;
+					case Keys.S:
+						e.Handled = e.SuppressKeyPress = true;
+						ColorControl.cscHsl.SelectCisco(ColorControl.cscHsl.cS);
+						break;
 
-				case Keys.H:
-					break;
+					case Keys.L:
+						e.Handled = e.SuppressKeyPress = true;
+						ColorControl.cscHsl.SelectCisco(ColorControl.cscHsl.cL);
+						break;
 
-				case Keys.S:
-					break;
+					case Keys.R:
+						e.Handled = e.SuppressKeyPress = true;
+						ColorControl.cscRgb.SelectCisco(ColorControl.cscRgb.cR);
+						break;
 
-				case Keys.L:
-					break;
+					case Keys.G:
+						e.Handled = e.SuppressKeyPress = true;
+						ColorControl.cscRgb.SelectCisco(ColorControl.cscRgb.cG);
+						break;
 
-				case Keys.R:
-					break;
-
-				case Keys.G:
-					break;
-
-				case Keys.B:
-					break;
+					case Keys.B:
+						e.Handled = e.SuppressKeyPress = true;
+						ColorControl.cscRgb.SelectCisco(ColorControl.cscRgb.cB);
+						break;
+				}
 			}
 		}
 

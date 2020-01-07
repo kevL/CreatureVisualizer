@@ -392,13 +392,13 @@ namespace creaturevisualizer
 		#region Designer
 		internal ColorField colorfield;
 		internal ColorSlider colorslider;
+		internal ColorSpaceControlHSL cscHsl;
+		internal ColorSpaceControlRGB cscRgb;
 		ColorBox colortop;
 		ColorBox colorbot;
-		ColorSpaceControlHSL cscHsl;
-		ColorSpaceControlRGB cscRgb;
 		Label la_Hecate;
-		TextboxRestrictive tb_Hecate;
 		Label la_Alpha;
+		TextboxRestrictive tb_Hecate;
 		TextboxRestrictive tb_Alpha;
 		SwatchControl swatches;
 

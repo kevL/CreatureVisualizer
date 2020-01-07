@@ -99,11 +99,8 @@ namespace creaturevisualizer
 		#region Handlers
 		void click_rb(object sender, EventArgs e)
 		{
-			if (!Selected)
-			{
-				if (CiscoSelected_lo != null)
-					CiscoSelected_lo(this); // ColorSpaceControl.OnCiscoSelected()
-			}
+			if (CiscoSelected_lo != null)
+				CiscoSelected_lo(this); // ColorSpaceControl.OnCiscoSelected()
 		}
 
 		void textchanged_tb(object sender, EventArgs e)

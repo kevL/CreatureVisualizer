@@ -44,12 +44,15 @@ namespace creaturevisualizer
 		#region Methods
 		internal void SelectCisco(ColorSpaceControlCisco cisco)
 		{
-			DeselectCiscos();
+			if (!cisco.Selected)
+			{
+				DeselectCiscos();
 
-			(Cisco = cisco).Selected = true;
+				(Cisco = cisco).Selected = true;
 
-			if (CiscoSelected_hi != null)
-				CiscoSelected_hi(this); // ColorControl.ciscoselected()
+				if (CiscoSelected_hi != null)
+					CiscoSelected_hi(this); // ColorControl.ciscoselected()
+			}
 		}
 
 		internal void DeselectCiscos()
