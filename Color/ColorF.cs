@@ -68,7 +68,7 @@ namespace creaturevisualizer
 				case Keys.Down:
 				case Keys.Left:
 				case Keys.Right:
-					e.IsInputKey = true;
+					e.IsInputKey = true; // <- treat key as not a form navigation key
 					break;
 			}
 		}
