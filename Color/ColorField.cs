@@ -258,7 +258,14 @@ namespace creaturevisualizer
 			}
 			else
 			{
-				var hsl = (_csc as ColorSpaceControlHSL).hsl;
+//				var hsl = (_csc as ColorSpaceControlHSL).hsl;
+
+				int h = (_csc as ColorSpaceControlHSL).hsl.H; // TODO: just ensure that this doesn't change the colorspace's HSL here ->
+				int s = (_csc as ColorSpaceControlHSL).hsl.S; //       that shall happen in ColorControl.pointselected() only
+				int l = (_csc as ColorSpaceControlHSL).hsl.L;
+
+				var hsl = new HSL(h,s,l);
+
 				switch (_csc.Cisco.DisplayCharacter)
 				{
 					case 'H':
@@ -268,7 +275,9 @@ namespace creaturevisualizer
 						lit = Math.Max(0, Math.Min(lit, 100));
 						sat = Math.Max(0, Math.Min(sat, 100));
 
-						hsl = new HSL(hsl.H, sat, lit);
+//						hsl = new HSL(hsl.H, sat, lit);
+						hsl.S = sat;
+						hsl.L = lit;
 						break;
 					}
 
@@ -279,7 +288,9 @@ namespace creaturevisualizer
 						hue = Math.Max(0, Math.Min(hue, 359));
 						lit = Math.Max(0, Math.Min(lit, 100));
 
-						hsl = new HSL(hue, hsl.S, lit);
+//						hsl = new HSL(hue, hsl.S, lit);
+						hsl.H = hue;
+						hsl.L = lit;
 						break;
 					}
 
@@ -290,7 +301,9 @@ namespace creaturevisualizer
 						hue = Math.Max(0, Math.Min(hue, 359));
 						sat = Math.Max(0, Math.Min(sat, 100));
 
-						hsl = new HSL(hue, sat, hsl.L);
+//						hsl = new HSL(hue, sat, hsl.L);
+						hsl.H = hue;
+						hsl.S = sat;
 						break;
 					}
 				}

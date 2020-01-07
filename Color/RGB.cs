@@ -8,13 +8,13 @@ namespace creaturevisualizer
 	{
 		#region Properties
 		internal int R
-		{ get; set; }
+		{ get; private set; }
 
 		internal int G
-		{ get; set; }
+		{ get; private set; }
 
 		internal int B
-		{ get; set; }
+		{ get; private set; }
 		#endregion Properties
 
 
