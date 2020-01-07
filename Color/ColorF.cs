@@ -107,7 +107,7 @@ namespace creaturevisualizer
 		{
 			switch (e.KeyData)
 			{
-				case Keys.B:
+				case Keys.O:
 					if (!ColorControl.IsTextboxFocused(ColorControl.Controls))
 					{
 						e.Handled = e.SuppressKeyPress = true;
@@ -116,6 +116,24 @@ namespace creaturevisualizer
 						ColorControl.mouseup_colorbo(null, args);
 					}
 					break;
+
+				case Keys.H:
+					break;
+
+				case Keys.S:
+					break;
+
+				case Keys.L:
+					break;
+
+				case Keys.R:
+					break;
+
+				case Keys.G:
+					break;
+
+				case Keys.B:
+					break;
 			}
 		}
 
@@ -123,6 +141,11 @@ namespace creaturevisualizer
 		{
 			switch (e.KeyData)
 			{
+				case Keys.F1:
+					using (var f = new HelpColorF())
+						f.ShowDialog(this);
+					break;
+
 				case Keys.Enter:
 				case Keys.Escape:
 					e.Handled = e.SuppressKeyPress = true;

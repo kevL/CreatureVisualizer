@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Color\HelpColorF.cs" />
     <Compile Include="Color\SwatchDialog.cs" />
     <Compile Include="Color\ColorBox.cs" />
     <Compile Include="Color\ColorConverter.cs" />
@@ -101,6 +102,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Color\ColorSpaceControlCisco.resx">
       <DependentUpon>ColorSpaceControlCisco.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Color\HelpColorF.resx">
+      <DependentUpon>HelpColorF.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Color\SwatchDialog.resx">
       <DependentUpon>SwatchDialog.cs</DependentUpon>
