@@ -50,7 +50,7 @@ namespace creaturevisualizer
 				Info += "Accept the dialog to enable a color."                  + L + L;
 				Info += "LMB - toggles the color on/off"                        + L;
 				Info += "RMB - resets the color to default and disables it"     + L + L;
-				Info += "Note that [F1] opens Help in the color-chooser."      + L + L;
+				Info += "Note that [F1] opens Help in the color-chooser."       + L + L;
 
 				Info += "PREFS"                                                       + L;
 				Info += "-----"                                                       + L;
