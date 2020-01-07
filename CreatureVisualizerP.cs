@@ -993,10 +993,8 @@ namespace creaturevisualizer
 		/// <param name="e"></param>
 		protected override void OnMouseWheel(MouseEventArgs e)
 		{
-			if (e.Delta > 0)
-				_f.click_bu_camera_distneg(null, EventArgs.Empty);
-			else if (e.Delta < 0)
-				_f.click_bu_camera_distpos(null, EventArgs.Empty);
+			if      (e.Delta > 0) _f.click_bu_camera_distneg(null, EventArgs.Empty);
+			else if (e.Delta < 0) _f.click_bu_camera_distpos(null, EventArgs.Empty);
 		}
 		#endregion Handlers (mouse)
 	}
