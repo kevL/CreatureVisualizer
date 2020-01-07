@@ -9,15 +9,23 @@ namespace creaturevisualizer
 		: EventArgs
 	{
 		#region Properties
-		internal Color Color
+		internal Color Col
+		{ get; private set; }
+
+		internal RGB RGB
+		{ get; private set; }
+
+		internal HSL HSL
 		{ get; private set; }
 		#endregion Properties
 
 
 		#region cTor
-		internal ColorEventArgs(Color color)
+		internal ColorEventArgs(Color col, RGB rgb = null, HSL hsl = null)
 		{
-			Color = color;
+			Col = col;
+			RGB = rgb;
+			HSL = hsl;
 		}
 		#endregion cTor
 	}

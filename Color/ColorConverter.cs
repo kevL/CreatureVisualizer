@@ -23,7 +23,7 @@ namespace creaturevisualizer
 			return new RGB(color.R, color.G, color.B);
 		}
 
-		internal static Color RgbToColor(RGB rgb)
+		internal static Color RgbToCol(RGB rgb)
 		{
 			return Color.FromArgb(Math.Max(0, Math.Min(rgb.R, 255)),
 								  Math.Max(0, Math.Min(rgb.G, 255)),
@@ -32,7 +32,7 @@ namespace creaturevisualizer
 
 		internal static Color HslToColor(HSL hsl)
 		{
-			return RgbToColor(HslToRgb(hsl));
+			return RgbToCol(HslToRgb(hsl));
 		}
 
 

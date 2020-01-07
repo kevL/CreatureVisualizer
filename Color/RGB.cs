@@ -8,24 +8,34 @@ namespace creaturevisualizer
 	{
 		#region Properties
 		internal int R
-		{ get; private set; }
+		{ get; set; }
 
 		internal int G
-		{ get; private set; }
+		{ get; set; }
 
 		internal int B
-		{ get; private set; }
+		{ get; set; }
 		#endregion Properties
 
 
 		#region cTor
-		internal RGB(int r, int g, int b)
+		internal RGB(int r = 0, int g = 0, int b = 0)
 		{
 			R = r;
 			G = g;
 			B = b;
 		}
 		#endregion cTor
+
+
+		#region Methods
+		internal bool IsBright()
+		{
+			return R > 230
+				|| G > 225;
+//				|| B > 253;
+		}
+		#endregion Methods
 
 
 		#region Methods (override)

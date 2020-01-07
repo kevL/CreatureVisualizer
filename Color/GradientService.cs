@@ -194,13 +194,6 @@ namespace creaturevisualizer
 				--g;
 			}
 		}
-
-		internal static bool IsBright(Color color)
-		{
-			return color.R > 230
-				|| color.G > 223;
-//				|| color.B > 253;
-		}
 		#endregion Methods (static)
 	}
 }

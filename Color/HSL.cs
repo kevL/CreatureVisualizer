@@ -19,7 +19,7 @@ namespace creaturevisualizer
 
 
 		#region cTor
-		internal HSL(int h, int s, int l)
+		internal HSL(int h = 0, int s = 0, int l = 0)
 		{
 			H = h;
 			S = s;

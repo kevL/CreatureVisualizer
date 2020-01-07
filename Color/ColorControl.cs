@@ -160,7 +160,7 @@ namespace creaturevisualizer
 
 			ColorBox bo = GetActiveColorbox();
 			bo.BackColor = Color.FromArgb(Byte.Parse(tb_Alpha.Text),
-										  ColorConverter.RgbToColor(cscRgb.rgb));
+										  ColorConverter.RgbToCol(cscRgb.rgb));
 
 			colorslider.SetSliderVal();
 			UpdateField();
@@ -202,8 +202,8 @@ namespace creaturevisualizer
 		void pointselected(ColorEventArgs e)
 		{
 			_bypassCisco = true;
-			cscRgb.rgb = ColorConverter.ColorToRgb(e.Color);
-			cscHsl.hsl = ColorConverter.RgbToHsl(cscRgb.rgb);
+			cscRgb.rgb = e.RGB;
+			cscHsl.hsl = e.HSL;
 
 			cscHsl.Refresh();
 			cscRgb.Refresh();
@@ -215,7 +215,7 @@ namespace creaturevisualizer
 			_bypassHecate = false;
 
 			ColorBox bo = GetActiveColorbox();
-			bo.BackColor = Color.FromArgb(Byte.Parse(tb_Alpha.Text), e.Color);
+			bo.BackColor = Color.FromArgb(Byte.Parse(tb_Alpha.Text), e.Col);
 			bo.Refresh();
 
 			colorslider.UpdateSlider();
@@ -250,7 +250,7 @@ namespace creaturevisualizer
 				_bypassCisco = false;
 
 				GetActiveColorbox().BackColor = Color.FromArgb(Byte.Parse(tb_Alpha.Text),
-															   ColorConverter.RgbToColor(cscRgb.rgb));
+															   ColorConverter.RgbToCol(cscRgb.rgb));
 
 				colorslider.Configurate(_csc);
 				UpdateField();
@@ -263,12 +263,12 @@ namespace creaturevisualizer
 		void swatchselected(ColorEventArgs e)
 		{
 			_bypassCisco = true;
-			cscRgb.rgb = ColorConverter.ColorToRgb(e.Color);
+			cscRgb.rgb = ColorConverter.ColorToRgb(e.Col);
 			cscHsl.hsl = ColorConverter.RgbToHsl(cscRgb.rgb);
 			_bypassCisco = false;
 
 			_bypassAlpha = true;
-			tb_Alpha.Text = e.Color.A.ToString();
+			tb_Alpha.Text = e.Col.A.ToString();
 			_bypassAlpha = false;
 
 			_bypassHecate = true;
@@ -276,7 +276,7 @@ namespace creaturevisualizer
 			_bypassHecate = false;
 
 			ColorBox bo = GetActiveColorbox();
-			bo.BackColor = e.Color;
+			bo.BackColor = e.Col;
 
 			colorslider.Configurate(_csc);
 			UpdateField();

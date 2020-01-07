@@ -27,7 +27,9 @@ namespace creaturevisualizer
 		Color _slidecol;
 		int   _ciscoval;
 
-		Color _color;
+		Color _col;
+		RGB   _rgb = new RGB();
+		HSL   _hsl = new HSL();
 		Point _pt;
 
 		bool _track;
@@ -52,10 +54,8 @@ namespace creaturevisualizer
 				e.Graphics.PixelOffsetMode = PixelOffsetMode.None;
 
 				Pen pen;
-				if (GradientService.IsBright(_color))
-					pen = Pens.Black;
-				else
-					pen = Pens.White;
+				if (_rgb.IsBright()) pen = Pens.Black;
+				else                 pen = Pens.White;
 
 				e.Graphics.DrawEllipse(pen, _pt.X - 4, _pt.Y - 4, 8,8);
 			}
@@ -154,7 +154,7 @@ namespace creaturevisualizer
 			Update();
 
 			if (PointSelected != null)
-				PointSelected(new ColorEventArgs(_color)); // ColorControl.pointselected()
+				PointSelected(new ColorEventArgs(_col, _rgb, _hsl)); // ColorControl.pointselected()
 		}
 		#endregion Handlers (override)
 
@@ -224,60 +224,32 @@ namespace creaturevisualizer
 		}
 
 
-//		Bitmap _pixel = new Bitmap(1,1);
 		void SelectColor()
 		{
-/*			Point pt = PointToScreen(_pt);
-			var rect = new Rectangle(pt.X, pt.Y, 1,1);
-
-			using (Graphics g = Graphics.FromImage(_pixel))
-				g.CopyFromScreen(rect.Location, Point.Empty, rect.Size);
-
-			_color = _pixel.GetPixel(0,0); */
-
-//			if (GradientService._colorfield != null)
-//				_color = GradientService._colorfield.GetPixel(_pt.X, _pt.Y);
-
-//			ColorF.That.Print("color=" + _color);
-//			ColorF.That.Print("x=" + _pt.X + " y=" + _pt.Y + " color=" + _color);
-
-//			return;
 			var csc = _csc as ColorSpaceControlRGB;
 			if (csc != null)
 			{
-				int r = csc.rgb.R;
-				int g = csc.rgb.G;
-				int b = csc.rgb.B;
 				switch (_csc.Cisco.DisplayCharacter)
 				{
-					case 'R': g = 255 - _pt.Y; b =       _pt.X; break;
-					case 'G': r = 255 - _pt.Y; b =       _pt.X; break;
-					case 'B': r =       _pt.X; g = 255 - _pt.Y; break;
+					case 'R': _rgb.R = csc.rgb.R;   _rgb.G = 255 - _pt.Y; _rgb.B = _pt.X;     break;
+					case 'G': _rgb.R = 255 - _pt.Y; _rgb.G = csc.rgb.G;   _rgb.B = _pt.X;     break;
+					case 'B': _rgb.R =       _pt.X; _rgb.G = 255 - _pt.Y; _rgb.B = csc.rgb.B; break;
 				}
-				_color = Color.FromArgb(r,g,b);
+				_hsl = ColorConverter.RgbToHsl(_rgb);
+				_col = ColorConverter.RgbToCol(_rgb);
 			}
 			else
 			{
-//				var hsl = (_csc as ColorSpaceControlHSL).hsl;
-
-				int h = (_csc as ColorSpaceControlHSL).hsl.H; // TODO: just ensure that this doesn't change the colorspace's HSL here ->
-				int s = (_csc as ColorSpaceControlHSL).hsl.S; //       that shall happen in ColorControl.pointselected() only
-				int l = (_csc as ColorSpaceControlHSL).hsl.L;
-
-				var hsl = new HSL(h,s,l);
-
 				switch (_csc.Cisco.DisplayCharacter)
 				{
 					case 'H':
 					{
 						int lit = (int)Math.Round((255 - _pt.Y) / 2.55, MidpointRounding.AwayFromZero);
 						int sat = (int)Math.Round(       _pt.X  / 2.55, MidpointRounding.AwayFromZero);
-						lit = Math.Max(0, Math.Min(lit, 100));
-						sat = Math.Max(0, Math.Min(sat, 100));
 
-//						hsl = new HSL(hsl.H, sat, lit);
-						hsl.S = sat;
-						hsl.L = lit;
+						_hsl.H = (_csc as ColorSpaceControlHSL).hsl.H;
+						_hsl.L = Math.Max(0, Math.Min(lit, 100));
+						_hsl.S = Math.Max(0, Math.Min(sat, 100));
 						break;
 					}
 
@@ -285,12 +257,10 @@ namespace creaturevisualizer
 					{
 						int hue = (int)Math.Round(_pt.X * 24.0 / 17.0,  MidpointRounding.AwayFromZero);
 						int lit = (int)Math.Round((255 - _pt.Y) / 2.55, MidpointRounding.AwayFromZero);
-						hue = Math.Max(0, Math.Min(hue, 359));
-						lit = Math.Max(0, Math.Min(lit, 100));
 
-//						hsl = new HSL(hue, hsl.S, lit);
-						hsl.H = hue;
-						hsl.L = lit;
+						_hsl.H = Math.Max(0, Math.Min(hue, 359));
+						_hsl.S = (_csc as ColorSpaceControlHSL).hsl.S;
+						_hsl.L = Math.Max(0, Math.Min(lit, 100));
 						break;
 					}
 
@@ -298,16 +268,15 @@ namespace creaturevisualizer
 					{
 						int hue = (int)Math.Round(_pt.X * 24.0 / 17.0,  MidpointRounding.AwayFromZero);
 						int sat = (int)Math.Round((255 - _pt.Y) / 2.55, MidpointRounding.AwayFromZero);
-						hue = Math.Max(0, Math.Min(hue, 359));
-						sat = Math.Max(0, Math.Min(sat, 100));
 
-//						hsl = new HSL(hue, sat, hsl.L);
-						hsl.H = hue;
-						hsl.S = sat;
+						_hsl.H = Math.Max(0, Math.Min(hue, 359));
+						_hsl.S = Math.Max(0, Math.Min(sat, 100));
+						_hsl.L = (_csc as ColorSpaceControlHSL).hsl.L;
 						break;
 					}
 				}
-				_color = ColorConverter.HslToColor(hsl);
+				_rgb = ColorConverter.HslToRgb(_hsl);
+				_col = ColorConverter.RgbToCol(_rgb);
 			}
 		}
 		#endregion Methods
