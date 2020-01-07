@@ -99,8 +99,11 @@ namespace creaturevisualizer
 		#region Handlers
 		void click_rb(object sender, EventArgs e)
 		{
-			if (CiscoSelected_lo != null)
-				CiscoSelected_lo(this); // ColorSpaceControl*.OnCiscoSelected()
+			if (!Selected)
+			{
+				if (CiscoSelected_lo != null)
+					CiscoSelected_lo(this); // ColorSpaceControl.OnCiscoSelected()
+			}
 		}
 
 		void textchanged_tb(object sender, EventArgs e)
@@ -108,7 +111,7 @@ namespace creaturevisualizer
 			if (!ColorControl._bypassCisco)
 			{
 				if (CiscoValueChanged_lo != null)
-					CiscoValueChanged_lo(); // ColorSpaceControl*.OnCiscoValueChanged()
+					CiscoValueChanged_lo(); // ColorSpaceControl.OnCiscoValueChanged()
 			}
 		}
 
@@ -172,6 +175,7 @@ namespace creaturevisualizer
 			// 
 			// rb_Co
 			// 
+			this.rb_Co.AutoCheck = false;
 			this.rb_Co.Location = new System.Drawing.Point(0, 0);
 			this.rb_Co.Margin = new System.Windows.Forms.Padding(0);
 			this.rb_Co.Name = "rb_Co";
