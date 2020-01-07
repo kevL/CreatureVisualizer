@@ -108,7 +108,7 @@ namespace creaturevisualizer
 			switch (e.KeyData)
 			{
 				case Keys.B:
-					if (!ColorControl.IsTextboxFocused(Controls))
+					if (!ColorControl.IsTextboxFocused(ColorControl.Controls))
 					{
 						e.Handled = e.SuppressKeyPress = true;
 
@@ -126,7 +126,7 @@ namespace creaturevisualizer
 				case Keys.Enter:
 				case Keys.Escape:
 					e.Handled = e.SuppressKeyPress = true;
-					if (!ColorControl.IsTextboxFocused(Controls))
+					if (!ColorControl.IsTextboxFocused(ColorControl.Controls))
 					{
 						if (e.KeyData == Keys.Enter)
 							DialogResult = DialogResult.OK;
@@ -138,7 +138,7 @@ namespace creaturevisualizer
 					break;
 
 				default:
-					if (!ColorControl.IsTextboxFocused(Controls))
+					if (!ColorControl.IsTextboxFocused(ColorControl.Controls))
 					{
 						int dir = 0;
 						ColorField.DirPoint dirpt = ColorField.DirPoint.nul;
