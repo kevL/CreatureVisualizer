@@ -80,7 +80,7 @@
     <Compile Include="Color\HSL.cs" />
     <Compile Include="Color\ColorSpaceControlRGB.cs" />
     <Compile Include="Color\RGB.cs" />
-    <Compile Include="Color\TextboxRestrictive_.cs" />
+    <Compile Include="Color\TextboxRestrictive.cs" />
     <Compile Include="CreatureVisualizerF.cs" />
     <Compile Include="CreatureVisualizerF.Designer.cs">
       <DependentUpon>CreatureVisualizerF.cs</DependentUpon>
