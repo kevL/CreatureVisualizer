@@ -42,7 +42,7 @@ namespace creaturevisualizer
 				Info += "COLORSLIDER"                                                         + L;
 				Info += "-----------"                                                         + L;
 				Info += "LMB click       - select a value for the current colorspace control" + L;
-				Info += "LMB drag        - move the value of the current colorspace control"  + L;
+				Info += "LMB drag        - increase/decrease the value"                       + L;
 				Info += "Subtract/Insert - increase the value"                                + L;
 				Info += "Add/Delete      - decrease the value"                                + L + L;
 
@@ -51,20 +51,29 @@ namespace creaturevisualizer
 				Info += "RMB click - toggle the active colorbox" + L;
 				Info += "[o]       - toggle the active colorbox" + L + L;
 
-				Info += "TEXTBOXES (focused, but not the hexbox)"                  + L;
+				Info += "COLORSPACES"                     + L;
+				Info += "-----------"                     + L;
+				Info += "[h] - select hue control"        + L;
+				Info += "[s] - select saturation control" + L;
+				Info += "[l] - select lightness control"  + L;
+				Info += "[r] - select red control"        + L;
+				Info += "[g] - select green control"      + L;
+				Info += "[b] - select blue control"       + L + L;
+
+				Info += "TEXTBOXES (focused, except the hexbox)"                   + L;
 				Info += "---------"                                                + L;
 				Info += "Mousewheel - increase/decrease the value"                 + L;
 				Info += "Add        - increase the value"                          + L;
 				Info += "Subtract   - decrease the value"                          + L;
 				Info += "Spacebar   - select the colorspace control if applicable" + L + L;
 
-				Info += "SWATCHES"                                        + L;
-				Info += "--------"                                        + L;
-				Info += "LMB click - select color of the active colorbox" + L;
-				Info += "RMB click - open the context menu"               + L + L;
+				Info += "SWATCHES"                                                      + L;
+				Info += "--------"                                                      + L;
+				Info += "LMB click - assign color to the active colorbox"               + L;
+				Info += "RMB click - open the context menu for swatchfile modification" + L + L;
 
 				Info += "Note that altering the swatches from the context menu will" + L
-					  + "immediately rewrite the swatch file at"                     + L + L;
+					  + "immediately rewrite the swatchfile at"                      + L + L;
 				Info += @"%localappdata%\NWN2 Toolset\CustomSwatches.xml"            + L;
 			}
 
@@ -109,20 +118,20 @@ namespace creaturevisualizer
 			this.tb_help.Multiline = true;
 			this.tb_help.Name = "tb_help";
 			this.tb_help.ReadOnly = true;
-			this.tb_help.Size = new System.Drawing.Size(447, 554);
+			this.tb_help.Size = new System.Drawing.Size(447, 674);
 			this.tb_help.TabIndex = 0;
 			this.tb_help.WordWrap = false;
 			// 
 			// HelpColorF
 			// 
-			this.ClientSize = new System.Drawing.Size(447, 554);
+			this.ClientSize = new System.Drawing.Size(447, 674);
 			this.Controls.Add(this.tb_help);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.KeyPreview = true;
 			this.Name = "HelpColorF";
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "Help";
+			this.Text = "Help Color";
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
