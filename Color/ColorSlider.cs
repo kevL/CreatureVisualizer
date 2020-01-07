@@ -162,10 +162,8 @@ namespace creaturevisualizer
 
 					case 'S':
 					{
-						RGB rgb1 = ColorConverter.HslToRgb(new HSL(hsl.H, 100, hsl.L));
-						RGB rgb2 = ColorConverter.HslToRgb(new HSL(hsl.H,   0, hsl.L));
-						Color color1 = Color.FromArgb(rgb1.R, rgb1.G, rgb1.B);
-						Color color2 = Color.FromArgb(rgb2.R, rgb2.G, rgb2.B);
+						Color color1 = ColorConverter.HslToColor(new HSL(hsl.H, 100, hsl.L));
+						Color color2 = ColorConverter.HslToColor(new HSL(hsl.H,   0, hsl.L));
 
 						using (var brush = new LinearGradientBrush(_grad,
 																   color1,
@@ -179,10 +177,8 @@ namespace creaturevisualizer
 
 					case 'L':
 					{
-						RGB rgb1 = ColorConverter.HslToRgb(new HSL(hsl.H, hsl.S, 100));
-						RGB rgb2 = ColorConverter.HslToRgb(new HSL(hsl.H, hsl.S,   0));
-						Color color1 = Color.FromArgb(rgb1.R, rgb1.G, rgb1.B);
-						Color color2 = Color.FromArgb(rgb2.R, rgb2.G, rgb2.B);
+						Color color1 = ColorConverter.HslToColor(new HSL(hsl.H, hsl.S, 100));
+						Color color2 = ColorConverter.HslToColor(new HSL(hsl.H, hsl.S,   0));
 
 						using (var brush = new LinearGradientBrush(_grad,
 																   color1,

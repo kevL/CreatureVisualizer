@@ -59,14 +59,12 @@ namespace creaturevisualizer
 				else if (lit - b < Single.Epsilon) hue = (r - g) / d + 4;
 				else                               hue = 0;
 
-				if (min > Single.Epsilon)
-					sat = d / lit;
-				else
-					sat = 1;
-
 				if ((hue *= 60) < 0) hue += 360;
 
-				sat *= 100;
+				if (min > Single.Epsilon)
+					sat = d / lit * 100;
+				else
+					sat = 100;
 			}
 
 			return new HSL((int)Math.Round(hue,       MidpointRounding.AwayFromZero),
