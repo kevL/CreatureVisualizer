@@ -86,7 +86,7 @@ namespace creaturevisualizer
 				double sat = hsl.S / 100.0;
 
 				double d1 = hsl.H / 60.0;
-				int    d2 = hsl.H / 60; //(int)Math.Floor(d1); // NOTE: Do not allow a hue of 360.
+				int    d2 = hsl.H / 60; // NOTE: Do not allow a hue of 360.
 				double d  = d1 - d2;
 
 				switch (d2)
