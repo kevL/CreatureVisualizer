@@ -28,7 +28,7 @@ namespace creaturevisualizer
 		#endregion cTor
 
 
-		#region Methods (override)
+/*		#region Methods (override)
 		public override string ToString()
 		{
 			return "h: " + H + " s: " + S + " l: " + L;
@@ -47,6 +47,6 @@ namespace creaturevisualizer
 		{
 			return base.GetHashCode();
 		}
-		#endregion Methods (override)
+		#endregion Methods (override) */
 	}
 }
