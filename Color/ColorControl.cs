@@ -81,7 +81,7 @@ namespace creaturevisualizer
 
 			_bypassCisco = true;
 			cscRgb.rgb = ColorConverter.ColorToRgb(color);
-			cscHsl.hsl = ColorConverter.ColorToHsl(color);
+			cscHsl.hsl = ColorConverter.RgbToHsl(cscRgb.rgb);
 			_bypassCisco = false;
 
 			_bypassAlpha = true;
@@ -203,7 +203,7 @@ namespace creaturevisualizer
 		{
 			_bypassCisco = true;
 			cscRgb.rgb = ColorConverter.ColorToRgb(e.Color);
-			cscHsl.hsl = ColorConverter.ColorToHsl(e.Color);
+			cscHsl.hsl = ColorConverter.RgbToHsl(cscRgb.rgb);
 
 			cscHsl.Refresh();
 			cscRgb.Refresh();
@@ -264,7 +264,7 @@ namespace creaturevisualizer
 		{
 			_bypassCisco = true;
 			cscRgb.rgb = ColorConverter.ColorToRgb(e.Color);
-			cscHsl.hsl = ColorConverter.ColorToHsl(e.Color);
+			cscHsl.hsl = ColorConverter.RgbToHsl(cscRgb.rgb);
 			_bypassCisco = false;
 
 			_bypassAlpha = true;
@@ -299,7 +299,7 @@ namespace creaturevisualizer
 
 				_bypassCisco = true;
 				cscRgb.rgb = ColorConverter.ColorToRgb(bo.BackColor);
-				cscHsl.hsl = ColorConverter.ColorToHsl(bo.BackColor);
+				cscHsl.hsl = ColorConverter.RgbToHsl(cscRgb.rgb);
 				_bypassCisco = false;
 
 				_bypassAlpha = true;
