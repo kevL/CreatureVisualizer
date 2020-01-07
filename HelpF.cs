@@ -13,33 +13,42 @@ namespace creaturevisualizer
 		{
 			InitializeComponent();
 
-			string text = "This doc describes actions that are not listed in the menus."
-						+ Environment.NewLine + Environment.NewLine;
+			string text = "This doc describes actions that are not listed in the menus." + Environment.NewLine
+		+ Environment.NewLine;
 
-			text += "MOUSE" + Environment.NewLine + Environment.NewLine;
-
+			text += "MOUSE" + Environment.NewLine;
+			text += "-----" + Environment.NewLine;
 			text += "LMB+Alt  - pan up/down" + Environment.NewLine;
 			text += "LMB+Ctrl - pan left/right" + Environment.NewLine;
 			text += "RMB      - pan up/down/left/right" + Environment.NewLine;
-			text += "RMB+Ctrl - pan polar" + Environment.NewLine + Environment.NewLine;
+			text += "RMB+Ctrl - pan polar" + Environment.NewLine
+		+ Environment.NewLine;
 
-			text += "KEYBOARD" + Environment.NewLine + Environment.NewLine;
-
+			text += "KEYBOARD" + Environment.NewLine;
+			text += "--------" + Environment.NewLine;
 			text += "Ctrl+click = increases adjustment rate by a factor of 10" + Environment.NewLine;
-			text += "Shft+click = decreases adjustment rate by a factor of 10" + Environment.NewLine + Environment.NewLine;
+			text += "Shft+click = decreases adjustment rate by a factor of 10" + Environment.NewLine
+		+ Environment.NewLine;
 
-			text += "TEXT" + Environment.NewLine + Environment.NewLine;
+			text += "TEXT" + Environment.NewLine;
+			text += "----" + Environment.NewLine;
+			text += "keypad +/- increases/decreases a value; Ctrl/Shft" + Environment.NewLine;
+			text += "increase/decrease adjustment rate by a factor of 10" + Environment.NewLine
+		+ Environment.NewLine;
 
-			text += "keypad +/- increases/decreases a value; Ctrl/Shft" + Environment.NewLine
-				  + "increase/decrease adjustment rate by a factor of 10" + Environment.NewLine + Environment.NewLine;
-
-			text += "COLORS" + Environment.NewLine + Environment.NewLine;
+			text += "COLORS" + Environment.NewLine;
+			text += "------" + Environment.NewLine;
 
 			text += "Click a color-swatch to open the color-picker dialog." + Environment.NewLine;
-			text += "Accept the dialog to enable a color." + Environment.NewLine + Environment.NewLine;
+			text += "Accept the dialog to enable a color." + Environment.NewLine
+		+ Environment.NewLine;
 			text += "LMB - toggles the color on/off" + Environment.NewLine;
-			text += "RMB - resets the color to default and disables it" + Environment.NewLine;
+			text += "RMB - resets the color to default and disables it" + Environment.NewLine
+		+ Environment.NewLine;
 
+			text += "PREFS" + Environment.NewLine;
+			text += "-----" + Environment.NewLine;
+			text += @"%localappdata%\NWN2 Toolset\Plugins\CreatureVisualizer.xml" + Environment.NewLine;
 
 			tb_help.Text = text;
 
@@ -100,18 +109,19 @@ namespace creaturevisualizer
 			this.tb_help.Multiline = true;
 			this.tb_help.Name = "tb_help";
 			this.tb_help.ReadOnly = true;
-			this.tb_help.Size = new System.Drawing.Size(372, 374);
+			this.tb_help.Size = new System.Drawing.Size(377, 414);
 			this.tb_help.TabIndex = 0;
 			this.tb_help.WordWrap = false;
 			// 
 			// HelpF
 			// 
-			this.ClientSize = new System.Drawing.Size(372, 374);
+			this.ClientSize = new System.Drawing.Size(377, 414);
 			this.Controls.Add(this.tb_help);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.KeyPreview = true;
 			this.Name = "HelpF";
 			this.ShowInTaskbar = false;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Help";
 			this.ResumeLayout(false);
 			this.PerformLayout();
