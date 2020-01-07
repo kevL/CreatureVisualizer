@@ -36,6 +36,8 @@ namespace creaturevisualizer
 
 		Image _checkers = new ResourceManager("CreatureVisualizer.Properties.Resources",
 											  typeof(Resources).Assembly).GetObject("checkers") as Image;
+
+		byte _alpha;
 		#endregion Fields
 
 
@@ -85,7 +87,7 @@ namespace creaturevisualizer
 			_bypassCisco = false;
 
 			_bypassAlpha = true;
-			tb_Alpha.Text = color.A.ToString();
+			tb_Alpha.Text = (_alpha = color.A).ToString();
 			_bypassAlpha = false;
 
 			_bypassHecate = true;
@@ -158,9 +160,7 @@ namespace creaturevisualizer
 			tb_Hecate.Text = cscRgb.GetHecate();
 			_bypassHecate = false;
 
-			ColorBox bo = GetActiveColorbox();
-			bo.BackColor = Color.FromArgb(Byte.Parse(tb_Alpha.Text),
-										  ColorConverter.RgbToCol(cscRgb.rgb));
+			GetActiveColorbox().BackColor = Color.FromArgb(_alpha, ColorConverter.RgbToCol(cscRgb.rgb));
 
 			colorslider.SetSliderVal();
 			UpdateField();
@@ -190,7 +190,7 @@ namespace creaturevisualizer
 			_bypassHecate = false;
 
 			ColorBox bo = GetActiveColorbox();
-			bo.BackColor = Color.FromArgb(Byte.Parse(tb_Alpha.Text), cscRgb.GetColor());
+			bo.BackColor = Color.FromArgb(_alpha, cscRgb.GetColor());
 			bo.Refresh();
 
 			UpdateField(false);
@@ -215,7 +215,7 @@ namespace creaturevisualizer
 			_bypassHecate = false;
 
 			ColorBox bo = GetActiveColorbox();
-			bo.BackColor = Color.FromArgb(Byte.Parse(tb_Alpha.Text), e.Col);
+			bo.BackColor = Color.FromArgb(_alpha, e.Col);
 			bo.Refresh();
 
 			colorslider.UpdateSlider();
@@ -232,8 +232,10 @@ namespace creaturevisualizer
 				if (!String.IsNullOrEmpty(tb_Alpha.Text)) alpha = tb_Alpha.Text;
 				else                                      alpha = "0";
 
+				_alpha = Byte.Parse(alpha);
+
 				ColorBox bo = GetActiveColorbox();
-				bo.BackColor = Color.FromArgb(Byte.Parse(alpha), bo.BackColor);
+				bo.BackColor = Color.FromArgb(_alpha, bo.BackColor);
 
 				if (ColorChanged != null)
 					ColorChanged();
@@ -249,8 +251,7 @@ namespace creaturevisualizer
 				cscHsl.hsl = ColorConverter.RgbToHsl(cscRgb.rgb);
 				_bypassCisco = false;
 
-				GetActiveColorbox().BackColor = Color.FromArgb(Byte.Parse(tb_Alpha.Text),
-															   ColorConverter.RgbToCol(cscRgb.rgb));
+				GetActiveColorbox().BackColor = Color.FromArgb(_alpha, ColorConverter.RgbToCol(cscRgb.rgb));
 
 				colorslider.Configurate(_csc);
 				UpdateField();
@@ -268,7 +269,7 @@ namespace creaturevisualizer
 			_bypassCisco = false;
 
 			_bypassAlpha = true;
-			tb_Alpha.Text = e.Col.A.ToString();
+			tb_Alpha.Text = (_alpha = e.Col.A).ToString();
 			_bypassAlpha = false;
 
 			_bypassHecate = true;
@@ -303,7 +304,7 @@ namespace creaturevisualizer
 				_bypassCisco = false;
 
 				_bypassAlpha = true;
-				tb_Alpha.Text = bo.BackColor.A.ToString();
+				tb_Alpha.Text = (_alpha = bo.BackColor.A).ToString();
 				_bypassAlpha = false;
 
 				_bypassHecate = true;
