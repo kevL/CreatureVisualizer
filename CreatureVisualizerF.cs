@@ -568,8 +568,7 @@ namespace creaturevisualizer
 #if DEBUG
 			text += " debug";
 #else
-//			text += " release";
-			text += " beta";
+			text += " release";
 #endif
 
 			text += Environment.NewLine
