@@ -124,20 +124,22 @@ namespace creaturevisualizer
 				}
 
 				if (e.Button == MouseButtons.Right
-				    && _fileSwatches != null && !SwatchIo._errored)
+					&& _fileSwatches != null && !SwatchIo._errored)
 				{
 					context.MenuItems.Clear();
 
-					if (_firstBlankId != MaxTiles)
-						context.MenuItems.Add(itAppend);
-
 					if (_sel != -1)
 					{
-						if (_firstBlankId != MaxTiles)
-							context.MenuItems.Add("-");
-
 						context.MenuItems.Add(itDelete);
 						context.MenuItems.Add(itRelabel);
+					}
+
+					if (_firstBlankId != MaxTiles)
+					{
+						if (_sel != -1)
+							context.MenuItems.Add("-");
+
+						context.MenuItems.Add(itAppend);
 					}
 					context.Show(this, new Point(e.X, e.Y));
 				}
