@@ -276,10 +276,10 @@ namespace creaturevisualizer
 			this.pa_con.Controls.Add(this.ss_model);
 			this.pa_con.Controls.Add(this.ss_light);
 			this.pa_con.Dock = System.Windows.Forms.DockStyle.Right;
-			this.pa_con.Location = new System.Drawing.Point(320, 0);
+			this.pa_con.Location = new System.Drawing.Point(327, 0);
 			this.pa_con.Margin = new System.Windows.Forms.Padding(0);
 			this.pa_con.Name = "pa_con";
-			this.pa_con.Size = new System.Drawing.Size(292, 478);
+			this.pa_con.Size = new System.Drawing.Size(285, 478);
 			this.pa_con.TabIndex = 1;
 			this.pa_con.Visible = false;
 			// 
@@ -294,7 +294,7 @@ namespace creaturevisualizer
 			this.tc1.Name = "tc1";
 			this.tc1.Padding = new System.Drawing.Point(0, 0);
 			this.tc1.SelectedIndex = 0;
-			this.tc1.Size = new System.Drawing.Size(292, 412);
+			this.tc1.Size = new System.Drawing.Size(285, 412);
 			this.tc1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
 			this.tc1.TabIndex = 6;
 			this.tc1.SelectedIndexChanged += new System.EventHandler(this.selectedindexchanged_TabControl);
@@ -307,7 +307,7 @@ namespace creaturevisualizer
 			this.tp_controls.Location = new System.Drawing.Point(4, 19);
 			this.tp_controls.Margin = new System.Windows.Forms.Padding(0);
 			this.tp_controls.Name = "tp_controls";
-			this.tp_controls.Size = new System.Drawing.Size(284, 389);
+			this.tp_controls.Size = new System.Drawing.Size(277, 389);
 			this.tp_controls.TabIndex = 0;
 			this.tp_controls.Text = "Controls";
 			this.tp_controls.UseVisualStyleBackColor = true;
@@ -342,7 +342,7 @@ namespace creaturevisualizer
 			this.gb_Light.Margin = new System.Windows.Forms.Padding(0);
 			this.gb_Light.Name = "gb_Light";
 			this.gb_Light.Padding = new System.Windows.Forms.Padding(0);
-			this.gb_Light.Size = new System.Drawing.Size(284, 131);
+			this.gb_Light.Size = new System.Drawing.Size(277, 131);
 			this.gb_Light.TabIndex = 2;
 			this.gb_Light.TabStop = false;
 			this.gb_Light.Text = " Light ";
@@ -351,7 +351,7 @@ namespace creaturevisualizer
 			// 
 			this.cb_light_ambient.Appearance = System.Windows.Forms.Appearance.Button;
 			this.cb_light_ambient.Enabled = false;
-			this.cb_light_ambient.Location = new System.Drawing.Point(130, 80);
+			this.cb_light_ambient.Location = new System.Drawing.Point(125, 80);
 			this.cb_light_ambient.Margin = new System.Windows.Forms.Padding(0);
 			this.cb_light_ambient.Name = "cb_light_ambient";
 			this.cb_light_ambient.Size = new System.Drawing.Size(65, 22);
@@ -366,7 +366,7 @@ namespace creaturevisualizer
 			// 
 			this.cb_light_specular.Appearance = System.Windows.Forms.Appearance.Button;
 			this.cb_light_specular.Enabled = false;
-			this.cb_light_specular.Location = new System.Drawing.Point(130, 55);
+			this.cb_light_specular.Location = new System.Drawing.Point(125, 55);
 			this.cb_light_specular.Margin = new System.Windows.Forms.Padding(0);
 			this.cb_light_specular.Name = "cb_light_specular";
 			this.cb_light_specular.Size = new System.Drawing.Size(65, 22);
@@ -381,7 +381,7 @@ namespace creaturevisualizer
 			// 
 			this.cb_light_diffuse.Appearance = System.Windows.Forms.Appearance.Button;
 			this.cb_light_diffuse.Enabled = false;
-			this.cb_light_diffuse.Location = new System.Drawing.Point(130, 30);
+			this.cb_light_diffuse.Location = new System.Drawing.Point(125, 30);
 			this.cb_light_diffuse.Margin = new System.Windows.Forms.Padding(0);
 			this.cb_light_diffuse.Name = "cb_light_diffuse";
 			this.cb_light_diffuse.Size = new System.Drawing.Size(65, 22);
@@ -395,7 +395,7 @@ namespace creaturevisualizer
 			// pa_light_ambient
 			// 
 			this.pa_light_ambient.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pa_light_ambient.Location = new System.Drawing.Point(200, 81);
+			this.pa_light_ambient.Location = new System.Drawing.Point(195, 81);
 			this.pa_light_ambient.Margin = new System.Windows.Forms.Padding(0);
 			this.pa_light_ambient.Name = "pa_light_ambient";
 			this.pa_light_ambient.Size = new System.Drawing.Size(30, 20);
@@ -404,7 +404,7 @@ namespace creaturevisualizer
 			// 
 			// la_light_color
 			// 
-			this.la_light_color.Location = new System.Drawing.Point(130, 15);
+			this.la_light_color.Location = new System.Drawing.Point(125, 15);
 			this.la_light_color.Margin = new System.Windows.Forms.Padding(0);
 			this.la_light_color.Name = "la_light_color";
 			this.la_light_color.Size = new System.Drawing.Size(65, 15);
@@ -414,7 +414,7 @@ namespace creaturevisualizer
 			// pa_light_specular
 			// 
 			this.pa_light_specular.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pa_light_specular.Location = new System.Drawing.Point(200, 56);
+			this.pa_light_specular.Location = new System.Drawing.Point(195, 56);
 			this.pa_light_specular.Margin = new System.Windows.Forms.Padding(0);
 			this.pa_light_specular.Name = "pa_light_specular";
 			this.pa_light_specular.Size = new System.Drawing.Size(30, 20);
@@ -424,7 +424,7 @@ namespace creaturevisualizer
 			// pa_light_diffuse
 			// 
 			this.pa_light_diffuse.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pa_light_diffuse.Location = new System.Drawing.Point(200, 31);
+			this.pa_light_diffuse.Location = new System.Drawing.Point(195, 31);
 			this.pa_light_diffuse.Margin = new System.Windows.Forms.Padding(0);
 			this.pa_light_diffuse.Name = "pa_light_diffuse";
 			this.pa_light_diffuse.Size = new System.Drawing.Size(30, 20);
@@ -433,7 +433,7 @@ namespace creaturevisualizer
 			// 
 			// la_light_intensity
 			// 
-			this.la_light_intensity.Location = new System.Drawing.Point(130, 105);
+			this.la_light_intensity.Location = new System.Drawing.Point(125, 105);
 			this.la_light_intensity.Margin = new System.Windows.Forms.Padding(0);
 			this.la_light_intensity.Name = "la_light_intensity";
 			this.la_light_intensity.Size = new System.Drawing.Size(65, 20);
@@ -443,7 +443,7 @@ namespace creaturevisualizer
 			// 
 			// tb_light_intensity
 			// 
-			this.tb_light_intensity.Location = new System.Drawing.Point(200, 105);
+			this.tb_light_intensity.Location = new System.Drawing.Point(195, 105);
 			this.tb_light_intensity.Margin = new System.Windows.Forms.Padding(0);
 			this.tb_light_intensity.Name = "tb_light_intensity";
 			this.tb_light_intensity.Size = new System.Drawing.Size(45, 20);
@@ -454,7 +454,7 @@ namespace creaturevisualizer
 			// 
 			// la_dz
 			// 
-			this.la_dz.Location = new System.Drawing.Point(235, 55);
+			this.la_dz.Location = new System.Drawing.Point(230, 55);
 			this.la_dz.Margin = new System.Windows.Forms.Padding(0);
 			this.la_dz.Name = "la_dz";
 			this.la_dz.Size = new System.Drawing.Size(40, 20);
@@ -466,7 +466,7 @@ namespace creaturevisualizer
 			// bu_light_xyreset
 			// 
 			this.bu_light_xyreset.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_light_xyreset.Location = new System.Drawing.Point(65, 80);
+			this.bu_light_xyreset.Location = new System.Drawing.Point(60, 80);
 			this.bu_light_xyreset.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_light_xyreset.Name = "bu_light_xyreset";
 			this.bu_light_xyreset.Size = new System.Drawing.Size(22, 22);
@@ -478,7 +478,7 @@ namespace creaturevisualizer
 			// 
 			// la_dy
 			// 
-			this.la_dy.Location = new System.Drawing.Point(235, 35);
+			this.la_dy.Location = new System.Drawing.Point(230, 35);
 			this.la_dy.Margin = new System.Windows.Forms.Padding(0);
 			this.la_dy.Name = "la_dy";
 			this.la_dy.Size = new System.Drawing.Size(40, 20);
@@ -489,7 +489,7 @@ namespace creaturevisualizer
 			// 
 			// la_dx
 			// 
-			this.la_dx.Location = new System.Drawing.Point(235, 15);
+			this.la_dx.Location = new System.Drawing.Point(230, 15);
 			this.la_dx.Margin = new System.Windows.Forms.Padding(0);
 			this.la_dx.Name = "la_dx";
 			this.la_dx.Size = new System.Drawing.Size(40, 20);
@@ -501,7 +501,7 @@ namespace creaturevisualizer
 			// bu_light_zreset
 			// 
 			this.bu_light_zreset.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_light_zreset.Location = new System.Drawing.Point(10, 80);
+			this.bu_light_zreset.Location = new System.Drawing.Point(5, 80);
 			this.bu_light_zreset.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_light_zreset.Name = "bu_light_zreset";
 			this.bu_light_zreset.Size = new System.Drawing.Size(22, 22);
@@ -514,7 +514,7 @@ namespace creaturevisualizer
 			// button11
 			// 
 			this.button11.ForeColor = System.Drawing.Color.Crimson;
-			this.button11.Location = new System.Drawing.Point(10, 105);
+			this.button11.Location = new System.Drawing.Point(5, 105);
 			this.button11.Margin = new System.Windows.Forms.Padding(0);
 			this.button11.Name = "button11";
 			this.button11.Size = new System.Drawing.Size(102, 20);
@@ -525,7 +525,7 @@ namespace creaturevisualizer
 			// 
 			// la_light_xyaxis
 			// 
-			this.la_light_xyaxis.Location = new System.Drawing.Point(40, 15);
+			this.la_light_xyaxis.Location = new System.Drawing.Point(35, 15);
 			this.la_light_xyaxis.Margin = new System.Windows.Forms.Padding(0);
 			this.la_light_xyaxis.Name = "la_light_xyaxis";
 			this.la_light_xyaxis.Size = new System.Drawing.Size(75, 15);
@@ -535,7 +535,7 @@ namespace creaturevisualizer
 			// 
 			// la_light_zaxis
 			// 
-			this.la_light_zaxis.Location = new System.Drawing.Point(10, 15);
+			this.la_light_zaxis.Location = new System.Drawing.Point(5, 15);
 			this.la_light_zaxis.Margin = new System.Windows.Forms.Padding(0);
 			this.la_light_zaxis.Name = "la_light_zaxis";
 			this.la_light_zaxis.Size = new System.Drawing.Size(25, 15);
@@ -545,7 +545,7 @@ namespace creaturevisualizer
 			// 
 			// bu_light_ypos
 			// 
-			this.bu_light_ypos.Location = new System.Drawing.Point(90, 40);
+			this.bu_light_ypos.Location = new System.Drawing.Point(85, 40);
 			this.bu_light_ypos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_light_ypos.Name = "bu_light_ypos";
 			this.bu_light_ypos.Size = new System.Drawing.Size(22, 22);
@@ -559,7 +559,7 @@ namespace creaturevisualizer
 			// 
 			// bu_light_yneg
 			// 
-			this.bu_light_yneg.Location = new System.Drawing.Point(40, 40);
+			this.bu_light_yneg.Location = new System.Drawing.Point(35, 40);
 			this.bu_light_yneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_light_yneg.Name = "bu_light_yneg";
 			this.bu_light_yneg.Size = new System.Drawing.Size(22, 22);
@@ -573,7 +573,7 @@ namespace creaturevisualizer
 			// 
 			// bu_light_xneg
 			// 
-			this.bu_light_xneg.Location = new System.Drawing.Point(65, 55);
+			this.bu_light_xneg.Location = new System.Drawing.Point(60, 55);
 			this.bu_light_xneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_light_xneg.Name = "bu_light_xneg";
 			this.bu_light_xneg.Size = new System.Drawing.Size(22, 22);
@@ -587,7 +587,7 @@ namespace creaturevisualizer
 			// 
 			// bu_light_xpos
 			// 
-			this.bu_light_xpos.Location = new System.Drawing.Point(65, 30);
+			this.bu_light_xpos.Location = new System.Drawing.Point(60, 30);
 			this.bu_light_xpos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_light_xpos.Name = "bu_light_xpos";
 			this.bu_light_xpos.Size = new System.Drawing.Size(22, 22);
@@ -601,7 +601,7 @@ namespace creaturevisualizer
 			// 
 			// bu_light_zneg
 			// 
-			this.bu_light_zneg.Location = new System.Drawing.Point(10, 55);
+			this.bu_light_zneg.Location = new System.Drawing.Point(5, 55);
 			this.bu_light_zneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_light_zneg.Name = "bu_light_zneg";
 			this.bu_light_zneg.Size = new System.Drawing.Size(22, 22);
@@ -615,7 +615,7 @@ namespace creaturevisualizer
 			// 
 			// bu_light_zpos
 			// 
-			this.bu_light_zpos.Location = new System.Drawing.Point(10, 30);
+			this.bu_light_zpos.Location = new System.Drawing.Point(5, 30);
 			this.bu_light_zpos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_light_zpos.Name = "bu_light_zpos";
 			this.bu_light_zpos.Size = new System.Drawing.Size(22, 22);
@@ -663,7 +663,7 @@ namespace creaturevisualizer
 			this.gb_model.Margin = new System.Windows.Forms.Padding(0);
 			this.gb_model.Name = "gb_model";
 			this.gb_model.Padding = new System.Windows.Forms.Padding(0);
-			this.gb_model.Size = new System.Drawing.Size(284, 129);
+			this.gb_model.Size = new System.Drawing.Size(277, 129);
 			this.gb_model.TabIndex = 1;
 			this.gb_model.TabStop = false;
 			this.gb_model.Text = " Model ";
@@ -671,7 +671,7 @@ namespace creaturevisualizer
 			// la_model_scaleorg
 			// 
 			this.la_model_scaleorg.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.la_model_scaleorg.Location = new System.Drawing.Point(210, 15);
+			this.la_model_scaleorg.Location = new System.Drawing.Point(205, 15);
 			this.la_model_scaleorg.Margin = new System.Windows.Forms.Padding(0);
 			this.la_model_scaleorg.Name = "la_model_scaleorg";
 			this.la_model_scaleorg.Size = new System.Drawing.Size(40, 15);
@@ -681,7 +681,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_scaleneg
 			// 
-			this.bu_model_scaleneg.Location = new System.Drawing.Point(255, 55);
+			this.bu_model_scaleneg.Location = new System.Drawing.Point(250, 55);
 			this.bu_model_scaleneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_scaleneg.Name = "bu_model_scaleneg";
 			this.bu_model_scaleneg.Size = new System.Drawing.Size(22, 22);
@@ -695,7 +695,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_scalepos
 			// 
-			this.bu_model_scalepos.Location = new System.Drawing.Point(255, 30);
+			this.bu_model_scalepos.Location = new System.Drawing.Point(250, 30);
 			this.bu_model_scalepos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_scalepos.Name = "bu_model_scalepos";
 			this.bu_model_scalepos.Size = new System.Drawing.Size(22, 22);
@@ -709,7 +709,7 @@ namespace creaturevisualizer
 			// 
 			// la_model_zscale
 			// 
-			this.la_model_zscale.Location = new System.Drawing.Point(210, 80);
+			this.la_model_zscale.Location = new System.Drawing.Point(205, 80);
 			this.la_model_zscale.Margin = new System.Windows.Forms.Padding(0);
 			this.la_model_zscale.Name = "la_model_zscale";
 			this.la_model_zscale.Size = new System.Drawing.Size(40, 20);
@@ -719,7 +719,7 @@ namespace creaturevisualizer
 			// 
 			// la_model_yscale
 			// 
-			this.la_model_yscale.Location = new System.Drawing.Point(210, 55);
+			this.la_model_yscale.Location = new System.Drawing.Point(205, 55);
 			this.la_model_yscale.Margin = new System.Windows.Forms.Padding(0);
 			this.la_model_yscale.Name = "la_model_yscale";
 			this.la_model_yscale.Size = new System.Drawing.Size(40, 20);
@@ -729,7 +729,7 @@ namespace creaturevisualizer
 			// 
 			// la_model_xscale
 			// 
-			this.la_model_xscale.Location = new System.Drawing.Point(210, 30);
+			this.la_model_xscale.Location = new System.Drawing.Point(205, 30);
 			this.la_model_xscale.Margin = new System.Windows.Forms.Padding(0);
 			this.la_model_xscale.Name = "la_model_xscale";
 			this.la_model_xscale.Size = new System.Drawing.Size(40, 20);
@@ -740,7 +740,7 @@ namespace creaturevisualizer
 			// bu_model_scalereset
 			// 
 			this.bu_model_scalereset.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_model_scalereset.Location = new System.Drawing.Point(255, 80);
+			this.bu_model_scalereset.Location = new System.Drawing.Point(250, 80);
 			this.bu_model_scalereset.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_scalereset.Name = "bu_model_scalereset";
 			this.bu_model_scalereset.Size = new System.Drawing.Size(22, 22);
@@ -753,7 +753,7 @@ namespace creaturevisualizer
 			// bu_model_rotreset
 			// 
 			this.bu_model_rotreset.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_model_rotreset.Location = new System.Drawing.Point(120, 80);
+			this.bu_model_rotreset.Location = new System.Drawing.Point(115, 80);
 			this.bu_model_rotreset.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_rotreset.Name = "bu_model_rotreset";
 			this.bu_model_rotreset.Size = new System.Drawing.Size(22, 22);
@@ -766,7 +766,7 @@ namespace creaturevisualizer
 			// bu_model_xyreset
 			// 
 			this.bu_model_xyreset.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_model_xyreset.Location = new System.Drawing.Point(65, 80);
+			this.bu_model_xyreset.Location = new System.Drawing.Point(60, 80);
 			this.bu_model_xyreset.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_xyreset.Name = "bu_model_xyreset";
 			this.bu_model_xyreset.Size = new System.Drawing.Size(22, 22);
@@ -779,7 +779,7 @@ namespace creaturevisualizer
 			// bu_model_zreset
 			// 
 			this.bu_model_zreset.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_model_zreset.Location = new System.Drawing.Point(10, 80);
+			this.bu_model_zreset.Location = new System.Drawing.Point(5, 80);
 			this.bu_model_zreset.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_zreset.Name = "bu_model_zreset";
 			this.bu_model_zreset.Size = new System.Drawing.Size(22, 22);
@@ -792,7 +792,7 @@ namespace creaturevisualizer
 			// bu_model_reset
 			// 
 			this.bu_model_reset.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_model_reset.Location = new System.Drawing.Point(10, 105);
+			this.bu_model_reset.Location = new System.Drawing.Point(5, 105);
 			this.bu_model_reset.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_reset.Name = "bu_model_reset";
 			this.bu_model_reset.Size = new System.Drawing.Size(267, 20);
@@ -803,7 +803,7 @@ namespace creaturevisualizer
 			// 
 			// la_model_scale
 			// 
-			this.la_model_scale.Location = new System.Drawing.Point(160, 15);
+			this.la_model_scale.Location = new System.Drawing.Point(155, 15);
 			this.la_model_scale.Margin = new System.Windows.Forms.Padding(0);
 			this.la_model_scale.Name = "la_model_scale";
 			this.la_model_scale.Size = new System.Drawing.Size(50, 15);
@@ -812,7 +812,7 @@ namespace creaturevisualizer
 			// 
 			// la_model_rotate
 			// 
-			this.la_model_rotate.Location = new System.Drawing.Point(120, 15);
+			this.la_model_rotate.Location = new System.Drawing.Point(115, 15);
 			this.la_model_rotate.Margin = new System.Windows.Forms.Padding(0);
 			this.la_model_rotate.Name = "la_model_rotate";
 			this.la_model_rotate.Size = new System.Drawing.Size(25, 15);
@@ -822,7 +822,7 @@ namespace creaturevisualizer
 			// 
 			// la_model_xyaxis
 			// 
-			this.la_model_xyaxis.Location = new System.Drawing.Point(40, 15);
+			this.la_model_xyaxis.Location = new System.Drawing.Point(35, 15);
 			this.la_model_xyaxis.Margin = new System.Windows.Forms.Padding(0);
 			this.la_model_xyaxis.Name = "la_model_xyaxis";
 			this.la_model_xyaxis.Size = new System.Drawing.Size(75, 15);
@@ -832,7 +832,7 @@ namespace creaturevisualizer
 			// 
 			// la_model_zaxis
 			// 
-			this.la_model_zaxis.Location = new System.Drawing.Point(10, 15);
+			this.la_model_zaxis.Location = new System.Drawing.Point(5, 15);
 			this.la_model_zaxis.Margin = new System.Windows.Forms.Padding(0);
 			this.la_model_zaxis.Name = "la_model_zaxis";
 			this.la_model_zaxis.Size = new System.Drawing.Size(25, 15);
@@ -842,7 +842,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_zscaleneg
 			// 
-			this.bu_model_zscaleneg.Location = new System.Drawing.Point(160, 80);
+			this.bu_model_zscaleneg.Location = new System.Drawing.Point(155, 80);
 			this.bu_model_zscaleneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_zscaleneg.Name = "bu_model_zscaleneg";
 			this.bu_model_zscaleneg.Size = new System.Drawing.Size(22, 22);
@@ -856,7 +856,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_yscaleneg
 			// 
-			this.bu_model_yscaleneg.Location = new System.Drawing.Point(160, 55);
+			this.bu_model_yscaleneg.Location = new System.Drawing.Point(155, 55);
 			this.bu_model_yscaleneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_yscaleneg.Name = "bu_model_yscaleneg";
 			this.bu_model_yscaleneg.Size = new System.Drawing.Size(22, 22);
@@ -870,7 +870,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_xscaleneg
 			// 
-			this.bu_model_xscaleneg.Location = new System.Drawing.Point(160, 30);
+			this.bu_model_xscaleneg.Location = new System.Drawing.Point(155, 30);
 			this.bu_model_xscaleneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_xscaleneg.Name = "bu_model_xscaleneg";
 			this.bu_model_xscaleneg.Size = new System.Drawing.Size(22, 22);
@@ -884,7 +884,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_zscalepos
 			// 
-			this.bu_model_zscalepos.Location = new System.Drawing.Point(185, 80);
+			this.bu_model_zscalepos.Location = new System.Drawing.Point(180, 80);
 			this.bu_model_zscalepos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_zscalepos.Name = "bu_model_zscalepos";
 			this.bu_model_zscalepos.Size = new System.Drawing.Size(22, 22);
@@ -898,7 +898,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_yscalepos
 			// 
-			this.bu_model_yscalepos.Location = new System.Drawing.Point(185, 55);
+			this.bu_model_yscalepos.Location = new System.Drawing.Point(180, 55);
 			this.bu_model_yscalepos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_yscalepos.Name = "bu_model_yscalepos";
 			this.bu_model_yscalepos.Size = new System.Drawing.Size(22, 22);
@@ -912,7 +912,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_xscalepos
 			// 
-			this.bu_model_xscalepos.Location = new System.Drawing.Point(185, 30);
+			this.bu_model_xscalepos.Location = new System.Drawing.Point(180, 30);
 			this.bu_model_xscalepos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_xscalepos.Name = "bu_model_xscalepos";
 			this.bu_model_xscalepos.Size = new System.Drawing.Size(22, 22);
@@ -926,7 +926,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_rotneg
 			// 
-			this.bu_model_rotneg.Location = new System.Drawing.Point(120, 55);
+			this.bu_model_rotneg.Location = new System.Drawing.Point(115, 55);
 			this.bu_model_rotneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_rotneg.Name = "bu_model_rotneg";
 			this.bu_model_rotneg.Size = new System.Drawing.Size(22, 22);
@@ -940,7 +940,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_rotpos
 			// 
-			this.bu_model_rotpos.Location = new System.Drawing.Point(120, 30);
+			this.bu_model_rotpos.Location = new System.Drawing.Point(115, 30);
 			this.bu_model_rotpos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_rotpos.Name = "bu_model_rotpos";
 			this.bu_model_rotpos.Size = new System.Drawing.Size(22, 22);
@@ -954,7 +954,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_ypos
 			// 
-			this.bu_model_ypos.Location = new System.Drawing.Point(90, 40);
+			this.bu_model_ypos.Location = new System.Drawing.Point(85, 40);
 			this.bu_model_ypos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_ypos.Name = "bu_model_ypos";
 			this.bu_model_ypos.Size = new System.Drawing.Size(22, 22);
@@ -968,7 +968,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_yneg
 			// 
-			this.bu_model_yneg.Location = new System.Drawing.Point(40, 40);
+			this.bu_model_yneg.Location = new System.Drawing.Point(35, 40);
 			this.bu_model_yneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_yneg.Name = "bu_model_yneg";
 			this.bu_model_yneg.Size = new System.Drawing.Size(22, 22);
@@ -982,7 +982,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_xneg
 			// 
-			this.bu_model_xneg.Location = new System.Drawing.Point(65, 55);
+			this.bu_model_xneg.Location = new System.Drawing.Point(60, 55);
 			this.bu_model_xneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_xneg.Name = "bu_model_xneg";
 			this.bu_model_xneg.Size = new System.Drawing.Size(22, 22);
@@ -996,7 +996,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_xpos
 			// 
-			this.bu_model_xpos.Location = new System.Drawing.Point(65, 30);
+			this.bu_model_xpos.Location = new System.Drawing.Point(60, 30);
 			this.bu_model_xpos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_xpos.Name = "bu_model_xpos";
 			this.bu_model_xpos.Size = new System.Drawing.Size(22, 22);
@@ -1010,7 +1010,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_zneg
 			// 
-			this.bu_model_zneg.Location = new System.Drawing.Point(10, 55);
+			this.bu_model_zneg.Location = new System.Drawing.Point(5, 55);
 			this.bu_model_zneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_zneg.Name = "bu_model_zneg";
 			this.bu_model_zneg.Size = new System.Drawing.Size(22, 22);
@@ -1024,7 +1024,7 @@ namespace creaturevisualizer
 			// 
 			// bu_model_zpos
 			// 
-			this.bu_model_zpos.Location = new System.Drawing.Point(10, 30);
+			this.bu_model_zpos.Location = new System.Drawing.Point(5, 30);
 			this.bu_model_zpos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_model_zpos.Name = "bu_model_zpos";
 			this.bu_model_zpos.Size = new System.Drawing.Size(22, 22);
@@ -1068,14 +1068,14 @@ namespace creaturevisualizer
 			this.gb_camera.Margin = new System.Windows.Forms.Padding(0);
 			this.gb_camera.Name = "gb_camera";
 			this.gb_camera.Padding = new System.Windows.Forms.Padding(0);
-			this.gb_camera.Size = new System.Drawing.Size(284, 130);
+			this.gb_camera.Size = new System.Drawing.Size(277, 130);
 			this.gb_camera.TabIndex = 0;
 			this.gb_camera.TabStop = false;
 			this.gb_camera.Text = " Camera ";
 			// 
 			// la_camera_height
 			// 
-			this.la_camera_height.Location = new System.Drawing.Point(230, 65);
+			this.la_camera_height.Location = new System.Drawing.Point(225, 65);
 			this.la_camera_height.Margin = new System.Windows.Forms.Padding(0);
 			this.la_camera_height.Name = "la_camera_height";
 			this.la_camera_height.Size = new System.Drawing.Size(45, 15);
@@ -1085,7 +1085,7 @@ namespace creaturevisualizer
 			// 
 			// tb_camera_height
 			// 
-			this.tb_camera_height.Location = new System.Drawing.Point(230, 80);
+			this.tb_camera_height.Location = new System.Drawing.Point(225, 80);
 			this.tb_camera_height.Margin = new System.Windows.Forms.Padding(0);
 			this.tb_camera_height.Name = "tb_camera_height";
 			this.tb_camera_height.Size = new System.Drawing.Size(45, 20);
@@ -1096,7 +1096,7 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_yawpos
 			// 
-			this.bu_camera_yawpos.Location = new System.Drawing.Point(210, 40);
+			this.bu_camera_yawpos.Location = new System.Drawing.Point(205, 40);
 			this.bu_camera_yawpos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_yawpos.Name = "bu_camera_yawpos";
 			this.bu_camera_yawpos.Size = new System.Drawing.Size(22, 22);
@@ -1110,7 +1110,7 @@ namespace creaturevisualizer
 			// 
 			// la_camera_yaw
 			// 
-			this.la_camera_yaw.Location = new System.Drawing.Point(235, 45);
+			this.la_camera_yaw.Location = new System.Drawing.Point(230, 45);
 			this.la_camera_yaw.Margin = new System.Windows.Forms.Padding(0);
 			this.la_camera_yaw.Name = "la_camera_yaw";
 			this.la_camera_yaw.Size = new System.Drawing.Size(40, 15);
@@ -1120,7 +1120,7 @@ namespace creaturevisualizer
 			// 
 			// la_camera_pitch
 			// 
-			this.la_camera_pitch.Location = new System.Drawing.Point(235, 30);
+			this.la_camera_pitch.Location = new System.Drawing.Point(230, 30);
 			this.la_camera_pitch.Margin = new System.Windows.Forms.Padding(0);
 			this.la_camera_pitch.Name = "la_camera_pitch";
 			this.la_camera_pitch.Size = new System.Drawing.Size(40, 15);
@@ -1131,7 +1131,7 @@ namespace creaturevisualizer
 			// bu_camera_resetpolar
 			// 
 			this.bu_camera_resetpolar.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_camera_resetpolar.Location = new System.Drawing.Point(185, 80);
+			this.bu_camera_resetpolar.Location = new System.Drawing.Point(180, 80);
 			this.bu_camera_resetpolar.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_resetpolar.Name = "bu_camera_resetpolar";
 			this.bu_camera_resetpolar.Size = new System.Drawing.Size(22, 22);
@@ -1143,7 +1143,7 @@ namespace creaturevisualizer
 			// 
 			// la_camera_angle
 			// 
-			this.la_camera_angle.Location = new System.Drawing.Point(175, 15);
+			this.la_camera_angle.Location = new System.Drawing.Point(170, 15);
 			this.la_camera_angle.Margin = new System.Windows.Forms.Padding(0);
 			this.la_camera_angle.Name = "la_camera_angle";
 			this.la_camera_angle.Size = new System.Drawing.Size(40, 15);
@@ -1153,7 +1153,7 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_yawneg
 			// 
-			this.bu_camera_yawneg.Location = new System.Drawing.Point(160, 40);
+			this.bu_camera_yawneg.Location = new System.Drawing.Point(155, 40);
 			this.bu_camera_yawneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_yawneg.Name = "bu_camera_yawneg";
 			this.bu_camera_yawneg.Size = new System.Drawing.Size(22, 22);
@@ -1167,7 +1167,7 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_pitchneg
 			// 
-			this.bu_camera_pitchneg.Location = new System.Drawing.Point(185, 55);
+			this.bu_camera_pitchneg.Location = new System.Drawing.Point(180, 55);
 			this.bu_camera_pitchneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_pitchneg.Name = "bu_camera_pitchneg";
 			this.bu_camera_pitchneg.Size = new System.Drawing.Size(22, 22);
@@ -1181,7 +1181,7 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_pitchpos
 			// 
-			this.bu_camera_pitchpos.Location = new System.Drawing.Point(185, 30);
+			this.bu_camera_pitchpos.Location = new System.Drawing.Point(180, 30);
 			this.bu_camera_pitchpos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_pitchpos.Name = "bu_camera_pitchpos";
 			this.bu_camera_pitchpos.Size = new System.Drawing.Size(22, 22);
@@ -1196,7 +1196,7 @@ namespace creaturevisualizer
 			// bu_camera_xyreset
 			// 
 			this.bu_camera_xyreset.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_camera_xyreset.Location = new System.Drawing.Point(65, 80);
+			this.bu_camera_xyreset.Location = new System.Drawing.Point(60, 80);
 			this.bu_camera_xyreset.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_xyreset.Name = "bu_camera_xyreset";
 			this.bu_camera_xyreset.Size = new System.Drawing.Size(22, 22);
@@ -1209,7 +1209,7 @@ namespace creaturevisualizer
 			// bu_camera_zreset
 			// 
 			this.bu_camera_zreset.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_camera_zreset.Location = new System.Drawing.Point(10, 80);
+			this.bu_camera_zreset.Location = new System.Drawing.Point(5, 80);
 			this.bu_camera_zreset.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_zreset.Name = "bu_camera_zreset";
 			this.bu_camera_zreset.Size = new System.Drawing.Size(22, 22);
@@ -1222,7 +1222,7 @@ namespace creaturevisualizer
 			// bu_camera_focusobject
 			// 
 			this.bu_camera_focusobject.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_camera_focusobject.Location = new System.Drawing.Point(10, 105);
+			this.bu_camera_focusobject.Location = new System.Drawing.Point(5, 105);
 			this.bu_camera_focusobject.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_focusobject.Name = "bu_camera_focusobject";
 			this.bu_camera_focusobject.Size = new System.Drawing.Size(267, 20);
@@ -1233,7 +1233,7 @@ namespace creaturevisualizer
 			// 
 			// la_camera_dist
 			// 
-			this.la_camera_dist.Location = new System.Drawing.Point(125, 15);
+			this.la_camera_dist.Location = new System.Drawing.Point(120, 15);
 			this.la_camera_dist.Margin = new System.Windows.Forms.Padding(0);
 			this.la_camera_dist.Name = "la_camera_dist";
 			this.la_camera_dist.Size = new System.Drawing.Size(35, 15);
@@ -1243,7 +1243,7 @@ namespace creaturevisualizer
 			// 
 			// la_camera_xyaxis
 			// 
-			this.la_camera_xyaxis.Location = new System.Drawing.Point(40, 15);
+			this.la_camera_xyaxis.Location = new System.Drawing.Point(35, 15);
 			this.la_camera_xyaxis.Margin = new System.Windows.Forms.Padding(0);
 			this.la_camera_xyaxis.Name = "la_camera_xyaxis";
 			this.la_camera_xyaxis.Size = new System.Drawing.Size(75, 15);
@@ -1253,7 +1253,7 @@ namespace creaturevisualizer
 			// 
 			// la_camera_zaxis
 			// 
-			this.la_camera_zaxis.Location = new System.Drawing.Point(10, 15);
+			this.la_camera_zaxis.Location = new System.Drawing.Point(5, 15);
 			this.la_camera_zaxis.Margin = new System.Windows.Forms.Padding(0);
 			this.la_camera_zaxis.Name = "la_camera_zaxis";
 			this.la_camera_zaxis.Size = new System.Drawing.Size(25, 15);
@@ -1264,7 +1264,7 @@ namespace creaturevisualizer
 			// bu_camera_distreset
 			// 
 			this.bu_camera_distreset.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_camera_distreset.Location = new System.Drawing.Point(129, 80);
+			this.bu_camera_distreset.Location = new System.Drawing.Point(124, 80);
 			this.bu_camera_distreset.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_distreset.Name = "bu_camera_distreset";
 			this.bu_camera_distreset.Size = new System.Drawing.Size(22, 22);
@@ -1276,7 +1276,7 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_distneg
 			// 
-			this.bu_camera_distneg.Location = new System.Drawing.Point(130, 30);
+			this.bu_camera_distneg.Location = new System.Drawing.Point(125, 30);
 			this.bu_camera_distneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_distneg.Name = "bu_camera_distneg";
 			this.bu_camera_distneg.Size = new System.Drawing.Size(22, 22);
@@ -1290,7 +1290,7 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_distpos
 			// 
-			this.bu_camera_distpos.Location = new System.Drawing.Point(129, 55);
+			this.bu_camera_distpos.Location = new System.Drawing.Point(124, 55);
 			this.bu_camera_distpos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_distpos.Name = "bu_camera_distpos";
 			this.bu_camera_distpos.Size = new System.Drawing.Size(22, 22);
@@ -1304,7 +1304,7 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_ypos
 			// 
-			this.bu_camera_ypos.Location = new System.Drawing.Point(90, 40);
+			this.bu_camera_ypos.Location = new System.Drawing.Point(85, 40);
 			this.bu_camera_ypos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_ypos.Name = "bu_camera_ypos";
 			this.bu_camera_ypos.Size = new System.Drawing.Size(22, 22);
@@ -1318,7 +1318,7 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_yneg
 			// 
-			this.bu_camera_yneg.Location = new System.Drawing.Point(40, 40);
+			this.bu_camera_yneg.Location = new System.Drawing.Point(35, 40);
 			this.bu_camera_yneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_yneg.Name = "bu_camera_yneg";
 			this.bu_camera_yneg.Size = new System.Drawing.Size(22, 22);
@@ -1332,7 +1332,7 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_xneg
 			// 
-			this.bu_camera_xneg.Location = new System.Drawing.Point(65, 55);
+			this.bu_camera_xneg.Location = new System.Drawing.Point(60, 55);
 			this.bu_camera_xneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_xneg.Name = "bu_camera_xneg";
 			this.bu_camera_xneg.Size = new System.Drawing.Size(22, 22);
@@ -1346,7 +1346,7 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_xpos
 			// 
-			this.bu_camera_xpos.Location = new System.Drawing.Point(65, 30);
+			this.bu_camera_xpos.Location = new System.Drawing.Point(60, 30);
 			this.bu_camera_xpos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_xpos.Name = "bu_camera_xpos";
 			this.bu_camera_xpos.Size = new System.Drawing.Size(22, 22);
@@ -1360,7 +1360,7 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_zneg
 			// 
-			this.bu_camera_zneg.Location = new System.Drawing.Point(10, 55);
+			this.bu_camera_zneg.Location = new System.Drawing.Point(5, 55);
 			this.bu_camera_zneg.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_zneg.Name = "bu_camera_zneg";
 			this.bu_camera_zneg.Size = new System.Drawing.Size(22, 22);
@@ -1374,7 +1374,7 @@ namespace creaturevisualizer
 			// 
 			// bu_camera_zpos
 			// 
-			this.bu_camera_zpos.Location = new System.Drawing.Point(10, 30);
+			this.bu_camera_zpos.Location = new System.Drawing.Point(5, 30);
 			this.bu_camera_zpos.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_camera_zpos.Name = "bu_camera_zpos";
 			this.bu_camera_zpos.Size = new System.Drawing.Size(22, 22);
@@ -1434,7 +1434,7 @@ namespace creaturevisualizer
 			this.tssl_camera_dist});
 			this.ss_camera.Location = new System.Drawing.Point(0, 412);
 			this.ss_camera.Name = "ss_camera";
-			this.ss_camera.Size = new System.Drawing.Size(292, 22);
+			this.ss_camera.Size = new System.Drawing.Size(285, 22);
 			this.ss_camera.SizingGrip = false;
 			this.ss_camera.TabIndex = 3;
 			// 
@@ -1504,7 +1504,7 @@ namespace creaturevisualizer
 			this.tssl_model_rot});
 			this.ss_model.Location = new System.Drawing.Point(0, 434);
 			this.ss_model.Name = "ss_model";
-			this.ss_model.Size = new System.Drawing.Size(292, 22);
+			this.ss_model.Size = new System.Drawing.Size(285, 22);
 			this.ss_model.SizingGrip = false;
 			this.ss_model.TabIndex = 4;
 			// 
@@ -1566,7 +1566,7 @@ namespace creaturevisualizer
 			this.tssl_light_intensity});
 			this.ss_light.Location = new System.Drawing.Point(0, 456);
 			this.ss_light.Name = "ss_light";
-			this.ss_light.Size = new System.Drawing.Size(292, 22);
+			this.ss_light.Size = new System.Drawing.Size(285, 22);
 			this.ss_light.SizingGrip = false;
 			this.ss_light.TabIndex = 5;
 			// 
@@ -1629,7 +1629,7 @@ namespace creaturevisualizer
 			this.pa_gui.Location = new System.Drawing.Point(0, 0);
 			this.pa_gui.Margin = new System.Windows.Forms.Padding(0);
 			this.pa_gui.Name = "pa_gui";
-			this.pa_gui.Size = new System.Drawing.Size(320, 478);
+			this.pa_gui.Size = new System.Drawing.Size(327, 478);
 			this.pa_gui.TabIndex = 0;
 			// 
 			// CreatureVisualizerF
