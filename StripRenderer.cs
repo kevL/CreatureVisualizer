@@ -23,15 +23,6 @@ namespace creaturevisualizer
 		{
 			e.Graphics.DrawLine(Pens.Black, e.ToolStrip.Width, 0, 0,0);
 			e.Graphics.DrawLine(Pens.Black, 0,0, 0, e.ToolStrip.Height);
-
-
-//			using (var path3d = new GraphicsPath())
-//			{
-//				path3d.AddLine(e.ToolStrip.Width, 0, 0,0);
-//				path3d.AddLine(0,0, 0, e.ToolStrip.Height);
-//
-//				e.Graphics.DrawPath(Pens.Gray, path3d);
-//			}
 		}
 	}
 }
