@@ -152,8 +152,8 @@ namespace creaturevisualizer
 			switch (e.KeyData)
 			{
 				case Keys.F1:
-					using (var f = new HelpColorF())
-						f.ShowDialog(this);
+					var f = new HelpColorF();
+					f.Show(this);
 					break;
 
 				case Keys.Enter:

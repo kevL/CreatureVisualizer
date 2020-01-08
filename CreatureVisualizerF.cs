@@ -548,8 +548,8 @@ namespace creaturevisualizer
 
 		void helpclick_Help(object sender, EventArgs e)
 		{
-			using (var f = new HelpF())
-				f.ShowDialog(this);
+			var f = new HelpF();
+			f.Show(this);
 		}
 
 		void helpclick_About(object sender, EventArgs e)
