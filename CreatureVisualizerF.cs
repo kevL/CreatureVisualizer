@@ -63,6 +63,11 @@ namespace creaturevisualizer
 		{
 			InitializeComponent();
 
+			var r = new StripRenderer();
+			ss_camera.Renderer =
+			ss_light .Renderer =
+			ss_model .Renderer = r;
+
 			Text = TITLE;
 
 			_panel = new CreatureVisualizerP(this);

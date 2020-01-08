@@ -95,6 +95,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="StripRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Color\ColorControl.resx">
