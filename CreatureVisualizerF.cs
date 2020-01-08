@@ -74,10 +74,10 @@ namespace creaturevisualizer
 
 
 			int x = CreatureVisualizerPreferences.that.x;
-			if (x != Int32.MinValue)
+			if (x > -1)
 			{
 				int y = CreatureVisualizerPreferences.that.y;
-				if (checklocation(x,y))
+				if (y > -1 && checklocation(x,y))
 				{
 					StartPosition = FormStartPosition.Manual;
 					SetDesktopLocation(x,y);
