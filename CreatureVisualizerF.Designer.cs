@@ -1393,14 +1393,14 @@ namespace creaturevisualizer
 			this.tp_character.Location = new System.Drawing.Point(4, 19);
 			this.tp_character.Margin = new System.Windows.Forms.Padding(0);
 			this.tp_character.Name = "tp_character";
-			this.tp_character.Size = new System.Drawing.Size(284, 389);
+			this.tp_character.Size = new System.Drawing.Size(277, 389);
 			this.tp_character.TabIndex = 1;
 			this.tp_character.Text = "Character";
 			this.tp_character.UseVisualStyleBackColor = true;
 			// 
 			// cb_char_female
 			// 
-			this.cb_char_female.Location = new System.Drawing.Point(10, 30);
+			this.cb_char_female.Location = new System.Drawing.Point(8, 30);
 			this.cb_char_female.Margin = new System.Windows.Forms.Padding(0);
 			this.cb_char_female.Name = "cb_char_female";
 			this.cb_char_female.Size = new System.Drawing.Size(65, 20);
@@ -1412,7 +1412,7 @@ namespace creaturevisualizer
 			// bu_char_display
 			// 
 			this.bu_char_display.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_char_display.Location = new System.Drawing.Point(9, 5);
+			this.bu_char_display.Location = new System.Drawing.Point(5, 5);
 			this.bu_char_display.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_char_display.Name = "bu_char_display";
 			this.bu_char_display.Size = new System.Drawing.Size(267, 20);
