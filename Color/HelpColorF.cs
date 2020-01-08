@@ -26,18 +26,11 @@ namespace creaturevisualizer
 			{
 				Info = String.Empty;
 
-				Info += "COLORFIELD"                        + L;
-				Info += "----------"                        + L;
-				Info += "LMB click - select color point"    + L;
-				Info += "LMB drag  - move color point"      + L;
-				Info += "Left      - move point left"       + L;
-				Info += "Right     - move point right"      + L;
-				Info += "Up        - move point up"         + L;
-				Info += "Down      - move point down"       + L;
-				Info += "Home      - move point left+up"    + L;
-				Info += "End       - move point left+down"  + L;
-				Info += "PageUp    - move point right+up"   + L;
-				Info += "PageDown  - move point right+down" + L + L;
+				Info += "COLORFIELD"                          + L;
+				Info += "----------"                          + L;
+				Info += "LMB click - select color point"      + L;
+				Info += "LMB drag  - pull color point"        + L;
+				Info += "Pad keys  - push point in direction" + L + L;
 
 				Info += "COLORSLIDER"                                                         + L;
 				Info += "-----------"                                                         + L;
@@ -65,16 +58,16 @@ namespace creaturevisualizer
 				Info += "Mousewheel - increase/decrease the value"                 + L;
 				Info += "Add        - increase the value"                          + L;
 				Info += "Subtract   - decrease the value"                          + L;
-				Info += "Spacebar   - select the colorspace control if applicable" + L + L;
+				Info += "Spacebar   - select its colorspace control if applicable" + L + L;
 
-				Info += "SWATCHES"                                                      + L;
-				Info += "--------"                                                      + L;
-				Info += "LMB click - assign color to the active colorbox"               + L;
-				Info += "RMB click - open the context menu for swatchfile modification" + L + L;
+				Info += "SWATCHES"                                                    + L;
+				Info += "--------"                                                    + L;
+				Info += "LMB click - assign color to the active colorbox"             + L;
+				Info += "RMB click - open a context menu for swatchfile modification" + L + L;
 
-				Info += "Note that altering the swatches from the context menu will" + L
-					  + "immediately rewrite the swatchfile at"                      + L + L;
-				Info += @"%localappdata%\NWN2 Toolset\CustomSwatches.xml"            + L;
+				Info += "Note that altering the swatches from the context menu shall" + L
+					  + "overwrite the swatchfile"                                    + L + L;
+				Info += @"%localappdata%\NWN2 Toolset\CustomSwatches.xml"             + L;
 			}
 
 			tb_help.Text = Info;
@@ -118,18 +111,18 @@ namespace creaturevisualizer
 			this.tb_help.Multiline = true;
 			this.tb_help.Name = "tb_help";
 			this.tb_help.ReadOnly = true;
-			this.tb_help.Size = new System.Drawing.Size(447, 674);
+			this.tb_help.Size = new System.Drawing.Size(447, 579);
 			this.tb_help.TabIndex = 0;
 			this.tb_help.WordWrap = false;
 			// 
 			// HelpColorF
 			// 
-			this.ClientSize = new System.Drawing.Size(447, 674);
+			this.ClientSize = new System.Drawing.Size(447, 579);
 			this.Controls.Add(this.tb_help);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.KeyPreview = true;
 			this.Name = "HelpColorF";
-			this.ShowInTaskbar = false;
+			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Help Color";
 			this.ResumeLayout(false);

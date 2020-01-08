@@ -25,7 +25,7 @@ namespace creaturevisualizer
 
 			if (Info == null)
 			{
-				Info = "This doc describes actions that are not listed in the menus." + L + L;
+				Info = "This doc describes actions that are not listed in menus." + L + L;
 
 				Info += "MOUSE"                             + L;
 				Info += "-----"                             + L;
@@ -34,23 +34,20 @@ namespace creaturevisualizer
 				Info += "RMB      - pan up/down/left/right" + L;
 				Info += "RMB+Ctrl - pan polar"              + L + L;
 
-				Info += "KEYBOARD"                                                 + L;
-				Info += "--------"                                                 + L;
-				Info += "Ctrl+click = increases adjustment rate by a factor of 10" + L;
-				Info += "Shft+click = decreases adjustment rate by a factor of 10" + L + L;
+				Info += "press Ctrl/Shift to increase/decrease rate by factor of 10" + L + L;
 
-				Info += "TEXT"                                                + L;
-				Info += "----"                                                + L;
-				Info += "keypad +/- increases/decreases a value; Ctrl/Shft"   + L;
-				Info += "increase/decrease adjustment rate by a factor of 10" + L + L;
+				Info += "TEXT"                                                       + L;
+				Info += "----"                                                       + L;
+				Info += "keypad +/- to increase/decrease the value"                  + L;
+				Info += "press Ctrl/Shift to increase/decrease rate by factor of 10" + L + L;
 
 				Info += "COLORS"                                                + L;
 				Info += "------"                                                + L;
 				Info += "Click a color-swatch to open the color-picker dialog." + L;
 				Info += "Accept the dialog to enable a color."                  + L + L;
-				Info += "LMB - toggles the color on/off"                        + L;
+				Info += "LMB - toggles the color off/on"                        + L;
 				Info += "RMB - resets the color to default and disables it"     + L + L;
-				Info += "Note that [F1] opens Help in the color-chooser."       + L + L;
+				Info += "Note that [F1] opens Help in the Color picker."        + L + L;
 
 				Info += "PREFS"                                                       + L;
 				Info += "-----"                                                       + L;
@@ -76,25 +73,7 @@ namespace creaturevisualizer
 
 
 		#region Designer
-		/// <summary>
-		/// Designer variable used to keep track of non-visual components.
-		/// </summary>
-		IContainer components = null;
-
 		TextBox tb_help;
-
-
-		/// <summary>
-		/// Disposes resources used by the form.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && components != null)
-				components.Dispose();
-
-			base.Dispose(disposing);
-		}
 
 
 		/// <summary>
@@ -116,19 +95,19 @@ namespace creaturevisualizer
 			this.tb_help.Multiline = true;
 			this.tb_help.Name = "tb_help";
 			this.tb_help.ReadOnly = true;
-			this.tb_help.Size = new System.Drawing.Size(392, 439);
+			this.tb_help.Size = new System.Drawing.Size(392, 399);
 			this.tb_help.TabIndex = 0;
 			this.tb_help.WordWrap = false;
 			// 
 			// HelpF
 			// 
-			this.ClientSize = new System.Drawing.Size(392, 439);
+			this.ClientSize = new System.Drawing.Size(392, 399);
 			this.Controls.Add(this.tb_help);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.KeyPreview = true;
 			this.Name = "HelpF";
-			this.ShowInTaskbar = false;
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Help";
 			this.ResumeLayout(false);
 			this.PerformLayout();
