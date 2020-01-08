@@ -1423,7 +1423,7 @@ namespace creaturevisualizer
 			// 
 			// ss_camera
 			// 
-			this.ss_camera.Font = new System.Drawing.Font("Consolas", 8F);
+			this.ss_camera.Font = new System.Drawing.Font("Consolas", 7F);
 			this.ss_camera.GripMargin = new System.Windows.Forms.Padding(0);
 			this.ss_camera.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.tssl_camera_label,
@@ -1494,7 +1494,7 @@ namespace creaturevisualizer
 			// 
 			// ss_model
 			// 
-			this.ss_model.Font = new System.Drawing.Font("Consolas", 8F);
+			this.ss_model.Font = new System.Drawing.Font("Consolas", 7F);
 			this.ss_model.GripMargin = new System.Windows.Forms.Padding(0);
 			this.ss_model.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.tssl_model_label,
@@ -1555,7 +1555,7 @@ namespace creaturevisualizer
 			// 
 			// ss_light
 			// 
-			this.ss_light.Font = new System.Drawing.Font("Consolas", 8F);
+			this.ss_light.Font = new System.Drawing.Font("Consolas", 7F);
 			this.ss_light.GripMargin = new System.Windows.Forms.Padding(0);
 			this.ss_light.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.tssl_light_label,
