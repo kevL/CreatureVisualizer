@@ -292,7 +292,6 @@ namespace creaturevisualizer
 		{
 			_csc = csc;
 			Invalidate(_grad);
-
 			SetSliderVal();
 		}
 
