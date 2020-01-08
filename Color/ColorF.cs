@@ -31,7 +31,7 @@ namespace creaturevisualizer
 
 			InitializeComponent();
 
-			_tconsole.Interval = 3500;
+			_tconsole.Interval = 3250;
 			_tconsole.Tick += tick_console;
 
 #if DEBUG
