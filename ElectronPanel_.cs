@@ -45,8 +45,8 @@ namespace creaturevisualizer
 		#region Fields (static)
 		internal static Vector3 POS_START_CAMERA;
 
-		internal static Vector3 POS_START_LIGHT = new Vector3(-0.5F, -4F, 2.0F);
-		internal static Vector3 POS_OFF_Zd      = new Vector3( 0.0F,  0F, 1.5F); // base height
+		internal static Vector3 POS_START_LIGHT = new Vector3(-0.5F, -4F, 2.00F);
+		internal static Vector3 POS_OFF_Zd      = new Vector3( 0.0F,  0F, 1.15F); // base height
 
 		internal const  float DIST_START = 5F;
 
@@ -59,7 +59,7 @@ namespace creaturevisualizer
 		internal static bool ColorCheckedAmbient;
 
 
-		const float START_MODEL_ROT = (float)Math.PI * 7F / 8F;
+		const float ROT_START_MODEL = (float)Math.PI * 7F / 8F;
 
 		static Vector3 ScaInitial;
 		#endregion Fields (static)
@@ -395,7 +395,7 @@ namespace creaturevisualizer
 				Vector3 scale; // don't ask. It works unlike 'Object.Scale'.
 				if (first)
 				{
-					Model.Orientation = RHQuaternion.RotationZ(START_MODEL_ROT);
+					Model.Orientation = RHQuaternion.RotationZ(ROT_START_MODEL);
 					scale = ScaInitial;
 
 					var state = Receiver.CameraState as ModelViewerInputCameraReceiverState;
@@ -714,7 +714,7 @@ namespace creaturevisualizer
 			var objects = new NetDisplayObjectCollection() { Model }; // TODO: cache that
 			NWN2NetDisplayManager.Instance.MoveObjects(objects, ChangeType.Absolute, false, new Vector3());
 
-			Model.Orientation = RHQuaternion.RotationZ(START_MODEL_ROT);
+			Model.Orientation = RHQuaternion.RotationZ(ROT_START_MODEL);
 			NWN2NetDisplayManager.Instance.RotateObject(Model, ChangeType.Absolute, Model.Orientation);
 			_f.PrintModelPosition(Model);
 
@@ -754,7 +754,7 @@ namespace creaturevisualizer
 				}
 
 				case ResetType.RESET_rot:
-					Model.Orientation = RHQuaternion.RotationZ(START_MODEL_ROT);
+					Model.Orientation = RHQuaternion.RotationZ(ROT_START_MODEL);
 					NWN2NetDisplayManager.Instance.RotateObject(Model, ChangeType.Absolute, Model.Orientation);
 					_f.PrintModelPosition(Model);
 					break;
