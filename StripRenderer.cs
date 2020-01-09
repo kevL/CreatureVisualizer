@@ -10,8 +10,7 @@ namespace creaturevisualizer
 	/// 3d border.
 	/// </summary>
 	public class StripRenderer
-		:
-			ToolStripProfessionalRenderer
+		: ToolStripProfessionalRenderer
 	{
 		protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
 		{
