@@ -40,13 +40,13 @@ namespace creaturevisualizer
 				Info += "keypad +/- to increase/decrease the value"                  + L;
 				Info += "press Ctrl/Shift to increase/decrease rate by factor of 10" + L + L;
 
-				Info += "COLORS"                                                + L;
-				Info += "------"                                                + L;
-				Info += "Click a color-swatch to open the color-picker dialog." + L;
-				Info += "Accept the dialog to enable a color."                  + L + L;
-				Info += "LMB - toggles the color off/on"                        + L;
-				Info += "RMB - resets the color to default and disables it"     + L + L;
-				Info += "Note that [F1] opens Help in the Color picker."        + L + L;
+				Info += "COLORS"                                                     + L;
+				Info += "------"                                                     + L;
+				Info += "Left-click a color-swatch to open the color-picker dialog." + L;
+				Info += "Accept the dialog to enable a color."                       + L + L;
+				Info += "LMB - toggles the color off/on"                             + L;
+				Info += "RMB - resets the color to default and disables it"          + L + L;
+				Info += "Note that [F1] opens Help in the Color picker."             + L + L;
 
 				Info += "PREFS"                                                       + L;
 				Info += "-----"                                                       + L;
