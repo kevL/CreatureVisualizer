@@ -25,7 +25,7 @@ namespace creaturevisualizer
 		/// <summary>
 		/// The ElectronPanel panel.
 		/// </summary>
-		CreatureVisualizerP _panel;
+		ElectronPanel_ _panel;
 
 		MenuItem _itStayOnTop;
 		MenuItem _itRefreshOnFocus;
@@ -66,7 +66,7 @@ namespace creaturevisualizer
 
 			Text = TITLE;
 
-			_panel = new CreatureVisualizerP(this);
+			_panel = new ElectronPanel_(this);
 			_panel.Dock = DockStyle.Fill;
 			_panel.BorderStyle = BorderStyle.FixedSingle;
 			Controls.Add(_panel);
@@ -103,26 +103,26 @@ namespace creaturevisualizer
 			_pa_Con_w = pa_con.Width;
 			_pa_Con_h = pa_con.Height;
 
-			tb_camera_height  .Text = CreatureVisualizerP.POS_OFF_Zd.Z                 .ToString("N2");
+			tb_camera_height  .Text = ElectronPanel_.POS_OFF_Zd.Z                 .ToString("N2");
 			tb_light_intensity.Text = CreatureVisualizerPreferences.that.LightIntensity.ToString("N2");
 
 
-			if (CreatureVisualizerP.ColorDiffuse != null)
+			if (ElectronPanel_.ColorDiffuse != null)
 			{
 				cb_light_diffuse.Enabled = true;
-				cb_light_diffuse.Checked = CreatureVisualizerP.ColorCheckedDiffuse;
+				cb_light_diffuse.Checked = ElectronPanel_.ColorCheckedDiffuse;
 			}
 
-			if (CreatureVisualizerP.ColorSpecular != null)
+			if (ElectronPanel_.ColorSpecular != null)
 			{
 				cb_light_specular.Enabled = true;
-				cb_light_specular.Checked = CreatureVisualizerP.ColorCheckedSpecular;
+				cb_light_specular.Checked = ElectronPanel_.ColorCheckedSpecular;
 			}
 
-			if (CreatureVisualizerP.ColorAmbient != null)
+			if (ElectronPanel_.ColorAmbient != null)
 			{
 				cb_light_ambient.Enabled = true;
-				cb_light_ambient.Checked = CreatureVisualizerP.ColorCheckedAmbient;
+				cb_light_ambient.Checked = ElectronPanel_.ColorCheckedAmbient;
 			}
 
 
@@ -603,7 +603,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Model != null)
 			{
-				Vector3 delta = grader(CreatureVisualizerP.off_zpos);
+				Vector3 delta = grader(ElectronPanel_.off_zpos);
 				_panel.CameraPosition += delta;
 				Offset                += delta;
 				PrintCameraPosition();
@@ -614,7 +614,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Model != null)
 			{
-				Vector3 delta = grader(CreatureVisualizerP.off_zneg);
+				Vector3 delta = grader(ElectronPanel_.off_zneg);
 				_panel.CameraPosition += delta;
 				Offset                += delta;
 				PrintCameraPosition();
@@ -625,7 +625,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Model != null)
 			{
-				Vector3 delta = grader(CreatureVisualizerP.off_ypos);
+				Vector3 delta = grader(ElectronPanel_.off_ypos);
 				_panel.CameraPosition += delta;
 				Offset                += delta;
 				PrintCameraPosition();
@@ -636,7 +636,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Model != null)
 			{
-				Vector3 delta = grader(CreatureVisualizerP.off_yneg);
+				Vector3 delta = grader(ElectronPanel_.off_yneg);
 				_panel.CameraPosition += delta;
 				Offset                += delta;
 				PrintCameraPosition();
@@ -647,7 +647,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Model != null)
 			{
-				Vector3 delta = grader(CreatureVisualizerP.off_xpos);
+				Vector3 delta = grader(ElectronPanel_.off_xpos);
 				_panel.CameraPosition += delta;
 				Offset                += delta;
 				PrintCameraPosition();
@@ -658,7 +658,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Model != null)
 			{
-				Vector3 delta = grader(CreatureVisualizerP.off_xneg);
+				Vector3 delta = grader(ElectronPanel_.off_xneg);
 				_panel.CameraPosition += delta;
 				Offset                += delta;
 				PrintCameraPosition();
@@ -711,7 +711,7 @@ namespace creaturevisualizer
 			{
 				_panel.Receiver.CameraAngleXY += grader((float)Math.PI / 64F); // FocusTheta
 
-				_panel.CameraPosition += CreatureVisualizerP.POS_OFF_Zd + Offset;
+				_panel.CameraPosition += ElectronPanel_.POS_OFF_Zd + Offset;
 				PrintCameraPosition();
 			}
 		}
@@ -721,7 +721,7 @@ namespace creaturevisualizer
 			if (_panel.Model != null)
 			{
 				_panel.Receiver.CameraAngleXY -= grader((float)Math.PI / 64F); // FocusTheta
-				_panel.CameraPosition += CreatureVisualizerP.POS_OFF_Zd + Offset;
+				_panel.CameraPosition += ElectronPanel_.POS_OFF_Zd + Offset;
 				PrintCameraPosition();
 			}
 		}
@@ -734,7 +734,7 @@ namespace creaturevisualizer
 				Offset.Z = 0F;
 				_panel.CameraPosition = new Vector3(_panel.CameraPosition.X,
 													_panel.CameraPosition.Y,
-													CreatureVisualizerP.POS_START_CAMERA.Z);
+													ElectronPanel_.POS_START_CAMERA.Z);
 				PrintCameraPosition();
 			}
 		}
@@ -744,8 +744,8 @@ namespace creaturevisualizer
 			if (_panel.Model != null)
 			{
 				Offset.X = Offset.Y = 0F;
-				_panel.CameraPosition = new Vector3(CreatureVisualizerP.POS_START_CAMERA.X,
-													CreatureVisualizerP.POS_START_CAMERA.Y,
+				_panel.CameraPosition = new Vector3(ElectronPanel_.POS_START_CAMERA.X,
+													ElectronPanel_.POS_START_CAMERA.Y,
 													_panel.CameraPosition.Z);
 				PrintCameraPosition();
 			}
@@ -755,7 +755,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Model != null)
 			{
-				((ModelViewerInputCameraReceiverState)_panel.Receiver.CameraState).Distance = CreatureVisualizerP.DIST_START;
+				((ModelViewerInputCameraReceiverState)_panel.Receiver.CameraState).Distance = ElectronPanel_.DIST_START;
 				_panel.UpdateCamera();
 				PrintCameraPosition();
 			}
@@ -767,7 +767,7 @@ namespace creaturevisualizer
 			{
 				_panel.Receiver.CameraAngleXY = (float)Math.PI /  2F;
 				_panel.Receiver.CameraAngleYZ = (float)Math.PI / 32F;
-				_panel.CameraPosition += CreatureVisualizerP.POS_OFF_Zd;
+				_panel.CameraPosition += ElectronPanel_.POS_OFF_Zd;
 				PrintCameraPosition();
 			}
 		}
@@ -816,7 +816,7 @@ namespace creaturevisualizer
 			if (Single.TryParse(tb_camera_height.Text, out result)
 				&& result > -100F && result < 100F)
 			{
-				CreatureVisualizerP.POS_OFF_Zd = new Vector3(0F,0F, result);
+				ElectronPanel_.POS_OFF_Zd = new Vector3(0F,0F, result);
 				_panel.UpdateCamera();
 			}
 			else if (result <= -100F)
@@ -836,7 +836,7 @@ namespace creaturevisualizer
 //				case Keys.Oemplus:
 				case Keys.Add:
 				{
-					float z = CreatureVisualizerP.POS_OFF_Zd.Z;
+					float z = ElectronPanel_.POS_OFF_Zd.Z;
 					z += grader(0.1F);
 					tb_camera_height.Text = z.ToString("N2");
 
@@ -847,7 +847,7 @@ namespace creaturevisualizer
 //				case Keys.OemMinus:
 				case Keys.Subtract:
 				{
-					float z = CreatureVisualizerP.POS_OFF_Zd.Z;
+					float z = ElectronPanel_.POS_OFF_Zd.Z;
 					z -= grader(0.1F);
 					tb_camera_height.Text = z.ToString("N2");
 
@@ -863,50 +863,50 @@ namespace creaturevisualizer
 		void click_bu_model_zpos(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.MoveModel(grader(CreatureVisualizerP.off_zpos));
+				_panel.MoveModel(grader(ElectronPanel_.off_zpos));
 		}
 
 		void click_bu_model_zneg(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.MoveModel(grader(CreatureVisualizerP.off_zneg));
+				_panel.MoveModel(grader(ElectronPanel_.off_zneg));
 		}
 
 		void click_bu_model_ypos(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.MoveModel(grader(CreatureVisualizerP.off_ypos));
+				_panel.MoveModel(grader(ElectronPanel_.off_ypos));
 		}
 
 		void click_bu_model_yneg(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.MoveModel(grader(CreatureVisualizerP.off_yneg));
+				_panel.MoveModel(grader(ElectronPanel_.off_yneg));
 		}
 
 		void click_bu_model_xpos(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.MoveModel(grader(CreatureVisualizerP.off_xpos));
+				_panel.MoveModel(grader(ElectronPanel_.off_xpos));
 		}
 
 		void click_bu_model_xneg(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.MoveModel(grader(CreatureVisualizerP.off_xneg));
+				_panel.MoveModel(grader(ElectronPanel_.off_xneg));
 		}
 
 
 		void click_bu_model_rotpos(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.RotateModel(grader(CreatureVisualizerP.rotpos));
+				_panel.RotateModel(grader(ElectronPanel_.rotpos));
 		}
 
 		void click_bu_model_rotneg(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.RotateModel(grader(CreatureVisualizerP.rotneg));
+				_panel.RotateModel(grader(ElectronPanel_.rotneg));
 		}
 
 
@@ -917,12 +917,12 @@ namespace creaturevisualizer
 				Vector3 unit;
 
 				var bu = sender as Button;
-				if      (bu == bu_model_xscalepos) unit = CreatureVisualizerP.off_xpos;
-				else if (bu == bu_model_xscaleneg) unit = CreatureVisualizerP.off_xneg;
-				else if (bu == bu_model_yscalepos) unit = CreatureVisualizerP.off_ypos;
-				else if (bu == bu_model_yscaleneg) unit = CreatureVisualizerP.off_yneg;
-				else if (bu == bu_model_zscalepos) unit = CreatureVisualizerP.off_zpos;
-				else                               unit = CreatureVisualizerP.off_zneg; // (bu == bu_model_zscaleneg)
+				if      (bu == bu_model_xscalepos) unit = ElectronPanel_.off_xpos;
+				else if (bu == bu_model_xscaleneg) unit = ElectronPanel_.off_xneg;
+				else if (bu == bu_model_yscalepos) unit = ElectronPanel_.off_ypos;
+				else if (bu == bu_model_yscaleneg) unit = ElectronPanel_.off_yneg;
+				else if (bu == bu_model_zscalepos) unit = ElectronPanel_.off_zpos;
+				else                               unit = ElectronPanel_.off_zneg; // (bu == bu_model_zscaleneg)
 
 				_panel.ScaleModel(grader(unit));
 			}
@@ -979,37 +979,37 @@ namespace creaturevisualizer
 		void click_bu_light_zpos(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.MoveLight(_panel.Light.Position + grader(CreatureVisualizerP.off_zpos));
+				_panel.MoveLight(_panel.Light.Position + grader(ElectronPanel_.off_zpos));
 		}
 
 		void click_bu_light_zneg(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.MoveLight(_panel.Light.Position + grader(CreatureVisualizerP.off_zneg));
+				_panel.MoveLight(_panel.Light.Position + grader(ElectronPanel_.off_zneg));
 		}
 
 		void click_bu_light_ypos(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.MoveLight(_panel.Light.Position + grader(CreatureVisualizerP.off_ypos));
+				_panel.MoveLight(_panel.Light.Position + grader(ElectronPanel_.off_ypos));
 		}
 
 		void click_bu_light_yneg(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.MoveLight(_panel.Light.Position + grader(CreatureVisualizerP.off_yneg));
+				_panel.MoveLight(_panel.Light.Position + grader(ElectronPanel_.off_yneg));
 		}
 
 		void click_bu_light_xpos(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.MoveLight(_panel.Light.Position + grader(CreatureVisualizerP.off_xpos));
+				_panel.MoveLight(_panel.Light.Position + grader(ElectronPanel_.off_xpos));
 		}
 
 		void click_bu_light_xneg(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.MoveLight(_panel.Light.Position + grader(CreatureVisualizerP.off_xneg));
+				_panel.MoveLight(_panel.Light.Position + grader(ElectronPanel_.off_xneg));
 		}
 
 
@@ -1019,7 +1019,7 @@ namespace creaturevisualizer
 			{
 				var pos = new Vector3(_panel.Light.Position.X,
 									  _panel.Light.Position.Y,
-									  CreatureVisualizerP.POS_START_LIGHT.Z);
+									  ElectronPanel_.POS_START_LIGHT.Z);
 				_panel.MoveLight(pos);
 			}
 		}
@@ -1028,8 +1028,8 @@ namespace creaturevisualizer
 		{
 			if (_panel.Model != null)
 			{
-				var pos = new Vector3(CreatureVisualizerP.POS_START_LIGHT.X,
-									  CreatureVisualizerP.POS_START_LIGHT.Y,
+				var pos = new Vector3(ElectronPanel_.POS_START_LIGHT.X,
+									  ElectronPanel_.POS_START_LIGHT.Y,
 									  _panel.Light.Position.Z);
 				_panel.MoveLight(pos);
 			}
@@ -1038,7 +1038,7 @@ namespace creaturevisualizer
 		void click_bu_light_reset(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.MoveLight(CreatureVisualizerP.POS_START_LIGHT);
+				_panel.MoveLight(ElectronPanel_.POS_START_LIGHT);
 		}
 
 
@@ -1112,9 +1112,9 @@ namespace creaturevisualizer
 				_sano.ColorControl.ColorChanged += colorchanged_diff;
 
 				Color color;
-				if (CreatureVisualizerP.ColorDiffuse != null)
+				if (ElectronPanel_.ColorDiffuse != null)
 				{
-					color = (Color)CreatureVisualizerP.ColorDiffuse;
+					color = (Color)ElectronPanel_.ColorDiffuse;
 				}
 				else
 					color = _panel.Light.Color.DiffuseColor;
@@ -1124,11 +1124,11 @@ namespace creaturevisualizer
 
 				if (_sano.ShowDialog(this) == DialogResult.OK)
 				{
-					CreatureVisualizerP.ColorCheckedDiffuse =
+					ElectronPanel_.ColorCheckedDiffuse =
 					cb_light_diffuse.Enabled =
 					cb_light_diffuse.Checked = true;
 
-					CreatureVisualizerP.ColorDiffuse =
+					ElectronPanel_.ColorDiffuse =
 					pa_light_diffuse.BackColor =
 					_panel.Light.Color.DiffuseColor = _sano.ColorControl.GetColor();
 				}
@@ -1161,9 +1161,9 @@ namespace creaturevisualizer
 				_sano.ColorControl.ColorChanged += colorchanged_spec;
 
 				Color color;
-				if (CreatureVisualizerP.ColorSpecular != null)
+				if (ElectronPanel_.ColorSpecular != null)
 				{
-					color = (Color)CreatureVisualizerP.ColorSpecular;
+					color = (Color)ElectronPanel_.ColorSpecular;
 				}
 				else
 					color = _panel.Light.Color.SpecularColor;
@@ -1173,11 +1173,11 @@ namespace creaturevisualizer
 
 				if (_sano.ShowDialog(this) == DialogResult.OK)
 				{
-					CreatureVisualizerP.ColorCheckedSpecular =
+					ElectronPanel_.ColorCheckedSpecular =
 					cb_light_specular.Enabled =
 					cb_light_specular.Checked = true;
 
-					CreatureVisualizerP.ColorSpecular =
+					ElectronPanel_.ColorSpecular =
 					pa_light_specular.BackColor =
 					_panel.Light.Color.SpecularColor = _sano.ColorControl.GetColor();
 				}
@@ -1211,9 +1211,9 @@ namespace creaturevisualizer
 				_sano.ColorControl.ColorChanged += colorchanged_ambi;
 
 				Color color;
-				if (CreatureVisualizerP.ColorAmbient != null)
+				if (ElectronPanel_.ColorAmbient != null)
 				{
-					color = (Color)CreatureVisualizerP.ColorAmbient;
+					color = (Color)ElectronPanel_.ColorAmbient;
 				}
 				else
 					color = _panel.Light.Color.AmbientColor;
@@ -1223,11 +1223,11 @@ namespace creaturevisualizer
 
 				if (_sano.ShowDialog(this) == DialogResult.OK)
 				{
-					CreatureVisualizerP.ColorCheckedAmbient =
+					ElectronPanel_.ColorCheckedAmbient =
 					cb_light_ambient.Enabled =
 					cb_light_ambient.Checked = true;
 
-					CreatureVisualizerP.ColorAmbient =
+					ElectronPanel_.ColorAmbient =
 					pa_light_ambient.BackColor =
 					_panel.Light.Color.AmbientColor = _sano.ColorControl.GetColor();
 				}
@@ -1255,8 +1255,8 @@ namespace creaturevisualizer
 		{
 			if (_panel.Model != null)
 			{
-				if (CreatureVisualizerP.ColorCheckedDiffuse = cb_light_diffuse.Checked)
-					_panel.Light.Color.DiffuseColor = (Color)CreatureVisualizerP.ColorDiffuse;
+				if (ElectronPanel_.ColorCheckedDiffuse = cb_light_diffuse.Checked)
+					_panel.Light.Color.DiffuseColor = (Color)ElectronPanel_.ColorDiffuse;
 				else
 					_panel.Light.Color.DiffuseColor = Color.White;
 			}
@@ -1266,8 +1266,8 @@ namespace creaturevisualizer
 		{
 			if (_panel.Model != null)
 			{
-				if (CreatureVisualizerP.ColorCheckedSpecular = cb_light_specular.Checked)
-					_panel.Light.Color.SpecularColor = (Color)CreatureVisualizerP.ColorSpecular;
+				if (ElectronPanel_.ColorCheckedSpecular = cb_light_specular.Checked)
+					_panel.Light.Color.SpecularColor = (Color)ElectronPanel_.ColorSpecular;
 				else
 					_panel.Light.Color.SpecularColor = Color.White;
 			}
@@ -1277,8 +1277,8 @@ namespace creaturevisualizer
 		{
 			if (_panel.Model != null)
 			{
-				if (CreatureVisualizerP.ColorCheckedAmbient = cb_light_ambient.Checked)
-					_panel.Light.Color.AmbientColor = (Color)CreatureVisualizerP.ColorAmbient;
+				if (ElectronPanel_.ColorCheckedAmbient = cb_light_ambient.Checked)
+					_panel.Light.Color.AmbientColor = (Color)ElectronPanel_.ColorAmbient;
 				else
 					_panel.Light.Color.AmbientColor = Color.White;
 			}
@@ -1289,12 +1289,12 @@ namespace creaturevisualizer
 		{
 			if (_panel.Model != null && e.Button == MouseButtons.Right)
 			{
-				CreatureVisualizerP.ColorDiffuse = null;
+				ElectronPanel_.ColorDiffuse = null;
 
 				pa_light_diffuse.BackColor =
 				_panel.Light.Color.DiffuseColor = Color.White;
 
-				CreatureVisualizerP.ColorCheckedDiffuse =
+				ElectronPanel_.ColorCheckedDiffuse =
 				cb_light_diffuse.Checked =
 				cb_light_diffuse.Enabled = false;
 
@@ -1306,12 +1306,12 @@ namespace creaturevisualizer
 		{
 			if (_panel.Model != null && e.Button == MouseButtons.Right)
 			{
-				CreatureVisualizerP.ColorSpecular = null;
+				ElectronPanel_.ColorSpecular = null;
 
 				pa_light_specular.BackColor =
 				_panel.Light.Color.SpecularColor = Color.White;
 
-				CreatureVisualizerP.ColorCheckedSpecular =
+				ElectronPanel_.ColorCheckedSpecular =
 				cb_light_specular.Checked =
 				cb_light_specular.Enabled = false;
 
@@ -1323,12 +1323,12 @@ namespace creaturevisualizer
 		{
 			if (_panel.Model != null && e.Button == MouseButtons.Right)
 			{
-				CreatureVisualizerP.ColorAmbient = null;
+				ElectronPanel_.ColorAmbient = null;
 
 				pa_light_ambient.BackColor =
 				_panel.Light.Color.AmbientColor = Color.White;
 
-				CreatureVisualizerP.ColorCheckedAmbient =
+				ElectronPanel_.ColorCheckedAmbient =
 				cb_light_ambient.Checked =
 				cb_light_ambient.Enabled = false;
 
@@ -1504,24 +1504,24 @@ namespace creaturevisualizer
 
 		internal void PrintDiffuseColor()
 		{
-			if (CreatureVisualizerP.ColorDiffuse != null)
-				pa_light_diffuse.BackColor = (Color)CreatureVisualizerP.ColorDiffuse;
+			if (ElectronPanel_.ColorDiffuse != null)
+				pa_light_diffuse.BackColor = (Color)ElectronPanel_.ColorDiffuse;
 			else
 				pa_light_diffuse.BackColor = _panel.Light.Color.DiffuseColor;
 		}
 
 		internal void PrintSpecularColor()
 		{
-			if (CreatureVisualizerP.ColorSpecular != null)
-				pa_light_specular.BackColor = (Color)CreatureVisualizerP.ColorSpecular;
+			if (ElectronPanel_.ColorSpecular != null)
+				pa_light_specular.BackColor = (Color)ElectronPanel_.ColorSpecular;
 			else
 				pa_light_specular.BackColor = _panel.Light.Color.SpecularColor;
 		}
 
 		internal void PrintAmbientColor()
 		{
-			if (CreatureVisualizerP.ColorAmbient != null)
-				pa_light_ambient.BackColor = (Color)CreatureVisualizerP.ColorAmbient;
+			if (ElectronPanel_.ColorAmbient != null)
+				pa_light_ambient.BackColor = (Color)ElectronPanel_.ColorAmbient;
 			else
 				pa_light_ambient.BackColor = _panel.Light.Color.AmbientColor;
 		}

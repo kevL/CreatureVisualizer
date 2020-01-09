@@ -87,7 +87,7 @@
     <Compile Include="CreatureVisualizerF.Designer.cs">
       <DependentUpon>CreatureVisualizerF.cs</DependentUpon>
     </Compile>
-    <Compile Include="CreatureVisualizerP.cs" />
+    <Compile Include="ElectronPanel_.cs" />
     <Compile Include="CreatureVisualizer.cs" />
     <Compile Include="CreatureVisualizerPreferences.cs" />
     <Compile Include="HelpF.cs" />

@@ -39,7 +39,7 @@ namespace creaturevisualizer
 	/// https://neverwintervault.org/project/nwn2/other/grinning-fools-creature-creation-wizard
 	/// and the NwN2 toolset's Appearance Wizard, etc.
 	/// </summary>
-	sealed class CreatureVisualizerP
+	sealed class ElectronPanel_
 		: ElectronPanel
 	{
 		#region Fields (static)
@@ -59,7 +59,7 @@ namespace creaturevisualizer
 		internal static bool ColorCheckedAmbient;
 
 
-		const float ROT_START_OBJECT = (float)Math.PI * 3F / 4F;
+		const float START_MODEL_ROT = (float)Math.PI * 7F / 8F;
 
 		static Vector3 ScaInitial;
 		#endregion Fields (static)
@@ -109,7 +109,7 @@ namespace creaturevisualizer
 
 
 		#region cTor
-		internal CreatureVisualizerP(CreatureVisualizerF f)
+		internal ElectronPanel_(CreatureVisualizerF f)
 		{
 			_f = f;
 
@@ -395,7 +395,7 @@ namespace creaturevisualizer
 				Vector3 scale; // don't ask. It works unlike 'Object.Scale'.
 				if (first)
 				{
-					Model.Orientation = RHQuaternion.RotationZ(ROT_START_OBJECT);
+					Model.Orientation = RHQuaternion.RotationZ(START_MODEL_ROT);
 					scale = ScaInitial;
 
 					var state = Receiver.CameraState as ModelViewerInputCameraReceiverState;
@@ -714,7 +714,7 @@ namespace creaturevisualizer
 			var objects = new NetDisplayObjectCollection() { Model }; // TODO: cache that
 			NWN2NetDisplayManager.Instance.MoveObjects(objects, ChangeType.Absolute, false, new Vector3());
 
-			Model.Orientation = RHQuaternion.RotationZ(ROT_START_OBJECT);
+			Model.Orientation = RHQuaternion.RotationZ(START_MODEL_ROT);
 			NWN2NetDisplayManager.Instance.RotateObject(Model, ChangeType.Absolute, Model.Orientation);
 			_f.PrintModelPosition(Model);
 
@@ -754,7 +754,7 @@ namespace creaturevisualizer
 				}
 
 				case ResetType.RESET_rot:
-					Model.Orientation = RHQuaternion.RotationZ(ROT_START_OBJECT);
+					Model.Orientation = RHQuaternion.RotationZ(START_MODEL_ROT);
 					NWN2NetDisplayManager.Instance.RotateObject(Model, ChangeType.Absolute, Model.Orientation);
 					_f.PrintModelPosition(Model);
 					break;
