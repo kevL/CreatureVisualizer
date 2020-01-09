@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Globalization;
-using System.IO;
-using System.Reflection;
 using System.Windows.Forms;
 
 using Microsoft.DirectX;
@@ -558,29 +555,8 @@ namespace creaturevisualizer
 
 		void helpclick_About(object sender, EventArgs e)
 		{
-			string text = "Creature Visualizer"
-						+ Environment.NewLine
-						+ "- toolset plugin for Neverwinter Nights 2"
-						+ Environment.NewLine + Environment.NewLine;
-
-			var ass = Assembly.GetExecutingAssembly();
-			var an = ass.GetName();
-			text += an.Version.Major + "."
-				  + an.Version.Minor + "."
-				  + an.Version.Build + "."
-				  + an.Version.Revision;
-#if DEBUG
-			text += " debug";
-#else
-			text += " release";
-#endif
-
-			text += Environment.NewLine
-				  + String.Format(CultureInfo.CurrentCulture,
-								  "{0:yyyy MMM d} {0:HH}:{0:mm}:{0:ss} UTC",
-								  ass.GetLinkerTime());
-
-			MessageBox.Show(this, text, "About");
+			using (var f = new AboutF())
+				f.ShowDialog(this);
 		}
 		#endregion Handlers (menu)
 
@@ -1590,40 +1566,6 @@ namespace creaturevisualizer
 //				c.Enabled = enabled;
 		}
 		#endregion Methods
-	}
-
-
-
-	/// <summary>
-	/// Lifted from StackOverflow.com:
-	/// https://stackoverflow.com/questions/1600962/displaying-the-build-date#answer-1600990
-	/// - what a fucking pain in the ass.
-	/// </summary>
-	static class DateTimeExtension
-	{
-		/// <summary>
-		/// Gets the time/date of build timestamp.
-		/// </summary>
-		/// <param name="assembly"></param>
-		/// <param name="target"></param>
-		/// <returns></returns>
-		internal static DateTime GetLinkerTime(this Assembly assembly, TimeZoneInfo target = null)
-		{
-			var filePath = assembly.Location;
-			const int c_PeHeaderOffset = 60;
-			const int c_LinkerTimestampOffset = 8;
-
-			var buffer = new byte[2048];
-
-			using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-				stream.Read(buffer, 0, 2048);
-
-			var offset = BitConverter.ToInt32(buffer, c_PeHeaderOffset);
-			var secondsSince1970 = BitConverter.ToInt32(buffer, offset + c_LinkerTimestampOffset);
-			var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-
-			return epoch.AddSeconds(secondsSince1970);
-		}
 	}
 
 

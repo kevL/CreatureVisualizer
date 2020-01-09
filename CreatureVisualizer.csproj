@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AboutF.cs" />
     <Compile Include="Color\HelpColorF.cs" />
     <Compile Include="Color\SwatchDialog.cs" />
     <Compile Include="Color\ColorBox.cs" />
@@ -98,6 +99,9 @@
     <Compile Include="StripRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AboutF.resx">
+      <DependentUpon>AboutF.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Color\ColorControl.resx">
       <DependentUpon>ColorControl.cs</DependentUpon>
     </EmbeddedResource>
