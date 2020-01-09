@@ -1085,7 +1085,7 @@ namespace creaturevisualizer
 			// 
 			// tb_camera_height
 			// 
-			this.tb_camera_height.Location = new System.Drawing.Point(225, 80);
+			this.tb_camera_height.Location = new System.Drawing.Point(227, 80);
 			this.tb_camera_height.Margin = new System.Windows.Forms.Padding(0);
 			this.tb_camera_height.Name = "tb_camera_height";
 			this.tb_camera_height.Size = new System.Drawing.Size(40, 20);
