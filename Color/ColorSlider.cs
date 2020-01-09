@@ -234,10 +234,10 @@ namespace creaturevisualizer
 				if (_csc.Cisco.Val != _csc.Cisco.Max)
 					++_csc.Cisco.Val;
 			}
-			else
+			else if (_csc.Cisco.Val != 0
+				||  (_csc.Cisco.Val != -1 && _csc.Cisco.Units == ColorSpaceControlCisco.Unit.Degree))
 			{
-				if (_csc.Cisco.Val != 0)
-					--_csc.Cisco.Val;
+				--_csc.Cisco.Val;
 			}
 		}
 		#endregion Handlers (override)
