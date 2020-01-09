@@ -28,7 +28,8 @@ namespace creaturevisualizer
 			if (Info == null)
 			{
 				Info = "Creature Visualizer"                       + L
-					 + "a toolset plugin for Neverwinter Nights 2" + L + L;
+					 + "a toolset plugin for Neverwinter Nights 2" + L + L
+					 + "code by kevL's and the Ancestors"          + L + L;
 
 				var ass = Assembly.GetExecutingAssembly();
 				var an = ass.GetName();
@@ -89,13 +90,13 @@ namespace creaturevisualizer
 			this.tb_help.Multiline = true;
 			this.tb_help.Name = "tb_help";
 			this.tb_help.ReadOnly = true;
-			this.tb_help.Size = new System.Drawing.Size(292, 89);
+			this.tb_help.Size = new System.Drawing.Size(292, 114);
 			this.tb_help.TabIndex = 0;
 			this.tb_help.WordWrap = false;
 			// 
 			// AboutF
 			// 
-			this.ClientSize = new System.Drawing.Size(292, 89);
+			this.ClientSize = new System.Drawing.Size(292, 114);
 			this.Controls.Add(this.tb_help);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.KeyPreview = true;
