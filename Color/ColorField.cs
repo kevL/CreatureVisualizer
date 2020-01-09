@@ -120,27 +120,14 @@ namespace creaturevisualizer
 				case DirPoint.u: if (y !=   0) --y; break;
 				case DirPoint.d: if (y != 255) ++y; break;
 
-				case DirPoint.lu:
-					if (x !=   0) --x;
-					if (y !=   0) --y;
-					break;
-
-				case DirPoint.ld:
-					if (x !=   0) --x;
-					if (y != 255) ++y;
-					break;
-
-				case DirPoint.ru:
-					if (x != 255) ++x;
-					if (y !=   0) --y;
-					break;
-
-				case DirPoint.rd:
-					if (x != 255) ++x;
-					if (y != 255) ++y;
-					break;
+				case DirPoint.lu: if (x !=   0 && y !=   0) { --x; --y; } break;
+				case DirPoint.ld: if (x !=   0 && y != 255) { --x; ++y; } break;
+				case DirPoint.ru: if (x != 255 && y !=   0) { ++x; --y; } break;
+				case DirPoint.rd: if (x != 255 && y != 255) { ++x; ++y; } break;
 			}
-			ChangePoint(new Point(x,y));
+
+			if (x != _pt.X || y != _pt.Y)
+				ChangePoint(new Point(x,y));
 		}
 
 		void ChangePoint(Point pt)
