@@ -103,7 +103,7 @@ namespace creaturevisualizer
 			_pa_Con_w = pa_con.Width;
 			_pa_Con_h = pa_con.Height;
 
-			tb_camera_height  .Text = ElectronPanel_.POS_OFF_Zd.Z                 .ToString("N2");
+			tb_camera_height  .Text = ElectronPanel_.POS_OFF_Zd.Z                      .ToString("N2");
 			tb_light_intensity.Text = CreatureVisualizerPreferences.that.LightIntensity.ToString("N2");
 
 
