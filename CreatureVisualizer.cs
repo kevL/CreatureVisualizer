@@ -76,7 +76,7 @@ namespace creaturevisualizer
 		/// <param name="e"></param>
 		void activate(object sender, EventArgs e)
 		{
-			var f = new CreatureVisualizerF();
+			var f = new CreatureVisF();
 			f.Show();
 		}
 	}

@@ -66,7 +66,7 @@ namespace creaturevisualizer
 
 
 		#region Fields
-		readonly CreatureVisualizerF _f;
+		readonly CreatureVisF _f;
 
 		INWN2Instance  _instance;
 		INWN2Blueprint _blueprint0; // ref to previous blueprint-object (to track 'changed').
@@ -109,7 +109,7 @@ namespace creaturevisualizer
 
 
 		#region cTor
-		internal ElectronPanel_(CreatureVisualizerF f)
+		internal ElectronPanel_(CreatureVisF f)
 		{
 			_f = f;
 
@@ -216,13 +216,13 @@ namespace creaturevisualizer
 		/// </summary>
 		internal void CreateInstance()
 		{
-			if (!CreatureVisualizerF.BypassCreate) // ie. don't re-create the instance when a colorpicker closes.
+			if (!CreatureVisF.BypassCreate) // ie. don't re-create the instance when a colorpicker closes.
 			{
 				if (MousePanel != null && !MousePanel.IsDisposed) // safety. ElectronPanel.MousePanel could go disposed for no good reason.
 				{
 					_instance = null;
 
-					_f.Text = CreatureVisualizerF.TITLE;
+					_f.Text = CreatureVisF.TITLE;
 					_f.EnableCharacterPage(false);
 
 					NWN2AreaViewer viewer;
@@ -810,7 +810,7 @@ namespace creaturevisualizer
 			pos.Scale(state.Distance);
 			pos += state.FocusPoint;
 
-			CameraPosition = pos + CreatureVisualizerF.Offset + POS_OFF_Zd;
+			CameraPosition = pos + CreatureVisF.Offset + POS_OFF_Zd;
 
 // orientation ->
 			Vector3 focusPoint = state.FocusPoint;
@@ -935,7 +935,7 @@ namespace creaturevisualizer
 
 									var shift = new Vector3(x,y,z);
 									CameraPosition += shift;
-									CreatureVisualizerF.Offset += shift;
+									CreatureVisF.Offset += shift;
 
 									_f.PrintCameraPosition();
 									break;
@@ -952,7 +952,7 @@ namespace creaturevisualizer
 
 									var shift = new Vector3(0F, 0F, z);
 									CameraPosition += shift;
-									CreatureVisualizerF.Offset += shift;
+									CreatureVisF.Offset += shift;
 									_f.PrintCameraPosition();
 									break;
 								}
@@ -971,7 +971,7 @@ namespace creaturevisualizer
 
 									var shift = new Vector3(x,y, 0F);
 									CameraPosition += shift;
-									CreatureVisualizerF.Offset += shift;
+									CreatureVisF.Offset += shift;
 
 									_f.PrintCameraPosition();
 									break;
