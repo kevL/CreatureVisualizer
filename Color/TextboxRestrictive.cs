@@ -83,7 +83,7 @@ namespace creaturevisualizer
 
 						switch (Restrict)
 						{
-							case Type.Degree:  if (val <= 359) goto case Type.Hecate; break;
+							case Type.Degree:  if (val <= 360) goto case Type.Hecate; break;
 							case Type.Percent: if (val <= 100) goto case Type.Hecate; break;
 							case Type.Byte:    if (val <= 255) goto case Type.Hecate; break;
 
@@ -104,7 +104,8 @@ namespace creaturevisualizer
 						else
 							val = 0; // note: Technically this should be nested w/ 'ColorControl._bypassCisco'.
 
-						if (val >= 0) Text = val.ToString();
+						if (val >= 0 || (val == -1 && Restrict == Type.Degree))
+							Text = val.ToString();
 					}
 					e.Handled = e.SuppressKeyPress = true;
 					return;
@@ -137,6 +138,10 @@ namespace creaturevisualizer
 
 		protected override void OnTextChanged(EventArgs e)
 		{
+			if (Text == "360") { Text =   "0"; return; }
+			if (Text ==  "-1") { Text = "359"; return; } // recurse^
+
+
 			bool bork = !String.IsNullOrEmpty(Text); // allow blank string
 
 			if (bork)
@@ -173,7 +178,7 @@ namespace creaturevisualizer
 			}
 			else
 			{
-				Text = _pre; // revert & Recurse.
+				Text = _pre; // revert & recurse^
 				SelectionLength = 0;
 				SelectionStart = Text.Length;
 			}
@@ -181,7 +186,7 @@ namespace creaturevisualizer
 
 		protected override void OnLeave(EventArgs e)
 		{
-			if (String.IsNullOrEmpty(Text)) // Recurse.
+			if (String.IsNullOrEmpty(Text)) // recurse^
 			{
 				if (Restrict == Type.Hecate)
 				{
@@ -241,13 +246,5 @@ namespace creaturevisualizer
 			ColorF.That.Print(String.Empty);
 		}
 		#endregion Handlers (override)
-
-
-		#region Methods
-		internal void SetRestrict(Type type)
-		{
-			Restrict = type;
-		}
-		#endregion Methods
 	}
 }

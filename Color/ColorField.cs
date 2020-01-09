@@ -223,7 +223,6 @@ namespace creaturevisualizer
 			_pt = new Point(x,y);
 		}
 
-
 		void SelectColor()
 		{
 			var csc = _csc as ColorSpaceControlRGB;

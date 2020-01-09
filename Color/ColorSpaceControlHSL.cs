@@ -29,9 +29,9 @@ namespace creaturevisualizer
 		{
 			InitializeComponent();
 
-			cH.tb_Val.SetRestrict(TextboxRestrictive.Type.Degree);
-			cS.tb_Val.SetRestrict(TextboxRestrictive.Type.Percent);
-			cL.tb_Val.SetRestrict(TextboxRestrictive.Type.Percent);
+			cH.tb_Val.Restrict = TextboxRestrictive.Type.Degree;
+			cS.tb_Val.Restrict = TextboxRestrictive.Type.Percent;
+			cL.tb_Val.Restrict = TextboxRestrictive.Type.Percent;
 
 			SpaceControls.Add(cH);
 			SpaceControls.Add(cS);
@@ -60,7 +60,7 @@ namespace creaturevisualizer
 			this.cH.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.cH.Location = new System.Drawing.Point(0, 0);
 			this.cH.Margin = new System.Windows.Forms.Padding(0);
-			this.cH.Max = 359;
+			this.cH.Max = 360;
 			this.cH.Name = "cH";
 			this.cH.Selected = false;
 			this.cH.Size = new System.Drawing.Size(75, 20);
