@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows.Forms;
 
 
@@ -11,8 +10,6 @@ namespace creaturevisualizer
 		/// <summary>
 		/// Designer variable used to keep track of non-visual components.
 		/// </summary>
-		IContainer components = null;
-
 		Panel pa_con;
 		GroupBox gb_model;
 		Button bu_model_zneg;
@@ -104,11 +101,11 @@ namespace creaturevisualizer
 		Label la_camera_height;
 		TextBox tb_camera_height;
 
-		internal Label la_camera_yaw;
-		internal Label la_camera_pitch;
-		internal Label la_dx;
-		internal Label la_dy;
-		internal Label la_dz;
+		Label la_camera_yaw;
+		Label la_camera_pitch;
+		Label la_dx;
+		Label la_dy;
+		Label la_dz;
 
 		Panel pa_gui;
 		Label la_light_intensity;
@@ -127,19 +124,6 @@ namespace creaturevisualizer
 		TabPage tp_character;
 		Button bu_char_display;
 		CheckBox cb_char_female;
-
-
-		/// <summary>
-		/// Disposes resources used by the form.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && components != null)
-				components.Dispose();
-
-			base.Dispose(disposing);
-		}
 
 
 		/// <summary>
