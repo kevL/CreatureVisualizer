@@ -156,7 +156,7 @@ namespace creaturevisualizer
 		/// <param name="x"></param>
 		/// <param name="y"></param>
 		/// <returns></returns>
-		bool checklocation(int x, int y)
+		internal static bool checklocation(int x, int y)
 		{
 			x += 100; y += 50;
 

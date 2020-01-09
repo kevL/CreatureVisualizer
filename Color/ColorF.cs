@@ -31,6 +31,17 @@ namespace creaturevisualizer
 
 			InitializeComponent();
 
+			int x = CreatureVisualizerPreferences.that.x_color;
+			if (x > -1)
+			{
+				int y = CreatureVisualizerPreferences.that.y_color;
+				if (y > -1 && CreatureVisF.checklocation(x,y))
+				{
+					StartPosition = FormStartPosition.Manual;
+					SetDesktopLocation(x,y);
+				}
+			}
+
 			_tconsole.Interval = 3250;
 			_tconsole.Tick += tick_console;
 
@@ -103,6 +114,12 @@ namespace creaturevisualizer
 
 
 		#region Handlers (override)
+		protected override void OnFormClosing(FormClosingEventArgs e)
+		{
+			CreatureVisualizerPreferences.that.x_color = DesktopLocation.X;
+			CreatureVisualizerPreferences.that.y_color = DesktopLocation.Y;
+		}
+
 		protected override void OnKeyUp(KeyEventArgs e)
 		{
 			if (!ColorControl.IsTextboxFocused(ColorControl.Controls))
