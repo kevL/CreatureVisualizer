@@ -1102,46 +1102,56 @@ namespace creaturevisualizer
 
 		ColorF _sano;
 
-		void click_pa_light_diffuse(object sender, EventArgs e)
+		void mouseup_pa_light_diffuse(object sender, MouseEventArgs e)
 		{
 			if (_panel.Model != null)
 			{
-				BypassCreate = true;
-
-				_sano = new ColorF();
-				_sano.ColorControl.ColorChanged += colorchanged_diff;
-
-				Color color;
-				if (ElectronPanel_.ColorDiffuse != null)
+				switch (e.Button)
 				{
-					color = (Color)ElectronPanel_.ColorDiffuse;
+					case MouseButtons.Left:
+						BypassCreate = true;
+
+						_sano = new ColorF();
+						_sano.ColorControl.ColorChanged += colorchanged_diff;
+
+						Color color;
+						if (ElectronPanel_.ColorDiffuse != null)
+						{
+							color = (Color)ElectronPanel_.ColorDiffuse;
+						}
+						else
+							color = _panel.Light.Color.DiffuseColor;
+
+						_sano.ColorControl.InitialColor(color);
+
+
+						if (_sano.ShowDialog(this) == DialogResult.OK)
+						{
+							ElectronPanel_.ColorCheckedDiffuse =
+							cb_light_diffuse.Enabled =
+							cb_light_diffuse.Checked = true;
+
+							ElectronPanel_.ColorDiffuse =
+							pa_light_diffuse.BackColor =
+							_panel.Light.Color.DiffuseColor = _sano.ColorControl.GetColor();
+						}
+						else
+						{
+							pa_light_diffuse.BackColor =
+							_panel.Light.Color.DiffuseColor = color;
+						}
+
+						_sano.Dispose();
+						_sano = null;
+		
+						BypassCreate = false;
+						break;
+
+					case MouseButtons.Right:
+						if (cb_light_diffuse.Enabled)
+							mouseup_cb_light_diffuse(null, e);
+						break;
 				}
-				else
-					color = _panel.Light.Color.DiffuseColor;
-
-				_sano.ColorControl.InitialColor(color);
-
-
-				if (_sano.ShowDialog(this) == DialogResult.OK)
-				{
-					ElectronPanel_.ColorCheckedDiffuse =
-					cb_light_diffuse.Enabled =
-					cb_light_diffuse.Checked = true;
-
-					ElectronPanel_.ColorDiffuse =
-					pa_light_diffuse.BackColor =
-					_panel.Light.Color.DiffuseColor = _sano.ColorControl.GetColor();
-				}
-				else
-				{
-					pa_light_diffuse.BackColor =
-					_panel.Light.Color.DiffuseColor = color;
-				}
-
-				_sano.Dispose();
-				_sano = null;
-
-				BypassCreate = false;
 			}
 		}
 
@@ -1151,46 +1161,57 @@ namespace creaturevisualizer
 			_panel.Light.Color.DiffuseColor = _sano.ColorControl.GetColor();
 		}
 
-		void click_pa_light_specular(object sender, EventArgs e)
+
+		void mouseup_pa_light_specular(object sender, MouseEventArgs e)
 		{
 			if (_panel.Model != null)
 			{
-				BypassCreate = true;
-
-				_sano = new ColorF();
-				_sano.ColorControl.ColorChanged += colorchanged_spec;
-
-				Color color;
-				if (ElectronPanel_.ColorSpecular != null)
+				switch (e.Button)
 				{
-					color = (Color)ElectronPanel_.ColorSpecular;
+					case MouseButtons.Left:
+						BypassCreate = true;
+
+						_sano = new ColorF();
+						_sano.ColorControl.ColorChanged += colorchanged_spec;
+
+						Color color;
+						if (ElectronPanel_.ColorSpecular != null)
+						{
+							color = (Color)ElectronPanel_.ColorSpecular;
+						}
+						else
+							color = _panel.Light.Color.SpecularColor;
+
+						_sano.ColorControl.InitialColor(color);
+
+
+						if (_sano.ShowDialog(this) == DialogResult.OK)
+						{
+							ElectronPanel_.ColorCheckedSpecular =
+							cb_light_specular.Enabled =
+							cb_light_specular.Checked = true;
+
+							ElectronPanel_.ColorSpecular =
+							pa_light_specular.BackColor =
+							_panel.Light.Color.SpecularColor = _sano.ColorControl.GetColor();
+						}
+						else
+						{
+							pa_light_specular.BackColor =
+							_panel.Light.Color.SpecularColor = color;
+						}
+
+						_sano.Dispose();
+						_sano = null;
+		
+						BypassCreate = false;
+						break;
+
+					case MouseButtons.Right:
+						if (cb_light_specular.Enabled)
+							mouseup_cb_light_specular(null, e);
+						break;
 				}
-				else
-					color = _panel.Light.Color.SpecularColor;
-
-				_sano.ColorControl.InitialColor(color);
-
-
-				if (_sano.ShowDialog(this) == DialogResult.OK)
-				{
-					ElectronPanel_.ColorCheckedSpecular =
-					cb_light_specular.Enabled =
-					cb_light_specular.Checked = true;
-
-					ElectronPanel_.ColorSpecular =
-					pa_light_specular.BackColor =
-					_panel.Light.Color.SpecularColor = _sano.ColorControl.GetColor();
-				}
-				else
-				{
-					pa_light_specular.BackColor =
-					_panel.Light.Color.SpecularColor = color;
-				}
-
-				_sano.Dispose();
-				_sano = null;
-
-				BypassCreate = false;
 			}
 		}
 
@@ -1201,46 +1222,56 @@ namespace creaturevisualizer
 		}
 
 
-		void click_pa_light_ambient(object sender, EventArgs e)
+		void mouseup_pa_light_ambient(object sender, MouseEventArgs e)
 		{
 			if (_panel.Model != null)
 			{
-				BypassCreate = true;
-
-				_sano = new ColorF();
-				_sano.ColorControl.ColorChanged += colorchanged_ambi;
-
-				Color color;
-				if (ElectronPanel_.ColorAmbient != null)
+				switch (e.Button)
 				{
-					color = (Color)ElectronPanel_.ColorAmbient;
+					case MouseButtons.Left:
+						BypassCreate = true;
+
+						_sano = new ColorF();
+						_sano.ColorControl.ColorChanged += colorchanged_ambi;
+
+						Color color;
+						if (ElectronPanel_.ColorAmbient != null)
+						{
+							color = (Color)ElectronPanel_.ColorAmbient;
+						}
+						else
+							color = _panel.Light.Color.AmbientColor;
+
+						_sano.ColorControl.InitialColor(color);
+
+
+						if (_sano.ShowDialog(this) == DialogResult.OK)
+						{
+							ElectronPanel_.ColorCheckedAmbient =
+							cb_light_ambient.Enabled =
+							cb_light_ambient.Checked = true;
+
+							ElectronPanel_.ColorAmbient =
+							pa_light_ambient.BackColor =
+							_panel.Light.Color.AmbientColor = _sano.ColorControl.GetColor();
+						}
+						else
+						{
+							pa_light_ambient.BackColor =
+							_panel.Light.Color.AmbientColor = color;
+						}
+
+						_sano.Dispose();
+						_sano = null;
+		
+						BypassCreate = false;
+						break;
+
+					case MouseButtons.Right:
+						if (cb_light_ambient.Enabled)
+							mouseup_cb_light_ambient(null, e);
+						break;
 				}
-				else
-					color = _panel.Light.Color.AmbientColor;
-
-				_sano.ColorControl.InitialColor(color);
-
-
-				if (_sano.ShowDialog(this) == DialogResult.OK)
-				{
-					ElectronPanel_.ColorCheckedAmbient =
-					cb_light_ambient.Enabled =
-					cb_light_ambient.Checked = true;
-
-					ElectronPanel_.ColorAmbient =
-					pa_light_ambient.BackColor =
-					_panel.Light.Color.AmbientColor = _sano.ColorControl.GetColor();
-				}
-				else
-				{
-					pa_light_ambient.BackColor =
-					_panel.Light.Color.AmbientColor = color;
-				}
-
-				_sano.Dispose();
-				_sano = null;
-
-				BypassCreate = false;
 			}
 		}
 
@@ -1251,54 +1282,32 @@ namespace creaturevisualizer
 		}
 
 
-		void click_cb_light_diffuse(object sender, EventArgs e)
-		{
-			if (_panel.Model != null)
-			{
-				if (ElectronPanel_.ColorCheckedDiffuse = cb_light_diffuse.Checked)
-					_panel.Light.Color.DiffuseColor = (Color)ElectronPanel_.ColorDiffuse;
-				else
-					_panel.Light.Color.DiffuseColor = Color.White;
-			}
-		}
-
-		void click_cb_light_specular(object sender, EventArgs e)
-		{
-			if (_panel.Model != null)
-			{
-				if (ElectronPanel_.ColorCheckedSpecular = cb_light_specular.Checked)
-					_panel.Light.Color.SpecularColor = (Color)ElectronPanel_.ColorSpecular;
-				else
-					_panel.Light.Color.SpecularColor = Color.White;
-			}
-		}
-
-		void click_cb_light_ambient(object sender, EventArgs e)
-		{
-			if (_panel.Model != null)
-			{
-				if (ElectronPanel_.ColorCheckedAmbient = cb_light_ambient.Checked)
-					_panel.Light.Color.AmbientColor = (Color)ElectronPanel_.ColorAmbient;
-				else
-					_panel.Light.Color.AmbientColor = Color.White;
-			}
-		}
-
-
 		void mouseup_cb_light_diffuse(object sender, MouseEventArgs e)
 		{
-			if (_panel.Model != null && e.Button == MouseButtons.Right)
+			if (_panel.Model != null)
 			{
-				ElectronPanel_.ColorDiffuse = null;
+				switch (e.Button)
+				{
+					case MouseButtons.Left:
+						if (ElectronPanel_.ColorCheckedDiffuse = cb_light_diffuse.Checked)
+							_panel.Light.Color.DiffuseColor = (Color)ElectronPanel_.ColorDiffuse;
+						else
+							_panel.Light.Color.DiffuseColor = Color.White;
+						break;
 
-				pa_light_diffuse.BackColor =
-				_panel.Light.Color.DiffuseColor = Color.White;
+					case MouseButtons.Right:
+						ElectronPanel_.ColorDiffuse = null;
 
-				ElectronPanel_.ColorCheckedDiffuse =
-				cb_light_diffuse.Checked =
-				cb_light_diffuse.Enabled = false;
+						pa_light_diffuse.BackColor =
+						_panel.Light.Color.DiffuseColor = Color.White;
 
-				_panel.Focus();
+						ElectronPanel_.ColorCheckedDiffuse =
+						cb_light_diffuse.Checked =
+						cb_light_diffuse.Enabled = false;
+
+						_panel.Focus();
+						break;
+				}
 			}
 		}
 
@@ -1306,16 +1315,28 @@ namespace creaturevisualizer
 		{
 			if (_panel.Model != null && e.Button == MouseButtons.Right)
 			{
-				ElectronPanel_.ColorSpecular = null;
+				switch (e.Button)
+				{
+					case MouseButtons.Left:
+						if (ElectronPanel_.ColorCheckedSpecular = cb_light_specular.Checked)
+							_panel.Light.Color.SpecularColor = (Color)ElectronPanel_.ColorSpecular;
+						else
+							_panel.Light.Color.SpecularColor = Color.White;
+						break;
 
-				pa_light_specular.BackColor =
-				_panel.Light.Color.SpecularColor = Color.White;
+					case MouseButtons.Right:
+						ElectronPanel_.ColorSpecular = null;
 
-				ElectronPanel_.ColorCheckedSpecular =
-				cb_light_specular.Checked =
-				cb_light_specular.Enabled = false;
+						pa_light_specular.BackColor =
+						_panel.Light.Color.SpecularColor = Color.White;
 
-				_panel.Focus();
+						ElectronPanel_.ColorCheckedSpecular =
+						cb_light_specular.Checked =
+						cb_light_specular.Enabled = false;
+
+						_panel.Focus();
+						break;
+				}
 			}
 		}
 
@@ -1323,16 +1344,28 @@ namespace creaturevisualizer
 		{
 			if (_panel.Model != null && e.Button == MouseButtons.Right)
 			{
-				ElectronPanel_.ColorAmbient = null;
+				switch (e.Button)
+				{
+					case MouseButtons.Left:
+						if (ElectronPanel_.ColorCheckedAmbient = cb_light_ambient.Checked)
+							_panel.Light.Color.AmbientColor = (Color)ElectronPanel_.ColorAmbient;
+						else
+							_panel.Light.Color.AmbientColor = Color.White;
+						break;
 
-				pa_light_ambient.BackColor =
-				_panel.Light.Color.AmbientColor = Color.White;
+					case MouseButtons.Right:
+						ElectronPanel_.ColorAmbient = null;
 
-				ElectronPanel_.ColorCheckedAmbient =
-				cb_light_ambient.Checked =
-				cb_light_ambient.Enabled = false;
+						pa_light_ambient.BackColor =
+						_panel.Light.Color.AmbientColor = Color.White;
 
-				_panel.Focus();
+						ElectronPanel_.ColorCheckedAmbient =
+						cb_light_ambient.Checked =
+						cb_light_ambient.Enabled = false;
+
+						_panel.Focus();
+						break;
+				}
 			}
 		}
 		#endregion Handlers (light)

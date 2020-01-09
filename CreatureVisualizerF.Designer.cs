@@ -359,7 +359,6 @@ namespace creaturevisualizer
 			this.cb_light_ambient.Text = "AMBIENT";
 			this.cb_light_ambient.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.cb_light_ambient.UseVisualStyleBackColor = true;
-			this.cb_light_ambient.Click += new System.EventHandler(this.click_cb_light_ambient);
 			this.cb_light_ambient.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_cb_light_ambient);
 			// 
 			// cb_light_specular
@@ -374,7 +373,6 @@ namespace creaturevisualizer
 			this.cb_light_specular.Text = "SPECULAR";
 			this.cb_light_specular.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.cb_light_specular.UseVisualStyleBackColor = true;
-			this.cb_light_specular.Click += new System.EventHandler(this.click_cb_light_specular);
 			this.cb_light_specular.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_cb_light_specular);
 			// 
 			// cb_light_diffuse
@@ -389,7 +387,6 @@ namespace creaturevisualizer
 			this.cb_light_diffuse.Text = "DIFFUSE";
 			this.cb_light_diffuse.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.cb_light_diffuse.UseVisualStyleBackColor = true;
-			this.cb_light_diffuse.Click += new System.EventHandler(this.click_cb_light_diffuse);
 			this.cb_light_diffuse.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_cb_light_diffuse);
 			// 
 			// pa_light_ambient
@@ -400,7 +397,7 @@ namespace creaturevisualizer
 			this.pa_light_ambient.Name = "pa_light_ambient";
 			this.pa_light_ambient.Size = new System.Drawing.Size(30, 20);
 			this.pa_light_ambient.TabIndex = 17;
-			this.pa_light_ambient.Click += new System.EventHandler(this.click_pa_light_ambient);
+			this.pa_light_ambient.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_pa_light_ambient);
 			// 
 			// la_light_color
 			// 
@@ -419,7 +416,7 @@ namespace creaturevisualizer
 			this.pa_light_specular.Name = "pa_light_specular";
 			this.pa_light_specular.Size = new System.Drawing.Size(30, 20);
 			this.pa_light_specular.TabIndex = 15;
-			this.pa_light_specular.Click += new System.EventHandler(this.click_pa_light_specular);
+			this.pa_light_specular.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_pa_light_specular);
 			// 
 			// pa_light_diffuse
 			// 
@@ -429,7 +426,7 @@ namespace creaturevisualizer
 			this.pa_light_diffuse.Name = "pa_light_diffuse";
 			this.pa_light_diffuse.Size = new System.Drawing.Size(30, 20);
 			this.pa_light_diffuse.TabIndex = 13;
-			this.pa_light_diffuse.Click += new System.EventHandler(this.click_pa_light_diffuse);
+			this.pa_light_diffuse.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_pa_light_diffuse);
 			// 
 			// la_light_intensity
 			// 
