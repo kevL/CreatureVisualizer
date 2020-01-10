@@ -62,8 +62,9 @@ namespace creaturevisualizer
 		internal static Vector3 LIGHT_START_POS = new Vector3(-0.5F, -4F, 2F);
 		const float LIGHT_START_RANGE = 50F; // default 10F
 
-		static Vector3 ENV_SUNMOON_POS = new Vector3(-0.33F, -0.67F, -0.67F);
-		const float ENV_SHADOW_VAL = 0F;
+// DayNightCycle ->
+		static Vector3 E_DEF_SUNMOON_POS = new Vector3(-0.33F, -0.67F, -0.67F);
+		const float E_DEF_SHADOW_VAL = 0F;
 
 		// Colors ->
 		internal static Color ? ColorDiffuse;
@@ -481,8 +482,8 @@ namespace creaturevisualizer
 
 					if (Scene.DayNightCycleStages[(int)DayNightStageType.Default] != null)
 					{
-						Scene.DayNightCycleStages[(int)DayNightStageType.Default].SunMoonDirection = ENV_SUNMOON_POS;
-						Scene.DayNightCycleStages[(int)DayNightStageType.Default].ShadowIntensity  = ENV_SHADOW_VAL;
+						Scene.DayNightCycleStages[(int)DayNightStageType.Default].SunMoonDirection = E_DEF_SUNMOON_POS;
+						Scene.DayNightCycleStages[(int)DayNightStageType.Default].ShadowIntensity  = E_DEF_SHADOW_VAL;
 					}
 
 /*		case DayNightStageType.Default:								// OEIShared.NetDisplay.DayNightState ->
@@ -613,19 +614,19 @@ namespace creaturevisualizer
 		}
 
 
-/*		static string StringDecryptor(string P_0)
+/*		static string StringDecryptor(string st)
 		{
-			char[] array;
-			char[] array2 = array = P_0.ToCharArray();
-			int num = array2.Length;
-			while (num > 0)
+			char[] array0;
+			char[] array1 = (array0 = st.ToCharArray());
+			int p1 = array1.Length;
+			while (p1 != 0)
 			{
-				int num2;
-				array2[num2 = num + -1] = (char)(array[num2] - 5225);
-				array2 = array;
-				num = num2;
+				int p0 = p1 - 1;
+				array1[p0] = (char)(array0[p0] - 5225);
+				array1 = array0; // wtf.
+				p1 = p0;
 			}
-			return String.Intern(new string(array2));
+			return String.Intern(new string(array1));
 		} */
 		#endregion Methods
 
