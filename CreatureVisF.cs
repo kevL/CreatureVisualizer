@@ -1476,8 +1476,10 @@ namespace creaturevisualizer
 
 
 			var state = _panel.Receiver.CameraState as ModelViewerInputCameraReceiverState;
-			la_camera_pitch.Text = ((int)(state.FocusPhi   * 180F / (float)Math.PI)).ToString(); // to degs
-			la_camera_yaw  .Text = ((int)(state.FocusTheta * 180F / (float)Math.PI) % 360).ToString();
+			la_camera_pitch.Text = ((int)(state.FocusPhi * 180F / (float)Math.PI)).ToString(); // to degs
+
+//			la_camera_yaw.Text = ((int)(state.FocusTheta * 180F / (float)Math.PI) % 360).ToString();	// <- this gives weird result (+90 deg, also can go neg)
+			la_camera_yaw.Text = tssl_camera_rot.Text;													// <- use this instead
 
 			tssl_camera_dist.Text = _panel.Receiver.Distance.ToString("N2");
 		}
