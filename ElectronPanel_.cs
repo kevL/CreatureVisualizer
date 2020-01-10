@@ -61,7 +61,10 @@ namespace creaturevisualizer
 // Light ->
 		internal static Vector3 LIGHT_START_POS = new Vector3(-0.5F, -4F, 2F);
 
-// Colors ->
+		static Vector3 ENV_SUNMOON_POS = new Vector3(-0.33F, -0.67F, -0.67F);
+		const  float   ENV_SHADOW_VAL = 0F;
+
+		// Colors ->
 		internal static Color ? ColorDiffuse;
 		internal static Color ? ColorSpecular;
 		internal static Color ? ColorAmbient;
@@ -221,7 +224,7 @@ namespace creaturevisualizer
 		/// Creates an instance of a blueprint and tries to render it in the
 		/// ElectronPanel.
 		/// </summary>
-		internal void CreateInstance()
+		internal void CreateModel()
 		{
 			if (!CreVisF.BypassCreate) // ie. don't re-create the instance when a colorpicker closes.
 			{
@@ -344,7 +347,7 @@ namespace creaturevisualizer
 							}
 						}
 					}
-					CreateScene();
+					AddModel();
 				}
 			}
 		}
@@ -359,9 +362,9 @@ namespace creaturevisualizer
 		/// <summary>
 		/// Adds a model-instance to the scene.
 		/// </summary>
-		void CreateScene()
+		void AddModel()
 		{
-			if (_instance != null && StartScene())
+			if (_instance != null && Initialize())
 			{
 				bool first;
 				if (Model != null) // is NOT 'first' display - cache the previous model's telemetry since it's about to go byebye.
@@ -459,9 +462,10 @@ namespace creaturevisualizer
 		}
 
 		/// <summary>
-		/// Initializes the scene. Clears its objects and adds a lightpoint.
+		/// Initializes the scene. Clears any objects, sets up default lighting,
+		/// and adds a lightpoint.
 		/// </summary>
-		bool StartScene()
+		bool Initialize()
 		{
 			if (_f.WindowState != FormWindowState.Minimized)
 			{
@@ -476,9 +480,10 @@ namespace creaturevisualizer
 
 					if (Scene.DayNightCycleStages[(int)DayNightStageType.Default] != null)
 					{
-						Scene.DayNightCycleStages[(int)DayNightStageType.Default].SunMoonDirection = new Vector3(-0.33F, -0.67F, -0.67F);
-						Scene.DayNightCycleStages[(int)DayNightStageType.Default].ShadowIntensity = 0F;
+						Scene.DayNightCycleStages[(int)DayNightStageType.Default].SunMoonDirection = ENV_SUNMOON_POS;
+						Scene.DayNightCycleStages[(int)DayNightStageType.Default].ShadowIntensity  = ENV_SHADOW_VAL;
 					}
+
 /*		case DayNightStageType.Default:								// OEIShared.NetDisplay.DayNightState ->
 			SunMoonDirection = new Vector3(-0.05f, 0.08f, -0.1f);
 			SunMoon.DiffuseColor = Color.FromArgb(194, 139, 87);
@@ -574,8 +579,8 @@ namespace creaturevisualizer
 
 			if (Scene.DayNightCycleStages[(int)DayNightStageType.Default] != null)
 			{
-				Scene.DayNightCycleStages[(int)DayNightStageType.Default].SunMoonDirection = new Vector3(-0.33F, -0.67F, -0.67F);
-				Scene.DayNightCycleStages[(int)DayNightStageType.Default].ShadowIntensity = 0F;
+				Scene.DayNightCycleStages[(int)DayNightStageType.Default].SunMoonDirection = ENV_SUNMOON_POS;
+				Scene.DayNightCycleStages[(int)DayNightStageType.Default].ShadowIntensity  = ENV_SHADOW_VAL;
 			}
 
 

@@ -274,7 +274,7 @@ namespace creaturevisualizer
 		protected override void OnActivated(EventArgs e)
 		{
 			if (_itRefreshOnFocus.Checked && WindowState != FormWindowState.Minimized)
-				_panel.CreateInstance();
+				_panel.CreateModel();
 		}
 
 		protected override void OnResize(EventArgs e)
@@ -372,7 +372,7 @@ namespace creaturevisualizer
 		#region Handlers (menu)
 		void instanceclick_Refresh(object sender, EventArgs e)
 		{
-			_panel.CreateInstance();
+			_panel.CreateModel();
 		}
 
 		void instanceclick_RefreshOnFocus(object sender, EventArgs e)
@@ -1424,7 +1424,7 @@ namespace creaturevisualizer
 
 			if (_panel.Model != null)
 			{
-				_panel.CreateInstance();
+				_panel.CreateModel();
 				_panel.Focus();
 			}
 		}
