@@ -60,6 +60,7 @@ namespace creaturevisualizer
 
 // Light ->
 		internal static Vector3 LIGHT_START_POS = new Vector3(-0.5F, -4F, 2F);
+		const float LIGHT_START_RANGE = 50F; // default 10F
 
 		static Vector3 ENV_SUNMOON_POS = new Vector3(-0.33F, -0.67F, -0.67F);
 		const float ENV_SHADOW_VAL = 0F;
@@ -521,34 +522,8 @@ namespace creaturevisualizer
 			break;
 */
 
-					Light = new NetDisplayLightPoint();
+					CreateLight(LIGHT_START_POS);
 
-					Light.Position        = LIGHT_START_POS;
-
-					Light.Color.Intensity = CreatureVisualizerPreferences.that.LightIntensity;
-					Light.Range           = 50F; // default 10F
-					Light.CastsShadow     = false;
-
-					Light.ID              = NetDisplayManager.Instance.NextObjectID;	// doesn't appear to be req'd.
-					Light.Tag             = Light;										// doesn't appear to be req'd.
-
-
-					if (ColorCheckedDiffuse)  Light.Color.DiffuseColor  = (Color)ColorDiffuse;
-					if (ColorCheckedSpecular) Light.Color.SpecularColor = (Color)ColorSpecular;
-					if (ColorCheckedAmbient)  Light.Color.AmbientColor  = (Color)ColorAmbient;
-
-
-					lock (Scene.Objects.SyncRoot)
-					{
-						Scene.Objects.Add(Light);
-					}
-					lock (NWN2NetDisplayManager.Instance.Objects.SyncRoot)				// doesn't appear to be req'd.
-					{
-						NWN2NetDisplayManager.Instance.Objects.Add(Light);
-					}
-					NWN2NetDisplayManager.Instance.LightParameters(Light.Scene, Light);
-
-					_f.PrintLightPosition(Light.Position);
 					_f.PrintLightIntensity(Light.Color.Intensity);
 					_f.PrintDiffuseColor();
 					_f.PrintSpecularColor();
@@ -570,26 +545,23 @@ namespace creaturevisualizer
 
 
 		/// <summary>
-		/// Moves the light by recreating it at a specified position.
+		/// Moves the light by recreating it at a given position.
 		/// </summary>
 		/// <param name="pos"></param>
 		internal void MoveLight(Vector3 pos)
 		{
 			ClearLight();
+			CreateLight(pos);
+		}
 
-			if (Scene.DayNightCycleStages[(int)DayNightStageType.Default] != null)
-			{
-				Scene.DayNightCycleStages[(int)DayNightStageType.Default].SunMoonDirection = ENV_SUNMOON_POS;
-				Scene.DayNightCycleStages[(int)DayNightStageType.Default].ShadowIntensity  = ENV_SHADOW_VAL;
-			}
-
-
+		void CreateLight(Vector3 pos)
+		{
 			Light = new NetDisplayLightPoint();
 
 			Light.Position        = pos;
 
 			Light.Color.Intensity = CreatureVisualizerPreferences.that.LightIntensity;
-			Light.Range           = 50F;
+			Light.Range           = LIGHT_START_RANGE;
 			Light.CastsShadow     = false;
 
 			Light.ID              = NetDisplayManager.Instance.NextObjectID;	// doesn't appear to be req'd.
