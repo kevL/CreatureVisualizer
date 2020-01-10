@@ -90,7 +90,7 @@ namespace creaturevisualizer
 		RHQuaternion _rot; // rotation of the Model
 		Vector3      _sca; // scale    of the Model
 
-		Vector3 _posLight; // position of the Light
+		Vector3 _posLight = LIGHT_START_POS;
 		#endregion Fields
 
 
@@ -284,7 +284,7 @@ namespace creaturevisualizer
 			break;
 */
 
-					CreateLight(LIGHT_START_POS);
+					CreateLight();
 
 					_f.PrintLightIntensity(Light.Color.Intensity);
 					_f.PrintDiffuseColor();
@@ -305,11 +305,11 @@ namespace creaturevisualizer
 			return false;
 		}
 
-		void CreateLight(Vector3 pos)
+		void CreateLight()
 		{
 			Light = new NetDisplayLightPoint();
 
-			Light.Position        = pos;
+			Light.Position        = _posLight;
 
 			Light.Color.Intensity = CreatureVisualizerPreferences.that.LightIntensity;
 			Light.Range           = LIGHT_START_RANGE;
@@ -390,13 +390,8 @@ namespace creaturevisualizer
 							_isplaced = false;
 
 							var blueprint = selection[0] as INWN2Blueprint;
-							if (!blueprint.Equals(_blueprint0))
-							{
+							if (_changed = !blueprint.Equals(_blueprint0))
 								_blueprint0 = blueprint;
-								_changed = true;
-							}
-							else
-								_changed = false;
 
 							switch (tslist.GetFocusedListObjectType())
 							{
@@ -474,7 +469,7 @@ namespace creaturevisualizer
 		/// </summary>
 		void AddModel()
 		{
-			if (_instance != null && Initialize()) // TODO: Maintain light-position on model changed.
+			if (_instance != null && Initialize())
 			{
 				bool first;
 				if (Model != null) // is NOT 'first' display - cache the previous model's telemetry since it's about to go byebye.
@@ -500,7 +495,7 @@ namespace creaturevisualizer
 // create Model ->
 				Model = NWN2NetDisplayManager.Instance.CreateNDOForInstance(_instance, Scene, 0); // 0=NetDisplayModel
 
-				Model.PositionChanged += positionchanged_Object;
+				Model.PositionChanged += positionchanged_Model;
 
 				_f.PrintOriginalScale(Model.Scale.X.ToString("N2"));
 
@@ -604,7 +599,9 @@ namespace creaturevisualizer
 		internal void MoveLight(Vector3 pos)
 		{
 			ClearLight();
-			CreateLight(pos);
+
+			_posLight = pos;
+			CreateLight();
 		}
 
 
@@ -632,12 +629,12 @@ namespace creaturevisualizer
 
 
 		#region Handlers
-		float _zObject;
-		void positionchanged_Object(object sender, EventArgs e)
+		float _zModel;
+		void positionchanged_Model(object sender, EventArgs e)
 		{
-			if (!Model.Position.Z.Equals(_zObject))
+			if (!Model.Position.Z.Equals(_zModel))
 			{
-				_zObject = Model.Position.Z;
+				_zModel = Model.Position.Z;
 				_f.PrintModelPosition(Model);
 			}
 		}
