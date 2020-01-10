@@ -89,6 +89,8 @@ namespace creaturevisualizer
 		Vector3      _pos; // position of the Model
 		RHQuaternion _rot; // rotation of the Model
 		Vector3      _sca; // scale    of the Model
+
+		Vector3 _posLight; // position of the Light
 		#endregion Fields
 
 
@@ -223,6 +225,119 @@ namespace creaturevisualizer
 
 		#region Methods
 		/// <summary>
+		/// Initializes the scene. Clears any objects, sets up default lighting,
+		/// and adds a lightpoint.
+		/// </summary>
+		bool Initialize()
+		{
+			if (_f.WindowState != FormWindowState.Minimized)
+			{
+				CloseWindow(); // safety - try not to confuse the NWN2NetDisplayManager.Instance ...
+
+				if (NDWindow == null)
+					OpenWindow();
+
+				if (NDWindow != null && Scene != null)
+				{
+					ClearObjects();
+
+					if (Scene.DayNightCycleStages[(int)DayNightStageType.Default] != null)
+					{
+						Scene.DayNightCycleStages[(int)DayNightStageType.Default].SunMoonDirection = E_DEF_SUNMOON_POS;
+						Scene.DayNightCycleStages[(int)DayNightStageType.Default].ShadowIntensity  = E_DEF_SHADOW_VAL;
+					}
+
+/*		case DayNightStageType.Default:								// OEIShared.NetDisplay.DayNightState ->
+			SunMoonDirection = new Vector3(-0.05f, 0.08f, -0.1f);
+			SunMoon.DiffuseColor = Color.FromArgb(194, 139, 87);
+			SunMoon.SpecularColor = Color.FromArgb(173, 188, 163);
+			SunMoon.AmbientColor = Color.FromArgb(255, 255, 255);
+			SunMoon.Intensity = 1f;
+			SkyLight.DiffuseColor = Color.FromArgb(215, 229, 250);
+			SkyLight.SpecularColor = Color.FromArgb(194, 139, 87);
+			SkyLight.AmbientColor = Color.FromArgb(255, 255, 255);
+			SkyLight.Intensity = 0.2f;
+			GroundLight.DiffuseColor = Color.FromArgb(221, 194, 161);
+			GroundLight.SpecularColor = Color.FromArgb(221, 194, 161);
+			GroundLight.AmbientColor = Color.FromArgb(255, 255, 255);
+			GroundLight.Intensity = 0.45f;
+			SkyHorizon = Color.FromArgb(163, 189, 255);
+			SkyZenith = Color.FromArgb(173, 194, 255);
+			Fog.FogColor = Color.FromArgb(134, 153, 211);
+			Fog.FarClip = 200f;
+			Fog.FogStart = 60f;
+			Fog.FogEnd = 170f;
+			AvgLuminance = 0.65f;
+			BloomBlurRadius = 6.4f;
+			BloomGlowIntensity = 0f;
+			BloomHighlightIntensity = 0.54f;
+			BloomHighlightThreshold = 0.86f;
+			BloomSceneIntensity = 1f;
+			CloudCover = 0.8f;
+			CloudMovementRateX = 0.04f;
+			CloudMovementRateY = 0f;
+			Exposure = 5f;
+			HighlightThreshold = 5f;
+			MaxLuminance = 3.65f;
+			ShadowIntensity = 0.42f;
+			SunCoronaIntensity = 0.33f;
+			break;
+*/
+
+					CreateLight(LIGHT_START_POS);
+
+					_f.PrintLightIntensity(Light.Color.Intensity);
+					_f.PrintDiffuseColor();
+					_f.PrintSpecularColor();
+					_f.PrintAmbientColor();
+
+//					SetDoubleBuffered(NDWindow);
+//					SetDoubleBuffered(NWN2NetDisplayManager.Instance.Windows);
+
+//					var a = new NetDisplayWindow[NWN2NetDisplayManager.Instance.Windows.Count];
+//					for (int i = 0; i != NWN2NetDisplayManager.Instance.Windows.Count; ++i)
+//						a[i] = NWN2NetDisplayManager.Instance.Windows[i];
+//					SetDoubleBuffered(a);
+
+					return true;
+				}
+			}
+			return false;
+		}
+
+		void CreateLight(Vector3 pos)
+		{
+			Light = new NetDisplayLightPoint();
+
+			Light.Position        = pos;
+
+			Light.Color.Intensity = CreatureVisualizerPreferences.that.LightIntensity;
+			Light.Range           = LIGHT_START_RANGE;
+			Light.CastsShadow     = false;
+
+			Light.ID              = NetDisplayManager.Instance.NextObjectID;	// doesn't appear to be req'd.
+			Light.Tag             = Light;										// doesn't appear to be req'd. (light gets tagged w/ a pointer to itself)
+
+
+			if (ColorCheckedDiffuse)  Light.Color.DiffuseColor  = (Color)ColorDiffuse;
+			if (ColorCheckedSpecular) Light.Color.SpecularColor = (Color)ColorSpecular;
+			if (ColorCheckedAmbient)  Light.Color.AmbientColor  = (Color)ColorAmbient;
+
+
+			lock (Scene.Objects.SyncRoot)
+			{
+				Scene.Objects.Add(Light);
+			}
+			lock (NWN2NetDisplayManager.Instance.Objects.SyncRoot)
+			{
+				NWN2NetDisplayManager.Instance.Objects.Add(Light);				// doesn't appear to be req'd.
+			}
+
+			NWN2NetDisplayManager.Instance.LightParameters(Light.Scene, Light);
+			_f.PrintLightPosition(Light.Position);
+		}
+
+		/// <summary>
 		/// Creates an instance of a blueprint and tries to render it in the
 		/// ElectronPanel.
 		/// </summary>
@@ -354,13 +469,6 @@ namespace creaturevisualizer
 			}
 		}
 
-//		NWN2NetDisplayManager.NWN2CreatureTemplate.AppearanceChanged;
-//		internal void UpdateScene()
-//		{
-//			NWN2NetDisplayManager.Instance.UpdateAppearanceForInstance(_instance);
-//		}
-
-
 		/// <summary>
 		/// Adds a model-instance to the scene.
 		/// </summary>
@@ -463,130 +571,6 @@ namespace creaturevisualizer
 			}
 		}
 
-		/// <summary>
-		/// Initializes the scene. Clears any objects, sets up default lighting,
-		/// and adds a lightpoint.
-		/// </summary>
-		bool Initialize()
-		{
-			if (_f.WindowState != FormWindowState.Minimized)
-			{
-				CloseWindow(); // safety - try not to confuse the NWN2NetDisplayManager.Instance ...
-
-				if (NDWindow == null)
-					OpenWindow();
-
-				if (NDWindow != null && Scene != null)
-				{
-					ClearObjects();
-
-					if (Scene.DayNightCycleStages[(int)DayNightStageType.Default] != null)
-					{
-						Scene.DayNightCycleStages[(int)DayNightStageType.Default].SunMoonDirection = E_DEF_SUNMOON_POS;
-						Scene.DayNightCycleStages[(int)DayNightStageType.Default].ShadowIntensity  = E_DEF_SHADOW_VAL;
-					}
-
-/*		case DayNightStageType.Default:								// OEIShared.NetDisplay.DayNightState ->
-			SunMoonDirection = new Vector3(-0.05f, 0.08f, -0.1f);
-			SunMoon.DiffuseColor = Color.FromArgb(194, 139, 87);
-			SunMoon.SpecularColor = Color.FromArgb(173, 188, 163);
-			SunMoon.AmbientColor = Color.FromArgb(255, 255, 255);
-			SunMoon.Intensity = 1f;
-			SkyLight.DiffuseColor = Color.FromArgb(215, 229, 250);
-			SkyLight.SpecularColor = Color.FromArgb(194, 139, 87);
-			SkyLight.AmbientColor = Color.FromArgb(255, 255, 255);
-			SkyLight.Intensity = 0.2f;
-			GroundLight.DiffuseColor = Color.FromArgb(221, 194, 161);
-			GroundLight.SpecularColor = Color.FromArgb(221, 194, 161);
-			GroundLight.AmbientColor = Color.FromArgb(255, 255, 255);
-			GroundLight.Intensity = 0.45f;
-			SkyHorizon = Color.FromArgb(163, 189, 255);
-			SkyZenith = Color.FromArgb(173, 194, 255);
-			Fog.FogColor = Color.FromArgb(134, 153, 211);
-			Fog.FarClip = 200f;
-			Fog.FogStart = 60f;
-			Fog.FogEnd = 170f;
-			AvgLuminance = 0.65f;
-			BloomBlurRadius = 6.4f;
-			BloomGlowIntensity = 0f;
-			BloomHighlightIntensity = 0.54f;
-			BloomHighlightThreshold = 0.86f;
-			BloomSceneIntensity = 1f;
-			CloudCover = 0.8f;
-			CloudMovementRateX = 0.04f;
-			CloudMovementRateY = 0f;
-			Exposure = 5f;
-			HighlightThreshold = 5f;
-			MaxLuminance = 3.65f;
-			ShadowIntensity = 0.42f;
-			SunCoronaIntensity = 0.33f;
-			break;
-*/
-
-					CreateLight(LIGHT_START_POS);
-
-					_f.PrintLightIntensity(Light.Color.Intensity);
-					_f.PrintDiffuseColor();
-					_f.PrintSpecularColor();
-					_f.PrintAmbientColor();
-
-//					SetDoubleBuffered(NDWindow);
-//					SetDoubleBuffered(NWN2NetDisplayManager.Instance.Windows);
-
-//					var a = new NetDisplayWindow[NWN2NetDisplayManager.Instance.Windows.Count];
-//					for (int i = 0; i != NWN2NetDisplayManager.Instance.Windows.Count; ++i)
-//						a[i] = NWN2NetDisplayManager.Instance.Windows[i];
-//					SetDoubleBuffered(a);
-
-					return true;
-				}
-			}
-			return false;
-		}
-
-
-		/// <summary>
-		/// Moves the light by recreating it at a given position.
-		/// </summary>
-		/// <param name="pos"></param>
-		internal void MoveLight(Vector3 pos)
-		{
-			ClearLight();
-			CreateLight(pos);
-		}
-
-		void CreateLight(Vector3 pos)
-		{
-			Light = new NetDisplayLightPoint();
-
-			Light.Position        = pos;
-
-			Light.Color.Intensity = CreatureVisualizerPreferences.that.LightIntensity;
-			Light.Range           = LIGHT_START_RANGE;
-			Light.CastsShadow     = false;
-
-			Light.ID              = NetDisplayManager.Instance.NextObjectID;	// doesn't appear to be req'd.
-			Light.Tag             = Light;										// doesn't appear to be req'd. (light gets tagged w/ a pointer to itself)
-
-
-			if (ColorCheckedDiffuse)  Light.Color.DiffuseColor  = (Color)ColorDiffuse;
-			if (ColorCheckedSpecular) Light.Color.SpecularColor = (Color)ColorSpecular;
-			if (ColorCheckedAmbient)  Light.Color.AmbientColor  = (Color)ColorAmbient;
-
-
-			lock (Scene.Objects.SyncRoot)
-			{
-				Scene.Objects.Add(Light);
-			}
-			lock (NWN2NetDisplayManager.Instance.Objects.SyncRoot)
-			{
-				NWN2NetDisplayManager.Instance.Objects.Add(Light);				// doesn't appear to be req'd.
-			}
-
-			NWN2NetDisplayManager.Instance.LightParameters(Light.Scene, Light);
-			_f.PrintLightPosition(Light.Position);
-		}
-
 
 		void ClearObjects()
 		{
@@ -613,6 +597,22 @@ namespace creaturevisualizer
 			NWN2NetDisplayManager.Instance.RemoveObjects(objects);
 		}
 
+		/// <summary>
+		/// Moves the light by recreating it at a given position.
+		/// </summary>
+		/// <param name="pos"></param>
+		internal void MoveLight(Vector3 pos)
+		{
+			ClearLight();
+			CreateLight(pos);
+		}
+
+
+//		NWN2NetDisplayManager.NWN2CreatureTemplate.AppearanceChanged;
+//		internal void UpdateScene()
+//		{
+//			NWN2NetDisplayManager.Instance.UpdateAppearanceForInstance(_instance);
+//		}
 
 /*		static string StringDecryptor(string st)
 		{
