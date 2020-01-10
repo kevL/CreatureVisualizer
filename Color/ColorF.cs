@@ -31,10 +31,10 @@ namespace creaturevisualizer
 
 			InitializeComponent();
 
-			int x = CreatureVisualizerPreferences.that.x_color;
+			int x = CreatureVisualizerPreferences.that.x_ColorDialog;
 			if (x > -1)
 			{
-				int y = CreatureVisualizerPreferences.that.y_color;
+				int y = CreatureVisualizerPreferences.that.y_ColorDialog;
 				if (y > -1 && CreVisF.checklocation(x,y))
 				{
 					StartPosition = FormStartPosition.Manual;
@@ -116,8 +116,8 @@ namespace creaturevisualizer
 		#region Handlers (override)
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
-			CreatureVisualizerPreferences.that.x_color = DesktopLocation.X;
-			CreatureVisualizerPreferences.that.y_color = DesktopLocation.Y;
+			CreatureVisualizerPreferences.that.x_ColorDialog = DesktopLocation.X;
+			CreatureVisualizerPreferences.that.y_ColorDialog = DesktopLocation.Y;
 		}
 
 		protected override void OnKeyUp(KeyEventArgs e)

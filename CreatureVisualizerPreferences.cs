@@ -64,9 +64,9 @@ namespace creaturevisualizer
 		{ get; set; }
 
 
-		public int x_color
+		public int x_ColorDialog
 		{ get; set; }
-		public int y_color
+		public int y_ColorDialog
 		{ get; set; }
 
 
@@ -91,11 +91,11 @@ namespace creaturevisualizer
 			ShowMinipanel = true;
 			TabPageCurrent = Tp_Controls;
 
-			LightIntensity   = 0.75F;
+			LightIntensity = 0.75F;
 			CameraBaseHeight = 1.00F;
 
-			x_color =
-			y_color = Int32.MinValue;
+			x_ColorDialog =
+			y_ColorDialog = Int32.MinValue;
 
 			char_Female = false;
 		}
