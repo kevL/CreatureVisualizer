@@ -802,14 +802,14 @@ namespace creaturevisualizer
 			var state = Receiver.CameraState as ModelViewerInputCameraReceiverState;
 
 // position ->
-			var y = new Vector3(0f, 1f, 0f);
+			var y = new Vector3(0F,1F,0F);
 			y = RHMatrix.RotationZ(state.FocusTheta).TransformCoordinate(y);
 
-			var z = new Vector3(0f, 0f, 1f);
+			var z = new Vector3(0F,0F,1F);
 			z = RHMatrix.RotationZ(state.FocusTheta)    .TransformCoordinate(z);
 			z = RHMatrix.RotationAxis(y, state.FocusPhi).TransformCoordinate(z);
 
-			var pos = new Vector3(1f, 0f, 0f);
+			var pos = new Vector3(1F,0F,0F);
 			pos = RHMatrix.RotationZ(state.FocusTheta)    .TransformCoordinate(pos);
 			pos = RHMatrix.RotationAxis(y, state.FocusPhi).TransformCoordinate(pos);
 

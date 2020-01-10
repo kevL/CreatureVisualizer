@@ -757,6 +757,7 @@ namespace creaturevisualizer
 													_panel.CameraPosition.Y,
 													ElectronPanel_.CAM_START_POS.Z + ElectronPanel_.CAM_BASEHEIGHT.Z);
 				PrintCameraPosition();
+				_panel.Focus();
 			}
 		}
 
@@ -769,6 +770,7 @@ namespace creaturevisualizer
 													ElectronPanel_.CAM_START_POS.Y,
 													_panel.CameraPosition.Z);
 				PrintCameraPosition();
+				_panel.Focus();
 			}
 		}
 
@@ -779,6 +781,7 @@ namespace creaturevisualizer
 				((ModelViewerInputCameraReceiverState)_panel.Receiver.CameraState).Distance = ElectronPanel_.CAM_START_DIST;
 				_panel.UpdateCamera();
 				PrintCameraPosition();
+				_panel.Focus();
 			}
 		}
 
@@ -790,6 +793,7 @@ namespace creaturevisualizer
 				_panel.Receiver.CameraAngleYZ = ElectronPanel_.CAM_START_PHI;
 				_panel.CameraPosition += ElectronPanel_.CAM_BASEHEIGHT;
 				PrintCameraPosition();
+				_panel.Focus();
 			}
 		}
 
@@ -802,6 +806,7 @@ namespace creaturevisualizer
 				Offset.X = Offset.Y = Offset.Z = 0F;
 				_panel.UpdateCamera();
 				PrintCameraPosition();
+				_panel.Focus();
 
 				//NetDisplayManager.Instance.MoveCamera  (NetDisplayWindow, ChangeType, Vector3);		// <- Position
 				//NetDisplayManager.Instance.RotateCamera(NetDisplayWindow, ChangeType, RHQuaternion);	// <- Orientation
@@ -967,31 +972,46 @@ namespace creaturevisualizer
 		void click_bu_model_reset(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
+			{
 				_panel.ResetModel();
+				_panel.Focus();
+			}
 		}
 
 		void click_bu_model_zreset(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
+			{
 				_panel.ResetModel(ResetType.RESET_z);
+				_panel.Focus();
+			}
 		}
 
 		void click_bu_model_xyreset(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
+			{
 				_panel.ResetModel(ResetType.RESET_xy);
+				_panel.Focus();
+			}
 		}
 
 		void click_bu_model_rotreset(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
+			{
 				_panel.ResetModel(ResetType.RESET_rot);
+				_panel.Focus();
+			}
 		}
 
 		void click_bu_model_scalereset(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
+			{
 				_panel.ResetModel(ResetType.RESET_scale);
+				_panel.Focus();
+			}
 		}
 		#endregion Handlers (model)
 
@@ -1042,6 +1062,7 @@ namespace creaturevisualizer
 									  _panel.Light.Position.Y,
 									  ElectronPanel_.LIGHT_START_POS.Z);
 				_panel.MoveLight(pos);
+				_panel.Focus();
 			}
 		}
 
@@ -1053,13 +1074,17 @@ namespace creaturevisualizer
 									  ElectronPanel_.LIGHT_START_POS.Y,
 									  _panel.Light.Position.Z);
 				_panel.MoveLight(pos);
+				_panel.Focus();
 			}
 		}
 
 		void click_bu_light_reset(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
+			{
 				_panel.MoveLight(ElectronPanel_.LIGHT_START_POS);
+				_panel.Focus();
+			}
 		}
 
 
@@ -1398,7 +1423,10 @@ namespace creaturevisualizer
 			CreatureVisualizerPreferences.that.char_Female = cb_char_female.Checked;
 
 			if (_panel.Model != null)
+			{
 				_panel.CreateInstance();
+				_panel.Focus();
+			}
 		}
 		#endregion Handlers (character)
 
