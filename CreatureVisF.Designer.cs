@@ -99,7 +99,7 @@ namespace creaturevisualizer
 		ToolStripStatusLabel tssl_light_intensity;
 
 		Label la_camera_height;
-		TextBox tb_camera_height;
+		TextBox tb_camera_baseheight;
 
 		Label la_camera_yaw;
 		Label la_camera_pitch;
@@ -193,7 +193,7 @@ namespace creaturevisualizer
 			this.bu_model_zpos = new System.Windows.Forms.Button();
 			this.gb_camera = new System.Windows.Forms.GroupBox();
 			this.la_camera_height = new System.Windows.Forms.Label();
-			this.tb_camera_height = new System.Windows.Forms.TextBox();
+			this.tb_camera_baseheight = new System.Windows.Forms.TextBox();
 			this.bu_camera_yawpos = new System.Windows.Forms.Button();
 			this.la_camera_yaw = new System.Windows.Forms.Label();
 			this.la_camera_pitch = new System.Windows.Forms.Label();
@@ -1021,7 +1021,7 @@ namespace creaturevisualizer
 			// gb_camera
 			// 
 			this.gb_camera.Controls.Add(this.la_camera_height);
-			this.gb_camera.Controls.Add(this.tb_camera_height);
+			this.gb_camera.Controls.Add(this.tb_camera_baseheight);
 			this.gb_camera.Controls.Add(this.bu_camera_yawpos);
 			this.gb_camera.Controls.Add(this.la_camera_yaw);
 			this.gb_camera.Controls.Add(this.la_camera_pitch);
@@ -1065,17 +1065,17 @@ namespace creaturevisualizer
 			this.la_camera_height.Text = "base h";
 			this.la_camera_height.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
-			// tb_camera_height
+			// tb_camera_baseheight
 			// 
-			this.tb_camera_height.BackColor = System.Drawing.Color.White;
-			this.tb_camera_height.Location = new System.Drawing.Point(227, 80);
-			this.tb_camera_height.Margin = new System.Windows.Forms.Padding(0);
-			this.tb_camera_height.Name = "tb_camera_height";
-			this.tb_camera_height.Size = new System.Drawing.Size(40, 20);
-			this.tb_camera_height.TabIndex = 23;
-			this.tb_camera_height.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.tb_camera_height.TextChanged += new System.EventHandler(this.textchanged_tb_camera_baseheight);
-			this.tb_camera_height.KeyDown += new System.Windows.Forms.KeyEventHandler(this.keydown_tb_camera_baseheight);
+			this.tb_camera_baseheight.BackColor = System.Drawing.Color.White;
+			this.tb_camera_baseheight.Location = new System.Drawing.Point(227, 80);
+			this.tb_camera_baseheight.Margin = new System.Windows.Forms.Padding(0);
+			this.tb_camera_baseheight.Name = "tb_camera_baseheight";
+			this.tb_camera_baseheight.Size = new System.Drawing.Size(40, 20);
+			this.tb_camera_baseheight.TabIndex = 23;
+			this.tb_camera_baseheight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.tb_camera_baseheight.TextChanged += new System.EventHandler(this.textchanged_tb_camera_baseheight);
+			this.tb_camera_baseheight.KeyDown += new System.Windows.Forms.KeyEventHandler(this.keydown_tb_camera_baseheight);
 			// 
 			// bu_camera_yawpos
 			// 

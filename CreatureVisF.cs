@@ -59,12 +59,14 @@ namespace creaturevisualizer
 		internal CreatureVisF()
 		{
 			InitializeComponent();
+			Text = TITLE;
 
 			ss_camera.Renderer =
 			ss_light .Renderer =
 			ss_model .Renderer = new StripRenderer();
 
-			Text = TITLE;
+			tb_camera_baseheight.MouseWheel += mousewheel_textbox;
+			tb_light_intensity  .MouseWheel += mousewheel_textbox;
 
 			_panel = new ElectronPanel_(this);
 			_panel.Dock = DockStyle.Fill;
@@ -103,8 +105,8 @@ namespace creaturevisualizer
 			_pa_Con_w = pa_con.Width;
 			_pa_Con_h = pa_con.Height;
 
-			tb_camera_height  .Text = ElectronPanel_.POS_OFF_Zd.Z                      .ToString("N2");
-			tb_light_intensity.Text = CreatureVisualizerPreferences.that.LightIntensity.ToString("N2");
+			tb_camera_baseheight.Text = ElectronPanel_.POS_OFF_Zd.Z                      .ToString("N2");
+			tb_light_intensity  .Text = CreatureVisualizerPreferences.that.LightIntensity.ToString("N2");
 
 
 			if (ElectronPanel_.ColorDiffuse != null)
@@ -344,6 +346,25 @@ namespace creaturevisualizer
 		void selectedindexchanged_TabControl(object sender, EventArgs e)
 		{
 			CreatureVisualizerPreferences.that.TabPageCurrent = tc1.SelectedIndex;
+		}
+
+		void mousewheel_textbox(object sender, MouseEventArgs e)
+		{
+			Keys                  keydata = Keys.None;
+			if      (e.Delta > 0) keydata = Keys.Add;
+			else if (e.Delta < 0) keydata = Keys.Subtract;
+
+			if (keydata != Keys.None)
+			{
+				if (sender == tb_camera_baseheight)
+				{
+					keydown_tb_camera_baseheight(null, new KeyEventArgs(keydata));
+				}
+				else // sender == tb_light_intensity
+				{
+					keydown_tb_light_intensity(null, new KeyEventArgs(keydata));
+				}
+			}
 		}
 		#endregion Handlers
 
@@ -813,16 +834,16 @@ namespace creaturevisualizer
 		void textchanged_tb_camera_baseheight(object sender, EventArgs e)
 		{
 			float result;
-			if (Single.TryParse(tb_camera_height.Text, out result)
+			if (Single.TryParse(tb_camera_baseheight.Text, out result)
 				&& result > -100F && result < 100F)
 			{
 				ElectronPanel_.POS_OFF_Zd = new Vector3(0F,0F, result);
 				_panel.UpdateCamera();
 			}
 			else if (result <= -100F)
-				tb_camera_height.Text = (-99.99F).ToString("N2");	// refire^
+				tb_camera_baseheight.Text = (-99.99F).ToString("N2"); // recurse^
 			else if (result >=  100F)
-				tb_camera_height.Text = 99.99F.ToString("N2");		// refire^
+				tb_camera_baseheight.Text =   99.99F .ToString("N2"); // recurse^
 		}
 
 		void keydown_tb_camera_baseheight(object sender, KeyEventArgs e)
@@ -838,7 +859,7 @@ namespace creaturevisualizer
 				{
 					float z = ElectronPanel_.POS_OFF_Zd.Z;
 					z += grader(0.1F);
-					tb_camera_height.Text = z.ToString("N2");
+					tb_camera_baseheight.Text = z.ToString("N2");
 
 					e.Handled = e.SuppressKeyPress = true;
 					break;
@@ -849,7 +870,7 @@ namespace creaturevisualizer
 				{
 					float z = ElectronPanel_.POS_OFF_Zd.Z;
 					z -= grader(0.1F);
-					tb_camera_height.Text = z.ToString("N2");
+					tb_camera_baseheight.Text = z.ToString("N2");
 
 					e.Handled = e.SuppressKeyPress = true;
 					break;
@@ -1479,8 +1500,6 @@ namespace creaturevisualizer
 		/// <param name="object"></param>
 		internal void PrintModelPosition(NetDisplayObject @object)
 		{
-			// TODO: group per z,x/y,rot separately - too many prints here.
-
 			// position ->
 			Vector3 pos = @object.Position;
 
@@ -1493,7 +1512,6 @@ namespace creaturevisualizer
 			ConvertQuaternion(@object.Orientation, out rot, out pitch);
 			tssl_model_rot.Text = rot.ToString();
 		}
-		//set: Orientation = RHQuaternion.RotationAxis(new Vector3(0f, 0f, 1f), (float)value * ((float)Math.PI / 180f));
 
 		void ConvertQuaternion(RHQuaternion quaternion, out int rot, out int pitch)
 		{
