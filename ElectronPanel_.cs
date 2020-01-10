@@ -44,14 +44,14 @@ namespace creaturevisualizer
 	{
 		#region Fields (static)
 // Camera ->
-		internal static float CAM_START_TET = (float)Math.PI /  2F;
-		internal static float CAM_START_PHI = (float)Math.PI / 32F;
+		internal const float CAM_START_TET = (float)Math.PI /  2F;
+		internal const float CAM_START_PHI = (float)Math.PI / 32F;
 
 		internal const  float CAM_START_DIST = 5F;
 
 		internal static Vector3 CAM_START_POS;
 
-		internal static Vector3 CAM_BASEHEIGHT = new Vector3(0F, 0F, 1.15F); // base height
+		internal static Vector3 CAM_BASEHEIGHT = new Vector3(0F,0F, CreatureVisualizerPreferences.that.CameraBaseHeight);
 
 // Model ->
 		const float MODEL_START_ROT = (float)Math.PI * 7F / 8F;

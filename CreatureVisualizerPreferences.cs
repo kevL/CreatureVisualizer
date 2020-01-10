@@ -60,6 +60,9 @@ namespace creaturevisualizer
 		public float LightIntensity
 		{ get; set; }
 
+		public float CameraBaseHeight
+		{ get; set; }
+
 
 		public int x_color
 		{ get; set; }
@@ -88,7 +91,8 @@ namespace creaturevisualizer
 			ShowMinipanel = true;
 			TabPageCurrent = Tp_Controls;
 
-			LightIntensity = 0.75F;
+			LightIntensity   = 0.75F;
+			CameraBaseHeight = 1.00F;
 
 			x_color =
 			y_color = Int32.MinValue;
