@@ -11,7 +11,7 @@ using OEIShared.UI.Input;
 
 namespace creaturevisualizer
 {
-	sealed partial class CreatureVisF
+	sealed partial class CreVisF
 		: Form
 	{
 		#region Fields (static)
@@ -56,7 +56,7 @@ namespace creaturevisualizer
 		/// cTor. Creates and adds menuitems and adds the NetDisplay panel. Also
 		/// attempts to create and render a blueprint instance.
 		/// </summary>
-		internal CreatureVisF()
+		internal CreVisF()
 		{
 			InitializeComponent();
 			Text = TITLE;

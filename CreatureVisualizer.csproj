@@ -83,9 +83,9 @@
     <Compile Include="Color\ColorSpaceControlRGB.cs" />
     <Compile Include="Color\RGB.cs" />
     <Compile Include="Color\TextboxRestrictive.cs" />
-    <Compile Include="CreatureVisF.cs" />
-    <Compile Include="CreatureVisF.Designer.cs">
-      <DependentUpon>CreatureVisF.cs</DependentUpon>
+    <Compile Include="CreVisF.cs" />
+    <Compile Include="CreVisF.Designer.cs">
+      <DependentUpon>CreVisF.cs</DependentUpon>
     </Compile>
     <Compile Include="ElectronPanel_.cs" />
     <Compile Include="CreatureVisualizer.cs" />
@@ -138,8 +138,8 @@
     <EmbeddedResource Include="Color\ColorSpaceControlRGB.resx">
       <DependentUpon>ColorSpaceControlRGB.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CreatureVisF.resx">
-      <DependentUpon>CreatureVisF.cs</DependentUpon>
+    <EmbeddedResource Include="CreVisF.resx">
+      <DependentUpon>CreVisF.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HelpF.resx">
       <DependentUpon>HelpF.cs</DependentUpon>

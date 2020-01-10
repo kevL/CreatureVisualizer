@@ -35,7 +35,7 @@ namespace creaturevisualizer
 			if (x > -1)
 			{
 				int y = CreatureVisualizerPreferences.that.y_color;
-				if (y > -1 && CreatureVisF.checklocation(x,y))
+				if (y > -1 && CreVisF.checklocation(x,y))
 				{
 					StartPosition = FormStartPosition.Manual;
 					SetDesktopLocation(x,y);
