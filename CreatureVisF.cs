@@ -1463,24 +1463,13 @@ namespace creaturevisualizer
 			tssl_camera_ypos.Text = pos.Y.ToString("N2");
 			tssl_camera_zpos.Text = pos.Z.ToString("N2");
 
-			// rotation ->
-			var axis = new Vector3();
-			float angle = 0F;
-			RHQuaternion.ToAxisAngle(_panel.CameraOrientation, ref axis, ref angle);
+			// rotation/pitch ->
+			int rot, pitch;
+			ConvertQuaternion(_panel.CameraOrientation, out rot, out pitch);
+			tssl_camera_rot.Text = la_camera_yaw.Text = rot.ToString();
+			la_camera_pitch.Text = pitch.ToString();
 
-			if (axis.Z < 0F) angle = -angle;
-			angle *= 180F / (float)Math.PI;
-			if (angle < 0F) angle += 360F;
-
-			tssl_camera_rot.Text = ((int)angle).ToString(); // 0 is north, goes clockwise
-
-
-			var state = _panel.Receiver.CameraState as ModelViewerInputCameraReceiverState;
-			la_camera_pitch.Text = ((int)(state.FocusPhi * 180F / (float)Math.PI)).ToString(); // to degs
-
-//			la_camera_yaw.Text = ((int)(state.FocusTheta * 180F / (float)Math.PI) % 360).ToString();	// <- this gives weird result (+90 deg, also can go neg)
-			la_camera_yaw.Text = tssl_camera_rot.Text;													// <- use this instead
-
+			// distance ->
 			tssl_camera_dist.Text = _panel.Receiver.Distance.ToString("N2");
 		}
 
@@ -1500,17 +1489,31 @@ namespace creaturevisualizer
 			tssl_model_zpos.Text = pos.Z.ToString("N2");
 
 			// rotation ->
-			var axis = new Vector3();
-			float angle = 0F;
-			RHQuaternion.ToAxisAngle(@object.Orientation, ref axis, ref angle);
-
-			if (axis.Z < 0F) angle = -angle;
-			angle *= 180F / (float)Math.PI;
-			if (angle < 0F) angle += 360F;
-
-			tssl_model_rot.Text = ((int)angle).ToString(); // 0 is north, goes clockwise
+			int rot, pitch;
+			ConvertQuaternion(@object.Orientation, out rot, out pitch);
+			tssl_model_rot.Text = rot.ToString();
 		}
 		//set: Orientation = RHQuaternion.RotationAxis(new Vector3(0f, 0f, 1f), (float)value * ((float)Math.PI / 180f));
+
+		void ConvertQuaternion(RHQuaternion quaternion, out int rot, out int pitch)
+		{
+			float fYaw, fPitch, fRoll;
+			quaternion.GetYawPitchRoll(out fYaw, out fPitch, out fRoll);
+
+			// rotation ->
+			if (fYaw >= 0F)
+			{
+				rot = (int)Math.Round(fYaw * 180F / (float)Math.PI, MidpointRounding.AwayFromZero);
+				rot = 360 - rot;
+			}
+			else
+				rot = (int)Math.Round(-fYaw * 180F / (float)Math.PI, MidpointRounding.AwayFromZero);
+
+			if (rot == 360) rot = 0;
+
+			// pitch ->
+			pitch = (int)Math.Round(-fPitch * 90F / ((float)Math.PI / 2F), MidpointRounding.AwayFromZero);
+		}
 
 		internal void PrintModelScale()
 		{
