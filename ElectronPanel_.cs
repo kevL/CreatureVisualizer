@@ -62,7 +62,7 @@ namespace creaturevisualizer
 		internal static Vector3 LIGHT_START_POS = new Vector3(-0.5F, -4F, 2F);
 
 		static Vector3 ENV_SUNMOON_POS = new Vector3(-0.33F, -0.67F, -0.67F);
-		const  float   ENV_SHADOW_VAL = 0F;
+		const float ENV_SHADOW_VAL = 0F;
 
 		// Colors ->
 		internal static Color ? ColorDiffuse;
