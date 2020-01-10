@@ -43,13 +43,25 @@ namespace creaturevisualizer
 		: ElectronPanel
 	{
 		#region Fields (static)
-		internal static Vector3 POS_START_CAMERA;
+// Camera ->
+		internal static float CAM_START_TET = (float)Math.PI /  2F;
+		internal static float CAM_START_PHI = (float)Math.PI / 32F;
 
-		internal static Vector3 POS_START_LIGHT = new Vector3(-0.5F, -4F, 2.00F);
-		internal static Vector3 POS_OFF_Zd      = new Vector3( 0.0F,  0F, 1.15F); // base height
+		internal const  float CAM_START_DIST = 5F;
 
-		internal const  float DIST_START = 5F;
+		internal static Vector3 CAM_START_POS;
 
+		internal static Vector3 CAM_BASEHEIGHT = new Vector3(0F, 0F, 1.15F); // base height
+
+// Model ->
+		const float MODEL_START_ROT = (float)Math.PI * 7F / 8F;
+
+		static Vector3 ScaInitial;
+
+// Light ->
+		internal static Vector3 LIGHT_START_POS = new Vector3(-0.5F, -4F, 2F);
+
+// Colors ->
 		internal static Color ? ColorDiffuse;
 		internal static Color ? ColorSpecular;
 		internal static Color ? ColorAmbient;
@@ -57,11 +69,6 @@ namespace creaturevisualizer
 		internal static bool ColorCheckedDiffuse;
 		internal static bool ColorCheckedSpecular;
 		internal static bool ColorCheckedAmbient;
-
-
-		const float ROT_START_MODEL = (float)Math.PI * 7F / 8F;
-
-		static Vector3 ScaInitial;
 		#endregion Fields (static)
 
 
@@ -377,7 +384,7 @@ namespace creaturevisualizer
 
 				_instance.BeginAppearanceUpdate();
 
-				// create display object ->
+// create Model ->
 				Model = NWN2NetDisplayManager.Instance.CreateNDOForInstance(_instance, Scene, 0); // 0=NetDisplayModel
 
 				Model.PositionChanged += positionchanged_Object;
@@ -388,14 +395,14 @@ namespace creaturevisualizer
 											// That is, there's no default parameter for scale in this Scene like
 											// there is for position and rotation.
 
-				// set object position ->
+// set Model position ->
 				var objects = new NetDisplayObjectCollection() { Model }; // can't move a single object - only a collection (of 1).
 				NWN2NetDisplayManager.Instance.MoveObjects(objects, ChangeType.Absolute, false, _pos);
 
 				Vector3 scale; // don't ask. It works unlike 'Object.Scale'.
 				if (first)
 				{
-					Model.Orientation = RHQuaternion.RotationZ(ROT_START_MODEL);
+					Model.Orientation = RHQuaternion.RotationZ(MODEL_START_ROT);
 					scale = ScaInitial;
 
 					var state = Receiver.CameraState as ModelViewerInputCameraReceiverState;
@@ -403,19 +410,18 @@ namespace creaturevisualizer
 //					state.FocusPhi   = (float)Math.PI / 32F;
 //					state.Distance   = 4.5F;
 
-					Receiver.CameraAngleXY = (float)Math.PI /  2F; // FocusTheta revolutions 0=east, lookin' west
-					Receiver.CameraAngleYZ = (float)Math.PI / 32F; // FocusPhi   pitch 0= flat, inc to pitch forward and raise camera
-					Receiver.Distance = DIST_START;
-					Receiver.DistanceMin = 0.001F;
+					Receiver.CameraAngleXY = CAM_START_TET; // FocusTheta - revolutions 0=east, lookin' west
+					Receiver.CameraAngleYZ = CAM_START_PHI; // FocusPhi   - pitch 0= flat, inc to pitch forward and raise camera
+					Receiver.Distance = CAM_START_DIST;
+					Receiver.DistanceMin = Single.Epsilon;
 
 //					Receiver.FocusPoint = Object.Position + OFF_Zd;
 //					Receiver.PitchMin = -(float)Math.PI / 2f;// + 0.145F;
 //					Receiver.PitchMax =  (float)Math.PI / 2f - 0.010F;
 
-					CameraPosition += POS_OFF_Zd;
+					CAM_START_POS = CameraPosition;
+					CameraPosition += CAM_BASEHEIGHT;
 					_f.PrintCameraPosition();
-
-					POS_START_CAMERA = CameraPosition;
 
 
 //					float yaw = 0F, pitch = 0F, roll = 0F;
@@ -434,13 +440,13 @@ namespace creaturevisualizer
 				}
 				// else I'm gonna go bananas.
 
-				// set object rotation ->
+// set Model rotation ->
 				NWN2NetDisplayManager.Instance.RotateObject(Model, ChangeType.Absolute, Model.Orientation);
 				_f.PrintModelPosition(Model);
 
 				_instance.EndAppearanceUpdate();
 
-				// set object scale ->
+// set Model scale ->
 				Model.Scale = scale; // NOTE: after EndAppearanceUpdate().
 				NWN2NetDisplayManager.Instance.SetObjectScale(Model, Model.Scale); // TODO: does this work
 				ResetModel(ResetType.RESET_scale); // this is needed to reset placed instance scale
@@ -512,7 +518,7 @@ namespace creaturevisualizer
 
 					Light = new NetDisplayLightPoint();
 
-					Light.Position        = POS_START_LIGHT;
+					Light.Position        = LIGHT_START_POS;
 
 					Light.Color.Intensity = CreatureVisualizerPreferences.that.LightIntensity;
 					Light.Range           = 50F; // default 10F
@@ -714,7 +720,7 @@ namespace creaturevisualizer
 			var objects = new NetDisplayObjectCollection() { Model }; // TODO: cache that
 			NWN2NetDisplayManager.Instance.MoveObjects(objects, ChangeType.Absolute, false, new Vector3());
 
-			Model.Orientation = RHQuaternion.RotationZ(ROT_START_MODEL);
+			Model.Orientation = RHQuaternion.RotationZ(MODEL_START_ROT);
 			NWN2NetDisplayManager.Instance.RotateObject(Model, ChangeType.Absolute, Model.Orientation);
 			_f.PrintModelPosition(Model);
 
@@ -754,7 +760,7 @@ namespace creaturevisualizer
 				}
 
 				case ResetType.RESET_rot:
-					Model.Orientation = RHQuaternion.RotationZ(ROT_START_MODEL);
+					Model.Orientation = RHQuaternion.RotationZ(MODEL_START_ROT);
 					NWN2NetDisplayManager.Instance.RotateObject(Model, ChangeType.Absolute, Model.Orientation);
 					_f.PrintModelPosition(Model);
 					break;
@@ -810,7 +816,7 @@ namespace creaturevisualizer
 			pos.Scale(state.Distance);
 			pos += state.FocusPoint;
 
-			CameraPosition = pos + CreVisF.Offset + POS_OFF_Zd;
+			CameraPosition = pos + CreVisF.Offset + CAM_BASEHEIGHT;
 
 // orientation ->
 			Vector3 focusPoint = state.FocusPoint;

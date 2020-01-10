@@ -105,7 +105,7 @@ namespace creaturevisualizer
 			_pa_Con_w = pa_con.Width;
 			_pa_Con_h = pa_con.Height;
 
-			tb_camera_baseheight.Text = ElectronPanel_.POS_OFF_Zd.Z                      .ToString("N2");
+			tb_camera_baseheight.Text = ElectronPanel_.CAM_BASEHEIGHT.Z                  .ToString("N2");
 			tb_light_intensity  .Text = CreatureVisualizerPreferences.that.LightIntensity.ToString("N2");
 
 
@@ -732,7 +732,7 @@ namespace creaturevisualizer
 			{
 				_panel.Receiver.CameraAngleXY += grader((float)Math.PI / 64F); // FocusTheta
 
-				_panel.CameraPosition += ElectronPanel_.POS_OFF_Zd + Offset;
+				_panel.CameraPosition += ElectronPanel_.CAM_BASEHEIGHT + Offset;
 				PrintCameraPosition();
 			}
 		}
@@ -742,7 +742,7 @@ namespace creaturevisualizer
 			if (_panel.Model != null)
 			{
 				_panel.Receiver.CameraAngleXY -= grader((float)Math.PI / 64F); // FocusTheta
-				_panel.CameraPosition += ElectronPanel_.POS_OFF_Zd + Offset;
+				_panel.CameraPosition += ElectronPanel_.CAM_BASEHEIGHT + Offset;
 				PrintCameraPosition();
 			}
 		}
@@ -755,7 +755,7 @@ namespace creaturevisualizer
 				Offset.Z = 0F;
 				_panel.CameraPosition = new Vector3(_panel.CameraPosition.X,
 													_panel.CameraPosition.Y,
-													ElectronPanel_.POS_START_CAMERA.Z);
+													ElectronPanel_.CAM_START_POS.Z + ElectronPanel_.CAM_BASEHEIGHT.Z);
 				PrintCameraPosition();
 			}
 		}
@@ -765,8 +765,8 @@ namespace creaturevisualizer
 			if (_panel.Model != null)
 			{
 				Offset.X = Offset.Y = 0F;
-				_panel.CameraPosition = new Vector3(ElectronPanel_.POS_START_CAMERA.X,
-													ElectronPanel_.POS_START_CAMERA.Y,
+				_panel.CameraPosition = new Vector3(ElectronPanel_.CAM_START_POS.X,
+													ElectronPanel_.CAM_START_POS.Y,
 													_panel.CameraPosition.Z);
 				PrintCameraPosition();
 			}
@@ -776,7 +776,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Model != null)
 			{
-				((ModelViewerInputCameraReceiverState)_panel.Receiver.CameraState).Distance = ElectronPanel_.DIST_START;
+				((ModelViewerInputCameraReceiverState)_panel.Receiver.CameraState).Distance = ElectronPanel_.CAM_START_DIST;
 				_panel.UpdateCamera();
 				PrintCameraPosition();
 			}
@@ -786,9 +786,9 @@ namespace creaturevisualizer
 		{
 			if (_panel.Model != null)
 			{
-				_panel.Receiver.CameraAngleXY = (float)Math.PI /  2F;
-				_panel.Receiver.CameraAngleYZ = (float)Math.PI / 32F;
-				_panel.CameraPosition += ElectronPanel_.POS_OFF_Zd;
+				_panel.Receiver.CameraAngleXY = ElectronPanel_.CAM_START_TET;
+				_panel.Receiver.CameraAngleYZ = ElectronPanel_.CAM_START_PHI;
+				_panel.CameraPosition += ElectronPanel_.CAM_BASEHEIGHT;
 				PrintCameraPosition();
 			}
 		}
@@ -837,7 +837,7 @@ namespace creaturevisualizer
 			if (Single.TryParse(tb_camera_baseheight.Text, out result)
 				&& result > -100F && result < 100F)
 			{
-				ElectronPanel_.POS_OFF_Zd = new Vector3(0F,0F, result);
+				ElectronPanel_.CAM_BASEHEIGHT = new Vector3(0F,0F, result);
 				_panel.UpdateCamera();
 			}
 			else if (result <= -100F)
@@ -857,7 +857,7 @@ namespace creaturevisualizer
 //				case Keys.Oemplus:
 				case Keys.Add:
 				{
-					float z = ElectronPanel_.POS_OFF_Zd.Z;
+					float z = ElectronPanel_.CAM_BASEHEIGHT.Z;
 					z += grader(0.1F);
 					tb_camera_baseheight.Text = z.ToString("N2");
 
@@ -868,7 +868,7 @@ namespace creaturevisualizer
 //				case Keys.OemMinus:
 				case Keys.Subtract:
 				{
-					float z = ElectronPanel_.POS_OFF_Zd.Z;
+					float z = ElectronPanel_.CAM_BASEHEIGHT.Z;
 					z -= grader(0.1F);
 					tb_camera_baseheight.Text = z.ToString("N2");
 
@@ -1040,7 +1040,7 @@ namespace creaturevisualizer
 			{
 				var pos = new Vector3(_panel.Light.Position.X,
 									  _panel.Light.Position.Y,
-									  ElectronPanel_.POS_START_LIGHT.Z);
+									  ElectronPanel_.LIGHT_START_POS.Z);
 				_panel.MoveLight(pos);
 			}
 		}
@@ -1049,8 +1049,8 @@ namespace creaturevisualizer
 		{
 			if (_panel.Model != null)
 			{
-				var pos = new Vector3(ElectronPanel_.POS_START_LIGHT.X,
-									  ElectronPanel_.POS_START_LIGHT.Y,
+				var pos = new Vector3(ElectronPanel_.LIGHT_START_POS.X,
+									  ElectronPanel_.LIGHT_START_POS.Y,
 									  _panel.Light.Position.Z);
 				_panel.MoveLight(pos);
 			}
@@ -1059,7 +1059,7 @@ namespace creaturevisualizer
 		void click_bu_light_reset(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.MoveLight(ElectronPanel_.POS_START_LIGHT);
+				_panel.MoveLight(ElectronPanel_.LIGHT_START_POS);
 		}
 
 
