@@ -1076,9 +1076,9 @@ namespace creaturevisualizer
 					PrintLightIntensity(result);
 				}
 				else if (result < 0F)
-					tb_light_intensity.Text = 0F.ToString("N2");		// refire^
+					tb_light_intensity.Text =  0.00F.ToString("N2"); // recurse^
 				else if (result >= 100F)
-					tb_light_intensity.Text = 99.99F.ToString("N2");	// refire^
+					tb_light_intensity.Text = 99.99F.ToString("N2"); // recurse^
 			}
 		}
 
