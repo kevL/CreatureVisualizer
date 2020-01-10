@@ -424,6 +424,7 @@ namespace creaturevisualizer
 			// 
 			// tb_light_intensity
 			// 
+			this.tb_light_intensity.BackColor = System.Drawing.Color.White;
 			this.tb_light_intensity.Location = new System.Drawing.Point(195, 105);
 			this.tb_light_intensity.Margin = new System.Windows.Forms.Padding(0);
 			this.tb_light_intensity.Name = "tb_light_intensity";
@@ -1066,6 +1067,7 @@ namespace creaturevisualizer
 			// 
 			// tb_camera_height
 			// 
+			this.tb_camera_height.BackColor = System.Drawing.Color.White;
 			this.tb_camera_height.Location = new System.Drawing.Point(227, 80);
 			this.tb_camera_height.Margin = new System.Windows.Forms.Padding(0);
 			this.tb_camera_height.Name = "tb_camera_height";
