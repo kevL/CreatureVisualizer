@@ -366,7 +366,7 @@ namespace creaturevisualizer
 		/// </summary>
 		void AddModel()
 		{
-			if (_instance != null && Initialize())
+			if (_instance != null && Initialize()) // TODO: Maintain light-position on model changed.
 			{
 				bool first;
 				if (Model != null) // is NOT 'first' display - cache the previous model's telemetry since it's about to go byebye.
@@ -578,12 +578,12 @@ namespace creaturevisualizer
 			{
 				Scene.Objects.Add(Light);
 			}
-			lock (NWN2NetDisplayManager.Instance.Objects.SyncRoot)				// doesn't appear to be req'd.
+			lock (NWN2NetDisplayManager.Instance.Objects.SyncRoot)
 			{
-				NWN2NetDisplayManager.Instance.Objects.Add(Light);
+				NWN2NetDisplayManager.Instance.Objects.Add(Light);				// doesn't appear to be req'd.
 			}
-			NWN2NetDisplayManager.Instance.LightParameters(Light.Scene, Light);
 
+			NWN2NetDisplayManager.Instance.LightParameters(Light.Scene, Light);
 			_f.PrintLightPosition(Light.Position);
 		}
 
