@@ -80,8 +80,7 @@ namespace creaturevisualizer
 		#region Fields
 		readonly CreVisF _f;
 
-		INWN2Instance  _instance;
-		INWN2Blueprint _blueprint0; // ref to previous blueprint-object (to track '_changed').
+		INWN2Instance _instance;
 
 		bool _changed;
 		bool _isplaced;
@@ -95,6 +94,9 @@ namespace creaturevisualizer
 
 
 		#region Properties
+		internal INWN2Blueprint Blueprint // ref to previous blueprint-object (to track '_changed').
+		{ get; private set; }
+
 		internal NetDisplayObject Model
 		{ get; private set; }
 
@@ -347,7 +349,7 @@ namespace creaturevisualizer
 					_instance = null;
 
 					_f.Text = CreVisF.TITLE;
-					_f.EnableCharacterPage(false);
+					_f.EnableCreaturePage(false);
 
 					NWN2AreaViewer viewer;
 					NWN2InstanceCollection collection;
@@ -387,22 +389,18 @@ namespace creaturevisualizer
 							_isplaced = false;
 
 							var blueprint = selection[0] as INWN2Blueprint;
-							if (_changed = !blueprint.Equals(_blueprint0))
-								_blueprint0 = blueprint;
+							if (_changed = !blueprint.Equals(Blueprint))
+								Blueprint = blueprint;
+
 
 							switch (tslist.GetFocusedListObjectType())
 							{
 								case NWN2ObjectType.Creature:
-									_f.EnableCharacterPage(true);
+									_f.EnableCreaturePage(true);
 
-									if (CreatureVisualizerPreferences.that.char_Female)
-									{
-										((NWN2CreatureBlueprint)blueprint).Gender = CreatureGender.Female;
-									}
-									else
-										((NWN2CreatureBlueprint)blueprint).Gender = CreatureGender.Male;
+									_f.InitGender((Blueprint as NWN2CreatureTemplate).Gender); // aka. 'NWN2CreatureBlueprint'
 
-/*	
+/*
 //									((NWN2CreatureBlueprint)blueprint).AppearanceHair; // byte
 									// etc ...
 
@@ -446,7 +444,7 @@ namespace creaturevisualizer
 								case NWN2ObjectType.PlacedEffect:
 								case NWN2ObjectType.Item:	// <- TODO: works for weapons (see Preview tab) but clothes
 								{							//          appear on a default creature (in the ArmorSet tab)
-									_instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(blueprint);
+									_instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(Blueprint);
 
 									string tag = _instance.Name;
 									if (String.IsNullOrEmpty(tag)) tag = "no tag";
@@ -460,6 +458,14 @@ namespace creaturevisualizer
 				}
 			}
 		}
+
+
+		internal void RecreateCreature()
+		{
+			_instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(Blueprint);
+			AddModel();
+		}
+
 
 		/// <summary>
 		/// Adds a model-instance to the scene.
@@ -605,21 +611,6 @@ namespace creaturevisualizer
 //		{
 //			NWN2NetDisplayManager.Instance.UpdateAppearanceForInstance(_instance);
 //		}
-
-/*		static string StringDecryptor(string st)
-		{
-			char[] array0;
-			char[] array1 = (array0 = st.ToCharArray());
-			int p1 = array1.Length;
-			while (p1 != 0)
-			{
-				int p0 = p1 - 1;
-				array1[p0] = (char)(array0[p0] - 5225);
-				array1 = array0; // wtf.
-				p1 = p0;
-			}
-			return String.Intern(new string(array1));
-		} */
 		#endregion Methods
 
 

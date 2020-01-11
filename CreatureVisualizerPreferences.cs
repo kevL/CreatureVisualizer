@@ -70,10 +70,7 @@ namespace creaturevisualizer
 		{ get; set; }
 
 
-//		[Browsable(true)]
-//		[Description("true to show female gender if available")]
-//		[Category("Creature Visualizer")]
-		public bool char_Female
+		public string LastSaveDirectory
 		{ get; set; }
 		#endregion Properties
 
@@ -97,7 +94,7 @@ namespace creaturevisualizer
 			x_ColorDialog =
 			y_ColorDialog = Int32.MinValue;
 
-			char_Female = false;
+			LastSaveDirectory = String.Empty;
 		}
 		#endregion cTor
 	}

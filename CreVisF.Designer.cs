@@ -121,9 +121,11 @@ namespace creaturevisualizer
 
 		CompositedTabControl tc1;
 		TabPage tp_controls;
-		TabPage tp_character;
-		Button bu_char_display;
-		CheckBox cb_char_female;
+		TabPage tp_creature;
+
+		Button bu_char_apply;
+		Label la_Gender;
+		ComboBox cbo_Gender;
 
 
 		/// <summary>
@@ -217,9 +219,10 @@ namespace creaturevisualizer
 			this.bu_camera_xpos = new System.Windows.Forms.Button();
 			this.bu_camera_zneg = new System.Windows.Forms.Button();
 			this.bu_camera_zpos = new System.Windows.Forms.Button();
-			this.tp_character = new System.Windows.Forms.TabPage();
-			this.cb_char_female = new System.Windows.Forms.CheckBox();
-			this.bu_char_display = new System.Windows.Forms.Button();
+			this.tp_creature = new System.Windows.Forms.TabPage();
+			this.la_Gender = new System.Windows.Forms.Label();
+			this.cbo_Gender = new System.Windows.Forms.ComboBox();
+			this.bu_char_apply = new System.Windows.Forms.Button();
 			this.ss_camera = new System.Windows.Forms.StatusStrip();
 			this.tssl_camera_label = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tssl_camera_xpos = new System.Windows.Forms.ToolStripStatusLabel();
@@ -247,7 +250,7 @@ namespace creaturevisualizer
 			this.gb_Light.SuspendLayout();
 			this.gb_model.SuspendLayout();
 			this.gb_camera.SuspendLayout();
-			this.tp_character.SuspendLayout();
+			this.tp_creature.SuspendLayout();
 			this.ss_camera.SuspendLayout();
 			this.ss_model.SuspendLayout();
 			this.ss_light.SuspendLayout();
@@ -270,7 +273,7 @@ namespace creaturevisualizer
 			// tc1
 			// 
 			this.tc1.Controls.Add(this.tp_controls);
-			this.tc1.Controls.Add(this.tp_character);
+			this.tc1.Controls.Add(this.tp_creature);
 			this.tc1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tc1.ItemSize = new System.Drawing.Size(80, 15);
 			this.tc1.Location = new System.Drawing.Point(0, 0);
@@ -1369,40 +1372,57 @@ namespace creaturevisualizer
 			this.bu_camera_zpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_camera_zpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
-			// tp_character
+			// tp_creature
 			// 
-			this.tp_character.Controls.Add(this.cb_char_female);
-			this.tp_character.Controls.Add(this.bu_char_display);
-			this.tp_character.Location = new System.Drawing.Point(4, 19);
-			this.tp_character.Margin = new System.Windows.Forms.Padding(0);
-			this.tp_character.Name = "tp_character";
-			this.tp_character.Size = new System.Drawing.Size(277, 389);
-			this.tp_character.TabIndex = 1;
-			this.tp_character.Text = "Character";
-			this.tp_character.UseVisualStyleBackColor = true;
+			this.tp_creature.Controls.Add(this.la_Gender);
+			this.tp_creature.Controls.Add(this.cbo_Gender);
+			this.tp_creature.Controls.Add(this.bu_char_apply);
+			this.tp_creature.Location = new System.Drawing.Point(4, 19);
+			this.tp_creature.Margin = new System.Windows.Forms.Padding(0);
+			this.tp_creature.Name = "tp_creature";
+			this.tp_creature.Size = new System.Drawing.Size(277, 389);
+			this.tp_creature.TabIndex = 1;
+			this.tp_creature.Text = "Creature";
+			this.tp_creature.UseVisualStyleBackColor = true;
 			// 
-			// cb_char_female
+			// la_Gender
 			// 
-			this.cb_char_female.Location = new System.Drawing.Point(8, 30);
-			this.cb_char_female.Margin = new System.Windows.Forms.Padding(0);
-			this.cb_char_female.Name = "cb_char_female";
-			this.cb_char_female.Size = new System.Drawing.Size(65, 20);
-			this.cb_char_female.TabIndex = 26;
-			this.cb_char_female.Text = "female";
-			this.cb_char_female.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-			this.cb_char_female.UseVisualStyleBackColor = true;
+			this.la_Gender.Location = new System.Drawing.Point(115, 30);
+			this.la_Gender.Margin = new System.Windows.Forms.Padding(0);
+			this.la_Gender.Name = "la_Gender";
+			this.la_Gender.Size = new System.Drawing.Size(50, 20);
+			this.la_Gender.TabIndex = 27;
+			this.la_Gender.Text = "Gender";
+			this.la_Gender.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
-			// bu_char_display
+			// cbo_Gender
 			// 
-			this.bu_char_display.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_char_display.Location = new System.Drawing.Point(5, 5);
-			this.bu_char_display.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_char_display.Name = "bu_char_display";
-			this.bu_char_display.Size = new System.Drawing.Size(267, 20);
-			this.bu_char_display.TabIndex = 25;
-			this.bu_char_display.Text = "display";
-			this.bu_char_display.UseVisualStyleBackColor = true;
-			this.bu_char_display.Click += new System.EventHandler(this.click_bu_char_apply);
+			this.cbo_Gender.BackColor = System.Drawing.Color.White;
+			this.cbo_Gender.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.cbo_Gender.FormattingEnabled = true;
+			this.cbo_Gender.Items.AddRange(new object[] {
+			"Male",
+			"Female",
+			"Both",
+			"Other",
+			"None"});
+			this.cbo_Gender.Location = new System.Drawing.Point(10, 30);
+			this.cbo_Gender.Margin = new System.Windows.Forms.Padding(0);
+			this.cbo_Gender.Name = "cbo_Gender";
+			this.cbo_Gender.Size = new System.Drawing.Size(100, 21);
+			this.cbo_Gender.TabIndex = 0;
+			// 
+			// bu_char_apply
+			// 
+			this.bu_char_apply.ForeColor = System.Drawing.Color.Crimson;
+			this.bu_char_apply.Location = new System.Drawing.Point(5, 5);
+			this.bu_char_apply.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_char_apply.Name = "bu_char_apply";
+			this.bu_char_apply.Size = new System.Drawing.Size(267, 20);
+			this.bu_char_apply.TabIndex = 25;
+			this.bu_char_apply.Text = "APPLY";
+			this.bu_char_apply.UseVisualStyleBackColor = true;
+			this.bu_char_apply.Click += new System.EventHandler(this.click_bu_char_apply);
 			// 
 			// ss_camera
 			// 
@@ -1633,7 +1653,7 @@ namespace creaturevisualizer
 			this.gb_model.ResumeLayout(false);
 			this.gb_camera.ResumeLayout(false);
 			this.gb_camera.PerformLayout();
-			this.tp_character.ResumeLayout(false);
+			this.tp_creature.ResumeLayout(false);
 			this.ss_camera.ResumeLayout(false);
 			this.ss_camera.PerformLayout();
 			this.ss_model.ResumeLayout(false);

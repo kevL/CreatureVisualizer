@@ -4,6 +4,8 @@ using System.Windows.Forms;
 
 using Microsoft.DirectX;
 
+using NWN2Toolset.NWN2.Data.Templates;
+
 using OEIShared.NetDisplay;
 using OEIShared.OEIMath;
 using OEIShared.UI.Input;
@@ -29,6 +31,7 @@ namespace creaturevisualizer
 
 		MenuItem _itStayOnTop;
 		MenuItem _itRefreshOnFocus;
+		MenuItem _itSaveAs;
 		MenuItem _itControlPanel;
 		MenuItem _itMiniPanel;
 		MenuItem _itCyclePanel;
@@ -145,10 +148,13 @@ namespace creaturevisualizer
 
 			tc1.SelectedIndex = CreatureVisualizerPreferences.that.TabPageCurrent;
 
-			cb_char_female.Checked = CreatureVisualizerPreferences.that.char_Female;
-
 
 			ActiveControl = _panel;
+		}
+
+		internal void InitGender(CreatureGender gender)
+		{
+			cbo_Gender.SelectedIndex = (int)gender;
 		}
 
 
@@ -192,6 +198,12 @@ namespace creaturevisualizer
 			_itRefreshOnFocus = Menu.MenuItems[0].MenuItems.Add("refresh on foc&us", instanceclick_RefreshOnFocus);
 			_itRefreshOnFocus.Shortcut = Shortcut.F6;
 			_itRefreshOnFocus.Checked = true;
+
+			Menu.MenuItems[0].MenuItems.Add("-");
+
+			_itSaveAs = Menu.MenuItems[0].MenuItems.Add("sav&e as ...", instanceclick_SaveAs);
+			_itSaveAs.Shortcut = Shortcut.CtrlE;
+//			_itSaveAs.Enabled = true; // <- TODO
 
 			// Options ->
 			_itControlPanel = Menu.MenuItems[1].MenuItems.Add("control &panel", optionsclick_ControlPanel);
@@ -379,6 +391,12 @@ namespace creaturevisualizer
 		{
 			CreatureVisualizerPreferences.that.RefreshOnFocus =
 			_itRefreshOnFocus.Checked = !_itRefreshOnFocus.Checked;
+		}
+
+		void instanceclick_SaveAs(object sender, EventArgs e)
+		{
+			if (_panel.Blueprint != null)
+				Io.SaveAs(_panel.Blueprint);
 		}
 
 
@@ -1418,14 +1436,19 @@ namespace creaturevisualizer
 
 
 		#region Handlers (character)
+		internal bool BlueprintChanged
+		{ get; private set; }
+
 		void click_bu_char_apply(object sender, EventArgs e)
 		{
-			CreatureVisualizerPreferences.that.char_Female = cb_char_female.Checked;
-
 			if (_panel.Model != null)
 			{
-				_panel.CreateModel();
-				_panel.Focus();
+				BlueprintChanged = true;
+
+				(_panel.Blueprint as NWN2CreatureTemplate).Gender = (CreatureGender)cbo_Gender.SelectedIndex;
+
+
+				_panel.RecreateCreature();
 			}
 		}
 		#endregion Handlers (character)
@@ -1642,9 +1665,9 @@ namespace creaturevisualizer
 		}
 
 
-		internal void EnableCharacterPage(bool enabled)
+		internal void EnableCreaturePage(bool enabled)
 		{
-			tp_character.Enabled = enabled;
+			tp_creature.Enabled = enabled;
 
 //			foreach (Control c in tp_character.Controls)
 //				c.Enabled = enabled;
