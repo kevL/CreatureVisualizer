@@ -47,7 +47,7 @@ namespace creaturevisualizer
 		internal const float CAM_START_TET = (float)Math.PI /  2F;
 		internal const float CAM_START_PHI = (float)Math.PI / 32F;
 
-		internal const  float CAM_START_DIST = 5F;
+		internal const float CAM_START_DIST = 5F;
 
 		internal static Vector3 CAM_START_POS;
 
@@ -81,7 +81,7 @@ namespace creaturevisualizer
 		readonly CreVisF _f;
 
 		INWN2Instance  _instance;
-		INWN2Blueprint _blueprint0; // ref to previous blueprint-object (to track 'changed').
+		INWN2Blueprint _blueprint0; // ref to previous blueprint-object (to track '_changed').
 
 		bool _changed;
 		bool _isplaced;
@@ -130,9 +130,6 @@ namespace creaturevisualizer
 //			DoubleBuffered = true;
 
 			RecreateMousePanel();
-
-			NetDisplayScene scene = Scene;
-			NetDisplayManager.Instance.AddScene(out scene);
 
 			OpenWindow();
 
@@ -333,7 +330,7 @@ namespace creaturevisualizer
 				NWN2NetDisplayManager.Instance.Objects.Add(Light);				// doesn't appear to be req'd.
 			}
 
-			NWN2NetDisplayManager.Instance.LightParameters(Light.Scene, Light);
+			NWN2NetDisplayManager.Instance.LightParameters(Scene, Light);
 			_f.PrintLightPosition(Light.Position);
 		}
 
@@ -495,8 +492,6 @@ namespace creaturevisualizer
 // create Model ->
 				Model = NWN2NetDisplayManager.Instance.CreateNDOForInstance(_instance, Scene, 0); // 0=NetDisplayModel
 
-				Model.PositionChanged += positionchanged_Model;
-
 				_f.PrintOriginalScale(Model.Scale.X.ToString("N2"));
 
 				ScaInitial = Model.Scale;	// NOTE: Scale comes from the creature blueprint/instance/template/whatver.
@@ -536,15 +531,12 @@ namespace creaturevisualizer
 //					CameraOrientation.GetYawPitchRoll(out yaw, out pitch, out roll);
 //					MessageBox.Show("yaw= " + yaw + " pitch= " + pitch + " roll= " + roll);
 				}
-				else if (_changed)
-				{
-					Model.Orientation = _rot;
-					scale = ScaInitial;
-				}
 				else
 				{
 					Model.Orientation = _rot;
-					scale = _sca;
+
+					if (_changed) scale = ScaInitial;
+					else          scale = _sca;
 				}
 				// else I'm gonna go bananas.
 
@@ -579,7 +571,7 @@ namespace creaturevisualizer
 			NWN2NetDisplayManager.Instance.RemoveObjects(objects);
 		}
 
-		void ClearLight()
+/*		void ClearLight()
 		{
 			var objects = new NetDisplayObjectCollection();
 			foreach (NetDisplayObject @object in Scene.Objects)
@@ -590,16 +582,19 @@ namespace creaturevisualizer
 					objects.Add(@object);
 			}
 			NWN2NetDisplayManager.Instance.RemoveObjects(objects);
-		}
+		} */
 
 		/// <summary>
 		/// Moves the light by recreating it at a given position.
+		/// @note Simply re-setting 'Light.Position' doesn't work since I can't
+		/// find an update call for it.
 		/// </summary>
 		/// <param name="pos"></param>
 		internal void MoveLight(Vector3 pos)
 		{
-			ClearLight();
-
+			var objects = new NetDisplayObjectCollection() { Light }; // TODO: cache that
+			NWN2NetDisplayManager.Instance.RemoveObjects(objects);
+	
 			_posLight = pos;
 			CreateLight();
 		}
@@ -628,19 +623,6 @@ namespace creaturevisualizer
 		#endregion Methods
 
 
-		#region Handlers
-		float _zModel;
-		void positionchanged_Model(object sender, EventArgs e)
-		{
-			if (!Model.Position.Z.Equals(_zModel))
-			{
-				_zModel = Model.Position.Z;
-				_f.PrintModelPosition(Model);
-			}
-		}
-		#endregion Handlers
-
-
 		#region Methods (model)
 		internal static Vector3 off_xpos = new Vector3( 0.1F, 0F, 0F);
 		internal static Vector3 off_xneg = new Vector3(-0.1F, 0F, 0F);
@@ -655,10 +637,10 @@ namespace creaturevisualizer
 		internal static float rotneg = -0.1F;
 
 
-		internal void MoveModel(Vector3 vec)
+		internal void MoveModel(Vector3 posrel)
 		{
 			var objects = new NetDisplayObjectCollection() { Model }; // TODO: cache that
-			NWN2NetDisplayManager.Instance.MoveObjects(objects, ChangeType.Relative, false, vec);
+			NWN2NetDisplayManager.Instance.MoveObjects(objects, ChangeType.Relative, false, posrel);
 			_f.PrintModelPosition(Model);
 		}
 
