@@ -84,14 +84,14 @@ namespace creaturevisualizer
 			x = y =
 			w = h = Int32.MinValue;
 
-			StayOnTop = true;
-			RefreshOnFocus = true;
+			StayOnTop             = true;
+			RefreshOnFocus        = true;
 			ControlPanelDirection = (int)CpDir.e;
-			ShowControls = false;
-			ShowMinipanel = true;
-			TabPageCurrent = Tp_Controls;
+			ShowControls          = false;
+			ShowMinipanel         = true;
+			TabPageCurrent        = Tp_Controls;
 
-			LightIntensity = 0.75F;
+			LightIntensity   = 0.75F;
 			CameraBaseHeight = 1.10F;
 
 			x_ColorDialog =
