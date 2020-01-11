@@ -233,9 +233,9 @@ namespace creaturevisualizer
 			_o.Click += click_bu_camera_distpos;
 
 			_l = ButtonFactory(_l, "l");
-			_l.Click += click_bu_camera_yawneg;
+			_l.Click += click_bu_camera_rotneg;
 			_r = ButtonFactory(_r, "r");
-			_r.Click += click_bu_camera_yawpos;
+			_r.Click += click_bu_camera_rotpos;
 
 			_u = ButtonFactory(_u, "u");
 			_u.Click += click_bu_camera_zpos;
@@ -726,7 +726,7 @@ namespace creaturevisualizer
 			}
 		}
 
-		void click_bu_camera_yawpos(object sender, EventArgs e)
+		void click_bu_camera_rotpos(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
 			{
@@ -737,7 +737,7 @@ namespace creaturevisualizer
 			}
 		}
 
-		void click_bu_camera_yawneg(object sender, EventArgs e)
+		void click_bu_camera_rotneg(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
 			{

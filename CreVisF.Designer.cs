@@ -1087,7 +1087,7 @@ namespace creaturevisualizer
 			this.bu_camera_yawpos.Text = "-";
 			this.bu_camera_yawpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_camera_yawpos.UseVisualStyleBackColor = true;
-			this.bu_camera_yawpos.Click += new System.EventHandler(this.click_bu_camera_yawneg);
+			this.bu_camera_yawpos.Click += new System.EventHandler(this.click_bu_camera_rotneg);
 			this.bu_camera_yawpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_camera_yawpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
@@ -1144,7 +1144,7 @@ namespace creaturevisualizer
 			this.bu_camera_yawneg.Text = "+";
 			this.bu_camera_yawneg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.bu_camera_yawneg.UseVisualStyleBackColor = true;
-			this.bu_camera_yawneg.Click += new System.EventHandler(this.click_bu_camera_yawpos);
+			this.bu_camera_yawneg.Click += new System.EventHandler(this.click_bu_camera_rotpos);
 			this.bu_camera_yawneg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_camera_yawneg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
