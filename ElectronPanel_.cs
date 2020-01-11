@@ -516,7 +516,7 @@ namespace creaturevisualizer
 					Receiver.CameraAngleXY = CAM_START_TET; // FocusTheta - revolutions 0=east, lookin' west
 					Receiver.CameraAngleYZ = CAM_START_PHI; // FocusPhi   - pitch 0= flat, inc to pitch forward and raise camera
 					Receiver.Distance = CAM_START_DIST;
-					Receiver.DistanceMin = Single.Epsilon;
+					Receiver.DistanceMin = 0.001F;
 
 //					Receiver.FocusPoint = Object.Position + OFF_Zd;
 //					Receiver.PitchMin = -(float)Math.PI / 2f;// + 0.145F;
