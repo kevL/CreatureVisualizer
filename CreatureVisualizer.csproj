@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AboutF.cs" />
+    <Compile Include="CloseF.cs" />
     <Compile Include="Color\HelpColorF.cs" />
     <Compile Include="Color\SwatchDialog.cs" />
     <Compile Include="Color\ColorBox.cs" />
@@ -102,6 +103,9 @@
   <ItemGroup>
     <EmbeddedResource Include="AboutF.resx">
       <DependentUpon>AboutF.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloseF.resx">
+      <DependentUpon>CloseF.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Color\ColorControl.resx">
       <DependentUpon>ColorControl.cs</DependentUpon>

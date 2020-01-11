@@ -54,6 +54,24 @@ namespace creaturevisualizer
 		#endregion Fields
 
 
+		#region Properties
+		bool _blueprintchanged;
+		internal bool BlueprintChanged
+		{
+			get { return _blueprintchanged; }
+			private set
+			{
+				if (!_blueprintchanged && value)
+					Text += " *";
+				else if (_blueprintchanged && !value)
+					Text = Text.Substring(0, Text.Length - 2);
+
+				_blueprintchanged = value;
+			}
+		}
+		#endregion Properties
+
+
 		#region cTor
 		/// <summary>
 		/// cTor. Creates and adds menuitems and adds the NetDisplay panel. Also
@@ -151,12 +169,6 @@ namespace creaturevisualizer
 
 			ActiveControl = _panel;
 		}
-
-		internal void InitGender(CreatureGender gender)
-		{
-			cbo_Gender.SelectedIndex = (int)gender;
-		}
-
 
 		/// <summary>
 		/// Checks if the initial location is onscreen.
@@ -330,16 +342,41 @@ namespace creaturevisualizer
 
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
-			CreatureVisualizerPreferences.that.x = DesktopLocation.X;
-			CreatureVisualizerPreferences.that.y = DesktopLocation.Y;
+			switch (e.CloseReason)
+			{
+				case CloseReason.FormOwnerClosing:
+				case CloseReason.TaskManagerClosing:
+				case CloseReason.WindowsShutDown:
+					// let windows or the toolset do its thing ...
+					break;
 
-			// store Width and Height as if the controlpanel is closed ->
-			CreatureVisualizerPreferences.that.w = pa_gui.Width;
-			CreatureVisualizerPreferences.that.h = pa_gui.Height;
+				default:
+					if (BlueprintChanged)
+					{
+						BypassCreate = true;
+						using (var f = new CloseF())
+						{
+							if (f.ShowDialog(this) == DialogResult.Cancel)
+							{
+								e.Cancel = true;
+								return;
+							}
+						}
+						BypassCreate = false;
+					}
 
+					CreatureVisualizerPreferences.that.x = DesktopLocation.X;
+					CreatureVisualizerPreferences.that.y = DesktopLocation.Y;
 
-			_t1.Dispose();
-			_t1 = null;
+					// store Width and Height as if the controlpanel is closed ->
+					CreatureVisualizerPreferences.that.w = pa_gui.Width;
+					CreatureVisualizerPreferences.that.h = pa_gui.Height;
+
+					_t1.Dispose();
+					_t1 = null;
+
+					break;
+			}
 		}
 
 		protected override void OnKeyDown(KeyEventArgs e)
@@ -1436,9 +1473,6 @@ namespace creaturevisualizer
 
 
 		#region Handlers (character)
-		internal bool BlueprintChanged
-		{ get; private set; }
-
 		void click_bu_char_apply(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
@@ -1668,9 +1702,11 @@ namespace creaturevisualizer
 		internal void EnableCreaturePage(bool enabled)
 		{
 			tp_creature.Enabled = enabled;
+		}
 
-//			foreach (Control c in tp_character.Controls)
-//				c.Enabled = enabled;
+		internal void InitGender(CreatureGender gender)
+		{
+			cbo_Gender.SelectedIndex = (int)gender;
 		}
 		#endregion Methods
 	}

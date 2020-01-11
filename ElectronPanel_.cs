@@ -342,7 +342,7 @@ namespace creaturevisualizer
 		/// </summary>
 		internal void CreateModel()
 		{
-			if (!CreVisF.BypassCreate) // ie. don't re-create the instance when a colorpicker closes.
+			if (!CreVisF.BypassCreate) // ie. don't re-create the instance when a colorpicker closes or when returning from a close-confirmation dialog.
 			{
 				if (MousePanel != null && !MousePanel.IsDisposed) // safety. ElectronPanel.MousePanel could go disposed for no good reason.
 				{
