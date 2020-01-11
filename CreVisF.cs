@@ -791,7 +791,7 @@ namespace creaturevisualizer
 			{
 				_panel.Receiver.CameraAngleXY = ElectronPanel_.CAM_START_TET;
 				_panel.Receiver.CameraAngleYZ = ElectronPanel_.CAM_START_PHI;
-				_panel.CameraPosition += ElectronPanel_.CAM_BASEHEIGHT;
+				_panel.CameraPosition += ElectronPanel_.CAM_BASEHEIGHT + Offset;
 				PrintCameraPosition();
 				_panel.Focus();
 			}
