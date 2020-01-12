@@ -123,9 +123,11 @@ namespace creaturevisualizer
 		TabPage tp_controls;
 		TabPage tp_creature;
 
-		Button bu_char_apply;
-		Label la_Gender;
-		ComboBox cbo_Gender;
+		Button bu_creature_apply;
+		Button bu_creature_applyts;
+
+		Label la_creature_gender;
+		ComboBox cbo_creature_gender;
 
 
 		/// <summary>
@@ -220,9 +222,10 @@ namespace creaturevisualizer
 			this.bu_camera_zneg = new System.Windows.Forms.Button();
 			this.bu_camera_zpos = new System.Windows.Forms.Button();
 			this.tp_creature = new System.Windows.Forms.TabPage();
-			this.la_Gender = new System.Windows.Forms.Label();
-			this.cbo_Gender = new System.Windows.Forms.ComboBox();
-			this.bu_char_apply = new System.Windows.Forms.Button();
+			this.bu_creature_applyts = new System.Windows.Forms.Button();
+			this.la_creature_gender = new System.Windows.Forms.Label();
+			this.cbo_creature_gender = new System.Windows.Forms.ComboBox();
+			this.bu_creature_apply = new System.Windows.Forms.Button();
 			this.ss_camera = new System.Windows.Forms.StatusStrip();
 			this.tssl_camera_label = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tssl_camera_xpos = new System.Windows.Forms.ToolStripStatusLabel();
@@ -1374,9 +1377,10 @@ namespace creaturevisualizer
 			// 
 			// tp_creature
 			// 
-			this.tp_creature.Controls.Add(this.la_Gender);
-			this.tp_creature.Controls.Add(this.cbo_Gender);
-			this.tp_creature.Controls.Add(this.bu_char_apply);
+			this.tp_creature.Controls.Add(this.bu_creature_applyts);
+			this.tp_creature.Controls.Add(this.la_creature_gender);
+			this.tp_creature.Controls.Add(this.cbo_creature_gender);
+			this.tp_creature.Controls.Add(this.bu_creature_apply);
 			this.tp_creature.Location = new System.Drawing.Point(4, 19);
 			this.tp_creature.Margin = new System.Windows.Forms.Padding(0);
 			this.tp_creature.Name = "tp_creature";
@@ -1385,44 +1389,56 @@ namespace creaturevisualizer
 			this.tp_creature.Text = "Creature";
 			this.tp_creature.UseVisualStyleBackColor = true;
 			// 
-			// la_Gender
+			// bu_creature_applyts
 			// 
-			this.la_Gender.Location = new System.Drawing.Point(115, 30);
-			this.la_Gender.Margin = new System.Windows.Forms.Padding(0);
-			this.la_Gender.Name = "la_Gender";
-			this.la_Gender.Size = new System.Drawing.Size(50, 20);
-			this.la_Gender.TabIndex = 27;
-			this.la_Gender.Text = "Gender";
-			this.la_Gender.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.bu_creature_applyts.ForeColor = System.Drawing.Color.Crimson;
+			this.bu_creature_applyts.Location = new System.Drawing.Point(5, 25);
+			this.bu_creature_applyts.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_creature_applyts.Name = "bu_creature_applyts";
+			this.bu_creature_applyts.Size = new System.Drawing.Size(267, 20);
+			this.bu_creature_applyts.TabIndex = 28;
+			this.bu_creature_applyts.Text = "APPLY to toolset blueprint/instance";
+			this.bu_creature_applyts.UseVisualStyleBackColor = true;
 			// 
-			// cbo_Gender
+			// la_creature_gender
 			// 
-			this.cbo_Gender.BackColor = System.Drawing.Color.White;
-			this.cbo_Gender.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.cbo_Gender.FormattingEnabled = true;
-			this.cbo_Gender.Items.AddRange(new object[] {
+			this.la_creature_gender.Location = new System.Drawing.Point(115, 50);
+			this.la_creature_gender.Margin = new System.Windows.Forms.Padding(0);
+			this.la_creature_gender.Name = "la_creature_gender";
+			this.la_creature_gender.Size = new System.Drawing.Size(50, 20);
+			this.la_creature_gender.TabIndex = 27;
+			this.la_creature_gender.Text = "Gender";
+			this.la_creature_gender.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// cbo_creature_gender
+			// 
+			this.cbo_creature_gender.BackColor = System.Drawing.Color.White;
+			this.cbo_creature_gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbo_creature_gender.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.cbo_creature_gender.FormattingEnabled = true;
+			this.cbo_creature_gender.Items.AddRange(new object[] {
 			"Male",
 			"Female",
 			"Both",
 			"Other",
 			"None"});
-			this.cbo_Gender.Location = new System.Drawing.Point(10, 30);
-			this.cbo_Gender.Margin = new System.Windows.Forms.Padding(0);
-			this.cbo_Gender.Name = "cbo_Gender";
-			this.cbo_Gender.Size = new System.Drawing.Size(100, 21);
-			this.cbo_Gender.TabIndex = 0;
+			this.cbo_creature_gender.Location = new System.Drawing.Point(10, 50);
+			this.cbo_creature_gender.Margin = new System.Windows.Forms.Padding(0);
+			this.cbo_creature_gender.Name = "cbo_creature_gender";
+			this.cbo_creature_gender.Size = new System.Drawing.Size(100, 21);
+			this.cbo_creature_gender.TabIndex = 0;
 			// 
-			// bu_char_apply
+			// bu_creature_apply
 			// 
-			this.bu_char_apply.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_char_apply.Location = new System.Drawing.Point(5, 5);
-			this.bu_char_apply.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_char_apply.Name = "bu_char_apply";
-			this.bu_char_apply.Size = new System.Drawing.Size(267, 20);
-			this.bu_char_apply.TabIndex = 25;
-			this.bu_char_apply.Text = "APPLY";
-			this.bu_char_apply.UseVisualStyleBackColor = true;
-			this.bu_char_apply.Click += new System.EventHandler(this.click_bu_char_apply);
+			this.bu_creature_apply.ForeColor = System.Drawing.Color.Crimson;
+			this.bu_creature_apply.Location = new System.Drawing.Point(5, 5);
+			this.bu_creature_apply.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_creature_apply.Name = "bu_creature_apply";
+			this.bu_creature_apply.Size = new System.Drawing.Size(267, 20);
+			this.bu_creature_apply.TabIndex = 25;
+			this.bu_creature_apply.Text = "APPLY to visualizer";
+			this.bu_creature_apply.UseVisualStyleBackColor = true;
+			this.bu_creature_apply.Click += new System.EventHandler(this.click_bu_creature_apply);
 			// 
 			// ss_camera
 			// 

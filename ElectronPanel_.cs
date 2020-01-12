@@ -80,11 +80,6 @@ namespace creaturevisualizer
 		#region Fields
 		readonly CreVisF _f;
 
-		INWN2Instance _instance;
-
-		bool _changed;
-		bool _isplaced;
-
 		Vector3      _pos; // position of the Model
 		RHQuaternion _rot; // rotation of the Model
 		Vector3      _sca; // scale    of the Model
@@ -94,8 +89,12 @@ namespace creaturevisualizer
 
 
 		#region Properties
-		internal INWN2Blueprint Blueprint // ref to previous blueprint-object (to track '_changed').
+		internal INWN2Blueprint Blueprint // ref to previous blueprint-object (to track '_changed') etc.
+		{ get; set; }
+
+		internal INWN2Instance Instance
 		{ get; private set; }
+
 
 		internal NetDisplayObject Model
 		{ get; private set; }
@@ -346,7 +345,7 @@ namespace creaturevisualizer
 			{
 				if (MousePanel != null && !MousePanel.IsDisposed) // safety. ElectronPanel.MousePanel could go disposed for no good reason.
 				{
-					_instance = null;
+					Instance = null;
 
 					_f.Text = CreVisF.TITLE;
 					_f.EnableCreaturePage(false);
@@ -354,31 +353,30 @@ namespace creaturevisualizer
 					NWN2AreaViewer viewer;
 					NWN2InstanceCollection collection;
 
-					NWN2CreatureInstance  placedcreature  = null;
-					NWN2DoorInstance      placeddoor      = null;
-					NWN2PlaceableInstance placedplaceable = null;
-
 					//viewer.AreaNetDisplayWindow.Scene
 					//viewer.SelectedNDOs
+
+					bool different = false;
 
 // first check areaviewer for a selected instance ->
 					if ((viewer = NWN2ToolsetMainForm.App.GetActiveViewer() as NWN2AreaViewer) != null
 						&& (collection = viewer.SelectedInstances) != null && collection.Count == 1
-						&& (   (placedcreature  = collection[0] as NWN2CreatureInstance)  != null
-							|| (placeddoor      = collection[0] as NWN2DoorInstance)      != null
-							|| (placedplaceable = collection[0] as NWN2PlaceableInstance) != null))
+						&& (   collection[0] is NWN2CreatureInstance
+							|| collection[0] is NWN2DoorInstance
+							|| collection[0] is NWN2PlaceableInstance))
 					{
-						_isplaced = true;
+						Blueprint = null;
 
-						string tag = null;
-						if      (placedcreature  != null) tag = (_instance = placedcreature) .Name;
-						else if (placeddoor      != null) tag = (_instance = placeddoor)     .Name;
-						else if (placedplaceable != null) tag = (_instance = placedplaceable).Name;
+						if ((Instance = collection[0]) is NWN2CreatureInstance)
+						{
+							_f.EnableCreaturePage(true);
 
-						if (String.IsNullOrEmpty(tag)) tag = "no tag";
-						_f.Text += " - " + tag;
+							_f.InitGender((Instance as NWN2CreatureInstance).Gender);
+						}
+
+						_f.Changed = CreVisF.ChangedType.ct_not;
 					}
-// second check blueprint lists for a selected instance ->
+// second check blueprint lists for a selected blueprint ->
 					else
 					{
 						NWN2BlueprintView tslist = NWN2ToolsetMainForm.App.BlueprintView;
@@ -386,19 +384,18 @@ namespace creaturevisualizer
 						object[] selection = tslist.Selection;
 						if (selection != null && selection.Length == 1)
 						{
-							_isplaced = false;
-
-							var blueprint = selection[0] as INWN2Blueprint;
-							if (_changed = !blueprint.Equals(Blueprint))
-								Blueprint = blueprint;
-
+							if (Blueprint == null || !(selection[0] as INWN2Blueprint).Equals(Blueprint))
+							{
+								Blueprint = selection[0] as INWN2Blueprint;
+								different = true;
+							}
 
 							switch (tslist.GetFocusedListObjectType())
 							{
 								case NWN2ObjectType.Creature:
 									_f.EnableCreaturePage(true);
 
-									_f.InitGender((Blueprint as NWN2CreatureTemplate).Gender); // aka. 'NWN2CreatureBlueprint'
+									_f.InitGender((Blueprint as NWN2CreatureBlueprint).Gender);
 
 /*
 //									((NWN2CreatureBlueprint)blueprint).AppearanceHair; // byte
@@ -444,17 +441,14 @@ namespace creaturevisualizer
 								case NWN2ObjectType.PlacedEffect:
 								case NWN2ObjectType.Item:	// <- TODO: works for weapons (see Preview tab) but clothes
 								{							//          appear on a default creature (in the ArmorSet tab)
-									_instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(Blueprint);
-
-									string tag = _instance.Name;
-									if (String.IsNullOrEmpty(tag)) tag = "no tag";
-									_f.Text += " - " + tag;
+									Instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(Blueprint);
+									_f.Changed = CreVisF.ChangedType.ct_not;
 									break;
 								}
 							}
 						}
 					}
-					AddModel();
+					AddModel(different);
 				}
 			}
 		}
@@ -462,7 +456,7 @@ namespace creaturevisualizer
 
 		internal void RecreateCreature()
 		{
-			_instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(Blueprint);
+			Instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(Blueprint);
 			AddModel();
 		}
 
@@ -470,9 +464,10 @@ namespace creaturevisualizer
 		/// <summary>
 		/// Adds a model-instance to the scene.
 		/// </summary>
-		void AddModel()
+		/// <param name="different"></param>
+		void AddModel(bool different = false)
 		{
-			if (_instance != null && Initialize())
+			if (Instance != null && Initialize())
 			{
 				bool first;
 				if (Model != null) // is NOT 'first' display - cache the previous model's telemetry since it's about to go byebye.
@@ -493,10 +488,10 @@ namespace creaturevisualizer
 					first = true;
 
 
-				_instance.BeginAppearanceUpdate();
+				Instance.BeginAppearanceUpdate();
 
 // create Model ->
-				Model = NWN2NetDisplayManager.Instance.CreateNDOForInstance(_instance, Scene, 0); // 0=NetDisplayModel
+				Model = NWN2NetDisplayManager.Instance.CreateNDOForInstance(Instance, Scene, 0); // 0=NetDisplayModel
 
 				_f.PrintOriginalScale(Model.Scale.X.ToString("N2"));
 
@@ -541,8 +536,8 @@ namespace creaturevisualizer
 				{
 					Model.Orientation = _rot;
 
-					if (_changed) scale = ScaInitial;
-					else          scale = _sca;
+					if (different) scale = ScaInitial;
+					else           scale = _sca;
 				}
 				// else I'm gonna go bananas.
 
@@ -550,7 +545,7 @@ namespace creaturevisualizer
 				NWN2NetDisplayManager.Instance.RotateObject(Model, ChangeType.Absolute, Model.Orientation);
 				_f.PrintModelPosition(Model);
 
-				_instance.EndAppearanceUpdate();
+				Instance.EndAppearanceUpdate();
 
 // set Model scale ->
 				Model.Scale = scale; // NOTE: after EndAppearanceUpdate().
@@ -558,7 +553,7 @@ namespace creaturevisualizer
 				ResetModel(ResetType.RESET_scale); // this is needed to reset placed instance scale
 				_f.PrintModelScale();
 			}
-			else if (_isplaced && Scene != null) // clear the scene iff a placed instance was last loaded ->
+			else if (Blueprint == null && Scene != null) // clear the scene iff a placed instance was last loaded ->
 			{
 				ClearObjects();
 			}
