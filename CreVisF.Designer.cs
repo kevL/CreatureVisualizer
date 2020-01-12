@@ -123,8 +123,8 @@ namespace creaturevisualizer
 		TabPage tp_controls;
 		TabPage tp_creature;
 
-		Button bu_creature_apply;
-		Button bu_creature_applyts;
+		Button bu_creature_display;
+		internal Button bu_creature_apply;
 
 		Label la_creature_gender;
 		ComboBox cbo_creature_gender;
@@ -222,10 +222,10 @@ namespace creaturevisualizer
 			this.bu_camera_zneg = new System.Windows.Forms.Button();
 			this.bu_camera_zpos = new System.Windows.Forms.Button();
 			this.tp_creature = new System.Windows.Forms.TabPage();
-			this.bu_creature_applyts = new System.Windows.Forms.Button();
+			this.bu_creature_apply = new System.Windows.Forms.Button();
 			this.la_creature_gender = new System.Windows.Forms.Label();
 			this.cbo_creature_gender = new System.Windows.Forms.ComboBox();
-			this.bu_creature_apply = new System.Windows.Forms.Button();
+			this.bu_creature_display = new System.Windows.Forms.Button();
 			this.ss_camera = new System.Windows.Forms.StatusStrip();
 			this.tssl_camera_label = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tssl_camera_xpos = new System.Windows.Forms.ToolStripStatusLabel();
@@ -1377,10 +1377,10 @@ namespace creaturevisualizer
 			// 
 			// tp_creature
 			// 
-			this.tp_creature.Controls.Add(this.bu_creature_applyts);
+			this.tp_creature.Controls.Add(this.bu_creature_apply);
 			this.tp_creature.Controls.Add(this.la_creature_gender);
 			this.tp_creature.Controls.Add(this.cbo_creature_gender);
-			this.tp_creature.Controls.Add(this.bu_creature_apply);
+			this.tp_creature.Controls.Add(this.bu_creature_display);
 			this.tp_creature.Location = new System.Drawing.Point(4, 19);
 			this.tp_creature.Margin = new System.Windows.Forms.Padding(0);
 			this.tp_creature.Name = "tp_creature";
@@ -1389,16 +1389,17 @@ namespace creaturevisualizer
 			this.tp_creature.Text = "Creature";
 			this.tp_creature.UseVisualStyleBackColor = true;
 			// 
-			// bu_creature_applyts
+			// bu_creature_apply
 			// 
-			this.bu_creature_applyts.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_creature_applyts.Location = new System.Drawing.Point(5, 25);
-			this.bu_creature_applyts.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_creature_applyts.Name = "bu_creature_applyts";
-			this.bu_creature_applyts.Size = new System.Drawing.Size(267, 20);
-			this.bu_creature_applyts.TabIndex = 28;
-			this.bu_creature_applyts.Text = "APPLY to toolset blueprint/instance";
-			this.bu_creature_applyts.UseVisualStyleBackColor = true;
+			this.bu_creature_apply.ForeColor = System.Drawing.Color.Crimson;
+			this.bu_creature_apply.Location = new System.Drawing.Point(5, 25);
+			this.bu_creature_apply.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_creature_apply.Name = "bu_creature_apply";
+			this.bu_creature_apply.Size = new System.Drawing.Size(267, 20);
+			this.bu_creature_apply.TabIndex = 28;
+			this.bu_creature_apply.Text = "APPLY to ";
+			this.bu_creature_apply.UseVisualStyleBackColor = true;
+			this.bu_creature_apply.Click += new System.EventHandler(this.click_bu_creature_apply);
 			// 
 			// la_creature_gender
 			// 
@@ -1428,17 +1429,17 @@ namespace creaturevisualizer
 			this.cbo_creature_gender.Size = new System.Drawing.Size(100, 21);
 			this.cbo_creature_gender.TabIndex = 0;
 			// 
-			// bu_creature_apply
+			// bu_creature_display
 			// 
-			this.bu_creature_apply.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_creature_apply.Location = new System.Drawing.Point(5, 5);
-			this.bu_creature_apply.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_creature_apply.Name = "bu_creature_apply";
-			this.bu_creature_apply.Size = new System.Drawing.Size(267, 20);
-			this.bu_creature_apply.TabIndex = 25;
-			this.bu_creature_apply.Text = "APPLY to visualizer";
-			this.bu_creature_apply.UseVisualStyleBackColor = true;
-			this.bu_creature_apply.Click += new System.EventHandler(this.click_bu_creature_apply);
+			this.bu_creature_display.ForeColor = System.Drawing.Color.Crimson;
+			this.bu_creature_display.Location = new System.Drawing.Point(5, 5);
+			this.bu_creature_display.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_creature_display.Name = "bu_creature_display";
+			this.bu_creature_display.Size = new System.Drawing.Size(267, 20);
+			this.bu_creature_display.TabIndex = 25;
+			this.bu_creature_display.Text = "display";
+			this.bu_creature_display.UseVisualStyleBackColor = true;
+			this.bu_creature_display.Click += new System.EventHandler(this.click_bu_creature_display);
 			// 
 			// ss_camera
 			// 

@@ -79,55 +79,34 @@ namespace creaturevisualizer
 			get { return _changed; }
 			set
 			{
-				// _panel.Blueprint.TemplateResRef.Value	-> parent resref
-				// _panel.Blueprint.ResourceName.Value		-> resref
-				// _panel.Blueprint.Name					-> tag
-
-				if (_panel.Blueprint != null) // is a blueprint NOT a placed instance
+				if ((_changed = value) == ChangedType.ct_nul)
 				{
-					string loc;
-
-					switch (_changed = value)
-					{
-						case ChangedType.ct_nul:
-							Text = TITLE;
-							break;
-
-						case ChangedType.ct_not:
-							loc = Enum.GetName(typeof(NWN2BlueprintLocationType), _panel.Blueprint.BlueprintLocation);
-							Text = TITLE + " - " + _panel.Blueprint.ResourceName.Value + " [" + loc + "] (" + _panel.Blueprint.Name + ")";
-							break;
-
-						case ChangedType.ct_Ts:
-							loc = Enum.GetName(typeof(NWN2BlueprintLocationType), _panel.Blueprint.BlueprintLocation);
-							Text = TITLE + " - " + _panel.Blueprint.ResourceName.Value + " [" + loc + "] * (" + _panel.Blueprint.Name + ")";
-							break;
-
-						case ChangedType.ct_Vi:
-							loc = Enum.GetName(typeof(NWN2BlueprintLocationType), _panel.Blueprint.BlueprintLocation);
-							Text = TITLE + " - " + _panel.Blueprint.ResourceName.Value + " [" + loc + "] ** (" + _panel.Blueprint.Name + ")";
-							break;
-					}
+					Text = TITLE;
 				}
-				else // is a placed instance NOT a blueprint
+				else
 				{
-					switch (_changed = value)
+					string asterisks = String.Empty;
+					switch (_changed)
 					{
-						case ChangedType.ct_nul:
-							Text = TITLE;
-							break;
+//						case ChangedType.ct_not: asterisks = "";   break;
+						case ChangedType.ct_Ts:  asterisks = "*";  break;
+						case ChangedType.ct_Vi:  asterisks = "**"; break;
+					}
 
-						case ChangedType.ct_not:
-							Text = TITLE + " - [ area ] (" + _panel.Instance.Name + ")";
-							break;
+					if (_panel.Blueprint != null) // is a blueprint NOT a placed instance
+					{
+						// _panel.Blueprint.TemplateResRef.Value	-> parent resref
+						// _panel.Blueprint.ResourceName.Value		-> resref
+						// _panel.Blueprint.Name					-> tag
+						string loc = Enum.GetName(typeof(NWN2BlueprintLocationType), _panel.Blueprint.BlueprintLocation);
 
-						case ChangedType.ct_Ts:
-							Text = TITLE + " - [ area ] * (" + _panel.Instance.Name + ")";
-							break;
-
-						case ChangedType.ct_Vi:
-							Text = TITLE + " - [ area ] ** (" + _panel.Instance.Name + ")";
-							break;
+						Text = TITLE + " - "
+							 + _panel.Blueprint.ResourceName.Value + " [" + loc + "] "
+							 + asterisks + " (" + _panel.Blueprint.Name + ")";
+					}
+					else // is a placed instance NOT a blueprint
+					{
+						Text = TITLE + " - [ area ] " + asterisks + " (" + _panel.Instance.Name + ")"; // <- tag
 					}
 				}
 			}
@@ -414,18 +393,33 @@ namespace creaturevisualizer
 					break;
 
 				default:
-					if (Changed == ChangedType.ct_Vi)
+					switch (Changed)
 					{
-						BypassCreate = true;
-						using (var f = new CloseF())
+						case ChangedType.ct_nul:	// no creature loaded
+						case ChangedType.ct_not:	// no changes
+						case ChangedType.ct_Ts:		// blueprint/instance has changed (needs to be saved by the toolset)
+							break;
+
+						case ChangedType.ct_Vi:		// blueprint/instance is different than visualizer creature
 						{
-							if (f.ShowDialog(this) == DialogResult.Cancel)
+							BypassCreate = true;	// do not refresh creature on return to the visualizer (if RefreshOnFocus is active)
+
+							CloseF.ObjectType type;
+							if (_panel.Blueprint != null) type = CloseF.ObjectType.ot_blueprint;
+							else                          type = CloseF.ObjectType.ot_instance;
+
+							using (var f = new CloseF(type))
 							{
-								e.Cancel = true;
-								return;
+								if (f.ShowDialog(this) == DialogResult.Cancel)
+								{
+									e.Cancel = true;
+									BypassCreate = false;
+									return;
+								}
 							}
+//							BypassCreate = false;
+							break;
 						}
-						BypassCreate = false;
 					}
 
 					CreatureVisualizerPreferences.that.x = DesktopLocation.X;
@@ -1536,7 +1530,7 @@ namespace creaturevisualizer
 
 
 		#region Handlers (creature)
-		void click_bu_creature_apply(object sender, EventArgs e)
+		void click_bu_creature_display(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
 			{
@@ -1551,7 +1545,14 @@ namespace creaturevisualizer
 				_panel.Blueprint = blueprint;
 
 
-				_panel.RecreateCreature();
+				_panel.RecreateModel();
+			}
+		}
+
+		void click_bu_creature_apply(object sender, EventArgs e)
+		{
+			if (_panel.Model != null)
+			{
 			}
 		}
 		#endregion Handlers (creature)

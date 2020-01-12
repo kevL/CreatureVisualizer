@@ -89,7 +89,7 @@ namespace creaturevisualizer
 
 
 		#region Properties
-		internal INWN2Blueprint Blueprint // ref to previous blueprint-object (to track '_changed') etc.
+		internal INWN2Blueprint Blueprint
 		{ get; set; }
 
 		internal INWN2Instance Instance
@@ -343,13 +343,16 @@ namespace creaturevisualizer
 		{
 			if (!CreVisF.BypassCreate) // ie. don't re-create the instance when a colorpicker closes or when returning from a close-confirmation dialog.
 			{
+//				_f.Text = CreVisF.TITLE;
+				_f.Changed = CreVisF.ChangedType.ct_nul;
+
+				Blueprint = null;
+				Instance  = null;
+
+				_f.EnableCreaturePage(false);
+
 				if (MousePanel != null && !MousePanel.IsDisposed) // safety. ElectronPanel.MousePanel could go disposed for no good reason.
 				{
-					Instance = null;
-
-					_f.Text = CreVisF.TITLE;
-					_f.EnableCreaturePage(false);
-
 					NWN2AreaViewer viewer;
 					NWN2InstanceCollection collection;
 
@@ -365,8 +368,6 @@ namespace creaturevisualizer
 							|| collection[0] is NWN2DoorInstance
 							|| collection[0] is NWN2PlaceableInstance))
 					{
-						Blueprint = null;
-
 						if ((Instance = collection[0]) is NWN2CreatureInstance)
 						{
 							_f.EnableCreaturePage(true);
@@ -384,7 +385,7 @@ namespace creaturevisualizer
 						object[] selection = tslist.Selection;
 						if (selection != null && selection.Length == 1)
 						{
-							if (Blueprint == null || !(selection[0] as INWN2Blueprint).Equals(Blueprint))
+							if (Blueprint == null || !(selection[0] as INWN2Blueprint).Equals(Blueprint)) // TODO <- they might not be "equal" if changed.
 							{
 								Blueprint = selection[0] as INWN2Blueprint;
 								different = true;
@@ -454,7 +455,7 @@ namespace creaturevisualizer
 		}
 
 
-		internal void RecreateCreature()
+		internal void RecreateModel()
 		{
 			Instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(Blueprint);
 			AddModel();
@@ -509,7 +510,7 @@ namespace creaturevisualizer
 					Model.Orientation = RHQuaternion.RotationZ(MODEL_START_ROT);
 					scale = ScaInitial;
 
-					var state = Receiver.CameraState as ModelViewerInputCameraReceiverState;
+//					var state = Receiver.CameraState as ModelViewerInputCameraReceiverState;
 //					state.FocusTheta = (float)Math.PI /  2F;
 //					state.FocusPhi   = (float)Math.PI / 32F;
 //					state.Distance   = 4.5F;
@@ -556,6 +557,7 @@ namespace creaturevisualizer
 			else if (Blueprint == null && Scene != null) // clear the scene iff a placed instance was last loaded ->
 			{
 				ClearObjects();
+				// TODO: disable Creature page
 			}
 		}
 
