@@ -119,7 +119,7 @@ namespace creaturevisualizer
 			this.bu_apply.Name = "bu_apply";
 			this.bu_apply.Size = new System.Drawing.Size(85, 50);
 			this.bu_apply.TabIndex = 3;
-			this.bu_apply.Text = "apply data to blueprint";
+			this.bu_apply.Text = "apply data to ";
 			this.bu_apply.UseVisualStyleBackColor = true;
 			// 
 			// CloseF

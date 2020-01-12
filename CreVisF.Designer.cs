@@ -1397,7 +1397,6 @@ namespace creaturevisualizer
 			this.bu_creature_apply.Name = "bu_creature_apply";
 			this.bu_creature_apply.Size = new System.Drawing.Size(267, 20);
 			this.bu_creature_apply.TabIndex = 28;
-			this.bu_creature_apply.Text = "APPLY to ";
 			this.bu_creature_apply.UseVisualStyleBackColor = true;
 			this.bu_creature_apply.Click += new System.EventHandler(this.click_bu_creature_apply);
 			// 

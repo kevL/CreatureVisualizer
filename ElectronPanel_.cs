@@ -376,6 +376,7 @@ namespace creaturevisualizer
 						}
 
 						_f.Changed = CreVisF.ChangedType.ct_not;
+						_f.bu_creature_apply.Text = "APPLY to Instance";
 					}
 // second check blueprint lists for a selected blueprint ->
 					else
@@ -444,6 +445,7 @@ namespace creaturevisualizer
 								{							//          appear on a default creature (in the ArmorSet tab)
 									Instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(Blueprint);
 									_f.Changed = CreVisF.ChangedType.ct_not;
+									_f.bu_creature_apply.Text = "APPLY to Blueprint";
 									break;
 								}
 							}
