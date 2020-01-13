@@ -15,8 +15,6 @@ namespace creaturevisualizer
 {
 	static class Io
 	{
-		static bool Error;
-
 		// NWN2Toolset.NWN2.Views.NWN2BlueprintView.ᐌ(object P_0, EventArgs P_1)
 		/// <summary>
 		/// Saves the currently selected blueprint in the Blueprint tree to a
@@ -26,8 +24,6 @@ namespace creaturevisualizer
 		/// <param name="blueprint"></param>
 		internal static void SaveAs(INWN2Blueprint blueprint)
 		{
-			Error = false;
-
 			string ext = BWResourceTypes.GetFileExtension(blueprint.Resource.ResourceType);
 
 			var sfd = new SaveFileDialog();
@@ -59,8 +55,6 @@ namespace creaturevisualizer
 		/// <param name="instance"></param>
 		internal static void SaveAs(INWN2Instance instance)
 		{
-			Error = false;
-
 			//PrintResourceTypes(); // test
 
 			// NWN2Toolset.NWN2.Views.NWN2AreaViewer.ᐠ(object P_0, EventArgs P_1)
@@ -78,7 +72,7 @@ namespace creaturevisualizer
 			if (inst != null)
 			{
 				INWN2Blueprint blueprint = CreateBlueprint(inst);
-				if (!Error && blueprint != null)
+				if (blueprint != null)
 				{
 //					blueprint.BlueprintLocation = NWN2BlueprintLocationType.Module;
 
@@ -137,7 +131,6 @@ namespace creaturevisualizer
 				using (var f = new ErrorF("The instance's Template is invalid."))
 					f.ShowDialog();
 
-				Error = true;
 				CreVisF.BypassCreate = false;
 			}
 			else

@@ -92,7 +92,7 @@ namespace creaturevisualizer
 		internal INWN2Blueprint Blueprint
 		{ get; set; }
 
-		INWN2Blueprint Blueprint_pre // for tracking the selected blueprint in the viewer-list
+		INWN2Blueprint Blueprint_pre // for tracking the selected blueprint in the Blueprint tree
 		{ get; set; }
 
 		internal INWN2Instance Instance
@@ -355,7 +355,7 @@ namespace creaturevisualizer
 		/// </summary>
 		internal void CreateModel()
 		{
-			if (!CreVisF.BypassCreate) // ie. don't re-create the instance when a colorpicker closes or when returning from a close-confirmation dialog.
+			if (!CreVisF.BypassCreate) // ie. don't re-create the instance when a colorpicker closes or when returning from a close-confirmation dialog or the error-dialog etc.
 			{
 				_f.Changed = CreVisF.ChangedType.ct_nul; // set '_f.Text'
 
