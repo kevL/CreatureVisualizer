@@ -17,7 +17,6 @@
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <WarningLevel>4</WarningLevel>
-    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,6 +31,8 @@
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -40,8 +41,12 @@
     <Optimize>True</Optimize>
     <DefineConstants>TRACE</DefineConstants>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ManagedElectron">
+      <HintPath>..\..\Neverwinter Nights 2\ManagedElectron.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.DirectX" />
     <Reference Include="NWN2Toolset">
       <HintPath>..\..\Neverwinter Nights 2\NWN2Toolset.dll</HintPath>
@@ -91,6 +96,7 @@
     <Compile Include="ElectronPanel_.cs" />
     <Compile Include="CreatureVisualizer.cs" />
     <Compile Include="CreatureVisualizerPreferences.cs" />
+    <Compile Include="ErrorF.cs" />
     <Compile Include="HelpF.cs" />
     <Compile Include="Io.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -98,6 +104,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="StringDecryptor.cs" />
     <Compile Include="StripRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +153,9 @@
     <EmbeddedResource Include="CreVisF.resx">
       <DependentUpon>CreVisF.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ErrorF.resx">
+      <DependentUpon>ErrorF.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="HelpF.resx">
       <DependentUpon>HelpF.cs</DependentUpon>
     </EmbeddedResource>
@@ -163,5 +173,12 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy /y C:\GIT\CreatureVisualizer\bin\Release\CreatureVisualizer.dll "C:\Neverwinter Nights 2\NWN2Toolset\Plugins\"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <BaseAddress>4194304</BaseAddress>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <FileAlignment>4096</FileAlignment>
   </PropertyGroup>
 </Project>

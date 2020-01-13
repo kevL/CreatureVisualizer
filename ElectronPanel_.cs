@@ -92,8 +92,14 @@ namespace creaturevisualizer
 		internal INWN2Blueprint Blueprint
 		{ get; set; }
 
+		INWN2Blueprint Blueprint_pre // for tracking the selected blueprint in the viewer-list
+		{ get; set; }
+
 		internal INWN2Instance Instance
 		{ get; private set; }
+
+		INWN2Instance Instance_pre
+		{ get; set; }
 
 
 		internal NetDisplayObject Model
@@ -330,6 +336,14 @@ namespace creaturevisualizer
 			{
 				NWN2NetDisplayManager.Instance.Objects.Add(Light);				// doesn't appear to be req'd.
 			}
+//lock (this.m_ᐁ.NDWindow.Scene.Objects.SyncRoot)
+//{
+//	this.m_ᐁ.NDWindow.Scene.Objects.Remove(this.m_ᐂ);
+//}
+//lock (NWN2NetDisplayManager.Instance.Objects.SyncRoot)
+//{
+//	NWN2NetDisplayManager.Instance.Objects.Remove(this.m_ᐂ);
+//}
 
 			NWN2NetDisplayManager.Instance.LightParameters(Scene, Light);
 			_f.PrintLightPosition(Light.Position);
@@ -343,8 +357,7 @@ namespace creaturevisualizer
 		{
 			if (!CreVisF.BypassCreate) // ie. don't re-create the instance when a colorpicker closes or when returning from a close-confirmation dialog.
 			{
-//				_f.Text = CreVisF.TITLE;
-				_f.Changed = CreVisF.ChangedType.ct_nul;
+				_f.Changed = CreVisF.ChangedType.ct_nul; // set '_f.Text'
 
 				Blueprint = null;
 				Instance  = null;
@@ -368,7 +381,18 @@ namespace creaturevisualizer
 							|| collection[0] is NWN2DoorInstance
 							|| collection[0] is NWN2PlaceableInstance))
 					{
-						if ((Instance = collection[0]) is NWN2CreatureInstance)
+//						if (!(collection[0] as INWN2Instance).Equals(Instance_pre))
+/*						if (Instance_pre == null || (collection[0] as INWN2Instance) != Instance_pre)
+						{
+//							if (_f.ConfirmChange())
+//							{
+//							}
+							Instance = Instance_pre = collection[0] as INWN2Instance;
+							different = true;
+						} */
+						Instance = collection[0] as INWN2Instance;
+
+						if ((Instance as NWN2CreatureInstance) != null)
 						{
 							_f.EnableCreaturePage(true);
 
@@ -386,11 +410,13 @@ namespace creaturevisualizer
 						object[] selection = tslist.Selection;
 						if (selection != null && selection.Length == 1)
 						{
-							if (Blueprint == null || !(selection[0] as INWN2Blueprint).Equals(Blueprint)) // TODO <- they might not be "equal" if changed.
+//							if (!(selection[0] as INWN2Blueprint).Equals(Blueprint_pre))
+/*							if (Blueprint_pre == null || (selection[0] as INWN2Blueprint) != Blueprint_pre)
 							{
-								Blueprint = selection[0] as INWN2Blueprint;
+								Blueprint = Blueprint_pre = selection[0] as INWN2Blueprint;
 								different = true;
-							}
+							} */
+							Blueprint = selection[0] as INWN2Blueprint;
 
 							switch (tslist.GetFocusedListObjectType())
 							{

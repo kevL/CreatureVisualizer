@@ -104,7 +104,7 @@ namespace creaturevisualizer
 							 + _panel.Blueprint.ResourceName.Value + " [" + loc + "] "
 							 + asterisks + " (" + _panel.Blueprint.Name + ")";
 					}
-					else // is a placed instance NOT a blueprint
+					else if (_panel.Instance != null) // is a placed instance NOT a blueprint
 					{
 						Text = TITLE + " - [ area ] " + asterisks + " (" + _panel.Instance.Name + ")"; // <- tag
 					}
@@ -402,7 +402,7 @@ namespace creaturevisualizer
 
 						case ChangedType.ct_Vi:		// blueprint/instance is different than visualizer creature
 						{
-							BypassCreate = true;	// do not refresh creature on return to the visualizer (if RefreshOnFocus is active)
+							BypassCreate = true;	// do not refresh creature on return to the visualizer (if RefreshOnFocus happens to be active)
 
 							CloseF.ObjectType type;
 							if (_panel.Blueprint != null) type = CloseF.ObjectType.ot_blueprint;
@@ -410,7 +410,7 @@ namespace creaturevisualizer
 
 							using (var f = new CloseF(type))
 							{
-								if (f.ShowDialog(this) == DialogResult.Cancel)
+								if (f.ShowDialog(this) == DialogResult.Cancel) // TODO: handle other cases
 								{
 									e.Cancel = true;
 									BypassCreate = false;
@@ -435,6 +435,58 @@ namespace creaturevisualizer
 					break;
 			}
 		}
+
+
+		internal bool ConfirmChange()
+		{
+			bool ret = false;
+
+			switch (Changed)
+			{
+				case ChangedType.ct_nul:	// no creature loaded
+				case ChangedType.ct_not:	// no changes
+				case ChangedType.ct_Ts:		// blueprint/instance has changed (needs to be saved by the toolset)
+					ret = true;
+					break;
+
+				case ChangedType.ct_Vi:		// blueprint/instance is different than visualizer creature
+				{
+					BypassCreate = true;	// do not refresh creature on return to the visualizer (if RefreshOnFocus happens to be active)
+
+					CloseF.ObjectType type;
+					if (_panel.Blueprint != null) type = CloseF.ObjectType.ot_blueprint;
+					else                          type = CloseF.ObjectType.ot_instance;
+
+					using (var f = new CloseF(type))
+					{
+						switch (f.ShowDialog(this))
+						{
+							case DialogResult.Cancel: // close dialog but don't do anything else
+								ret = false;
+								break;
+
+							case DialogResult.Ignore: // lose changes and proceed
+								ret = true;
+								break;
+
+							case DialogResult.OK: // apply changes to blueprint/instance and proceed
+								// TODO
+								ret = true;
+								break;
+
+							case DialogResult.Yes: // save changes to a utc-file and proceed
+								instanceclick_SaveAs(null, EventArgs.Empty);
+								ret = true;
+								break;
+						}
+					}
+					BypassCreate = false;
+					break;
+				}
+			}
+			return ret;
+		}
+
 
 		protected override void OnKeyDown(KeyEventArgs e)
 		{
@@ -484,13 +536,19 @@ namespace creaturevisualizer
 		void instanceclick_RefreshOnFocus(object sender, EventArgs e)
 		{
 			CreatureVisualizerPreferences.that.RefreshOnFocus =
-			_itRefreshOnFocus.Checked = !_itRefreshOnFocus.Checked;
+			(_itRefreshOnFocus.Checked = !_itRefreshOnFocus.Checked);
 		}
 
 		void instanceclick_SaveAs(object sender, EventArgs e)
 		{
 			if (_panel.Blueprint != null)
+			{
 				Io.SaveAs(_panel.Blueprint);
+			}
+			else if (_panel.Instance != null)
+			{
+				Io.SaveAs(_panel.Instance);
+			}
 		}
 
 
