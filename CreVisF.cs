@@ -4,12 +4,16 @@ using System.Windows.Forms;
 
 using Microsoft.DirectX;
 
+using NWN2Toolset;
 using NWN2Toolset.NWN2.Data.Blueprints;
+using NWN2Toolset.NWN2.Data.Campaign;
 using NWN2Toolset.NWN2.Data.Templates;
+using NWN2Toolset.NWN2.Views;
 
 using OEIShared.NetDisplay;
 using OEIShared.OEIMath;
 using OEIShared.UI.Input;
+using OEIShared.Utils;
 
 
 namespace creaturevisualizer
@@ -49,7 +53,10 @@ namespace creaturevisualizer
 
 		MenuItem _itStayOnTop;
 		MenuItem _itRefreshOnFocus;
+		MenuItem _itSaveToModule;
+		MenuItem _itSaveToCampaign;
 		MenuItem _itSaveAs;
+
 		MenuItem _itControlPanel;
 		MenuItem _itMiniPanel;
 		MenuItem _itCyclePanel;
@@ -95,18 +102,19 @@ namespace creaturevisualizer
 
 					if (_panel.Blueprint != null) // is a blueprint NOT a placed instance
 					{
+						string loc = Enum.GetName(typeof(NWN2BlueprintLocationType), _panel.Blueprint.BlueprintLocation);
+
 						// _panel.Blueprint.TemplateResRef.Value	-> parent resref
 						// _panel.Blueprint.ResourceName.Value		-> resref
 						// _panel.Blueprint.Name					-> tag
-						string loc = Enum.GetName(typeof(NWN2BlueprintLocationType), _panel.Blueprint.BlueprintLocation);
 
 						Text = TITLE + " - "
-							 + _panel.Blueprint.ResourceName.Value + " [" + loc + "] "
-							 + asterisks + " (" + _panel.Blueprint.Name + ")";
+							 + _panel.Blueprint.ResourceName.Value + " [" + loc + "] "	// resref
+							 + asterisks + " (" + _panel.Blueprint.Name + ")";			// tag
 					}
 					else if (_panel.Instance != null) // is a placed instance NOT a blueprint
 					{
-						Text = TITLE + " - [ area ] " + asterisks + " (" + _panel.Instance.Name + ")"; // <- tag
+						Text = TITLE + " - [ area ] " + asterisks + " (" + _panel.Instance.Name + ")"; // tag
 					}
 				}
 			}
@@ -121,6 +129,11 @@ namespace creaturevisualizer
 		/// </summary>
 		internal CreVisF()
 		{
+//			string info = String.Empty;
+//			info += StringDecryptor.Decrypt("");
+//			System.IO.File.WriteAllText(@"C:\GIT\CreatureVisualizer\t\ToolsetSayings.txt", info);
+
+
 			InitializeComponent();
 			Text = TITLE;
 
@@ -190,6 +203,8 @@ namespace creaturevisualizer
 				cb_light_ambient.Checked = ElectronPanel_.ColorCheckedAmbient;
 			}
 
+			EnableCreaturePage(false);
+
 
 			// Preferences ->
 			if (!CreatureVisualizerPreferences.that.StayOnTop)
@@ -210,6 +225,21 @@ namespace creaturevisualizer
 
 
 			ActiveControl = _panel;
+
+
+			NWN2ToolsetMainForm.App.BlueprintView.SelectionChanged += OnBlueprintSelectionChanged;
+
+			NWN2CampaignManager.Instance.ActiveCampaignChanged += OnActiveCampaignChanged;
+		}
+
+		void OnBlueprintSelectionChanged(object sender, BlueprintSelectionChangedEventArgs e)
+		{
+			_panel.CreateModel();
+		}
+
+		void OnActiveCampaignChanged(NWN2Campaign cOldCampaign, NWN2Campaign cNewCampaign) // don't do it ... leave type as 'NWN2Campaign'
+		{
+			_itSaveToCampaign.Enabled = (cNewCampaign != null); // TODO: && Blueprint/Instance != null
 		}
 
 		/// <summary>
@@ -243,7 +273,7 @@ namespace creaturevisualizer
 			Menu.MenuItems.Add("&Options");
 			Menu.MenuItems.Add("&Help");
 
-			// Instance ->
+// Instance ->
 			Menu.MenuItems[0].MenuItems.Add("&refresh", instanceclick_Refresh);
 			Menu.MenuItems[0].MenuItems[0].Shortcut = Shortcut.F5;
 
@@ -255,11 +285,19 @@ namespace creaturevisualizer
 
 			Menu.MenuItems[0].MenuItems.Add("-");
 
-			_itSaveAs = Menu.MenuItems[0].MenuItems.Add("sav&e as ...", instanceclick_SaveAs);
-			_itSaveAs.Shortcut = Shortcut.CtrlE;
-//			_itSaveAs.Enabled = true; // <- TODO
+			_itSaveToModule = Menu.MenuItems[0].MenuItems.Add("save to &Module", instanceclick_SaveToModule);
+			_itSaveToModule.Shortcut = Shortcut.CtrlM;
+//			_itSaveAs.Enabled = false; // <- TODO: Blueprint/Instance != null
 
-			// Options ->
+			_itSaveToCampaign = Menu.MenuItems[0].MenuItems.Add("save to Campai&gn", instanceclick_SaveToCampaign);
+			_itSaveToCampaign.Shortcut = Shortcut.CtrlG;
+			_itSaveToCampaign.Enabled = (NWN2CampaignManager.Instance.ActiveCampaign != null); // TODO: && Blueprint/Instance != null
+
+			_itSaveAs = Menu.MenuItems[0].MenuItems.Add("sav&e as ...", instanceclick_SaveAs); // ie. to Override or whereva ya like.
+			_itSaveAs.Shortcut = Shortcut.CtrlE;
+//			_itSaveAs.Enabled = false; // <- TODO: Blueprint/Instance != null
+
+// Options ->
 			_itControlPanel = Menu.MenuItems[1].MenuItems.Add("control &panel", optionsclick_ControlPanel);
 			_itControlPanel.Shortcut = Shortcut.CtrlP;
 
@@ -279,7 +317,7 @@ namespace creaturevisualizer
 			_itStayOnTop.Shortcut = Shortcut.CtrlT;
 			_itStayOnTop.Checked = TopMost = true;
 
-			// Help ->
+// Help ->
 			Menu.MenuItems[2].MenuItems.Add("&help", helpclick_Help);
 			Menu.MenuItems[2].MenuItems[0].Shortcut = Shortcut.F1;
 
@@ -436,7 +474,6 @@ namespace creaturevisualizer
 			}
 		}
 
-
 		internal bool ConfirmChange()
 		{
 			bool ret = false;
@@ -537,6 +574,18 @@ namespace creaturevisualizer
 		{
 			CreatureVisualizerPreferences.that.RefreshOnFocus =
 			(_itRefreshOnFocus.Checked = !_itRefreshOnFocus.Checked);
+		}
+
+		// TODO: menu items for "Save to module" and "Save to campaign"
+		void instanceclick_SaveToModule(object sender, EventArgs e)
+		{
+		}
+
+		void instanceclick_SaveToCampaign(object sender, EventArgs e)
+		{
+			if (NWN2CampaignManager.Instance.ActiveCampaign != null) // TODO: dis/enable the menu-item itself
+			{
+			}
 		}
 
 		void instanceclick_SaveAs(object sender, EventArgs e)
@@ -1592,11 +1641,23 @@ namespace creaturevisualizer
 		{
 			if (_panel.Model != null)
 			{
-				Changed = ChangedType.ct_Vi;
-
+				// cf Io.CreateBlueprint()
 
 				var blueprint = new NWN2CreatureBlueprint();
 				blueprint.CopyFromTemplate(_panel.Blueprint);
+
+				// NWN2Toolset.NWN2.Data.Blueprints.NWN2CreatureBlueprint.NWN2BlueprintData -> (OEIResRef)TemplateResRef (+ load and save functs)
+//				blueprint.data = (NWN2BlueprintData)CommonUtils.SerializationClone((_panel.Blueprint as NWN2CreatureBlueprint).data);
+
+				blueprint.EquippedItems = (NWN2EquipmentSlotCollection)CommonUtils.SerializationClone((_panel.Blueprint as NWN2CreatureBlueprint).EquippedItems);
+
+				blueprint.Inventory = (NWN2BlueprintInventoryItemCollection)CommonUtils.SerializationClone((_panel.Blueprint as NWN2CreatureBlueprint).Inventory);
+
+//				OEIResRef resref = rename ? cRepository.GetTempResRef((_panel.Blueprint as NWN2CreatureBlueprint).Resource.ResRef, blueprint.ResourceType)
+//										  : (_panel.Blueprint as NWN2CreatureBlueprint).Resource.ResRef;
+
+//				OEIResRef resref = (_panel.Blueprint as NWN2CreatureBlueprint).Resource.ResRef;
+//				blueprint.Resource = cRepository.CreateResource(resref, blueprint.ResourceType);
 
 				blueprint.Gender = (CreatureGender)cbo_creature_gender.SelectedIndex;
 
@@ -1604,6 +1665,8 @@ namespace creaturevisualizer
 
 
 				_panel.RecreateModel();
+
+				Changed = ChangedType.ct_Vi;
 			}
 		}
 
@@ -1611,6 +1674,9 @@ namespace creaturevisualizer
 		{
 			if (_panel.Model != null)
 			{
+
+
+				Changed = ChangedType.ct_Ts;
 			}
 		}
 		#endregion Handlers (creature)
@@ -1625,6 +1691,7 @@ public static NWN2CreatureBlueprint CreateFromBlueprint(NWN2CreatureBlueprint cB
 	nWN2CreatureBlueprint.Inventory = (NWN2BlueprintInventoryItemCollection)CommonUtils.SerializationClone(cBlueprint.Inventory);
 	OEIResRef cName = bNewName ? cRepository.GetTempResRef(cBlueprint.Resource.ResRef, nWN2CreatureBlueprint.ResourceType) : cBlueprint.Resource.ResRef;
 	nWN2CreatureBlueprint.Resource = cRepository.CreateResource(cName, nWN2CreatureBlueprint.ResourceType);
+
 	GFFFile gFFFile = new GFFFile();
 	gFFFile.FileHeader.FileType = BWResourceTypes.GetFileExtension(nWN2CreatureBlueprint.ResourceType);
 	nWN2CreatureBlueprint.SaveEverythingIntoGFFStruct(gFFFile.TopLevelStruct, bIsBlueprint: true);

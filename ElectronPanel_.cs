@@ -410,69 +410,78 @@ namespace creaturevisualizer
 						object[] selection = tslist.Selection;
 						if (selection != null && selection.Length == 1)
 						{
-//							if (!(selection[0] as INWN2Blueprint).Equals(Blueprint_pre))
-/*							if (Blueprint_pre == null || (selection[0] as INWN2Blueprint) != Blueprint_pre)
-							{
-								Blueprint = Blueprint_pre = selection[0] as INWN2Blueprint;
-								different = true;
-							} */
-							Blueprint = selection[0] as INWN2Blueprint;
+							NWN2ObjectType type = tslist.GetFocusedListObjectType();
 
-							switch (tslist.GetFocusedListObjectType())
+							if (   type == NWN2ObjectType.Creature
+								|| type == NWN2ObjectType.Door
+								|| type == NWN2ObjectType.Placeable
+								|| type == NWN2ObjectType.PlacedEffect
+								|| type == NWN2ObjectType.Item)
 							{
-								case NWN2ObjectType.Creature:
-									_f.EnableCreaturePage(true);
+//								if (!(selection[0] as INWN2Blueprint).Equals(Blueprint_pre))
+/*								if (Blueprint_pre == null || (selection[0] as INWN2Blueprint) != Blueprint_pre)
+								{
+									Blueprint = Blueprint_pre = selection[0] as INWN2Blueprint;
+									different = true;
+								} */
+								Blueprint = selection[0] as INWN2Blueprint;
 
-									_f.InitGender((Blueprint as NWN2CreatureBlueprint).Gender);
+								switch (type)
+								{
+									case NWN2ObjectType.Creature:
+										_f.EnableCreaturePage(true);
+
+										_f.InitGender((Blueprint as NWN2CreatureBlueprint).Gender);
 
 /*
-//									((NWN2CreatureBlueprint)blueprint).AppearanceHair; // byte
-									// etc ...
+//										((NWN2CreatureBlueprint)blueprint).AppearanceHair; // byte
+										// etc ...
 
-									// bool ->
-									((NWN2CreatureBlueprint)blueprint).AppearanceFacialHair;
+										// bool ->
+										((NWN2CreatureBlueprint)blueprint).AppearanceFacialHair;
 
-									((NWN2CreatureBlueprint)blueprint).HasBelt;
-									((NWN2CreatureBlueprint)blueprint).HasBoots;
-									((NWN2CreatureBlueprint)blueprint).HasCloak;
-									((NWN2CreatureBlueprint)blueprint).HasGloves;
-									((NWN2CreatureBlueprint)blueprint).HasHelm;
+										((NWN2CreatureBlueprint)blueprint).HasBelt;
+										((NWN2CreatureBlueprint)blueprint).HasBoots;
+										((NWN2CreatureBlueprint)blueprint).HasCloak;
+										((NWN2CreatureBlueprint)blueprint).HasGloves;
+										((NWN2CreatureBlueprint)blueprint).HasHelm;
 
-									((NWN2CreatureBlueprint)blueprint).NeverDrawHelmet;
-									((NWN2CreatureBlueprint)blueprint).NeverShowArmor;
+										((NWN2CreatureBlueprint)blueprint).NeverDrawHelmet;
+										((NWN2CreatureBlueprint)blueprint).NeverShowArmor;
 
-									// TwoDAReference ->
-									((NWN2CreatureBlueprint)blueprint).Tail;
-									((NWN2CreatureBlueprint)blueprint).Wings;
+										// TwoDAReference ->
+										((NWN2CreatureBlueprint)blueprint).Tail;
+										((NWN2CreatureBlueprint)blueprint).Wings;
 
-									// OEITintSet ->
-									((NWN2CreatureBlueprint)blueprint).BaseTint;
-									((NWN2CreatureBlueprint)blueprint).Tint;
-									((NWN2CreatureBlueprint)blueprint).TintHair;
-									((NWN2CreatureBlueprint)blueprint).TintHead;
+										// OEITintSet ->
+										((NWN2CreatureBlueprint)blueprint).BaseTint;
+										((NWN2CreatureBlueprint)blueprint).Tint;
+										((NWN2CreatureBlueprint)blueprint).TintHair;
+										((NWN2CreatureBlueprint)blueprint).TintHead;
 
-									// Color ->
-									((NWN2CreatureBlueprint)blueprint).TintArmor1;
-									((NWN2CreatureBlueprint)blueprint).TintArmor2;
-									((NWN2CreatureBlueprint)blueprint).TintEyes;
-									((NWN2CreatureBlueprint)blueprint).TintFacialHair;
-									((NWN2CreatureBlueprint)blueprint).TintHair1;
-									((NWN2CreatureBlueprint)blueprint).TintHair2;
-									((NWN2CreatureBlueprint)blueprint).TintHairAccessory;
-									((NWN2CreatureBlueprint)blueprint).TintSkin;
+										// Color ->
+										((NWN2CreatureBlueprint)blueprint).TintArmor1;
+										((NWN2CreatureBlueprint)blueprint).TintArmor2;
+										((NWN2CreatureBlueprint)blueprint).TintEyes;
+										((NWN2CreatureBlueprint)blueprint).TintFacialHair;
+										((NWN2CreatureBlueprint)blueprint).TintHair1;
+										((NWN2CreatureBlueprint)blueprint).TintHair2;
+										((NWN2CreatureBlueprint)blueprint).TintHairAccessory;
+										((NWN2CreatureBlueprint)blueprint).TintSkin;
 */
 
-									goto case NWN2ObjectType.Item;
+										goto case NWN2ObjectType.Item;
 
-								case NWN2ObjectType.Door:
-								case NWN2ObjectType.Placeable:
-								case NWN2ObjectType.PlacedEffect:
-								case NWN2ObjectType.Item:	// <- TODO: works for weapons (see Preview tab) but clothes
-								{							//          appear on a default creature (in the ArmorSet tab)
-									Instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(Blueprint);
-									_f.Changed = CreVisF.ChangedType.ct_not;
-									_f.bu_creature_apply.Text = "APPLY to Blueprint";
-									break;
+									case NWN2ObjectType.Door:
+									case NWN2ObjectType.Placeable:
+									case NWN2ObjectType.PlacedEffect:
+									case NWN2ObjectType.Item:	// <- TODO: works for weapons (see Preview tab) but clothes
+									{							//          appear on a default creature (in the ArmorSet tab)
+										Instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(Blueprint);
+										_f.Changed = CreVisF.ChangedType.ct_not;
+										_f.bu_creature_apply.Text = "APPLY to Blueprint";
+										break;
+									}
 								}
 							}
 						}
