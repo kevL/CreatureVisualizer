@@ -75,6 +75,13 @@ namespace creaturevisualizer
 		#endregion Properties
 
 
+		public bool HandleEquippedItems
+		{ get; set; }
+
+		public bool HandleInventoryItems
+		{ get; set; }
+
+
 		#region cTor
 		CreatureVisualizerPreferences()
 		{
@@ -95,6 +102,9 @@ namespace creaturevisualizer
 			y_ColorDialog = Int32.MinValue;
 
 			LastSaveDirectory = String.Empty;
+
+			HandleEquippedItems  = true;
+			HandleInventoryItems = true;
 		}
 		#endregion cTor
 	}

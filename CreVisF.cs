@@ -57,6 +57,9 @@ namespace creaturevisualizer
 		MenuItem _itSaveToCampaign;
 		MenuItem _itSaveAs;
 
+		MenuItem _itHandleEquippedItems;
+		MenuItem _itHandleInventoryItems;
+
 		MenuItem _itControlPanel;
 		MenuItem _itMiniPanel;
 		MenuItem _itCyclePanel;
@@ -221,6 +224,12 @@ namespace creaturevisualizer
 			if (!CreatureVisualizerPreferences.that.ShowMinipanel)
 				_itMiniPanel.PerformClick();
 
+			if (!CreatureVisualizerPreferences.that.HandleEquippedItems)
+				_itHandleEquippedItems.PerformClick();
+
+			if (!CreatureVisualizerPreferences.that.HandleInventoryItems)
+				_itHandleInventoryItems.PerformClick();
+
 			tc1.SelectedIndex = CreatureVisualizerPreferences.that.TabPageCurrent;
 
 
@@ -269,9 +278,10 @@ namespace creaturevisualizer
 		{
 			Menu = new MainMenu();
 
-			Menu.MenuItems.Add("&Instance");
-			Menu.MenuItems.Add("&Options");
-			Menu.MenuItems.Add("&Help");
+			Menu.MenuItems.Add("&Instance");	// 0
+			Menu.MenuItems.Add("&Options");		// 1
+			Menu.MenuItems.Add("&View");		// 2
+			Menu.MenuItems.Add("&Help");		// 3
 
 // Instance ->
 			Menu.MenuItems[0].MenuItems.Add("&refresh", instanceclick_Refresh);
@@ -298,31 +308,40 @@ namespace creaturevisualizer
 //			_itSaveAs.Enabled = false; // <- TODO: Blueprint/Instance != null
 
 // Options ->
-			_itControlPanel = Menu.MenuItems[1].MenuItems.Add("control &panel", optionsclick_ControlPanel);
+			_itHandleEquippedItems = Menu.MenuItems[1].MenuItems.Add("handle eq&uipped items", optionsclick_HandleEquippedItems);
+			_itHandleEquippedItems.Shortcut = Shortcut.CtrlU;
+			_itHandleEquippedItems.Checked = true;
+
+			_itHandleInventoryItems = Menu.MenuItems[1].MenuItems.Add("handle &inventory items", optionsclick_HandleInventoryItems);
+			_itHandleInventoryItems.Shortcut = Shortcut.CtrlI;
+			_itHandleInventoryItems.Checked = true;
+
+// View ->
+			_itControlPanel = Menu.MenuItems[2].MenuItems.Add("control &panel", viewclick_ControlPanel);
 			_itControlPanel.Shortcut = Shortcut.CtrlP;
 
-			_itMiniPanel = Menu.MenuItems[1].MenuItems.Add("&mini panel", optionsclick_MiniPanel);
+			_itMiniPanel = Menu.MenuItems[2].MenuItems.Add("&mini panel", viewclick_MiniPanel);
 			_itMiniPanel.Shortcut = Shortcut.CtrlM;
 			_itMiniPanel.Checked = true;
 
-			Menu.MenuItems[1].MenuItems.Add("-");
+			Menu.MenuItems[2].MenuItems.Add("-");
 
-			_itCyclePanel = Menu.MenuItems[1].MenuItems.Add("&cycle panel", optionsclick_CyclePanel);
+			_itCyclePanel = Menu.MenuItems[2].MenuItems.Add("&cycle panel", viewclick_CyclePanel);
 			_itCyclePanel.Shortcut = Shortcut.F8;
 			_itCyclePanel.Enabled = false;
 
-			Menu.MenuItems[1].MenuItems.Add("-");
+			Menu.MenuItems[2].MenuItems.Add("-");
 
-			_itStayOnTop = Menu.MenuItems[1].MenuItems.Add("stay on &top", optionsclick_StayOnTop);
+			_itStayOnTop = Menu.MenuItems[2].MenuItems.Add("stay on &top", viewclick_StayOnTop);
 			_itStayOnTop.Shortcut = Shortcut.CtrlT;
 			_itStayOnTop.Checked = TopMost = true;
 
 // Help ->
-			Menu.MenuItems[2].MenuItems.Add("&help", helpclick_Help);
-			Menu.MenuItems[2].MenuItems[0].Shortcut = Shortcut.F1;
+			Menu.MenuItems[3].MenuItems.Add("&help", helpclick_Help);
+			Menu.MenuItems[3].MenuItems[0].Shortcut = Shortcut.F1;
 
-			Menu.MenuItems[2].MenuItems.Add("&about", helpclick_About);
-			Menu.MenuItems[2].MenuItems[1].Shortcut = Shortcut.F2;
+			Menu.MenuItems[3].MenuItems.Add("&about", helpclick_About);
+			Menu.MenuItems[3].MenuItems[1].Shortcut = Shortcut.F2;
 		}
 
 
@@ -585,11 +604,16 @@ namespace creaturevisualizer
 		{
 			if (NWN2CampaignManager.Instance.ActiveCampaign != null) // TODO: dis/enable the menu-item itself
 			{
+				//NWN2CampaignManager.Instance.ActiveCampaign.Repository;
 			}
 		}
 
 		void instanceclick_SaveAs(object sender, EventArgs e)
 		{
+//			NWN2Toolset.NWN2.IO.NWN2ResourceManager.Instance.UserOverrideDirectory;
+//			NWN2Toolset.NWN2.IO.NWN2ResourceManager.Instance.OverrideDirectory;
+//			NWN2Toolset.NWN2.IO.NWN2ResourceManager.Instance.BaseDirectory;
+
 			if (_panel.Blueprint != null)
 			{
 				Io.SaveAs(_panel.Blueprint);
@@ -601,9 +625,22 @@ namespace creaturevisualizer
 		}
 
 
+		void optionsclick_HandleEquippedItems(object sender, EventArgs e)
+		{
+			CreatureVisualizerPreferences.that.HandleEquippedItems =
+			(_itHandleEquippedItems.Checked = !_itHandleEquippedItems.Checked);
+		}
+
+		void optionsclick_HandleInventoryItems(object sender, EventArgs e)
+		{
+			CreatureVisualizerPreferences.that.HandleInventoryItems =
+			(_itHandleInventoryItems.Checked = !_itHandleInventoryItems.Checked);
+		}
+
+
 		bool _toggle;
 
-		void optionsclick_ControlPanel(object sender, EventArgs e)
+		void viewclick_ControlPanel(object sender, EventArgs e)
 		{
 			if (_itControlPanel.Checked = !_itControlPanel.Checked)
 			{
@@ -740,14 +777,14 @@ namespace creaturevisualizer
 			}
 		}
 
-		void optionsclick_MiniPanel(object sender, EventArgs e)
+		void viewclick_MiniPanel(object sender, EventArgs e)
 		{
 			_i.Visible = _o.Visible = _u.Visible =
 			_d.Visible = _l.Visible = _r.Visible =
 			CreatureVisualizerPreferences.that.ShowMinipanel = (_itMiniPanel.Checked = !_itMiniPanel.Checked);
 		}
 
-		void optionsclick_CyclePanel(object sender, EventArgs e)
+		void viewclick_CyclePanel(object sender, EventArgs e)
 		{
 			if (_itControlPanel.Checked)
 			{
@@ -780,7 +817,7 @@ namespace creaturevisualizer
 			}
 		}
 
-		void optionsclick_StayOnTop(object sender, EventArgs e)
+		void viewclick_StayOnTop(object sender, EventArgs e)
 		{
 			CreatureVisualizerPreferences.that.StayOnTop =
 			TopMost = (_itStayOnTop.Checked = !_itStayOnTop.Checked);
@@ -1653,11 +1690,8 @@ namespace creaturevisualizer
 
 				blueprint.Inventory = (NWN2BlueprintInventoryItemCollection)CommonUtils.SerializationClone((_panel.Blueprint as NWN2CreatureBlueprint).Inventory);
 
-//				OEIResRef resref = rename ? cRepository.GetTempResRef((_panel.Blueprint as NWN2CreatureBlueprint).Resource.ResRef, blueprint.ResourceType)
-//										  : (_panel.Blueprint as NWN2CreatureBlueprint).Resource.ResRef;
-
-//				OEIResRef resref = (_panel.Blueprint as NWN2CreatureBlueprint).Resource.ResRef;
-//				blueprint.Resource = cRepository.CreateResource(resref, blueprint.ResourceType);
+				OEIResRef resref = (_panel.Blueprint as NWN2CreatureBlueprint).Resource.ResRef;
+				blueprint.Resource = NWN2ToolsetMainForm.App.BlueprintView.Module.Repository.CreateResource(resref, blueprint.ResourceType);
 
 				blueprint.Gender = (CreatureGender)cbo_creature_gender.SelectedIndex;
 
