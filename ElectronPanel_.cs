@@ -391,6 +391,7 @@ namespace creaturevisualizer
 							different = true;
 						} */
 						Instance = collection[0] as INWN2Instance;
+						_f.PrintResourceInfo(Instance); // INWN2Template
 
 						if ((Instance as NWN2CreatureInstance) != null)
 						{
@@ -425,6 +426,7 @@ namespace creaturevisualizer
 									different = true;
 								} */
 								Blueprint = selection[0] as INWN2Blueprint;
+								_f.PrintResourceInfo(Blueprint); // INWN2Template
 
 								switch (type)
 								{

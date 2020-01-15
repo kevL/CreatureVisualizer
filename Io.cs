@@ -124,6 +124,8 @@ namespace creaturevisualizer
 
 		static INWN2Blueprint CreateBlueprint(NWN2CreatureInstance instance)
 		{
+			// cf CreVisF.click_bu_creature_display()
+
 			if (instance.Template == null || instance.Template.ResourceType != (ushort)2027) // utc
 			{
 				CreVisF.BypassCreate = true;
@@ -135,6 +137,8 @@ namespace creaturevisualizer
 			}
 			else
 			{
+				// TODO: This is all suspect ->>
+
 				var blueprint = new NWN2CreatureBlueprint();
 				blueprint.CopyFromTemplate(instance);
 
@@ -143,22 +147,30 @@ namespace creaturevisualizer
 
 				blueprint.Comment = instance.Comment;
 
-				NWN2InventoryItem it;
-//				blueprint.EquippedItems = CommonUtils.SerializationClone(instance.EquippedItems) as NWN2EquipmentSlotCollection; // huh
-				blueprint.EquippedItems = new NWN2EquipmentSlotCollection();
-				for (int i = 0; i != 18; ++i)
+				if (CreatureVisualizerPreferences.that.HandleEquippedItems)
 				{
-					if ((it = instance.EquippedItems[i].Item) != null && it.ValidItem)
+					NWN2InventoryItem it;
+//					blueprint.EquippedItems = CommonUtils.SerializationClone(instance.EquippedItems) as NWN2EquipmentSlotCollection; // huh
+					blueprint.EquippedItems = new NWN2EquipmentSlotCollection();
+					for (int i = 0; i != 18; ++i)
 					{
-						blueprint.EquippedItems[i].Item = new NWN2BlueprintInventoryItem(it as NWN2InstanceInventoryItem);
+						if ((it = instance.EquippedItems[i].Item) != null && it.ValidItem)
+						{
+							blueprint.EquippedItems[i].Item = new NWN2BlueprintInventoryItem(it as NWN2InstanceInventoryItem);
+						}
 					}
 				}
+				//else TODO: Might have to clear equipment here
 
-				blueprint.Inventory = new NWN2BlueprintInventoryItemCollection();
-				foreach (NWN2InstanceInventoryItem itInst in instance.Inventory)
+				if (CreatureVisualizerPreferences.that.HandleInventoryItems)
 				{
-					blueprint.Inventory.Add(new NWN2BlueprintInventoryItem(itInst));
+					blueprint.Inventory = new NWN2BlueprintInventoryItemCollection();
+					foreach (NWN2InstanceInventoryItem itInst in instance.Inventory)
+					{
+						blueprint.Inventory.Add(new NWN2BlueprintInventoryItem(itInst));
+					}
 				}
+				//else TODO: Might have to clear inventory here
 
 				return blueprint;
 			}

@@ -7,6 +7,7 @@ using Microsoft.DirectX;
 using NWN2Toolset;
 using NWN2Toolset.NWN2.Data.Blueprints;
 using NWN2Toolset.NWN2.Data.Campaign;
+using NWN2Toolset.NWN2.Data.Instances;
 using NWN2Toolset.NWN2.Data.Templates;
 using NWN2Toolset.NWN2.Views;
 
@@ -99,8 +100,8 @@ namespace creaturevisualizer
 					switch (_changed)
 					{
 //						case ChangedType.ct_not: asterisks = "";   break;
-						case ChangedType.ct_Ts:  asterisks = "*";  break;
-						case ChangedType.ct_Vi:  asterisks = "**"; break;
+						case ChangedType.ct_Ts:  asterisks = " *";  break;
+						case ChangedType.ct_Vi:  asterisks = " **"; break;
 					}
 
 					if (_panel.Blueprint != null) // is a blueprint NOT a placed instance
@@ -112,12 +113,12 @@ namespace creaturevisualizer
 						// _panel.Blueprint.Name					-> tag
 
 						Text = TITLE + " - "
-							 + _panel.Blueprint.ResourceName.Value + " [" + loc + "] "	// resref
+							 + _panel.Blueprint.ResourceName.Value + " [" + loc + "]"	// resref
 							 + asterisks + " (" + _panel.Blueprint.Name + ")";			// tag
 					}
 					else if (_panel.Instance != null) // is a placed instance NOT a blueprint
 					{
-						Text = TITLE + " - [ area ] " + asterisks + " (" + _panel.Instance.Name + ")"; // tag
+						Text = TITLE + " - [area]" + asterisks + " (" + _panel.Instance.Name + ")"; // tag
 					}
 				}
 			}
@@ -1674,6 +1675,76 @@ namespace creaturevisualizer
 
 
 		#region Handlers (creature)
+		internal void PrintResourceInfo(INWN2Template template)
+		{
+			// TEMPLATE
+			// Name					string
+			// ObjectType			NWN2ObjectType
+			la_type.Text = Enum.GetName(typeof(NWN2ObjectType), template.ObjectType);
+			la_name.Text = template.Name;
+
+
+			// BLUEPRINT (inherits TEMPLATE)
+			// BlueprintLocation	NWN2BlueprintLocationType
+			// Comment				string
+			// TemplateResRef		OEIResRef
+			// Resource				IResourceEntry
+			// ResourceName			OEIResRef
+			if ((template as INWN2Blueprint) != null)
+			{
+				la_itype.Text = "INWN2Blueprint";
+
+				var blueprint = template as INWN2Blueprint;
+
+				la_resref  .Text = blueprint.ResourceName.Value;
+				la_template.Text = blueprint.TemplateResRef.Value;
+				la_repotype.Text = Enum.GetName(typeof(NWN2BlueprintLocationType), blueprint.BlueprintLocation);
+
+				if (blueprint.Resource != null)	// NOTE: Use the instance fields to show a blueprint's Resource info.
+				{								// If you want to see Resource info for a blueprint's Template go find the template ...
+					la_file_inst    .Text = blueprint.Resource.FullName;
+					la_template_inst.Text = blueprint.Resource.ResRef.Value;
+					la_restype_inst .Text = BWResourceTypes.GetFileExtension(blueprint.Resource.ResourceType);
+					la_repo_inst.Text = blueprint.Resource.Repository.Name;
+				}
+
+				la_areatag.Text = "-";
+			}
+			// INSTANCE (inherits TEMPLATE)
+			// Template				IResourceEntry
+			// Comment				string
+			// DebugStruct			GFFStruct
+			// Area					NWN2GameArea
+			// ObjectID				Guid
+			else if ((template as INWN2Instance) != null)
+			{
+				la_itype.Text = "INWN2Instance";
+
+				var instance = template as INWN2Instance;
+
+				la_resref  .Text =
+				la_template.Text =
+				la_repotype.Text = "-";
+
+				if (instance.Template != null)
+				{
+					la_file_inst    .Text = instance.Template.FullName;
+					la_template_inst.Text = instance.Template.ResRef.Value;
+					la_restype_inst .Text = BWResourceTypes.GetFileExtension(instance.Template.ResourceType);
+
+					if (instance.Template.Repository != null)
+						la_repo_inst.Text = instance.Template.Repository.Name;
+					else
+						la_repo_inst.Text = "invalid";
+				}
+
+				if (instance.Area != null)
+					la_areatag.Text = instance.Area.Tag;
+				else
+					la_areatag.Text = "invalid";
+			}
+		}
+
 		void click_bu_creature_display(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
@@ -1683,14 +1754,18 @@ namespace creaturevisualizer
 				var blueprint = new NWN2CreatureBlueprint();
 				blueprint.CopyFromTemplate(_panel.Blueprint);
 
+				var current = (_panel.Blueprint as NWN2CreatureBlueprint);
+
 				// NWN2Toolset.NWN2.Data.Blueprints.NWN2CreatureBlueprint.NWN2BlueprintData -> (OEIResRef)TemplateResRef (+ load and save functs)
-//				blueprint.data = (NWN2BlueprintData)CommonUtils.SerializationClone((_panel.Blueprint as NWN2CreatureBlueprint).data);
+//				blueprint.data = (NWN2BlueprintData)CommonUtils.SerializationClone(current.data);
 
-				blueprint.EquippedItems = (NWN2EquipmentSlotCollection)CommonUtils.SerializationClone((_panel.Blueprint as NWN2CreatureBlueprint).EquippedItems);
+				// TODO: if (prefs.HandleEquippedItems)
+				blueprint.EquippedItems = (NWN2EquipmentSlotCollection)CommonUtils.SerializationClone(current.EquippedItems);
 
-				blueprint.Inventory = (NWN2BlueprintInventoryItemCollection)CommonUtils.SerializationClone((_panel.Blueprint as NWN2CreatureBlueprint).Inventory);
+				// TODO: if (prefs.HandleInventoryItems)
+				blueprint.Inventory = (NWN2BlueprintInventoryItemCollection)CommonUtils.SerializationClone(current.Inventory);
 
-				OEIResRef resref = (_panel.Blueprint as NWN2CreatureBlueprint).Resource.ResRef;
+				OEIResRef resref = current.Resource.ResRef;
 				blueprint.Resource = NWN2ToolsetMainForm.App.BlueprintView.Module.Repository.CreateResource(resref, blueprint.ResourceType);
 
 				blueprint.Gender = (CreatureGender)cbo_creature_gender.SelectedIndex;
