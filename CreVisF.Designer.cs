@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 
@@ -7,6 +8,19 @@ namespace creaturevisualizer
 	sealed partial class CreVisF
 	{
 		#region Designer
+		/// <summary>
+		/// Cleans up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed</param>
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && components != null)
+				components.Dispose();
+
+			base.Dispose(disposing);
+		}
+
+
 		Panel pa_gui;
 
 		Panel pa_con;
@@ -161,6 +175,9 @@ namespace creaturevisualizer
 		ToolStripStatusLabel tssl_light_blank;
 		ToolStripStatusLabel tssl_light_intensity;
 
+		IContainer components;
+		ToolTip toolTip1;
+
 
 		/// <summary>
 		/// This method is required for Windows Forms designer support.
@@ -170,6 +187,7 @@ namespace creaturevisualizer
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.pa_con = new System.Windows.Forms.Panel();
 			this.tc1 = new creaturevisualizer.CompositedTabControl();
 			this.tp_controls = new System.Windows.Forms.TabPage();
@@ -306,6 +324,7 @@ namespace creaturevisualizer
 			this.tssl_light_blank = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tssl_light_intensity = new System.Windows.Forms.ToolStripStatusLabel();
 			this.pa_gui = new System.Windows.Forms.Panel();
+			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.pa_con.SuspendLayout();
 			this.tc1.SuspendLayout();
 			this.tp_controls.SuspendLayout();
@@ -2007,6 +2026,13 @@ namespace creaturevisualizer
 			this.pa_gui.Name = "pa_gui";
 			this.pa_gui.Size = new System.Drawing.Size(327, 478);
 			this.pa_gui.TabIndex = 0;
+			// 
+			// toolTip1
+			// 
+			this.toolTip1.Active = false;
+			this.toolTip1.AutoPopDelay = 30000;
+			this.toolTip1.InitialDelay = 50;
+			this.toolTip1.ReshowDelay = 100;
 			// 
 			// CreVisF
 			// 

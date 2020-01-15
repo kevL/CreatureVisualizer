@@ -1677,6 +1677,8 @@ namespace creaturevisualizer
 		#region Handlers (creature)
 		internal void PrintResourceInfo(INWN2Template template)
 		{
+			toolTip1.Active = false;
+
 			// TEMPLATE
 			// Name					string
 			// ObjectType			NWN2ObjectType
@@ -1705,7 +1707,13 @@ namespace creaturevisualizer
 					la_file_inst    .Text = blueprint.Resource.FullName;
 					la_template_inst.Text = blueprint.Resource.ResRef.Value;
 					la_restype_inst .Text = BWResourceTypes.GetFileExtension(blueprint.Resource.ResourceType);
-					la_repo_inst.Text = blueprint.Resource.Repository.Name;
+
+					if (blueprint.Resource.Repository != null)
+					{
+						SetRepoText(blueprint.Resource.Repository.Name);
+					}
+					else
+						la_repo_inst.Text = "invalid";
 				}
 
 				la_areatag.Text = "-";
@@ -1733,7 +1741,9 @@ namespace creaturevisualizer
 					la_restype_inst .Text = BWResourceTypes.GetFileExtension(instance.Template.ResourceType);
 
 					if (instance.Template.Repository != null)
-						la_repo_inst.Text = instance.Template.Repository.Name;
+					{
+						SetRepoText(instance.Template.Repository.Name);
+					}
 					else
 						la_repo_inst.Text = "invalid";
 				}
@@ -1743,6 +1753,21 @@ namespace creaturevisualizer
 				else
 					la_areatag.Text = "invalid";
 			}
+		}
+
+		void SetRepoText(string repo)
+		{
+			if (repo.Length > 32) // max chars that the Label 'la_repo_inst' can display on its first line.
+			{
+				toolTip1.Active = true;
+				toolTip1.SetToolTip(la_repo_inst, repo);
+
+				if (repo.Length > 96) // max chars that the Label 'la_repo_inst' can display on all three lines.
+				{
+					repo = repo.Substring(0, 93) + "...";
+				}
+			}
+			la_repo_inst.Text = repo;
 		}
 
 		void click_bu_creature_display(object sender, EventArgs e)
