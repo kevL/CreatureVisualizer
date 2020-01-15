@@ -89,17 +89,42 @@ namespace creaturevisualizer
 
 
 		#region Properties
+		// Note that when an Instance is selected the visualizer uses that
+		// Instance. But when a Blueprint is selected the visualizer creates
+		// its own instance of the Blueprint. The instance will then be used to
+		// instantiate a NetDisplayObject aka the 'Model'.
+		//
+		// That is, in order to test whether a Blueprint or an Instance is
+		// currently displayed, test Blueprint==null (NOT Instance==null)
+		// since objects based on Blueprints *do have an Instance*.
+
+		/// <summary>
+		/// The currently selected Blueprint. Can be changed by the "Apply"
+		/// operation.
+		/// </summary>
+		INWN2Blueprint Blueprint_base
+		{ get; set; }
+
+		/// <summary>
+		/// The currently displayed Blueprint (ie, instantiate a duplicate of
+		/// 'Blueprint_base'). Can be changed by the "Display" operation.
+		/// </summary>
 		internal INWN2Blueprint Blueprint
 		{ get; set; }
 
-		INWN2Blueprint Blueprint_pre // for tracking the selected blueprint in the Blueprint tree
+		/// <summary>
+		/// The currently selected Instance. Can be changed by the "Apply"
+		/// operation.
+		/// </summary>
+		INWN2Instance Instance_base
 		{ get; set; }
 
+		/// <summary>
+		/// The currently displayed Instance (ie, instantiate a duplicate of
+		/// 'Instance_base'). Can be changed by the "Display" operation.
+		/// </summary>
 		internal INWN2Instance Instance
 		{ get; private set; }
-
-		INWN2Instance Instance_pre
-		{ get; set; }
 
 
 		internal NetDisplayObject Model
@@ -336,7 +361,7 @@ namespace creaturevisualizer
 			{
 				NWN2NetDisplayManager.Instance.Objects.Add(Light);				// doesn't appear to be req'd.
 			}
-//lock (this.m_ᐁ.NDWindow.Scene.Objects.SyncRoot)
+//lock (this.m_ᐁ.NDWindow.Scene.Objects.SyncRoot) // TODO: figure out what 'SyncRoot' etc is about ...
 //{
 //	this.m_ᐁ.NDWindow.Scene.Objects.Remove(this.m_ᐂ);
 //}
@@ -355,8 +380,25 @@ namespace creaturevisualizer
 		/// </summary>
 		internal void CreateModel()
 		{
-			if (!CreVisF.BypassCreate) // ie. don't re-create the instance when a colorpicker closes or when returning from a close-confirmation dialog or the error-dialog etc.
-			{
+			// IMPORTANT: Policy #256 - *never* allow the instance to be other
+			// than the Blueprint or Instance that the user has currently
+			// selected. This will greatly ease the "Apply to ..." operation.
+			// THE INSTANCE DISPLAYED IN THE VISUALIZER MUST ALWAYS REFERENCE
+			// THE BLUEPRINT OR INSTANCE THAT THE USER HAS CURRENTLY SELECTED.
+			//
+			// That is, if the user clicks away from his/her currently selected
+			// Blueprint or Instance (ie. by selecting a different Blueprint or
+			// Instance) clear the visualizer-display after asking to either
+			// Save or Clear - but only if the currently displayed instance has
+			// actually been changed ofc w/ "Display". Note that if an
+			// instance's displayed characteristics have been "Applied" to the
+			// current Blueprint/Instance then no confirmation is required to
+			// instantiate an instance that's different than the current
+			// Blueprint/Instance.
+
+
+			if (!CreVisF.BypassCreate)	// ie. don't re-create the instance when a colorpicker closes or when
+			{							// returning from a close-confirmation dialog or the error-dialog etc.
 				_f.Changed = CreVisF.ChangedType.ct_nul; // set '_f.Text'
 
 				Blueprint = null;

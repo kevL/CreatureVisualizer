@@ -11,6 +11,7 @@ using NWN2Toolset.NWN2.Data.Instances;
 using NWN2Toolset.NWN2.Data.Templates;
 using NWN2Toolset.NWN2.Views;
 
+using OEIShared.IO;
 using OEIShared.NetDisplay;
 using OEIShared.OEIMath;
 using OEIShared.UI.Input;
@@ -1790,14 +1791,14 @@ namespace creaturevisualizer
 				// TODO: if (prefs.HandleInventoryItems)
 				blueprint.Inventory = (NWN2BlueprintInventoryItemCollection)CommonUtils.SerializationClone(current.Inventory);
 
+				DirectoryResourceRepository repo = NWN2ToolsetMainForm.App.BlueprintView.Module.Repository; // Create resource as Module type. i guess
 				OEIResRef resref = current.Resource.ResRef;
-				blueprint.Resource = NWN2ToolsetMainForm.App.BlueprintView.Module.Repository.CreateResource(resref, blueprint.ResourceType);
+				blueprint.Resource = repo.CreateResource(resref, blueprint.ResourceType);
 
 				blueprint.Gender = (CreatureGender)cbo_creature_gender.SelectedIndex;
 
+
 				_panel.Blueprint = blueprint;
-
-
 				_panel.RecreateModel();
 
 				Changed = ChangedType.ct_Vi;
