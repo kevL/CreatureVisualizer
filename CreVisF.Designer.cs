@@ -1558,27 +1558,24 @@ namespace creaturevisualizer
 			// 
 			// la_repo_inst
 			// 
-			this.la_repo_inst.Location = new System.Drawing.Point(71, 255);
+			this.la_repo_inst.Location = new System.Drawing.Point(70, 304);
 			this.la_repo_inst.Margin = new System.Windows.Forms.Padding(0);
 			this.la_repo_inst.Name = "la_repo_inst";
 			this.la_repo_inst.Size = new System.Drawing.Size(200, 40);
 			this.la_repo_inst.TabIndex = 79;
-			this.la_repo_inst.Text = "repo";
-			this.la_repo_inst.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_areatag
 			// 
-			this.la_areatag.Location = new System.Drawing.Point(71, 310);
+			this.la_areatag.Location = new System.Drawing.Point(70, 195);
 			this.la_areatag.Margin = new System.Windows.Forms.Padding(0);
 			this.la_areatag.Name = "la_areatag";
 			this.la_areatag.Size = new System.Drawing.Size(200, 20);
 			this.la_areatag.TabIndex = 82;
-			this.la_areatag.Text = "areatag";
 			this.la_areatag.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_areatag_
 			// 
-			this.la_areatag_.Location = new System.Drawing.Point(11, 310);
+			this.la_areatag_.Location = new System.Drawing.Point(10, 195);
 			this.la_areatag_.Margin = new System.Windows.Forms.Padding(0);
 			this.la_areatag_.Name = "la_areatag_";
 			this.la_areatag_.Size = new System.Drawing.Size(55, 20);
@@ -1588,7 +1585,7 @@ namespace creaturevisualizer
 			// 
 			// la_head_instance
 			// 
-			this.la_head_instance.Location = new System.Drawing.Point(6, 290);
+			this.la_head_instance.Location = new System.Drawing.Point(5, 175);
 			this.la_head_instance.Margin = new System.Windows.Forms.Padding(0);
 			this.la_head_instance.Name = "la_head_instance";
 			this.la_head_instance.Size = new System.Drawing.Size(100, 20);
@@ -1598,7 +1595,7 @@ namespace creaturevisualizer
 			// 
 			// la_repo_inst_
 			// 
-			this.la_repo_inst_.Location = new System.Drawing.Point(11, 260);
+			this.la_repo_inst_.Location = new System.Drawing.Point(10, 300);
 			this.la_repo_inst_.Margin = new System.Windows.Forms.Padding(0);
 			this.la_repo_inst_.Name = "la_repo_inst_";
 			this.la_repo_inst_.Size = new System.Drawing.Size(55, 20);
@@ -1608,17 +1605,16 @@ namespace creaturevisualizer
 			// 
 			// la_restype_inst
 			// 
-			this.la_restype_inst.Location = new System.Drawing.Point(71, 235);
+			this.la_restype_inst.Location = new System.Drawing.Point(70, 280);
 			this.la_restype_inst.Margin = new System.Windows.Forms.Padding(0);
 			this.la_restype_inst.Name = "la_restype_inst";
 			this.la_restype_inst.Size = new System.Drawing.Size(200, 20);
 			this.la_restype_inst.TabIndex = 77;
-			this.la_restype_inst.Text = "restype";
 			this.la_restype_inst.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_restype_inst_
 			// 
-			this.la_restype_inst_.Location = new System.Drawing.Point(11, 235);
+			this.la_restype_inst_.Location = new System.Drawing.Point(10, 280);
 			this.la_restype_inst_.Margin = new System.Windows.Forms.Padding(0);
 			this.la_restype_inst_.Name = "la_restype_inst_";
 			this.la_restype_inst_.Size = new System.Drawing.Size(55, 20);
@@ -1628,17 +1624,16 @@ namespace creaturevisualizer
 			// 
 			// la_template_inst
 			// 
-			this.la_template_inst.Location = new System.Drawing.Point(71, 215);
+			this.la_template_inst.Location = new System.Drawing.Point(70, 260);
 			this.la_template_inst.Margin = new System.Windows.Forms.Padding(0);
 			this.la_template_inst.Name = "la_template_inst";
 			this.la_template_inst.Size = new System.Drawing.Size(200, 20);
 			this.la_template_inst.TabIndex = 75;
-			this.la_template_inst.Text = "template";
 			this.la_template_inst.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_template_inst_
 			// 
-			this.la_template_inst_.Location = new System.Drawing.Point(11, 215);
+			this.la_template_inst_.Location = new System.Drawing.Point(10, 260);
 			this.la_template_inst_.Margin = new System.Windows.Forms.Padding(0);
 			this.la_template_inst_.Name = "la_template_inst_";
 			this.la_template_inst_.Size = new System.Drawing.Size(55, 20);
@@ -1648,17 +1643,16 @@ namespace creaturevisualizer
 			// 
 			// la_file_inst
 			// 
-			this.la_file_inst.Location = new System.Drawing.Point(71, 195);
+			this.la_file_inst.Location = new System.Drawing.Point(70, 240);
 			this.la_file_inst.Margin = new System.Windows.Forms.Padding(0);
 			this.la_file_inst.Name = "la_file_inst";
 			this.la_file_inst.Size = new System.Drawing.Size(200, 20);
 			this.la_file_inst.TabIndex = 73;
-			this.la_file_inst.Text = "file";
 			this.la_file_inst.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_file_inst_
 			// 
-			this.la_file_inst_.Location = new System.Drawing.Point(11, 195);
+			this.la_file_inst_.Location = new System.Drawing.Point(10, 240);
 			this.la_file_inst_.Margin = new System.Windows.Forms.Padding(0);
 			this.la_file_inst_.Name = "la_file_inst_";
 			this.la_file_inst_.Size = new System.Drawing.Size(55, 20);
@@ -1668,7 +1662,7 @@ namespace creaturevisualizer
 			// 
 			// la_head_resource
 			// 
-			this.la_head_resource.Location = new System.Drawing.Point(6, 175);
+			this.la_head_resource.Location = new System.Drawing.Point(5, 220);
 			this.la_head_resource.Margin = new System.Windows.Forms.Padding(0);
 			this.la_head_resource.Name = "la_head_resource";
 			this.la_head_resource.Size = new System.Drawing.Size(100, 20);
@@ -1678,7 +1672,7 @@ namespace creaturevisualizer
 			// 
 			// la_head_blueprint
 			// 
-			this.la_head_blueprint.Location = new System.Drawing.Point(6, 90);
+			this.la_head_blueprint.Location = new System.Drawing.Point(5, 90);
 			this.la_head_blueprint.Margin = new System.Windows.Forms.Padding(0);
 			this.la_head_blueprint.Name = "la_head_blueprint";
 			this.la_head_blueprint.Size = new System.Drawing.Size(100, 20);
@@ -1688,7 +1682,7 @@ namespace creaturevisualizer
 			// 
 			// la_head_template
 			// 
-			this.la_head_template.Location = new System.Drawing.Point(6, 5);
+			this.la_head_template.Location = new System.Drawing.Point(5, 5);
 			this.la_head_template.Margin = new System.Windows.Forms.Padding(0);
 			this.la_head_template.Name = "la_head_template";
 			this.la_head_template.Size = new System.Drawing.Size(100, 20);
@@ -1698,17 +1692,16 @@ namespace creaturevisualizer
 			// 
 			// la_template
 			// 
-			this.la_template.Location = new System.Drawing.Point(71, 130);
+			this.la_template.Location = new System.Drawing.Point(70, 130);
 			this.la_template.Margin = new System.Windows.Forms.Padding(0);
 			this.la_template.Name = "la_template";
 			this.la_template.Size = new System.Drawing.Size(200, 20);
 			this.la_template.TabIndex = 68;
-			this.la_template.Text = "template";
 			this.la_template.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_template_
 			// 
-			this.la_template_.Location = new System.Drawing.Point(11, 130);
+			this.la_template_.Location = new System.Drawing.Point(10, 130);
 			this.la_template_.Margin = new System.Windows.Forms.Padding(0);
 			this.la_template_.Name = "la_template_";
 			this.la_template_.Size = new System.Drawing.Size(55, 20);
@@ -1718,17 +1711,16 @@ namespace creaturevisualizer
 			// 
 			// la_resref
 			// 
-			this.la_resref.Location = new System.Drawing.Point(71, 110);
+			this.la_resref.Location = new System.Drawing.Point(70, 110);
 			this.la_resref.Margin = new System.Windows.Forms.Padding(0);
 			this.la_resref.Name = "la_resref";
 			this.la_resref.Size = new System.Drawing.Size(200, 20);
 			this.la_resref.TabIndex = 66;
-			this.la_resref.Text = "resref";
 			this.la_resref.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_resref_
 			// 
-			this.la_resref_.Location = new System.Drawing.Point(11, 110);
+			this.la_resref_.Location = new System.Drawing.Point(10, 110);
 			this.la_resref_.Margin = new System.Windows.Forms.Padding(0);
 			this.la_resref_.Name = "la_resref_";
 			this.la_resref_.Size = new System.Drawing.Size(55, 20);
@@ -1738,17 +1730,16 @@ namespace creaturevisualizer
 			// 
 			// la_itype
 			// 
-			this.la_itype.Location = new System.Drawing.Point(71, 25);
+			this.la_itype.Location = new System.Drawing.Point(70, 25);
 			this.la_itype.Margin = new System.Windows.Forms.Padding(0);
 			this.la_itype.Name = "la_itype";
 			this.la_itype.Size = new System.Drawing.Size(200, 20);
 			this.la_itype.TabIndex = 64;
-			this.la_itype.Text = "IType";
 			this.la_itype.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_itype_
 			// 
-			this.la_itype_.Location = new System.Drawing.Point(11, 25);
+			this.la_itype_.Location = new System.Drawing.Point(10, 25);
 			this.la_itype_.Margin = new System.Windows.Forms.Padding(0);
 			this.la_itype_.Name = "la_itype_";
 			this.la_itype_.Size = new System.Drawing.Size(55, 20);
@@ -1758,17 +1749,16 @@ namespace creaturevisualizer
 			// 
 			// la_name
 			// 
-			this.la_name.Location = new System.Drawing.Point(71, 65);
+			this.la_name.Location = new System.Drawing.Point(70, 65);
 			this.la_name.Margin = new System.Windows.Forms.Padding(0);
 			this.la_name.Name = "la_name";
 			this.la_name.Size = new System.Drawing.Size(200, 20);
 			this.la_name.TabIndex = 62;
-			this.la_name.Text = "tag";
 			this.la_name.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_name_
 			// 
-			this.la_name_.Location = new System.Drawing.Point(11, 65);
+			this.la_name_.Location = new System.Drawing.Point(10, 65);
 			this.la_name_.Margin = new System.Windows.Forms.Padding(0);
 			this.la_name_.Name = "la_name_";
 			this.la_name_.Size = new System.Drawing.Size(55, 20);
@@ -1778,17 +1768,16 @@ namespace creaturevisualizer
 			// 
 			// la_type
 			// 
-			this.la_type.Location = new System.Drawing.Point(71, 45);
+			this.la_type.Location = new System.Drawing.Point(70, 45);
 			this.la_type.Margin = new System.Windows.Forms.Padding(0);
 			this.la_type.Name = "la_type";
 			this.la_type.Size = new System.Drawing.Size(200, 20);
 			this.la_type.TabIndex = 60;
-			this.la_type.Text = "object";
 			this.la_type.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_type_
 			// 
-			this.la_type_.Location = new System.Drawing.Point(11, 45);
+			this.la_type_.Location = new System.Drawing.Point(10, 45);
 			this.la_type_.Margin = new System.Windows.Forms.Padding(0);
 			this.la_type_.Name = "la_type_";
 			this.la_type_.Size = new System.Drawing.Size(55, 20);
@@ -1798,17 +1787,16 @@ namespace creaturevisualizer
 			// 
 			// la_repotype
 			// 
-			this.la_repotype.Location = new System.Drawing.Point(71, 150);
+			this.la_repotype.Location = new System.Drawing.Point(70, 150);
 			this.la_repotype.Margin = new System.Windows.Forms.Padding(0);
 			this.la_repotype.Name = "la_repotype";
 			this.la_repotype.Size = new System.Drawing.Size(200, 20);
 			this.la_repotype.TabIndex = 58;
-			this.la_repotype.Text = "repotype";
 			this.la_repotype.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_repotype_
 			// 
-			this.la_repotype_.Location = new System.Drawing.Point(11, 150);
+			this.la_repotype_.Location = new System.Drawing.Point(10, 150);
 			this.la_repotype_.Margin = new System.Windows.Forms.Padding(0);
 			this.la_repotype_.Name = "la_repotype_";
 			this.la_repotype_.Size = new System.Drawing.Size(55, 20);

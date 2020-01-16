@@ -100,22 +100,33 @@ namespace creaturevisualizer
 					string asterisks = String.Empty;
 					switch (_changed)
 					{
-//						case ChangedType.ct_not: asterisks = "";   break;
-						case ChangedType.ct_Ts:  asterisks = " *";  break;
-						case ChangedType.ct_Vi:  asterisks = " **"; break;
+//						case ChangedType.ct_not: break;
+						case ChangedType.ct_Ts: asterisks = " *";  break;
+						case ChangedType.ct_Vi: asterisks = " **"; break;
 					}
 
 					if (_panel.Blueprint != null) // is a blueprint NOT a placed instance
 					{
-						string loc = Enum.GetName(typeof(NWN2BlueprintLocationType), _panel.Blueprint.BlueprintLocation);
-
 						// _panel.Blueprint.TemplateResRef.Value	-> parent resref
-						// _panel.Blueprint.ResourceName.Value		-> resref
+						// _panel.Blueprint.ResourceName.Value		-> resref == '_panel.Blueprint.Resource.ResRef.Value'
 						// _panel.Blueprint.Name					-> tag
 
+						string resref, loc;
+
+						if (_panel.Blueprint.Resource != null && _panel.Blueprint.Resource.ResRef != null)
+						{
+							resref = _panel.Blueprint.Resource.ResRef.Value;
+							loc = Enum.GetName(typeof(NWN2BlueprintLocationType), _panel.Blueprint.BlueprintLocation);
+						}
+						else
+						{
+							resref = "invalid";
+							loc    = "stock";
+						}
+
 						Text = TITLE + " - "
-							 + _panel.Blueprint.ResourceName.Value + " [" + loc + "]"	// resref
-							 + asterisks + " (" + _panel.Blueprint.Name + ")";			// tag
+							 + resref + " [" + loc + "]"
+							 + asterisks + " (" + _panel.Blueprint.Name + ")";
 					}
 					else if (_panel.Instance != null) // is a placed instance NOT a blueprint
 					{
@@ -245,12 +256,55 @@ namespace creaturevisualizer
 
 		void OnBlueprintSelectionChanged(object sender, BlueprintSelectionChangedEventArgs e)
 		{
-			_panel.CreateModel();
+			// going to kill those morons ......
+			// This is not SelectionChanged; it's a straightforward click-event.
+
+			NWN2BlueprintView tslist = NWN2ToolsetMainForm.App.BlueprintView;
+
+			object[] selection = tslist.Selection;
+			if (selection != null && selection.Length == 1
+				&& (selection[0] as INWN2Blueprint) != null
+				&& (   _panel.Blueprint_base == null
+					|| _panel.Blueprint_base != selection[0] as INWN2Blueprint))
+			{
+				switch (tslist.GetFocusedListObjectType())
+				{
+					case NWN2ObjectType.Creature:
+					case NWN2ObjectType.Door:
+					case NWN2ObjectType.Placeable:
+					case NWN2ObjectType.PlacedEffect:
+					case NWN2ObjectType.Item:
+						_panel.CreateModel();
+						break;
+				}
+			}
+/*			if (e.OldSelection == null
+				|| (e.Selection != null && e.Selection.Length == 1
+					&& e.Selection != e.OldSelection))
+			{
+				if (   (e.Selection[0] as INWN2Blueprint) != null
+					&& (e.Selection[0] as INWN2Blueprint) != _panel.Blueprint_base)
+				{
+					switch ((e.Selection[0] as INWN2Blueprint).ObjectType)
+					{
+						case NWN2ObjectType.Creature:
+						case NWN2ObjectType.Door:
+						case NWN2ObjectType.Placeable:
+						case NWN2ObjectType.PlacedEffect:
+						case NWN2ObjectType.Item:
+							_panel.CreateModel();
+							break;
+					}
+				}
+				// else clear perhaps
+			}
+			// else clear perhaps */
 		}
 
 		void OnActiveCampaignChanged(NWN2Campaign cOldCampaign, NWN2Campaign cNewCampaign) // don't do it ... leave type as 'NWN2Campaign'
 		{
-			_itSaveToCampaign.Enabled = (cNewCampaign != null); // TODO: && Blueprint/Instance != null
+			_itSaveToCampaign.Enabled = cNewCampaign    != null;
+//									 && _panel.Instance != null; // TODO: 'Enabled' needs to be re/set when a blueprint/instance changes also (ie, check for null).
 		}
 
 		/// <summary>
@@ -464,10 +518,20 @@ namespace creaturevisualizer
 							BypassCreate = true;	// do not refresh creature on return to the visualizer (if RefreshOnFocus happens to be active)
 
 							CloseF.ObjectType type;
-							if (_panel.Blueprint != null) type = CloseF.ObjectType.ot_blueprint;
-							else                          type = CloseF.ObjectType.ot_instance;
+							bool hasresdir;
 
-							using (var f = new CloseF(type))
+							if (_panel.Blueprint != null)
+							{
+								type = CloseF.ObjectType.ot_blueprint;
+								hasresdir = (_panel.Blueprint.Resource.Repository as DirectoryResourceRepository) != null;
+							}
+							else
+							{
+								type = CloseF.ObjectType.ot_instance;
+								hasresdir = true; // TODO: investigate <-
+							}
+
+							using (var f = new CloseF(type, true, hasresdir))
 							{
 								if (f.ShowDialog(this) == DialogResult.Cancel) // TODO: handle other cases
 								{
@@ -495,7 +559,7 @@ namespace creaturevisualizer
 			}
 		}
 
-		internal bool ConfirmChange()
+		internal bool ConfirmChange(bool cancancel, bool hasresdir)
 		{
 			bool ret = false;
 
@@ -515,7 +579,7 @@ namespace creaturevisualizer
 					if (_panel.Blueprint != null) type = CloseF.ObjectType.ot_blueprint;
 					else                          type = CloseF.ObjectType.ot_instance;
 
-					using (var f = new CloseF(type))
+					using (var f = new CloseF(type, cancancel, hasresdir))
 					{
 						switch (f.ShowDialog(this))
 						{
@@ -528,7 +592,7 @@ namespace creaturevisualizer
 								break;
 
 							case DialogResult.OK: // apply changes to blueprint/instance and proceed
-								// TODO
+								click_bu_creature_apply(null, EventArgs.Empty);
 								ret = true;
 								break;
 
@@ -1676,10 +1740,25 @@ namespace creaturevisualizer
 
 
 		#region Handlers (creature)
+		internal void ClearResourceInfo()
+		{
+			la_type         .Text =
+			la_name         .Text =
+			la_itype        .Text =
+			la_resref       .Text =
+			la_template     .Text =
+			la_repotype     .Text =
+			la_file_inst    .Text =
+			la_template_inst.Text =
+			la_restype_inst .Text =
+			la_repo_inst    .Text =
+			la_areatag      .Text = String.Empty;
+
+			toolTip1.Active = false;
+		}
+
 		internal void PrintResourceInfo(INWN2Template template)
 		{
-			toolTip1.Active = false;
-
 			// TEMPLATE
 			// Name					string
 			// ObjectType			NWN2ObjectType
@@ -1699,17 +1778,31 @@ namespace creaturevisualizer
 
 				var blueprint = template as INWN2Blueprint;
 
-				la_resref  .Text = blueprint.ResourceName.Value;
-				la_template.Text = blueprint.TemplateResRef.Value;
+				if (blueprint.Resource != null && blueprint.Resource.ResRef != null
+					&& !String.IsNullOrEmpty(blueprint.Resource.ResRef.Value))
+				{
+					la_resref.Text = blueprint.ResourceName.Value; // 'ResourceName' IS 'Resource.Resref'
+				}
+				else
+					la_resref.Text = "invalid";
+
+				if (blueprint.TemplateResRef != null && !String.IsNullOrEmpty(blueprint.TemplateResRef.Value))
+					la_template.Text = blueprint.TemplateResRef.Value;
+				else
+					la_template.Text = "invalid";
+
 				la_repotype.Text = Enum.GetName(typeof(NWN2BlueprintLocationType), blueprint.BlueprintLocation);
 
-				if (blueprint.Resource != null)	// NOTE: Use the instance fields to show a blueprint's Resource info.
-				{								// If you want to see Resource info for a blueprint's Template go find the template ...
+				if (blueprint.Resource != null)
+				{
+					// NOTE: Use the instance fields to show a blueprint's Resource info.
+					// If you want to see Resource info for a blueprint's Template go find the template ...
+
 					la_file_inst    .Text = blueprint.Resource.FullName;
 					la_template_inst.Text = blueprint.Resource.ResRef.Value;
 					la_restype_inst .Text = BWResourceTypes.GetFileExtension(blueprint.Resource.ResourceType);
 
-					if (blueprint.Resource.Repository != null)
+					if (blueprint.Resource.Repository != null && !String.IsNullOrEmpty(blueprint.Resource.Repository.Name))
 					{
 						SetRepoText(blueprint.Resource.Repository.Name);
 					}
@@ -1775,33 +1868,21 @@ namespace creaturevisualizer
 		{
 			if (_panel.Model != null)
 			{
-				// cf Io.CreateBlueprint()
-
-				var blueprint = new NWN2CreatureBlueprint();
-				blueprint.CopyFromTemplate(_panel.Blueprint);
-
-				var current = (_panel.Blueprint as NWN2CreatureBlueprint);
-
-				// NWN2Toolset.NWN2.Data.Blueprints.NWN2CreatureBlueprint.NWN2BlueprintData -> (OEIResRef)TemplateResRef (+ load and save functs)
-//				blueprint.data = (NWN2BlueprintData)CommonUtils.SerializationClone(current.data);
-
-				// TODO: if (prefs.HandleEquippedItems)
-				blueprint.EquippedItems = (NWN2EquipmentSlotCollection)CommonUtils.SerializationClone(current.EquippedItems);
-
-				// TODO: if (prefs.HandleInventoryItems)
-				blueprint.Inventory = (NWN2BlueprintInventoryItemCollection)CommonUtils.SerializationClone(current.Inventory);
-
-				DirectoryResourceRepository repo = NWN2ToolsetMainForm.App.BlueprintView.Module.Repository; // Create resource as Module type. i guess
-				OEIResRef resref = current.Resource.ResRef;
-				blueprint.Resource = repo.CreateResource(resref, blueprint.ResourceType);
-
-				blueprint.Gender = (CreatureGender)cbo_creature_gender.SelectedIndex;
+				if (_panel.Blueprint != null)
+				{
+					(_panel.Blueprint as NWN2CreatureBlueprint).Gender = (CreatureGender)cbo_creature_gender.SelectedIndex;
 
 
-				_panel.Blueprint = blueprint;
-				_panel.RecreateModel();
+					_panel.RecreateModel();
 
-				Changed = ChangedType.ct_Vi;
+					Changed = ChangedType.ct_Vi;
+				}
+				else if (_panel.Instance != null)
+				{
+
+
+					Changed = ChangedType.ct_Vi;
+				}
 			}
 		}
 
@@ -1809,34 +1890,26 @@ namespace creaturevisualizer
 		{
 			if (_panel.Model != null)
 			{
+				if (_panel.Blueprint != null)
+				{
+					if (Changed != ChangedType.ct_Vi)
+						click_bu_creature_display(null, EventArgs.Empty);
+
+					(_panel.Blueprint_base as NWN2CreatureBlueprint).Gender = (CreatureGender)cbo_creature_gender.SelectedIndex;
 
 
-				Changed = ChangedType.ct_Ts;
+					Changed = ChangedType.ct_Ts;
+				}
+				else if (_panel.Instance != null)
+				{
+
+
+					Changed = ChangedType.ct_Ts;
+				}
 			}
 		}
 		#endregion Handlers (creature)
-/*
-// NWN2Toolset.NWN2.Data.Blueprints.NWN2CreatureBlueprint
-public static NWN2CreatureBlueprint CreateFromBlueprint(NWN2CreatureBlueprint cBlueprint, IResourceRepository cRepository, bool bNewName)
-{
-	NWN2CreatureBlueprint nWN2CreatureBlueprint = new NWN2CreatureBlueprint();
-	nWN2CreatureBlueprint.CopyFromTemplate(cBlueprint);
-	nWN2CreatureBlueprint.ᐁ = (NWN2BlueprintData)CommonUtils.SerializationClone(cBlueprint.ᐁ);
-	nWN2CreatureBlueprint.EquippedItems = (NWN2EquipmentSlotCollection)CommonUtils.SerializationClone(cBlueprint.EquippedItems);
-	nWN2CreatureBlueprint.Inventory = (NWN2BlueprintInventoryItemCollection)CommonUtils.SerializationClone(cBlueprint.Inventory);
-	OEIResRef cName = bNewName ? cRepository.GetTempResRef(cBlueprint.Resource.ResRef, nWN2CreatureBlueprint.ResourceType) : cBlueprint.Resource.ResRef;
-	nWN2CreatureBlueprint.Resource = cRepository.CreateResource(cName, nWN2CreatureBlueprint.ResourceType);
 
-	GFFFile gFFFile = new GFFFile();
-	gFFFile.FileHeader.FileType = BWResourceTypes.GetFileExtension(nWN2CreatureBlueprint.ResourceType);
-	nWN2CreatureBlueprint.SaveEverythingIntoGFFStruct(gFFFile.TopLevelStruct, bIsBlueprint: true);
-	using (Stream cStream = nWN2CreatureBlueprint.Resource.GetStream(bWrite: true))
-	{
-		gFFFile.Save(cStream);
-		nWN2CreatureBlueprint.Resource.Release();
-		return nWN2CreatureBlueprint;
-	}
-} */
 
 		#region Methods
 		/// <summary>

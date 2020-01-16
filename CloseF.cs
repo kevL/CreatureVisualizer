@@ -21,13 +21,26 @@ namespace creaturevisualizer
 		/// lose   = 'DialogResult.Ignore'
 		/// apply  = 'DialogResult.OK'
 		/// save   = 'DialogResult.Yes'
+		/// @note A stock resource cannot be autosaved.
+		/// @note This dialog cannot be cancelled (ie. cannot return to state)
+		/// if it is invoked because the instance is changing. That is, the
+		/// instance *is* going to change, at present.
 		/// </summary>
 		/// <param name="type"></param>
-		internal CloseF(ObjectType type)
+		/// <param name="cancancel"></param>
+		/// <param name="hasresdir"></param>
+		internal CloseF(ObjectType type, bool cancancel, bool hasresdir)
 		{
 			InitializeComponent();
+			if (!cancancel)
+			{
+				DialogResult = DialogResult.Ignore;
+				bu_cancel.Enabled = false;
+			}
+			else
+				DialogResult = DialogResult.Cancel;
 
-			DialogResult = DialogResult.Cancel;
+			bu_apply.Enabled = hasresdir;
 
 			switch (type)
 			{
