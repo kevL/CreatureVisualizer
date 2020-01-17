@@ -22,7 +22,7 @@ namespace creaturevisualizer
 		/// @note Check that blueprint is valid before call.
 		/// </summary>
 		/// <param name="blueprint"></param>
-		internal static void SaveAs(INWN2Blueprint blueprint)
+		internal static void SaveTo(INWN2Blueprint blueprint)
 		{
 			string ext = BWResourceTypes.GetFileExtension(blueprint.Resource.ResourceType);
 
@@ -53,7 +53,7 @@ namespace creaturevisualizer
 		/// @note Check that instance is valid before call.
 		/// </summary>
 		/// <param name="instance"></param>
-		internal static void SaveAs(INWN2Instance instance)
+		internal static void SaveTo(INWN2Instance instance)
 		{
 			//PrintResourceTypes(); // test
 
@@ -117,7 +117,7 @@ namespace creaturevisualizer
 					}
 					MessageBox.Show(info); */
 
-					SaveAs(blueprint);
+					SaveTo(blueprint);
 				}
 			}
 		}

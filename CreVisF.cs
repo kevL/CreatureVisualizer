@@ -53,7 +53,7 @@ namespace creaturevisualizer
 		MenuItem _itRefreshOnFocus;
 		MenuItem _itSaveToModule;
 		MenuItem _itSaveToCampaign;
-		MenuItem _itSaveAs;
+		MenuItem _itSaveTo;
 
 		MenuItem _itStayOnTop;
 
@@ -311,9 +311,9 @@ namespace creaturevisualizer
 									 && NWN2CampaignManager.Instance.ActiveCampaign != null;
 		}
 
-		internal void EnableSaveAs(bool valid)
+		internal void EnableSaveTo(bool valid)
 		{
-			_itSaveAs.Enabled = valid;
+			_itSaveTo.Enabled = valid;
 		}
 
 		/// <summary>
@@ -362,16 +362,16 @@ namespace creaturevisualizer
 
 			_itSaveToModule = Menu.MenuItems[0].MenuItems.Add("save to &Module", instanceclick_SaveToModule);
 			_itSaveToModule.Shortcut = Shortcut.CtrlM;
-			_itSaveAs.Enabled = _panel.Instance != null;
+			_itSaveToModule.Enabled = _panel.Instance != null;
 
 			_itSaveToCampaign = Menu.MenuItems[0].MenuItems.Add("save to Campai&gn", instanceclick_SaveToCampaign);
 			_itSaveToCampaign.Shortcut = Shortcut.CtrlG;
 			_itSaveToCampaign.Enabled = NWN2CampaignManager.Instance.ActiveCampaign != null
 									 && _panel.Instance != null;
 
-			_itSaveAs = Menu.MenuItems[0].MenuItems.Add("sav&e as ...", instanceclick_SaveAs); // ie. to Override or whereva ya like.
-			_itSaveAs.Shortcut = Shortcut.CtrlE;
-			_itSaveAs.Enabled = _panel.Instance != null;
+			_itSaveTo = Menu.MenuItems[0].MenuItems.Add("sav&e as ...", instanceclick_SaveTo); // ie. to Override or whereva ya like.
+			_itSaveTo.Shortcut = Shortcut.CtrlE;
+			_itSaveTo.Enabled = _panel.Instance != null;
 
 // Options ->
 			_itHandleEquippedItems = Menu.MenuItems[1].MenuItems.Add("handle eq&uipped items", optionsclick_HandleEquippedItems);
@@ -587,7 +587,7 @@ namespace creaturevisualizer
 								break;
 
 							case DialogResult.Yes:		// save changes to a utc-file and proceed
-								instanceclick_SaveAs(null, EventArgs.Empty);
+								instanceclick_SaveTo(null, EventArgs.Empty);
 								ret = true;
 								break;
 						}
@@ -664,7 +664,7 @@ namespace creaturevisualizer
 			}
 		}
 
-		void instanceclick_SaveAs(object sender, EventArgs e)
+		void instanceclick_SaveTo(object sender, EventArgs e)
 		{
 //			NWN2Toolset.NWN2.IO.NWN2ResourceManager.Instance.UserOverrideDirectory;
 //			NWN2Toolset.NWN2.IO.NWN2ResourceManager.Instance.OverrideDirectory;
@@ -672,11 +672,11 @@ namespace creaturevisualizer
 
 			if (_panel.Blueprint != null)
 			{
-				Io.SaveAs(_panel.Blueprint);
+				Io.SaveTo(_panel.Blueprint);
 			}
 			else if (_panel.Instance != null)
 			{
-				Io.SaveAs(_panel.Instance);
+				Io.SaveTo(_panel.Instance);
 			}
 		}
 
@@ -1768,37 +1768,46 @@ namespace creaturevisualizer
 
 				var blueprint = template as INWN2Blueprint;
 
-//				if (blueprint.Resource != null && blueprint.Resource.ResRef != null
-//					&& !String.IsNullOrEmpty(blueprint.Resource.ResRef.Value))
-//				{
-				la_resref.Text = blueprint.ResourceName.Value; // 'ResourceName' IS 'Resource.Resref'
-//				}
-//				else
-//					la_resref.Text = "invalid";
+				if (blueprint.Resource != null && blueprint.Resource.ResRef != null
+					&& !String.IsNullOrEmpty(blueprint.Resource.ResRef.Value))
+				{
+					la_resref.Text = blueprint.ResourceName.Value; // 'ResourceName' IS 'Resource.Resref'
+				}
+				else
+					la_resref.Text = "invalid";
 
-//				if (blueprint.TemplateResRef != null && !String.IsNullOrEmpty(blueprint.TemplateResRef.Value))
-				la_template.Text = blueprint.TemplateResRef.Value;
-//				else
-//					la_template.Text = "invalid";
+				if (blueprint.TemplateResRef != null
+					&& !String.IsNullOrEmpty(blueprint.TemplateResRef.Value))
+				{
+					// TODO: search repositories for TemplateResRef and print "(not found)" if not found
+					la_template.Text = blueprint.TemplateResRef.Value;
+				}
+				else
+					la_template.Text = "invalid";
 
-				la_repotype.Text = Enum.GetName(typeof(NWN2BlueprintLocationType), blueprint.BlueprintLocation);
+				if ((blueprint.Resource.Repository as DirectoryResourceRepository) != null)
+				{
+					la_repotype.Text = Enum.GetName(typeof(NWN2BlueprintLocationType), blueprint.BlueprintLocation);
+				}
+				else
+					la_repotype.Text = "stock resource";
 
-//				if (blueprint.Resource != null)
-//				{
+				if (blueprint.Resource != null)
+				{
 					// NOTE: Use the instance fields to show a blueprint's Resource info.
 					// If you want to see Resource info for a blueprint's Template go find the template ...
 
-				la_file_inst    .Text = blueprint.Resource.FullName;
-				la_template_inst.Text = blueprint.Resource.ResRef.Value;									// <- redundant
-				la_restype_inst .Text = BWResourceTypes.GetFileExtension(blueprint.Resource.ResourceType);	// <- redundant
+					la_file_inst    .Text = blueprint.Resource.FullName;
+					la_template_inst.Text = blueprint.Resource.ResRef.Value;									// <- redundant
+					la_restype_inst .Text = BWResourceTypes.GetFileExtension(blueprint.Resource.ResourceType);	// <- redundant
 
-//					if (blueprint.Resource.Repository != null && !String.IsNullOrEmpty(blueprint.Resource.Repository.Name))
-//					{
-				SetRepoText(blueprint.Resource.Repository.Name);
-//					}
-//					else
-//						la_repo_inst.Text = "invalid";
-//				}
+					if (blueprint.Resource.Repository != null && !String.IsNullOrEmpty(blueprint.Resource.Repository.Name))
+					{
+						SetRepoText(blueprint.Resource.Repository.Name);
+					}
+					else
+						la_repo_inst.Text = "invalid";
+				}
 
 				la_areatag.Text = "-";
 			}
@@ -1818,19 +1827,19 @@ namespace creaturevisualizer
 				la_template.Text =
 				la_repotype.Text = "-";
 
-//				if (instance.Template != null)
-//				{
-				la_file_inst    .Text = instance.Template.FullName;
-				la_template_inst.Text = instance.Template.ResRef.Value;										// <- redundant
-				la_restype_inst .Text = BWResourceTypes.GetFileExtension(instance.Template.ResourceType);	// <- redundant
+				if (instance.Template != null)
+				{
+					la_file_inst    .Text = instance.Template.FullName;
+					la_template_inst.Text = instance.Template.ResRef.Value;										// <- redundant
+					la_restype_inst .Text = BWResourceTypes.GetFileExtension(instance.Template.ResourceType);	// <- redundant
 
-//					if (instance.Template.Repository != null)
-//					{
-				SetRepoText(instance.Template.Repository.Name);
-//					}
-//					else
-//						la_repo_inst.Text = "invalid";
-//				}
+					if (instance.Template.Repository != null)
+					{
+						SetRepoText(instance.Template.Repository.Name);
+					}
+					else
+						la_repo_inst.Text = "invalid";
+				}
 
 				if (instance.Area != null)
 					la_areatag.Text = instance.Area.Tag;

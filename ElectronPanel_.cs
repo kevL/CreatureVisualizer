@@ -133,7 +133,7 @@ namespace creaturevisualizer
 			{
 				bool valid = (_instance = value) != null;
 
-				_f.EnableSaveAs(valid);
+				_f.EnableSaveTo(valid);
 				_f.EnableSaveToCampaign(valid);
 			}
 		}
@@ -606,7 +606,7 @@ namespace creaturevisualizer
 			if (current.Resource != null && current.Resource.Repository != null)
 			{
 				resref = current.Resource.ResRef; // 'Resource.Resref' IS 'ResourceName'
-				repo = current.Resource.Repository;
+				repo   = current.Resource.Repository;
 			}
 			else if (!String.IsNullOrEmpty(current.Name)) // should never happen.
 			{
