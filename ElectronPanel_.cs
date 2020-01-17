@@ -121,12 +121,22 @@ namespace creaturevisualizer
 		internal INWN2Instance Instance_base
 		{ get; set; }
 
+		INWN2Instance _instance;
 		/// <summary>
 		/// The currently displayed Instance (ie, instantiate a duplicate of
 		/// 'Instance_base'). Can be changed by the "Display" operation.
 		/// </summary>
 		internal INWN2Instance Instance
-		{ get; private set; }
+		{
+			get { return _instance; }
+			private set
+			{
+				bool valid = (_instance = value) != null;
+
+				_f.EnableSaveAs(valid);
+				_f.EnableSaveToCampaign(valid);
+			}
+		}
 
 
 		internal NetDisplayObject Model
@@ -409,7 +419,7 @@ namespace creaturevisualizer
 				if (Blueprint != null)
 				{
 					// ask to ignore, Apply (if not stock resource), or save-to-file (disable the Cancel option)
-					_f.ConfirmChange(false, (Blueprint.Resource.Repository as DirectoryResourceRepository) != null);
+					_f.ConfirmClose(false);
 				}
 
 

@@ -24,24 +24,21 @@ namespace creaturevisualizer
 		: Form
 	{
 		/// <summary>
-		/// If a change to the current blueprint is applied in the visualizer it
-		/// gets two asterisks. If that change is also applied to the toolset it
-		/// gets one asterisk.
-		/// TODO: Cache a copy of the original blueprint and compare it to that
-		/// current in the visualizer; notify user if it was changed by the
-		/// toolset (and ask to update).
+		/// If a change to the current blueprint is Displayed in the visualizer
+		/// it gets two asterisks. If that change is also Applied to the toolset
+		/// it gets one asterisk.
 		/// </summary>
 		internal enum ChangedType
 		{
 			ct_nul,	// 0
-			ct_not,	// 1 - 'Blueprint' in visualizer is the same as the original that was loaded. (no asterisks)
-			ct_Ts,	// 2 - 'Blueprint' in visualizer is different than the one in the toolset but the same as the original. (single asterisk)
-			ct_Vi	// 3 - 'Blueprint' in visualizer is different than the one in the toolset and the original. (double asterisks)
+			ct_not,	// 1 - Blueprint in visualizer is the same as the original that was loaded. (no asterisks)
+			ct_Ts,	// 2 - Blueprint in visualizer is different than the one in the toolset but the same as the original. (single asterisk)
+			ct_Vi	// 3 - Blueprint in visualizer is different than the one in the toolset and the original. (double asterisks)
 		}
 
 
 		#region Fields (static)
-		internal const string TITLE = "Creature Visualizer";
+		const string TITLE = "Creature Visualizer";
 
 		const int BDI = 22; // minipanel Button DImensions x/y
 		#endregion Fields (static)
@@ -53,11 +50,12 @@ namespace creaturevisualizer
 		/// </summary>
 		ElectronPanel_ _panel;
 
-		MenuItem _itStayOnTop;
 		MenuItem _itRefreshOnFocus;
 		MenuItem _itSaveToModule;
 		MenuItem _itSaveToCampaign;
 		MenuItem _itSaveAs;
+
+		MenuItem _itStayOnTop;
 
 		MenuItem _itHandleEquippedItems;
 		MenuItem _itHandleInventoryItems;
@@ -113,16 +111,16 @@ namespace creaturevisualizer
 
 						string resref, loc;
 
-						if (_panel.Blueprint.Resource != null && _panel.Blueprint.Resource.ResRef != null)
-						{
-							resref = _panel.Blueprint.Resource.ResRef.Value;
-							loc = Enum.GetName(typeof(NWN2BlueprintLocationType), _panel.Blueprint.BlueprintLocation);
-						}
-						else
-						{
-							resref = "invalid";
-							loc    = "stock";
-						}
+//						if (_panel.Blueprint.Resource != null && _panel.Blueprint.Resource.ResRef != null)
+//						{
+						resref = _panel.Blueprint.Resource.ResRef.Value;
+						loc = Enum.GetName(typeof(NWN2BlueprintLocationType), _panel.Blueprint.BlueprintLocation);
+//						}
+//						else
+//						{
+//							resref = "invalid";
+//							loc    = "stock";
+//						}
 
 						Text = TITLE + " - "
 							 + resref + " [" + loc + "]"
@@ -301,10 +299,21 @@ namespace creaturevisualizer
 			// else clear perhaps */
 		}
 
-		void OnActiveCampaignChanged(NWN2Campaign cOldCampaign, NWN2Campaign cNewCampaign) // don't do it ... leave type as 'NWN2Campaign'
+		void OnActiveCampaignChanged(NWN2Campaign cOldCampaign, NWN2Campaign cNewCampaign)
 		{
-			_itSaveToCampaign.Enabled = cNewCampaign    != null;
-//									 && _panel.Instance != null; // TODO: 'Enabled' needs to be re/set when a blueprint/instance changes also (ie, check for null).
+			_itSaveToCampaign.Enabled = NWN2CampaignManager.Instance.ActiveCampaign != null
+									 && _panel.Instance != null;
+		}
+
+		internal void EnableSaveToCampaign(bool valid)
+		{
+			_itSaveToCampaign.Enabled = valid
+									 && NWN2CampaignManager.Instance.ActiveCampaign != null;
+		}
+
+		internal void EnableSaveAs(bool valid)
+		{
+			_itSaveAs.Enabled = valid;
 		}
 
 		/// <summary>
@@ -353,15 +362,16 @@ namespace creaturevisualizer
 
 			_itSaveToModule = Menu.MenuItems[0].MenuItems.Add("save to &Module", instanceclick_SaveToModule);
 			_itSaveToModule.Shortcut = Shortcut.CtrlM;
-//			_itSaveAs.Enabled = false; // <- TODO: Blueprint/Instance != null
+			_itSaveAs.Enabled = _panel.Instance != null;
 
 			_itSaveToCampaign = Menu.MenuItems[0].MenuItems.Add("save to Campai&gn", instanceclick_SaveToCampaign);
 			_itSaveToCampaign.Shortcut = Shortcut.CtrlG;
-			_itSaveToCampaign.Enabled = (NWN2CampaignManager.Instance.ActiveCampaign != null); // TODO: && Blueprint/Instance != null
+			_itSaveToCampaign.Enabled = NWN2CampaignManager.Instance.ActiveCampaign != null
+									 && _panel.Instance != null;
 
 			_itSaveAs = Menu.MenuItems[0].MenuItems.Add("sav&e as ...", instanceclick_SaveAs); // ie. to Override or whereva ya like.
 			_itSaveAs.Shortcut = Shortcut.CtrlE;
-//			_itSaveAs.Enabled = false; // <- TODO: Blueprint/Instance != null
+			_itSaveAs.Enabled = _panel.Instance != null;
 
 // Options ->
 			_itHandleEquippedItems = Menu.MenuItems[1].MenuItems.Add("handle eq&uipped items", optionsclick_HandleEquippedItems);
@@ -499,52 +509,23 @@ namespace creaturevisualizer
 		{
 			switch (e.CloseReason)
 			{
-				case CloseReason.FormOwnerClosing:
 				case CloseReason.TaskManagerClosing:
 				case CloseReason.WindowsShutDown:
 					// let windows or the toolset do its thing ...
 					break;
 
-				default:
-					switch (Changed)
+				case CloseReason.ApplicationExitCall:
+				case CloseReason.MdiFormClosing:
+				case CloseReason.None:
+				case CloseReason.UserClosing:
+					if (!ConfirmClose(true))
 					{
-						case ChangedType.ct_nul:	// no creature loaded
-						case ChangedType.ct_not:	// no changes
-						case ChangedType.ct_Ts:		// blueprint/instance has changed (needs to be saved by the toolset)
-							break;
-
-						case ChangedType.ct_Vi:		// blueprint/instance is different than visualizer creature
-						{
-							BypassCreate = true;	// do not refresh creature on return to the visualizer (if RefreshOnFocus happens to be active)
-
-							CloseF.ObjectType type;
-							bool hasresdir;
-
-							if (_panel.Blueprint != null)
-							{
-								type = CloseF.ObjectType.ot_blueprint;
-								hasresdir = (_panel.Blueprint.Resource.Repository as DirectoryResourceRepository) != null;
-							}
-							else
-							{
-								type = CloseF.ObjectType.ot_instance;
-								hasresdir = true; // TODO: investigate <-
-							}
-
-							using (var f = new CloseF(type, true, hasresdir))
-							{
-								if (f.ShowDialog(this) == DialogResult.Cancel) // TODO: handle other cases
-								{
-									e.Cancel = true;
-									BypassCreate = false;
-									return;
-								}
-							}
-//							BypassCreate = false;
-							break;
-						}
+						e.Cancel = true;
+						return;
 					}
+					goto case CloseReason.FormOwnerClosing;
 
+				case CloseReason.FormOwnerClosing:
 					CreatureVisualizerPreferences.that.x = DesktopLocation.X;
 					CreatureVisualizerPreferences.that.y = DesktopLocation.Y;
 
@@ -559,7 +540,7 @@ namespace creaturevisualizer
 			}
 		}
 
-		internal bool ConfirmChange(bool cancancel, bool hasresdir)
+		internal bool ConfirmClose(bool cancancel)
 		{
 			bool ret = false;
 
@@ -575,28 +556,37 @@ namespace creaturevisualizer
 				{
 					BypassCreate = true;	// do not refresh creature on return to the visualizer (if RefreshOnFocus happens to be active)
 
-					CloseF.ObjectType type;
-					if (_panel.Blueprint != null) type = CloseF.ObjectType.ot_blueprint;
-					else                          type = CloseF.ObjectType.ot_instance;
+					CloseF.InstanceType type; bool hasresdir;
+					if (_panel.Blueprint != null)
+					{
+						type = CloseF.InstanceType.blueprint;
+						hasresdir =  _panel.Blueprint != null
+								 && (_panel.Blueprint.Resource.Repository as DirectoryResourceRepository) != null;
+					}
+					else
+					{
+						type = CloseF.InstanceType.instance;
+						hasresdir = false;
+					}
 
 					using (var f = new CloseF(type, cancancel, hasresdir))
 					{
 						switch (f.ShowDialog(this))
 						{
-							case DialogResult.Cancel: // close dialog but don't do anything else
+							case DialogResult.Cancel:	// close dialog but don't do anything else
 								ret = false;
 								break;
 
-							case DialogResult.Ignore: // lose changes and proceed
+							case DialogResult.Ignore:	// lose changes and proceed
 								ret = true;
 								break;
 
-							case DialogResult.OK: // apply changes to blueprint/instance and proceed
+							case DialogResult.OK:		// apply changes to blueprint/instance and proceed
 								click_bu_creature_apply(null, EventArgs.Empty);
 								ret = true;
 								break;
 
-							case DialogResult.Yes: // save changes to a utc-file and proceed
+							case DialogResult.Yes:		// save changes to a utc-file and proceed
 								instanceclick_SaveAs(null, EventArgs.Empty);
 								ret = true;
 								break;
@@ -1778,37 +1768,37 @@ namespace creaturevisualizer
 
 				var blueprint = template as INWN2Blueprint;
 
-				if (blueprint.Resource != null && blueprint.Resource.ResRef != null
-					&& !String.IsNullOrEmpty(blueprint.Resource.ResRef.Value))
-				{
-					la_resref.Text = blueprint.ResourceName.Value; // 'ResourceName' IS 'Resource.Resref'
-				}
-				else
-					la_resref.Text = "invalid";
+//				if (blueprint.Resource != null && blueprint.Resource.ResRef != null
+//					&& !String.IsNullOrEmpty(blueprint.Resource.ResRef.Value))
+//				{
+				la_resref.Text = blueprint.ResourceName.Value; // 'ResourceName' IS 'Resource.Resref'
+//				}
+//				else
+//					la_resref.Text = "invalid";
 
-				if (blueprint.TemplateResRef != null && !String.IsNullOrEmpty(blueprint.TemplateResRef.Value))
-					la_template.Text = blueprint.TemplateResRef.Value;
-				else
-					la_template.Text = "invalid";
+//				if (blueprint.TemplateResRef != null && !String.IsNullOrEmpty(blueprint.TemplateResRef.Value))
+				la_template.Text = blueprint.TemplateResRef.Value;
+//				else
+//					la_template.Text = "invalid";
 
 				la_repotype.Text = Enum.GetName(typeof(NWN2BlueprintLocationType), blueprint.BlueprintLocation);
 
-				if (blueprint.Resource != null)
-				{
+//				if (blueprint.Resource != null)
+//				{
 					// NOTE: Use the instance fields to show a blueprint's Resource info.
 					// If you want to see Resource info for a blueprint's Template go find the template ...
 
-					la_file_inst    .Text = blueprint.Resource.FullName;
-					la_template_inst.Text = blueprint.Resource.ResRef.Value;
-					la_restype_inst .Text = BWResourceTypes.GetFileExtension(blueprint.Resource.ResourceType);
+				la_file_inst    .Text = blueprint.Resource.FullName;
+				la_template_inst.Text = blueprint.Resource.ResRef.Value;									// <- redundant
+				la_restype_inst .Text = BWResourceTypes.GetFileExtension(blueprint.Resource.ResourceType);	// <- redundant
 
-					if (blueprint.Resource.Repository != null && !String.IsNullOrEmpty(blueprint.Resource.Repository.Name))
-					{
-						SetRepoText(blueprint.Resource.Repository.Name);
-					}
-					else
-						la_repo_inst.Text = "invalid";
-				}
+//					if (blueprint.Resource.Repository != null && !String.IsNullOrEmpty(blueprint.Resource.Repository.Name))
+//					{
+				SetRepoText(blueprint.Resource.Repository.Name);
+//					}
+//					else
+//						la_repo_inst.Text = "invalid";
+//				}
 
 				la_areatag.Text = "-";
 			}
@@ -1828,19 +1818,19 @@ namespace creaturevisualizer
 				la_template.Text =
 				la_repotype.Text = "-";
 
-				if (instance.Template != null)
-				{
-					la_file_inst    .Text = instance.Template.FullName;
-					la_template_inst.Text = instance.Template.ResRef.Value;
-					la_restype_inst .Text = BWResourceTypes.GetFileExtension(instance.Template.ResourceType);
+//				if (instance.Template != null)
+//				{
+				la_file_inst    .Text = instance.Template.FullName;
+				la_template_inst.Text = instance.Template.ResRef.Value;										// <- redundant
+				la_restype_inst .Text = BWResourceTypes.GetFileExtension(instance.Template.ResourceType);	// <- redundant
 
-					if (instance.Template.Repository != null)
-					{
-						SetRepoText(instance.Template.Repository.Name);
-					}
-					else
-						la_repo_inst.Text = "invalid";
-				}
+//					if (instance.Template.Repository != null)
+//					{
+				SetRepoText(instance.Template.Repository.Name);
+//					}
+//					else
+//						la_repo_inst.Text = "invalid";
+//				}
 
 				if (instance.Area != null)
 					la_areatag.Text = instance.Area.Tag;
@@ -1902,6 +1892,9 @@ namespace creaturevisualizer
 				}
 				else if (_panel.Instance != null)
 				{
+					if (Changed != ChangedType.ct_Vi)
+						click_bu_creature_display(null, EventArgs.Empty);
+
 
 
 					Changed = ChangedType.ct_Ts;

@@ -7,10 +7,10 @@ namespace creaturevisualizer
 	sealed class CloseF
 		: Form
 	{
-		internal enum ObjectType
+		internal enum InstanceType
 		{
-			ot_blueprint,
-			ot_instance
+			blueprint,
+			instance
 		}
 
 
@@ -29,7 +29,7 @@ namespace creaturevisualizer
 		/// <param name="type"></param>
 		/// <param name="cancancel"></param>
 		/// <param name="hasresdir"></param>
-		internal CloseF(ObjectType type, bool cancancel, bool hasresdir)
+		internal CloseF(InstanceType type, bool cancancel, bool hasresdir)
 		{
 			InitializeComponent();
 			if (!cancancel)
@@ -44,11 +44,11 @@ namespace creaturevisualizer
 
 			switch (type)
 			{
-				case ObjectType.ot_blueprint:
+				case InstanceType.blueprint:
 					bu_apply.Text += "blueprint";
 					break;
 
-				case ObjectType.ot_instance:
+				case InstanceType.instance:
 					bu_apply.Text += "instance";
 					break;
 			}
