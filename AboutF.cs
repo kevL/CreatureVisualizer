@@ -25,6 +25,8 @@ namespace creaturevisualizer
 		{
 			InitializeComponent();
 
+			TopMost = CreatureVisualizerPreferences.that.StayOnTop;
+
 			if (Info == null)
 			{
 				Info = "Creature Visualizer"                       + L
@@ -107,7 +109,6 @@ namespace creaturevisualizer
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "About";
-			this.TopMost = true;
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

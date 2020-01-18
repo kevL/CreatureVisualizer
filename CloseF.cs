@@ -32,6 +32,9 @@ namespace creaturevisualizer
 		internal CloseF(InstanceType type, bool cancancel, bool hasresdir)
 		{
 			InitializeComponent();
+
+			TopMost = CreatureVisualizerPreferences.that.StayOnTop;
+
 			if (!cancancel)
 			{
 				DialogResult = DialogResult.Ignore;
@@ -153,7 +156,6 @@ namespace creaturevisualizer
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Changed";
-			this.TopMost = true;
 			this.ResumeLayout(false);
 
 		}
