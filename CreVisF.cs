@@ -666,19 +666,28 @@ namespace creaturevisualizer
 		{
 			if (_panel.Blueprint != null)
 			{
-				Io.SaveToModule(_panel.Blueprint_base = _panel.Blueprint);
+				Io.SaveToModule(_panel.Blueprint);
+//				_panel.Blueprint_base = _panel.Blueprint; // TODO ...
 			}
 			else if (_panel.Instance != null)
 			{
-//				_panel.Instance_base = _panel.Instance;
+				Io.SaveToModule(_panel.Instance);
+//				_panel.Instance_base = _panel.Instance; // TODO ...
 			}
 		}
 
 		void instanceclick_SaveToCampaign(object sender, EventArgs e)
 		{
-			if (NWN2CampaignManager.Instance.ActiveCampaign != null) // TODO: dis/enable the menu-item itself
+			if (NWN2CampaignManager.Instance.ActiveCampaign != null)
 			{
-				//NWN2CampaignManager.Instance.ActiveCampaign.Repository;
+				if (_panel.Blueprint != null)
+				{
+					Io.SaveToCampaign(_panel.Blueprint);
+				}
+				else if (_panel.Instance != null)
+				{
+					Io.SaveToCampaign(_panel.Instance);
+				}
 			}
 		}
 

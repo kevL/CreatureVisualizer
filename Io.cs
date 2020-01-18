@@ -4,6 +4,7 @@ using System.Windows.Forms;
 
 using NWN2Toolset;
 using NWN2Toolset.NWN2.Data.Blueprints;
+using NWN2Toolset.NWN2.Data.Campaign;
 using NWN2Toolset.NWN2.Data.Instances;
 using NWN2Toolset.NWN2.Data.Templates;
 
@@ -75,6 +76,32 @@ namespace creaturevisualizer
 			}
 		}
 
+		internal static void SaveToCampaign(INWN2Blueprint iblueprint)
+		{
+			string dir  = NWN2CampaignManager.Instance.ActiveCampaign.Repository.DirectoryName;
+			string file = iblueprint.Resource.ResRef.Value;
+			string ext  = BWResourceTypes.GetFileExtension(iblueprint.Resource.ResourceType);
+
+			string fullpath = Path.Combine(dir, file + "." + ext);
+
+
+			var sfd = new SaveFileDialog();
+			sfd.Title            = "Save blueprint as ...";
+			sfd.FileName         = file + "." + ext;
+			sfd.DefaultExt       = ext;
+			sfd.Filter           = "blueprints (*." + ext + ")|*." + ext + "|all files (*.*)|*.*";
+			sfd.InitialDirectory = dir;
+			sfd.RestoreDirectory = true;
+
+
+			if (sfd.ShowDialog() == DialogResult.OK)
+			{
+				IOEISerializable serializable = iblueprint;
+				if (serializable != null)
+					serializable.OEISerialize(fullpath);
+			}
+		}
+
 		/// <summary>
 		/// Saves the currently selected instance in the Area viewer to a
 		/// user-labeled file.
@@ -86,6 +113,20 @@ namespace creaturevisualizer
 			INWN2Blueprint iblueprint = CreateBlueprint(iinstance);
 			if (iblueprint != null)
 				SaveTo(iblueprint);
+		}
+
+		internal static void SaveToModule(INWN2Instance iinstance)
+		{
+			INWN2Blueprint iblueprint = CreateBlueprint(iinstance);
+			if (iblueprint != null)
+				SaveToModule(iblueprint);
+		}
+
+		internal static void SaveToCampaign(INWN2Instance iinstance)
+		{
+			INWN2Blueprint iblueprint = CreateBlueprint(iinstance);
+			if (iblueprint != null)
+				SaveToCampaign(iblueprint);
 		}
 
 		static INWN2Blueprint CreateBlueprint(INWN2Instance iinstance)
