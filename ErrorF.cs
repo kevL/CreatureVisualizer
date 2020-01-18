@@ -64,6 +64,7 @@ namespace creaturevisualizer
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Error";
+			this.TopMost = true;
 			this.ResumeLayout(false);
 
 		}
