@@ -9,6 +9,8 @@ using NWN2Toolset.NWN2.Data.Blueprints;
 using NWN2Toolset.NWN2.Data.Campaign;
 using NWN2Toolset.NWN2.Data.Instances;
 using NWN2Toolset.NWN2.Data.Templates;
+using NWN2Toolset.NWN2.Data.TypedCollections;
+using NWN2Toolset.NWN2.NetDisplay;
 using NWN2Toolset.NWN2.Views;
 
 using OEIShared.IO;
@@ -251,35 +253,54 @@ namespace creaturevisualizer
 			NWN2ToolsetMainForm.App.BlueprintView.SelectionChanged += OnBlueprintSelectionChanged;
 			NWN2CampaignManager.Instance.ActiveCampaignChanged     += OnActiveCampaignChanged;
 
-
-/*			_areaviewer = NWN2ToolsetMainForm.App.GetActiveViewer() as NWN2AreaViewer; // psst. It's not focused.
-			if (_areaviewer != null)
-			{
-				_areaviewer.MouseDown += mousedown_areaviewer;
-//				areaviewer.AreaNetDisplayWindow;
-//				areaviewer.HandleObjectTransformChanged(NetDisplayObjectCollection cObjects);
-//				areaviewer.HandleSelectionChanged(object oSender, EventArgs eArgs);
-//				areaviewer.SelectedInstances;
-//				areaviewer.SelectedNDOs;
-			}
-//			NetDisplayManager.Instance;
-//			NWN2Toolset.NWN2.NetDisplay.NWN2NetDisplayManager.Instance;
-*/
+			NWN2NetDisplayManager.Instance.Objects.Inserted =
+				(OEICollectionWithEvents.ChangeHandler)Delegate.Combine(NWN2NetDisplayManager.Instance.Objects.Inserted,
+																		new OEICollectionWithEvents.ChangeHandler(OnObjectsInserted));
 
 			ActiveControl = _panel;
-
-
 			_panel.CreateModel();
 		}
-//		NWN2AreaViewer _areaviewer;
 
-//		void mousedown_areaviewer(object sender, MouseEventArgs e)
-//		{
-//			MessageBox.Show("mousedown_areaviewer()");
-//		}
+		bool _inserted;
+//		object _object;
+		void OnObjectsInserted(OEICollectionWithEvents cList, int index, object value)
+		{
+//			if (_object != value) // doesn't work as expected ...
+//			{
+//				_object = value;
 
+			if (!_inserted)
+			{
+				var viewer = NWN2ToolsetMainForm.App.GetActiveViewer() as NWN2AreaViewer;
+				if (viewer != null)
+				{
+					NWN2InstanceCollection collection = viewer.SelectedInstances;
+					if (collection != null && collection.Count == 1
+						&& (   collection[0] is NWN2CreatureTemplate
+							|| collection[0] is NWN2DoorTemplate
+							|| collection[0] is NWN2PlaceableTemplate))
+					{
+						// NOTE: The object could get inserted to 1+ collections
+						// causing this to fire for every one. In practice I've
+						// seen 1..3 repeats.
+						// Ironically this does *not* fire when drag selecting objects.
 
+//						if (_panel.Instance == null || _panel.Instance != _panel.Instance_base) // doesn't work as expected ...
+//						{
+//						var type = collection[0].ObjectType;
+//						var name = collection[0].Name;
+//						MessageBox.Show("OnObjectsInserted() type= " + type + " name= " + name);
 
+						_inserted = true;		// this prevents the infinite loop that would occur
+						_panel.CreateModel();	// as the object is added to the visualizer panel also.
+						_inserted = false;
+//						}
+					}
+				}
+			}
+//			}
+			// enough fucking around with this/their crap.
+		}
 
 		void OnBlueprintSelectionChanged(object sender, BlueprintSelectionChangedEventArgs e)
 		{
@@ -573,8 +594,9 @@ namespace creaturevisualizer
 					break;
 			}
 
-//			if (_areaviewer != null)
-//				_areaviewer.MouseDown -= mousedown_areaviewer;
+			NWN2NetDisplayManager.Instance.Objects.Inserted =
+				(OEICollectionWithEvents.ChangeHandler)Delegate.Remove(NWN2NetDisplayManager.Instance.Objects.Inserted,
+																	   new OEICollectionWithEvents.ChangeHandler(OnObjectsInserted));
 		}
 
 		internal bool ConfirmClose(bool cancancel)

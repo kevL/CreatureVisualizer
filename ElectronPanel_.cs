@@ -435,14 +435,13 @@ namespace creaturevisualizer
 
 				if (MousePanel != null && !MousePanel.IsDisposed) // safety. ElectronPanel.MousePanel could go disposed for no good reason.
 				{
-					NWN2AreaViewer viewer;
-
 					//viewer.AreaNetDisplayWindow.Scene
 					//viewer.SelectedNDOs
 
 					bool different = false;
 
 // first check areaviewer for a selected Instance ->
+					NWN2AreaViewer viewer;
 					NWN2InstanceCollection collection;
 					if ((viewer = NWN2ToolsetMainForm.App.GetActiveViewer() as NWN2AreaViewer) != null
 						&& (collection = viewer.SelectedInstances) != null && collection.Count == 1
