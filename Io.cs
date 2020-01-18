@@ -55,78 +55,16 @@ namespace creaturevisualizer
 		/// <param name="iinstance"></param>
 		internal static void SaveTo(INWN2Instance iinstance)
 		{
-			//PrintResourceTypes(); // test
-
-			// NWN2Toolset.NWN2.Views.NWN2AreaViewer.ᐠ(object P_0, EventArgs P_1)
-			//
-			// INWN2Blueprint        NWN2Toolset.NWN2.Data.Blueprints.NWN2GlobalBlueprintManager.CreateBlueprintOfInstance(INWN2Instance cInstance,
-			//																											   INWN2BlueprintSet cSet,
-			//																											   IResourceRepository cRepository,
-			//																											   bool bNewName)
-			// NWN2CreatureBlueprint NWN2Toolset.NWN2.Data.Instances .NWN2CreatureInstance      .CreateBlueprintFromInstance(NWN2CreatureInstance cInstance,
-			//																												 IResourceRepository cRepository,
-			//																												 bool bNewName)
-
-
-			var instance = iinstance as NWN2CreatureInstance;
-			if (instance != null)
-			{
-				INWN2Blueprint iblueprint = CreateBlueprint(instance);
-				if (iblueprint != null)
-				{
-//					blueprint.BlueprintLocation = NWN2BlueprintLocationType.Module;
-
-/*					string info = String.Empty;
-					if (blueprint.Name != null)
-						info = "blueprint.Name= " + blueprint.Name + "\n";											// d_sicklady_tag
-
-					if (blueprint.Resource != null)
-					{
-						if (blueprint.Resource.FullName != null)
-							info += "blueprint.Resource.FullName= " + blueprint.Resource.FullName + "\n";			// d_sicklady.RES, test_d_sicklady2.UTC, .RES, test_d_sicklady2_template.RES
-
-						if (blueprint.Resource.ResRef != null && blueprint.Resource.ResRef.Value != null)
-							info += "blueprint.Resource.ResRef.Value= " + blueprint.Resource.ResRef.Value + "\n";	// test_d_sicklady2, "", test_d_sicklady2_template
-
-
-						if (blueprint.Resource.Repository != null && blueprint.Resource.Repository.Name != null)
-							info += "blueprint.Resource.Repository.Name= " + blueprint.Resource.Repository.Name;
-					}
-
-					if (blueprint.ResourceName != null && blueprint.ResourceName.Value != null)
-						info += "blueprint.ResourceName.Value= " + blueprint.ResourceName.Value + "\n";				// test_d_sicklady2, "", test_d_sicklady2_template
-
-					if (blueprint.TemplateResRef != null && blueprint.TemplateResRef.Value != null)
-						info += "blueprint.TemplateResRef.Value= " + blueprint.TemplateResRef.Value + "\n\n";		// test_d_sicklady2, "", test_d_sicklady2_template
-
-
-					if (inst.Name != null)
-						info += "inst.Name= " + inst.Name + "\n";													// d_sicklady_tag
-
-					if (inst.Template != null)
-					{
-						if (inst.Template.FullName != null)
-							info += "inst.Template.FullName= " + inst.Template.FullName + "\n";						// d_sicklady.RES, test_d_sicklady2.UTC, .RES, test_d_sicklady2_template.RES
-
-						if (inst.Template.ResRef != null && inst.Template.ResRef.Value != null)
-							info += "inst.Template.ResRef.Value= " + inst.Template.ResRef.Value + "\n";				// test_d_sicklady2, "", test_d_sicklady2_template
-
-
-						if (inst.Template.Repository != null && inst.Template.Repository.Name != null)
-							info += "inst.Template.Repository.Name= " + inst.Template.Repository.Name;				// null, C:\Users\User\Documents\Neverwinter Nights 2\Override, null
-					}
-					MessageBox.Show(info); */
-
-					SaveTo(iblueprint);
-				}
-			}
+			INWN2Blueprint iblueprint = CreateBlueprint(iinstance);
+			if (iblueprint != null)
+				SaveTo(iblueprint);
 		}
 
-		static INWN2Blueprint CreateBlueprint(NWN2CreatureInstance instance)
+		static INWN2Blueprint CreateBlueprint(INWN2Instance iinstance)
 		{
 			// cf ElectronPanel_.CreateInstance()
 
-			if (instance.Template == null || instance.Template.ResourceType != (ushort)2027) // utc
+			if (iinstance.Template == null)// || instance.Template.ResourceType != (ushort)2027) // utc
 			{
 				CreVisF.BypassCreate = true;
 
@@ -137,42 +75,56 @@ namespace creaturevisualizer
 			}
 			else
 			{
-				// TODO: This is all suspect ->>
+				INWN2Blueprint iblueprint = null;
 
-				var blueprint = new NWN2CreatureBlueprint();
-				blueprint.CopyFromTemplate(instance);
-
-				blueprint.Resource = instance.Template;
-				blueprint.TemplateResRef = instance.Template.ResRef;
-
-				blueprint.Comment = instance.Comment;
-
-				if (CreatureVisualizerPreferences.that.HandleEquippedItems)
+				switch (iinstance.ObjectType)
 				{
-					NWN2InventoryItem it;
-//					blueprint.EquippedItems = (NWN2EquipmentSlotCollection)CommonUtils.SerializationClone(instance.EquippedItems); // huh
-					blueprint.EquippedItems = new NWN2EquipmentSlotCollection();
-					for (int i = 0; i != 18; ++i)
+					case NWN2ObjectType.Creature:     iblueprint = new NWN2CreatureBlueprint();     break;
+					case NWN2ObjectType.Door:         iblueprint = new NWN2DoorBlueprint();         break;
+					case NWN2ObjectType.Placeable:    iblueprint = new NWN2PlaceableBlueprint();    break;
+//					case NWN2ObjectType.PlacedEffect: iblueprint = new NWN2PlacedEffectBlueprint(); break;
+//					case NWN2ObjectType.Item:         iblueprint = new NWN2ItemBlueprint();         break;
+				}
+
+				if (iblueprint != null)
+				{
+					iblueprint.CopyFromTemplate(iinstance);
+
+					iblueprint.Resource       = iinstance.Template;
+					iblueprint.TemplateResRef = iinstance.Template.ResRef;
+
+					iblueprint.Comment = iinstance.Comment;
+
+					if (iinstance.ObjectType == NWN2ObjectType.Creature)
 					{
-						if ((it = instance.EquippedItems[i].Item) != null && it.ValidItem)
+						if (CreatureVisualizerPreferences.that.HandleEquippedItems)
 						{
-							blueprint.EquippedItems[i].Item = new NWN2BlueprintInventoryItem(it as NWN2InstanceInventoryItem);
+//							blueprint.EquippedItems = (NWN2EquipmentSlotCollection)CommonUtils.SerializationClone(instance.EquippedItems);
+
+							NWN2InventoryItem it;
+							(iblueprint as NWN2CreatureTemplate).EquippedItems = new NWN2EquipmentSlotCollection();
+							for (int i = 0; i != 18; ++i)
+							{
+								if ((it = (iinstance as NWN2CreatureTemplate).EquippedItems[i].Item) != null && it.ValidItem)
+								{
+									(iblueprint as NWN2CreatureTemplate).EquippedItems[i].Item = new NWN2BlueprintInventoryItem(it as NWN2InstanceInventoryItem);
+								}
+							}
 						}
+						//else TODO: Might have to clear equipment here
+
+						if (CreatureVisualizerPreferences.that.HandleInventoryItems)
+						{
+							(iblueprint as NWN2CreatureBlueprint).Inventory = new NWN2BlueprintInventoryItemCollection();
+							foreach (NWN2InstanceInventoryItem it in (iinstance as NWN2CreatureInstance).Inventory)
+							{
+								(iblueprint as NWN2CreatureBlueprint).Inventory.Add(new NWN2BlueprintInventoryItem(it));
+							}
+						}
+						//else TODO: Might have to clear inventory here
 					}
 				}
-				//else TODO: Might have to clear equipment here
-
-				if (CreatureVisualizerPreferences.that.HandleInventoryItems)
-				{
-					blueprint.Inventory = new NWN2BlueprintInventoryItemCollection();
-					foreach (NWN2InstanceInventoryItem itInst in instance.Inventory)
-					{
-						blueprint.Inventory.Add(new NWN2BlueprintInventoryItem(itInst));
-					}
-				}
-				//else TODO: Might have to clear inventory here
-
-				return blueprint;
+				return iblueprint;
 			}
 			return null;
 		}
@@ -223,14 +175,15 @@ namespace creaturevisualizer
 		} */
 
 
+
 		static void PrintResourceTypes()
 		{
-/*			// Create a file to write to.
-			string createText = "Hello and Welcome" + Environment.NewLine;
-			File.WriteAllText(path, createText);
-			
-			// Open the file to read from.
-			string readText = File.ReadAllText(path); */
+//			// Create a file to write to.
+//			string createText = "Hello and Welcome" + Environment.NewLine;
+//			File.WriteAllText(path, createText);
+//			
+//			// Open the file to read from.
+//			string readText = File.ReadAllText(path);
 
 			string info = String.Empty;
 

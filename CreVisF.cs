@@ -322,6 +322,11 @@ namespace creaturevisualizer
 			_itSaveTo.Enabled = valid;
 		}
 
+		internal void EnableSaveToModule(bool valid)
+		{
+			_itSaveToModule.Enabled = valid;
+		}
+
 		/// <summary>
 		/// Checks if the initial location is onscreen.
 		/// </summary>
@@ -659,6 +664,7 @@ namespace creaturevisualizer
 
 		void instanceclick_SaveToModule(object sender, EventArgs e)
 		{
+			
 		}
 
 		void instanceclick_SaveToCampaign(object sender, EventArgs e)
@@ -683,7 +689,7 @@ namespace creaturevisualizer
 			else if (_panel.Instance != null)
 			{
 				Io.SaveTo(_panel.Instance);
-//				Changed = ChangedType.ct_not;
+				Changed = ChangedType.ct_not;
 			}
 
 			// TODO: add resource to the toolset's Blueprint tree (if applicable)

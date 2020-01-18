@@ -135,6 +135,7 @@ namespace creaturevisualizer
 
 				_f.EnableSaveTo(valid);
 				_f.EnableSaveToCampaign(valid);
+				_f.EnableSaveToModule(valid);
 			}
 		}
 
@@ -602,7 +603,7 @@ namespace creaturevisualizer
 
 				blueprint.Comment = iblueprint.Comment;
 
-				if ((blueprint as NWN2CreatureBlueprint) != null)
+				if (iblueprint.ObjectType == NWN2ObjectType.Creature)
 				{
 					// TODO: if (prefs.HandleEquippedItems)
 					(blueprint as NWN2CreatureTemplate).EquippedItems =
