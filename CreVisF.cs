@@ -114,7 +114,13 @@ namespace creaturevisualizer
 //						if (_panel.Blueprint.Resource != null && _panel.Blueprint.Resource.ResRef != null)
 //						{
 						resref = _panel.Blueprint.Resource.ResRef.Value;
-						loc = Enum.GetName(typeof(NWN2BlueprintLocationType), _panel.Blueprint.BlueprintLocation);
+
+						if ((_panel.Blueprint.Resource.Repository as DirectoryResourceRepository) != null)
+						{
+							loc = Enum.GetName(typeof(NWN2BlueprintLocationType), _panel.Blueprint.BlueprintLocation);
+						}
+						else
+							loc = "data/zip";
 //						}
 //						else
 //						{
@@ -369,7 +375,7 @@ namespace creaturevisualizer
 			_itSaveToCampaign.Enabled = NWN2CampaignManager.Instance.ActiveCampaign != null
 									 && _panel.Instance != null;
 
-			_itSaveTo = Menu.MenuItems[0].MenuItems.Add("sav&e as ...", instanceclick_SaveTo); // ie. to Override or whereva ya like.
+			_itSaveTo = Menu.MenuItems[0].MenuItems.Add("sav&e to ...", instanceclick_SaveTo); // ie. to Override or whereva ya like.
 			_itSaveTo.Shortcut = Shortcut.CtrlE;
 			_itSaveTo.Enabled = _panel.Instance != null;
 
@@ -387,7 +393,7 @@ namespace creaturevisualizer
 			_itControlPanel.Shortcut = Shortcut.CtrlP;
 
 			_itMiniPanel = Menu.MenuItems[2].MenuItems.Add("&mini panel", viewclick_MiniPanel);
-			_itMiniPanel.Shortcut = Shortcut.CtrlM;
+			_itMiniPanel.Shortcut = Shortcut.F7;
 			_itMiniPanel.Checked = true;
 
 			Menu.MenuItems[2].MenuItems.Add("-");
@@ -651,7 +657,6 @@ namespace creaturevisualizer
 			(_itRefreshOnFocus.Checked = !_itRefreshOnFocus.Checked);
 		}
 
-		// TODO: menu items for "Save to module" and "Save to campaign"
 		void instanceclick_SaveToModule(object sender, EventArgs e)
 		{
 		}
@@ -673,11 +678,15 @@ namespace creaturevisualizer
 			if (_panel.Blueprint != null)
 			{
 				Io.SaveTo(_panel.Blueprint);
+				Changed = ChangedType.ct_not;
 			}
 			else if (_panel.Instance != null)
 			{
 				Io.SaveTo(_panel.Instance);
+//				Changed = ChangedType.ct_not;
 			}
+
+			// TODO: add resource to the toolset's Blueprint tree (if applicable)
 		}
 
 
@@ -1745,6 +1754,7 @@ namespace creaturevisualizer
 			la_areatag      .Text = String.Empty;
 
 			toolTip1.Active = false;
+			toolTip1.SetToolTip(la_repo_inst, String.Empty);
 		}
 
 		internal void PrintResourceInfo(INWN2Template template)
@@ -1840,6 +1850,13 @@ namespace creaturevisualizer
 					else
 						la_repo_inst.Text = "invalid";
 				}
+				else
+				{
+					la_file_inst    .Text =
+					la_template_inst.Text =
+					la_restype_inst .Text =
+					la_repo_inst    .Text = "invalid";
+				}
 
 				if (instance.Area != null)
 					la_areatag.Text = instance.Area.Tag;
@@ -1850,7 +1867,7 @@ namespace creaturevisualizer
 
 		void SetRepoText(string repo)
 		{
-			if (repo.Length > 32) // max chars that the Label 'la_repo_inst' can display on its first line.
+/*			if (repo.Length > 32) // max chars that the Label 'la_repo_inst' can display on its first line.
 			{
 				toolTip1.Active = true;
 				toolTip1.SetToolTip(la_repo_inst, repo);
@@ -1859,7 +1876,9 @@ namespace creaturevisualizer
 				{
 					repo = repo.Substring(0, 93) + "...";
 				}
-			}
+			} */
+			toolTip1.Active = true;
+			toolTip1.SetToolTip(la_repo_inst, repo);
 			la_repo_inst.Text = repo;
 		}
 
@@ -1869,7 +1888,7 @@ namespace creaturevisualizer
 			{
 				if (_panel.Blueprint != null)
 				{
-					(_panel.Blueprint as NWN2CreatureBlueprint).Gender = (CreatureGender)cbo_creature_gender.SelectedIndex;
+					(_panel.Blueprint as NWN2CreatureTemplate).Gender = (CreatureGender)cbo_creature_gender.SelectedIndex;
 
 
 					_panel.RecreateModel();
@@ -1878,7 +1897,10 @@ namespace creaturevisualizer
 				}
 				else if (_panel.Instance != null)
 				{
+					(_panel.Instance as NWN2CreatureTemplate).Gender = (CreatureGender)cbo_creature_gender.SelectedIndex;
 
+
+					_panel.RecreateModel();
 
 					Changed = ChangedType.ct_Vi;
 				}
@@ -1894,7 +1916,7 @@ namespace creaturevisualizer
 					if (Changed != ChangedType.ct_Vi)
 						click_bu_creature_display(null, EventArgs.Empty);
 
-					(_panel.Blueprint_base as NWN2CreatureBlueprint).Gender = (CreatureGender)cbo_creature_gender.SelectedIndex;
+					(_panel.Blueprint_base as NWN2CreatureTemplate).Gender = (CreatureGender)cbo_creature_gender.SelectedIndex;
 
 
 					Changed = ChangedType.ct_Ts;
@@ -1904,10 +1926,13 @@ namespace creaturevisualizer
 					if (Changed != ChangedType.ct_Vi)
 						click_bu_creature_display(null, EventArgs.Empty);
 
+					(_panel.Instance_base as NWN2CreatureTemplate).Gender = (CreatureGender)cbo_creature_gender.SelectedIndex;
 
 
 					Changed = ChangedType.ct_Ts;
 				}
+
+				// TODO: update Property in the toolset panel co-temporaneously.
 			}
 		}
 		#endregion Handlers (creature)

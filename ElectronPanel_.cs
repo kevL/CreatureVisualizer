@@ -426,10 +426,10 @@ namespace creaturevisualizer
 				_f.ClearResourceInfo();
 				_f.Changed = CreVisF.ChangedType.ct_nul; // set '_f.Text'
 
-				Blueprint = null;
-				Instance  = null;
+				Blueprint = null; // is instantiated only by a Blueprint
+				Instance  = null; // is instantiated by either a Blueprint or an Instance
 
-				_f.bu_creature_apply.Enabled = true;
+				_f.bu_creature_apply.Enabled = false;
 				_f.EnableCreaturePage(false);
 
 				if (MousePanel != null && !MousePanel.IsDisposed) // safety. ElectronPanel.MousePanel could go disposed for no good reason.
@@ -445,30 +445,33 @@ namespace creaturevisualizer
 // first check areaviewer for a selected Instance ->
 					if ((viewer = NWN2ToolsetMainForm.App.GetActiveViewer() as NWN2AreaViewer) != null
 						&& (collection = viewer.SelectedInstances) != null && collection.Count == 1
-						&& (   collection[0] is NWN2CreatureInstance
-							|| collection[0] is NWN2DoorInstance
-							|| collection[0] is NWN2PlaceableInstance))
+						&& (   collection[0] is NWN2CreatureTemplate
+							|| collection[0] is NWN2DoorTemplate
+							|| collection[0] is NWN2PlaceableTemplate))
 					{
-//						if (!(collection[0] as INWN2Instance).Equals(Instance_pre))
-/*						if (Instance_pre == null || (collection[0] as INWN2Instance) != Instance_pre)
+						if (Instance_base == null || (collection[0] as INWN2Instance) != Instance_base)
 						{
-//							if (_f.ConfirmChange())
-//							{
-//							}
-							Instance = Instance_pre = collection[0] as INWN2Instance;
+							Instance_base = collection[0] as INWN2Instance;
 							different = true;
-						} */
-						Instance = collection[0] as INWN2Instance;
-						_f.PrintResourceInfo(Instance); // INWN2Template
-
-						if ((Instance as NWN2CreatureInstance) != null)
-						{
-							_f.EnableCreaturePage(true);
-
-							_f.InitGender((Instance as NWN2CreatureInstance).Gender);
 						}
 
-						_f.Changed = CreVisF.ChangedType.ct_not;
+						Instance = CreateInstance(Instance_base);
+
+						if (Instance != null)
+						{
+							_f.PrintResourceInfo(Instance);
+
+
+							if ((Instance as NWN2CreatureTemplate) != null)
+							{
+								_f.bu_creature_apply.Enabled = Instance.Template != null;	// NOTE: 'Template' should actually be 'Resource'
+								_f.EnableCreaturePage(true);								// like ya know 'Blueprint.Resource' is ...
+
+								_f.InitGender((Instance as NWN2CreatureTemplate).Gender);
+
+							}
+						}
+
 						_f.bu_creature_apply.Text = "APPLY to Instance";
 					}
 // second check blueprint lists for a selected Blueprint ->
@@ -497,15 +500,14 @@ namespace creaturevisualizer
 									Blueprint = CreateBlueprint(Blueprint_base);
 									_f.PrintResourceInfo(Blueprint);
 
-									_f.bu_creature_apply.Enabled = (Blueprint.Resource.Repository as DirectoryResourceRepository) != null;
-
 
 									switch (type)
 									{
 										case NWN2ObjectType.Creature:
+											_f.bu_creature_apply.Enabled = (Blueprint.Resource.Repository as DirectoryResourceRepository) != null;
 											_f.EnableCreaturePage(true);
 
-											_f.InitGender((Blueprint as NWN2CreatureBlueprint).Gender);
+											_f.InitGender((Blueprint as NWN2CreatureTemplate).Gender);
 
 /*
 //											((NWN2CreatureBlueprint)blueprint).AppearanceHair; // byte
@@ -551,14 +553,16 @@ namespace creaturevisualizer
 										case NWN2ObjectType.PlacedEffect:
 										case NWN2ObjectType.Item: // <- TODO: works for weapons (see Preview tab) but clothes appear on a default creature (in the ArmorSet tab)
 											Instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(Blueprint);
-											_f.Changed = CreVisF.ChangedType.ct_not;
-											_f.bu_creature_apply.Text = "APPLY to Blueprint";
 											break;
 									}
 									break;
 							}
 						}
+
+						_f.bu_creature_apply.Text = "APPLY to Blueprint";
 					}
+
+					_f.Changed = CreVisF.ChangedType.ct_not;
 					AddModel(different);
 				}
 			}
@@ -574,67 +578,138 @@ namespace creaturevisualizer
 		{
 			// cf Io.CreateBlueprint()
 
-			var current = (iblueprint as NWN2CreatureBlueprint);
+			INWN2Blueprint blueprint = null;
 
-			var blueprint = new NWN2CreatureBlueprint();
-			blueprint.CopyFromTemplate(current);
-
-			// 'data' is private ->
-			// NWN2Toolset.NWN2.Data.Blueprints.NWN2CreatureBlueprint.NWN2BlueprintData -> (OEIResRef)TemplateResRef (+ load and save functs)
-//			blueprint.data = (NWN2BlueprintData)CommonUtils.SerializationClone(current.data);
-
-			blueprint.TemplateResRef = current.TemplateResRef; // not sure how that's gonna play out.
-
-
-			blueprint.Comment = current.Comment;
-
-			// TODO: if (prefs.HandleEquippedItems)
-			blueprint.EquippedItems = (NWN2EquipmentSlotCollection)CommonUtils.SerializationClone(current.EquippedItems);
-
-			// TODO: if (prefs.HandleInventoryItems)
-			blueprint.Inventory = (NWN2BlueprintInventoryItemCollection)CommonUtils.SerializationClone(current.Inventory);
-
-
-			OEIResRef resref = null;
-			IResourceRepository repo = null;
-			// Theory #187: if 'IResourceRepository' derives to 'ResourceRepository'
-			// then the blueprint is a stock blueprint in the data/.zip files; but
-			// if 'IResourceRepository' can be further derived to 'DirectoryResourceRepository'
-			// then the blueprint is loose in a directory ... eg, the Module, Campaign,
-			// or Override folder.
-
-			if (current.Resource != null && current.Resource.Repository != null)
+			switch (iblueprint.ObjectType)
 			{
-				resref = current.Resource.ResRef; // 'Resource.Resref' IS 'ResourceName'
-				repo   = current.Resource.Repository;
-			}
-			else if (!String.IsNullOrEmpty(current.Name)) // should never happen.
-			{
-				// use tag as resref value and Module as the repository
-				resref = new OEIResRef(current.Name);
-
-				// module dir ->
-				repo = NWN2ToolsetMainForm.App.BlueprintView.Module.Repository;
-
-				// override dir ->
-//				repo = NWN2Toolset.NWN2.IO.NWN2ResourceManager.Instance.UserOverrideDirectory;
-//				if (repo == null)
-//					repo = NWN2Toolset.NWN2.IO.NWN2ResourceManager.Instance.OverrideDirectory;
-
-				// campaign dir ->
-//				repo = NWN2Toolset.NWN2.Data.Campaign.NWN2CampaignManager.Instance.ActiveCampaign.Repository;
+				case NWN2ObjectType.Creature:     blueprint = new NWN2CreatureBlueprint();     break;
+				case NWN2ObjectType.Door:         blueprint = new NWN2DoorBlueprint();         break;
+				case NWN2ObjectType.Placeable:    blueprint = new NWN2PlaceableBlueprint();    break;
+				case NWN2ObjectType.PlacedEffect: blueprint = new NWN2PlacedEffectBlueprint(); break;
+				case NWN2ObjectType.Item:         blueprint = new NWN2ItemBlueprint();         break;
 			}
 
-			if (resref != null && repo != null) // should always happen.
-				blueprint.Resource = repo.CreateResource(resref, current.ResourceType);
+			if (blueprint != null)
+			{
+				blueprint.CopyFromTemplate(iblueprint);
 
-			return blueprint;
+				// 'data' is private ->
+				// NWN2Toolset.NWN2.Data.Blueprints.NWN2CreatureBlueprint.NWN2BlueprintData -> (OEIResRef)TemplateResRef (+ load and save functs)
+//				blueprint.data = (NWN2BlueprintData)CommonUtils.SerializationClone(iblueprint.data);
+
+				blueprint.TemplateResRef = iblueprint.TemplateResRef; // not sure how that's gonna play out: not duplicated.
+
+
+				blueprint.Comment = iblueprint.Comment;
+
+				if ((blueprint as NWN2CreatureBlueprint) != null)
+				{
+					// TODO: if (prefs.HandleEquippedItems)
+					(blueprint as NWN2CreatureTemplate).EquippedItems =
+						(NWN2EquipmentSlotCollection)CommonUtils.SerializationClone((iblueprint as NWN2CreatureTemplate).EquippedItems);
+
+					// TODO: if (prefs.HandleInventoryItems)
+					(blueprint as NWN2CreatureBlueprint).Inventory =
+						(NWN2BlueprintInventoryItemCollection)CommonUtils.SerializationClone((iblueprint as NWN2CreatureBlueprint).Inventory);
+				}
+
+
+				OEIResRef resref = null;
+				IResourceRepository repo = null;
+				// Theory #187: if 'IResourceRepository' derives to 'ResourceRepository'
+				// then the blueprint is a stock blueprint in the data/.zip files; but
+				// if 'IResourceRepository' can be further derived to 'DirectoryResourceRepository'
+				// then the blueprint is loose in a directory ... eg, the Module, Campaign,
+				// or Override folder.
+
+				if (iblueprint.Resource != null && iblueprint.Resource.Repository != null)
+				{
+					resref = iblueprint.Resource.ResRef; // 'Resource.Resref' IS 'ResourceName'
+					repo   = iblueprint.Resource.Repository;
+				}
+				else if (!String.IsNullOrEmpty(iblueprint.Name)) // should never happen.
+				{
+					// use tag as resref value and Module as the repository
+					resref = new OEIResRef(iblueprint.Name);
+
+					// module dir ->
+					repo = NWN2ToolsetMainForm.App.BlueprintView.Module.Repository;
+
+					// override dir ->
+//					repo = NWN2Toolset.NWN2.IO.NWN2ResourceManager.Instance.UserOverrideDirectory;
+//					if (repo == null)
+//						repo = NWN2Toolset.NWN2.IO.NWN2ResourceManager.Instance.OverrideDirectory;
+
+					// campaign dir ->
+//					repo = NWN2Toolset.NWN2.Data.Campaign.NWN2CampaignManager.Instance.ActiveCampaign.Repository;
+				}
+
+				if (resref != null && repo != null) // should always happen.
+					blueprint.Resource = repo.CreateResource(resref, (iblueprint as INWN2Object).ResourceType);
+
+				return blueprint;
+			}
+			return null;
+		}
+
+		INWN2Instance CreateInstance(INWN2Instance iinstance)
+		{
+			// cf Io.CreateBlueprint()
+
+			// TODO: allow Instances w/out a valid Template ... (although it should be discouraged)
+			if (iinstance.Template == null)
+//				|| (   iinstance.Template.ResourceType != (ushort)2027		// utc // use 'iinstance.ObjectType' if anything.
+//					&& iinstance.Template.ResourceType != (ushort)2042		// utd
+//					&& iinstance.Template.ResourceType != (ushort)2044))	// utp
+			{
+				CreVisF.BypassCreate = true;
+
+				using (var f = new ErrorF("The instance's Template is invalid."))
+					f.ShowDialog();
+
+				CreVisF.BypassCreate = false;
+			}
+			else
+			{
+/*				INWN2Instance instance = null;
+
+				switch (iinstance.ObjectType)
+				{
+					case NWN2ObjectType.Creature:  instance = new NWN2CreatureInstance();  break;
+					case NWN2ObjectType.Door:      instance = new NWN2DoorInstance();      break;
+					case NWN2ObjectType.Placeable: instance = new NWN2PlaceableInstance(); break;
+				} */
+
+//				if (instance != null)
+//					instance.CopyFromTemplate(iinstance);
+
+//				instance.Area       = iinstance.Area;		// I don't exactly trust 'CopyFromTemplate()' to do the right thing ->
+/*				instance.Comment    = iinstance.Comment;	// and ... trying to trace what it *does do* is ... nontrivial.
+//				instance.Name       = iinstance.Name;		// readonly
+				instance.ObjectID   = iinstance.ObjectID;
+/				instance.ObjectType = iinstance.ObjectType;	// readonly
+				instance.Template   = iinstance.Template;	// readonly ... but it's not copying the template despite being called "CopyFromTemplate()"
+*/
+//				return instance;
+
+				var instance = (INWN2Instance)CommonUtils.SerializationClone(iinstance);
+				instance.Area = iinstance.Area;
+				return instance;
+			}
+			return null;
 		}
 
 		internal void RecreateModel()
 		{
-			Instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(Blueprint);
-			AddModel();
+			if (Blueprint != null)
+			{
+				Instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(Blueprint); // do you really want to trust that
+				AddModel();
+			}
+			else if (Instance != null)
+			{
+				AddModel();
+			}
 		}
 
 		/// <summary>

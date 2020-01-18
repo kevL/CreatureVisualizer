@@ -21,14 +21,14 @@ namespace creaturevisualizer
 		/// user-labeled file.
 		/// @note Check that blueprint is valid before call.
 		/// </summary>
-		/// <param name="blueprint"></param>
-		internal static void SaveTo(INWN2Blueprint blueprint)
+		/// <param name="iblueprint"></param>
+		internal static void SaveTo(INWN2Blueprint iblueprint)
 		{
-			string ext = BWResourceTypes.GetFileExtension(blueprint.Resource.ResourceType);
+			string ext = BWResourceTypes.GetFileExtension(iblueprint.Resource.ResourceType);
 
 			var sfd = new SaveFileDialog();
 			sfd.Title      = "Save blueprint as ...";
-			sfd.FileName   = blueprint.Resource.FullName;
+			sfd.FileName   = iblueprint.Resource.FullName;
 			sfd.DefaultExt = ext;
 			sfd.Filter     = "blueprints (*." + ext + ")|*." + ext + "|all files (*.*)|*.*";
 
@@ -41,7 +41,7 @@ namespace creaturevisualizer
 			{
 				CreatureVisualizerPreferences.that.LastSaveDirectory = Path.GetDirectoryName(sfd.FileName);
 
-				IOEISerializable serializable = blueprint;
+				IOEISerializable serializable = iblueprint;
 				if (serializable != null)
 					serializable.OEISerialize(sfd.FileName);
 			}
@@ -52,8 +52,8 @@ namespace creaturevisualizer
 		/// user-labeled file.
 		/// @note Check that instance is valid before call.
 		/// </summary>
-		/// <param name="instance"></param>
-		internal static void SaveTo(INWN2Instance instance)
+		/// <param name="iinstance"></param>
+		internal static void SaveTo(INWN2Instance iinstance)
 		{
 			//PrintResourceTypes(); // test
 
@@ -68,11 +68,11 @@ namespace creaturevisualizer
 			//																												 bool bNewName)
 
 
-			var inst = instance as NWN2CreatureInstance;
-			if (inst != null)
+			var instance = iinstance as NWN2CreatureInstance;
+			if (instance != null)
 			{
-				INWN2Blueprint blueprint = CreateBlueprint(inst);
-				if (blueprint != null)
+				INWN2Blueprint iblueprint = CreateBlueprint(instance);
+				if (iblueprint != null)
 				{
 //					blueprint.BlueprintLocation = NWN2BlueprintLocationType.Module;
 
@@ -117,14 +117,14 @@ namespace creaturevisualizer
 					}
 					MessageBox.Show(info); */
 
-					SaveTo(blueprint);
+					SaveTo(iblueprint);
 				}
 			}
 		}
 
 		static INWN2Blueprint CreateBlueprint(NWN2CreatureInstance instance)
 		{
-			// cf CreVisF.click_bu_creature_display()
+			// cf ElectronPanel_.CreateInstance()
 
 			if (instance.Template == null || instance.Template.ResourceType != (ushort)2027) // utc
 			{
@@ -150,7 +150,7 @@ namespace creaturevisualizer
 				if (CreatureVisualizerPreferences.that.HandleEquippedItems)
 				{
 					NWN2InventoryItem it;
-//					blueprint.EquippedItems = CommonUtils.SerializationClone(instance.EquippedItems) as NWN2EquipmentSlotCollection; // huh
+//					blueprint.EquippedItems = (NWN2EquipmentSlotCollection)CommonUtils.SerializationClone(instance.EquippedItems); // huh
 					blueprint.EquippedItems = new NWN2EquipmentSlotCollection();
 					for (int i = 0; i != 18; ++i)
 					{
