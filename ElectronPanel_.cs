@@ -436,7 +436,6 @@ namespace creaturevisualizer
 				if (MousePanel != null && !MousePanel.IsDisposed) // safety. ElectronPanel.MousePanel could go disposed for no good reason.
 				{
 					NWN2AreaViewer viewer;
-					NWN2InstanceCollection collection;
 
 					//viewer.AreaNetDisplayWindow.Scene
 					//viewer.SelectedNDOs
@@ -444,6 +443,7 @@ namespace creaturevisualizer
 					bool different = false;
 
 // first check areaviewer for a selected Instance ->
+					NWN2InstanceCollection collection;
 					if ((viewer = NWN2ToolsetMainForm.App.GetActiveViewer() as NWN2AreaViewer) != null
 						&& (collection = viewer.SelectedInstances) != null && collection.Count == 1
 						&& (   collection[0] is NWN2CreatureTemplate
@@ -563,7 +563,6 @@ namespace creaturevisualizer
 						_f.bu_creature_apply.Text = "APPLY to Blueprint";
 					}
 
-					_f.Changed = CreVisF.ChangedType.ct_not;
 					AddModel(different);
 				}
 			}
@@ -721,6 +720,8 @@ namespace creaturevisualizer
 		{
 			if (Instance != null && Initialize())
 			{
+				_f.Changed = CreVisF.ChangedType.ct_not;
+
 				bool first;
 				if (Model != null) // is NOT 'first' display - cache the previous model's telemetry since it's about to go byebye.
 				{

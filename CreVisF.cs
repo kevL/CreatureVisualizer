@@ -223,8 +223,6 @@ namespace creaturevisualizer
 				cb_light_ambient.Checked = ElectronPanel_.ColorCheckedAmbient;
 			}
 
-			EnableCreaturePage(false);
-
 
 			// Preferences ->
 			if (!CreatureVisualizerPreferences.that.StayOnTop)
@@ -250,13 +248,38 @@ namespace creaturevisualizer
 			tc1.SelectedIndex = CreatureVisualizerPreferences.that.TabPageCurrent;
 
 
+			NWN2ToolsetMainForm.App.BlueprintView.SelectionChanged += OnBlueprintSelectionChanged;
+			NWN2CampaignManager.Instance.ActiveCampaignChanged     += OnActiveCampaignChanged;
+
+
+/*			_areaviewer = NWN2ToolsetMainForm.App.GetActiveViewer() as NWN2AreaViewer; // psst. It's not focused.
+			if (_areaviewer != null)
+			{
+				_areaviewer.MouseDown += mousedown_areaviewer;
+//				areaviewer.AreaNetDisplayWindow;
+//				areaviewer.HandleObjectTransformChanged(NetDisplayObjectCollection cObjects);
+//				areaviewer.HandleSelectionChanged(object oSender, EventArgs eArgs);
+//				areaviewer.SelectedInstances;
+//				areaviewer.SelectedNDOs;
+			}
+//			NetDisplayManager.Instance;
+//			NWN2Toolset.NWN2.NetDisplay.NWN2NetDisplayManager.Instance;
+*/
+
 			ActiveControl = _panel;
 
 
-			NWN2ToolsetMainForm.App.BlueprintView.SelectionChanged += OnBlueprintSelectionChanged;
-
-			NWN2CampaignManager.Instance.ActiveCampaignChanged += OnActiveCampaignChanged;
+			_panel.CreateModel();
 		}
+//		NWN2AreaViewer _areaviewer;
+
+//		void mousedown_areaviewer(object sender, MouseEventArgs e)
+//		{
+//			MessageBox.Show("mousedown_areaviewer()");
+//		}
+
+
+
 
 		void OnBlueprintSelectionChanged(object sender, BlueprintSelectionChangedEventArgs e)
 		{
@@ -471,11 +494,11 @@ namespace creaturevisualizer
 
 
 		#region Handlers (override)
-		protected override void OnActivated(EventArgs e)
-		{
-			if (_itRefreshOnFocus.Checked && WindowState != FormWindowState.Minimized)
-				_panel.CreateModel();
-		}
+//		protected override void OnActivated(EventArgs e)
+//		{
+//			if (_itRefreshOnFocus.Checked && WindowState != FormWindowState.Minimized)
+//				_panel.CreateModel();
+//		}
 
 		protected override void OnResize(EventArgs e)
 		{
@@ -549,6 +572,9 @@ namespace creaturevisualizer
 
 					break;
 			}
+
+//			if (_areaviewer != null)
+//				_areaviewer.MouseDown -= mousedown_areaviewer;
 		}
 
 		internal bool ConfirmClose(bool cancancel)
