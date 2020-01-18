@@ -664,7 +664,14 @@ namespace creaturevisualizer
 
 		void instanceclick_SaveToModule(object sender, EventArgs e)
 		{
-			
+			if (_panel.Blueprint != null)
+			{
+				Io.SaveToModule(_panel.Blueprint_base = _panel.Blueprint);
+			}
+			else if (_panel.Instance != null)
+			{
+//				_panel.Instance_base = _panel.Instance;
+			}
 		}
 
 		void instanceclick_SaveToCampaign(object sender, EventArgs e)

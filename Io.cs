@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows.Forms;
 
+using NWN2Toolset;
 using NWN2Toolset.NWN2.Data.Blueprints;
 using NWN2Toolset.NWN2.Data.Instances;
 using NWN2Toolset.NWN2.Data.Templates;
@@ -37,6 +38,7 @@ namespace creaturevisualizer
 
 			// else TODO: get BlueprintLocation dir
 
+
 			if (sfd.ShowDialog() == DialogResult.OK)
 			{
 				CreatureVisualizerPreferences.that.LastSaveDirectory = Path.GetDirectoryName(sfd.FileName);
@@ -44,6 +46,32 @@ namespace creaturevisualizer
 				IOEISerializable serializable = iblueprint;
 				if (serializable != null)
 					serializable.OEISerialize(sfd.FileName);
+			}
+		}
+
+		internal static void SaveToModule(INWN2Blueprint iblueprint)
+		{
+			string dir  = NWN2ToolsetMainForm.App.Module.Repository.Name;
+			string file = iblueprint.Resource.ResRef.Value;
+			string ext  = BWResourceTypes.GetFileExtension(iblueprint.Resource.ResourceType);
+
+			string fullpath = Path.Combine(dir, file + "." + ext);
+
+
+			var sfd = new SaveFileDialog();
+			sfd.Title            = "Save blueprint as ...";
+			sfd.FileName         = file + "." + ext;
+			sfd.DefaultExt       = ext;
+			sfd.Filter           = "blueprints (*." + ext + ")|*." + ext + "|all files (*.*)|*.*";
+			sfd.InitialDirectory = dir;
+			sfd.RestoreDirectory = true;
+
+
+			if (sfd.ShowDialog() == DialogResult.OK)
+			{
+				IOEISerializable serializable = iblueprint;
+				if (serializable != null)
+					serializable.OEISerialize(fullpath);
 			}
 		}
 
