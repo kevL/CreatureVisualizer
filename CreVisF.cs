@@ -52,7 +52,7 @@ namespace creaturevisualizer
 		/// </summary>
 		ElectronPanel_ _panel;
 
-		MenuItem _itRefreshOnFocus;
+//		MenuItem _itRefreshOnFocus;
 		MenuItem _itSaveToModule;
 		MenuItem _itSaveToCampaign;
 		MenuItem _itSaveTo;
@@ -232,8 +232,8 @@ namespace creaturevisualizer
 			if (!CreatureVisualizerPreferences.that.StayOnTop)
 				_itStayOnTop.PerformClick();
 
-			if (!CreatureVisualizerPreferences.that.RefreshOnFocus)
-				_itRefreshOnFocus.PerformClick();
+//			if (!CreatureVisualizerPreferences.that.RefreshOnFocus)
+//				_itRefreshOnFocus.PerformClick();
 
 			_dir = (CpDir)CreatureVisualizerPreferences.that.ControlPanelDirection;
 
@@ -412,11 +412,11 @@ namespace creaturevisualizer
 
 			Menu.MenuItems[0].MenuItems.Add("-");
 
-			_itRefreshOnFocus = Menu.MenuItems[0].MenuItems.Add("refresh on foc&us", instanceclick_RefreshOnFocus);
-			_itRefreshOnFocus.Shortcut = Shortcut.F6;
-			_itRefreshOnFocus.Checked = true;
-
-			Menu.MenuItems[0].MenuItems.Add("-");
+//			_itRefreshOnFocus = Menu.MenuItems[0].MenuItems.Add("refresh on foc&us", instanceclick_RefreshOnFocus);
+//			_itRefreshOnFocus.Shortcut = Shortcut.F6;
+//			_itRefreshOnFocus.Checked = true;
+//
+//			Menu.MenuItems[0].MenuItems.Add("-");
 
 			_itSaveToModule = Menu.MenuItems[0].MenuItems.Add("save to &Module", instanceclick_SaveToModule);
 			_itSaveToModule.Shortcut = Shortcut.CtrlM;
@@ -707,11 +707,11 @@ namespace creaturevisualizer
 			_panel.CreateModel();
 		}
 
-		void instanceclick_RefreshOnFocus(object sender, EventArgs e)
-		{
-			CreatureVisualizerPreferences.that.RefreshOnFocus =
-			(_itRefreshOnFocus.Checked = !_itRefreshOnFocus.Checked);
-		}
+//		void instanceclick_RefreshOnFocus(object sender, EventArgs e)
+//		{
+//			CreatureVisualizerPreferences.that.RefreshOnFocus =
+//			(_itRefreshOnFocus.Checked = !_itRefreshOnFocus.Checked);
+//		}
 
 		void instanceclick_SaveToModule(object sender, EventArgs e)
 		{
