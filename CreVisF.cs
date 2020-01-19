@@ -33,7 +33,7 @@ namespace creaturevisualizer
 		internal enum ChangedType
 		{
 			ct_nul,	// 0
-			ct_not,	// 1 - Blueprint in visualizer is the same as the original that was loaded. (no asterisks)
+			ct_non,	// 1 - Blueprint in visualizer is the same as the original that was loaded. (no asterisks)
 			ct_Ts,	// 2 - Blueprint in visualizer is different than the one in the toolset but the same as the original. (single asterisk)
 			ct_Vi	// 3 - Blueprint in visualizer is different than the one in the toolset and the original. (double asterisks)
 		}
@@ -100,43 +100,45 @@ namespace creaturevisualizer
 					string asterisks = String.Empty;
 					switch (_changed)
 					{
-//						case ChangedType.ct_not: break;
-						case ChangedType.ct_Ts: asterisks = " *";  break;
-						case ChangedType.ct_Vi: asterisks = " **"; break;
-					}
+						case ChangedType.ct_non:                   goto case ChangedType.ct_nul;
+						case ChangedType.ct_Ts: asterisks = " *";  goto case ChangedType.ct_nul;
+						case ChangedType.ct_Vi: asterisks = " **"; goto case ChangedType.ct_nul;
 
-					if (_panel.Blueprint != null) // is a blueprint NOT a placed instance
-					{
-						// _panel.Blueprint.TemplateResRef.Value	-> parent resref
-						// _panel.Blueprint.ResourceName.Value		-> resref == '_panel.Blueprint.Resource.ResRef.Value'
-						// _panel.Blueprint.Name					-> tag
+						case ChangedType.ct_nul: // not nul, is just a label
+							if (_panel.Blueprint != null) // is a blueprint NOT a placed instance
+							{
+								// _panel.Blueprint.TemplateResRef.Value	-> parent resref
+								// _panel.Blueprint.ResourceName.Value		-> resref == '_panel.Blueprint.Resource.ResRef.Value'
+								// _panel.Blueprint.Name					-> tag
 
-						string resref, loc;
+								string resref, loc;
 
-//						if (_panel.Blueprint.Resource != null && _panel.Blueprint.Resource.ResRef != null)
-//						{
-						resref = _panel.Blueprint.Resource.ResRef.Value;
+//								if (_panel.Blueprint.Resource != null && _panel.Blueprint.Resource.ResRef != null)
+//								{
+								resref = _panel.Blueprint.Resource.ResRef.Value;
 
-						if ((_panel.Blueprint.Resource.Repository as DirectoryResourceRepository) != null)
-						{
-							loc = Enum.GetName(typeof(NWN2BlueprintLocationType), _panel.Blueprint.BlueprintLocation);
-						}
-						else
-							loc = "data/zip";
-//						}
-//						else
-//						{
-//							resref = "invalid";
-//							loc    = "stock";
-//						}
+								if ((_panel.Blueprint.Resource.Repository as DirectoryResourceRepository) != null)
+								{
+									loc = Enum.GetName(typeof(NWN2BlueprintLocationType), _panel.Blueprint.BlueprintLocation);
+								}
+								else
+									loc = "data/zip";
+//								}
+//								else
+//								{
+//									resref = "invalid";
+//									loc    = "stock";
+//								}
 
-						Text = TITLE + " - "
-							 + resref + " [" + loc + "]"
-							 + asterisks + " (" + _panel.Blueprint.Name + ")";
-					}
-					else if (_panel.Instance != null) // is a placed instance NOT a blueprint
-					{
-						Text = TITLE + " - [area]" + asterisks + " (" + _panel.Instance.Name + ")"; // tag
+								Text = TITLE + " - "
+									 + resref + " [" + loc + "]"
+									 + asterisks + " (" + _panel.Blueprint.Name + ")";
+							}
+							else if (_panel.Instance != null) // is a placed instance NOT a blueprint
+							{
+								Text = TITLE + " - [area]" + asterisks + " (" + _panel.Instance.Name + ")"; // tag
+							}
+							break;
 					}
 				}
 			}
@@ -258,6 +260,7 @@ namespace creaturevisualizer
 																		new OEICollectionWithEvents.ChangeHandler(OnObjectsInserted));
 
 			ActiveControl = _panel;
+
 			_panel.CreateModel();
 		}
 
@@ -299,7 +302,7 @@ namespace creaturevisualizer
 				}
 			}
 //			}
-			// enough fucking around with this/their crap.
+			// enough f'ing around with this/their crap.
 		}
 
 		void OnBlueprintSelectionChanged(object sender, BlueprintSelectionChangedEventArgs e)
@@ -307,15 +310,15 @@ namespace creaturevisualizer
 			// going to kill those morons ......
 			// This is not SelectionChanged; it's a straightforward click-event.
 
-			NWN2BlueprintView tslist = NWN2ToolsetMainForm.App.BlueprintView;
+			NWN2BlueprintView blueprintview = NWN2ToolsetMainForm.App.BlueprintView;
 
-			object[] selection = tslist.Selection;
+			object[] selection = blueprintview.Selection;
 			if (selection != null && selection.Length == 1
 				&& (selection[0] as INWN2Blueprint) != null
 				&& (   _panel.Blueprint_base == null
 					|| _panel.Blueprint_base != selection[0] as INWN2Blueprint))
 			{
-				switch (tslist.GetFocusedListObjectType())
+				switch (blueprintview.GetFocusedListObjectType())
 				{
 					case NWN2ObjectType.Creature:
 					case NWN2ObjectType.Door:
@@ -515,7 +518,7 @@ namespace creaturevisualizer
 
 
 		#region Handlers (override)
-//		protected override void OnActivated(EventArgs e)
+//		protected override void OnActivated(EventArgs e) // TODO: remove RefreshOnFocus
 //		{
 //			if (_itRefreshOnFocus.Checked && WindowState != FormWindowState.Minimized)
 //				_panel.CreateModel();
@@ -606,7 +609,7 @@ namespace creaturevisualizer
 			switch (Changed)
 			{
 				case ChangedType.ct_nul:	// no creature loaded
-				case ChangedType.ct_not:	// no changes
+				case ChangedType.ct_non:	// no changes
 				case ChangedType.ct_Ts:		// blueprint/instance has changed (needs to be saved by the toolset)
 					ret = true;
 					break;
@@ -716,11 +719,15 @@ namespace creaturevisualizer
 			{
 				Io.SaveToModule(_panel.Blueprint);
 //				_panel.Blueprint_base = _panel.Blueprint; // TODO ...
+				// TODO: update blueprint tree
+//				NWN2BlueprintView blueprintview = NWN2ToolsetMainForm.App.BlueprintView;
+//				blueprintview.ResetContents(); // doesn't work.
 			}
 			else if (_panel.Instance != null)
 			{
 				Io.SaveToModule(_panel.Instance);
 //				_panel.Instance_base = _panel.Instance; // TODO ...
+				// TODO: update blueprint tree
 			}
 		}
 
@@ -731,10 +738,12 @@ namespace creaturevisualizer
 				if (_panel.Blueprint != null)
 				{
 					Io.SaveToCampaign(_panel.Blueprint);
+				// TODO: update blueprint tree
 				}
 				else if (_panel.Instance != null)
 				{
 					Io.SaveToCampaign(_panel.Instance);
+				// TODO: update blueprint tree
 				}
 			}
 		}
@@ -748,12 +757,14 @@ namespace creaturevisualizer
 			if (_panel.Blueprint != null)
 			{
 				Io.SaveTo(_panel.Blueprint);
-				Changed = ChangedType.ct_not;
+				Changed = ChangedType.ct_non;
+				// TODO: update blueprint tree (if applicable)
 			}
 			else if (_panel.Instance != null)
 			{
 				Io.SaveTo(_panel.Instance);
-				Changed = ChangedType.ct_not;
+				Changed = ChangedType.ct_non;
+				// TODO: update blueprint tree (if applicable)
 			}
 
 			// TODO: add resource to the toolset's Blueprint tree (if applicable)

@@ -477,12 +477,12 @@ namespace creaturevisualizer
 // second check blueprint lists for a selected Blueprint ->
 					else
 					{
-						NWN2BlueprintView tslist = NWN2ToolsetMainForm.App.BlueprintView;
+						NWN2BlueprintView blueprintview = NWN2ToolsetMainForm.App.BlueprintView;
 
-						object[] selection = tslist.Selection;
+						object[] selection = blueprintview.Selection;
 						if (selection != null && selection.Length == 1)
 						{
-							NWN2ObjectType type = tslist.GetFocusedListObjectType();
+							NWN2ObjectType type = blueprintview.GetFocusedListObjectType();
 
 							switch (type)
 							{
@@ -719,7 +719,7 @@ namespace creaturevisualizer
 		{
 			if (Instance != null && Initialize())
 			{
-				_f.Changed = CreVisF.ChangedType.ct_not;
+				_f.Changed = CreVisF.ChangedType.ct_non;
 
 				bool first;
 				if (Model != null) // is NOT 'first' display - cache the previous model's telemetry since it's about to go byebye.
