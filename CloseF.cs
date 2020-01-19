@@ -89,7 +89,7 @@ namespace creaturevisualizer
 			this.la_head.Location = new System.Drawing.Point(0, 0);
 			this.la_head.Margin = new System.Windows.Forms.Padding(0);
 			this.la_head.Name = "la_head";
-			this.la_head.Size = new System.Drawing.Size(192, 20);
+			this.la_head.Size = new System.Drawing.Size(238, 20);
 			this.la_head.TabIndex = 0;
 			this.la_head.Text = "The creature is changed ...";
 			this.la_head.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -97,52 +97,52 @@ namespace creaturevisualizer
 			// bu_cancel
 			// 
 			this.bu_cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.bu_cancel.Location = new System.Drawing.Point(9, 25);
+			this.bu_cancel.Location = new System.Drawing.Point(4, 25);
 			this.bu_cancel.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_cancel.Name = "bu_cancel";
-			this.bu_cancel.Size = new System.Drawing.Size(85, 45);
+			this.bu_cancel.Size = new System.Drawing.Size(230, 25);
 			this.bu_cancel.TabIndex = 1;
-			this.bu_cancel.Text = "cancel close";
+			this.bu_cancel.Text = "Stop the presses";
 			this.bu_cancel.UseVisualStyleBackColor = true;
 			// 
 			// bu_ignore
 			// 
 			this.bu_ignore.DialogResult = System.Windows.Forms.DialogResult.Ignore;
-			this.bu_ignore.Location = new System.Drawing.Point(99, 25);
+			this.bu_ignore.Location = new System.Drawing.Point(4, 50);
 			this.bu_ignore.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_ignore.Name = "bu_ignore";
-			this.bu_ignore.Size = new System.Drawing.Size(85, 45);
+			this.bu_ignore.Size = new System.Drawing.Size(230, 25);
 			this.bu_ignore.TabIndex = 2;
-			this.bu_ignore.Text = "lose changes";
+			this.bu_ignore.Text = "Lose changes";
 			this.bu_ignore.UseVisualStyleBackColor = true;
 			// 
 			// bu_save
 			// 
 			this.bu_save.DialogResult = System.Windows.Forms.DialogResult.Yes;
-			this.bu_save.Location = new System.Drawing.Point(99, 75);
+			this.bu_save.Location = new System.Drawing.Point(4, 100);
 			this.bu_save.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_save.Name = "bu_save";
-			this.bu_save.Size = new System.Drawing.Size(85, 50);
+			this.bu_save.Size = new System.Drawing.Size(230, 25);
 			this.bu_save.TabIndex = 4;
-			this.bu_save.Text = "save to file";
+			this.bu_save.Text = "save Creature to file ...";
 			this.bu_save.UseVisualStyleBackColor = true;
 			// 
 			// bu_apply
 			// 
 			this.bu_apply.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.bu_apply.Location = new System.Drawing.Point(9, 75);
+			this.bu_apply.Location = new System.Drawing.Point(4, 75);
 			this.bu_apply.Margin = new System.Windows.Forms.Padding(0);
 			this.bu_apply.Name = "bu_apply";
-			this.bu_apply.Size = new System.Drawing.Size(85, 50);
+			this.bu_apply.Size = new System.Drawing.Size(230, 25);
 			this.bu_apply.TabIndex = 3;
-			this.bu_apply.Text = "apply data to ";
+			this.bu_apply.Text = "Apply to selected blueprint ";
 			this.bu_apply.UseVisualStyleBackColor = true;
 			// 
 			// CloseF
 			// 
 			this.AcceptButton = this.bu_cancel;
 			this.CancelButton = this.bu_cancel;
-			this.ClientSize = new System.Drawing.Size(192, 129);
+			this.ClientSize = new System.Drawing.Size(238, 129);
 			this.Controls.Add(this.bu_apply);
 			this.Controls.Add(this.bu_save);
 			this.Controls.Add(this.bu_ignore);
