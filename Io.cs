@@ -17,6 +17,7 @@ namespace creaturevisualizer
 {
 	static class Io
 	{
+		#region Methods (internal)
 		// NWN2Toolset.NWN2.Views.NWN2BlueprintView.ᐌ(object P_0, EventArgs P_1)
 		/// <summary>
 		/// Saves the currently selected blueprint in the Blueprint tree to a
@@ -24,25 +25,38 @@ namespace creaturevisualizer
 		/// @note Check that blueprint is valid before call.
 		/// </summary>
 		/// <param name="iblueprint"></param>
-		internal static void SaveTo(INWN2Blueprint iblueprint)
+		/// <param name="dir"></param>
+		internal static void SaveTo(INWN2Blueprint iblueprint, string dir = "")
 		{
-			string ext = BWResourceTypes.GetFileExtension(iblueprint.Resource.ResourceType);
+			string file = iblueprint.Resource.ResRef.Value;
+			string ext  = BWResourceTypes.GetFileExtension(iblueprint.Resource.ResourceType);
 
 			var sfd = new SaveFileDialog();
 			sfd.Title      = "Save blueprint as ...";
-			sfd.FileName   = iblueprint.Resource.FullName;
-//			sfd.DefaultExt = ext;
+			sfd.FileName   = file + "." + ext; // iblueprint.Resource.FullName
 			sfd.Filter     = "blueprints (*." + ext + ")|*." + ext + "|all files (*.*)|*.*";
+//			sfd.DefaultExt = ext;
 
-			if (!String.IsNullOrEmpty( CreatureVisualizerPreferences.that.LastSaveDirectory))
+			if (!String.IsNullOrEmpty(dir))
+			{
+				if (Directory.Exists(dir))
+				{
+					sfd.InitialDirectory = dir;
+					sfd.RestoreDirectory = true;
+				}
+			}
+			else if (!String.IsNullOrEmpty(CreatureVisualizerPreferences.that.LastSaveDirectory)
+				&& Directory.Exists(CreatureVisualizerPreferences.that.LastSaveDirectory))
+			{
 				sfd.InitialDirectory = CreatureVisualizerPreferences.that.LastSaveDirectory;
-
-			// else TODO: get BlueprintLocation dir
+			}
+			// else TODO: get BlueprintLocation dir if exists
 
 
 			if (sfd.ShowDialog() == DialogResult.OK)
 			{
-				CreatureVisualizerPreferences.that.LastSaveDirectory = Path.GetDirectoryName(sfd.FileName);
+				if (String.IsNullOrEmpty(dir))
+					CreatureVisualizerPreferences.that.LastSaveDirectory = Path.GetDirectoryName(sfd.FileName);
 
 				IOEISerializable serializable = iblueprint;
 				if (serializable != null)
@@ -52,54 +66,12 @@ namespace creaturevisualizer
 
 		internal static void SaveToModule(INWN2Blueprint iblueprint)
 		{
-			string dir  = NWN2ToolsetMainForm.App.Module.Repository.Name;
-			string file = iblueprint.Resource.ResRef.Value;
-			string ext  = BWResourceTypes.GetFileExtension(iblueprint.Resource.ResourceType);
-
-			string fullpath = Path.Combine(dir, file + "." + ext);
-
-
-			var sfd = new SaveFileDialog();
-			sfd.Title            = "Save blueprint as ...";
-			sfd.FileName         = file + "." + ext;
-//			sfd.DefaultExt       = ext;
-			sfd.Filter           = "blueprints (*." + ext + ")|*." + ext + "|all files (*.*)|*.*";
-			sfd.InitialDirectory = dir;
-			sfd.RestoreDirectory = true;
-
-
-			if (sfd.ShowDialog() == DialogResult.OK)
-			{
-				IOEISerializable serializable = iblueprint;
-				if (serializable != null)
-					serializable.OEISerialize(fullpath);
-			}
+			SaveTo(iblueprint, NWN2ToolsetMainForm.App.Module.Repository.Name);
 		}
 
 		internal static void SaveToCampaign(INWN2Blueprint iblueprint)
 		{
-			string dir  = NWN2CampaignManager.Instance.ActiveCampaign.Repository.DirectoryName;
-			string file = iblueprint.Resource.ResRef.Value;
-			string ext  = BWResourceTypes.GetFileExtension(iblueprint.Resource.ResourceType);
-
-			string fullpath = Path.Combine(dir, file + "." + ext);
-
-
-			var sfd = new SaveFileDialog();
-			sfd.Title            = "Save blueprint as ...";
-			sfd.FileName         = file + "." + ext;
-//			sfd.DefaultExt       = ext;
-			sfd.Filter           = "blueprints (*." + ext + ")|*." + ext + "|all files (*.*)|*.*";
-			sfd.InitialDirectory = dir;
-			sfd.RestoreDirectory = true;
-
-
-			if (sfd.ShowDialog() == DialogResult.OK)
-			{
-				IOEISerializable serializable = iblueprint;
-				if (serializable != null)
-					serializable.OEISerialize(fullpath);
-			}
+			SaveTo(iblueprint, NWN2CampaignManager.Instance.ActiveCampaign.Repository.DirectoryName);
 		}
 
 		/// <summary>
@@ -128,11 +100,15 @@ namespace creaturevisualizer
 			if (iblueprint != null)
 				SaveToCampaign(iblueprint);
 		}
+		#endregion Methods (internal)
 
+
+		#region Methods (private)
 		static INWN2Blueprint CreateBlueprint(INWN2Instance iinstance)
 		{
 			// cf ElectronPanel_.CreateInstance()
 
+			// - is OBSOLETE
 			if (iinstance.Template == null)// || instance.Template.ResourceType != (ushort)2027) // utc
 			{
 //				CreVisF.BypassCreate = true;
@@ -197,6 +173,8 @@ namespace creaturevisualizer
 			}
 			return null;
 		}
+		#endregion Methods (private)
+
 		// NWN2Toolset.NWN2.Data.Instances.NWN2CreatureInstance
 /*		public static NWN2CreatureBlueprint CreateBlueprintFromInstance(NWN2CreatureInstance instance, IResourceRepository repository, bool rename)
 		{
@@ -244,7 +222,7 @@ namespace creaturevisualizer
 		} */
 
 
-
+		#region Methods (stupid)
 		static void PrintResourceTypes()
 		{
 //			// Create a file to write to.
@@ -376,5 +354,6 @@ namespace creaturevisualizer
 			// to be user-friendly for the creation of plugins don't obfuscate
 			// the shit that's needed to write those plugins.
 		}
+		#endregion Methods (stupid)
 	}
 }

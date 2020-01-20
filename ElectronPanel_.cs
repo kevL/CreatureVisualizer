@@ -656,6 +656,7 @@ namespace creaturevisualizer
 			// cf Io.CreateBlueprint()
 
 			// TODO: allow Instances w/out a valid Template ... (although it should be discouraged)
+			// - is OBSOLETE
 			if (iinstance.Template == null)
 //				|| (   iinstance.Template.ResourceType != (ushort)2027		// utc // use 'iinstance.ObjectType' if anything.
 //					&& iinstance.Template.ResourceType != (ushort)2042		// utd
@@ -691,6 +692,8 @@ namespace creaturevisualizer
 */
 //				return instance;
 
+				// NOT SURE ABOUT THIS: SerializationClone() appears to create an
+				// ad hoc Template of type .RES (if a valid Template is not found).
 				var instance = (INWN2Instance)CommonUtils.SerializationClone(iinstance);
 				instance.Area = iinstance.Area;
 				return instance;
