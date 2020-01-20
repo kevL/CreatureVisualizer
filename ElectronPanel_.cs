@@ -435,16 +435,13 @@ namespace creaturevisualizer
 
 			if (MousePanel != null && !MousePanel.IsDisposed) // safety. ElectronPanel.MousePanel could go disposed for no good reason.
 			{
-				//viewer.AreaNetDisplayWindow.Scene
-				//viewer.SelectedNDOs
-
 				bool different = false;
 
 // first check areaviewer for a selected Instance ->
-				NWN2AreaViewer viewer;
+				NWN2AreaViewer areaviewer;
 				NWN2InstanceCollection collection;
-				if ((viewer = NWN2ToolsetMainForm.App.GetActiveViewer() as NWN2AreaViewer) != null
-					&& (collection = viewer.SelectedInstances) != null && collection.Count == 1
+				if ((areaviewer = NWN2ToolsetMainForm.App.GetActiveViewer() as NWN2AreaViewer) != null
+					&& (collection = areaviewer.SelectedInstances) != null && collection.Count == 1
 					&& (   collection[0] is NWN2CreatureTemplate
 						|| collection[0] is NWN2DoorTemplate
 						|| collection[0] is NWN2PlaceableTemplate))
@@ -462,7 +459,7 @@ namespace creaturevisualizer
 						_f.PrintResourceInfo(Instance);
 
 
-						if ((Instance as NWN2CreatureTemplate) != null)
+						if (Instance.ObjectType == NWN2ObjectType.Creature)
 						{
 							_f.bu_creature_apply.Enabled = Instance.Template != null;	// NOTE: 'Template' should actually be 'Resource'
 							_f.EnableCreaturePage(true);								// like ya know 'Blueprint.Resource' is ...
@@ -482,9 +479,9 @@ namespace creaturevisualizer
 					object[] selection = blueprintview.Selection;
 					if (selection != null && selection.Length == 1)
 					{
-						NWN2ObjectType type = blueprintview.GetFocusedListObjectType();
+						NWN2ObjectType objecttype = (selection[0] as INWN2Template).ObjectType; // better not be null
 
-						switch (type)
+						switch (objecttype)
 						{
 							case NWN2ObjectType.Creature:
 							case NWN2ObjectType.Door:
@@ -501,7 +498,7 @@ namespace creaturevisualizer
 								_f.PrintResourceInfo(Blueprint);
 
 
-								switch (type)
+								switch (objecttype)
 								{
 									case NWN2ObjectType.Creature:
 										_f.bu_creature_apply.Enabled = (Blueprint.Resource.Repository as DirectoryResourceRepository) != null;

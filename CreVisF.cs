@@ -264,79 +264,51 @@ namespace creaturevisualizer
 			_panel.CreateModel();
 		}
 
+
 		bool _inserted;
-//		object _object;
 		void OnObjectsInserted(OEICollectionWithEvents cList, int index, object value)
 		{
-//			if (_object != value) // doesn't work as expected ...
-//			{
-//				_object = value;
+			// NOTE: The object could get inserted to 1+ collections
+			// causing this to fire for every one. In practice I've
+			// seen 1..3 repeats.
+			// Ironically this does *not* fire when drag selecting objects.
 
 			if (!_inserted)
 			{
-				var viewer = NWN2ToolsetMainForm.App.GetActiveViewer() as NWN2AreaViewer;
-				if (viewer != null)
+				var areaviewer = NWN2ToolsetMainForm.App.GetActiveViewer() as NWN2AreaViewer;
+				if (areaviewer != null)
 				{
-					NWN2InstanceCollection collection = viewer.SelectedInstances;
+					NWN2InstanceCollection collection = areaviewer.SelectedInstances;
 					if (collection != null && collection.Count == 1
 						&& (   collection[0] is NWN2CreatureTemplate
 							|| collection[0] is NWN2DoorTemplate
 							|| collection[0] is NWN2PlaceableTemplate))
 					{
-						// NOTE: The object could get inserted to 1+ collections
-						// causing this to fire for every one. In practice I've
-						// seen 1..3 repeats.
-						// Ironically this does *not* fire when drag selecting objects.
-
-//						if (_panel.Instance == null || _panel.Instance != _panel.Instance_base) // doesn't work as expected ...
-//						{
-//						var type = collection[0].ObjectType;
-//						var name = collection[0].Name;
-//						MessageBox.Show("OnObjectsInserted() type= " + type + " name= " + name);
-
-						_inserted = true;		// this prevents the infinite loop that would occur
-						_panel.CreateModel();	// as the object is added to the visualizer panel also.
+						_inserted = true;		// this prevents the infinite loop that would occur as the
+						_panel.CreateModel();	// object is added to the visualizer's object-collection also.
 						_inserted = false;
-//						}
 					}
 				}
 			}
-//			}
-			// enough f'ing around with this/their crap.
 		}
 
+		/// <summary>
+		/// This is not SelectionChanged; it's a straightforward click-event.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		void OnBlueprintSelectionChanged(object sender, BlueprintSelectionChangedEventArgs e)
 		{
-			// going to kill those morons ......
-			// This is not SelectionChanged; it's a straightforward click-event.
-
-			NWN2BlueprintView blueprintview = NWN2ToolsetMainForm.App.BlueprintView;
-
-			object[] selection = blueprintview.Selection;
-			if (selection != null && selection.Length == 1
-				&& (selection[0] as INWN2Blueprint) != null
-				&& (   _panel.Blueprint_base == null
-					|| _panel.Blueprint_base != selection[0] as INWN2Blueprint))
+			if (!IsAreaInstanceSelected()) // doesn't appear to help at all - could even be worse
 			{
-				switch (blueprintview.GetFocusedListObjectType())
+				NWN2BlueprintView blueprintview = NWN2ToolsetMainForm.App.BlueprintView;
+				object[] selection = blueprintview.Selection;
+				if (selection != null && selection.Length == 1
+					&& (selection[0] as INWN2Template) != null
+					&& (   _panel.Blueprint_base == null
+						|| _panel.Blueprint_base != selection[0] as INWN2Template))
 				{
-					case NWN2ObjectType.Creature:
-					case NWN2ObjectType.Door:
-					case NWN2ObjectType.Placeable:
-					case NWN2ObjectType.PlacedEffect:
-					case NWN2ObjectType.Item:
-						_panel.CreateModel();
-						break;
-				}
-			}
-/*			if (e.OldSelection == null
-				|| (e.Selection != null && e.Selection.Length == 1
-					&& e.Selection != e.OldSelection))
-			{
-				if (   (e.Selection[0] as INWN2Blueprint) != null
-					&& (e.Selection[0] as INWN2Blueprint) != _panel.Blueprint_base)
-				{
-					switch ((e.Selection[0] as INWN2Blueprint).ObjectType)
+					switch ((e.Selection[0] as INWN2Template).ObjectType)
 					{
 						case NWN2ObjectType.Creature:
 						case NWN2ObjectType.Door:
@@ -347,9 +319,24 @@ namespace creaturevisualizer
 							break;
 					}
 				}
-				// else clear perhaps
 			}
-			// else clear perhaps */
+		}
+
+		bool IsAreaInstanceSelected()
+		{
+			var areaviewer = NWN2ToolsetMainForm.App.GetActiveViewer() as NWN2AreaViewer;
+			if (areaviewer != null)
+			{
+				NWN2InstanceCollection collection = areaviewer.SelectedInstances;
+				if (collection != null && collection.Count == 1
+					&& (   collection[0] is NWN2CreatureTemplate
+						|| collection[0] is NWN2DoorTemplate
+						|| collection[0] is NWN2PlaceableTemplate))
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 
 		void OnActiveCampaignChanged(NWN2Campaign cOldCampaign, NWN2Campaign cNewCampaign)
@@ -1822,24 +1809,26 @@ namespace creaturevisualizer
 		#region Handlers (creature)
 		internal void ClearResourceInfo()
 		{
-			la_type         .Text =
-			la_name         .Text =
-			la_itype        .Text =
-			la_resref       .Text =
-			la_template     .Text =
-			la_repotype     .Text =
-			la_file_inst    .Text =
-			la_template_inst.Text =
-			la_restype_inst .Text =
-			la_repo_inst    .Text =
-			la_areatag      .Text = String.Empty;
+			la_type           .Text =
+			la_name           .Text =
+			la_itype          .Text =
+			la_resref         .Text =
+			la_template       .Text =
+			la_repotype       .Text =
+			la_resource_file  .Text =
+			la_resource_resref.Text =
+			la_resource_type  .Text =
+			la_resource_repo  .Text =
+			la_areatag        .Text = String.Empty;
 
 			toolTip1.Active = false;
-			toolTip1.SetToolTip(la_repo_inst, String.Empty);
+			toolTip1.SetToolTip(la_resource_repo, String.Empty);
 		}
 
 		internal void PrintResourceInfo(INWN2Template template)
 		{
+			la_head_resource.Text = "RESOURCE";
+
 			// TEMPLATE
 			// Name					string
 			// ObjectType			NWN2ObjectType
@@ -1883,24 +1872,24 @@ namespace creaturevisualizer
 				else
 					la_repotype.Text = "stock resource";
 
+				la_areatag.Text = "-";
+
 				if (blueprint.Resource != null)
 				{
 					// NOTE: Use the instance fields to show a blueprint's Resource info.
 					// If you want to see Resource info for a blueprint's Template go find the template ...
 
-					la_file_inst    .Text = blueprint.Resource.FullName;
-					la_template_inst.Text = blueprint.Resource.ResRef.Value;									// <- redundant
-					la_restype_inst .Text = BWResourceTypes.GetFileExtension(blueprint.Resource.ResourceType);	// <- redundant
+					la_resource_file  .Text = blueprint.Resource.FullName;
+					la_resource_resref.Text = blueprint.Resource.ResRef.Value;										// <- redundant
+					la_resource_type  .Text = BWResourceTypes.GetFileExtension(blueprint.Resource.ResourceType);	// <- redundant
 
 					if (blueprint.Resource.Repository != null && !String.IsNullOrEmpty(blueprint.Resource.Repository.Name))
 					{
 						SetRepoText(blueprint.Resource.Repository.Name);
 					}
 					else
-						la_repo_inst.Text = "invalid";
+						la_resource_repo.Text = "invalid";
 				}
-
-				la_areatag.Text = "-";
 			}
 			// INSTANCE (inherits TEMPLATE)
 			// Template				IResourceEntry
@@ -1910,6 +1899,8 @@ namespace creaturevisualizer
 			// ObjectID				Guid
 			else if ((template as INWN2Instance) != null)
 			{
+				la_head_resource.Text += " Template";
+
 				la_itype.Text = "INWN2Instance";
 
 				var instance = template as INWN2Instance;
@@ -1918,31 +1909,31 @@ namespace creaturevisualizer
 				la_template.Text =
 				la_repotype.Text = "-";
 
-				if (instance.Template != null)
+				if (instance.Area != null)
+					la_areatag.Text = instance.Area.Tag;
+				else
+					la_areatag.Text = "invalid";
+
+				if (instance.Template != null) // ie. template-resource (IResourceEntry)
 				{
-					la_file_inst    .Text = instance.Template.FullName;
-					la_template_inst.Text = instance.Template.ResRef.Value;										// <- redundant
-					la_restype_inst .Text = BWResourceTypes.GetFileExtension(instance.Template.ResourceType);	// <- redundant
+					la_resource_file  .Text = instance.Template.FullName;
+					la_resource_resref.Text = instance.Template.ResRef.Value;										// <- redundant
+					la_resource_type  .Text = BWResourceTypes.GetFileExtension(instance.Template.ResourceType);	// <- redundant
 
 					if (instance.Template.Repository != null)
 					{
 						SetRepoText(instance.Template.Repository.Name);
 					}
 					else
-						la_repo_inst.Text = "invalid";
+						la_resource_repo.Text = "invalid";
 				}
 				else
 				{
-					la_file_inst    .Text =
-					la_template_inst.Text =
-					la_restype_inst .Text =
-					la_repo_inst    .Text = "invalid";
+					la_resource_file  .Text =
+					la_resource_resref.Text =
+					la_resource_type  .Text =
+					la_resource_repo  .Text = "invalid";
 				}
-
-				if (instance.Area != null)
-					la_areatag.Text = instance.Area.Tag;
-				else
-					la_areatag.Text = "invalid";
 			}
 		}
 
@@ -1959,8 +1950,8 @@ namespace creaturevisualizer
 				}
 			} */
 			toolTip1.Active = true;
-			toolTip1.SetToolTip(la_repo_inst, repo);
-			la_repo_inst.Text = repo;
+			toolTip1.SetToolTip(la_resource_repo, repo);
+			la_resource_repo.Text = repo;
 		}
 
 		void click_bu_creature_display(object sender, EventArgs e)
