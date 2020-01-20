@@ -124,11 +124,9 @@ namespace creaturevisualizer
 
 				switch (iinstance.ObjectType)
 				{
-					case NWN2ObjectType.Creature:     iblueprint = new NWN2CreatureBlueprint();     break;
-					case NWN2ObjectType.Door:         iblueprint = new NWN2DoorBlueprint();         break;
-					case NWN2ObjectType.Placeable:    iblueprint = new NWN2PlaceableBlueprint();    break;
-//					case NWN2ObjectType.PlacedEffect: iblueprint = new NWN2PlacedEffectBlueprint(); break;
-//					case NWN2ObjectType.Item:         iblueprint = new NWN2ItemBlueprint();         break;
+					case NWN2ObjectType.Creature:  iblueprint = new NWN2CreatureBlueprint();  break;
+					case NWN2ObjectType.Door:      iblueprint = new NWN2DoorBlueprint();      break;
+					case NWN2ObjectType.Placeable: iblueprint = new NWN2PlaceableBlueprint(); break;
 				}
 
 				if (iblueprint != null)
