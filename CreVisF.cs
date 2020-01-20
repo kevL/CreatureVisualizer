@@ -1917,7 +1917,7 @@ namespace creaturevisualizer
 				if (instance.Template != null) // ie. template-resource (IResourceEntry)
 				{
 					la_resource_file  .Text = instance.Template.FullName;
-					la_resource_resref.Text = instance.Template.ResRef.Value;										// <- redundant
+					la_resource_resref.Text = instance.Template.ResRef.Value;									// <- redundant
 					la_resource_type  .Text = BWResourceTypes.GetFileExtension(instance.Template.ResourceType);	// <- redundant
 
 					if (instance.Template.Repository != null)
