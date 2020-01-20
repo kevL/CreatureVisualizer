@@ -452,7 +452,9 @@ namespace creaturevisualizer
 						different = true;
 					}
 
+					//MessageBox.Show("call CreateInstance()");
 					Instance = CreateInstance(Instance_base);
+					//MessageBox.Show("instance created");
 
 					if (Instance != null)
 					{
@@ -461,11 +463,10 @@ namespace creaturevisualizer
 
 						if (Instance.ObjectType == NWN2ObjectType.Creature)
 						{
-							_f.bu_creature_apply.Enabled = Instance.Template != null;	// NOTE: 'Template' should actually be 'Resource'
-							_f.EnableCreaturePage(true);								// like ya know 'Blueprint.Resource' is ...
-
-							_f.InitGender((Instance as NWN2CreatureTemplate).Gender);
-
+							_f.bu_creature_apply.Enabled = Instance.Template != null;	// NOTE: 'Template' should actually be 'Resource' or 'TemplateResource'
+							_f.EnableCreaturePage(true);								// like ya know 'Blueprint.Resource' is ... since it's not a 'Template'
+																						// it's a 'ResourceEntry'. 'Template' has a distinct meaning and it's
+							_f.InitGender((Instance as NWN2CreatureTemplate).Gender);	// not 'ResourceEntry'.
 						}
 					}
 
@@ -610,7 +611,11 @@ namespace creaturevisualizer
 				}
 
 
-				OEIResRef resref = null;
+				OEIResRef resref = iblueprint.Resource.ResRef; // 'Resource.Resref' IS 'ResourceName'
+				IResourceRepository repo = iblueprint.Resource.Repository;
+				blueprint.Resource = repo.CreateResource(resref, (iblueprint as INWN2Object).ResourceType);
+
+/*				OEIResRef resref = null;
 				IResourceRepository repo = null;
 				// Theory #187: if 'IResourceRepository' derives to 'ResourceRepository'
 				// then the blueprint is a stock blueprint in the data/.zip files; but
@@ -641,7 +646,7 @@ namespace creaturevisualizer
 				}
 
 				if (resref != null && repo != null) // should always happen.
-					blueprint.Resource = repo.CreateResource(resref, (iblueprint as INWN2Object).ResourceType);
+					blueprint.Resource = repo.CreateResource(resref, (iblueprint as INWN2Object).ResourceType); */
 
 				return blueprint;
 			}
@@ -654,10 +659,14 @@ namespace creaturevisualizer
 
 			// TODO: allow Instances w/out a valid Template ... (although it should be discouraged)
 			// - is OBSOLETE
-			if (iinstance.Template == null)
-//				|| (   iinstance.Template.ResourceType != (ushort)2027		// utc // use 'iinstance.ObjectType' if anything.
-//					&& iinstance.Template.ResourceType != (ushort)2042		// utd
-//					&& iinstance.Template.ResourceType != (ushort)2044))	// utp
+
+			// NOTE: Instances without any value for "Template" have a null template ResourceEntry
+			// while Instances with an invalid value for "Template" are ResourceType 0 .RES
+
+			if (iinstance.Template == null
+				|| (   iinstance.Template.ResourceType != (ushort)2027		// utc // use 'iinstance.ObjectType' if anything.
+					&& iinstance.Template.ResourceType != (ushort)2042		// utd
+					&& iinstance.Template.ResourceType != (ushort)2044))	// utp
 			{
 //				CreVisF.BypassCreate = true;
 
