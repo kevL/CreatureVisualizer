@@ -415,156 +415,156 @@ namespace creaturevisualizer
 			// and will bypass most of these shenanigans.
 
 
-			if (!CreVisF.BypassCreate) // don't recreate the instance when returning from a dialog when "RefreshOnFocus" is enabled.
+//			if (!CreVisF.BypassCreate) // don't recreate the instance when returning from a dialog when "RefreshOnFocus" is enabled.
+//			{
+			if (Blueprint != null)
 			{
-				if (Blueprint != null)
-				{
-					// ask to ignore, Apply (if not stock resource), or save-to-file (disable the Cancel option)
-					_f.ConfirmClose(false);
-				}
+				// ask to ignore, Apply (if not stock resource), or save-to-file (disable the Cancel option)
+				_f.ConfirmClose(false);
+			}
 
 
-				_f.ClearResourceInfo();
-				_f.Changed = CreVisF.ChangedType.ct_nul; // set '_f.Text'
+			_f.ClearResourceInfo();
+			_f.Changed = CreVisF.ChangedType.ct_nul; // set '_f.Text'
 
-				Blueprint = null; // is instantiated only by a Blueprint
-				Instance  = null; // is instantiated by either a Blueprint or an Instance
+			Blueprint = null; // is instantiated only by a Blueprint
+			Instance  = null; // is instantiated by either a Blueprint or an Instance
 
-				_f.bu_creature_apply.Enabled = false;
-				_f.EnableCreaturePage(false);
+			_f.bu_creature_apply.Enabled = false;
+			_f.EnableCreaturePage(false);
 
-				if (MousePanel != null && !MousePanel.IsDisposed) // safety. ElectronPanel.MousePanel could go disposed for no good reason.
-				{
-					//viewer.AreaNetDisplayWindow.Scene
-					//viewer.SelectedNDOs
+			if (MousePanel != null && !MousePanel.IsDisposed) // safety. ElectronPanel.MousePanel could go disposed for no good reason.
+			{
+				//viewer.AreaNetDisplayWindow.Scene
+				//viewer.SelectedNDOs
 
-					bool different = false;
+				bool different = false;
 
 // first check areaviewer for a selected Instance ->
-					NWN2AreaViewer viewer;
-					NWN2InstanceCollection collection;
-					if ((viewer = NWN2ToolsetMainForm.App.GetActiveViewer() as NWN2AreaViewer) != null
-						&& (collection = viewer.SelectedInstances) != null && collection.Count == 1
-						&& (   collection[0] is NWN2CreatureTemplate
-							|| collection[0] is NWN2DoorTemplate
-							|| collection[0] is NWN2PlaceableTemplate))
+				NWN2AreaViewer viewer;
+				NWN2InstanceCollection collection;
+				if ((viewer = NWN2ToolsetMainForm.App.GetActiveViewer() as NWN2AreaViewer) != null
+					&& (collection = viewer.SelectedInstances) != null && collection.Count == 1
+					&& (   collection[0] is NWN2CreatureTemplate
+						|| collection[0] is NWN2DoorTemplate
+						|| collection[0] is NWN2PlaceableTemplate))
+				{
+					if (Instance_base == null || (collection[0] as INWN2Instance) != Instance_base)
 					{
-						if (Instance_base == null || (collection[0] as INWN2Instance) != Instance_base)
-						{
-							Instance_base = collection[0] as INWN2Instance;
-							different = true;
-						}
-
-						Instance = CreateInstance(Instance_base);
-
-						if (Instance != null)
-						{
-							_f.PrintResourceInfo(Instance);
-
-
-							if ((Instance as NWN2CreatureTemplate) != null)
-							{
-								_f.bu_creature_apply.Enabled = Instance.Template != null;	// NOTE: 'Template' should actually be 'Resource'
-								_f.EnableCreaturePage(true);								// like ya know 'Blueprint.Resource' is ...
-
-								_f.InitGender((Instance as NWN2CreatureTemplate).Gender);
-
-							}
-						}
-
-						_f.bu_creature_apply.Text = "APPLY to Instance";
+						Instance_base = collection[0] as INWN2Instance;
+						different = true;
 					}
-// second check blueprint lists for a selected Blueprint ->
-					else
+
+					Instance = CreateInstance(Instance_base);
+
+					if (Instance != null)
 					{
-						NWN2BlueprintView blueprintview = NWN2ToolsetMainForm.App.BlueprintView;
+						_f.PrintResourceInfo(Instance);
 
-						object[] selection = blueprintview.Selection;
-						if (selection != null && selection.Length == 1)
+
+						if ((Instance as NWN2CreatureTemplate) != null)
 						{
-							NWN2ObjectType type = blueprintview.GetFocusedListObjectType();
+							_f.bu_creature_apply.Enabled = Instance.Template != null;	// NOTE: 'Template' should actually be 'Resource'
+							_f.EnableCreaturePage(true);								// like ya know 'Blueprint.Resource' is ...
 
-							switch (type)
-							{
-								case NWN2ObjectType.Creature:
-								case NWN2ObjectType.Door:
-								case NWN2ObjectType.Placeable:
-								case NWN2ObjectType.PlacedEffect:
-								case NWN2ObjectType.Item:
-									if (Blueprint_base == null || (selection[0] as INWN2Blueprint) != Blueprint_base)
-									{
-										Blueprint_base = selection[0] as INWN2Blueprint;
-										different = true;
-									}
+							_f.InitGender((Instance as NWN2CreatureTemplate).Gender);
 
-									Blueprint = CreateBlueprint(Blueprint_base);
-									_f.PrintResourceInfo(Blueprint);
+						}
+					}
+
+					_f.bu_creature_apply.Text = "APPLY to Instance";
+				}
+// second check blueprint lists for a selected Blueprint ->
+				else
+				{
+					NWN2BlueprintView blueprintview = NWN2ToolsetMainForm.App.BlueprintView;
+
+					object[] selection = blueprintview.Selection;
+					if (selection != null && selection.Length == 1)
+					{
+						NWN2ObjectType type = blueprintview.GetFocusedListObjectType();
+
+						switch (type)
+						{
+							case NWN2ObjectType.Creature:
+							case NWN2ObjectType.Door:
+							case NWN2ObjectType.Placeable:
+							case NWN2ObjectType.PlacedEffect:
+							case NWN2ObjectType.Item:
+								if (Blueprint_base == null || (selection[0] as INWN2Blueprint) != Blueprint_base)
+								{
+									Blueprint_base = selection[0] as INWN2Blueprint;
+									different = true;
+								}
+
+								Blueprint = CreateBlueprint(Blueprint_base);
+								_f.PrintResourceInfo(Blueprint);
 
 
-									switch (type)
-									{
-										case NWN2ObjectType.Creature:
-											_f.bu_creature_apply.Enabled = (Blueprint.Resource.Repository as DirectoryResourceRepository) != null;
-											_f.EnableCreaturePage(true);
+								switch (type)
+								{
+									case NWN2ObjectType.Creature:
+										_f.bu_creature_apply.Enabled = (Blueprint.Resource.Repository as DirectoryResourceRepository) != null;
+										_f.EnableCreaturePage(true);
 
-											_f.InitGender((Blueprint as NWN2CreatureTemplate).Gender);
+										_f.InitGender((Blueprint as NWN2CreatureTemplate).Gender);
 
 /*
-//											((NWN2CreatureBlueprint)blueprint).AppearanceHair; // byte
-											// etc ...
+//										((NWN2CreatureBlueprint)blueprint).AppearanceHair; // byte
+										// etc ...
 
-											// bool ->
-											((NWN2CreatureBlueprint)blueprint).AppearanceFacialHair;
+										// bool ->
+										((NWN2CreatureBlueprint)blueprint).AppearanceFacialHair;
 
-											((NWN2CreatureBlueprint)blueprint).HasBelt;
-											((NWN2CreatureBlueprint)blueprint).HasBoots;
-											((NWN2CreatureBlueprint)blueprint).HasCloak;
-											((NWN2CreatureBlueprint)blueprint).HasGloves;
-											((NWN2CreatureBlueprint)blueprint).HasHelm;
+										((NWN2CreatureBlueprint)blueprint).HasBelt;
+										((NWN2CreatureBlueprint)blueprint).HasBoots;
+										((NWN2CreatureBlueprint)blueprint).HasCloak;
+										((NWN2CreatureBlueprint)blueprint).HasGloves;
+										((NWN2CreatureBlueprint)blueprint).HasHelm;
 
-											((NWN2CreatureBlueprint)blueprint).NeverDrawHelmet;
-											((NWN2CreatureBlueprint)blueprint).NeverShowArmor;
+										((NWN2CreatureBlueprint)blueprint).NeverDrawHelmet;
+										((NWN2CreatureBlueprint)blueprint).NeverShowArmor;
 
-											// TwoDAReference ->
-											((NWN2CreatureBlueprint)blueprint).Tail;
-											((NWN2CreatureBlueprint)blueprint).Wings;
+										// TwoDAReference ->
+										((NWN2CreatureBlueprint)blueprint).Tail;
+										((NWN2CreatureBlueprint)blueprint).Wings;
 
-											// OEITintSet ->
-											((NWN2CreatureBlueprint)blueprint).BaseTint;
-											((NWN2CreatureBlueprint)blueprint).Tint;
-											((NWN2CreatureBlueprint)blueprint).TintHair;
-											((NWN2CreatureBlueprint)blueprint).TintHead;
+										// OEITintSet ->
+										((NWN2CreatureBlueprint)blueprint).BaseTint;
+										((NWN2CreatureBlueprint)blueprint).Tint;
+										((NWN2CreatureBlueprint)blueprint).TintHair;
+										((NWN2CreatureBlueprint)blueprint).TintHead;
 
-											// Color ->
-											((NWN2CreatureBlueprint)blueprint).TintArmor1;
-											((NWN2CreatureBlueprint)blueprint).TintArmor2;
-											((NWN2CreatureBlueprint)blueprint).TintEyes;
-											((NWN2CreatureBlueprint)blueprint).TintFacialHair;
-											((NWN2CreatureBlueprint)blueprint).TintHair1;
-											((NWN2CreatureBlueprint)blueprint).TintHair2;
-											((NWN2CreatureBlueprint)blueprint).TintHairAccessory;
-											((NWN2CreatureBlueprint)blueprint).TintSkin;
+										// Color ->
+										((NWN2CreatureBlueprint)blueprint).TintArmor1;
+										((NWN2CreatureBlueprint)blueprint).TintArmor2;
+										((NWN2CreatureBlueprint)blueprint).TintEyes;
+										((NWN2CreatureBlueprint)blueprint).TintFacialHair;
+										((NWN2CreatureBlueprint)blueprint).TintHair1;
+										((NWN2CreatureBlueprint)blueprint).TintHair2;
+										((NWN2CreatureBlueprint)blueprint).TintHairAccessory;
+										((NWN2CreatureBlueprint)blueprint).TintSkin;
 */
 
-											goto case NWN2ObjectType.Item;
+										goto case NWN2ObjectType.Item;
 
-										case NWN2ObjectType.Door:
-										case NWN2ObjectType.Placeable:
-										case NWN2ObjectType.PlacedEffect:
-										case NWN2ObjectType.Item: // <- TODO: works for weapons (see Preview tab) but clothes appear on a default creature (in the ArmorSet tab)
-											Instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(Blueprint);
-											break;
-									}
-									break;
-							}
+									case NWN2ObjectType.Door:
+									case NWN2ObjectType.Placeable:
+									case NWN2ObjectType.PlacedEffect:
+									case NWN2ObjectType.Item: // <- TODO: works for weapons (see Preview tab) but clothes appear on a default creature (in the ArmorSet tab)
+										Instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(Blueprint);
+										break;
+								}
+								break;
 						}
-
-						_f.bu_creature_apply.Text = "APPLY to Blueprint";
 					}
 
-					AddModel(different);
+					_f.bu_creature_apply.Text = "APPLY to Blueprint";
 				}
+
+				AddModel(different);
 			}
+//			}
 		}
 
 		/// <summary>
@@ -661,12 +661,12 @@ namespace creaturevisualizer
 //					&& iinstance.Template.ResourceType != (ushort)2042		// utd
 //					&& iinstance.Template.ResourceType != (ushort)2044))	// utp
 			{
-				CreVisF.BypassCreate = true;
+//				CreVisF.BypassCreate = true;
 
 				using (var f = new ErrorF("The instance's Template is invalid."))
 					f.ShowDialog();
 
-				CreVisF.BypassCreate = false;
+//				CreVisF.BypassCreate = false;
 			}
 			else
 			{

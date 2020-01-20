@@ -31,7 +31,7 @@ namespace creaturevisualizer
 			var sfd = new SaveFileDialog();
 			sfd.Title      = "Save blueprint as ...";
 			sfd.FileName   = iblueprint.Resource.FullName;
-			sfd.DefaultExt = ext;
+//			sfd.DefaultExt = ext;
 			sfd.Filter     = "blueprints (*." + ext + ")|*." + ext + "|all files (*.*)|*.*";
 
 			if (!String.IsNullOrEmpty( CreatureVisualizerPreferences.that.LastSaveDirectory))
@@ -62,7 +62,7 @@ namespace creaturevisualizer
 			var sfd = new SaveFileDialog();
 			sfd.Title            = "Save blueprint as ...";
 			sfd.FileName         = file + "." + ext;
-			sfd.DefaultExt       = ext;
+//			sfd.DefaultExt       = ext;
 			sfd.Filter           = "blueprints (*." + ext + ")|*." + ext + "|all files (*.*)|*.*";
 			sfd.InitialDirectory = dir;
 			sfd.RestoreDirectory = true;
@@ -88,7 +88,7 @@ namespace creaturevisualizer
 			var sfd = new SaveFileDialog();
 			sfd.Title            = "Save blueprint as ...";
 			sfd.FileName         = file + "." + ext;
-			sfd.DefaultExt       = ext;
+//			sfd.DefaultExt       = ext;
 			sfd.Filter           = "blueprints (*." + ext + ")|*." + ext + "|all files (*.*)|*.*";
 			sfd.InitialDirectory = dir;
 			sfd.RestoreDirectory = true;
@@ -135,12 +135,12 @@ namespace creaturevisualizer
 
 			if (iinstance.Template == null)// || instance.Template.ResourceType != (ushort)2027) // utc
 			{
-				CreVisF.BypassCreate = true;
+//				CreVisF.BypassCreate = true;
 
 				using (var f = new ErrorF("The instance's Template is invalid."))
 					f.ShowDialog();
 
-				CreVisF.BypassCreate = false;
+//				CreVisF.BypassCreate = false;
 			}
 			else
 			{

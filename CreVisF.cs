@@ -616,7 +616,7 @@ namespace creaturevisualizer
 
 				case ChangedType.ct_Vi:		// blueprint/instance is different than visualizer creature
 				{
-					BypassCreate = true;	// do not refresh creature on return to the visualizer (if RefreshOnFocus happens to be active)
+//					BypassCreate = true;	// do not refresh creature on return to the visualizer (if RefreshOnFocus happens to be active)
 
 					CloseF.InstanceType type; bool hasresdir;
 					if (_panel.Blueprint != null)
@@ -654,7 +654,7 @@ namespace creaturevisualizer
 								break;
 						}
 					}
-					BypassCreate = false;
+//					BypassCreate = false;
 					break;
 				}
 			}
@@ -721,7 +721,7 @@ namespace creaturevisualizer
 //				_panel.Blueprint_base = _panel.Blueprint; // TODO ...
 				// TODO: update blueprint tree
 //				NWN2BlueprintView blueprintview = NWN2ToolsetMainForm.App.BlueprintView;
-//				blueprintview.ResetContents(); // doesn't work.
+//				blueprintview.ResetContents(); // doesn't work as expected ...
 			}
 			else if (_panel.Instance != null)
 			{
@@ -1546,7 +1546,7 @@ namespace creaturevisualizer
 
 
 
-		internal static bool BypassCreate;
+//		internal static bool BypassCreate;
 
 		ColorF _sano;
 
@@ -1557,7 +1557,7 @@ namespace creaturevisualizer
 				switch (e.Button)
 				{
 					case MouseButtons.Left:
-						BypassCreate = true;
+//						BypassCreate = true;
 
 						_sano = new ColorF();
 						_sano.ColorControl.ColorChanged += colorchanged_diff;
@@ -1592,7 +1592,7 @@ namespace creaturevisualizer
 						_sano.Dispose();
 						_sano = null;
 		
-						BypassCreate = false;
+//						BypassCreate = false;
 						break;
 
 					case MouseButtons.Right:
@@ -1617,7 +1617,7 @@ namespace creaturevisualizer
 				switch (e.Button)
 				{
 					case MouseButtons.Left:
-						BypassCreate = true;
+//						BypassCreate = true;
 
 						_sano = new ColorF();
 						_sano.ColorControl.ColorChanged += colorchanged_spec;
@@ -1652,7 +1652,7 @@ namespace creaturevisualizer
 						_sano.Dispose();
 						_sano = null;
 		
-						BypassCreate = false;
+//						BypassCreate = false;
 						break;
 
 					case MouseButtons.Right:
@@ -1677,7 +1677,7 @@ namespace creaturevisualizer
 				switch (e.Button)
 				{
 					case MouseButtons.Left:
-						BypassCreate = true;
+//						BypassCreate = true;
 
 						_sano = new ColorF();
 						_sano.ColorControl.ColorChanged += colorchanged_ambi;
@@ -1712,7 +1712,7 @@ namespace creaturevisualizer
 						_sano.Dispose();
 						_sano = null;
 		
-						BypassCreate = false;
+//						BypassCreate = false;
 						break;
 
 					case MouseButtons.Right:
