@@ -393,6 +393,8 @@ namespace creaturevisualizer
 		/// </summary>
 		internal void CreateModel()
 		{
+			_f._bypassInsert = true;
+
 			// IMPORTANT: Policy #256 - *never* allow the instance to be other
 			// than the Blueprint or Instance that the user has currently
 			// selected. This will greatly ease the "Apply to ..." operation.
@@ -563,6 +565,7 @@ namespace creaturevisualizer
 				AddModel(different);
 			}
 //			}
+			_f._bypassInsert = false;
 		}
 
 		/// <summary>

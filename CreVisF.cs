@@ -262,9 +262,7 @@ namespace creaturevisualizer
 
 			ActiveControl = _panel;
 
-			_bypassInsert = true;
 			_panel.CreateModel();
-			_bypassInsert = false;
 		}
 
 
@@ -272,7 +270,7 @@ namespace creaturevisualizer
 		/// Prevents the infinite loop that would occur as the object is added
 		/// to the visualizer's object-collection also.
 		/// </summary>
-		bool _bypassInsert;
+		internal bool _bypassInsert;
 
 		void OnObjectsInserted(OEICollectionWithEvents cList, int index, object value)
 		{
@@ -291,9 +289,7 @@ namespace creaturevisualizer
 							|| collection[0] is NWN2DoorTemplate
 							|| collection[0] is NWN2PlaceableTemplate))
 					{
-						_bypassInsert = true;
 						_panel.CreateModel();
-						_bypassInsert = false;
 					}
 				}
 			}
@@ -322,9 +318,7 @@ namespace creaturevisualizer
 						case NWN2ObjectType.Placeable:
 						case NWN2ObjectType.PlacedEffect:
 						case NWN2ObjectType.Item:
-							_bypassInsert = true;
 							_panel.CreateModel();
-							_bypassInsert = false;
 							break;
 					}
 				}
@@ -700,9 +694,7 @@ namespace creaturevisualizer
 		#region Handlers (menu)
 		void instanceclick_Refresh(object sender, EventArgs e)
 		{
-			_bypassInsert = true;
 			_panel.CreateModel();
-			_bypassInsert = false;
 		}
 
 //		void instanceclick_RefreshOnFocus(object sender, EventArgs e)
@@ -1847,13 +1839,13 @@ namespace creaturevisualizer
 			toolTip1.SetToolTip(la_resource_repo_t, String.Empty);
 		}
 
-		internal void PrintResourceInfo(INWN2Template template)
+		internal void PrintResourceInfo(INWN2Template itemplate)
 		{
 			// TEMPLATE
 			// Name					string
 			// ObjectType			NWN2ObjectType
-			la_object.Text = Enum.GetName(typeof(NWN2ObjectType), template.ObjectType);
-			la_tag   .Text = template.Name;
+			la_object.Text = Enum.GetName(typeof(NWN2ObjectType), itemplate.ObjectType);
+			la_tag   .Text = itemplate.Name;
 
 
 			// BLUEPRINT (inherits TEMPLATE)
@@ -1862,50 +1854,50 @@ namespace creaturevisualizer
 			// TemplateResRef		OEIResRef
 			// Resource				IResourceEntry
 			// ResourceName			OEIResRef
-			if ((template as INWN2Blueprint) != null)
+			if ((itemplate as INWN2Blueprint) != null)
 			{
 				la_itype.Text = "INWN2Blueprint";
 
-				var blueprint = template as INWN2Blueprint;
+				var iblueprint = itemplate as INWN2Blueprint;
 
-				if (blueprint.Resource != null && blueprint.Resource.ResRef != null
-					&& !String.IsNullOrEmpty(blueprint.Resource.ResRef.Value))
+				if (iblueprint.Resource != null && iblueprint.Resource.ResRef != null
+					&& !String.IsNullOrEmpty(iblueprint.Resource.ResRef.Value))
 				{
-					la_resref.Text = blueprint.ResourceName.Value; // 'ResourceName' IS 'Resource.Resref'
+					la_resref.Text = iblueprint.ResourceName.Value; // 'ResourceName' IS 'Resource.Resref'
 				}
 				else
 					la_resref.Text = "invalid";
 
-				if (blueprint.TemplateResRef != null
-					&& !String.IsNullOrEmpty(blueprint.TemplateResRef.Value))
+				if (iblueprint.TemplateResRef != null
+					&& !String.IsNullOrEmpty(iblueprint.TemplateResRef.Value))
 				{
 					// TODO: search repositories for TemplateResRef and print "(not found)" if not found
-					la_template.Text = blueprint.TemplateResRef.Value;
+					la_template.Text = iblueprint.TemplateResRef.Value;
 				}
 				else
 					la_template.Text = "invalid";
 
-				if (blueprint.Resource != null
-					&& (blueprint.Resource.Repository as DirectoryResourceRepository) != null)
+				if (iblueprint.Resource != null
+					&& (iblueprint.Resource.Repository as DirectoryResourceRepository) != null)
 				{
-					la_repotype.Text = Enum.GetName(typeof(NWN2BlueprintLocationType), blueprint.BlueprintLocation);
+					la_repotype.Text = Enum.GetName(typeof(NWN2BlueprintLocationType), iblueprint.BlueprintLocation);
 				}
 				else
 					la_repotype.Text = "stock resource";
 
 				la_areatag.Text = "-";
 
-				if (blueprint.Resource != null)
+				if (iblueprint.Resource != null)
 				{
-					la_resource_file  .Text = blueprint.Resource.FullName;
-					la_resource_resref.Text = blueprint.Resource.ResRef.Value;										// <- redundant
-					la_resource_type  .Text = BWResourceTypes.GetFileExtension(blueprint.Resource.ResourceType);	// <- redundant
+					la_resource_file  .Text = iblueprint.Resource.FullName;
+					la_resource_resref.Text = iblueprint.Resource.ResRef.Value;										// <- redundant
+					la_resource_type  .Text = BWResourceTypes.GetFileExtension(iblueprint.Resource.ResourceType);	// <- redundant
 
-					if (blueprint.Resource.Repository != null && !String.IsNullOrEmpty(blueprint.Resource.Repository.Name))
+					if (iblueprint.Resource.Repository != null && !String.IsNullOrEmpty(iblueprint.Resource.Repository.Name))
 					{
 						toolTip1.Active = true;
-						toolTip1.SetToolTip(la_resource_repo, blueprint.Resource.Repository.Name);
-						la_resource_repo.Text = SplitRepoText(blueprint.Resource.Repository.Name);
+						toolTip1.SetToolTip(la_resource_repo, iblueprint.Resource.Repository.Name);
+						la_resource_repo.Text = SplitRepoText(iblueprint.Resource.Repository.Name);
 //						const string text = "0123456789012345678901234567890123456789012345678901234567890123";
 //						la_resource_repo.Text = SplitRepoText(text);
 					}
@@ -1914,7 +1906,7 @@ namespace creaturevisualizer
 				}
 
 				INWN2Blueprint base_blueprint;
-				OEIResRef base_resref = blueprint.TemplateResRef;
+				OEIResRef base_resref = iblueprint.TemplateResRef;
 				if (base_resref != null
 					&& (base_blueprint = NWN2GlobalBlueprintManager.FindBlueprint(NWN2ObjectType.Creature, base_resref)) != null
 					&& base_blueprint.Resource != null)
@@ -1953,18 +1945,18 @@ namespace creaturevisualizer
 			// DebugStruct			GFFStruct
 			// Area					NWN2GameArea
 			// ObjectID				Guid
-			else if ((template as INWN2Instance) != null)
+			else if ((itemplate as INWN2Instance) != null)
 			{
 				la_itype.Text = "INWN2Instance";
 
-				var instance = template as INWN2Instance;
+				var iinstance = itemplate as INWN2Instance;
 
 				la_resref  .Text =
 				la_template.Text =
 				la_repotype.Text = "-";
 
-				if (instance.Area != null)
-					la_areatag.Text = instance.Area.Tag;
+				if (iinstance.Area != null)
+					la_areatag.Text = iinstance.Area.Tag;
 				else
 					la_areatag.Text = "invalid";
 
@@ -1973,23 +1965,23 @@ namespace creaturevisualizer
 				la_resource_type  .Text =
 				la_resource_repo  .Text = "-";
 
-				if (instance.Template != null) // ie. template-resource (IResourceEntry)
+				if (iinstance.Template != null) // ie. template-resource (IResourceEntry)
 				{
-					la_resource_file_t  .Text = instance.Template.FullName;
-					la_resource_resref_t.Text = instance.Template.ResRef.Value;										// <- redundant
-					la_resource_type_t  .Text = BWResourceTypes.GetFileExtension(instance.Template.ResourceType);	// <- redundant
+					la_resource_file_t  .Text = iinstance.Template.FullName;
+					la_resource_resref_t.Text = iinstance.Template.ResRef.Value;									// <- redundant
+					la_resource_type_t  .Text = BWResourceTypes.GetFileExtension(iinstance.Template.ResourceType);	// <- redundant
 
-					if (instance.Template.Repository != null)
+					if (iinstance.Template.Repository != null)
 					{
 						toolTip1.Active = true;
-						toolTip1.SetToolTip(la_resource_repo_t, instance.Template.Repository.Name);
-						la_resource_repo_t.Text = SplitRepoText(instance.Template.Repository.Name);
+						toolTip1.SetToolTip(la_resource_repo_t, iinstance.Template.Repository.Name);
+						la_resource_repo_t.Text = SplitRepoText(iinstance.Template.Repository.Name);
 
-						if ((instance.Template.Repository as DirectoryResourceRepository) != null)
+						if ((iinstance.Template.Repository as DirectoryResourceRepository) != null)
 						{
-							var blueprint = NWN2GlobalBlueprintManager.FindBlueprint(NWN2ObjectType.Creature, instance.Template.ResRef);
-							if (blueprint != null)
-								la_head_resource_t.Text += " (" + Enum.GetName(typeof(NWN2BlueprintLocationType), blueprint.BlueprintLocation) + ")";
+							var iblueprint = NWN2GlobalBlueprintManager.FindBlueprint(NWN2ObjectType.Creature, iinstance.Template.ResRef);
+							if (iblueprint != null)
+								la_head_resource_t.Text += " (" + Enum.GetName(typeof(NWN2BlueprintLocationType), iblueprint.BlueprintLocation) + ")";
 						}
 						else
 							la_head_resource_t.Text += " (stock)";
