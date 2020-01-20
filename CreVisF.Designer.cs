@@ -126,32 +126,45 @@ namespace creaturevisualizer
 
 		TabPage tp_resource;
 
-		Label la_head_blueprint;
 		Label la_head_template;
-		Label la_head_resource;
-		Label la_head_instance;
-		Label la_repotype_;
-		Label la_repotype;
-		Label la_name_;
-		Label la_name;
-		Label la_type_;
-		Label la_type;
 		Label la_itype_;
 		Label la_itype;
+		Label la_object_;
+		Label la_object;
+		Label la_tag_;
+		Label la_tag;
+
+		Label la_head_blueprint;
 		Label la_resref_;
 		Label la_resref;
 		Label la_template_;
 		Label la_template;
-		Label la_resource_file;
-		Label la_resource_file_;
-		Label la_resource_resref;
-		Label la_resource_resref_;
-		Label la_resource_type;
-		Label la_resource_type_;
-		Label la_resource_repo;
-		Label la_resource_repo_;
-		Label la_areatag;
+		Label la_repotype_;
+		Label la_repotype;
+
+		Label la_head_instance;
 		Label la_areatag_;
+		Label la_areatag;
+
+		Label la_head_resource;
+		Label la_resource_file_;
+		Label la_resource_file;
+		Label la_resource_resref_;
+		Label la_resource_resref;
+		Label la_resource_type_;
+		Label la_resource_type;
+		Label la_resource_repo_;
+		Label la_resource_repo;
+
+		Label la_head_resource_t;
+		Label la_resource_file_t_;
+		Label la_resource_file_t;
+		Label la_resource_resref_t_;
+		Label la_resource_resref_t;
+		Label la_resource_type_t_;
+		Label la_resource_type_t;
+		Label la_resource_repo_t_;
+		Label la_resource_repo_t;
 
 
 		StatusStrip ss_camera;
@@ -280,7 +293,14 @@ namespace creaturevisualizer
 			this.cbo_creature_gender = new System.Windows.Forms.ComboBox();
 			this.bu_creature_display = new System.Windows.Forms.Button();
 			this.tp_resource = new System.Windows.Forms.TabPage();
-			this.la_resource_repo = new System.Windows.Forms.Label();
+			this.la_resource_repo_t_ = new System.Windows.Forms.Label();
+			this.la_resource_type_t = new System.Windows.Forms.Label();
+			this.la_resource_type_t_ = new System.Windows.Forms.Label();
+			this.la_resource_resref_t = new System.Windows.Forms.Label();
+			this.la_resource_resref_t_ = new System.Windows.Forms.Label();
+			this.la_resource_file_t = new System.Windows.Forms.Label();
+			this.la_resource_file_t_ = new System.Windows.Forms.Label();
+			this.la_head_resource_t = new System.Windows.Forms.Label();
 			this.la_areatag = new System.Windows.Forms.Label();
 			this.la_areatag_ = new System.Windows.Forms.Label();
 			this.la_head_instance = new System.Windows.Forms.Label();
@@ -300,12 +320,14 @@ namespace creaturevisualizer
 			this.la_resref_ = new System.Windows.Forms.Label();
 			this.la_itype = new System.Windows.Forms.Label();
 			this.la_itype_ = new System.Windows.Forms.Label();
-			this.la_name = new System.Windows.Forms.Label();
-			this.la_name_ = new System.Windows.Forms.Label();
-			this.la_type = new System.Windows.Forms.Label();
-			this.la_type_ = new System.Windows.Forms.Label();
+			this.la_tag = new System.Windows.Forms.Label();
+			this.la_tag_ = new System.Windows.Forms.Label();
+			this.la_object = new System.Windows.Forms.Label();
+			this.la_object_ = new System.Windows.Forms.Label();
 			this.la_repotype = new System.Windows.Forms.Label();
 			this.la_repotype_ = new System.Windows.Forms.Label();
+			this.la_resource_repo = new System.Windows.Forms.Label();
+			this.la_resource_repo_t = new System.Windows.Forms.Label();
 			this.ss_camera = new System.Windows.Forms.StatusStrip();
 			this.tssl_camera_label = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tssl_camera_xpos = new System.Windows.Forms.ToolStripStatusLabel();
@@ -1536,7 +1558,14 @@ namespace creaturevisualizer
 			// 
 			// tp_resource
 			// 
-			this.tp_resource.Controls.Add(this.la_resource_repo);
+			this.tp_resource.Controls.Add(this.la_resource_repo_t_);
+			this.tp_resource.Controls.Add(this.la_resource_type_t);
+			this.tp_resource.Controls.Add(this.la_resource_type_t_);
+			this.tp_resource.Controls.Add(this.la_resource_resref_t);
+			this.tp_resource.Controls.Add(this.la_resource_resref_t_);
+			this.tp_resource.Controls.Add(this.la_resource_file_t);
+			this.tp_resource.Controls.Add(this.la_resource_file_t_);
+			this.tp_resource.Controls.Add(this.la_head_resource_t);
 			this.tp_resource.Controls.Add(this.la_areatag);
 			this.tp_resource.Controls.Add(this.la_areatag_);
 			this.tp_resource.Controls.Add(this.la_head_instance);
@@ -1556,12 +1585,14 @@ namespace creaturevisualizer
 			this.tp_resource.Controls.Add(this.la_resref_);
 			this.tp_resource.Controls.Add(this.la_itype);
 			this.tp_resource.Controls.Add(this.la_itype_);
-			this.tp_resource.Controls.Add(this.la_name);
-			this.tp_resource.Controls.Add(this.la_name_);
-			this.tp_resource.Controls.Add(this.la_type);
-			this.tp_resource.Controls.Add(this.la_type_);
+			this.tp_resource.Controls.Add(this.la_tag);
+			this.tp_resource.Controls.Add(this.la_tag_);
+			this.tp_resource.Controls.Add(this.la_object);
+			this.tp_resource.Controls.Add(this.la_object_);
 			this.tp_resource.Controls.Add(this.la_repotype);
 			this.tp_resource.Controls.Add(this.la_repotype_);
+			this.tp_resource.Controls.Add(this.la_resource_repo);
+			this.tp_resource.Controls.Add(this.la_resource_repo_t);
 			this.tp_resource.Location = new System.Drawing.Point(4, 19);
 			this.tp_resource.Margin = new System.Windows.Forms.Padding(0);
 			this.tp_resource.Name = "tp_resource";
@@ -1570,126 +1601,195 @@ namespace creaturevisualizer
 			this.tp_resource.Text = "Resource";
 			this.tp_resource.UseVisualStyleBackColor = true;
 			// 
-			// la_resource_repo
+			// la_resource_repo_t_
 			// 
-			this.la_resource_repo.Location = new System.Drawing.Point(70, 304);
-			this.la_resource_repo.Margin = new System.Windows.Forms.Padding(0);
-			this.la_resource_repo.Name = "la_resource_repo";
-			this.la_resource_repo.Size = new System.Drawing.Size(205, 82);
-			this.la_resource_repo.TabIndex = 79;
+			this.la_resource_repo_t_.Location = new System.Drawing.Point(10, 330);
+			this.la_resource_repo_t_.Margin = new System.Windows.Forms.Padding(0);
+			this.la_resource_repo_t_.Name = "la_resource_repo_t_";
+			this.la_resource_repo_t_.Size = new System.Drawing.Size(55, 15);
+			this.la_resource_repo_t_.TabIndex = 90;
+			this.la_resource_repo_t_.Text = "repo";
+			this.la_resource_repo_t_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// la_resource_type_t
+			// 
+			this.la_resource_type_t.Location = new System.Drawing.Point(70, 315);
+			this.la_resource_type_t.Margin = new System.Windows.Forms.Padding(0);
+			this.la_resource_type_t.Name = "la_resource_type_t";
+			this.la_resource_type_t.Size = new System.Drawing.Size(205, 15);
+			this.la_resource_type_t.TabIndex = 89;
+			this.la_resource_type_t.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// la_resource_type_t_
+			// 
+			this.la_resource_type_t_.Location = new System.Drawing.Point(10, 315);
+			this.la_resource_type_t_.Margin = new System.Windows.Forms.Padding(0);
+			this.la_resource_type_t_.Name = "la_resource_type_t_";
+			this.la_resource_type_t_.Size = new System.Drawing.Size(55, 15);
+			this.la_resource_type_t_.TabIndex = 88;
+			this.la_resource_type_t_.Text = "type";
+			this.la_resource_type_t_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// la_resource_resref_t
+			// 
+			this.la_resource_resref_t.Location = new System.Drawing.Point(70, 300);
+			this.la_resource_resref_t.Margin = new System.Windows.Forms.Padding(0);
+			this.la_resource_resref_t.Name = "la_resource_resref_t";
+			this.la_resource_resref_t.Size = new System.Drawing.Size(205, 15);
+			this.la_resource_resref_t.TabIndex = 87;
+			this.la_resource_resref_t.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// la_resource_resref_t_
+			// 
+			this.la_resource_resref_t_.Location = new System.Drawing.Point(10, 300);
+			this.la_resource_resref_t_.Margin = new System.Windows.Forms.Padding(0);
+			this.la_resource_resref_t_.Name = "la_resource_resref_t_";
+			this.la_resource_resref_t_.Size = new System.Drawing.Size(55, 15);
+			this.la_resource_resref_t_.TabIndex = 86;
+			this.la_resource_resref_t_.Text = "resref";
+			this.la_resource_resref_t_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// la_resource_file_t
+			// 
+			this.la_resource_file_t.Location = new System.Drawing.Point(70, 285);
+			this.la_resource_file_t.Margin = new System.Windows.Forms.Padding(0);
+			this.la_resource_file_t.Name = "la_resource_file_t";
+			this.la_resource_file_t.Size = new System.Drawing.Size(205, 15);
+			this.la_resource_file_t.TabIndex = 85;
+			this.la_resource_file_t.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// la_resource_file_t_
+			// 
+			this.la_resource_file_t_.Location = new System.Drawing.Point(10, 285);
+			this.la_resource_file_t_.Margin = new System.Windows.Forms.Padding(0);
+			this.la_resource_file_t_.Name = "la_resource_file_t_";
+			this.la_resource_file_t_.Size = new System.Drawing.Size(55, 15);
+			this.la_resource_file_t_.TabIndex = 84;
+			this.la_resource_file_t_.Text = "file";
+			this.la_resource_file_t_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// la_head_resource_t
+			// 
+			this.la_head_resource_t.Location = new System.Drawing.Point(5, 270);
+			this.la_head_resource_t.Margin = new System.Windows.Forms.Padding(0);
+			this.la_head_resource_t.Name = "la_head_resource_t";
+			this.la_head_resource_t.Size = new System.Drawing.Size(270, 15);
+			this.la_head_resource_t.TabIndex = 83;
+			this.la_head_resource_t.Text = "TEMPLATE RESOURCE";
+			this.la_head_resource_t.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_areatag
 			// 
-			this.la_areatag.Location = new System.Drawing.Point(70, 195);
+			this.la_areatag.Location = new System.Drawing.Point(70, 140);
 			this.la_areatag.Margin = new System.Windows.Forms.Padding(0);
 			this.la_areatag.Name = "la_areatag";
-			this.la_areatag.Size = new System.Drawing.Size(205, 20);
+			this.la_areatag.Size = new System.Drawing.Size(205, 15);
 			this.la_areatag.TabIndex = 82;
 			this.la_areatag.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_areatag_
 			// 
-			this.la_areatag_.Location = new System.Drawing.Point(10, 195);
+			this.la_areatag_.Location = new System.Drawing.Point(10, 140);
 			this.la_areatag_.Margin = new System.Windows.Forms.Padding(0);
 			this.la_areatag_.Name = "la_areatag_";
-			this.la_areatag_.Size = new System.Drawing.Size(55, 20);
+			this.la_areatag_.Size = new System.Drawing.Size(55, 15);
 			this.la_areatag_.TabIndex = 81;
 			this.la_areatag_.Text = "areatag";
 			this.la_areatag_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_head_instance
 			// 
-			this.la_head_instance.Location = new System.Drawing.Point(5, 175);
+			this.la_head_instance.Location = new System.Drawing.Point(5, 125);
 			this.la_head_instance.Margin = new System.Windows.Forms.Padding(0);
 			this.la_head_instance.Name = "la_head_instance";
-			this.la_head_instance.Size = new System.Drawing.Size(125, 20);
+			this.la_head_instance.Size = new System.Drawing.Size(270, 15);
 			this.la_head_instance.TabIndex = 80;
 			this.la_head_instance.Text = "INSTANCE";
 			this.la_head_instance.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_resource_repo_
 			// 
-			this.la_resource_repo_.Location = new System.Drawing.Point(10, 300);
+			this.la_resource_repo_.Location = new System.Drawing.Point(10, 215);
 			this.la_resource_repo_.Margin = new System.Windows.Forms.Padding(0);
 			this.la_resource_repo_.Name = "la_resource_repo_";
-			this.la_resource_repo_.Size = new System.Drawing.Size(55, 20);
+			this.la_resource_repo_.Size = new System.Drawing.Size(55, 15);
 			this.la_resource_repo_.TabIndex = 78;
 			this.la_resource_repo_.Text = "repo";
 			this.la_resource_repo_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_resource_type
 			// 
-			this.la_resource_type.Location = new System.Drawing.Point(70, 280);
+			this.la_resource_type.Location = new System.Drawing.Point(70, 200);
 			this.la_resource_type.Margin = new System.Windows.Forms.Padding(0);
 			this.la_resource_type.Name = "la_resource_type";
-			this.la_resource_type.Size = new System.Drawing.Size(205, 20);
+			this.la_resource_type.Size = new System.Drawing.Size(205, 15);
 			this.la_resource_type.TabIndex = 77;
 			this.la_resource_type.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_resource_type_
 			// 
-			this.la_resource_type_.Location = new System.Drawing.Point(10, 280);
+			this.la_resource_type_.Location = new System.Drawing.Point(10, 200);
 			this.la_resource_type_.Margin = new System.Windows.Forms.Padding(0);
 			this.la_resource_type_.Name = "la_resource_type_";
-			this.la_resource_type_.Size = new System.Drawing.Size(55, 20);
+			this.la_resource_type_.Size = new System.Drawing.Size(55, 15);
 			this.la_resource_type_.TabIndex = 76;
 			this.la_resource_type_.Text = "type";
 			this.la_resource_type_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_resource_resref
 			// 
-			this.la_resource_resref.Location = new System.Drawing.Point(70, 260);
+			this.la_resource_resref.Location = new System.Drawing.Point(70, 185);
 			this.la_resource_resref.Margin = new System.Windows.Forms.Padding(0);
 			this.la_resource_resref.Name = "la_resource_resref";
-			this.la_resource_resref.Size = new System.Drawing.Size(205, 20);
+			this.la_resource_resref.Size = new System.Drawing.Size(205, 15);
 			this.la_resource_resref.TabIndex = 75;
 			this.la_resource_resref.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_resource_resref_
 			// 
-			this.la_resource_resref_.Location = new System.Drawing.Point(10, 260);
+			this.la_resource_resref_.Location = new System.Drawing.Point(10, 185);
 			this.la_resource_resref_.Margin = new System.Windows.Forms.Padding(0);
 			this.la_resource_resref_.Name = "la_resource_resref_";
-			this.la_resource_resref_.Size = new System.Drawing.Size(55, 20);
+			this.la_resource_resref_.Size = new System.Drawing.Size(55, 15);
 			this.la_resource_resref_.TabIndex = 74;
 			this.la_resource_resref_.Text = "resref";
 			this.la_resource_resref_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_resource_file
 			// 
-			this.la_resource_file.Location = new System.Drawing.Point(70, 240);
+			this.la_resource_file.Location = new System.Drawing.Point(70, 170);
 			this.la_resource_file.Margin = new System.Windows.Forms.Padding(0);
 			this.la_resource_file.Name = "la_resource_file";
-			this.la_resource_file.Size = new System.Drawing.Size(205, 20);
+			this.la_resource_file.Size = new System.Drawing.Size(205, 15);
 			this.la_resource_file.TabIndex = 73;
 			this.la_resource_file.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_resource_file_
 			// 
-			this.la_resource_file_.Location = new System.Drawing.Point(10, 240);
+			this.la_resource_file_.Location = new System.Drawing.Point(10, 170);
 			this.la_resource_file_.Margin = new System.Windows.Forms.Padding(0);
 			this.la_resource_file_.Name = "la_resource_file_";
-			this.la_resource_file_.Size = new System.Drawing.Size(55, 20);
+			this.la_resource_file_.Size = new System.Drawing.Size(55, 15);
 			this.la_resource_file_.TabIndex = 72;
 			this.la_resource_file_.Text = "file";
 			this.la_resource_file_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_head_resource
 			// 
-			this.la_head_resource.Location = new System.Drawing.Point(5, 220);
+			this.la_head_resource.Location = new System.Drawing.Point(5, 155);
 			this.la_head_resource.Margin = new System.Windows.Forms.Padding(0);
 			this.la_head_resource.Name = "la_head_resource";
-			this.la_head_resource.Size = new System.Drawing.Size(125, 20);
+			this.la_head_resource.Size = new System.Drawing.Size(270, 15);
 			this.la_head_resource.TabIndex = 71;
 			this.la_head_resource.Text = "RESOURCE";
 			this.la_head_resource.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_head_blueprint
 			// 
-			this.la_head_blueprint.Location = new System.Drawing.Point(5, 90);
+			this.la_head_blueprint.Location = new System.Drawing.Point(5, 65);
 			this.la_head_blueprint.Margin = new System.Windows.Forms.Padding(0);
 			this.la_head_blueprint.Name = "la_head_blueprint";
-			this.la_head_blueprint.Size = new System.Drawing.Size(125, 20);
+			this.la_head_blueprint.Size = new System.Drawing.Size(270, 15);
 			this.la_head_blueprint.TabIndex = 70;
 			this.la_head_blueprint.Text = "BLUEPRINT";
 			this.la_head_blueprint.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1699,124 +1799,140 @@ namespace creaturevisualizer
 			this.la_head_template.Location = new System.Drawing.Point(5, 5);
 			this.la_head_template.Margin = new System.Windows.Forms.Padding(0);
 			this.la_head_template.Name = "la_head_template";
-			this.la_head_template.Size = new System.Drawing.Size(125, 20);
+			this.la_head_template.Size = new System.Drawing.Size(270, 15);
 			this.la_head_template.TabIndex = 69;
 			this.la_head_template.Text = "TEMPLATE";
 			this.la_head_template.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_template
 			// 
-			this.la_template.Location = new System.Drawing.Point(70, 130);
+			this.la_template.Location = new System.Drawing.Point(70, 95);
 			this.la_template.Margin = new System.Windows.Forms.Padding(0);
 			this.la_template.Name = "la_template";
-			this.la_template.Size = new System.Drawing.Size(205, 20);
+			this.la_template.Size = new System.Drawing.Size(205, 15);
 			this.la_template.TabIndex = 68;
 			this.la_template.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_template_
 			// 
-			this.la_template_.Location = new System.Drawing.Point(10, 130);
+			this.la_template_.Location = new System.Drawing.Point(10, 95);
 			this.la_template_.Margin = new System.Windows.Forms.Padding(0);
 			this.la_template_.Name = "la_template_";
-			this.la_template_.Size = new System.Drawing.Size(55, 20);
+			this.la_template_.Size = new System.Drawing.Size(55, 15);
 			this.la_template_.TabIndex = 67;
 			this.la_template_.Text = "template";
 			this.la_template_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_resref
 			// 
-			this.la_resref.Location = new System.Drawing.Point(70, 110);
+			this.la_resref.Location = new System.Drawing.Point(70, 80);
 			this.la_resref.Margin = new System.Windows.Forms.Padding(0);
 			this.la_resref.Name = "la_resref";
-			this.la_resref.Size = new System.Drawing.Size(205, 20);
+			this.la_resref.Size = new System.Drawing.Size(205, 15);
 			this.la_resref.TabIndex = 66;
 			this.la_resref.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_resref_
 			// 
-			this.la_resref_.Location = new System.Drawing.Point(10, 110);
+			this.la_resref_.Location = new System.Drawing.Point(10, 80);
 			this.la_resref_.Margin = new System.Windows.Forms.Padding(0);
 			this.la_resref_.Name = "la_resref_";
-			this.la_resref_.Size = new System.Drawing.Size(55, 20);
+			this.la_resref_.Size = new System.Drawing.Size(55, 15);
 			this.la_resref_.TabIndex = 65;
 			this.la_resref_.Text = "resref";
 			this.la_resref_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_itype
 			// 
-			this.la_itype.Location = new System.Drawing.Point(70, 25);
+			this.la_itype.Location = new System.Drawing.Point(70, 20);
 			this.la_itype.Margin = new System.Windows.Forms.Padding(0);
 			this.la_itype.Name = "la_itype";
-			this.la_itype.Size = new System.Drawing.Size(205, 20);
+			this.la_itype.Size = new System.Drawing.Size(205, 15);
 			this.la_itype.TabIndex = 64;
 			this.la_itype.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_itype_
 			// 
-			this.la_itype_.Location = new System.Drawing.Point(10, 25);
+			this.la_itype_.Location = new System.Drawing.Point(10, 20);
 			this.la_itype_.Margin = new System.Windows.Forms.Padding(0);
 			this.la_itype_.Name = "la_itype_";
-			this.la_itype_.Size = new System.Drawing.Size(55, 20);
+			this.la_itype_.Size = new System.Drawing.Size(55, 15);
 			this.la_itype_.TabIndex = 63;
 			this.la_itype_.Text = "IType";
 			this.la_itype_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
-			// la_name
+			// la_tag
 			// 
-			this.la_name.Location = new System.Drawing.Point(70, 65);
-			this.la_name.Margin = new System.Windows.Forms.Padding(0);
-			this.la_name.Name = "la_name";
-			this.la_name.Size = new System.Drawing.Size(205, 20);
-			this.la_name.TabIndex = 62;
-			this.la_name.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.la_tag.Location = new System.Drawing.Point(70, 50);
+			this.la_tag.Margin = new System.Windows.Forms.Padding(0);
+			this.la_tag.Name = "la_tag";
+			this.la_tag.Size = new System.Drawing.Size(205, 15);
+			this.la_tag.TabIndex = 62;
+			this.la_tag.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
-			// la_name_
+			// la_tag_
 			// 
-			this.la_name_.Location = new System.Drawing.Point(10, 65);
-			this.la_name_.Margin = new System.Windows.Forms.Padding(0);
-			this.la_name_.Name = "la_name_";
-			this.la_name_.Size = new System.Drawing.Size(55, 20);
-			this.la_name_.TabIndex = 61;
-			this.la_name_.Text = "tag";
-			this.la_name_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.la_tag_.Location = new System.Drawing.Point(10, 50);
+			this.la_tag_.Margin = new System.Windows.Forms.Padding(0);
+			this.la_tag_.Name = "la_tag_";
+			this.la_tag_.Size = new System.Drawing.Size(55, 15);
+			this.la_tag_.TabIndex = 61;
+			this.la_tag_.Text = "tag";
+			this.la_tag_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
-			// la_type
+			// la_object
 			// 
-			this.la_type.Location = new System.Drawing.Point(70, 45);
-			this.la_type.Margin = new System.Windows.Forms.Padding(0);
-			this.la_type.Name = "la_type";
-			this.la_type.Size = new System.Drawing.Size(205, 20);
-			this.la_type.TabIndex = 60;
-			this.la_type.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.la_object.Location = new System.Drawing.Point(70, 35);
+			this.la_object.Margin = new System.Windows.Forms.Padding(0);
+			this.la_object.Name = "la_object";
+			this.la_object.Size = new System.Drawing.Size(205, 15);
+			this.la_object.TabIndex = 60;
+			this.la_object.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
-			// la_type_
+			// la_object_
 			// 
-			this.la_type_.Location = new System.Drawing.Point(10, 45);
-			this.la_type_.Margin = new System.Windows.Forms.Padding(0);
-			this.la_type_.Name = "la_type_";
-			this.la_type_.Size = new System.Drawing.Size(55, 20);
-			this.la_type_.TabIndex = 59;
-			this.la_type_.Text = "object";
-			this.la_type_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.la_object_.Location = new System.Drawing.Point(10, 35);
+			this.la_object_.Margin = new System.Windows.Forms.Padding(0);
+			this.la_object_.Name = "la_object_";
+			this.la_object_.Size = new System.Drawing.Size(55, 15);
+			this.la_object_.TabIndex = 59;
+			this.la_object_.Text = "object";
+			this.la_object_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_repotype
 			// 
-			this.la_repotype.Location = new System.Drawing.Point(70, 150);
+			this.la_repotype.Location = new System.Drawing.Point(70, 110);
 			this.la_repotype.Margin = new System.Windows.Forms.Padding(0);
 			this.la_repotype.Name = "la_repotype";
-			this.la_repotype.Size = new System.Drawing.Size(205, 20);
+			this.la_repotype.Size = new System.Drawing.Size(205, 15);
 			this.la_repotype.TabIndex = 58;
 			this.la_repotype.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// la_repotype_
 			// 
-			this.la_repotype_.Location = new System.Drawing.Point(10, 150);
+			this.la_repotype_.Location = new System.Drawing.Point(10, 110);
 			this.la_repotype_.Margin = new System.Windows.Forms.Padding(0);
 			this.la_repotype_.Name = "la_repotype_";
-			this.la_repotype_.Size = new System.Drawing.Size(55, 20);
+			this.la_repotype_.Size = new System.Drawing.Size(55, 15);
 			this.la_repotype_.TabIndex = 57;
 			this.la_repotype_.Text = "repotype";
 			this.la_repotype_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// la_resource_repo
+			// 
+			this.la_resource_repo.Location = new System.Drawing.Point(70, 215);
+			this.la_resource_repo.Margin = new System.Windows.Forms.Padding(0);
+			this.la_resource_repo.Name = "la_resource_repo";
+			this.la_resource_repo.Size = new System.Drawing.Size(205, 55);
+			this.la_resource_repo.TabIndex = 79;
+			// 
+			// la_resource_repo_t
+			// 
+			this.la_resource_repo_t.Location = new System.Drawing.Point(70, 330);
+			this.la_resource_repo_t.Margin = new System.Windows.Forms.Padding(0);
+			this.la_resource_repo_t.Name = "la_resource_repo_t";
+			this.la_resource_repo_t.Size = new System.Drawing.Size(205, 55);
+			this.la_resource_repo_t.TabIndex = 91;
 			// 
 			// ss_camera
 			// 

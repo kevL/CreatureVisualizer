@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -255,25 +256,31 @@ namespace creaturevisualizer
 			NWN2ToolsetMainForm.App.BlueprintView.SelectionChanged += OnBlueprintSelectionChanged;
 			NWN2CampaignManager.Instance.ActiveCampaignChanged     += OnActiveCampaignChanged;
 
-			NWN2NetDisplayManager.Instance.Objects.Inserted =
+			NWN2NetDisplayManager.Instance.Objects.Inserted = // this is the cleverest thing I've ever seen ... he should be lynched.
 				(OEICollectionWithEvents.ChangeHandler)Delegate.Combine(NWN2NetDisplayManager.Instance.Objects.Inserted,
 																		new OEICollectionWithEvents.ChangeHandler(OnObjectsInserted));
 
 			ActiveControl = _panel;
 
+			_bypassInsert = true;
 			_panel.CreateModel();
+			_bypassInsert = false;
 		}
 
 
-		bool _inserted;
+		/// <summary>
+		/// Prevents the infinite loop that would occur as the object is added
+		/// to the visualizer's object-collection also.
+		/// </summary>
+		bool _bypassInsert;
+
 		void OnObjectsInserted(OEICollectionWithEvents cList, int index, object value)
 		{
-			// NOTE: The object could get inserted to 1+ collections
-			// causing this to fire for every one. In practice I've
-			// seen 1..3 repeats.
-			// Ironically this does *not* fire when drag selecting objects.
+			// NOTE: The object could get inserted to 1+ collections causing
+			// this to fire for every one. In practice I've seen 1..3 repeats.
+			// Ironically this does *not* even fire when drag selecting objects.
 
-			if (!_inserted)
+			if (!_bypassInsert)
 			{
 				var areaviewer = NWN2ToolsetMainForm.App.GetActiveViewer() as NWN2AreaViewer;
 				if (areaviewer != null)
@@ -284,9 +291,9 @@ namespace creaturevisualizer
 							|| collection[0] is NWN2DoorTemplate
 							|| collection[0] is NWN2PlaceableTemplate))
 					{
-						_inserted = true;		// this prevents the infinite loop that would occur as the
-						_panel.CreateModel();	// object is added to the visualizer's object-collection also.
-						_inserted = false;
+						_bypassInsert = true;
+						_panel.CreateModel();
+						_bypassInsert = false;
 					}
 				}
 			}
@@ -315,7 +322,9 @@ namespace creaturevisualizer
 						case NWN2ObjectType.Placeable:
 						case NWN2ObjectType.PlacedEffect:
 						case NWN2ObjectType.Item:
+							_bypassInsert = true;
 							_panel.CreateModel();
+							_bypassInsert = false;
 							break;
 					}
 				}
@@ -691,7 +700,9 @@ namespace creaturevisualizer
 		#region Handlers (menu)
 		void instanceclick_Refresh(object sender, EventArgs e)
 		{
+			_bypassInsert = true;
 			_panel.CreateModel();
+			_bypassInsert = false;
 		}
 
 //		void instanceclick_RefreshOnFocus(object sender, EventArgs e)
@@ -1809,31 +1820,40 @@ namespace creaturevisualizer
 		#region Handlers (creature)
 		internal void ClearResourceInfo()
 		{
-			la_type           .Text =
-			la_name           .Text =
-			la_itype          .Text =
-			la_resref         .Text =
-			la_template       .Text =
-			la_repotype       .Text =
-			la_resource_file  .Text =
-			la_resource_resref.Text =
-			la_resource_type  .Text =
-			la_resource_repo  .Text =
-			la_areatag        .Text = String.Empty;
+			la_itype            .Text =
+			la_object           .Text =
+			la_tag              .Text =
+
+			la_resref           .Text =
+			la_template         .Text =
+			la_repotype         .Text =
+
+			la_resource_file    .Text =
+			la_resource_resref  .Text =
+			la_resource_type    .Text =
+			la_resource_repo    .Text =
+
+			la_resource_file_t  .Text =
+			la_resource_resref_t.Text =
+			la_resource_type_t  .Text =
+			la_resource_repo_t  .Text =
+
+			la_areatag          .Text = String.Empty;
+
+			la_head_resource_t  .Text = "TEMPLATE RESOURCE";
 
 			toolTip1.Active = false;
-			toolTip1.SetToolTip(la_resource_repo, String.Empty);
+			toolTip1.SetToolTip(la_resource_repo,   String.Empty);
+			toolTip1.SetToolTip(la_resource_repo_t, String.Empty);
 		}
 
 		internal void PrintResourceInfo(INWN2Template template)
 		{
-			la_head_resource.Text = "RESOURCE";
-
 			// TEMPLATE
 			// Name					string
 			// ObjectType			NWN2ObjectType
-			la_type.Text = Enum.GetName(typeof(NWN2ObjectType), template.ObjectType);
-			la_name.Text = template.Name;
+			la_object.Text = Enum.GetName(typeof(NWN2ObjectType), template.ObjectType);
+			la_tag   .Text = template.Name;
 
 
 			// BLUEPRINT (inherits TEMPLATE)
@@ -1865,7 +1885,8 @@ namespace creaturevisualizer
 				else
 					la_template.Text = "invalid";
 
-				if ((blueprint.Resource.Repository as DirectoryResourceRepository) != null)
+				if (blueprint.Resource != null
+					&& (blueprint.Resource.Repository as DirectoryResourceRepository) != null)
 				{
 					la_repotype.Text = Enum.GetName(typeof(NWN2BlueprintLocationType), blueprint.BlueprintLocation);
 				}
@@ -1876,19 +1897,54 @@ namespace creaturevisualizer
 
 				if (blueprint.Resource != null)
 				{
-					// NOTE: Use the instance fields to show a blueprint's Resource info.
-					// If you want to see Resource info for a blueprint's Template go find the template ...
-
 					la_resource_file  .Text = blueprint.Resource.FullName;
 					la_resource_resref.Text = blueprint.Resource.ResRef.Value;										// <- redundant
 					la_resource_type  .Text = BWResourceTypes.GetFileExtension(blueprint.Resource.ResourceType);	// <- redundant
 
 					if (blueprint.Resource.Repository != null && !String.IsNullOrEmpty(blueprint.Resource.Repository.Name))
 					{
-						SetRepoText(blueprint.Resource.Repository.Name);
+						toolTip1.Active = true;
+						toolTip1.SetToolTip(la_resource_repo, blueprint.Resource.Repository.Name);
+						la_resource_repo.Text = SplitRepoText(blueprint.Resource.Repository.Name);
+//						const string text = "0123456789012345678901234567890123456789012345678901234567890123";
+//						la_resource_repo.Text = SplitRepoText(text);
 					}
 					else
 						la_resource_repo.Text = "invalid";
+				}
+
+				INWN2Blueprint base_blueprint;
+				OEIResRef base_resref = blueprint.TemplateResRef;
+				if (base_resref != null
+					&& (base_blueprint = NWN2GlobalBlueprintManager.FindBlueprint(NWN2ObjectType.Creature, base_resref)) != null
+					&& base_blueprint.Resource != null)
+				{
+					la_resource_file_t  .Text = base_blueprint.Resource.FullName;
+					la_resource_resref_t.Text = base_blueprint.Resource.ResRef.Value;									// <- redundant
+					la_resource_type_t  .Text = BWResourceTypes.GetFileExtension(base_blueprint.Resource.ResourceType);	// <- redundant
+
+					if (base_blueprint.Resource.Repository != null && !String.IsNullOrEmpty(base_blueprint.Resource.Repository.Name))
+					{
+						toolTip1.Active = true;
+						toolTip1.SetToolTip(la_resource_repo_t, base_blueprint.Resource.Repository.Name);
+						la_resource_repo_t.Text = SplitRepoText(base_blueprint.Resource.Repository.Name);
+
+						if ((base_blueprint.Resource.Repository as DirectoryResourceRepository) != null)
+						{
+							la_head_resource_t.Text += " (" + Enum.GetName(typeof(NWN2BlueprintLocationType), base_blueprint.BlueprintLocation) + ")";
+						}
+						else
+							la_head_resource_t.Text += " (stock)";
+					}
+					else
+						la_resource_repo_t.Text = "invalid";
+				}
+				else
+				{
+					la_resource_file_t  .Text =
+					la_resource_resref_t.Text =
+					la_resource_type_t  .Text =
+					la_resource_repo_t  .Text = "invalid";
 				}
 			}
 			// INSTANCE (inherits TEMPLATE)
@@ -1899,8 +1955,6 @@ namespace creaturevisualizer
 			// ObjectID				Guid
 			else if ((template as INWN2Instance) != null)
 			{
-				la_head_resource.Text += " Template";
-
 				la_itype.Text = "INWN2Instance";
 
 				var instance = template as INWN2Instance;
@@ -1914,44 +1968,62 @@ namespace creaturevisualizer
 				else
 					la_areatag.Text = "invalid";
 
+				la_resource_file  .Text =
+				la_resource_resref.Text =
+				la_resource_type  .Text =
+				la_resource_repo  .Text = "-";
+
 				if (instance.Template != null) // ie. template-resource (IResourceEntry)
 				{
-					la_resource_file  .Text = instance.Template.FullName;
-					la_resource_resref.Text = instance.Template.ResRef.Value;									// <- redundant
-					la_resource_type  .Text = BWResourceTypes.GetFileExtension(instance.Template.ResourceType);	// <- redundant
+					la_resource_file_t  .Text = instance.Template.FullName;
+					la_resource_resref_t.Text = instance.Template.ResRef.Value;										// <- redundant
+					la_resource_type_t  .Text = BWResourceTypes.GetFileExtension(instance.Template.ResourceType);	// <- redundant
 
 					if (instance.Template.Repository != null)
 					{
-						SetRepoText(instance.Template.Repository.Name);
+						toolTip1.Active = true;
+						toolTip1.SetToolTip(la_resource_repo_t, instance.Template.Repository.Name);
+						la_resource_repo_t.Text = SplitRepoText(instance.Template.Repository.Name);
+
+						if ((instance.Template.Repository as DirectoryResourceRepository) != null)
+						{
+							var blueprint = NWN2GlobalBlueprintManager.FindBlueprint(NWN2ObjectType.Creature, instance.Template.ResRef);
+							if (blueprint != null)
+								la_head_resource_t.Text += " (" + Enum.GetName(typeof(NWN2BlueprintLocationType), blueprint.BlueprintLocation) + ")";
+						}
+						else
+							la_head_resource_t.Text += " (stock)";
 					}
 					else
-						la_resource_repo.Text = "invalid";
+						la_resource_repo_t.Text = "invalid";
 				}
 				else
 				{
-					la_resource_file  .Text =
-					la_resource_resref.Text =
-					la_resource_type  .Text =
-					la_resource_repo  .Text = "invalid";
+					la_resource_file_t  .Text =
+					la_resource_resref_t.Text =
+					la_resource_type_t  .Text =
+					la_resource_repo_t  .Text = "invalid";
 				}
 			}
 		}
 
-		void SetRepoText(string repo)
+		string SplitRepoText(string text)
 		{
-/*			if (repo.Length > 32) // max chars that the Label 'la_repo_inst' can display on its first line.
-			{
-				toolTip1.Active = true;
-				toolTip1.SetToolTip(la_repo_inst, repo);
+			var lines = new List<string>();
 
-				if (repo.Length > 96) // max chars that the Label 'la_repo_inst' can display on all three lines.
-				{
-					repo = repo.Substring(0, 93) + "...";
-				}
-			} */
-			toolTip1.Active = true;
-			toolTip1.SetToolTip(la_resource_repo, repo);
-			la_resource_repo.Text = repo;
+			while (text.Length != 0)
+			{
+				int length = Math.Min(text.Length, 32);
+				lines.Add(text.Substring(0, length));
+				text = text.Substring(length, text.Length - length);
+			}
+
+			foreach (var line in lines)
+			{
+				if (!String.IsNullOrEmpty(text)) text += Environment.NewLine;
+				text += line;
+			}
+			return text;
 		}
 
 		void click_bu_creature_display(object sender, EventArgs e)
