@@ -268,7 +268,7 @@ namespace creaturevisualizer
 
 		/// <summary>
 		/// Prevents the infinite loop that would occur as the object is added
-		/// to the visualizer's object-collection also.
+		/// to the NetDisplayObjectCollection by the visualizer.
 		/// </summary>
 		internal bool _bypassInsert;
 
@@ -289,6 +289,7 @@ namespace creaturevisualizer
 							|| collection[0] is NWN2DoorTemplate
 							|| collection[0] is NWN2PlaceableTemplate))
 					{
+						//MessageBox.Show(cList + "\nindex= " + index + " \nvalue= " + value);
 						_panel.CreateModel();
 					}
 				}
@@ -990,12 +991,16 @@ namespace creaturevisualizer
 
 		void mouseup_DisableRepeater(object sender, MouseEventArgs e)
 		{
-			if (_t1 != null) _t1.Stop();
+			if (_t1 != null)
+			{
+				_t1.Stop();
+				_repeater = null;
+			}
 		}
 
 		void tick(object sender, EventArgs e)
 		{
-			if (_repeater != null)
+			if (_repeater != null && _repeater.Focused)
 			{
 				_repeater.PerformClick();
 
@@ -1005,6 +1010,8 @@ namespace creaturevisualizer
 					_t1.Interval = 89;
 				}
 			}
+			else
+				mouseup_DisableRepeater(null,null);
 		}
 		#endregion Handlers (timer)
 
