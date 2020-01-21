@@ -40,6 +40,7 @@ namespace creaturevisualizer
 	/// Credit: The Grinning Fool's Creature Creation Wizard
 	/// https://neverwintervault.org/project/nwn2/other/grinning-fools-creature-creation-wizard
 	/// and the NwN2 toolset's Appearance Wizard, etc.
+	/// Etc etc etc.
 	/// </summary>
 	sealed class ElectronPanel_
 		: ElectronPanel
@@ -65,8 +66,8 @@ namespace creaturevisualizer
 		const float LIGHT_START_RANGE = 50F; // default 10F
 
 // DayNightCycle ->
-		static Vector3 E_DEF_SUNMOON_POS = new Vector3(-0.33F, -0.67F, -0.67F);
-		const float E_DEF_SHADOW_VAL = 0F;
+		static Vector3 DEF_SUNMOON_DIRECTION = new Vector3(-0.33F, -0.67F, -0.67F);
+		const float DEF_SHADOW_INTENSITY = 0F;
 
 		// Colors ->
 		internal static Color ? ColorDiffuse;
@@ -139,6 +140,10 @@ namespace creaturevisualizer
 			}
 		}
 
+
+		readonly NetDisplayObjectCollection _objects = new NetDisplayObjectCollection();
+		NetDisplayObjectCollection _objectsModel;
+		NetDisplayObjectCollection _objectsLight;
 
 		internal NetDisplayObject Model
 		{ get; private set; }
@@ -267,133 +272,13 @@ namespace creaturevisualizer
 
 		#region Methods
 		/// <summary>
-		/// Initializes the scene. Clears any objects, sets up default lighting,
-		/// and adds a lightpoint.
-		/// </summary>
-		bool Initialize()
-		{
-			if (_f.WindowState != FormWindowState.Minimized)
-			{
-				CloseWindow(); // safety - try not to confuse the NWN2NetDisplayManager.Instance ...
-
-				if (NDWindow == null)
-					OpenWindow();
-
-				if (NDWindow != null && Scene != null)
-				{
-					ClearObjects();
-
-					if (Scene.DayNightCycleStages[(int)DayNightStageType.Default] != null)
-					{
-						Scene.DayNightCycleStages[(int)DayNightStageType.Default].SunMoonDirection = E_DEF_SUNMOON_POS;
-						Scene.DayNightCycleStages[(int)DayNightStageType.Default].ShadowIntensity  = E_DEF_SHADOW_VAL;
-					}
-
-/*		case DayNightStageType.Default:								// OEIShared.NetDisplay.DayNightState ->
-			SunMoonDirection = new Vector3(-0.05f, 0.08f, -0.1f);
-			SunMoon.DiffuseColor = Color.FromArgb(194, 139, 87);
-			SunMoon.SpecularColor = Color.FromArgb(173, 188, 163);
-			SunMoon.AmbientColor = Color.FromArgb(255, 255, 255);
-			SunMoon.Intensity = 1f;
-			SkyLight.DiffuseColor = Color.FromArgb(215, 229, 250);
-			SkyLight.SpecularColor = Color.FromArgb(194, 139, 87);
-			SkyLight.AmbientColor = Color.FromArgb(255, 255, 255);
-			SkyLight.Intensity = 0.2f;
-			GroundLight.DiffuseColor = Color.FromArgb(221, 194, 161);
-			GroundLight.SpecularColor = Color.FromArgb(221, 194, 161);
-			GroundLight.AmbientColor = Color.FromArgb(255, 255, 255);
-			GroundLight.Intensity = 0.45f;
-			SkyHorizon = Color.FromArgb(163, 189, 255);
-			SkyZenith = Color.FromArgb(173, 194, 255);
-			Fog.FogColor = Color.FromArgb(134, 153, 211);
-			Fog.FarClip = 200f;
-			Fog.FogStart = 60f;
-			Fog.FogEnd = 170f;
-			AvgLuminance = 0.65f;
-			BloomBlurRadius = 6.4f;
-			BloomGlowIntensity = 0f;
-			BloomHighlightIntensity = 0.54f;
-			BloomHighlightThreshold = 0.86f;
-			BloomSceneIntensity = 1f;
-			CloudCover = 0.8f;
-			CloudMovementRateX = 0.04f;
-			CloudMovementRateY = 0f;
-			Exposure = 5f;
-			HighlightThreshold = 5f;
-			MaxLuminance = 3.65f;
-			ShadowIntensity = 0.42f;
-			SunCoronaIntensity = 0.33f;
-			break;
-*/
-
-					CreateLight();
-
-					_f.PrintLightIntensity(Light.Color.Intensity);
-					_f.PrintDiffuseColor();
-					_f.PrintSpecularColor();
-					_f.PrintAmbientColor();
-
-//					SetDoubleBuffered(NDWindow);
-//					SetDoubleBuffered(NWN2NetDisplayManager.Instance.Windows);
-
-//					var a = new NetDisplayWindow[NWN2NetDisplayManager.Instance.Windows.Count];
-//					for (int i = 0; i != NWN2NetDisplayManager.Instance.Windows.Count; ++i)
-//						a[i] = NWN2NetDisplayManager.Instance.Windows[i];
-//					SetDoubleBuffered(a);
-
-					return true;
-				}
-			}
-			return false;
-		}
-
-		void CreateLight()
-		{
-			Light = new NetDisplayLightPoint();
-
-			Light.Position        = _posLight;
-
-			Light.Color.Intensity = CreatureVisualizerPreferences.that.LightIntensity;
-			Light.Range           = LIGHT_START_RANGE;
-			Light.CastsShadow     = false;
-
-			Light.ID              = NetDisplayManager.Instance.NextObjectID;	// doesn't appear to be req'd.
-			Light.Tag             = Light;										// doesn't appear to be req'd. (light gets tagged w/ a pointer to itself)
-
-
-			if (ColorCheckedDiffuse)  Light.Color.DiffuseColor  = (Color)ColorDiffuse;
-			if (ColorCheckedSpecular) Light.Color.SpecularColor = (Color)ColorSpecular;
-			if (ColorCheckedAmbient)  Light.Color.AmbientColor  = (Color)ColorAmbient;
-
-
-			lock (Scene.Objects.SyncRoot)
-			{
-				Scene.Objects.Add(Light);
-			}
-			lock (NWN2NetDisplayManager.Instance.Objects.SyncRoot)
-			{
-				NWN2NetDisplayManager.Instance.Objects.Add(Light);				// doesn't appear to be req'd.
-			}
-//lock (this.m_ᐁ.NDWindow.Scene.Objects.SyncRoot) // TODO: figure out what 'SyncRoot' etc is about ...
-//{
-//	this.m_ᐁ.NDWindow.Scene.Objects.Remove(this.m_ᐂ);
-//}
-//lock (NWN2NetDisplayManager.Instance.Objects.SyncRoot)
-//{
-//	NWN2NetDisplayManager.Instance.Objects.Remove(this.m_ᐂ);
-//}
-
-			NWN2NetDisplayManager.Instance.LightParameters(Scene, Light);
-			_f.PrintLightPosition(Light.Position);
-		}
-
-		/// <summary>
 		/// Creates an instance of a blueprint and tries to render it in the
 		/// ElectronPanel.
 		/// </summary>
 		internal void CreateModel()
 		{
-			_f._bypassInsert = true;
+			//MessageBox.Show("CreateModel()");
+			_f._bypassInsert = true; // prevent anything in here from firing CreVisF.OnObjectsInserted()
 
 			// IMPORTANT: Policy #256 - *never* allow the instance to be other
 			// than the Blueprint or Instance that the user has currently
@@ -419,11 +304,15 @@ namespace creaturevisualizer
 
 //			if (!CreVisF.BypassCreate) // don't recreate the instance when returning from a dialog when "RefreshOnFocus" is enabled.
 //			{
-			if (Blueprint != null)
+			if (Instance != null)
 			{
 				// ask to ignore, Apply (if not stock resource), or save-to-file (disable the Cancel option)
 				_f.ConfirmClose(false);
 			}
+
+
+			NWN2NetDisplayManager.Instance.RemoveObjects(_objects);
+			_objects.Clear();
 
 
 			_f.ClearResourceInfo();
@@ -618,39 +507,6 @@ namespace creaturevisualizer
 				IResourceRepository repo = iblueprint.Resource.Repository;
 				blueprint.Resource = repo.CreateResource(resref, (iblueprint as INWN2Object).ResourceType);
 
-/*				OEIResRef resref = null;
-				IResourceRepository repo = null;
-				// Theory #187: if 'IResourceRepository' derives to 'ResourceRepository'
-				// then the blueprint is a stock blueprint in the data/.zip files; but
-				// if 'IResourceRepository' can be further derived to 'DirectoryResourceRepository'
-				// then the blueprint is loose in a directory ... eg, the Module, Campaign,
-				// or Override folder.
-
-				if (iblueprint.Resource != null && iblueprint.Resource.Repository != null)
-				{
-					resref = iblueprint.Resource.ResRef; // 'Resource.Resref' IS 'ResourceName'
-					repo   = iblueprint.Resource.Repository;
-				}
-				else if (!String.IsNullOrEmpty(iblueprint.Name)) // should never happen.
-				{
-					// use tag as resref value and Module as the repository
-					resref = new OEIResRef(iblueprint.Name);
-
-					// module dir ->
-					repo = NWN2ToolsetMainForm.App.BlueprintView.Module.Repository;
-
-					// override dir ->
-//					repo = NWN2Toolset.NWN2.IO.NWN2ResourceManager.Instance.UserOverrideDirectory;
-//					if (repo == null)
-//						repo = NWN2Toolset.NWN2.IO.NWN2ResourceManager.Instance.OverrideDirectory;
-
-					// campaign dir ->
-//					repo = NWN2Toolset.NWN2.Data.Campaign.NWN2CampaignManager.Instance.ActiveCampaign.Repository;
-				}
-
-				if (resref != null && repo != null) // should always happen.
-					blueprint.Resource = repo.CreateResource(resref, (iblueprint as INWN2Object).ResourceType); */
-
 				return blueprint;
 			}
 			return null;
@@ -660,11 +516,10 @@ namespace creaturevisualizer
 		{
 			// cf Io.CreateBlueprint()
 
-			// TODO: allow Instances w/out a valid Template ... (although it should be discouraged)
-			// - is OBSOLETE
-
 			// NOTE: Instances without any value for "Template" have a null template ResourceEntry
 			// while Instances with an invalid value for "Template" are ResourceType 0 .RES
+
+			// TODO: allow Instances w/out a valid Template ... (although it should be discouraged)
 
 			if (iinstance.Template == null
 				|| (   iinstance.Template.ResourceType != (ushort)2027		// utc // use 'iinstance.ObjectType' if anything.
@@ -680,29 +535,6 @@ namespace creaturevisualizer
 			}
 			else
 			{
-/*				INWN2Instance instance = null;
-
-				switch (iinstance.ObjectType)
-				{
-					case NWN2ObjectType.Creature:  instance = new NWN2CreatureInstance();  break;
-					case NWN2ObjectType.Door:      instance = new NWN2DoorInstance();      break;
-					case NWN2ObjectType.Placeable: instance = new NWN2PlaceableInstance(); break;
-				} */
-
-//				if (instance != null)
-//					instance.CopyFromTemplate(iinstance);
-
-//				instance.Area       = iinstance.Area;		// I don't exactly trust 'CopyFromTemplate()' to do the right thing ->
-/*				instance.Comment    = iinstance.Comment;	// and ... trying to trace what it *does do* is ... nontrivial.
-//				instance.Name       = iinstance.Name;		// readonly
-				instance.ObjectID   = iinstance.ObjectID;
-/				instance.ObjectType = iinstance.ObjectType;	// readonly
-				instance.Template   = iinstance.Template;	// readonly ... but it's not copying the template despite being called "CopyFromTemplate()"
-*/
-//				return instance;
-
-				// NOT SURE ABOUT THIS: SerializationClone() appears to create an
-				// ad hoc Template of type .RES (if a valid Template is not found).
 				var instance = (INWN2Instance)CommonUtils.SerializationClone(iinstance);
 				instance.Area = iinstance.Area;
 				return instance;
@@ -712,6 +544,7 @@ namespace creaturevisualizer
 
 		internal void RecreateModel()
 		{
+			//MessageBox.Show("RecreateModel()");
 			if (Blueprint != null)
 			{
 				Instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(Blueprint); // do you really want to trust that
@@ -729,6 +562,7 @@ namespace creaturevisualizer
 		/// <param name="different"></param>
 		void AddModel(bool different = false)
 		{
+			//MessageBox.Show("AddModel()");
 			if (Instance != null && Initialize())
 			{
 				_f.Changed = CreVisF.ChangedType.ct_non;
@@ -764,8 +598,10 @@ namespace creaturevisualizer
 											// there is for position and rotation.
 
 // set Model position ->
-				var objects = new NetDisplayObjectCollection() { Model }; // can't move a single object - only a collection (of 1).
-				NWN2NetDisplayManager.Instance.MoveObjects(objects, ChangeType.Absolute, false, _pos);
+				_objects.Add(Model);
+
+				_objectsModel = new NetDisplayObjectCollection() { Model }; // can't move a single object - only a collection (of 1).
+				NWN2NetDisplayManager.Instance.MoveObjects(_objectsModel, ChangeType.Absolute, false, _pos);
 
 				Vector3 scale; // don't ask. It works unlike 'Object.Scale'.
 				if (first)
@@ -817,38 +653,148 @@ namespace creaturevisualizer
 				ResetModel(ResetType.RESET_scale); // this is needed to reset placed instance scale
 				_f.PrintModelScale();
 			}
-			else if (Blueprint == null && Scene != null) // clear the scene iff a placed instance was last loaded ->
-			{
-				ClearObjects();
-				// TODO: disable Creature page
-			}
-		}
-
-		void ClearObjects()
-		{
-			var objects = new NetDisplayObjectCollection();
-			foreach (NetDisplayObject @object in Scene.Objects)
-			{
-				//OEIShared.NetDisplay.NetDisplayLightPoint
-				//OEIShared.NetDisplay.NetDisplayModel
-				objects.Add(@object);
-			}
-			NWN2NetDisplayManager.Instance.RemoveObjects(objects);
+//			else if (Blueprint == null && Scene != null) // clear the scene iff a placed instance was last loaded ->
+//			{
+//				ClearObjects();
+//				// TODO: disable Creature page
+//			}
 		}
 
 		/// <summary>
-		/// Moves the light by recreating it at a given position.
-		/// @note Simply re-setting 'Light.Position' doesn't work since I can't
-		/// find an update call for it.
+		/// Initializes the scene. Clears any objects, sets up default lighting,
+		/// and adds a lightpoint.
 		/// </summary>
-		/// <param name="pos"></param>
-		internal void MoveLight(Vector3 pos)
+		bool Initialize()
 		{
-			var objects = new NetDisplayObjectCollection() { Light }; // TODO: cache that
-			NWN2NetDisplayManager.Instance.RemoveObjects(objects);
-	
-			_posLight = pos;
-			CreateLight();
+			//MessageBox.Show("Initialize()");
+			if (_f.WindowState != FormWindowState.Minimized)
+			{
+				// NOTE: CloseWindow() wipes out the Scene along with its Objects.
+				// But does it clear 'NWN2NetDisplayManager.Instance.Objects' correctly.
+				CloseWindow(); // safety - try not to confuse the NWN2NetDisplayManager.Instance ... too late.
+
+				if (NDWindow == null)
+					OpenWindow();
+
+				if (NDWindow != null && Scene != null)
+				{
+					if (Scene.DayNightCycleStages[(int)DayNightStageType.Default] != null)
+					{
+						Scene.DayNightCycleStages[(int)DayNightStageType.Default].SunMoonDirection = DEF_SUNMOON_DIRECTION;
+						Scene.DayNightCycleStages[(int)DayNightStageType.Default].ShadowIntensity  = DEF_SHADOW_INTENSITY;
+					}
+
+/*		case DayNightStageType.Default:								// OEIShared.NetDisplay.DayNightState ->
+			SunMoonDirection = new Vector3(-0.05f, 0.08f, -0.1f);
+			SunMoon.DiffuseColor = Color.FromArgb(194, 139, 87);
+			SunMoon.SpecularColor = Color.FromArgb(173, 188, 163);
+			SunMoon.AmbientColor = Color.FromArgb(255, 255, 255);
+			SunMoon.Intensity = 1f;
+			SkyLight.DiffuseColor = Color.FromArgb(215, 229, 250);
+			SkyLight.SpecularColor = Color.FromArgb(194, 139, 87);
+			SkyLight.AmbientColor = Color.FromArgb(255, 255, 255);
+			SkyLight.Intensity = 0.2f;
+			GroundLight.DiffuseColor = Color.FromArgb(221, 194, 161);
+			GroundLight.SpecularColor = Color.FromArgb(221, 194, 161);
+			GroundLight.AmbientColor = Color.FromArgb(255, 255, 255);
+			GroundLight.Intensity = 0.45f;
+			SkyHorizon = Color.FromArgb(163, 189, 255);
+			SkyZenith = Color.FromArgb(173, 194, 255);
+			Fog.FogColor = Color.FromArgb(134, 153, 211);
+			Fog.FarClip = 200f;
+			Fog.FogStart = 60f;
+			Fog.FogEnd = 170f;
+			AvgLuminance = 0.65f;
+			BloomBlurRadius = 6.4f;
+			BloomGlowIntensity = 0f;
+			BloomHighlightIntensity = 0.54f;
+			BloomHighlightThreshold = 0.86f;
+			BloomSceneIntensity = 1f;
+			CloudCover = 0.8f;
+			CloudMovementRateX = 0.04f;
+			CloudMovementRateY = 0f;
+			Exposure = 5f;
+			HighlightThreshold = 5f;
+			MaxLuminance = 3.65f;
+			ShadowIntensity = 0.42f;
+			SunCoronaIntensity = 0.33f;
+			break;
+*/
+
+					CreateLight();
+
+					_f.PrintLightIntensity(Light.Color.Intensity);
+					_f.PrintDiffuseColor();
+					_f.PrintSpecularColor();
+					_f.PrintAmbientColor();
+
+//					SetDoubleBuffered(NDWindow);
+//					SetDoubleBuffered(NWN2NetDisplayManager.Instance.Windows);
+
+//					var a = new NetDisplayWindow[NWN2NetDisplayManager.Instance.Windows.Count];
+//					for (int i = 0; i != NWN2NetDisplayManager.Instance.Windows.Count; ++i)
+//						a[i] = NWN2NetDisplayManager.Instance.Windows[i];
+//					SetDoubleBuffered(a);
+
+					return true;
+				}
+			}
+			return false;
+		}
+
+		void CreateLight()
+		{
+			//MessageBox.Show("CreateLight()");
+			Light = new NetDisplayLightPoint();
+
+			Light.Position        = _posLight;
+
+			Light.Color.Intensity = CreatureVisualizerPreferences.that.LightIntensity;
+			Light.Range           = LIGHT_START_RANGE;
+			Light.CastsShadow     = false;
+
+			Light.ID              = NetDisplayManager.Instance.NextObjectID;
+			Light.Tag             = Light;
+
+
+			if (ColorCheckedDiffuse)  Light.Color.DiffuseColor  = (Color)ColorDiffuse;
+			if (ColorCheckedSpecular) Light.Color.SpecularColor = (Color)ColorSpecular;
+			if (ColorCheckedAmbient)  Light.Color.AmbientColor  = (Color)ColorAmbient;
+
+
+			lock (Scene.Objects.SyncRoot)
+			{
+				Scene.Objects.Add(Light);
+			}
+			lock (NWN2NetDisplayManager.Instance.Objects.SyncRoot)
+			{
+				NWN2NetDisplayManager.Instance.Objects.Add(Light);
+			}
+
+			NWN2NetDisplayManager.Instance.LightParameters(Scene, Light);
+			_f.PrintLightPosition(Light.Position);
+
+
+			_objects.Add(Light);
+			_objectsLight = new NetDisplayObjectCollection() { Light };
+		}
+
+//		int iter;
+		/// <summary>
+		/// Moves the light-object.
+		/// </summary>
+		/// <param name="posabs"></param>
+		internal void MoveLight(Vector3 posabs)
+		{
+//			if (++iter == 5)
+//			{
+//				var t = new System.Diagnostics.StackTrace();
+//				System.IO.File.WriteAllText(@"C:\GIT\CreatureVisualizer\t\stacktrace.txt", t.ToString());
+//				System.Diagnostics.Process.GetCurrentProcess().Kill();
+//			}
+
+			//MessageBox.Show("MoveLight()");
+			NWN2NetDisplayManager.Instance.MoveObjects(_objectsLight, ChangeType.Absolute, false, posabs);
 		}
 
 /*		void ClearLight()
@@ -889,8 +835,7 @@ namespace creaturevisualizer
 
 		internal void MoveModel(Vector3 posrel)
 		{
-			var objects = new NetDisplayObjectCollection() { Model }; // TODO: cache that
-			NWN2NetDisplayManager.Instance.MoveObjects(objects, ChangeType.Relative, false, posrel);
+			NWN2NetDisplayManager.Instance.MoveObjects(_objectsModel, ChangeType.Relative, false, posrel);
 			_f.PrintModelPosition(Model);
 		}
 
@@ -924,8 +869,7 @@ namespace creaturevisualizer
 
 		internal void ResetModel()
 		{
-			var objects = new NetDisplayObjectCollection() { Model }; // TODO: cache that
-			NWN2NetDisplayManager.Instance.MoveObjects(objects, ChangeType.Absolute, false, new Vector3());
+			NWN2NetDisplayManager.Instance.MoveObjects(_objectsModel, ChangeType.Absolute, false, new Vector3());
 
 			Model.Orientation = RHQuaternion.RotationZ(MODEL_START_ROT);
 			NWN2NetDisplayManager.Instance.RotateObject(Model, ChangeType.Absolute, Model.Orientation);
@@ -947,8 +891,7 @@ namespace creaturevisualizer
 					pos.Y = Model.Position.Y;
 					pos.Z = 0;
 
-					var objects = new NetDisplayObjectCollection() { Model }; // TODO: cache that
-					NWN2NetDisplayManager.Instance.MoveObjects(objects, ChangeType.Absolute, false, pos);
+					NWN2NetDisplayManager.Instance.MoveObjects(_objectsModel, ChangeType.Absolute, false, pos);
 					_f.PrintModelPosition(Model);
 					break;
 				}
@@ -960,8 +903,7 @@ namespace creaturevisualizer
 					pos.Y = 0;
 					pos.Z = Model.Position.Z;
 
-					var objects = new NetDisplayObjectCollection() { Model }; // TODO: cache that
-					NWN2NetDisplayManager.Instance.MoveObjects(objects, ChangeType.Absolute, false, pos);
+					NWN2NetDisplayManager.Instance.MoveObjects(_objectsModel, ChangeType.Absolute, false, pos);
 					_f.PrintModelPosition(Model);
 					break;
 				}
