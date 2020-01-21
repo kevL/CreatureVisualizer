@@ -311,7 +311,10 @@ namespace creaturevisualizer
 			}
 
 
+//			lock (NWN2NetDisplayManager.Instance.Objects.SyncRoot) // not sure ...
+//			{
 			NWN2NetDisplayManager.Instance.RemoveObjects(_objects);
+//			}
 			_objects.Clear();
 
 

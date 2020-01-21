@@ -277,8 +277,21 @@ namespace creaturevisualizer
 			// NOTE: The object could get inserted to 1+ collections causing
 			// this to fire for every one. In practice I've seen 1..3 repeats.
 			// Ironically this does *not* even fire when drag selecting objects.
+			//
+			// It seems that if, for example, a creature has equipment, this
+			// fires for each item - as if another NetDisplayObject is being
+			// created for each item and added to the Collection, one after
+			// another. But it further seems that only certain equipment-slots
+			// actually trigger this behavior - for example, a sword or a shield
+			// will trigger this extra-object-added, but armor doesn't.
+			//
+			// so, you know by now, go figure. Not much I can do about it short
+			// of rewriting and recompiling and redistributing their .DLLs
+			//
+			// - which isn't going to happen.
 
-			if (!_bypassInsert)
+			// value= OEIShared.NetDisplay.NetDisplayModel
+			if (!_bypassInsert && (cList as NetDisplayObjectCollection) != null)
 			{
 				var areaviewer = NWN2ToolsetMainForm.App.GetActiveViewer() as NWN2AreaViewer;
 				if (areaviewer != null)
@@ -729,12 +742,12 @@ namespace creaturevisualizer
 				if (_panel.Blueprint != null)
 				{
 					Io.SaveToCampaign(_panel.Blueprint);
-				// TODO: update blueprint tree
+					// TODO: update blueprint tree
 				}
 				else if (_panel.Instance != null)
 				{
 					Io.SaveToCampaign(_panel.Instance);
-				// TODO: update blueprint tree
+					// TODO: update blueprint tree
 				}
 			}
 		}
