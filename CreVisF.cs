@@ -291,7 +291,9 @@ namespace creaturevisualizer
 			// - which isn't going to happen.
 
 			// value= OEIShared.NetDisplay.NetDisplayModel
-			if (!_bypassInsert && (cList as NetDisplayObjectCollection) != null)
+			if (!_bypassInsert)
+//				&& (cList is NetDisplayObjectCollection)
+//				&& (value is NetDisplayModel))
 			{
 				var areaviewer = NWN2ToolsetMainForm.App.GetActiveViewer() as NWN2AreaViewer;
 				if (areaviewer != null)
