@@ -366,7 +366,7 @@ namespace creaturevisualizer
 
 					_f.bu_creature_apply.Text = "APPLY to Instance";
 				}
-// second check blueprint lists for a selected Blueprint ->
+// second check blueprint tree for a selected Blueprint ->
 				else
 				{
 					NWN2BlueprintView blueprintview = NWN2ToolsetMainForm.App.BlueprintView;
@@ -494,15 +494,30 @@ namespace creaturevisualizer
 
 				blueprint.Comment = iblueprint.Comment;
 
-				if (iblueprint.ObjectType == NWN2ObjectType.Creature)
+				if (blueprint.ObjectType == NWN2ObjectType.Creature)
 				{
-					// TODO: if (prefs.HandleEquippedItems)
-					(blueprint as NWN2CreatureTemplate).EquippedItems =
-						(NWN2EquipmentSlotCollection)CommonUtils.SerializationClone((iblueprint as NWN2CreatureTemplate).EquippedItems);
+					ProcessEquippedItems(blueprint);
+					// something funny going on here ...
+					// why does this not appear to be needed ->
+/*					if (CreatureVisualizerPreferences.that.ProcessEquippedItems)
+					{
+						(blueprint as NWN2CreatureTemplate).EquippedItems =
+							(NWN2EquipmentSlotCollection)CommonUtils.SerializationClone((iblueprint as NWN2CreatureTemplate).EquippedItems);
+					}
+					else
+					if (!CreatureVisualizerPreferences.that.ProcessEquippedItems)
+					{
+						for (int i = 0; i != (blueprint as NWN2CreatureTemplate).EquippedItems.Count; ++i)
+						{
+							(blueprint as NWN2CreatureTemplate).EquippedItems[i].Item = null;
+						}
+					} */
 
-					// TODO: if (prefs.HandleInventoryItems)
-					(blueprint as NWN2CreatureBlueprint).Inventory =
-						(NWN2BlueprintInventoryItemCollection)CommonUtils.SerializationClone((iblueprint as NWN2CreatureBlueprint).Inventory);
+//					if (CreatureVisualizerPreferences.that.ProcessInventoryItems)
+//					{
+//						(blueprint as NWN2CreatureBlueprint).Inventory =
+//							(NWN2BlueprintInventoryItemCollection)CommonUtils.SerializationClone((iblueprint as NWN2CreatureBlueprint).Inventory);
+//					}
 				}
 
 
@@ -525,7 +540,7 @@ namespace creaturevisualizer
 			// TODO: allow Instances w/out a valid Template ... (although it should be discouraged)
 
 			if (iinstance.Template == null
-				|| (   iinstance.Template.ResourceType != (ushort)2027		// utc // use 'iinstance.ObjectType' if anything.
+				|| (   iinstance.Template.ResourceType != (ushort)2027		// utc
 					&& iinstance.Template.ResourceType != (ushort)2042		// utd
 					&& iinstance.Template.ResourceType != (ushort)2044))	// utp
 			{
@@ -540,18 +555,40 @@ namespace creaturevisualizer
 			{
 				var instance = (INWN2Instance)CommonUtils.SerializationClone(iinstance);
 				instance.Area = iinstance.Area;
+
+				if (instance.ObjectType == NWN2ObjectType.Creature)
+					ProcessEquippedItems(instance);
+
 				return instance;
 			}
 			return null;
 		}
 
-		internal void RecreateModel()
+		void ProcessEquippedItems(INWN2Template itemplate)
+		{
+			if (!CreatureVisualizerPreferences.that.ProcessEquippedItems)
+			{
+				for (int i = 0; i != (itemplate as NWN2CreatureTemplate).EquippedItems.Count; ++i)
+				{
+					(itemplate as NWN2CreatureTemplate).EquippedItems[i].Item = null;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Updates the NetDisplayModel after changing creature characteristics.
+		/// </summary>
+		internal void UpdateModel()
 		{
 			//MessageBox.Show("RecreateModel()");
 			if (Blueprint != null)
 			{
 				Instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(Blueprint); // do you really want to trust that
 				AddModel();
+//				NWN2NetDisplayManager.Instance.HandleAppearanceChange();
+//				NWN2NetDisplayManager.Instance.UpdateAppearanceForCreatureInventory();
+//				NWN2NetDisplayManager.Instance.UpdateAppearanceForInstance();
+//				NWN2NetDisplayManager.Instance.Update();
 			}
 			else if (Instance != null)
 			{

@@ -75,11 +75,11 @@ namespace creaturevisualizer
 		#endregion Properties
 
 
-		public bool HandleEquippedItems
+		public bool ProcessEquippedItems
 		{ get; set; }
 
-		public bool HandleInventoryItems
-		{ get; set; }
+//		public bool ProcessInventoryItems
+//		{ get; set; }
 
 
 		#region cTor
@@ -103,8 +103,8 @@ namespace creaturevisualizer
 
 			LastSaveDirectory = String.Empty;
 
-			HandleEquippedItems  = true;
-			HandleInventoryItems = true;
+			ProcessEquippedItems  = true;
+//			ProcessInventoryItems = true;
 		}
 		#endregion cTor
 	}

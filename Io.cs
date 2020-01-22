@@ -138,9 +138,9 @@ namespace creaturevisualizer
 
 					iblueprint.Comment = iinstance.Comment;
 
-					if (iinstance.ObjectType == NWN2ObjectType.Creature)
+/*					if (iinstance.ObjectType == NWN2ObjectType.Creature)
 					{
-						if (CreatureVisualizerPreferences.that.HandleEquippedItems)
+						if (CreatureVisualizerPreferences.that.ProcessEquippedItems)
 						{
 //							blueprint.EquippedItems = (NWN2EquipmentSlotCollection)CommonUtils.SerializationClone(instance.EquippedItems);
 
@@ -156,16 +156,16 @@ namespace creaturevisualizer
 						}
 						//else TODO: Might have to clear equipment here
 
-						if (CreatureVisualizerPreferences.that.HandleInventoryItems)
-						{
-							(iblueprint as NWN2CreatureBlueprint).Inventory = new NWN2BlueprintInventoryItemCollection();
-							foreach (NWN2InstanceInventoryItem it in (iinstance as NWN2CreatureInstance).Inventory)
-							{
-								(iblueprint as NWN2CreatureBlueprint).Inventory.Add(new NWN2BlueprintInventoryItem(it));
-							}
-						}
-						//else TODO: Might have to clear inventory here
-					}
+//						if (CreatureVisualizerPreferences.that.ProcessInventoryItems)
+//						{
+//							(iblueprint as NWN2CreatureBlueprint).Inventory = new NWN2BlueprintInventoryItemCollection();
+//							foreach (NWN2InstanceInventoryItem it in (iinstance as NWN2CreatureInstance).Inventory)
+//							{
+//								(iblueprint as NWN2CreatureBlueprint).Inventory.Add(new NWN2BlueprintInventoryItem(it));
+//							}
+//						}
+//						//else TODO: Might have to clear inventory here
+					} */
 				}
 				return iblueprint;
 			}

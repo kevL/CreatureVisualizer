@@ -60,8 +60,8 @@ namespace creaturevisualizer
 
 		MenuItem _itStayOnTop;
 
-		MenuItem _itHandleEquippedItems;
-		MenuItem _itHandleInventoryItems;
+		MenuItem _itProcessEquippedItems;
+//		MenuItem _itProcessInventoryItems;
 
 		MenuItem _itControlPanel;
 		MenuItem _itMiniPanel;
@@ -244,11 +244,11 @@ namespace creaturevisualizer
 			if (!CreatureVisualizerPreferences.that.ShowMinipanel)
 				_itMiniPanel.PerformClick();
 
-			if (!CreatureVisualizerPreferences.that.HandleEquippedItems)
-				_itHandleEquippedItems.PerformClick();
+			if (!CreatureVisualizerPreferences.that.ProcessEquippedItems)
+				_itProcessEquippedItems.PerformClick();
 
-			if (!CreatureVisualizerPreferences.that.HandleInventoryItems)
-				_itHandleInventoryItems.PerformClick();
+//			if (!CreatureVisualizerPreferences.that.ProcessInventoryItems)
+//				_itProcessInventoryItems.PerformClick();
 
 			tc1.SelectedIndex = CreatureVisualizerPreferences.that.TabPageCurrent;
 
@@ -438,13 +438,13 @@ namespace creaturevisualizer
 			_itSaveTo.Enabled = _panel.Instance != null;
 
 // Options ->
-			_itHandleEquippedItems = Menu.MenuItems[1].MenuItems.Add("handle eq&uipped items", optionsclick_HandleEquippedItems);
-			_itHandleEquippedItems.Shortcut = Shortcut.CtrlU;
-			_itHandleEquippedItems.Checked = true;
+			_itProcessEquippedItems = Menu.MenuItems[1].MenuItems.Add("process eq&uipped items", optionsclick_ProcessEquippedItems);
+//			_itProcessEquippedItems.Shortcut = Shortcut.CtrlU;
+			_itProcessEquippedItems.Checked = true;
 
-			_itHandleInventoryItems = Menu.MenuItems[1].MenuItems.Add("handle &inventory items", optionsclick_HandleInventoryItems);
-			_itHandleInventoryItems.Shortcut = Shortcut.CtrlI;
-			_itHandleInventoryItems.Checked = true;
+//			_itProcessInventoryItems = Menu.MenuItems[1].MenuItems.Add("process &inventory items", optionsclick_ProcessInventoryItems);
+//			_itProcessInventoryItems.Shortcut = Shortcut.CtrlI;
+//			_itProcessInventoryItems.Checked = true;
 
 // View ->
 			_itControlPanel = Menu.MenuItems[2].MenuItems.Add("control &panel", viewclick_ControlPanel);
@@ -777,17 +777,19 @@ namespace creaturevisualizer
 		}
 
 
-		void optionsclick_HandleEquippedItems(object sender, EventArgs e)
+		void optionsclick_ProcessEquippedItems(object sender, EventArgs e)
 		{
-			CreatureVisualizerPreferences.that.HandleEquippedItems =
-			(_itHandleEquippedItems.Checked = !_itHandleEquippedItems.Checked);
+			CreatureVisualizerPreferences.that.ProcessEquippedItems =
+			(_itProcessEquippedItems.Checked = !_itProcessEquippedItems.Checked);
+
+			_panel.CreateModel();
 		}
 
-		void optionsclick_HandleInventoryItems(object sender, EventArgs e)
-		{
-			CreatureVisualizerPreferences.that.HandleInventoryItems =
-			(_itHandleInventoryItems.Checked = !_itHandleInventoryItems.Checked);
-		}
+//		void optionsclick_ProcessInventoryItems(object sender, EventArgs e)
+//		{
+//			CreatureVisualizerPreferences.that.ProcessInventoryItems =
+//			(_itProcessInventoryItems.Checked = !_itProcessInventoryItems.Checked);
+//		}
 
 
 		bool _toggle;
@@ -2049,7 +2051,7 @@ namespace creaturevisualizer
 					(_panel.Blueprint as NWN2CreatureTemplate).Gender = (CreatureGender)cbo_creature_gender.SelectedIndex;
 
 
-					_panel.RecreateModel();
+					_panel.UpdateModel();
 
 					Changed = ChangedType.ct_Vi;
 				}
@@ -2058,7 +2060,7 @@ namespace creaturevisualizer
 					(_panel.Instance as NWN2CreatureTemplate).Gender = (CreatureGender)cbo_creature_gender.SelectedIndex;
 
 
-					_panel.RecreateModel();
+					_panel.UpdateModel();
 
 					Changed = ChangedType.ct_Vi;
 				}
