@@ -60,8 +60,8 @@ namespace creaturevisualizer
 
 		MenuItem _itStayOnTop;
 
-		MenuItem _itProcessEquippedItems;
-//		MenuItem _itProcessInventoryItems;
+		MenuItem _itProcessItemsBody;
+		MenuItem _itProcessItemsHeld;
 
 		MenuItem _itControlPanel;
 		MenuItem _itMiniPanel;
@@ -155,8 +155,8 @@ namespace creaturevisualizer
 		internal CreVisF()
 		{
 //			string info = String.Empty;
-//			info += StringDecryptor.Decrypt("");
-//			System.IO.File.WriteAllText(@"C:\GIT\CreatureVisualizer\t\ToolsetSayings.txt", info);
+//			info += StringDecryptor.Decrypt("ᒷᓊᓔᓎᓍ");
+//			System.IO.File.WriteAllText(@"C:\GIT\CreatureVisualizer\t\decrypt.txt", info);
 
 
 			InitializeComponent();
@@ -244,11 +244,11 @@ namespace creaturevisualizer
 			if (!CreatureVisualizerPreferences.that.ShowMinipanel)
 				_itMiniPanel.PerformClick();
 
-			if (!CreatureVisualizerPreferences.that.ProcessEquippedItems)
-				_itProcessEquippedItems.PerformClick();
+			if (!CreatureVisualizerPreferences.that.ProcessEquipped_body)
+				_itProcessItemsBody.PerformClick();
 
-//			if (!CreatureVisualizerPreferences.that.ProcessInventoryItems)
-//				_itProcessInventoryItems.PerformClick();
+			if (!CreatureVisualizerPreferences.that.ProcessEquipped_held)
+				_itProcessItemsHeld.PerformClick();
 
 			tc1.SelectedIndex = CreatureVisualizerPreferences.that.TabPageCurrent;
 
@@ -438,13 +438,13 @@ namespace creaturevisualizer
 			_itSaveTo.Enabled = _panel.Instance != null;
 
 // Options ->
-			_itProcessEquippedItems = Menu.MenuItems[1].MenuItems.Add("process eq&uipped items", optionsclick_ProcessEquippedItems);
-//			_itProcessEquippedItems.Shortcut = Shortcut.CtrlU;
-			_itProcessEquippedItems.Checked = true;
+			_itProcessItemsBody = Menu.MenuItems[1].MenuItems.Add("process equipped &body-items", optionsclick_ProcessItemsBody);
+//			_itProcessItemsBody.Shortcut = Shortcut.CtrlU;
+			_itProcessItemsBody.Checked = true;
 
-//			_itProcessInventoryItems = Menu.MenuItems[1].MenuItems.Add("process &inventory items", optionsclick_ProcessInventoryItems);
-//			_itProcessInventoryItems.Shortcut = Shortcut.CtrlI;
-//			_itProcessInventoryItems.Checked = true;
+			_itProcessItemsHeld = Menu.MenuItems[1].MenuItems.Add("process equipped &held-items", optionsclick_ProcessItemsHeld);
+//			_itProcessItemsHeld.Shortcut = Shortcut.CtrlI;
+			_itProcessItemsHeld.Checked = true;
 
 // View ->
 			_itControlPanel = Menu.MenuItems[2].MenuItems.Add("control &panel", viewclick_ControlPanel);
@@ -777,19 +777,19 @@ namespace creaturevisualizer
 		}
 
 
-		void optionsclick_ProcessEquippedItems(object sender, EventArgs e)
+		void optionsclick_ProcessItemsBody(object sender, EventArgs e)
 		{
-			CreatureVisualizerPreferences.that.ProcessEquippedItems =
-			(_itProcessEquippedItems.Checked = !_itProcessEquippedItems.Checked);
+			CreatureVisualizerPreferences.that.ProcessEquipped_body =
+			(_itProcessItemsBody.Checked = !_itProcessItemsBody.Checked);
 
 			_panel.CreateModel();
 		}
 
-//		void optionsclick_ProcessInventoryItems(object sender, EventArgs e)
-//		{
-//			CreatureVisualizerPreferences.that.ProcessInventoryItems =
-//			(_itProcessInventoryItems.Checked = !_itProcessInventoryItems.Checked);
-//		}
+		void optionsclick_ProcessItemsHeld(object sender, EventArgs e)
+		{
+			CreatureVisualizerPreferences.that.ProcessEquipped_held =
+			(_itProcessItemsHeld.Checked = !_itProcessItemsHeld.Checked);
+		}
 
 
 		bool _toggle;
@@ -2307,18 +2307,60 @@ namespace creaturevisualizer
 			}
 			return unit;
 		}
+		#endregion Methods
 
 
+		#region Methods (creature)
 		internal void EnableCreaturePage(bool enabled)
 		{
-			tp_creature.Enabled = enabled;
+			tp_creature1.Enabled =
+			tp_creature2.Enabled = enabled;
 		}
 
-		internal void InitGender(CreatureGender gender)
+		internal void InitializeGender(CreatureGender gender)
 		{
 			cbo_creature_gender.SelectedIndex = (int)gender;
 		}
-		#endregion Methods
+
+		internal void InitializeItems(NWN2CreatureTemplate template)
+		{
+			cb_creature_helm  .Checked = template.HasHelm;
+			cb_creature_boots .Checked = template.HasBoots;
+			cb_creature_gloves.Checked = template.HasGloves;
+			cb_creature_belt  .Checked = template.HasBelt;
+			cb_creature_cloak .Checked = template.HasCloak;
+
+			cb_creature_nevershowarmor .Checked = template.NeverShowArmor;
+			cb_creature_neverdrawhelmet.Checked = template.NeverDrawHelmet;
+
+			cb_creature_facialhair.Checked = template.AppearanceFacialHair;
+
+//			cb_creature_naked.Checked = template;
+		}
+		#endregion Methods (creature)
+
+
+		#region Handlers (apparel)
+		void checkchanged_Apparel(object sender, EventArgs e)
+		{
+/*			var cb = sender as CheckBox;
+			if (cb == cb_creature_helm)
+			{
+			}
+			else if (cb == cb_creature_boots)
+			{
+			}
+			else if (cb == cb_creature_gloves)
+			{
+			}
+			else if (cb == cb_creature_belt)
+			{
+			}
+			else if (cb == cb_creature_cloak)
+			{
+			} */
+		}
+		#endregion Handlers (apparel)
 	}
 
 
