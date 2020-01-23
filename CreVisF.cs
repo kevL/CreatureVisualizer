@@ -792,6 +792,8 @@ namespace creaturevisualizer
 		{
 			CreatureVisualizerPreferences.that.ProcessEquipped_held =
 			(_itProcessItemsHeld.Checked = !_itProcessItemsHeld.Checked);
+
+			_panel.CreateModel();
 		}
 
 

@@ -499,7 +499,7 @@ namespace creaturevisualizer
 
 				if (blueprint.ObjectType == NWN2ObjectType.Creature)
 				{
-					ProcessEquippedItems(blueprint);
+					ProcessEquippedItems(blueprint as NWN2CreatureTemplate);
 					// something funny going on here ...
 					// why does this not appear to be needed ->
 /*					if (CreatureVisualizerPreferences.that.ProcessEquippedItems)
@@ -560,29 +560,53 @@ namespace creaturevisualizer
 				instance.Area = iinstance.Area;
 
 				if (instance.ObjectType == NWN2ObjectType.Creature)
-					ProcessEquippedItems(instance);
+					ProcessEquippedItems(instance as NWN2CreatureTemplate);
 
 				return instance;
 			}
 			return null;
 		}
 
-		void ProcessEquippedItems(INWN2Template itemplate)
+		void ProcessEquippedItems(NWN2CreatureTemplate template)
 		{
-//			if (!CreatureVisualizerPreferences.that.ProcessEquipped_body)
-//			{
-/*			string slots = String.Empty;
-			for (int i = 0; i != (itemplate as NWN2CreatureTemplate).EquippedItems.Count; ++i)
+			for (int i = 0; i != template.EquippedItems.Count; ++i)
 			{
-				slots += ((itemplate as NWN2CreatureTemplate).EquippedItems[i].Slot) + "\n";
+				switch (template.EquippedItems[i].Slot)
+				{
+					case "Head": // TODO: figure out how to use legit enums for these ->
+					case "Chest":
+					case "Boots":
+					case "Arms":
+					case "Cloak":
+					case "Left Ring":
+					case "Right Ring":
+					case "Neck":
+					case "Belt":
+					case "Arrows":
+					case "Bullets":
+					case "Bolts":
+					case "Creature Weapon 1":
+					case "Creature Weapon 2":
+					case "Creature Weapon 3":
+					case "Creature Hide":
+						if (!CreatureVisualizerPreferences.that.ProcessEquipped_body)
+						{
+							template.EquippedItems[i].Item = null;
+						}
+						break;
 
-//				(itemplate as NWN2CreatureTemplate).EquippedItems[i].Item = null;
+					case "Right Hand":
+					case "Left Hand":
+						if (!CreatureVisualizerPreferences.that.ProcessEquipped_held)
+						{
+							template.EquippedItems[i].Item = null;
+						}
+						break;
+				}
 			}
-			MessageBox.Show(slots); */
-//			}
 		}
 
-		/// <summary>
+/*		/// <summary>
 		/// Updates the NetDisplayModel after changing creature characteristics.
 		/// </summary>
 		internal void UpdateModel()
@@ -601,7 +625,7 @@ namespace creaturevisualizer
 			{
 				AddModel();
 			}
-		}
+		} */
 
 		/// <summary>
 		/// Adds a model-instance to the scene.
