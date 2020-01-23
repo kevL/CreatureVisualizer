@@ -324,9 +324,9 @@ namespace creaturevisualizer
 			Blueprint = null; // is instantiated only by a Blueprint
 			Instance  = null; // is instantiated by either a Blueprint or an Instance
 
-			_f.bu_creature_apply1.Enabled =
-			_f.bu_creature_apply2.Enabled = false;
-			_f.EnableCreaturePage(false);
+//			_f.bu_creature_apply1.Enabled =
+//			_f.bu_creature_apply2.Enabled = false;
+//			_f.EnableCreaturePages(false);
 
 			if (MousePanel != null && !MousePanel.IsDisposed) // safety. ElectronPanel.MousePanel could go disposed for no good reason.
 			{
@@ -356,19 +356,18 @@ namespace creaturevisualizer
 						_f.PrintResourceInfo(Instance);
 
 
-						if (Instance.ObjectType == NWN2ObjectType.Creature)
-						{
-							_f.bu_creature_apply1.Enabled =
-							_f.bu_creature_apply2.Enabled = Instance.Template != null;		// NOTE: 'Template' should actually be 'Resource' or 'TemplateResource'
-							_f.EnableCreaturePage(true);									// like ya know 'Blueprint.Resource' is ... since it's not a 'Template'
-																							// it's a 'ResourceEntry'. 'Template' has a distinct meaning and it's
-							_f.InitializeGender((Instance as NWN2CreatureTemplate).Gender);	// not 'ResourceEntry'.
-							_f.InitializeItems(Instance as NWN2CreatureTemplate);
-						}
+//						if (Instance.ObjectType == NWN2ObjectType.Creature)
+//						{
+//							_f.bu_creature_apply1.Enabled =
+//							_f.bu_creature_apply2.Enabled = Instance.Template != null;		// NOTE: 'Template' should actually be 'Resource' or 'TemplateResource'
+//							_f.EnableCreaturePages(true);									// like ya know 'Blueprint.Resource' is ... since it's not a 'Template'
+//																							// it's a 'ResourceEntry'. 'Template' has a distinct meaning and it's
+//							_f.InitializeCreaturePages(Instance as NWN2CreatureTemplate);	// not 'ResourceEntry'.
+//						}
 					}
 
-					_f.bu_creature_apply1.Text =
-					_f.bu_creature_apply2.Text = "APPLY to Instance";
+//					_f.bu_creature_apply1.Text =
+//					_f.bu_creature_apply2.Text = "APPLY to Instance";
 				}
 // second check blueprint tree for a selected Blueprint ->
 				else
@@ -400,12 +399,10 @@ namespace creaturevisualizer
 								switch (objecttype)
 								{
 									case NWN2ObjectType.Creature:
-										_f.bu_creature_apply1.Enabled =
-										_f.bu_creature_apply2.Enabled = (Blueprint.Resource.Repository as DirectoryResourceRepository) != null;
-										_f.EnableCreaturePage(true);
-
-										_f.InitializeGender((Blueprint as NWN2CreatureTemplate).Gender);
-										_f.InitializeItems(Blueprint as NWN2CreatureTemplate);
+//										_f.bu_creature_apply1.Enabled =
+//										_f.bu_creature_apply2.Enabled = (Blueprint.Resource.Repository as DirectoryResourceRepository) != null;
+//										_f.EnableCreaturePages(true);
+//										_f.InitializeCreaturePages(Blueprint as NWN2CreatureTemplate);
 /*
 //										((NWN2CreatureBlueprint)blueprint).AppearanceHair; // byte
 										// etc ...
@@ -456,8 +453,8 @@ namespace creaturevisualizer
 						}
 					}
 
-					_f.bu_creature_apply1.Text =
-					_f.bu_creature_apply2.Text = "APPLY to Blueprint";
+//					_f.bu_creature_apply1.Text =
+//					_f.bu_creature_apply2.Text = "APPLY to Blueprint";
 				}
 
 				AddModel(different);
@@ -570,15 +567,19 @@ namespace creaturevisualizer
 			return null;
 		}
 
-		void  ProcessEquippedItems(INWN2Template itemplate)
+		void ProcessEquippedItems(INWN2Template itemplate)
 		{
-			if (!CreatureVisualizerPreferences.that.ProcessEquipped_body)
+//			if (!CreatureVisualizerPreferences.that.ProcessEquipped_body)
+//			{
+/*			string slots = String.Empty;
+			for (int i = 0; i != (itemplate as NWN2CreatureTemplate).EquippedItems.Count; ++i)
 			{
-				for (int i = 0; i != (itemplate as NWN2CreatureTemplate).EquippedItems.Count; ++i)
-				{
-					(itemplate as NWN2CreatureTemplate).EquippedItems[i].Item = null;
-				}
+				slots += ((itemplate as NWN2CreatureTemplate).EquippedItems[i].Slot) + "\n";
+
+//				(itemplate as NWN2CreatureTemplate).EquippedItems[i].Item = null;
 			}
+			MessageBox.Show(slots); */
+//			}
 		}
 
 		/// <summary>

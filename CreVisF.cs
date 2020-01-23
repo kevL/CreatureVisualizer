@@ -12,9 +12,11 @@ using NWN2Toolset.NWN2.Data.Instances;
 using NWN2Toolset.NWN2.Data.Templates;
 using NWN2Toolset.NWN2.Data.TypedCollections;
 using NWN2Toolset.NWN2.NetDisplay;
+//using NWN2Toolset.NWN2.UI;
 using NWN2Toolset.NWN2.Views;
 
 using OEIShared.IO;
+//using OEIShared.IO.MDB;
 using OEIShared.NetDisplay;
 using OEIShared.OEIMath;
 using OEIShared.UI.Input;
@@ -155,7 +157,8 @@ namespace creaturevisualizer
 		internal CreVisF()
 		{
 //			string info = String.Empty;
-//			info += StringDecryptor.Decrypt("ᒷᓊᓔᓎᓍ");
+//			info += StringDecryptor.Decrypt("ᒪᓙᓙᓎᓊᓛᓊᓗᓌᓎᒱᓎᓊᓍ") + "\n";
+//			info += StringDecryptor.Decrypt("ᒪᓙᓙᓎᓊᓛᓊᓗᓌᓎᒱᓊᓒᓛ\n") + "\n";
 //			System.IO.File.WriteAllText(@"C:\GIT\CreatureVisualizer\t\decrypt.txt", info);
 
 
@@ -650,7 +653,7 @@ namespace creaturevisualizer
 								break;
 
 							case DialogResult.OK:		// apply changes to blueprint/instance and proceed
-								click_bu_creature_apply(null, EventArgs.Empty);
+//								click_bu_creature_apply(null, EventArgs.Empty);
 								ret = true;
 								break;
 
@@ -2042,13 +2045,13 @@ namespace creaturevisualizer
 			return text;
 		}
 
-		void click_bu_creature_display(object sender, EventArgs e)
+/*		void click_bu_creature_display(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
 			{
 				if (_panel.Blueprint != null)
 				{
-					(_panel.Blueprint as NWN2CreatureTemplate).Gender = (CreatureGender)cbo_creature_gender.SelectedIndex;
+					(_panel.Blueprint as NWN2CreatureTemplate).Gender = (CreatureGender)cbo_creature_gendertype.SelectedIndex;
 
 
 					_panel.UpdateModel();
@@ -2057,7 +2060,7 @@ namespace creaturevisualizer
 				}
 				else if (_panel.Instance != null)
 				{
-					(_panel.Instance as NWN2CreatureTemplate).Gender = (CreatureGender)cbo_creature_gender.SelectedIndex;
+					(_panel.Instance as NWN2CreatureTemplate).Gender = (CreatureGender)cbo_creature_gendertype.SelectedIndex;
 
 
 					_panel.UpdateModel();
@@ -2076,7 +2079,7 @@ namespace creaturevisualizer
 					if (Changed != ChangedType.ct_Vi)
 						click_bu_creature_display(null, EventArgs.Empty);
 
-					(_panel.Blueprint_base as NWN2CreatureTemplate).Gender = (CreatureGender)cbo_creature_gender.SelectedIndex;
+					(_panel.Blueprint_base as NWN2CreatureTemplate).Gender = (CreatureGender)cbo_creature_gendertype.SelectedIndex;
 
 
 					Changed = ChangedType.ct_Ts;
@@ -2086,7 +2089,7 @@ namespace creaturevisualizer
 					if (Changed != ChangedType.ct_Vi)
 						click_bu_creature_display(null, EventArgs.Empty);
 
-					(_panel.Instance_base as NWN2CreatureTemplate).Gender = (CreatureGender)cbo_creature_gender.SelectedIndex;
+					(_panel.Instance_base as NWN2CreatureTemplate).Gender = (CreatureGender)cbo_creature_gendertype.SelectedIndex;
 
 
 					Changed = ChangedType.ct_Ts;
@@ -2094,7 +2097,7 @@ namespace creaturevisualizer
 
 				// TODO: update Property in the toolset panel co-temporaneously.
 			}
-		}
+		} */
 		#endregion Handlers (creature)
 
 
@@ -2311,19 +2314,84 @@ namespace creaturevisualizer
 
 
 		#region Methods (creature)
-		internal void EnableCreaturePage(bool enabled)
-		{
-			tp_creature1.Enabled =
-			tp_creature2.Enabled = enabled;
-		}
+//		internal void EnableCreaturePages(bool enabled)
+//		{
+//			tp_creature1.Enabled =
+//			tp_creature2.Enabled = enabled;
+//		}
 
-		internal void InitializeGender(CreatureGender gender)
+/*		internal void InitializeCreaturePages(NWN2CreatureTemplate template)
 		{
-			cbo_creature_gender.SelectedIndex = (int)gender;
-		}
+// Creature1 page ->
 
-		internal void InitializeItems(NWN2CreatureTemplate template)
-		{
+			cbo_creature_gendertype.SelectedIndex = (int)template.Gender;
+
+			cb_creature_facialhair.Checked = template.AppearanceFacialHair;
+
+
+			int id;
+
+			var iprefixer = template as INWN2ModelPartPrefixer;
+			object[] attributes;
+
+			id = -1;
+			cbo_creature_headtype.Items.Clear();
+			attributes = iprefixer.GetType()
+								  .GetProperty("AppearanceHead")
+								  .GetCustomAttributes(typeof(PartSelectorAttribute), true);
+			if (attributes.Length != 0)
+			{
+				var attribute = attributes[0] as PartSelectorAttribute;
+				if (attribute != null)
+				{
+					List<int> variations = MDBUtils.GetNumPartVariations(iprefixer.GetModelPartPrefix(attribute.StringToPassToPartPrefixer),
+																		 attribute.PartType,
+																		 attribute.FileFormatString,
+																		 attribute.PacketFormatString,
+																		 attribute.SeparateFiles);
+					for (int i = 0; i != variations.Count; ++i)
+					{
+						cbo_creature_headtype.Items.Add(variations[i]);
+						if (variations[i] == template.AppearanceHead)
+							id = i;
+					}
+				}
+			}
+
+			if (cbo_creature_headtype.Enabled = id != -1)
+				cbo_creature_headtype.SelectedIndex = id;
+
+
+			id = -1;
+			cbo_creature_hairtype.Items.Clear();
+			attributes = iprefixer.GetType()
+								  .GetProperty("AppearanceHair")
+								  .GetCustomAttributes(typeof(PartSelectorAttribute), true);
+			if (attributes.Length != 0)
+			{
+				var attribute = attributes[0] as PartSelectorAttribute;
+				if (attribute != null)
+				{
+					List<int> variations = MDBUtils.GetNumPartVariations(iprefixer.GetModelPartPrefix(attribute.StringToPassToPartPrefixer),
+																		 attribute.PartType,
+																		 attribute.FileFormatString,
+																		 attribute.PacketFormatString,
+																		 attribute.SeparateFiles);
+					for (int i = 0; i != variations.Count; ++i)
+					{
+						cbo_creature_hairtype.Items.Add(variations[i]);
+						if (variations[i] == template.AppearanceHair)
+							id = i;
+					}
+				}
+			}
+
+			if (cbo_creature_hairtype.Enabled = id != -1)
+				cbo_creature_hairtype.SelectedIndex = id;
+
+
+// Creature2 page ->
+
 			cb_creature_helm  .Checked = template.HasHelm;
 			cb_creature_boots .Checked = template.HasBoots;
 			cb_creature_gloves.Checked = template.HasGloves;
@@ -2333,17 +2401,17 @@ namespace creaturevisualizer
 			cb_creature_nevershowarmor .Checked = template.NeverShowArmor;
 			cb_creature_neverdrawhelmet.Checked = template.NeverDrawHelmet;
 
-			cb_creature_facialhair.Checked = template.AppearanceFacialHair;
 
-//			cb_creature_naked.Checked = template;
-		}
+			//cbo_creature_maintype
+			//cbo_creature_mainvariation
+		} */
 		#endregion Methods (creature)
 
 
 		#region Handlers (apparel)
-		void checkchanged_Apparel(object sender, EventArgs e)
+/*		void checkchanged_Apparel(object sender, EventArgs e)
 		{
-/*			var cb = sender as CheckBox;
+			var cb = sender as CheckBox;
 			if (cb == cb_creature_helm)
 			{
 			}
@@ -2358,8 +2426,8 @@ namespace creaturevisualizer
 			}
 			else if (cb == cb_creature_cloak)
 			{
-			} */
-		}
+			}
+		} */
 		#endregion Handlers (apparel)
 	}
 

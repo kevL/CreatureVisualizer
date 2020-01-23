@@ -115,40 +115,6 @@ namespace creaturevisualizer
 		Label la_dz;
 
 
-		TabPage tp_creature1;
-		TabPage tp_creature2;
-
-		Button bu_creature_display1;
-		internal Button bu_creature_apply1;
-
-		Button bu_creature_display2;
-		internal Button bu_creature_apply2;
-
-		ComboBox cbo_creature_gender;
-		Label la_creature_gender;
-
-		ComboBox cbo_creature_maintype;
-		Label la_creature_maintype;
-		ComboBox cbo_creature_mainvariation;
-		Label la_creature_mainvariation;
-		ComboBox cbo_creature_helmtype;
-		Label la_creature_helmtype;
-		ComboBox cbo_creature_helmvariation;
-		Label la_creature_helmvariation;
-
-		CheckBox cb_creature_helm;
-		CheckBox cb_creature_cloak;
-		CheckBox cb_creature_belt;
-		CheckBox cb_creature_gloves;
-		CheckBox cb_creature_boots;
-		CheckBox cb_creature_neverdrawhelmet;
-		CheckBox cb_creature_nevershowarmor;
-		CheckBox cb_creature_naked;
-		CheckBox cb_creature_facialhair;
-		ComboBox cbo_creature_hair;
-		ComboBox cbo_creature_head;
-
-
 		TabPage tp_resource;
 
 		Label la_head_template;
@@ -215,8 +181,6 @@ namespace creaturevisualizer
 
 		IContainer components;
 		ToolTip toolTip1;
-
-		internal TextBox tb_db; // print debug out
 
 
 		/// <summary>
@@ -311,32 +275,6 @@ namespace creaturevisualizer
 			this.bu_camera_xpos = new System.Windows.Forms.Button();
 			this.bu_camera_zneg = new System.Windows.Forms.Button();
 			this.bu_camera_zpos = new System.Windows.Forms.Button();
-			this.tp_creature1 = new System.Windows.Forms.TabPage();
-			this.la_creature_helmvariation = new System.Windows.Forms.Label();
-			this.la_creature_helmtype = new System.Windows.Forms.Label();
-			this.cbo_creature_helmvariation = new System.Windows.Forms.ComboBox();
-			this.cbo_creature_helmtype = new System.Windows.Forms.ComboBox();
-			this.la_creature_mainvariation = new System.Windows.Forms.Label();
-			this.la_creature_maintype = new System.Windows.Forms.Label();
-			this.cbo_creature_mainvariation = new System.Windows.Forms.ComboBox();
-			this.cbo_creature_maintype = new System.Windows.Forms.ComboBox();
-			this.cbo_creature_hair = new System.Windows.Forms.ComboBox();
-			this.cbo_creature_head = new System.Windows.Forms.ComboBox();
-			this.cb_creature_facialhair = new System.Windows.Forms.CheckBox();
-			this.cb_creature_naked = new System.Windows.Forms.CheckBox();
-			this.cb_creature_neverdrawhelmet = new System.Windows.Forms.CheckBox();
-			this.cb_creature_nevershowarmor = new System.Windows.Forms.CheckBox();
-			this.cb_creature_cloak = new System.Windows.Forms.CheckBox();
-			this.cb_creature_belt = new System.Windows.Forms.CheckBox();
-			this.cb_creature_gloves = new System.Windows.Forms.CheckBox();
-			this.cb_creature_boots = new System.Windows.Forms.CheckBox();
-			this.cb_creature_helm = new System.Windows.Forms.CheckBox();
-			this.tb_db = new System.Windows.Forms.TextBox();
-			this.bu_creature_apply1 = new System.Windows.Forms.Button();
-			this.la_creature_gender = new System.Windows.Forms.Label();
-			this.cbo_creature_gender = new System.Windows.Forms.ComboBox();
-			this.bu_creature_display1 = new System.Windows.Forms.Button();
-			this.tp_creature2 = new System.Windows.Forms.TabPage();
 			this.tp_resource = new System.Windows.Forms.TabPage();
 			this.la_resource_repo_t_ = new System.Windows.Forms.Label();
 			this.la_resource_type_t = new System.Windows.Forms.Label();
@@ -395,16 +333,12 @@ namespace creaturevisualizer
 			this.tssl_light_intensity = new System.Windows.Forms.ToolStripStatusLabel();
 			this.pa_gui = new System.Windows.Forms.Panel();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-			this.bu_creature_apply2 = new System.Windows.Forms.Button();
-			this.bu_creature_display2 = new System.Windows.Forms.Button();
 			this.pa_con.SuspendLayout();
 			this.tc1.SuspendLayout();
 			this.tp_controls.SuspendLayout();
 			this.gb_Light.SuspendLayout();
 			this.gb_model.SuspendLayout();
 			this.gb_camera.SuspendLayout();
-			this.tp_creature1.SuspendLayout();
-			this.tp_creature2.SuspendLayout();
 			this.tp_resource.SuspendLayout();
 			this.ss_camera.SuspendLayout();
 			this.ss_model.SuspendLayout();
@@ -428,8 +362,6 @@ namespace creaturevisualizer
 			// tc1
 			// 
 			this.tc1.Controls.Add(this.tp_controls);
-			this.tc1.Controls.Add(this.tp_creature1);
-			this.tc1.Controls.Add(this.tp_creature2);
 			this.tc1.Controls.Add(this.tp_resource);
 			this.tc1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tc1.ItemSize = new System.Drawing.Size(80, 15);
@@ -1529,332 +1461,6 @@ namespace creaturevisualizer
 			this.bu_camera_zpos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mousedown_EnableRepeater);
 			this.bu_camera_zpos.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseup_DisableRepeater);
 			// 
-			// tp_creature1
-			// 
-			this.tp_creature1.Controls.Add(this.la_creature_helmvariation);
-			this.tp_creature1.Controls.Add(this.la_creature_helmtype);
-			this.tp_creature1.Controls.Add(this.cbo_creature_helmvariation);
-			this.tp_creature1.Controls.Add(this.cbo_creature_helmtype);
-			this.tp_creature1.Controls.Add(this.la_creature_mainvariation);
-			this.tp_creature1.Controls.Add(this.la_creature_maintype);
-			this.tp_creature1.Controls.Add(this.cbo_creature_mainvariation);
-			this.tp_creature1.Controls.Add(this.cbo_creature_maintype);
-			this.tp_creature1.Controls.Add(this.cbo_creature_hair);
-			this.tp_creature1.Controls.Add(this.cbo_creature_head);
-			this.tp_creature1.Controls.Add(this.cb_creature_facialhair);
-			this.tp_creature1.Controls.Add(this.cb_creature_naked);
-			this.tp_creature1.Controls.Add(this.cb_creature_neverdrawhelmet);
-			this.tp_creature1.Controls.Add(this.cb_creature_nevershowarmor);
-			this.tp_creature1.Controls.Add(this.cb_creature_cloak);
-			this.tp_creature1.Controls.Add(this.cb_creature_belt);
-			this.tp_creature1.Controls.Add(this.cb_creature_gloves);
-			this.tp_creature1.Controls.Add(this.cb_creature_boots);
-			this.tp_creature1.Controls.Add(this.cb_creature_helm);
-			this.tp_creature1.Controls.Add(this.tb_db);
-			this.tp_creature1.Controls.Add(this.bu_creature_apply1);
-			this.tp_creature1.Controls.Add(this.la_creature_gender);
-			this.tp_creature1.Controls.Add(this.cbo_creature_gender);
-			this.tp_creature1.Controls.Add(this.bu_creature_display1);
-			this.tp_creature1.Location = new System.Drawing.Point(4, 19);
-			this.tp_creature1.Margin = new System.Windows.Forms.Padding(0);
-			this.tp_creature1.Name = "tp_creature1";
-			this.tp_creature1.Size = new System.Drawing.Size(277, 389);
-			this.tp_creature1.TabIndex = 1;
-			this.tp_creature1.Text = "Creature1";
-			this.tp_creature1.UseVisualStyleBackColor = true;
-			// 
-			// la_creature_helmvariation
-			// 
-			this.la_creature_helmvariation.Location = new System.Drawing.Point(115, 160);
-			this.la_creature_helmvariation.Margin = new System.Windows.Forms.Padding(0);
-			this.la_creature_helmvariation.Name = "la_creature_helmvariation";
-			this.la_creature_helmvariation.Size = new System.Drawing.Size(150, 20);
-			this.la_creature_helmvariation.TabIndex = 48;
-			this.la_creature_helmvariation.Text = "Helm variation";
-			this.la_creature_helmvariation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// la_creature_helmtype
-			// 
-			this.la_creature_helmtype.Location = new System.Drawing.Point(115, 135);
-			this.la_creature_helmtype.Margin = new System.Windows.Forms.Padding(0);
-			this.la_creature_helmtype.Name = "la_creature_helmtype";
-			this.la_creature_helmtype.Size = new System.Drawing.Size(150, 20);
-			this.la_creature_helmtype.TabIndex = 47;
-			this.la_creature_helmtype.Text = "Helm type";
-			this.la_creature_helmtype.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// cbo_creature_helmvariation
-			// 
-			this.cbo_creature_helmvariation.BackColor = System.Drawing.Color.White;
-			this.cbo_creature_helmvariation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbo_creature_helmvariation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.cbo_creature_helmvariation.FormattingEnabled = true;
-			this.cbo_creature_helmvariation.Location = new System.Drawing.Point(10, 160);
-			this.cbo_creature_helmvariation.Margin = new System.Windows.Forms.Padding(0);
-			this.cbo_creature_helmvariation.Name = "cbo_creature_helmvariation";
-			this.cbo_creature_helmvariation.Size = new System.Drawing.Size(100, 21);
-			this.cbo_creature_helmvariation.TabIndex = 46;
-			// 
-			// cbo_creature_helmtype
-			// 
-			this.cbo_creature_helmtype.BackColor = System.Drawing.Color.White;
-			this.cbo_creature_helmtype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbo_creature_helmtype.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.cbo_creature_helmtype.FormattingEnabled = true;
-			this.cbo_creature_helmtype.Location = new System.Drawing.Point(10, 135);
-			this.cbo_creature_helmtype.Margin = new System.Windows.Forms.Padding(0);
-			this.cbo_creature_helmtype.Name = "cbo_creature_helmtype";
-			this.cbo_creature_helmtype.Size = new System.Drawing.Size(100, 21);
-			this.cbo_creature_helmtype.TabIndex = 45;
-			// 
-			// la_creature_mainvariation
-			// 
-			this.la_creature_mainvariation.Location = new System.Drawing.Point(115, 105);
-			this.la_creature_mainvariation.Margin = new System.Windows.Forms.Padding(0);
-			this.la_creature_mainvariation.Name = "la_creature_mainvariation";
-			this.la_creature_mainvariation.Size = new System.Drawing.Size(150, 20);
-			this.la_creature_mainvariation.TabIndex = 44;
-			this.la_creature_mainvariation.Text = "Main variation";
-			this.la_creature_mainvariation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// la_creature_maintype
-			// 
-			this.la_creature_maintype.Location = new System.Drawing.Point(115, 80);
-			this.la_creature_maintype.Margin = new System.Windows.Forms.Padding(0);
-			this.la_creature_maintype.Name = "la_creature_maintype";
-			this.la_creature_maintype.Size = new System.Drawing.Size(150, 20);
-			this.la_creature_maintype.TabIndex = 43;
-			this.la_creature_maintype.Text = "Main type";
-			this.la_creature_maintype.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// cbo_creature_mainvariation
-			// 
-			this.cbo_creature_mainvariation.BackColor = System.Drawing.Color.White;
-			this.cbo_creature_mainvariation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbo_creature_mainvariation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.cbo_creature_mainvariation.FormattingEnabled = true;
-			this.cbo_creature_mainvariation.Location = new System.Drawing.Point(10, 105);
-			this.cbo_creature_mainvariation.Margin = new System.Windows.Forms.Padding(0);
-			this.cbo_creature_mainvariation.Name = "cbo_creature_mainvariation";
-			this.cbo_creature_mainvariation.Size = new System.Drawing.Size(100, 21);
-			this.cbo_creature_mainvariation.TabIndex = 42;
-			// 
-			// cbo_creature_maintype
-			// 
-			this.cbo_creature_maintype.BackColor = System.Drawing.Color.White;
-			this.cbo_creature_maintype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbo_creature_maintype.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.cbo_creature_maintype.FormattingEnabled = true;
-			this.cbo_creature_maintype.Location = new System.Drawing.Point(10, 80);
-			this.cbo_creature_maintype.Margin = new System.Windows.Forms.Padding(0);
-			this.cbo_creature_maintype.Name = "cbo_creature_maintype";
-			this.cbo_creature_maintype.Size = new System.Drawing.Size(100, 21);
-			this.cbo_creature_maintype.TabIndex = 41;
-			// 
-			// cbo_creature_hair
-			// 
-			this.cbo_creature_hair.BackColor = System.Drawing.Color.White;
-			this.cbo_creature_hair.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbo_creature_hair.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.cbo_creature_hair.FormattingEnabled = true;
-			this.cbo_creature_hair.Items.AddRange(new object[] {
-			"Male",
-			"Female",
-			"Both",
-			"Other",
-			"None"});
-			this.cbo_creature_hair.Location = new System.Drawing.Point(135, 310);
-			this.cbo_creature_hair.Margin = new System.Windows.Forms.Padding(0);
-			this.cbo_creature_hair.Name = "cbo_creature_hair";
-			this.cbo_creature_hair.Size = new System.Drawing.Size(100, 21);
-			this.cbo_creature_hair.TabIndex = 40;
-			// 
-			// cbo_creature_head
-			// 
-			this.cbo_creature_head.BackColor = System.Drawing.Color.White;
-			this.cbo_creature_head.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbo_creature_head.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.cbo_creature_head.FormattingEnabled = true;
-			this.cbo_creature_head.Items.AddRange(new object[] {
-			"Male",
-			"Female",
-			"Both",
-			"Other",
-			"None"});
-			this.cbo_creature_head.Location = new System.Drawing.Point(135, 335);
-			this.cbo_creature_head.Margin = new System.Windows.Forms.Padding(0);
-			this.cbo_creature_head.Name = "cbo_creature_head";
-			this.cbo_creature_head.Size = new System.Drawing.Size(100, 21);
-			this.cbo_creature_head.TabIndex = 39;
-			// 
-			// cb_creature_facialhair
-			// 
-			this.cb_creature_facialhair.Location = new System.Drawing.Point(135, 285);
-			this.cb_creature_facialhair.Margin = new System.Windows.Forms.Padding(0);
-			this.cb_creature_facialhair.Name = "cb_creature_facialhair";
-			this.cb_creature_facialhair.Size = new System.Drawing.Size(110, 15);
-			this.cb_creature_facialhair.TabIndex = 38;
-			this.cb_creature_facialhair.Text = "Facial hair";
-			this.cb_creature_facialhair.UseVisualStyleBackColor = true;
-			// 
-			// cb_creature_naked
-			// 
-			this.cb_creature_naked.Location = new System.Drawing.Point(15, 245);
-			this.cb_creature_naked.Margin = new System.Windows.Forms.Padding(0);
-			this.cb_creature_naked.Name = "cb_creature_naked";
-			this.cb_creature_naked.Size = new System.Drawing.Size(100, 15);
-			this.cb_creature_naked.TabIndex = 37;
-			this.cb_creature_naked.Text = "Naked";
-			this.cb_creature_naked.UseVisualStyleBackColor = true;
-			// 
-			// cb_creature_neverdrawhelmet
-			// 
-			this.cb_creature_neverdrawhelmet.Location = new System.Drawing.Point(135, 265);
-			this.cb_creature_neverdrawhelmet.Margin = new System.Windows.Forms.Padding(0);
-			this.cb_creature_neverdrawhelmet.Name = "cb_creature_neverdrawhelmet";
-			this.cb_creature_neverdrawhelmet.Size = new System.Drawing.Size(110, 15);
-			this.cb_creature_neverdrawhelmet.TabIndex = 36;
-			this.cb_creature_neverdrawhelmet.Text = "NeverDrawHelm";
-			this.cb_creature_neverdrawhelmet.UseVisualStyleBackColor = true;
-			// 
-			// cb_creature_nevershowarmor
-			// 
-			this.cb_creature_nevershowarmor.Location = new System.Drawing.Point(135, 245);
-			this.cb_creature_nevershowarmor.Margin = new System.Windows.Forms.Padding(0);
-			this.cb_creature_nevershowarmor.Name = "cb_creature_nevershowarmor";
-			this.cb_creature_nevershowarmor.Size = new System.Drawing.Size(110, 15);
-			this.cb_creature_nevershowarmor.TabIndex = 35;
-			this.cb_creature_nevershowarmor.Text = "NeverShowArmor";
-			this.cb_creature_nevershowarmor.UseVisualStyleBackColor = true;
-			// 
-			// cb_creature_cloak
-			// 
-			this.cb_creature_cloak.Location = new System.Drawing.Point(15, 345);
-			this.cb_creature_cloak.Margin = new System.Windows.Forms.Padding(0);
-			this.cb_creature_cloak.Name = "cb_creature_cloak";
-			this.cb_creature_cloak.Size = new System.Drawing.Size(100, 15);
-			this.cb_creature_cloak.TabIndex = 34;
-			this.cb_creature_cloak.Text = "Cloak";
-			this.cb_creature_cloak.UseVisualStyleBackColor = true;
-			this.cb_creature_cloak.CheckedChanged += new System.EventHandler(this.checkchanged_Apparel);
-			// 
-			// cb_creature_belt
-			// 
-			this.cb_creature_belt.Location = new System.Drawing.Point(15, 325);
-			this.cb_creature_belt.Margin = new System.Windows.Forms.Padding(0);
-			this.cb_creature_belt.Name = "cb_creature_belt";
-			this.cb_creature_belt.Size = new System.Drawing.Size(100, 15);
-			this.cb_creature_belt.TabIndex = 33;
-			this.cb_creature_belt.Text = "Belt";
-			this.cb_creature_belt.UseVisualStyleBackColor = true;
-			this.cb_creature_belt.CheckedChanged += new System.EventHandler(this.checkchanged_Apparel);
-			// 
-			// cb_creature_gloves
-			// 
-			this.cb_creature_gloves.Location = new System.Drawing.Point(15, 305);
-			this.cb_creature_gloves.Margin = new System.Windows.Forms.Padding(0);
-			this.cb_creature_gloves.Name = "cb_creature_gloves";
-			this.cb_creature_gloves.Size = new System.Drawing.Size(100, 15);
-			this.cb_creature_gloves.TabIndex = 32;
-			this.cb_creature_gloves.Text = "Gloves";
-			this.cb_creature_gloves.UseVisualStyleBackColor = true;
-			this.cb_creature_gloves.CheckedChanged += new System.EventHandler(this.checkchanged_Apparel);
-			// 
-			// cb_creature_boots
-			// 
-			this.cb_creature_boots.Location = new System.Drawing.Point(15, 285);
-			this.cb_creature_boots.Margin = new System.Windows.Forms.Padding(0);
-			this.cb_creature_boots.Name = "cb_creature_boots";
-			this.cb_creature_boots.Size = new System.Drawing.Size(100, 15);
-			this.cb_creature_boots.TabIndex = 31;
-			this.cb_creature_boots.Text = "Boots";
-			this.cb_creature_boots.UseVisualStyleBackColor = true;
-			this.cb_creature_boots.CheckedChanged += new System.EventHandler(this.checkchanged_Apparel);
-			// 
-			// cb_creature_helm
-			// 
-			this.cb_creature_helm.Location = new System.Drawing.Point(15, 265);
-			this.cb_creature_helm.Margin = new System.Windows.Forms.Padding(0);
-			this.cb_creature_helm.Name = "cb_creature_helm";
-			this.cb_creature_helm.Size = new System.Drawing.Size(100, 15);
-			this.cb_creature_helm.TabIndex = 30;
-			this.cb_creature_helm.Text = "Helm";
-			this.cb_creature_helm.UseVisualStyleBackColor = true;
-			this.cb_creature_helm.CheckedChanged += new System.EventHandler(this.checkchanged_Apparel);
-			// 
-			// tb_db
-			// 
-			this.tb_db.Location = new System.Drawing.Point(5, 365);
-			this.tb_db.Margin = new System.Windows.Forms.Padding(0);
-			this.tb_db.Multiline = true;
-			this.tb_db.Name = "tb_db";
-			this.tb_db.ReadOnly = true;
-			this.tb_db.Size = new System.Drawing.Size(270, 20);
-			this.tb_db.TabIndex = 29;
-			// 
-			// bu_creature_apply1
-			// 
-			this.bu_creature_apply1.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_creature_apply1.Location = new System.Drawing.Point(5, 25);
-			this.bu_creature_apply1.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_creature_apply1.Name = "bu_creature_apply1";
-			this.bu_creature_apply1.Size = new System.Drawing.Size(267, 20);
-			this.bu_creature_apply1.TabIndex = 28;
-			this.bu_creature_apply1.UseVisualStyleBackColor = true;
-			this.bu_creature_apply1.Click += new System.EventHandler(this.click_bu_creature_apply);
-			// 
-			// la_creature_gender
-			// 
-			this.la_creature_gender.Location = new System.Drawing.Point(115, 50);
-			this.la_creature_gender.Margin = new System.Windows.Forms.Padding(0);
-			this.la_creature_gender.Name = "la_creature_gender";
-			this.la_creature_gender.Size = new System.Drawing.Size(150, 20);
-			this.la_creature_gender.TabIndex = 27;
-			this.la_creature_gender.Text = "Gender";
-			this.la_creature_gender.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// cbo_creature_gender
-			// 
-			this.cbo_creature_gender.BackColor = System.Drawing.Color.White;
-			this.cbo_creature_gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbo_creature_gender.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.cbo_creature_gender.FormattingEnabled = true;
-			this.cbo_creature_gender.Items.AddRange(new object[] {
-			"Male",
-			"Female",
-			"Both",
-			"Other",
-			"None"});
-			this.cbo_creature_gender.Location = new System.Drawing.Point(10, 50);
-			this.cbo_creature_gender.Margin = new System.Windows.Forms.Padding(0);
-			this.cbo_creature_gender.Name = "cbo_creature_gender";
-			this.cbo_creature_gender.Size = new System.Drawing.Size(100, 21);
-			this.cbo_creature_gender.TabIndex = 0;
-			// 
-			// bu_creature_display1
-			// 
-			this.bu_creature_display1.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_creature_display1.Location = new System.Drawing.Point(5, 5);
-			this.bu_creature_display1.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_creature_display1.Name = "bu_creature_display1";
-			this.bu_creature_display1.Size = new System.Drawing.Size(267, 20);
-			this.bu_creature_display1.TabIndex = 25;
-			this.bu_creature_display1.Text = "display in visualizer";
-			this.bu_creature_display1.UseVisualStyleBackColor = true;
-			this.bu_creature_display1.Click += new System.EventHandler(this.click_bu_creature_display);
-			// 
-			// tp_creature2
-			// 
-			this.tp_creature2.Controls.Add(this.bu_creature_apply2);
-			this.tp_creature2.Controls.Add(this.bu_creature_display2);
-			this.tp_creature2.Location = new System.Drawing.Point(4, 19);
-			this.tp_creature2.Margin = new System.Windows.Forms.Padding(0);
-			this.tp_creature2.Name = "tp_creature2";
-			this.tp_creature2.Size = new System.Drawing.Size(277, 389);
-			this.tp_creature2.TabIndex = 3;
-			this.tp_creature2.Text = "Creature2";
-			this.tp_creature2.UseVisualStyleBackColor = true;
-			// 
 			// tp_resource
 			// 
 			this.tp_resource.Controls.Add(this.la_resource_repo_t_);
@@ -2451,27 +2057,6 @@ namespace creaturevisualizer
 			this.toolTip1.InitialDelay = 50;
 			this.toolTip1.ReshowDelay = 100;
 			// 
-			// bu_creature_apply2
-			// 
-			this.bu_creature_apply2.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_creature_apply2.Location = new System.Drawing.Point(5, 25);
-			this.bu_creature_apply2.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_creature_apply2.Name = "bu_creature_apply2";
-			this.bu_creature_apply2.Size = new System.Drawing.Size(267, 20);
-			this.bu_creature_apply2.TabIndex = 30;
-			this.bu_creature_apply2.UseVisualStyleBackColor = true;
-			// 
-			// bu_creature_display2
-			// 
-			this.bu_creature_display2.ForeColor = System.Drawing.Color.Crimson;
-			this.bu_creature_display2.Location = new System.Drawing.Point(5, 5);
-			this.bu_creature_display2.Margin = new System.Windows.Forms.Padding(0);
-			this.bu_creature_display2.Name = "bu_creature_display2";
-			this.bu_creature_display2.Size = new System.Drawing.Size(267, 20);
-			this.bu_creature_display2.TabIndex = 29;
-			this.bu_creature_display2.Text = "display in visualizer";
-			this.bu_creature_display2.UseVisualStyleBackColor = true;
-			// 
 			// CreVisF
 			// 
 			this.ClientSize = new System.Drawing.Size(612, 478);
@@ -2490,9 +2075,6 @@ namespace creaturevisualizer
 			this.gb_model.ResumeLayout(false);
 			this.gb_camera.ResumeLayout(false);
 			this.gb_camera.PerformLayout();
-			this.tp_creature1.ResumeLayout(false);
-			this.tp_creature1.PerformLayout();
-			this.tp_creature2.ResumeLayout(false);
 			this.tp_resource.ResumeLayout(false);
 			this.ss_camera.ResumeLayout(false);
 			this.ss_camera.PerformLayout();
@@ -2505,6 +2087,519 @@ namespace creaturevisualizer
 		}
 		#endregion Designer
 	}
+
+/*		TabPage tp_creature1;
+		TabPage tp_creature2;
+
+		Button bu_creature_display1;
+		internal Button bu_creature_apply1;
+
+		Button bu_creature_display2;
+		internal Button bu_creature_apply2;
+
+		ComboBox cbo_creature_gendertype;
+		Label la_creature_gendertype;
+
+		ComboBox cbo_creature_maintype;
+		ComboBox cbo_creature_mainvariation;
+		ComboBox cbo_creature_helmtype;
+		ComboBox cbo_creature_helmvariation;
+
+		CheckBox cb_creature_helm;
+		CheckBox cb_creature_cloak;
+		CheckBox cb_creature_belt;
+		CheckBox cb_creature_gloves;
+		CheckBox cb_creature_boots;
+		CheckBox cb_creature_neverdrawhelmet;
+		CheckBox cb_creature_nevershowarmor;
+		CheckBox cb_creature_facialhair;
+		ComboBox cbo_creature_hairtype;
+		ComboBox cbo_creature_headtype;
+
+		Label la_creature_headtype;
+		Label la_creature_hairtype;
+		ComboBox cbo_creature_bootsvariation;
+		ComboBox cbo_creature_bootstype;
+		ComboBox cbo_creature_glovesvariation;
+		ComboBox cbo_creature_glovestype;
+		ComboBox cbo_creature_cloakvariation;
+		ComboBox cbo_creature_cloaktype;
+		ComboBox cbo_creature_beltvariation;
+		ComboBox cbo_creature_belttype;
+		Label la_creature_main;
+
+		internal TextBox tb_db; // print debug out */
+
+
+
+//			this.tp_creature1 = new System.Windows.Forms.TabPage();
+//			this.la_creature_headtype = new System.Windows.Forms.Label();
+//			this.la_creature_hairtype = new System.Windows.Forms.Label();
+//			this.cbo_creature_hairtype = new System.Windows.Forms.ComboBox();
+//			this.cbo_creature_headtype = new System.Windows.Forms.ComboBox();
+//			this.cb_creature_facialhair = new System.Windows.Forms.CheckBox();
+//			this.tb_db = new System.Windows.Forms.TextBox();
+//			this.bu_creature_apply1 = new System.Windows.Forms.Button();
+//			this.la_creature_gendertype = new System.Windows.Forms.Label();
+//			this.cbo_creature_gendertype = new System.Windows.Forms.ComboBox();
+//			this.bu_creature_display1 = new System.Windows.Forms.Button();
+//			this.tp_creature2 = new System.Windows.Forms.TabPage();
+//			this.cb_creature_neverdrawhelmet = new System.Windows.Forms.CheckBox();
+//			this.cb_creature_nevershowarmor = new System.Windows.Forms.CheckBox();
+//			this.la_creature_main = new System.Windows.Forms.Label();
+//			this.cbo_creature_cloakvariation = new System.Windows.Forms.ComboBox();
+//			this.cbo_creature_cloaktype = new System.Windows.Forms.ComboBox();
+//			this.cbo_creature_beltvariation = new System.Windows.Forms.ComboBox();
+//			this.cbo_creature_belttype = new System.Windows.Forms.ComboBox();
+//			this.cbo_creature_glovesvariation = new System.Windows.Forms.ComboBox();
+//			this.cbo_creature_glovestype = new System.Windows.Forms.ComboBox();
+//			this.cbo_creature_bootsvariation = new System.Windows.Forms.ComboBox();
+//			this.cbo_creature_bootstype = new System.Windows.Forms.ComboBox();
+//			this.cbo_creature_helmvariation = new System.Windows.Forms.ComboBox();
+//			this.cbo_creature_helmtype = new System.Windows.Forms.ComboBox();
+//			this.cbo_creature_mainvariation = new System.Windows.Forms.ComboBox();
+//			this.cbo_creature_maintype = new System.Windows.Forms.ComboBox();
+//			this.cb_creature_cloak = new System.Windows.Forms.CheckBox();
+//			this.cb_creature_belt = new System.Windows.Forms.CheckBox();
+//			this.cb_creature_gloves = new System.Windows.Forms.CheckBox();
+//			this.cb_creature_boots = new System.Windows.Forms.CheckBox();
+//			this.cb_creature_helm = new System.Windows.Forms.CheckBox();
+//			this.bu_creature_apply2 = new System.Windows.Forms.Button();
+//			this.bu_creature_display2 = new System.Windows.Forms.Button();
+
+
+
+//			this.tp_creature1.SuspendLayout();
+//			this.tp_creature2.SuspendLayout();
+
+
+
+//			this.tc1.Controls.Add(this.tp_creature1);
+//			this.tc1.Controls.Add(this.tp_creature2);
+
+
+/*			// 
+			// tp_creature1
+			// 
+//			this.tp_creature1.Controls.Add(this.la_creature_headtype);
+//			this.tp_creature1.Controls.Add(this.la_creature_hairtype);
+//			this.tp_creature1.Controls.Add(this.cbo_creature_hairtype);
+//			this.tp_creature1.Controls.Add(this.cbo_creature_headtype);
+//			this.tp_creature1.Controls.Add(this.cb_creature_facialhair);
+//			this.tp_creature1.Controls.Add(this.tb_db);
+//			this.tp_creature1.Controls.Add(this.bu_creature_apply1);
+//			this.tp_creature1.Controls.Add(this.la_creature_gendertype);
+//			this.tp_creature1.Controls.Add(this.cbo_creature_gendertype);
+//			this.tp_creature1.Controls.Add(this.bu_creature_display1);
+			this.tp_creature1.Location = new System.Drawing.Point(4, 19);
+			this.tp_creature1.Margin = new System.Windows.Forms.Padding(0);
+			this.tp_creature1.Name = "tp_creature1";
+			this.tp_creature1.Size = new System.Drawing.Size(277, 389);
+			this.tp_creature1.TabIndex = 1;
+			this.tp_creature1.Text = "Creature1";
+			this.tp_creature1.UseVisualStyleBackColor = true;
+			// 
+			// la_creature_headtype
+			// 
+			this.la_creature_headtype.Location = new System.Drawing.Point(115, 80);
+			this.la_creature_headtype.Margin = new System.Windows.Forms.Padding(0);
+			this.la_creature_headtype.Name = "la_creature_headtype";
+			this.la_creature_headtype.Size = new System.Drawing.Size(45, 20);
+			this.la_creature_headtype.TabIndex = 42;
+			this.la_creature_headtype.Text = "Head";
+			this.la_creature_headtype.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// la_creature_hairtype
+			// 
+			this.la_creature_hairtype.Location = new System.Drawing.Point(115, 105);
+			this.la_creature_hairtype.Margin = new System.Windows.Forms.Padding(0);
+			this.la_creature_hairtype.Name = "la_creature_hairtype";
+			this.la_creature_hairtype.Size = new System.Drawing.Size(45, 20);
+			this.la_creature_hairtype.TabIndex = 41;
+			this.la_creature_hairtype.Text = "Hair";
+			this.la_creature_hairtype.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// cbo_creature_hairtype
+			// 
+			this.cbo_creature_hairtype.BackColor = System.Drawing.Color.White;
+			this.cbo_creature_hairtype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbo_creature_hairtype.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.cbo_creature_hairtype.FormattingEnabled = true;
+			this.cbo_creature_hairtype.Location = new System.Drawing.Point(10, 105);
+			this.cbo_creature_hairtype.Margin = new System.Windows.Forms.Padding(0);
+			this.cbo_creature_hairtype.Name = "cbo_creature_hairtype";
+			this.cbo_creature_hairtype.Size = new System.Drawing.Size(100, 21);
+			this.cbo_creature_hairtype.TabIndex = 40;
+			// 
+			// cbo_creature_headtype
+			// 
+			this.cbo_creature_headtype.BackColor = System.Drawing.Color.White;
+			this.cbo_creature_headtype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbo_creature_headtype.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.cbo_creature_headtype.FormattingEnabled = true;
+			this.cbo_creature_headtype.Location = new System.Drawing.Point(10, 80);
+			this.cbo_creature_headtype.Margin = new System.Windows.Forms.Padding(0);
+			this.cbo_creature_headtype.Name = "cbo_creature_headtype";
+			this.cbo_creature_headtype.Size = new System.Drawing.Size(100, 21);
+			this.cbo_creature_headtype.TabIndex = 39;
+			// 
+			// cb_creature_facialhair
+			// 
+			this.cb_creature_facialhair.CausesValidation = false;
+			this.cb_creature_facialhair.Location = new System.Drawing.Point(170, 105);
+			this.cb_creature_facialhair.Margin = new System.Windows.Forms.Padding(0);
+			this.cb_creature_facialhair.Name = "cb_creature_facialhair";
+			this.cb_creature_facialhair.Size = new System.Drawing.Size(95, 20);
+			this.cb_creature_facialhair.TabIndex = 38;
+			this.cb_creature_facialhair.Text = "Facial hair";
+			this.cb_creature_facialhair.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			this.cb_creature_facialhair.UseVisualStyleBackColor = true;
+			// 
+			// tb_db
+			// 
+			this.tb_db.Location = new System.Drawing.Point(5, 365);
+			this.tb_db.Margin = new System.Windows.Forms.Padding(0);
+			this.tb_db.Multiline = true;
+			this.tb_db.Name = "tb_db";
+			this.tb_db.ReadOnly = true;
+			this.tb_db.Size = new System.Drawing.Size(270, 20);
+			this.tb_db.TabIndex = 29;
+			// 
+			// bu_creature_apply1
+			// 
+			this.bu_creature_apply1.ForeColor = System.Drawing.Color.Crimson;
+			this.bu_creature_apply1.Location = new System.Drawing.Point(5, 25);
+			this.bu_creature_apply1.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_creature_apply1.Name = "bu_creature_apply1";
+			this.bu_creature_apply1.Size = new System.Drawing.Size(267, 20);
+			this.bu_creature_apply1.TabIndex = 28;
+			this.bu_creature_apply1.UseVisualStyleBackColor = true;
+			this.bu_creature_apply1.Click += new System.EventHandler(this.click_bu_creature_apply);
+			// 
+			// la_creature_gendertype
+			// 
+			this.la_creature_gendertype.Location = new System.Drawing.Point(115, 50);
+			this.la_creature_gendertype.Margin = new System.Windows.Forms.Padding(0);
+			this.la_creature_gendertype.Name = "la_creature_gendertype";
+			this.la_creature_gendertype.Size = new System.Drawing.Size(45, 20);
+			this.la_creature_gendertype.TabIndex = 27;
+			this.la_creature_gendertype.Text = "Gender";
+			this.la_creature_gendertype.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// cbo_creature_gendertype
+			// 
+			this.cbo_creature_gendertype.BackColor = System.Drawing.Color.White;
+			this.cbo_creature_gendertype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbo_creature_gendertype.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.cbo_creature_gendertype.FormattingEnabled = true;
+			this.cbo_creature_gendertype.Items.AddRange(new object[] {
+			"Male",
+			"Female",
+			"Both",
+			"Other",
+			"None"});
+			this.cbo_creature_gendertype.Location = new System.Drawing.Point(10, 50);
+			this.cbo_creature_gendertype.Margin = new System.Windows.Forms.Padding(0);
+			this.cbo_creature_gendertype.Name = "cbo_creature_gendertype";
+			this.cbo_creature_gendertype.Size = new System.Drawing.Size(100, 21);
+			this.cbo_creature_gendertype.TabIndex = 0;
+			// 
+			// bu_creature_display1
+			// 
+			this.bu_creature_display1.ForeColor = System.Drawing.Color.Crimson;
+			this.bu_creature_display1.Location = new System.Drawing.Point(5, 5);
+			this.bu_creature_display1.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_creature_display1.Name = "bu_creature_display1";
+			this.bu_creature_display1.Size = new System.Drawing.Size(267, 20);
+			this.bu_creature_display1.TabIndex = 25;
+			this.bu_creature_display1.Text = "display in visualizer";
+			this.bu_creature_display1.UseVisualStyleBackColor = true;
+			this.bu_creature_display1.Click += new System.EventHandler(this.click_bu_creature_display);
+			// 
+			// tp_creature2
+			// 
+//			this.tp_creature2.Controls.Add(this.cb_creature_neverdrawhelmet);
+//			this.tp_creature2.Controls.Add(this.cb_creature_nevershowarmor);
+//			this.tp_creature2.Controls.Add(this.la_creature_main);
+//			this.tp_creature2.Controls.Add(this.cbo_creature_cloakvariation);
+//			this.tp_creature2.Controls.Add(this.cbo_creature_cloaktype);
+//			this.tp_creature2.Controls.Add(this.cbo_creature_beltvariation);
+//			this.tp_creature2.Controls.Add(this.cbo_creature_belttype);
+//			this.tp_creature2.Controls.Add(this.cbo_creature_glovesvariation);
+//			this.tp_creature2.Controls.Add(this.cbo_creature_glovestype);
+//			this.tp_creature2.Controls.Add(this.cbo_creature_bootsvariation);
+//			this.tp_creature2.Controls.Add(this.cbo_creature_bootstype);
+//			this.tp_creature2.Controls.Add(this.cbo_creature_helmvariation);
+//			this.tp_creature2.Controls.Add(this.cbo_creature_helmtype);
+//			this.tp_creature2.Controls.Add(this.cbo_creature_mainvariation);
+//			this.tp_creature2.Controls.Add(this.cbo_creature_maintype);
+//			this.tp_creature2.Controls.Add(this.cb_creature_cloak);
+//			this.tp_creature2.Controls.Add(this.cb_creature_belt);
+//			this.tp_creature2.Controls.Add(this.cb_creature_gloves);
+//			this.tp_creature2.Controls.Add(this.cb_creature_boots);
+//			this.tp_creature2.Controls.Add(this.cb_creature_helm);
+//			this.tp_creature2.Controls.Add(this.bu_creature_apply2);
+//			this.tp_creature2.Controls.Add(this.bu_creature_display2);
+			this.tp_creature2.Location = new System.Drawing.Point(4, 19);
+			this.tp_creature2.Margin = new System.Windows.Forms.Padding(0);
+			this.tp_creature2.Name = "tp_creature2";
+			this.tp_creature2.Size = new System.Drawing.Size(277, 389);
+			this.tp_creature2.TabIndex = 3;
+			this.tp_creature2.Text = "Creature2";
+			this.tp_creature2.UseVisualStyleBackColor = true;
+			// 
+			// cb_creature_neverdrawhelmet
+			// 
+			this.cb_creature_neverdrawhelmet.Location = new System.Drawing.Point(120, 95);
+			this.cb_creature_neverdrawhelmet.Margin = new System.Windows.Forms.Padding(0);
+			this.cb_creature_neverdrawhelmet.Name = "cb_creature_neverdrawhelmet";
+			this.cb_creature_neverdrawhelmet.Size = new System.Drawing.Size(110, 15);
+			this.cb_creature_neverdrawhelmet.TabIndex = 74;
+			this.cb_creature_neverdrawhelmet.Text = "NeverDrawHelm";
+			this.cb_creature_neverdrawhelmet.UseVisualStyleBackColor = true;
+			// 
+			// cb_creature_nevershowarmor
+			// 
+			this.cb_creature_nevershowarmor.Location = new System.Drawing.Point(120, 50);
+			this.cb_creature_nevershowarmor.Margin = new System.Windows.Forms.Padding(0);
+			this.cb_creature_nevershowarmor.Name = "cb_creature_nevershowarmor";
+			this.cb_creature_nevershowarmor.Size = new System.Drawing.Size(110, 15);
+			this.cb_creature_nevershowarmor.TabIndex = 73;
+			this.cb_creature_nevershowarmor.Text = "NeverShowArmor";
+			this.cb_creature_nevershowarmor.UseVisualStyleBackColor = true;
+			// 
+			// la_creature_main
+			// 
+			this.la_creature_main.Location = new System.Drawing.Point(25, 50);
+			this.la_creature_main.Margin = new System.Windows.Forms.Padding(0);
+			this.la_creature_main.Name = "la_creature_main";
+			this.la_creature_main.Size = new System.Drawing.Size(35, 15);
+			this.la_creature_main.TabIndex = 72;
+			this.la_creature_main.Text = "Main";
+			this.la_creature_main.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// cbo_creature_cloakvariation
+			// 
+			this.cbo_creature_cloakvariation.BackColor = System.Drawing.Color.White;
+			this.cbo_creature_cloakvariation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbo_creature_cloakvariation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.cbo_creature_cloakvariation.FormattingEnabled = true;
+			this.cbo_creature_cloakvariation.Location = new System.Drawing.Point(120, 290);
+			this.cbo_creature_cloakvariation.Margin = new System.Windows.Forms.Padding(0);
+			this.cbo_creature_cloakvariation.Name = "cbo_creature_cloakvariation";
+			this.cbo_creature_cloakvariation.Size = new System.Drawing.Size(100, 21);
+			this.cbo_creature_cloakvariation.TabIndex = 71;
+			// 
+			// cbo_creature_cloaktype
+			// 
+			this.cbo_creature_cloaktype.BackColor = System.Drawing.Color.White;
+			this.cbo_creature_cloaktype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbo_creature_cloaktype.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.cbo_creature_cloaktype.FormattingEnabled = true;
+			this.cbo_creature_cloaktype.Location = new System.Drawing.Point(10, 290);
+			this.cbo_creature_cloaktype.Margin = new System.Windows.Forms.Padding(0);
+			this.cbo_creature_cloaktype.Name = "cbo_creature_cloaktype";
+			this.cbo_creature_cloaktype.Size = new System.Drawing.Size(100, 21);
+			this.cbo_creature_cloaktype.TabIndex = 70;
+			// 
+			// cbo_creature_beltvariation
+			// 
+			this.cbo_creature_beltvariation.BackColor = System.Drawing.Color.White;
+			this.cbo_creature_beltvariation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbo_creature_beltvariation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.cbo_creature_beltvariation.FormattingEnabled = true;
+			this.cbo_creature_beltvariation.Location = new System.Drawing.Point(120, 245);
+			this.cbo_creature_beltvariation.Margin = new System.Windows.Forms.Padding(0);
+			this.cbo_creature_beltvariation.Name = "cbo_creature_beltvariation";
+			this.cbo_creature_beltvariation.Size = new System.Drawing.Size(100, 21);
+			this.cbo_creature_beltvariation.TabIndex = 69;
+			// 
+			// cbo_creature_belttype
+			// 
+			this.cbo_creature_belttype.BackColor = System.Drawing.Color.White;
+			this.cbo_creature_belttype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbo_creature_belttype.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.cbo_creature_belttype.FormattingEnabled = true;
+			this.cbo_creature_belttype.Location = new System.Drawing.Point(10, 245);
+			this.cbo_creature_belttype.Margin = new System.Windows.Forms.Padding(0);
+			this.cbo_creature_belttype.Name = "cbo_creature_belttype";
+			this.cbo_creature_belttype.Size = new System.Drawing.Size(100, 21);
+			this.cbo_creature_belttype.TabIndex = 68;
+			// 
+			// cbo_creature_glovesvariation
+			// 
+			this.cbo_creature_glovesvariation.BackColor = System.Drawing.Color.White;
+			this.cbo_creature_glovesvariation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbo_creature_glovesvariation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.cbo_creature_glovesvariation.FormattingEnabled = true;
+			this.cbo_creature_glovesvariation.Location = new System.Drawing.Point(120, 200);
+			this.cbo_creature_glovesvariation.Margin = new System.Windows.Forms.Padding(0);
+			this.cbo_creature_glovesvariation.Name = "cbo_creature_glovesvariation";
+			this.cbo_creature_glovesvariation.Size = new System.Drawing.Size(100, 21);
+			this.cbo_creature_glovesvariation.TabIndex = 67;
+			// 
+			// cbo_creature_glovestype
+			// 
+			this.cbo_creature_glovestype.BackColor = System.Drawing.Color.White;
+			this.cbo_creature_glovestype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbo_creature_glovestype.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.cbo_creature_glovestype.FormattingEnabled = true;
+			this.cbo_creature_glovestype.Location = new System.Drawing.Point(10, 200);
+			this.cbo_creature_glovestype.Margin = new System.Windows.Forms.Padding(0);
+			this.cbo_creature_glovestype.Name = "cbo_creature_glovestype";
+			this.cbo_creature_glovestype.Size = new System.Drawing.Size(100, 21);
+			this.cbo_creature_glovestype.TabIndex = 66;
+			// 
+			// cbo_creature_bootsvariation
+			// 
+			this.cbo_creature_bootsvariation.BackColor = System.Drawing.Color.White;
+			this.cbo_creature_bootsvariation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbo_creature_bootsvariation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.cbo_creature_bootsvariation.FormattingEnabled = true;
+			this.cbo_creature_bootsvariation.Location = new System.Drawing.Point(120, 155);
+			this.cbo_creature_bootsvariation.Margin = new System.Windows.Forms.Padding(0);
+			this.cbo_creature_bootsvariation.Name = "cbo_creature_bootsvariation";
+			this.cbo_creature_bootsvariation.Size = new System.Drawing.Size(100, 21);
+			this.cbo_creature_bootsvariation.TabIndex = 63;
+			// 
+			// cbo_creature_bootstype
+			// 
+			this.cbo_creature_bootstype.BackColor = System.Drawing.Color.White;
+			this.cbo_creature_bootstype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbo_creature_bootstype.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.cbo_creature_bootstype.FormattingEnabled = true;
+			this.cbo_creature_bootstype.Location = new System.Drawing.Point(10, 155);
+			this.cbo_creature_bootstype.Margin = new System.Windows.Forms.Padding(0);
+			this.cbo_creature_bootstype.Name = "cbo_creature_bootstype";
+			this.cbo_creature_bootstype.Size = new System.Drawing.Size(100, 21);
+			this.cbo_creature_bootstype.TabIndex = 62;
+			// 
+			// cbo_creature_helmvariation
+			// 
+			this.cbo_creature_helmvariation.BackColor = System.Drawing.Color.White;
+			this.cbo_creature_helmvariation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbo_creature_helmvariation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.cbo_creature_helmvariation.FormattingEnabled = true;
+			this.cbo_creature_helmvariation.Location = new System.Drawing.Point(120, 110);
+			this.cbo_creature_helmvariation.Margin = new System.Windows.Forms.Padding(0);
+			this.cbo_creature_helmvariation.Name = "cbo_creature_helmvariation";
+			this.cbo_creature_helmvariation.Size = new System.Drawing.Size(100, 21);
+			this.cbo_creature_helmvariation.TabIndex = 59;
+			// 
+			// cbo_creature_helmtype
+			// 
+			this.cbo_creature_helmtype.BackColor = System.Drawing.Color.White;
+			this.cbo_creature_helmtype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbo_creature_helmtype.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.cbo_creature_helmtype.FormattingEnabled = true;
+			this.cbo_creature_helmtype.Location = new System.Drawing.Point(10, 110);
+			this.cbo_creature_helmtype.Margin = new System.Windows.Forms.Padding(0);
+			this.cbo_creature_helmtype.Name = "cbo_creature_helmtype";
+			this.cbo_creature_helmtype.Size = new System.Drawing.Size(100, 21);
+			this.cbo_creature_helmtype.TabIndex = 58;
+			// 
+			// cbo_creature_mainvariation
+			// 
+			this.cbo_creature_mainvariation.BackColor = System.Drawing.Color.White;
+			this.cbo_creature_mainvariation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbo_creature_mainvariation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.cbo_creature_mainvariation.FormattingEnabled = true;
+			this.cbo_creature_mainvariation.Location = new System.Drawing.Point(120, 65);
+			this.cbo_creature_mainvariation.Margin = new System.Windows.Forms.Padding(0);
+			this.cbo_creature_mainvariation.Name = "cbo_creature_mainvariation";
+			this.cbo_creature_mainvariation.Size = new System.Drawing.Size(100, 21);
+			this.cbo_creature_mainvariation.TabIndex = 55;
+			// 
+			// cbo_creature_maintype
+			// 
+			this.cbo_creature_maintype.BackColor = System.Drawing.Color.White;
+			this.cbo_creature_maintype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbo_creature_maintype.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.cbo_creature_maintype.FormattingEnabled = true;
+			this.cbo_creature_maintype.Location = new System.Drawing.Point(10, 65);
+			this.cbo_creature_maintype.Margin = new System.Windows.Forms.Padding(0);
+			this.cbo_creature_maintype.Name = "cbo_creature_maintype";
+			this.cbo_creature_maintype.Size = new System.Drawing.Size(100, 21);
+			this.cbo_creature_maintype.TabIndex = 54;
+			// 
+			// cb_creature_cloak
+			// 
+			this.cb_creature_cloak.Location = new System.Drawing.Point(10, 275);
+			this.cb_creature_cloak.Margin = new System.Windows.Forms.Padding(0);
+			this.cb_creature_cloak.Name = "cb_creature_cloak";
+			this.cb_creature_cloak.Size = new System.Drawing.Size(100, 15);
+			this.cb_creature_cloak.TabIndex = 53;
+			this.cb_creature_cloak.Text = "Cloak";
+			this.cb_creature_cloak.UseVisualStyleBackColor = true;
+			// 
+			// cb_creature_belt
+			// 
+			this.cb_creature_belt.Location = new System.Drawing.Point(10, 230);
+			this.cb_creature_belt.Margin = new System.Windows.Forms.Padding(0);
+			this.cb_creature_belt.Name = "cb_creature_belt";
+			this.cb_creature_belt.Size = new System.Drawing.Size(100, 15);
+			this.cb_creature_belt.TabIndex = 52;
+			this.cb_creature_belt.Text = "Belt";
+			this.cb_creature_belt.UseVisualStyleBackColor = true;
+			// 
+			// cb_creature_gloves
+			// 
+			this.cb_creature_gloves.Location = new System.Drawing.Point(10, 185);
+			this.cb_creature_gloves.Margin = new System.Windows.Forms.Padding(0);
+			this.cb_creature_gloves.Name = "cb_creature_gloves";
+			this.cb_creature_gloves.Size = new System.Drawing.Size(100, 15);
+			this.cb_creature_gloves.TabIndex = 51;
+			this.cb_creature_gloves.Text = "Gloves";
+			this.cb_creature_gloves.UseVisualStyleBackColor = true;
+			// 
+			// cb_creature_boots
+			// 
+			this.cb_creature_boots.Location = new System.Drawing.Point(10, 140);
+			this.cb_creature_boots.Margin = new System.Windows.Forms.Padding(0);
+			this.cb_creature_boots.Name = "cb_creature_boots";
+			this.cb_creature_boots.Size = new System.Drawing.Size(100, 15);
+			this.cb_creature_boots.TabIndex = 50;
+			this.cb_creature_boots.Text = "Boots";
+			this.cb_creature_boots.UseVisualStyleBackColor = true;
+			// 
+			// cb_creature_helm
+			// 
+			this.cb_creature_helm.Location = new System.Drawing.Point(10, 95);
+			this.cb_creature_helm.Margin = new System.Windows.Forms.Padding(0);
+			this.cb_creature_helm.Name = "cb_creature_helm";
+			this.cb_creature_helm.Size = new System.Drawing.Size(100, 15);
+			this.cb_creature_helm.TabIndex = 49;
+			this.cb_creature_helm.Text = "Helm";
+			this.cb_creature_helm.UseVisualStyleBackColor = true;
+			// 
+			// bu_creature_apply2
+			// 
+			this.bu_creature_apply2.ForeColor = System.Drawing.Color.Crimson;
+			this.bu_creature_apply2.Location = new System.Drawing.Point(5, 25);
+			this.bu_creature_apply2.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_creature_apply2.Name = "bu_creature_apply2";
+			this.bu_creature_apply2.Size = new System.Drawing.Size(267, 20);
+			this.bu_creature_apply2.TabIndex = 30;
+			this.bu_creature_apply2.UseVisualStyleBackColor = true;
+			this.bu_creature_apply2.Click += new System.EventHandler(this.click_bu_creature_apply);
+			// 
+			// bu_creature_display2
+			// 
+			this.bu_creature_display2.ForeColor = System.Drawing.Color.Crimson;
+			this.bu_creature_display2.Location = new System.Drawing.Point(5, 5);
+			this.bu_creature_display2.Margin = new System.Windows.Forms.Padding(0);
+			this.bu_creature_display2.Name = "bu_creature_display2";
+			this.bu_creature_display2.Size = new System.Drawing.Size(267, 20);
+			this.bu_creature_display2.TabIndex = 29;
+			this.bu_creature_display2.Text = "display in visualizer";
+			this.bu_creature_display2.UseVisualStyleBackColor = true;
+			this.bu_creature_display2.Click += new System.EventHandler(this.click_bu_creature_display); */
+
+
+
+//			this.tp_creature1.ResumeLayout(false);
+//			this.tp_creature1.PerformLayout();
+//			this.tp_creature2.ResumeLayout(false);
 
 
 
