@@ -155,8 +155,6 @@ namespace creaturevisualizer
 		{ get; private set; }
 		#endregion Properties
 
-		//handle SelectionChanged event
-
 
 /*		/// <summary>
 		/// This works great. Absolutely kills flicker on redraws.
@@ -312,10 +310,10 @@ namespace creaturevisualizer
 //			}
 
 
-//			lock (NWN2NetDisplayManager.Instance.Objects.SyncRoot) // not sure ...
-//			{
-			NWN2NetDisplayManager.Instance.RemoveObjects(_objects);
-//			}
+			lock (NWN2NetDisplayManager.Instance.Objects.SyncRoot) // not sure ...
+			{
+				NWN2NetDisplayManager.Instance.RemoveObjects(_objects);
+			}
 			_objects.Clear();
 
 

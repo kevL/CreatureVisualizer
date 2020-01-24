@@ -291,9 +291,9 @@ namespace creaturevisualizer
 			NWN2ToolsetMainForm.App.BlueprintView.SelectionChanged += OnBlueprintSelectionChanged;
 			NWN2CampaignManager.Instance.ActiveCampaignChanged     += OnActiveCampaignChanged;
 
-			NWN2NetDisplayManager.Instance.Objects.Inserted = // this is the cleverest thing I've ever seen ... he should be lynched.
-				(OEICollectionWithEvents.ChangeHandler)Delegate.Combine(NWN2NetDisplayManager.Instance.Objects.Inserted,
-																		new OEICollectionWithEvents.ChangeHandler(OnObjectsInserted));
+//			NWN2NetDisplayManager.Instance.Objects.Inserted = // this is the cleverest thing I've ever seen ... he should be lynched.
+//				(OEICollectionWithEvents.ChangeHandler)Delegate.Combine(NWN2NetDisplayManager.Instance.Objects.Inserted,
+//																		new OEICollectionWithEvents.ChangeHandler(OnObjectsInserted));
 
 			ActiveControl = _panel;
 
@@ -307,7 +307,7 @@ namespace creaturevisualizer
 		/// </summary>
 		internal bool _bypassInsert;
 
-		void OnObjectsInserted(OEICollectionWithEvents cList, int index, object value)
+/*		void OnObjectsInserted(OEICollectionWithEvents cList, int index, object value)
 		{
 			// NOTE: The object could get inserted to 1+ collections causing
 			// this to fire for every one. In practice I've seen 1..3 repeats.
@@ -344,7 +344,7 @@ namespace creaturevisualizer
 					}
 				}
 			}
-		}
+		} */
 
 		/// <summary>
 		/// This is not SelectionChanged; it's a straightforward click-event.
@@ -643,9 +643,9 @@ namespace creaturevisualizer
 					break;
 			}
 
-			NWN2NetDisplayManager.Instance.Objects.Inserted =
-				(OEICollectionWithEvents.ChangeHandler)Delegate.Remove(NWN2NetDisplayManager.Instance.Objects.Inserted,
-																	   new OEICollectionWithEvents.ChangeHandler(OnObjectsInserted));
+//			NWN2NetDisplayManager.Instance.Objects.Inserted =
+//				(OEICollectionWithEvents.ChangeHandler)Delegate.Remove(NWN2NetDisplayManager.Instance.Objects.Inserted,
+//																	   new OEICollectionWithEvents.ChangeHandler(OnObjectsInserted));
 		}
 
 /*		internal bool ConfirmClose(bool cancancel)
