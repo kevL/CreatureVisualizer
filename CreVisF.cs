@@ -189,6 +189,7 @@ namespace creaturevisualizer
 //			info += StringDecryptor.Decrypt("ᒪᓙᓙᓎᓊᓛᓊᓗᓌᓎᒱᓊᓒᓛ\n") + "\n";
 //			System.IO.File.WriteAllText(@"C:\GIT\CreatureVisualizer\t\decrypt.txt", info);
 
+			Owner = NWN2ToolsetMainForm.App;
 
 			InitializeComponent();
 			Text = TITLE;
