@@ -26,7 +26,26 @@ namespace creaturevisualizer
 
 			if (Info == null)
 			{
-				Info = "This doc describes actions that are not listed in menus." + L + L;
+				Info  = "MENUS" + L;
+				Info += "-----" + L;
+				Info += "Instance" + L;
+				Info += "- Refresh [F5] - often required to update data" + L;
+				Info += "- save to Module [Ctrl+M] - opens a save file dialog at the Module dir" + L;
+				Info += "- save to Campaign [Ctrl+G] - opens a save file dialog at the Campaign dir" + L;
+				Info += "- save to ... [Ctrl+E] - opens a save file dialog at the Override dir" + L;
+				Info += "Options" + L;
+				Info += "- process equipped body-items - toggles display (and output) of equipped items (non hand held)" + L;
+				Info += "- process equipped held-items - toggles display (and output) of equipped right/left hand items" + L;
+				Info += "- process inventory - toggles whether or not to output a creature's inventory items" + L;
+				Info += "View" + L;
+				Info += "- control panel [Ctrl+P] - toggles on/off the control panel" + L;
+				Info += "- mini panel [F7] - toggles on/off quick controls in the display panel" + L;
+				Info += "- cycle panel [F8] - cycles the control panel through the cardinal compass points" + L;
+				Info += "- stay on top [Ctrl+T] - toggles whether or not the visualizer stays on top of other windows" + L;
+				Info += "  STAY ON TOP CAN FORCE YOU TO CLOSE THE TOOLSET FROM THE TASK MANAGER LOSING YOUR CHANGES." + L;
+				Info += "Help" + L;
+				Info += "- help [F1] - this dialog" + L;
+				Info += "- about [F2] - authorship, version information, and build date" + L + L;
 
 				Info += "MOUSE"                             + L;
 				Info += "-----"                             + L;
@@ -115,7 +134,7 @@ namespace creaturevisualizer
 			this.rt_help.Name = "rt_help";
 			this.rt_help.ReadOnly = true;
 			this.rt_help.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.rt_help.Size = new System.Drawing.Size(387, 394);
+			this.rt_help.Size = new System.Drawing.Size(587, 369);
 			this.rt_help.TabIndex = 0;
 			this.rt_help.Text = "";
 			// 
@@ -127,13 +146,13 @@ namespace creaturevisualizer
 			this.pa_help.Margin = new System.Windows.Forms.Padding(0);
 			this.pa_help.Name = "pa_help";
 			this.pa_help.Padding = new System.Windows.Forms.Padding(5, 5, 0, 0);
-			this.pa_help.Size = new System.Drawing.Size(392, 399);
+			this.pa_help.Size = new System.Drawing.Size(592, 374);
 			this.pa_help.TabIndex = 1;
 			this.pa_help.Paint += new System.Windows.Forms.PaintEventHandler(this.paint_panel);
 			// 
 			// HelpF
 			// 
-			this.ClientSize = new System.Drawing.Size(392, 399);
+			this.ClientSize = new System.Drawing.Size(592, 374);
 			this.Controls.Add(this.pa_help);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.KeyPreview = true;
