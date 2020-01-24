@@ -22,8 +22,6 @@ namespace creaturevisualizer
 		{
 			InitializeComponent();
 
-			rt_help.AutoWordSelection = false;
-
 			TopMost = CreatureVisualizerPreferences.that.StayOnTop;
 
 			if (Info == null)
@@ -66,6 +64,11 @@ namespace creaturevisualizer
 
 
 		#region Handlers (override)
+		protected override void OnLoad(EventArgs e)
+		{
+			rt_help.AutoWordSelection = false;
+		}
+
 		protected override void OnKeyDown(KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Escape)
