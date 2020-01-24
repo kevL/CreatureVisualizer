@@ -6,12 +6,6 @@ namespace creaturevisualizer
 	[Serializable]
 	public class CreatureVisualizerPreferences
 	{
-		#region Fields
-		const int Tp_Controls  = 0;
-		const int Tp_Character = 1;
-		#endregion Fields
-
-
 		#region Properties (static)
 		static CreatureVisualizerPreferences _that;
 		public static CreatureVisualizerPreferences that
@@ -96,7 +90,7 @@ namespace creaturevisualizer
 			ControlPanelDirection = (int)CpDir.e;
 			ShowControls          = false;
 			ShowMinipanel         = true;
-			TabPageCurrent        = Tp_Controls;
+			TabPageCurrent        = 0;
 
 			LightIntensity   = 0.75F;
 			CameraBaseHeight = 1.10F;
