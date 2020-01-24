@@ -108,12 +108,12 @@ namespace creaturevisualizer
 		{
 			if (iinstance.Template == null) // NOTE: Obsolete. An instance w/out a valid template is not allowed to load.
 			{
-//				CreVisF.BypassCreate = true;
+				CreVisF.BypassCreate = true;
 
 				using (var f = new ErrorF("The instance's Template is invalid."))
 					f.ShowDialog();
 
-//				CreVisF.BypassCreate = false;
+				CreVisF.BypassCreate = false;
 			}
 			else
 			{

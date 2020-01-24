@@ -35,8 +35,8 @@ namespace creaturevisualizer
 		public bool StayOnTop
 		{ get; set; }
 
-//		public bool RefreshOnFocus
-//		{ get; set; }
+		public bool RefreshOnFocus
+		{ get; set; }
 
 		public int ControlPanelDirection
 		{ get; set; }
@@ -86,7 +86,7 @@ namespace creaturevisualizer
 			w = h = Int32.MinValue;
 
 			StayOnTop             = true;
-//			RefreshOnFocus        = true;
+			RefreshOnFocus        = true;
 			ControlPanelDirection = (int)CpDir.e;
 			ShowControlPanel      = false;
 			ShowMiniPanel         = true;
