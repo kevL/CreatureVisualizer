@@ -22,6 +22,8 @@ namespace creaturevisualizer
 		{
 			InitializeComponent();
 
+			rt_help.AutoWordSelection = false;
+
 			TopMost = CreatureVisualizerPreferences.that.StayOnTop;
 
 			if (Info == null)
@@ -55,10 +57,10 @@ namespace creaturevisualizer
 				Info += @"%localappdata%\NWN2 Toolset\Plugins\CreatureVisualizer.xml" + L;
 			}
 
-			tb_help.Text = Info;
+			rt_help.Text = Info;
 
-			tb_help.SelectionStart  =
-			tb_help.SelectionLength = 0;
+			rt_help.SelectionStart  =
+			rt_help.SelectionLength = 0;
 		}
 		#endregion cTor
 
@@ -72,9 +74,19 @@ namespace creaturevisualizer
 		#endregion Handlers (override)
 
 
+		#region Handlers
+		void paint_panel(object sender, PaintEventArgs e)
+		{
+			e.Graphics.DrawLine(System.Drawing.Pens.DimGray, 0,0, pa_help.Width, 0);
+			e.Graphics.DrawLine(System.Drawing.Pens.DimGray, 0,0, 0, pa_help.Height);
+		}
+		#endregion Handlers
+
+
 
 		#region Designer
-		TextBox tb_help;
+		RichTextBox rt_help;
+		Panel pa_help;
 
 
 		/// <summary>
@@ -85,33 +97,49 @@ namespace creaturevisualizer
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.tb_help = new System.Windows.Forms.TextBox();
+			this.rt_help = new System.Windows.Forms.RichTextBox();
+			this.pa_help = new System.Windows.Forms.Panel();
+			this.pa_help.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// tb_help
+			// rt_help
 			// 
-			this.tb_help.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tb_help.Location = new System.Drawing.Point(0, 0);
-			this.tb_help.Margin = new System.Windows.Forms.Padding(0);
-			this.tb_help.Multiline = true;
-			this.tb_help.Name = "tb_help";
-			this.tb_help.ReadOnly = true;
-			this.tb_help.Size = new System.Drawing.Size(392, 399);
-			this.tb_help.TabIndex = 0;
-			this.tb_help.WordWrap = false;
+			this.rt_help.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.rt_help.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.rt_help.HideSelection = false;
+			this.rt_help.Location = new System.Drawing.Point(5, 5);
+			this.rt_help.Margin = new System.Windows.Forms.Padding(0);
+			this.rt_help.Name = "rt_help";
+			this.rt_help.ReadOnly = true;
+			this.rt_help.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+			this.rt_help.Size = new System.Drawing.Size(387, 394);
+			this.rt_help.TabIndex = 0;
+			this.rt_help.Text = "";
+			// 
+			// pa_help
+			// 
+			this.pa_help.Controls.Add(this.rt_help);
+			this.pa_help.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pa_help.Location = new System.Drawing.Point(0, 0);
+			this.pa_help.Margin = new System.Windows.Forms.Padding(0);
+			this.pa_help.Name = "pa_help";
+			this.pa_help.Padding = new System.Windows.Forms.Padding(5, 5, 0, 0);
+			this.pa_help.Size = new System.Drawing.Size(392, 399);
+			this.pa_help.TabIndex = 1;
+			this.pa_help.Paint += new System.Windows.Forms.PaintEventHandler(this.paint_panel);
 			// 
 			// HelpF
 			// 
 			this.ClientSize = new System.Drawing.Size(392, 399);
-			this.Controls.Add(this.tb_help);
+			this.Controls.Add(this.pa_help);
 			this.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.KeyPreview = true;
 			this.Name = "HelpF";
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Help";
+			this.pa_help.ResumeLayout(false);
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 		#endregion Designer
