@@ -130,7 +130,7 @@ namespace creaturevisualizer
 				{
 					// NWN2Toolset.NWN2.Data.Instances.NWN2CreatureInstance.CreateBlueprintFromInstance()
 
-					iblueprint.CopyFromTemplate(iinstance as INWN2Template); // does not copy inventory!
+					iblueprint.CopyFromTemplate(iinstance as INWN2Template); // does not copy inventory or equipped!
 
 					iblueprint.Resource       = iinstance.Template;
 					iblueprint.TemplateResRef = iinstance.Template.ResRef;

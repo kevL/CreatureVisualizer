@@ -375,9 +375,7 @@ namespace creaturevisualizer
 					object[] selection = blueprintview.Selection;
 					if (selection != null && selection.Length == 1)
 					{
-						NWN2ObjectType type = (selection[0] as INWN2Template).ObjectType; // better not be null
-
-						switch (type)
+						switch ((selection[0] as INWN2Template).ObjectType) // better not be null
 						{
 							case NWN2ObjectType.Creature:
 							case NWN2ObjectType.Door:
