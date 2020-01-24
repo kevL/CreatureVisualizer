@@ -41,10 +41,10 @@ namespace creaturevisualizer
 		public int ControlPanelDirection
 		{ get; set; }
 
-		public bool ShowControls
+		public bool ShowControlPanel
 		{ get; set; }
 
-		public bool ShowMinipanel
+		public bool ShowMiniPanel
 		{ get; set; }
 
 		public int TabPageCurrent
@@ -88,8 +88,8 @@ namespace creaturevisualizer
 			StayOnTop             = true;
 //			RefreshOnFocus        = true;
 			ControlPanelDirection = (int)CpDir.e;
-			ShowControls          = false;
-			ShowMinipanel         = true;
+			ShowControlPanel      = false;
+			ShowMiniPanel         = true;
 			TabPageCurrent        = 0;
 
 			LightIntensity   = 0.75F;

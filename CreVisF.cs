@@ -270,10 +270,10 @@ namespace creaturevisualizer
 
 			_dir = (CpDir)CreatureVisualizerPreferences.that.ControlPanelDirection;
 
-			if (CreatureVisualizerPreferences.that.ShowControls)
+			if (CreatureVisualizerPreferences.that.ShowControlPanel)
 				_itControlPanel.PerformClick();
 
-			if (!CreatureVisualizerPreferences.that.ShowMinipanel)
+			if (!CreatureVisualizerPreferences.that.ShowMiniPanel)
 				_itMiniPanel.PerformClick();
 
 			if (!CreatureVisualizerPreferences.that.ProcessEquipped_body)
@@ -503,7 +503,7 @@ namespace creaturevisualizer
 
 			_itStayOnTop = Menu.MenuItems[2].MenuItems.Add("stay on &top", viewclick_StayOnTop);
 			_itStayOnTop.Shortcut = Shortcut.CtrlT;
-			_itStayOnTop.Checked = TopMost = true;
+			_itStayOnTop.Checked = true;
 
 // Help ->
 			Menu.MenuItems[3].MenuItems.Add("&help", helpclick_Help);
@@ -890,7 +890,7 @@ namespace creaturevisualizer
 						pa_con.Visible = _itCyclePanel.Enabled = true;
 						LayoutButtons();
 
-						CreatureVisualizerPreferences.that.ShowControls = true;
+						CreatureVisualizerPreferences.that.ShowControlPanel = true;
 						break;
 				}
 
@@ -924,7 +924,7 @@ namespace creaturevisualizer
 						pa_con.Visible = _itCyclePanel.Enabled = false;
 						LayoutButtons();
 
-						CreatureVisualizerPreferences.that.ShowControls = false;
+						CreatureVisualizerPreferences.that.ShowControlPanel = false;
 						_panel.Focus();
 						break;
 				}
@@ -985,7 +985,7 @@ namespace creaturevisualizer
 		{
 			_i.Visible = _o.Visible = _u.Visible =
 			_d.Visible = _l.Visible = _r.Visible =
-			CreatureVisualizerPreferences.that.ShowMinipanel = (_itMiniPanel.Checked = !_itMiniPanel.Checked);
+			CreatureVisualizerPreferences.that.ShowMiniPanel = (_itMiniPanel.Checked = !_itMiniPanel.Checked);
 		}
 
 		void viewclick_CyclePanel(object sender, EventArgs e)
@@ -1023,8 +1023,12 @@ namespace creaturevisualizer
 
 		void viewclick_StayOnTop(object sender, EventArgs e)
 		{
-			CreatureVisualizerPreferences.that.StayOnTop =
-			TopMost = (_itStayOnTop.Checked = !_itStayOnTop.Checked);
+			if (CreatureVisualizerPreferences.that.StayOnTop = (_itStayOnTop.Checked = !_itStayOnTop.Checked))
+			{
+				Owner = NWN2ToolsetMainForm.App;
+			}
+			else
+				Owner = null;
 		}
 
 

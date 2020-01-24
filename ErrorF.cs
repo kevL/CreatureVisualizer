@@ -12,8 +12,6 @@ namespace creaturevisualizer
 		{
 			InitializeComponent();
 
-			TopMost = CreatureVisualizerPreferences.that.StayOnTop;
-
 			la_error.Text = error;
 		}
 		#endregion cTor

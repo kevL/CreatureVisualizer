@@ -34,8 +34,6 @@ namespace creaturevisualizer
 		{
 			InitializeComponent();
 
-			TopMost = CreatureVisualizerPreferences.that.StayOnTop;
-
 			if (!cancancel)
 			{
 				DialogResult = DialogResult.Ignore;

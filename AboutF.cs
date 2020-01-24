@@ -25,8 +25,6 @@ namespace creaturevisualizer
 		{
 			InitializeComponent();
 
-			TopMost = CreatureVisualizerPreferences.that.StayOnTop;
-
 			if (Info == null)
 			{
 				Info = "Creature Visualizer"                       + L

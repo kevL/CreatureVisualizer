@@ -10,7 +10,7 @@ namespace creaturevisualizer
 	{
 		#region Fields (static)
 		static string Info;
-		const string Alert = "  STAY ON TOP CAN FORCE YOU TO CLOSE THE TOOLSET FROM THE TASK MANAGER LOSING YOUR CHANGES.";
+//		const string Alert = "  STAY ON TOP CAN FORCE YOU TO CLOSE THE TOOLSET FROM THE TASK MANAGER LOSING YOUR CHANGES.";
 		#endregion Fields (static)
 
 
@@ -23,8 +23,6 @@ namespace creaturevisualizer
 		internal HelpF()
 		{
 			InitializeComponent();
-
-			TopMost = CreatureVisualizerPreferences.that.StayOnTop;
 
 			if (Info == null)
 			{
@@ -43,8 +41,8 @@ namespace creaturevisualizer
 				Info += "- control panel [Ctrl+P] - toggles on/off the control panel" + L;
 				Info += "- mini panel [F7] - toggles on/off quick controls in the display panel" + L;
 				Info += "- cycle panel [F8] - cycles the control panel through the cardinal compass points" + L;
-				Info += "- stay on top [Ctrl+T] - toggles whether or not the visualizer stays on top of other windows" + L;
-				Info += Alert + L;
+				Info += "- stay on top [Ctrl+T] - toggles whether or not the visualizer stays on top of the toolset" + L;
+//				Info += Alert + L;
 				Info += "Help" + L;
 				Info += "- help [F1] - this dialog" + L;
 				Info += "- about [F2] - authorship, version information, and build date" + L + L;
@@ -78,8 +76,8 @@ namespace creaturevisualizer
 
 			rt_help.Text = Info;
 
-			rt_help.Find(Alert);
-			rt_help.SelectionColor = Color.Crimson;
+//			rt_help.Find(Alert);
+//			rt_help.SelectionColor = Color.Crimson;
 
 			rt_help.SelectionStart  =
 			rt_help.SelectionLength = 0;
