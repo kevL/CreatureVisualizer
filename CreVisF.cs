@@ -612,15 +612,15 @@ namespace creaturevisualizer
 		{
 			switch (e.CloseReason)
 			{
+				case CloseReason.None:
 				case CloseReason.TaskManagerClosing:
 				case CloseReason.WindowsShutDown:
 					// let windows or the toolset do its thing ...
 					break;
 
 				case CloseReason.ApplicationExitCall:
-				case CloseReason.MdiFormClosing:
-				case CloseReason.None:
 				case CloseReason.UserClosing:
+//				case CloseReason.MdiFormClosing:
 //					if (!ConfirmClose(true))
 //					{
 //						e.Cancel = true;
@@ -636,9 +636,10 @@ namespace creaturevisualizer
 					CreatureVisualizerPreferences.that.w = pa_gui.Width;
 					CreatureVisualizerPreferences.that.h = pa_gui.Height;
 
-					_t1.Dispose();
-					_t1 = null;
-
+					if (_t1 != null)
+					{
+						_t1.Dispose(); _t1 = null;
+					}
 					break;
 			}
 
