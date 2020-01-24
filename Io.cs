@@ -106,10 +106,7 @@ namespace creaturevisualizer
 		#region Methods (private)
 		static INWN2Blueprint CreateBlueprint(INWN2Instance iinstance)
 		{
-			// cf ElectronPanel_.CreateInstance()
-
-			// - is OBSOLETE
-			if (iinstance.Template == null)// || instance.Template.ResourceType != (ushort)2027) // utc
+			if (iinstance.Template == null) // NOTE: Obsolete. An instance w/out a valid template is not allowed to load.
 			{
 //				CreVisF.BypassCreate = true;
 
@@ -131,41 +128,34 @@ namespace creaturevisualizer
 
 				if (iblueprint != null)
 				{
-					iblueprint.CopyFromTemplate(iinstance);
+					// NWN2Toolset.NWN2.Data.Instances.NWN2CreatureInstance.CreateBlueprintFromInstance()
+
+					iblueprint.CopyFromTemplate(iinstance as INWN2Template); // does not copy inventory!
 
 					iblueprint.Resource       = iinstance.Template;
 					iblueprint.TemplateResRef = iinstance.Template.ResRef;
 
 					iblueprint.Comment = iinstance.Comment;
 
-/*					if (iinstance.ObjectType == NWN2ObjectType.Creature)
+					if (iinstance.ObjectType == NWN2ObjectType.Creature)
 					{
-						if (CreatureVisualizerPreferences.that.ProcessEquippedItems)
+// copy equipped ->
+						(iblueprint as NWN2CreatureTemplate).EquippedItems = new NWN2EquipmentSlotCollection();
+						NWN2InventoryItem equipped;
+						for (int i = 0; i != 18; ++i)
 						{
-//							blueprint.EquippedItems = (NWN2EquipmentSlotCollection)CommonUtils.SerializationClone(instance.EquippedItems);
-
-							NWN2InventoryItem it;
-							(iblueprint as NWN2CreatureTemplate).EquippedItems = new NWN2EquipmentSlotCollection();
-							for (int i = 0; i != 18; ++i)
+							if ((equipped = (iinstance as NWN2CreatureTemplate).EquippedItems[i].Item) != null && equipped.ValidItem)
 							{
-								if ((it = (iinstance as NWN2CreatureTemplate).EquippedItems[i].Item) != null && it.ValidItem)
-								{
-									(iblueprint as NWN2CreatureTemplate).EquippedItems[i].Item = new NWN2BlueprintInventoryItem(it as NWN2InstanceInventoryItem);
-								}
+								(iblueprint as NWN2CreatureTemplate).EquippedItems[i].Item = new NWN2BlueprintInventoryItem(equipped as NWN2InstanceInventoryItem);
 							}
 						}
-						//else TODO: Might have to clear equipment here
-
-//						if (CreatureVisualizerPreferences.that.ProcessInventoryItems)
-//						{
-//							(iblueprint as NWN2CreatureBlueprint).Inventory = new NWN2BlueprintInventoryItemCollection();
-//							foreach (NWN2InstanceInventoryItem it in (iinstance as NWN2CreatureInstance).Inventory)
-//							{
-//								(iblueprint as NWN2CreatureBlueprint).Inventory.Add(new NWN2BlueprintInventoryItem(it));
-//							}
-//						}
-//						//else TODO: Might have to clear inventory here
-					} */
+// copy inventory ->
+						(iblueprint as NWN2CreatureBlueprint).Inventory = new NWN2BlueprintInventoryItemCollection();
+						foreach (NWN2InstanceInventoryItem item in (iinstance as NWN2CreatureInstance).Inventory)
+						{
+							(iblueprint as NWN2CreatureBlueprint).Inventory.Add(new NWN2BlueprintInventoryItem(item));
+						}
+					}
 				}
 				return iblueprint;
 			}
@@ -173,51 +163,6 @@ namespace creaturevisualizer
 		}
 		#endregion Methods (private)
 
-		// NWN2Toolset.NWN2.Data.Instances.NWN2CreatureInstance
-/*		public static NWN2CreatureBlueprint CreateBlueprintFromInstance(NWN2CreatureInstance instance, IResourceRepository repository, bool rename)
-		{
-			var blueprint = new NWN2CreatureBlueprint();
-			blueprint.CopyFromTemplate(instance);
-			blueprint.Resource = instance.Template;
-			blueprint.Comment = instance.Comment;
-			blueprint.TemplateResRef = instance.Template.ResRef;
-
-			blueprint.EquippedItems = CommonUtils.SerializationClone(instance.EquippedItems) as NWN2EquipmentSlotCollection;
-			blueprint.EquippedItems = new NWN2EquipmentSlotCollection();
-
-			for (int i = 0; i != 18; ++i)
-			{
-				if (instance.EquippedItems[i].Item != null && instance.EquippedItems[i].Item.ValidItem)
-				{
-					blueprint.EquippedItems[i].Item = null;// new NWN2BlueprintInventoryItem(instance.EquippedItems[i].Item as NWN2InstanceInventoryItem);
-				}
-			}
-
-			blueprint.Inventory = new NWN2BlueprintInventoryItemCollection();
-
-			foreach (NWN2InstanceInventoryItem itInstance in instance.Inventory)
-			{
-				var itBlueprint = new NWN2BlueprintInventoryItem(itInstance);
-				blueprint.Inventory.Add(itBlueprint);
-			}
-
-			if (repository != null)
-			{
-				OEIResRef resref = rename ? repository.GetTempResRef(instance.Template.ResRef, blueprint.ResourceType) : instance.Template.ResRef;
-
-				blueprint.Resource = repository.CreateResource(resref, blueprint.ResourceType);
-				var file = new GFFFile();
-				file.FileHeader.FileType = BWResourceTypes.GetFileExtension(blueprint.ResourceType);
-
-				blueprint.SaveEverythingIntoGFFStruct(file.TopLevelStruct, true);
-				using (Stream str = blueprint.Resource.GetStream(true))
-				{
-					file.Save(str);
-					blueprint.Resource.Release();
-				}
-			}
-			return blueprint;
-		} */
 
 
 		#region Methods (stupid)

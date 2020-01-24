@@ -347,9 +347,7 @@ namespace creaturevisualizer
 						different = true;
 					}
 
-					//MessageBox.Show("call CreateInstance()");
-					Instance = CreateInstance(Instance_base);
-					//MessageBox.Show("instance created");
+					Instance = CreateInstance();
 
 					if (Instance != null)
 					{
@@ -377,9 +375,9 @@ namespace creaturevisualizer
 					object[] selection = blueprintview.Selection;
 					if (selection != null && selection.Length == 1)
 					{
-						NWN2ObjectType objecttype = (selection[0] as INWN2Template).ObjectType; // better not be null
+						NWN2ObjectType type = (selection[0] as INWN2Template).ObjectType; // better not be null
 
-						switch (objecttype)
+						switch (type)
 						{
 							case NWN2ObjectType.Creature:
 							case NWN2ObjectType.Door:
@@ -392,53 +390,53 @@ namespace creaturevisualizer
 									different = true;
 								}
 
-								Blueprint = CreateBlueprint(Blueprint_base);
+								Blueprint = CreateBlueprint();
 								_f.PrintResourceInfo(Blueprint);
 
+								Instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(Blueprint);
 
-								switch (objecttype)
+/*								switch (type)
 								{
 									case NWN2ObjectType.Creature:
 //										_f.bu_creature_apply1.Enabled =
 //										_f.bu_creature_apply2.Enabled = (Blueprint.Resource.Repository as DirectoryResourceRepository) != null;
 //										_f.EnableCreaturePages(true);
 //										_f.InitializeCreaturePages(Blueprint as NWN2CreatureTemplate);
-/*
+
 //										((NWN2CreatureBlueprint)blueprint).AppearanceHair; // byte
-										// etc ...
-
-										// bool ->
-										((NWN2CreatureBlueprint)blueprint).AppearanceFacialHair;
-
-										((NWN2CreatureBlueprint)blueprint).HasBelt;
-										((NWN2CreatureBlueprint)blueprint).HasBoots;
-										((NWN2CreatureBlueprint)blueprint).HasCloak;
-										((NWN2CreatureBlueprint)blueprint).HasGloves;
-										((NWN2CreatureBlueprint)blueprint).HasHelm;
-
-										((NWN2CreatureBlueprint)blueprint).NeverDrawHelmet;
-										((NWN2CreatureBlueprint)blueprint).NeverShowArmor;
-
-										// TwoDAReference ->
-										((NWN2CreatureBlueprint)blueprint).Tail;
-										((NWN2CreatureBlueprint)blueprint).Wings;
-
-										// OEITintSet ->
-										((NWN2CreatureBlueprint)blueprint).BaseTint;
-										((NWN2CreatureBlueprint)blueprint).Tint;
-										((NWN2CreatureBlueprint)blueprint).TintHair;
-										((NWN2CreatureBlueprint)blueprint).TintHead;
-
-										// Color ->
-										((NWN2CreatureBlueprint)blueprint).TintArmor1;
-										((NWN2CreatureBlueprint)blueprint).TintArmor2;
-										((NWN2CreatureBlueprint)blueprint).TintEyes;
-										((NWN2CreatureBlueprint)blueprint).TintFacialHair;
-										((NWN2CreatureBlueprint)blueprint).TintHair1;
-										((NWN2CreatureBlueprint)blueprint).TintHair2;
-										((NWN2CreatureBlueprint)blueprint).TintHairAccessory;
-										((NWN2CreatureBlueprint)blueprint).TintSkin;
-*/
+//										// etc ...
+//
+//										// bool ->
+//										((NWN2CreatureBlueprint)blueprint).AppearanceFacialHair;
+//
+//										((NWN2CreatureBlueprint)blueprint).HasBelt;
+//										((NWN2CreatureBlueprint)blueprint).HasBoots;
+//										((NWN2CreatureBlueprint)blueprint).HasCloak;
+//										((NWN2CreatureBlueprint)blueprint).HasGloves;
+//										((NWN2CreatureBlueprint)blueprint).HasHelm;
+//
+//										((NWN2CreatureBlueprint)blueprint).NeverDrawHelmet;
+//										((NWN2CreatureBlueprint)blueprint).NeverShowArmor;
+//
+//										// TwoDAReference ->
+//										((NWN2CreatureBlueprint)blueprint).Tail;
+//										((NWN2CreatureBlueprint)blueprint).Wings;
+//
+//										// OEITintSet ->
+//										((NWN2CreatureBlueprint)blueprint).BaseTint;
+//										((NWN2CreatureBlueprint)blueprint).Tint;
+//										((NWN2CreatureBlueprint)blueprint).TintHair;
+//										((NWN2CreatureBlueprint)blueprint).TintHead;
+//
+//										// Color ->
+//										((NWN2CreatureBlueprint)blueprint).TintArmor1;
+//										((NWN2CreatureBlueprint)blueprint).TintArmor2;
+//										((NWN2CreatureBlueprint)blueprint).TintEyes;
+//										((NWN2CreatureBlueprint)blueprint).TintFacialHair;
+//										((NWN2CreatureBlueprint)blueprint).TintHair1;
+//										((NWN2CreatureBlueprint)blueprint).TintHair2;
+//										((NWN2CreatureBlueprint)blueprint).TintHairAccessory;
+//										((NWN2CreatureBlueprint)blueprint).TintSkin;
 
 										goto case NWN2ObjectType.Item;
 
@@ -448,7 +446,7 @@ namespace creaturevisualizer
 									case NWN2ObjectType.Item: // <- TODO: works for weapons (see Preview tab) but clothes appear on a default creature (in the ArmorSet tab)
 										Instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(Blueprint);
 										break;
-								}
+								} */
 								break;
 						}
 					}
@@ -463,89 +461,17 @@ namespace creaturevisualizer
 			_f._bypassInsert = false;
 		}
 
-		/// <summary>
-		/// - based on
-		/// NWN2Toolset.NWN2.Data.Blueprints.NWN2CreatureBlueprint.CreateFromBlueprint()
-		/// </summary>
-		/// <param name="iblueprint"></param>
-		/// <returns></returns>
-		INWN2Blueprint CreateBlueprint(INWN2Blueprint iblueprint)
+		INWN2Instance CreateInstance()
 		{
-			// cf Io.CreateBlueprint()
-
-			INWN2Blueprint blueprint = null;
-
-			switch (iblueprint.ObjectType)
-			{
-				case NWN2ObjectType.Creature:     blueprint = new NWN2CreatureBlueprint();     break;
-				case NWN2ObjectType.Door:         blueprint = new NWN2DoorBlueprint();         break;
-				case NWN2ObjectType.Placeable:    blueprint = new NWN2PlaceableBlueprint();    break;
-				case NWN2ObjectType.PlacedEffect: blueprint = new NWN2PlacedEffectBlueprint(); break;
-				case NWN2ObjectType.Item:         blueprint = new NWN2ItemBlueprint();         break;
-			}
-
-			if (blueprint != null)
-			{
-				blueprint.CopyFromTemplate(iblueprint);
-
-				// 'data' is private ->
-				// NWN2Toolset.NWN2.Data.Blueprints.NWN2CreatureBlueprint.NWN2BlueprintData -> (OEIResRef)TemplateResRef (+ load and save functs)
-//				blueprint.data = (NWN2BlueprintData)CommonUtils.SerializationClone(iblueprint.data);
-
-				blueprint.TemplateResRef = iblueprint.TemplateResRef; // not sure how that's gonna play out: not duplicated.
-
-
-				blueprint.Comment = iblueprint.Comment;
-
-				if (blueprint.ObjectType == NWN2ObjectType.Creature)
-				{
-					ProcessEquippedItems(blueprint as NWN2CreatureTemplate);
-					// something funny going on here ...
-					// why does this not appear to be needed ->
-/*					if (CreatureVisualizerPreferences.that.ProcessEquippedItems)
-					{
-						(blueprint as NWN2CreatureTemplate).EquippedItems =
-							(NWN2EquipmentSlotCollection)CommonUtils.SerializationClone((iblueprint as NWN2CreatureTemplate).EquippedItems);
-					}
-					else
-					if (!CreatureVisualizerPreferences.that.ProcessEquippedItems)
-					{
-						for (int i = 0; i != (blueprint as NWN2CreatureTemplate).EquippedItems.Count; ++i)
-						{
-							(blueprint as NWN2CreatureTemplate).EquippedItems[i].Item = null;
-						}
-					} */
-
-//					if (CreatureVisualizerPreferences.that.ProcessInventoryItems)
-//					{
-//						(blueprint as NWN2CreatureBlueprint).Inventory =
-//							(NWN2BlueprintInventoryItemCollection)CommonUtils.SerializationClone((iblueprint as NWN2CreatureBlueprint).Inventory);
-//					}
-				}
-
-
-				OEIResRef resref = iblueprint.Resource.ResRef; // 'Resource.Resref' IS 'ResourceName'
-				IResourceRepository repo = iblueprint.Resource.Repository;
-				blueprint.Resource = repo.CreateResource(resref, (iblueprint as INWN2Object).ResourceType);
-
-				return blueprint;
-			}
-			return null;
-		}
-
-		INWN2Instance CreateInstance(INWN2Instance iinstance)
-		{
-			// cf Io.CreateBlueprint()
-
 			// NOTE: Instances without any value for "Template" have a null template ResourceEntry
 			// while Instances with an invalid value for "Template" are ResourceType 0 .RES
 
 			// TODO: allow Instances w/out a valid Template ... (although it should be discouraged)
 
-			if (iinstance.Template == null
-				|| (   iinstance.Template.ResourceType != (ushort)2027		// utc
-					&& iinstance.Template.ResourceType != (ushort)2042		// utd
-					&& iinstance.Template.ResourceType != (ushort)2044))	// utp
+			if (Instance_base.Template == null
+				|| (   Instance_base.Template.ResourceType != (ushort)2027		// utc
+					&& Instance_base.Template.ResourceType != (ushort)2042		// utd
+					&& Instance_base.Template.ResourceType != (ushort)2044))	// utp
 			{
 //				CreVisF.BypassCreate = true;
 
@@ -556,13 +482,57 @@ namespace creaturevisualizer
 			}
 			else
 			{
-				var instance = (INWN2Instance)CommonUtils.SerializationClone(iinstance);
-				instance.Area = iinstance.Area;
+				var iinstance = CommonUtils.SerializationClone(Instance_base) as INWN2Instance;
+				iinstance.Area = Instance_base.Area;
 
-				if (instance.ObjectType == NWN2ObjectType.Creature)
-					ProcessEquippedItems(instance as NWN2CreatureTemplate);
+				if (iinstance.ObjectType == NWN2ObjectType.Creature)
+				{
+					ProcessEquippedItems(iinstance as NWN2CreatureTemplate);
+					ProcessInventory(iinstance as INWN2Template);
+				}
 
-				return instance;
+				return iinstance;
+			}
+			return null;
+		}
+
+		/// <summary>
+		/// - based on
+		/// NWN2Toolset.NWN2.Data.Blueprints.NWN2CreatureBlueprint.CreateFromBlueprint()
+		/// </summary>
+		/// <returns></returns>
+		INWN2Blueprint CreateBlueprint()
+		{
+			INWN2Blueprint iblueprint = null;
+
+			switch (Blueprint_base.ObjectType)
+			{
+				case NWN2ObjectType.Creature:     iblueprint = new NWN2CreatureBlueprint();     break;
+				case NWN2ObjectType.Door:         iblueprint = new NWN2DoorBlueprint();         break;
+				case NWN2ObjectType.Placeable:    iblueprint = new NWN2PlaceableBlueprint();    break;
+				case NWN2ObjectType.PlacedEffect: iblueprint = new NWN2PlacedEffectBlueprint(); break;
+				case NWN2ObjectType.Item:         iblueprint = new NWN2ItemBlueprint();         break;
+			}
+
+			if (iblueprint != null)
+			{
+				iblueprint.CopyFromTemplate(Blueprint_base);
+
+				iblueprint.TemplateResRef = Blueprint_base.TemplateResRef; // not sure how that's gonna play out: not duplicated.
+
+				iblueprint.Comment = Blueprint_base.Comment;
+
+				if (iblueprint.ObjectType == NWN2ObjectType.Creature)
+				{
+					ProcessEquippedItems(iblueprint as NWN2CreatureTemplate);
+					ProcessInventory(iblueprint as INWN2Template);
+				}
+
+				OEIResRef resref = Blueprint_base.Resource.ResRef; // 'Resource.Resref' IS 'ResourceName'
+				IResourceRepository repo = Blueprint_base.Resource.Repository;
+				iblueprint.Resource = repo.CreateResource(resref, (Blueprint_base as INWN2Object).ResourceType);
+
+				return iblueprint;
 			}
 			return null;
 		}
@@ -605,6 +575,35 @@ namespace creaturevisualizer
 				}
 			}
 		}
+
+		void ProcessInventory(INWN2Template itemplate)
+		{
+			if (CreatureVisualizerPreferences.that.ProcessInventory)
+			{
+				if ((itemplate as NWN2CreatureBlueprint) != null)
+				{
+					object inventory = CommonUtils.SerializationClone((Blueprint_base as NWN2CreatureBlueprint).Inventory);
+					(itemplate as NWN2CreatureBlueprint).Inventory = inventory as NWN2BlueprintInventoryItemCollection;
+				}
+				else if ((itemplate as NWN2CreatureInstance) != null)
+				{
+					object inventory = CommonUtils.SerializationClone((Instance_base as NWN2CreatureInstance).Inventory);
+					(itemplate as NWN2CreatureInstance).Inventory = inventory as NWN2InstanceInventoryItemCollection;
+				}
+			}
+			else
+			{
+				if ((itemplate as NWN2CreatureBlueprint) != null)
+				{
+					(itemplate as NWN2CreatureBlueprint).Inventory.Clear();
+				}
+				else if ((itemplate as NWN2CreatureInstance) != null)
+				{
+					(itemplate as NWN2CreatureInstance).Inventory.Clear();
+				}
+			}
+		}
+
 
 /*		/// <summary>
 		/// Updates the NetDisplayModel after changing creature characteristics.

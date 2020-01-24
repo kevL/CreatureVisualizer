@@ -81,6 +81,9 @@ namespace creaturevisualizer
 		public bool ProcessEquipped_held
 		{ get; set; }
 
+		public bool ProcessInventory
+		{ get; set; }
+
 
 		#region cTor
 		CreatureVisualizerPreferences()
@@ -103,8 +106,9 @@ namespace creaturevisualizer
 
 			LastSaveDirectory = String.Empty;
 
-			ProcessEquipped_body = true;
-			ProcessEquipped_held = true;
+			ProcessEquipped_body =
+			ProcessEquipped_held =
+			ProcessInventory     = true;
 		}
 		#endregion cTor
 	}

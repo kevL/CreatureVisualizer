@@ -64,6 +64,7 @@ namespace creaturevisualizer
 
 		MenuItem _itProcessItemsBody;
 		MenuItem _itProcessItemsHeld;
+		MenuItem _itProcessInventory;
 
 		MenuItem _itControlPanel;
 		MenuItem _itMiniPanel;
@@ -252,6 +253,9 @@ namespace creaturevisualizer
 
 			if (!CreatureVisualizerPreferences.that.ProcessEquipped_held)
 				_itProcessItemsHeld.PerformClick();
+
+			if (!CreatureVisualizerPreferences.that.ProcessInventory)
+				_itProcessInventory.PerformClick();
 
 			tc1.SelectedIndex = CreatureVisualizerPreferences.that.TabPageCurrent;
 
@@ -442,12 +446,16 @@ namespace creaturevisualizer
 
 // Options ->
 			_itProcessItemsBody = Menu.MenuItems[1].MenuItems.Add("process equipped &body-items", optionsclick_ProcessItemsBody);
-//			_itProcessItemsBody.Shortcut = Shortcut.CtrlU;
+//			_itProcessItemsBody.Shortcut = Shortcut.CtrlB;
 			_itProcessItemsBody.Checked = true;
 
 			_itProcessItemsHeld = Menu.MenuItems[1].MenuItems.Add("process equipped &held-items", optionsclick_ProcessItemsHeld);
-//			_itProcessItemsHeld.Shortcut = Shortcut.CtrlI;
+//			_itProcessItemsHeld.Shortcut = Shortcut.CtrlH;
 			_itProcessItemsHeld.Checked = true;
+
+			_itProcessInventory = Menu.MenuItems[1].MenuItems.Add("process &inventory", optionsclick_ProcessInventory);
+//			_itProcessInventory.Shortcut = Shortcut.CtrlI;
+			_itProcessInventory.Checked = true;
 
 // View ->
 			_itControlPanel = Menu.MenuItems[2].MenuItems.Add("control &panel", viewclick_ControlPanel);
@@ -792,6 +800,14 @@ namespace creaturevisualizer
 		{
 			CreatureVisualizerPreferences.that.ProcessEquipped_held =
 			(_itProcessItemsHeld.Checked = !_itProcessItemsHeld.Checked);
+
+			_panel.CreateModel();
+		}
+
+		void optionsclick_ProcessInventory(object sender, EventArgs e)
+		{
+			CreatureVisualizerPreferences.that.ProcessInventory =
+			(_itProcessInventory.Checked = !_itProcessInventory.Checked);
 
 			_panel.CreateModel();
 		}
