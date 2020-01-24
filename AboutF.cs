@@ -31,7 +31,7 @@ namespace creaturevisualizer
 			{
 				Info = "Creature Visualizer"                       + L
 					 + "a toolset plugin for Neverwinter Nights 2" + L + L
-					 + "code by kevL's and the Ancestors"          + L + L;
+					 + "code by kevL's and the ancestors"          + L + L;
 
 				var ass = Assembly.GetExecutingAssembly();
 				var an = ass.GetName();
@@ -42,7 +42,7 @@ namespace creaturevisualizer
 #if DEBUG
 				Info += " debug";
 #else
-				Info += " (pseudo)release";
+				Info += " release";
 #endif
 				Info += Environment.NewLine
 					  + String.Format(CultureInfo.CurrentCulture,

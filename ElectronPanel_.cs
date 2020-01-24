@@ -519,6 +519,10 @@ namespace creaturevisualizer
 			{
 				iblueprint.CopyFromTemplate(Blueprint_base);
 
+				OEIResRef resref = Blueprint_base.Resource.ResRef; // 'Resource.Resref' IS 'ResourceName'
+				IResourceRepository repo = Blueprint_base.Resource.Repository;
+				iblueprint.Resource = repo.CreateResource(resref, (Blueprint_base as INWN2Object).ResourceType);
+
 				iblueprint.TemplateResRef = Blueprint_base.TemplateResRef; // not sure how that's gonna play out: not duplicated.
 
 				iblueprint.Comment = Blueprint_base.Comment;
@@ -528,14 +532,8 @@ namespace creaturevisualizer
 					ProcessEquippedItems(iblueprint as NWN2CreatureTemplate);
 					ProcessInventory(iblueprint as INWN2Template);
 				}
-
-				OEIResRef resref = Blueprint_base.Resource.ResRef; // 'Resource.Resref' IS 'ResourceName'
-				IResourceRepository repo = Blueprint_base.Resource.Repository;
-				iblueprint.Resource = repo.CreateResource(resref, (Blueprint_base as INWN2Object).ResourceType);
-
-				return iblueprint;
 			}
-			return null;
+			return iblueprint;
 		}
 
 		void ProcessEquippedItems(NWN2CreatureTemplate template)
