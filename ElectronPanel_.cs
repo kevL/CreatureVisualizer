@@ -304,11 +304,12 @@ namespace creaturevisualizer
 
 //			if (!CreVisF.BypassCreate) // don't recreate the instance when returning from a dialog when "RefreshOnFocus" is enabled.
 //			{
-			if (Instance != null)
-			{
-				// ask to ignore, Apply (if not stock resource), or save-to-file (disable the Cancel option)
-				_f.ConfirmClose(false);
-			}
+
+//			if (Instance != null)
+//			{
+//				// ask to ignore, Apply (if not stock resource), or save-to-file (disable the Cancel option)
+//				_f.ConfirmClose(false);
+//			}
 
 
 //			lock (NWN2NetDisplayManager.Instance.Objects.SyncRoot) // not sure ...
@@ -319,7 +320,7 @@ namespace creaturevisualizer
 
 
 			_f.ClearResourceInfo();
-			_f.Changed = CreVisF.ChangedType.ct_nul; // set '_f.Text'
+//			_f.Changed = CreVisF.ChangedType.ct_nul; // set '_f.Text'
 
 			Blueprint = null; // is instantiated only by a Blueprint
 			Instance  = null; // is instantiated by either a Blueprint or an Instance
@@ -457,6 +458,8 @@ namespace creaturevisualizer
 			}
 //			}
 			_f._bypassInsert = false;
+
+			_f.SetTitleText();
 		}
 
 		INWN2Instance CreateInstance()
@@ -633,7 +636,7 @@ namespace creaturevisualizer
 			//MessageBox.Show("AddModel()");
 			if (Instance != null && Initialize())
 			{
-				_f.Changed = CreVisF.ChangedType.ct_non;
+//				_f.Changed = CreVisF.ChangedType.ct_non;
 
 				bool first;
 				if (Model != null) // is NOT 'first' display - cache the previous model's telemetry since it's about to go byebye.

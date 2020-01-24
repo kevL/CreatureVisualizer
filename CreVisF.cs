@@ -88,7 +88,7 @@ namespace creaturevisualizer
 		#endregion Fields
 
 
-		#region Properties
+/*		#region Properties
 		ChangedType _changed;
 		internal ChangedType Changed
 		{
@@ -147,7 +147,34 @@ namespace creaturevisualizer
 				}
 			}
 		}
-		#endregion Properties
+		#endregion Properties */
+
+		internal void SetTitleText()
+		{
+			if (_panel.Blueprint != null) // is a blueprint NOT a placed instance
+			{
+				// _panel.Blueprint.TemplateResRef.Value	-> parent resref
+				// _panel.Blueprint.ResourceName.Value		-> resref == '_panel.Blueprint.Resource.ResRef.Value'
+				// _panel.Blueprint.Name					-> tag
+
+				string loc;
+				if ((_panel.Blueprint.Resource.Repository as DirectoryResourceRepository) != null)
+				{
+					loc = Enum.GetName(typeof(NWN2BlueprintLocationType), _panel.Blueprint.BlueprintLocation);
+				}
+				else
+					loc = "data/zip";
+
+				Text = TITLE + " - "
+					 + _panel.Blueprint.Resource.ResRef.Value + " [" + loc + "] (" + _panel.Blueprint.Name + ")";
+			}
+			else if (_panel.Instance != null) // is a placed instance NOT a blueprint
+			{
+				Text = TITLE + " - [area] (" + _panel.Instance.Name + ")"; // tag
+			}
+			else
+				Text = TITLE;
+		}
 
 
 		#region cTor
@@ -593,12 +620,12 @@ namespace creaturevisualizer
 				case CloseReason.MdiFormClosing:
 				case CloseReason.None:
 				case CloseReason.UserClosing:
-					if (!ConfirmClose(true))
-					{
-						e.Cancel = true;
-						return;
-					}
-					goto case CloseReason.FormOwnerClosing;
+//					if (!ConfirmClose(true))
+//					{
+//						e.Cancel = true;
+//						return;
+//					}
+//					goto case CloseReason.FormOwnerClosing;
 
 				case CloseReason.FormOwnerClosing:
 					CreatureVisualizerPreferences.that.x = DesktopLocation.X;
@@ -619,7 +646,7 @@ namespace creaturevisualizer
 																	   new OEICollectionWithEvents.ChangeHandler(OnObjectsInserted));
 		}
 
-		internal bool ConfirmClose(bool cancancel)
+/*		internal bool ConfirmClose(bool cancancel)
 		{
 			bool ret = false;
 
@@ -676,7 +703,7 @@ namespace creaturevisualizer
 				}
 			}
 			return ret;
-		}
+		} */
 
 
 		protected override void OnKeyDown(KeyEventArgs e)
@@ -774,13 +801,13 @@ namespace creaturevisualizer
 			if (_panel.Blueprint != null)
 			{
 				Io.SaveTo(_panel.Blueprint);
-				Changed = ChangedType.ct_non;
+//				Changed = ChangedType.ct_non;
 				// TODO: update blueprint tree (if applicable)
 			}
 			else if (_panel.Instance != null)
 			{
 				Io.SaveTo(_panel.Instance);
-				Changed = ChangedType.ct_non;
+//				Changed = ChangedType.ct_non;
 				// TODO: update blueprint tree (if applicable)
 			}
 
