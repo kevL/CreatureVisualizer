@@ -9,7 +9,6 @@ using NWN2Toolset.NWN2.Data.Instances;
 using NWN2Toolset.NWN2.Data.Templates;
 
 using OEIShared.IO;
-//using OEIShared.IO.GFF;
 using OEIShared.Utils;
 
 
@@ -20,8 +19,7 @@ namespace creaturevisualizer
 		#region Methods (internal)
 		// NWN2Toolset.NWN2.Views.NWN2BlueprintView.ᐌ(object P_0, EventArgs P_1)
 		/// <summary>
-		/// Saves the currently selected blueprint in the Blueprint tree to a
-		/// user-labeled file.
+		/// Saves a specified blueprint to a user-labeled file.
 		/// @note Check that blueprint is valid before call.
 		/// </summary>
 		/// <param name="iblueprint"></param>
@@ -106,67 +104,163 @@ namespace creaturevisualizer
 		#region Methods (private)
 		static INWN2Blueprint CreateBlueprint(INWN2Instance iinstance)
 		{
-			if (iinstance.Template == null) // NOTE: Obsolete. An instance w/out a valid template is not allowed to load.
+			INWN2Blueprint iblueprint = null;
+
+			switch (iinstance.ObjectType)
 			{
-				CreVisF.BypassCreate = true;
-
-				using (var f = new ErrorF("The instance's Template is invalid."))
-					f.ShowDialog();
-
-				CreVisF.BypassCreate = false;
+				case NWN2ObjectType.Creature:  iblueprint = new NWN2CreatureBlueprint();  break;
+				case NWN2ObjectType.Door:      iblueprint = new NWN2DoorBlueprint();      break;
+				case NWN2ObjectType.Placeable: iblueprint = new NWN2PlaceableBlueprint(); break;
 			}
-			else
-			{
-				INWN2Blueprint iblueprint = null;
 
-				switch (iinstance.ObjectType)
+			if (iblueprint != null)
+			{
+				// NWN2Toolset.NWN2.Data.Instances.NWN2CreatureInstance.CreateBlueprintFromInstance()
+
+				iblueprint.CopyFromTemplate(iinstance as INWN2Template); // does not copy inventory or equipped!
+
+				// workaround toolset glitch re. template resref string ->
+				// Loading a module with an instance that doesn't have a template
+				// resref string isn't the same as deleting that string. And vice
+				// versa: loading a module with an instance that has an invalid
+				// template resref string isn't the same as filling a blank string
+				// with an invalid resref string.
+				//
+				// So basically go through things step by step to ensure that all
+				// this resource crap exits the poop chute w/out constipation.
+
+				OEIResRef resref;
+				if (iinstance.Template == null
+					|| iinstance.Template.ResRef == null
+					|| String.IsNullOrEmpty(iinstance.Template.ResRef.Value))
 				{
-					case NWN2ObjectType.Creature:  iblueprint = new NWN2CreatureBlueprint();  break;
-					case NWN2ObjectType.Door:      iblueprint = new NWN2DoorBlueprint();      break;
-					case NWN2ObjectType.Placeable: iblueprint = new NWN2PlaceableBlueprint(); break;
+					string val = iinstance.Name; // create a resref based on tag
+					if (String.IsNullOrEmpty(val))
+						val = "object";
+
+					resref = new OEIResRef(val);
+				}
+				else
+					resref = iinstance.Template.ResRef;
+
+				iblueprint.TemplateResRef = resref;
+
+				iblueprint.Resource = iinstance.Template;
+				if (iblueprint.Resource == null)
+					iblueprint.Resource = new MissingResourceEntry(resref);
+
+				if (iblueprint.Resource.ResourceType == 0) // .RES file
+				{
+					ushort utype = 0;
+					if      (iblueprint is NWN2CreatureBlueprint)  utype = (ushort)2027;
+					else if (iblueprint is NWN2DoorBlueprint)      utype = (ushort)2042;
+					else if (iblueprint is NWN2PlaceableBlueprint) utype = (ushort)2044;
+
+					iblueprint.Resource.ResourceType = utype;
 				}
 
-				if (iblueprint != null)
+				if (iblueprint.Resource.ResRef == null
+					|| String.IsNullOrEmpty(iblueprint.Resource.ResRef.Value))
 				{
-					// NWN2Toolset.NWN2.Data.Instances.NWN2CreatureInstance.CreateBlueprintFromInstance()
+					iblueprint.Resource.ResRef = resref;
+				}
 
-					iblueprint.CopyFromTemplate(iinstance as INWN2Template); // does not copy inventory or equipped!
+//				if (PrintResourceInfo(iinstance, iblueprint))
+//					return null;
 
-					iblueprint.Resource       = iinstance.Template;
-					iblueprint.TemplateResRef = iinstance.Template.ResRef;
+				iblueprint.Comment = iinstance.Comment;
 
-					iblueprint.Comment = iinstance.Comment;
-
-					if (iinstance.ObjectType == NWN2ObjectType.Creature)
-					{
+				if (iinstance.ObjectType == NWN2ObjectType.Creature)
+				{
 // copy equipped ->
-						(iblueprint as NWN2CreatureTemplate).EquippedItems = new NWN2EquipmentSlotCollection();
-						NWN2InventoryItem equipped;
-						for (int i = 0; i != 18; ++i)
+					(iblueprint as NWN2CreatureTemplate).EquippedItems = new NWN2EquipmentSlotCollection();
+					NWN2InventoryItem equipped;
+					for (int i = 0; i != 18; ++i)
+					{
+						if ((equipped = (iinstance as NWN2CreatureTemplate).EquippedItems[i].Item) != null && equipped.ValidItem)
 						{
-							if ((equipped = (iinstance as NWN2CreatureTemplate).EquippedItems[i].Item) != null && equipped.ValidItem)
-							{
-								(iblueprint as NWN2CreatureTemplate).EquippedItems[i].Item = new NWN2BlueprintInventoryItem(equipped as NWN2InstanceInventoryItem);
-							}
-						}
-// copy inventory ->
-						(iblueprint as NWN2CreatureBlueprint).Inventory = new NWN2BlueprintInventoryItemCollection();
-						foreach (NWN2InstanceInventoryItem item in (iinstance as NWN2CreatureInstance).Inventory)
-						{
-							(iblueprint as NWN2CreatureBlueprint).Inventory.Add(new NWN2BlueprintInventoryItem(item));
+							(iblueprint as NWN2CreatureTemplate).EquippedItems[i].Item = new NWN2BlueprintInventoryItem(equipped as NWN2InstanceInventoryItem);
 						}
 					}
+// copy inventory ->
+					(iblueprint as NWN2CreatureBlueprint).Inventory = new NWN2BlueprintInventoryItemCollection();
+					foreach (NWN2InstanceInventoryItem item in (iinstance as NWN2CreatureInstance).Inventory)
+					{
+						(iblueprint as NWN2CreatureBlueprint).Inventory.Add(new NWN2BlueprintInventoryItem(item));
+					}
 				}
-				return iblueprint;
 			}
-			return null;
+			return iblueprint;
 		}
 		#endregion Methods (private)
 
 
 
 		#region Methods (stupid)
-		static void PrintResourceTypes()
+/*		static bool PrintResourceInfo(INWN2Instance iinstance, INWN2Blueprint iblueprint)
+		{
+			string info = "tag= " + iinstance.Name + "\n";
+			if (iinstance.Template != null)
+			{
+				info += "Template.ResourceType= " + iinstance.Template.ResourceType + "\n"; // ushort
+				info += "Template.FullName= "     + iinstance.Template.FullName     + "\n"; // string
+
+				if (iinstance.Template.ResRef != null)
+				{
+					info += "Template.ResRef.Value= " + iinstance.Template.ResRef.Value + "\n"; // string
+				}
+				else
+					info += "Template.Resref NULL\n";
+
+				if (iinstance.Template.Repository != null)
+				{
+					info += "Template.Repository.Name= " + iinstance.Template.Repository.Name + "\n"; // string
+				}
+				else
+					info += "Template.Repository NULL\n";
+			}
+			else
+				info += "Template NULL\n";
+
+			MessageBox.Show(info);
+
+
+			info = String.Empty;
+			if (iblueprint.Resource != null)
+			{
+				info += "Resource.ResourceType= " + iblueprint.Resource.ResourceType + "\n";
+				info += "Resource.FullName= "     + iblueprint.Resource.FullName     + "\n";
+
+				if (iblueprint.Resource.ResRef != null)
+				{
+					info += "Resource.ResRef.Value= " + iblueprint.Resource.ResRef.Value + "\n";
+				}
+				else
+					info += "Resource.ResRef NULL\n";
+
+				if (iblueprint.Resource.Repository != null)
+				{
+					info += "Resource.Repository.Name= " + iblueprint.Resource.Repository.Name + "\n";
+				}
+				else
+					info += "iblueprint.Resource.Repository NULL\n";
+			}
+			else
+				info += "Resource NULL\n";
+
+			if (iblueprint.TemplateResRef != null)
+			{
+				info += "TemplateResRef.Value= " + iblueprint.TemplateResRef.Value + "\n";
+			}
+			else
+				info += "TemplateResRef NULL\n";
+
+			MessageBox.Show(info);
+			return true;
+		} */
+
+
+/*		static void PrintResourceTypes()
 		{
 //			// Create a file to write to.
 //			string createText = "Hello and Welcome" + Environment.NewLine;
@@ -296,7 +390,7 @@ namespace creaturevisualizer
 			// ps. Fuck you. If you're going to release a toolset and expect it
 			// to be user-friendly for the creation of plugins don't obfuscate
 			// the shit that's needed to write those plugins.
-		}
+		} */
 		#endregion Methods (stupid)
 	}
 }
