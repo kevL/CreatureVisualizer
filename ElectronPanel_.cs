@@ -345,8 +345,22 @@ namespace creaturevisualizer
 							different = true;
 						}
 
-						Instance = CreateInstance();
+						// NOTE: Instances without any value for "Template" have a null template ResourceEntry
+						// while Instances with an invalid value for "Template" are ResourceType 0 .RES
 
+						Instance = CommonUtils.SerializationClone(Instance_base) as INWN2Instance;
+						Instance.Area = Instance_base.Area;
+
+						if (Instance.ObjectType == NWN2ObjectType.Creature)
+						{
+							ProcessEquippedItems(Instance as NWN2CreatureTemplate);
+							ProcessInventory(Instance as INWN2Template);
+						}
+
+						_f.PrintResourceInfo(Instance);
+
+
+/*						Instance = CreateInstance();
 						if (Instance != null)
 						{
 							_f.PrintResourceInfo(Instance);
@@ -360,7 +374,7 @@ namespace creaturevisualizer
 //																								// it's a 'ResourceEntry'. 'Template' has a distinct meaning and it's
 //								_f.InitializeCreaturePages(Instance as NWN2CreatureTemplate);	// not 'ResourceEntry'.
 //							}
-						}
+						} */
 
 //						_f.bu_creature_apply1.Text =
 //						_f.bu_creature_apply2.Text = "APPLY to Instance";
@@ -386,7 +400,7 @@ namespace creaturevisualizer
 										different = true;
 									}
 
-									Blueprint = CreateBlueprint();
+									CreateBlueprint();
 									_f.PrintResourceInfo(Blueprint);
 
 									Instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(Blueprint);
@@ -459,14 +473,12 @@ namespace creaturevisualizer
 			_f.SetTitleText();
 		}
 
-		INWN2Instance CreateInstance()
+/*		INWN2Instance CreateInstance()
 		{
 			// NOTE: Instances without any value for "Template" have a null template ResourceEntry
 			// while Instances with an invalid value for "Template" are ResourceType 0 .RES
 
-			// TODO: allow Instances w/out a valid Template ... (although it should be discouraged)
-
-			if (Instance_base.Template == null
+			if (Instance_base.Template == null // TODO: allow Instances w/out a valid Template ... (although it should be discouraged)
 				|| (   Instance_base.Template.ResourceType != (ushort)2027		// utc
 					&& Instance_base.Template.ResourceType != (ushort)2042		// utd
 					&& Instance_base.Template.ResourceType != (ushort)2044))	// utp
@@ -492,14 +504,40 @@ namespace creaturevisualizer
 				return iinstance;
 			}
 			return null;
-		}
+		} */
 
 		/// <summary>
 		/// - based on
 		/// NWN2Toolset.NWN2.Data.Blueprints.NWN2CreatureBlueprint.CreateFromBlueprint()
 		/// </summary>
-		/// <returns></returns>
-		INWN2Blueprint CreateBlueprint()
+		void CreateBlueprint()
+		{
+			switch (Blueprint_base.ObjectType)
+			{
+				case NWN2ObjectType.Creature:     Blueprint = new NWN2CreatureBlueprint();     break;
+				case NWN2ObjectType.Door:         Blueprint = new NWN2DoorBlueprint();         break;
+				case NWN2ObjectType.Placeable:    Blueprint = new NWN2PlaceableBlueprint();    break;
+				case NWN2ObjectType.PlacedEffect: Blueprint = new NWN2PlacedEffectBlueprint(); break;
+				case NWN2ObjectType.Item:         Blueprint = new NWN2ItemBlueprint();         break;
+			}
+
+			Blueprint.CopyFromTemplate(Blueprint_base);
+
+			OEIResRef resref = Blueprint_base.Resource.ResRef; // 'Resource.Resref' IS 'ResourceName'
+			IResourceRepository repo = Blueprint_base.Resource.Repository;
+			Blueprint.Resource = repo.CreateResource(resref, (Blueprint_base as INWN2Object).ResourceType);
+
+			Blueprint.TemplateResRef = Blueprint_base.TemplateResRef; // not sure how that's gonna play out: not duplicated.
+
+			Blueprint.Comment = Blueprint_base.Comment;
+
+			if (Blueprint.ObjectType == NWN2ObjectType.Creature)
+			{
+				ProcessEquippedItems(Blueprint as NWN2CreatureTemplate);
+				ProcessInventory(Blueprint as INWN2Template);
+			}
+		}
+/*		INWN2Blueprint CreateBlueprint()
 		{
 			INWN2Blueprint iblueprint = null;
 
@@ -531,7 +569,7 @@ namespace creaturevisualizer
 				}
 			}
 			return iblueprint;
-		}
+		} */
 
 		void ProcessEquippedItems(NWN2CreatureTemplate template)
 		{
