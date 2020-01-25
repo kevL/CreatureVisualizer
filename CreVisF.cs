@@ -459,16 +459,16 @@ namespace creaturevisualizer
 
 			Menu.MenuItems[0].MenuItems.Add("-");
 
-			_itSaveToModule = Menu.MenuItems[0].MenuItems.Add("save to &Module", instanceclick_SaveToModule);
+			_itSaveToModule = Menu.MenuItems[0].MenuItems.Add("save to &Module ...", instanceclick_SaveToModule);
 			_itSaveToModule.Shortcut = Shortcut.CtrlM;
 			_itSaveToModule.Enabled = _panel.Instance != null;
 
-			_itSaveToCampaign = Menu.MenuItems[0].MenuItems.Add("save to Campai&gn", instanceclick_SaveToCampaign);
+			_itSaveToCampaign = Menu.MenuItems[0].MenuItems.Add("save to Campai&gn ...", instanceclick_SaveToCampaign);
 			_itSaveToCampaign.Shortcut = Shortcut.CtrlG;
 			_itSaveToCampaign.Enabled = NWN2CampaignManager.Instance.ActiveCampaign != null
 									 && _panel.Instance != null;
 
-			_itSaveTo = Menu.MenuItems[0].MenuItems.Add("sav&e to ...", instanceclick_SaveTo); // ie. to Override or whereva ya like.
+			_itSaveTo = Menu.MenuItems[0].MenuItems.Add("sav&e to file ...", instanceclick_SaveTo); // ie. to Override or whereva ya like.
 			_itSaveTo.Shortcut = Shortcut.CtrlE;
 			_itSaveTo.Enabled = _panel.Instance != null;
 

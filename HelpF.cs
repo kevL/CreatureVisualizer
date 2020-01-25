@@ -10,7 +10,6 @@ namespace creaturevisualizer
 	{
 		#region Fields (static)
 		static string Info;
-//		const string Alert = "  STAY ON TOP CAN FORCE YOU TO CLOSE THE TOOLSET FROM THE TASK MANAGER LOSING YOUR CHANGES.";
 		#endregion Fields (static)
 
 
@@ -26,13 +25,21 @@ namespace creaturevisualizer
 
 			if (Info == null)
 			{
-				Info  = "MENUS" + L;
+				Info  = "IMPORTANT: When saving a blueprint from the visualizer the output will be based on the"    + L;
+				Info += "instance that is currently displayed in the visualizer. This instance is not necessarily"  + L;
+				Info += "identical to your currently selected blueprint or instance, if changes were done to the"   + L;
+				Info += "latter in the toolset. [F5] Refresh reinstantiates the instance in the visualizer so that" + L;
+				Info += "it is identical to the selected blueprint or instance in the toolset. Note also that the"  + L;
+				Info += "toggles in the Options menu affect output."                                                + L + L;
+
+				Info += "MENUS" + L;
 				Info += "-----" + L;
 				Info += "Instance" + L;
-				Info += "- Refresh [F5] - often required to update data" + L;
-				Info += "- save to Module [Ctrl+M] - opens a save file dialog at the Module dir" + L;
-				Info += "- save to Campaign [Ctrl+G] - opens a save file dialog at the Campaign dir" + L;
-				Info += "- save to ... [Ctrl+E] - opens a save file dialog at the Override dir" + L;
+				Info += "- Refresh [F5] - loads current properties of the currently selected blueprint or instance" + L;
+				Info += "- RefreshOnFocus [F6] - loads the blueprint or instance whenever the visualizer takes focus" + L;
+				Info += "- save to Module ... [Ctrl+M] - opens a save file dialog at the Module directory" + L;
+				Info += "- save to Campaign ... [Ctrl+G] - opens a save file dialog at the Campaign directory" + L;
+				Info += "- save to ... [Ctrl+E] - opens a save file dialog at the Override directory" + L;
 				Info += "Options" + L;
 				Info += "- process equipped body-items - toggles display (and output) of equipped items (non hand held)" + L;
 				Info += "- process equipped held-items - toggles display (and output) of equipped right/left hand items" + L;
@@ -42,7 +49,6 @@ namespace creaturevisualizer
 				Info += "- mini panel [F7] - toggles on/off quick controls in the display panel" + L;
 				Info += "- cycle panel [F8] - cycles the control panel through the cardinal compass points" + L;
 				Info += "- stay on top [Ctrl+T] - toggles whether or not the visualizer stays on top of the toolset" + L;
-//				Info += Alert + L;
 				Info += "Help" + L;
 				Info += "- help [F1] - this dialog" + L;
 				Info += "- about [F2] - authorship, version information, and build date" + L + L;
@@ -54,12 +60,14 @@ namespace creaturevisualizer
 				Info += "RMB      - pan up/down/left/right" + L;
 				Info += "RMB+Ctrl - pan polar"              + L + L;
 
-				Info += "press Ctrl/Shift to increase/decrease rate by factor of 10" + L + L;
+				Info += "BUTTON"                                                       + L;
+				Info += "------"                                                       + L;
+				Info += "press Ctrl/Shift to increase/decrease rate by a factor of 10" + L + L;
 
-				Info += "TEXT"                                                       + L;
-				Info += "----"                                                       + L;
-				Info += "keypad +/- to increase/decrease the value"                  + L;
-				Info += "press Ctrl/Shift to increase/decrease rate by factor of 10" + L + L;
+				Info += "TEXT"                                                          + L;
+				Info += "----"                                                          + L;
+				Info += "use mousewheel or keypad [+/-] to increase/decrease the value" + L;
+				Info += "press Ctrl/Shift to increase/decrease rate by a factor of 10"  + L + L;
 
 				Info += "COLORS"                                                     + L;
 				Info += "------"                                                     + L;
@@ -75,9 +83,6 @@ namespace creaturevisualizer
 			}
 
 			rt_help.Text = Info;
-
-//			rt_help.Find(Alert);
-//			rt_help.SelectionColor = Color.Crimson;
 
 			rt_help.SelectionStart  =
 			rt_help.SelectionLength = 0;
