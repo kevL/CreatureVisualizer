@@ -277,6 +277,7 @@ namespace creaturevisualizer
 		{
 			//MessageBox.Show("CreateModel()");
 //			_f._bypassInsert = true; // prevent anything in here from firing CreVisF.OnObjectsInserted()
+			_f._bypassAppearanceChanged = true; // prevent anything in here from firing CreVisF.OnAppearanceChanged()
 
 			// IMPORTANT: Policy #256 - *never* allow the instance to be other
 			// than the Blueprint or Instance that the user has currently
@@ -469,6 +470,7 @@ namespace creaturevisualizer
 				}
 			}
 //			_f._bypassInsert = false;
+			_f._bypassAppearanceChanged = false;
 
 			_f.SetTitleText();
 		}

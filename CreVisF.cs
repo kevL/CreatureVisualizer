@@ -55,7 +55,10 @@ namespace creaturevisualizer
 		/// </summary>
 		ElectronPanel_ _panel;
 
-		MenuItem _itRefreshOnFocus;
+		MenuItem _itRefreshProtocol_non;
+		MenuItem _itRefreshProtocol_foc;
+		MenuItem _itRefreshProtocol_oac;
+
 		MenuItem _itSaveToModule;
 		MenuItem _itSaveToCampaign;
 		MenuItem _itSaveTo;
@@ -88,8 +91,8 @@ namespace creaturevisualizer
 		#endregion Fields
 
 
-/*		#region Properties
-		ChangedType _changed;
+		#region Properties
+/*		ChangedType _changed;
 		internal ChangedType Changed
 		{
 			get { return _changed; }
@@ -146,8 +149,30 @@ namespace creaturevisualizer
 					}
 				}
 			}
+		} */
+
+
+		RefreshType _refreshprotocol;
+		RefreshType RefreshProtocol
+		{
+			get { return _refreshprotocol; }
+			set
+			{
+				_itRefreshProtocol_non.Checked =
+				_itRefreshProtocol_foc.Checked =
+				_itRefreshProtocol_oac.Checked = false;
+
+				switch (_refreshprotocol = value)
+				{
+					case RefreshType.non: _itRefreshProtocol_non.Checked = true; break;
+					case RefreshType.foc: _itRefreshProtocol_foc.Checked = true; break;
+					case RefreshType.oac: _itRefreshProtocol_oac.Checked = true; break;
+				}
+				CreatureVisualizerPreferences.that.RefreshProtocol = (int)_refreshprotocol;
+			}
 		}
-		#endregion Properties */
+
+		#endregion Properties
 
 		internal void SetTitleText()
 		{
@@ -265,8 +290,7 @@ namespace creaturevisualizer
 			if (!CreatureVisualizerPreferences.that.StayOnTop)
 				_itStayOnTop.PerformClick();
 
-			if (!CreatureVisualizerPreferences.that.RefreshOnFocus)
-				_itRefreshOnFocus.PerformClick();
+			RefreshProtocol = (RefreshType)CreatureVisualizerPreferences.that.RefreshProtocol;
 
 			_dir = (CpDir)CreatureVisualizerPreferences.that.ControlPanelDirection;
 
@@ -288,12 +312,17 @@ namespace creaturevisualizer
 			tc1.SelectedIndex = CreatureVisualizerPreferences.that.TabPageCurrent;
 
 
+			// handle toolset events ->
 			NWN2ToolsetMainForm.App.BlueprintView.SelectionChanged += OnBlueprintSelectionChanged;
 			NWN2CampaignManager.Instance.ActiveCampaignChanged     += OnActiveCampaignChanged;
+
+			NWN2CreatureTemplate.AppearanceChanged = (AppearanceChangedHandler)Delegate.Combine(NWN2CreatureTemplate.AppearanceChanged,
+																								new AppearanceChangedHandler(OnAppearanceChanged));
 
 //			NWN2NetDisplayManager.Instance.Objects.Inserted = // this is the cleverest thing I've ever seen ... he should be lynched.
 //				(OEICollectionWithEvents.ChangeHandler)Delegate.Combine(NWN2NetDisplayManager.Instance.Objects.Inserted,
 //																		new OEICollectionWithEvents.ChangeHandler(OnObjectsInserted));
+
 
 			ActiveControl = _panel;
 
@@ -301,10 +330,10 @@ namespace creaturevisualizer
 		}
 
 
-		/// <summary>
-		/// Prevents the infinite loop that would occur as the object is added
-		/// to the NetDisplayObjectCollection by the visualizer.
-		/// </summary>
+//		/// <summary>
+//		/// Prevents the infinite loop that would occur as the object is added
+//		/// to the NetDisplayObjectCollection by the visualizer.
+//		/// </summary>
 //		internal bool _bypassInsert;
 
 /*		void OnObjectsInserted(OEICollectionWithEvents cList, int index, object value)
@@ -399,6 +428,27 @@ namespace creaturevisualizer
 									 && _panel.Instance != null;
 		}
 
+		/// <summary>
+		/// Prevents the infinite loop that would occur as the object is
+		/// recreated in the visualizer.
+		/// </summary>
+		internal bool _bypassAppearanceChanged;
+
+		void OnAppearanceChanged(INWN2Template cTemplate, AppearanceChangeType eType)
+		{
+			// NWN2Toolset.NWN2.UI.PropertyTabs.NWN2ArmorSetAppearanceTab.HandleAppearanceChange(INWN2Template cTemplate, AppearanceChangeType eType)
+//			if (!CommonUtils.DesignMode && cTemplate.CanUpdateAppearance() && Creature != null && cTemplate == Creature)
+//			{}
+
+			if (!_bypassAppearanceChanged
+				&& RefreshProtocol == RefreshType.oac
+				&& _panel.Model != null
+				&& WindowState != FormWindowState.Minimized)
+			{
+				_panel.CreateModel();
+			}
+		}
+
 		internal void EnableSaveToCampaign(bool valid)
 		{
 			_itSaveToCampaign.Enabled = valid
@@ -453,9 +503,11 @@ namespace creaturevisualizer
 
 			Menu.MenuItems[0].MenuItems.Add("-");
 
-			_itRefreshOnFocus = Menu.MenuItems[0].MenuItems.Add("refresh on f&ocus", instanceclick_RefreshOnFocus);
-			_itRefreshOnFocus.Shortcut = Shortcut.F6;
-			_itRefreshOnFocus.Checked = true;
+			MenuItem it = Menu.MenuItems[0].MenuItems.Add("re&fresh protocol");
+			_itRefreshProtocol_non = it.MenuItems.Add("&user-invoked",          instanceclick_RefreshProtocol);
+			_itRefreshProtocol_foc = it.MenuItems.Add("on f&ocus",              instanceclick_RefreshProtocol);
+			_itRefreshProtocol_oac = it.MenuItems.Add("on appeara&nce changed", instanceclick_RefreshProtocol);
+			_itRefreshProtocol_non.Checked = true;
 
 			Menu.MenuItems[0].MenuItems.Add("-");
 
@@ -565,8 +617,11 @@ namespace creaturevisualizer
 		#region Handlers (override)
 		protected override void OnActivated(EventArgs e)
 		{
-			if (_itRefreshOnFocus.Checked && WindowState != FormWindowState.Minimized)
+			if (RefreshProtocol == RefreshType.foc
+				&& WindowState != FormWindowState.Minimized)
+			{
 				_panel.CreateModel();
+			}
 		}
 
 		protected override void OnResize(EventArgs e)
@@ -642,6 +697,12 @@ namespace creaturevisualizer
 					}
 					break;
 			}
+
+			NWN2ToolsetMainForm.App.BlueprintView.SelectionChanged -= OnBlueprintSelectionChanged;
+			NWN2CampaignManager.Instance.ActiveCampaignChanged     -= OnActiveCampaignChanged;
+
+			NWN2CreatureTemplate.AppearanceChanged = (AppearanceChangedHandler)Delegate.Remove(NWN2CreatureTemplate.AppearanceChanged,
+																							   new AppearanceChangedHandler(OnAppearanceChanged));
 
 //			NWN2NetDisplayManager.Instance.Objects.Inserted =
 //				(OEICollectionWithEvents.ChangeHandler)Delegate.Remove(NWN2NetDisplayManager.Instance.Objects.Inserted,
@@ -753,10 +814,21 @@ namespace creaturevisualizer
 			_panel.CreateModel();
 		}
 
-		void instanceclick_RefreshOnFocus(object sender, EventArgs e)
+		void instanceclick_RefreshProtocol(object sender, EventArgs e)
 		{
-			CreatureVisualizerPreferences.that.RefreshOnFocus =
-			(_itRefreshOnFocus.Checked = !_itRefreshOnFocus.Checked);
+			var it = sender as MenuItem;
+			if (it == _itRefreshProtocol_oac)
+			{
+				RefreshProtocol = RefreshType.oac;
+			}
+			else if (it == _itRefreshProtocol_foc)
+			{
+				RefreshProtocol = RefreshType.foc;
+			}
+			else //if (it == _itRefreshProtocol_non) // default
+			{
+				RefreshProtocol = RefreshType.non;
+			}
 		}
 
 		void instanceclick_SaveToModule(object sender, EventArgs e)
@@ -2483,6 +2555,15 @@ namespace creaturevisualizer
 	}
 
 
+
+	#region enums (global)
+	enum RefreshType
+	{
+		non,	// no auto refresh (ie. user shall invoke Refresh [F5] to update the Model w/ any latent changes)
+		foc,	// auto refresh on focus
+		oac		// auto refresh OnAppearanceChanged
+	}
+
 	/// <summary>
 	/// The direction of the controlpanel popout.
 	/// </summary>
@@ -2490,4 +2571,5 @@ namespace creaturevisualizer
 	{
 		n,e,s,w
 	}
+	#endregion enums (global)
 }
