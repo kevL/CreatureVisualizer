@@ -36,7 +36,10 @@ namespace creaturevisualizer
 				Info += "-----" + L;
 				Info += "Instance" + L;
 				Info += "- Refresh [F5] - loads current properties of the currently selected blueprint or instance" + L;
-				Info += "- RefreshOnFocus [F6] - loads the blueprint or instance whenever the visualizer takes focus" + L;
+				Info += "- RefreshProtocol" + L;
+				Info += "  user-invoked - loads the blueprint or instance only on [F5] Refresh" + L;
+				Info += "  on focus - loads the blueprint or instance whenever the visualizer takes focus" + L;
+				Info += "  on appearance changed - loads the blueprint or instance whenever its appearance changes" + L;
 				Info += "- save to Module ... [Ctrl+M] - opens a save file dialog at the Module directory" + L;
 				Info += "- save to Campaign ... [Ctrl+G] - opens a save file dialog at the Campaign directory" + L;
 				Info += "- save to ... [Ctrl+E] - opens a save file dialog at the Override directory" + L;
