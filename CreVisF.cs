@@ -10,8 +10,8 @@ using NWN2Toolset.NWN2.Data.Blueprints;
 using NWN2Toolset.NWN2.Data.Campaign;
 using NWN2Toolset.NWN2.Data.Instances;
 using NWN2Toolset.NWN2.Data.Templates;
-using NWN2Toolset.NWN2.Data.TypedCollections;
-using NWN2Toolset.NWN2.NetDisplay;
+//using NWN2Toolset.NWN2.Data.TypedCollections;
+//using NWN2Toolset.NWN2.NetDisplay;
 //using NWN2Toolset.NWN2.UI;
 using NWN2Toolset.NWN2.Views;
 
@@ -28,7 +28,7 @@ namespace creaturevisualizer
 	sealed partial class CreVisF
 		: Form
 	{
-		/// <summary>
+/*		/// <summary>
 		/// If a change to the current blueprint is Displayed in the visualizer
 		/// it gets two asterisks. If that change is also Applied to the toolset
 		/// it gets one asterisk.
@@ -39,7 +39,7 @@ namespace creaturevisualizer
 			ct_non,	// 1 - Blueprint in visualizer is the same as the original that was loaded. (no asterisks)
 			ct_Ts,	// 2 - Blueprint in visualizer is different than the one in the toolset but the same as the original. (single asterisk)
 			ct_Vi	// 3 - Blueprint in visualizer is different than the one in the toolset and the original. (double asterisks)
-		}
+		} */
 
 
 		#region Fields (static)
@@ -61,7 +61,7 @@ namespace creaturevisualizer
 
 		MenuItem _itSaveToModule;
 		MenuItem _itSaveToCampaign;
-		MenuItem _itSaveTo;
+		MenuItem _itSaveToFile;
 
 		MenuItem _itStayOnTop;
 
@@ -152,23 +152,17 @@ namespace creaturevisualizer
 		} */
 
 
-		RefreshType _refreshprotocol;
-		RefreshType RefreshProtocol
+		int _refreshprotocol;
+		int RefreshProtocol
 		{
 			get { return _refreshprotocol; }
 			set
 			{
-				_itRefreshProtocol_non.Checked =
-				_itRefreshProtocol_foc.Checked =
-				_itRefreshProtocol_oac.Checked = false;
+				CreatureVisualizerPreferences.that.RefreshProtocol = (_refreshprotocol = value);
 
-				switch (_refreshprotocol = value)
-				{
-					case RefreshType.non: _itRefreshProtocol_non.Checked = true; break;
-					case RefreshType.foc: _itRefreshProtocol_foc.Checked = true; break;
-					case RefreshType.oac: _itRefreshProtocol_oac.Checked = true; break;
-				}
-				CreatureVisualizerPreferences.that.RefreshProtocol = (int)_refreshprotocol;
+				_itRefreshProtocol_non.Checked = _refreshprotocol == (int)RefreshType.non;
+				_itRefreshProtocol_foc.Checked = (_refreshprotocol & (int)RefreshType.foc) != 0;
+				_itRefreshProtocol_oac.Checked = (_refreshprotocol & (int)RefreshType.oac) != 0;
 			}
 		}
 
@@ -210,8 +204,7 @@ namespace creaturevisualizer
 		internal CreVisF()
 		{
 //			string info = String.Empty;
-//			info += StringDecryptor.Decrypt("ᒪᓙᓙᓎᓊᓛᓊᓗᓌᓎᒱᓎᓊᓍ") + "\n";
-//			info += StringDecryptor.Decrypt("ᒪᓙᓙᓎᓊᓛᓊᓗᓌᓎᒱᓊᓒᓛ\n") + "\n";
+//			info += StringDecryptor.Decrypt("ᓖᓈᓌᒻᓎᓙᓘᓜᓒᓝᓘᓛᓢᒷᓊᓖᓎ") + "\n";
 //			System.IO.File.WriteAllText(@"C:\GIT\CreatureVisualizer\t\decrypt.txt", info);
 
 			Owner = NWN2ToolsetMainForm.App;
@@ -290,7 +283,7 @@ namespace creaturevisualizer
 			if (!CreatureVisualizerPreferences.that.StayOnTop)
 				_itStayOnTop.PerformClick();
 
-			RefreshProtocol = (RefreshType)CreatureVisualizerPreferences.that.RefreshProtocol;
+			RefreshProtocol = CreatureVisualizerPreferences.that.RefreshProtocol;
 
 			_dir = (CpDir)CreatureVisualizerPreferences.that.ControlPanelDirection;
 
@@ -382,7 +375,8 @@ namespace creaturevisualizer
 		/// <param name="e"></param>
 		void OnBlueprintSelectionChanged(object sender, BlueprintSelectionChangedEventArgs e)
 		{
-			if (!IsAreaInstanceSelected()) // doesn't appear to help at all - could even be worse
+			_panel.CreateModel();
+/*			if (!IsAreaInstanceSelected()) // doesn't appear to help at all - could even be worse
 			{
 				NWN2BlueprintView blueprintview = NWN2ToolsetMainForm.App.BlueprintView;
 				object[] selection = blueprintview.Selection;
@@ -402,10 +396,10 @@ namespace creaturevisualizer
 							break;
 					}
 				}
-			}
+			} */
 		}
 
-		bool IsAreaInstanceSelected()
+/*		bool IsAreaInstanceSelected()
 		{
 			var areaviewer = NWN2ToolsetMainForm.App.GetActiveViewer() as NWN2AreaViewer;
 			if (areaviewer != null)
@@ -420,7 +414,7 @@ namespace creaturevisualizer
 				}
 			}
 			return false;
-		}
+		} */
 
 		void OnActiveCampaignChanged(NWN2Campaign cOldCampaign, NWN2Campaign cNewCampaign)
 		{
@@ -434,19 +428,21 @@ namespace creaturevisualizer
 		/// </summary>
 		internal bool _bypassAppearanceChanged;
 
+		// NWN2Toolset.NWN2.UI.PropertyTabs.NWN2ArmorSetAppearanceTab.HandleAppearanceChange()
 		void OnAppearanceChanged(INWN2Template cTemplate, AppearanceChangeType eType)
 		{
-			// NWN2Toolset.NWN2.UI.PropertyTabs.NWN2ArmorSetAppearanceTab.HandleAppearanceChange(INWN2Template cTemplate, AppearanceChangeType eType)
-//			if (!CommonUtils.DesignMode && cTemplate.CanUpdateAppearance() && Creature != null && cTemplate == Creature)
-//			{}
-
 			if (!_bypassAppearanceChanged
-				&& RefreshProtocol == RefreshType.oac
+			    && (RefreshProtocol & (int)RefreshType.oac) != 0
 				&& _panel.Model != null
 				&& WindowState != FormWindowState.Minimized)
 			{
 				_panel.CreateModel();
 			}
+		}
+
+		internal void EnableSaveToModule(bool valid)
+		{
+			_itSaveToModule.Enabled = valid;
 		}
 
 		internal void EnableSaveToCampaign(bool valid)
@@ -455,14 +451,9 @@ namespace creaturevisualizer
 									 && NWN2CampaignManager.Instance.ActiveCampaign != null;
 		}
 
-		internal void EnableSaveTo(bool valid)
+		internal void EnableSaveToFile(bool valid)
 		{
-			_itSaveTo.Enabled = valid;
-		}
-
-		internal void EnableSaveToModule(bool valid)
-		{
-			_itSaveToModule.Enabled = valid;
+			_itSaveToFile.Enabled = valid;
 		}
 
 		/// <summary>
@@ -505,6 +496,7 @@ namespace creaturevisualizer
 
 			MenuItem it = Menu.MenuItems[0].MenuItems.Add("re&fresh protocol");
 			_itRefreshProtocol_non = it.MenuItems.Add("&user-invoked",          instanceclick_RefreshProtocol);
+			it.MenuItems.Add("-");
 			_itRefreshProtocol_foc = it.MenuItems.Add("on f&ocus",              instanceclick_RefreshProtocol);
 			_itRefreshProtocol_oac = it.MenuItems.Add("on appeara&nce changed", instanceclick_RefreshProtocol);
 			_itRefreshProtocol_non.Checked = true;
@@ -520,9 +512,9 @@ namespace creaturevisualizer
 			_itSaveToCampaign.Enabled = NWN2CampaignManager.Instance.ActiveCampaign != null
 									 && _panel.Instance != null;
 
-			_itSaveTo = Menu.MenuItems[0].MenuItems.Add("sav&e to file ...", instanceclick_SaveTo); // ie. to Override or whereva ya like.
-			_itSaveTo.Shortcut = Shortcut.CtrlE;
-			_itSaveTo.Enabled = _panel.Instance != null;
+			_itSaveToFile = Menu.MenuItems[0].MenuItems.Add("sav&e to file ...", instanceclick_SaveToFile); // ie. to Override or whereva ya like.
+			_itSaveToFile.Shortcut = Shortcut.CtrlE;
+			_itSaveToFile.Enabled = _panel.Instance != null;
 
 // Options ->
 			_itProcessItemsBody = Menu.MenuItems[1].MenuItems.Add("process equipped &body-items", optionsclick_ProcessItemsBody);
@@ -617,7 +609,7 @@ namespace creaturevisualizer
 		#region Handlers (override)
 		protected override void OnActivated(EventArgs e)
 		{
-			if (RefreshProtocol == RefreshType.foc
+			if ((RefreshProtocol & (int)RefreshType.foc) != 0
 				&& WindowState != FormWindowState.Minimized)
 			{
 				_panel.CreateModel();
@@ -707,6 +699,11 @@ namespace creaturevisualizer
 //			NWN2NetDisplayManager.Instance.Objects.Inserted =
 //				(OEICollectionWithEvents.ChangeHandler)Delegate.Remove(NWN2NetDisplayManager.Instance.Objects.Inserted,
 //																	   new OEICollectionWithEvents.ChangeHandler(OnObjectsInserted));
+
+//			if (_panel.Blueprint == null && _panel.Instance != null) TODO -> (also when Blueprint changes in 'ElectronPanel_')
+//			{
+//				NWN2ToolsetMainForm.App.BlueprintView.Module.DeleteBlueprint(INWN2Blueprint cBlueprint);
+//			}
 		}
 
 /*		internal bool ConfirmClose(bool cancancel)
@@ -819,15 +816,29 @@ namespace creaturevisualizer
 			var it = sender as MenuItem;
 			if (it == _itRefreshProtocol_oac)
 			{
-				RefreshProtocol = RefreshType.oac;
+				if (!_itRefreshProtocol_oac.Checked)
+				{
+					RefreshProtocol |= (int)RefreshType.oac;
+				}
+				else
+				{
+					RefreshProtocol &= ~(int)RefreshType.oac;
+				}
 			}
 			else if (it == _itRefreshProtocol_foc)
 			{
-				RefreshProtocol = RefreshType.foc;
+				if (!_itRefreshProtocol_foc.Checked)
+				{
+					RefreshProtocol |= (int)RefreshType.foc;
+				}
+				else
+				{
+					RefreshProtocol &= ~(int)RefreshType.foc;
+				}
 			}
-			else //if (it == _itRefreshProtocol_non) // default
+			else if (!_itRefreshProtocol_non.Checked)
 			{
-				RefreshProtocol = RefreshType.non;
+				RefreshProtocol = (int)RefreshType.non;
 			}
 		}
 
@@ -835,16 +846,12 @@ namespace creaturevisualizer
 		{
 			if (_panel.Blueprint != null)
 			{
-				Io.SaveToModule(_panel.Blueprint);
-//				_panel.Blueprint_base = _panel.Blueprint; // TODO ...
+				Io.SaveBlueprintToModule(_panel.Blueprint, _panel.Blueprint_base);
 				// TODO: update blueprint tree
-//				NWN2BlueprintView blueprintview = NWN2ToolsetMainForm.App.BlueprintView;
-//				blueprintview.ResetContents(); // doesn't work as expected ...
 			}
 			else if (_panel.Instance != null)
 			{
-				Io.SaveToModule(_panel.Instance);
-//				_panel.Instance_base = _panel.Instance; // TODO ...
+				Io.SaveInstanceToModule(_panel.Instance);
 				// TODO: update blueprint tree
 			}
 		}
@@ -855,18 +862,18 @@ namespace creaturevisualizer
 			{
 				if (_panel.Blueprint != null)
 				{
-					Io.SaveToCampaign(_panel.Blueprint);
+					Io.SaveBlueprintToCampaign(_panel.Blueprint, _panel.Blueprint_base);
 					// TODO: update blueprint tree
 				}
 				else if (_panel.Instance != null)
 				{
-					Io.SaveToCampaign(_panel.Instance);
+					Io.SaveInstanceToCampaign(_panel.Instance);
 					// TODO: update blueprint tree
 				}
 			}
 		}
 
-		void instanceclick_SaveTo(object sender, EventArgs e)
+		void instanceclick_SaveToFile(object sender, EventArgs e)
 		{
 //			NWN2Toolset.NWN2.IO.NWN2ResourceManager.Instance.UserOverrideDirectory;
 //			NWN2Toolset.NWN2.IO.NWN2ResourceManager.Instance.OverrideDirectory;
@@ -874,13 +881,13 @@ namespace creaturevisualizer
 
 			if (_panel.Blueprint != null)
 			{
-				Io.SaveTo(_panel.Blueprint);
+				Io.SaveBlueprintToFile(_panel.Blueprint, _panel.Blueprint_base);
 //				Changed = ChangedType.ct_non;
 				// TODO: update blueprint tree (if applicable)
 			}
 			else if (_panel.Instance != null)
 			{
-				Io.SaveTo(_panel.Instance);
+				Io.SaveInstanceToFile(_panel.Instance, NWN2BlueprintLocationType.Global);
 //				Changed = ChangedType.ct_non;
 				// TODO: update blueprint tree (if applicable)
 			}
@@ -2010,7 +2017,8 @@ namespace creaturevisualizer
 
 				var iblueprint = itemplate as INWN2Blueprint;
 
-				if (iblueprint.Resource != null && iblueprint.Resource.ResRef != null
+				if (   iblueprint.Resource != null
+					&& iblueprint.Resource.ResRef != null
 					&& !String.IsNullOrEmpty(iblueprint.Resource.ResRef.Value))
 				{
 					la_resref.Text = iblueprint.ResourceName.Value; // 'ResourceName' IS 'Resource.Resref'
@@ -2027,7 +2035,7 @@ namespace creaturevisualizer
 				else
 					la_template.Text = "invalid";
 
-				if (iblueprint.Resource != null
+				if (    iblueprint.Resource != null
 					&& (iblueprint.Resource.Repository as DirectoryResourceRepository) != null)
 				{
 					la_repotype.Text = Enum.GetName(typeof(NWN2BlueprintLocationType), iblueprint.BlueprintLocation);
@@ -2048,32 +2056,30 @@ namespace creaturevisualizer
 						toolTip1.Active = true;
 						toolTip1.SetToolTip(la_resource_repo, iblueprint.Resource.Repository.Name);
 						la_resource_repo.Text = SplitRepoText(iblueprint.Resource.Repository.Name);
-//						const string text = "0123456789012345678901234567890123456789012345678901234567890123";
-//						la_resource_repo.Text = SplitRepoText(text);
 					}
 					else
 						la_resource_repo.Text = "invalid";
 				}
 
-				INWN2Blueprint base_blueprint;
+				INWN2Blueprint blueprint_tpl;
 				OEIResRef base_resref = iblueprint.TemplateResRef;
 				if (base_resref != null
-					&& (base_blueprint = NWN2GlobalBlueprintManager.FindBlueprint(NWN2ObjectType.Creature, base_resref)) != null
-					&& base_blueprint.Resource != null)
+					&& (blueprint_tpl = NWN2GlobalBlueprintManager.FindBlueprint(NWN2ObjectType.Creature, base_resref)) != null
+					&& blueprint_tpl.Resource != null)
 				{
-					la_resource_file_t  .Text = base_blueprint.Resource.FullName;
-					la_resource_resref_t.Text = base_blueprint.Resource.ResRef.Value;									// <- redundant
-					la_resource_type_t  .Text = BWResourceTypes.GetFileExtension(base_blueprint.Resource.ResourceType);	// <- redundant
+					la_resource_file_t  .Text = blueprint_tpl.Resource.FullName;
+					la_resource_resref_t.Text = blueprint_tpl.Resource.ResRef.Value;									// <- redundant
+					la_resource_type_t  .Text = BWResourceTypes.GetFileExtension(blueprint_tpl.Resource.ResourceType);	// <- redundant
 
-					if (base_blueprint.Resource.Repository != null && !String.IsNullOrEmpty(base_blueprint.Resource.Repository.Name))
+					if (blueprint_tpl.Resource.Repository != null && !String.IsNullOrEmpty(blueprint_tpl.Resource.Repository.Name))
 					{
 						toolTip1.Active = true;
-						toolTip1.SetToolTip(la_resource_repo_t, base_blueprint.Resource.Repository.Name);
-						la_resource_repo_t.Text = SplitRepoText(base_blueprint.Resource.Repository.Name);
+						toolTip1.SetToolTip(la_resource_repo_t, blueprint_tpl.Resource.Repository.Name);
+						la_resource_repo_t.Text = SplitRepoText(blueprint_tpl.Resource.Repository.Name);
 
-						if ((base_blueprint.Resource.Repository as DirectoryResourceRepository) != null)
+						if ((blueprint_tpl.Resource.Repository as DirectoryResourceRepository) != null)
 						{
-							la_head_resource_t.Text += " (" + Enum.GetName(typeof(NWN2BlueprintLocationType), base_blueprint.BlueprintLocation) + ")";
+							la_head_resource_t.Text += " (" + Enum.GetName(typeof(NWN2BlueprintLocationType), blueprint_tpl.BlueprintLocation) + ")";
 						}
 						else
 							la_head_resource_t.Text += " (stock)";
@@ -2557,11 +2563,15 @@ namespace creaturevisualizer
 
 
 	#region enums (global)
+	/// <summary>
+	/// Bitwise refresh types.
+	/// </summary>
+	[Flags]
 	enum RefreshType
 	{
-		non,	// no auto refresh (ie. user shall invoke Refresh [F5] to update the Model w/ any latent changes)
-		foc,	// auto refresh on focus
-		oac		// auto refresh OnAppearanceChanged
+		non = 0x0,	// no auto refresh (ie. user shall invoke Refresh [F5] to update the Model w/ any latent changes)
+		foc = 0x1,	// auto refresh on focus
+		oac = 0x2	// auto refresh OnAppearanceChanged
 	}
 
 	/// <summary>

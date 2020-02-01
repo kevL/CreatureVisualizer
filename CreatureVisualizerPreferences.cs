@@ -86,7 +86,7 @@ namespace creaturevisualizer
 			w = h = Int32.MinValue;
 
 			StayOnTop             = true;
-			RefreshProtocol       = (int)RefreshType.oac;
+			RefreshProtocol       = (int)RefreshType.foc | (int)RefreshType.oac;
 			ControlPanelDirection = (int)CpDir.e;
 			ShowControlPanel      = false;
 			ShowMiniPanel         = true;

@@ -82,12 +82,6 @@ namespace creaturevisualizer
 
 		#region Fields
 		readonly CreVisF _f;
-
-		Vector3      _pos; // position of the Model
-		RHQuaternion _rot; // rotation of the Model
-		Vector3      _sca; // scale    of the Model
-
-		Vector3 _posLight = LIGHT_START_POS;
 		#endregion Fields
 
 
@@ -134,9 +128,9 @@ namespace creaturevisualizer
 			{
 				bool valid = (_instance = value) != null;
 
-				_f.EnableSaveTo(valid);
-				_f.EnableSaveToCampaign(valid);
 				_f.EnableSaveToModule(valid);
+				_f.EnableSaveToCampaign(valid);
+				_f.EnableSaveToFile(valid);
 			}
 		}
 
@@ -276,9 +270,6 @@ namespace creaturevisualizer
 		internal void CreateModel()
 		{
 			//MessageBox.Show("CreateModel()");
-//			_f._bypassInsert = true; // prevent anything in here from firing CreVisF.OnObjectsInserted()
-			_f._bypassAppearanceChanged = true; // prevent anything in here from firing CreVisF.OnAppearanceChanged()
-
 			// IMPORTANT: Policy #256 - *never* allow the instance to be other
 			// than the Blueprint or Instance that the user has currently
 			// selected. This will greatly ease the "Apply to ..." operation.
@@ -303,12 +294,16 @@ namespace creaturevisualizer
 
 			if (!CreVisF.BypassCreate) // don't recreate the instance when returning from a dialog when "RefreshOnFocus" is enabled.
 			{
+//				_f._bypassInsert = true; // prevent anything in here from firing CreVisF.OnObjectsInserted()
+				_f._bypassAppearanceChanged = true; // prevent anything in here from firing CreVisF.OnAppearanceChanged()
+
 //				if (Instance != null)
 //				{
 //					// ask to ignore, Apply (if not stock resource), or save-to-file (disable the Cancel option)
 //					_f.ConfirmClose(false);
 //				}
 
+				StoreTelemetry();
 
 				lock (NWN2NetDisplayManager.Instance.Objects.SyncRoot) // not sure ...
 				{
@@ -320,6 +315,7 @@ namespace creaturevisualizer
 				_f.ClearResourceInfo();
 //				_f.Changed = CreVisF.ChangedType.ct_nul; // set '_f.Text'
 
+				Model     = null;
 				Blueprint = null; // is instantiated only by a Blueprint
 				Instance  = null; // is instantiated by either a Blueprint or an Instance
 
@@ -350,9 +346,19 @@ namespace creaturevisualizer
 						// while Instances with an invalid value for "Template" are ResourceType 0 .RES
 
 						Instance = CommonUtils.SerializationClone(Instance_base) as INWN2Instance;
-						Instance.Area = Instance_base.Area;
+						Instance.Area = Instance_base.Area; // req'd.
+//						string info = String.Empty;
+//						info += "area= "           + (Instance.Area != null ? Instance.Area.Name + " (" + Instance.Area.Tag + ")" : "null");
+//						info += "\ncomment= "      +  Instance.Comment;
+//						info += "\nobjectId= "     +  Instance.ObjectID;
+//						info += "\nresourcetype= " + (Instance.Template != null ? Instance.Template.ResourceType.ToString() : "null");
+//						info += "\nfullname= "     + (Instance.Template != null ? Instance.Template.FullName : "null");
+//						info += "\nresref= "       + (Instance.Template.ResRef != null ? Instance.Template.ResRef.Value : "null");
+//						info += "\nrepo= "         + (Instance.Template.Repository != null ? Instance.Template.Repository.Name : "null");
+//						MessageBox.Show(info);
 
-						if (Instance.ObjectType == NWN2ObjectType.Creature)
+
+						if ((Instance as INWN2Template).ObjectType == NWN2ObjectType.Creature)
 						{
 							ProcessEquippedItems(Instance as NWN2CreatureTemplate);
 							ProcessInventory(Instance as INWN2Template);
@@ -401,8 +407,16 @@ namespace creaturevisualizer
 										different = true;
 									}
 
-									CreateBlueprint();
+									DuplicateBlueprint();
 									_f.PrintResourceInfo(Blueprint);
+
+//									var resource0 = Blueprint.Resource;
+//									IResourceRepository repo = NWN2ToolsetMainForm.App.Module.Repository;
+//									var resource1 = repo.FindResource(new OEIResRef(Blueprint.Resource.ResRef.Value), 2027);
+//									MessageBox.Show("is resource0 valid= " + (resource0 != null) + "\n"
+//									                + "is resource1 valid= " + (resource1 != null) + "\n"
+//									                + "is resource0 resource1= " + (resource0 == resource1) + "\n"
+//									                + "is resource0 equal to resource1= " + resource0.Equals(resource1));
 
 									Instance = NWN2GlobalBlueprintManager.CreateInstanceFromBlueprint(Blueprint);
 
@@ -468,11 +482,53 @@ namespace creaturevisualizer
 
 					AddModel(different);
 				}
+
+//				_f._bypassInsert = false;
+				_f._bypassAppearanceChanged = false;
 			}
-//			_f._bypassInsert = false;
-			_f._bypassAppearanceChanged = false;
 
 			_f.SetTitleText();
+		}
+
+		/// <summary>
+		/// Clones the toolset blueprint to 'Blueprint' ... and creates a valid
+		/// IResourceEntry for it.
+		/// TODO: A new resource doesn't have to be created here, but only if
+		/// the Blueprint/Instance is saved to a file that doesn't already have
+		/// a resource.
+		/// - based on
+		/// NWN2Toolset.NWN2.Data.Blueprints.NWN2CreatureBlueprint.CreateFromBlueprint(NWN2CreatureBlueprint, IResourceRepository, bool)
+		/// - see also
+		/// NWN2Toolset.NWN2.Data.Blueprints.NWN2GlobalBlueprintManager.CreateCopyOfBlueprint(INWN2Blueprint, INWN2BlueprintSet, IResourceRepository, bool)
+		/// </summary>
+		void DuplicateBlueprint() // attempt at cloning the toolset blueprint to 'Blueprint' ... and creating a valid Resource for it
+		{
+			switch (Blueprint_base.ObjectType)
+			{
+				case NWN2ObjectType.Creature:     Blueprint = new NWN2CreatureBlueprint();     break;
+				case NWN2ObjectType.Door:         Blueprint = new NWN2DoorBlueprint();         break;
+				case NWN2ObjectType.Placeable:    Blueprint = new NWN2PlaceableBlueprint();    break;
+				case NWN2ObjectType.PlacedEffect: Blueprint = new NWN2PlacedEffectBlueprint(); break;
+				case NWN2ObjectType.Item:         Blueprint = new NWN2ItemBlueprint();         break;
+			}
+
+			(Blueprint as INWN2Template).CopyFromTemplate(Blueprint_base as INWN2Template);
+
+//			OEIResRef resref = Blueprint_base.Resource.ResRef; // 'Resource.Resref' IS 'ResourceName'
+//			IResourceRepository repo = Blueprint_base.Resource.Repository;
+//			Blueprint.Resource = repo.CreateResource(resref, (Blueprint_base as INWN2Object).ResourceType);
+
+			//this.ᐂ = (NWN2ObjectTemplateData)CommonUtils.SerializationClone(nWN2CreatureTemplate.ᐂ);
+			Blueprint.BlueprintLocation = Blueprint_base.BlueprintLocation; // note: enum 'NWN2BlueprintLocationType' ought be value-type
+			Blueprint.Resource          = (IResourceEntry)CommonUtils.SerializationClone(Blueprint_base.Resource);
+			Blueprint.TemplateResRef    = (OEIResRef)CommonUtils.SerializationClone(Blueprint_base.TemplateResRef);
+			Blueprint.Comment           = String.Copy(Blueprint_base.Comment); // note: strings are immutable
+
+			if ((Blueprint as INWN2Template).ObjectType == NWN2ObjectType.Creature)
+			{
+				ProcessEquippedItems(Blueprint as NWN2CreatureTemplate);
+				ProcessInventory(Blueprint as INWN2Template);
+			}
 		}
 
 /*		INWN2Instance CreateInstance()
@@ -506,71 +562,6 @@ namespace creaturevisualizer
 				return iinstance;
 			}
 			return null;
-		} */
-
-		/// <summary>
-		/// - based on
-		/// NWN2Toolset.NWN2.Data.Blueprints.NWN2CreatureBlueprint.CreateFromBlueprint()
-		/// </summary>
-		void CreateBlueprint()
-		{
-			switch (Blueprint_base.ObjectType)
-			{
-				case NWN2ObjectType.Creature:     Blueprint = new NWN2CreatureBlueprint();     break;
-				case NWN2ObjectType.Door:         Blueprint = new NWN2DoorBlueprint();         break;
-				case NWN2ObjectType.Placeable:    Blueprint = new NWN2PlaceableBlueprint();    break;
-				case NWN2ObjectType.PlacedEffect: Blueprint = new NWN2PlacedEffectBlueprint(); break;
-				case NWN2ObjectType.Item:         Blueprint = new NWN2ItemBlueprint();         break;
-			}
-
-			Blueprint.CopyFromTemplate(Blueprint_base);
-
-			OEIResRef resref = Blueprint_base.Resource.ResRef; // 'Resource.Resref' IS 'ResourceName'
-			IResourceRepository repo = Blueprint_base.Resource.Repository;
-			Blueprint.Resource = repo.CreateResource(resref, (Blueprint_base as INWN2Object).ResourceType);
-
-			Blueprint.TemplateResRef = Blueprint_base.TemplateResRef; // not sure how that's gonna play out: not duplicated.
-
-			Blueprint.Comment = Blueprint_base.Comment;
-
-			if (Blueprint.ObjectType == NWN2ObjectType.Creature)
-			{
-				ProcessEquippedItems(Blueprint as NWN2CreatureTemplate);
-				ProcessInventory(Blueprint as INWN2Template);
-			}
-		}
-/*		INWN2Blueprint CreateBlueprint()
-		{
-			INWN2Blueprint iblueprint = null;
-
-			switch (Blueprint_base.ObjectType)
-			{
-				case NWN2ObjectType.Creature:     iblueprint = new NWN2CreatureBlueprint();     break;
-				case NWN2ObjectType.Door:         iblueprint = new NWN2DoorBlueprint();         break;
-				case NWN2ObjectType.Placeable:    iblueprint = new NWN2PlaceableBlueprint();    break;
-				case NWN2ObjectType.PlacedEffect: iblueprint = new NWN2PlacedEffectBlueprint(); break;
-				case NWN2ObjectType.Item:         iblueprint = new NWN2ItemBlueprint();         break;
-			}
-
-			if (iblueprint != null)
-			{
-				iblueprint.CopyFromTemplate(Blueprint_base);
-
-				OEIResRef resref = Blueprint_base.Resource.ResRef; // 'Resource.Resref' IS 'ResourceName'
-				IResourceRepository repo = Blueprint_base.Resource.Repository;
-				iblueprint.Resource = repo.CreateResource(resref, (Blueprint_base as INWN2Object).ResourceType);
-
-				iblueprint.TemplateResRef = Blueprint_base.TemplateResRef; // not sure how that's gonna play out: not duplicated.
-
-				iblueprint.Comment = Blueprint_base.Comment;
-
-				if (iblueprint.ObjectType == NWN2ObjectType.Creature)
-				{
-					ProcessEquippedItems(iblueprint as NWN2CreatureTemplate);
-					ProcessInventory(iblueprint as INWN2Template);
-				}
-			}
-			return iblueprint;
 		} */
 
 		void ProcessEquippedItems(NWN2CreatureTemplate template)
@@ -662,109 +653,122 @@ namespace creaturevisualizer
 			}
 		} */
 
+
+		bool _inited;
+// Camera ->
+		float _xy   = CAM_START_TET;
+		float _yz   = CAM_START_PHI;
+		float _dist = CAM_START_DIST;
+// Model ->
+		Vector3      _pos = new Vector3(0F,0F,0F);						// position of the Model
+		RHQuaternion _rot = RHQuaternion.RotationZ(MODEL_START_ROT);	// rotation of the Model
+		Vector3      _sca;												// scale    of the Model // no default, usually 1,1,1 but each creature has its own set in Appearances.2da
+// Light ->
+		Vector3 _posLight = LIGHT_START_POS;
+
+		/// <summary>
+		/// Stores the previous state of this panel, before another Model loads,
+		/// so that the scene can be created as before, after the Model loads.
+		/// </summary>
+		void StoreTelemetry()
+		{
+			if (_inited)
+			{
+				if (Receiver != null)
+				{
+					_xy   = Receiver.CameraAngleXY;
+					_yz   = Receiver.CameraAngleYZ;
+					_dist = Receiver.Distance;
+				}
+
+				if (Model != null)
+				{
+					_pos = Model.Position;
+					_rot = Model.Orientation;
+					_sca = Model.Scale;
+				}
+
+				if (Light != null)
+				{
+					_posLight = Light.Position;
+				}
+			}
+		}
+
+
 		/// <summary>
 		/// Adds a model-instance to the scene.
 		/// </summary>
 		/// <param name="different"></param>
-		void AddModel(bool different = false)
+		void AddModel(bool different)
 		{
 			//MessageBox.Show("AddModel()");
 			if (Instance != null && Initialize())
 			{
 //				_f.Changed = CreVisF.ChangedType.ct_non;
 
-				bool first;
-				if (Model != null) // is NOT 'first' display - cache the previous model's telemetry since it's about to go byebye.
+				Receiver.CameraAngleXY = _xy;
+				Receiver.CameraAngleYZ = _yz;
+				Receiver.Distance      = _dist;
+
+				if (!_inited)
 				{
-					first = false;
-
-					_pos = Model.Position;
-
-					// NOTE: RotateObject() won't change the object's Orientation value;
-					// Orientation needs to be updated explicitly if rotation is changed.
-					_rot = Model.Orientation;
-
-					// NOTE: SetObjectScale() won't change the object's Scale value;
-					// Scale needs to be updated explicitly if x/y/z-scale is changed.
-					_sca = Model.Scale;
+					_inited = true;
+					Receiver.DistanceMin = 0.001F;
+					CAM_START_POS = CameraPosition;
 				}
-				else
-					first = true;
+
+				CameraPosition += CAM_BASEHEIGHT + CreVisF.Offset;
+				_f.PrintCameraPosition();
 
 
 				Instance.BeginAppearanceUpdate();
 
 // create Model ->
 				Model = NWN2NetDisplayManager.Instance.CreateNDOForInstance(Instance, Scene, 0); // 0=NetDisplayModel
-
-				_f.PrintOriginalScale(Model.Scale.X.ToString("N2"));
-
-				ScaInitial = Model.Scale;	// NOTE: Scale comes from the creature blueprint/instance/template/whatver.
-											// That is, there's no default parameter for scale in this Scene like
-											// there is for position and rotation.
-
-// set Model position ->
 				_objects.Add(Model);
 
+// set Model position ->
 				_objectsModel = new NetDisplayObjectCollection() { Model }; // can't move a single object - only a collection (of 1).
 				NWN2NetDisplayManager.Instance.MoveObjects(_objectsModel, ChangeType.Absolute, false, _pos);
 
-				Vector3 scale; // don't ask. It works unlike 'Object.Scale'.
-				if (first)
-				{
-					Model.Orientation = RHQuaternion.RotationZ(MODEL_START_ROT);
-					scale = ScaInitial;
-
-//					var state = Receiver.CameraState as ModelViewerInputCameraReceiverState;
-//					state.FocusTheta = (float)Math.PI /  2F;
-//					state.FocusPhi   = (float)Math.PI / 32F;
-//					state.Distance   = 4.5F;
-
-					Receiver.CameraAngleXY = CAM_START_TET; // FocusTheta - revolutions 0=east, lookin' west
-					Receiver.CameraAngleYZ = CAM_START_PHI; // FocusPhi   - pitch 0= flat, inc to pitch forward and raise camera
-					Receiver.Distance = CAM_START_DIST;
-					Receiver.DistanceMin = 0.001F;
-
-//					Receiver.FocusPoint = Object.Position + OFF_Zd;
-//					Receiver.PitchMin = -(float)Math.PI / 2f;// + 0.145F;
-//					Receiver.PitchMax =  (float)Math.PI / 2f - 0.010F;
-
-					CAM_START_POS = CameraPosition;
-					CameraPosition += CAM_BASEHEIGHT;
-					_f.PrintCameraPosition();
-
-
-//					float yaw = 0F, pitch = 0F, roll = 0F;
-//					CameraOrientation.GetYawPitchRoll(out yaw, out pitch, out roll);
-//					MessageBox.Show("yaw= " + yaw + " pitch= " + pitch + " roll= " + roll);
-				}
-				else
-				{
-					Model.Orientation = _rot;
-
-					if (different) scale = ScaInitial;
-					else           scale = _sca;
-				}
-				// else I'm gonna go bananas.
-
 // set Model rotation ->
+				Model.Orientation = _rot;
 				NWN2NetDisplayManager.Instance.RotateObject(Model, ChangeType.Absolute, Model.Orientation);
 				_f.PrintModelPosition(Model);
 
 				Instance.EndAppearanceUpdate();
 
 // set Model scale ->
+				_f.PrintOriginalScale(Model.Scale.X.ToString("N2"));
+
+				ScaInitial = Model.Scale;	// NOTE: Scale comes from the creature blueprint/instance/template/whatver.
+											// That is, there's no default parameter for scale in this Scene like
+											// there is for position and rotation.
+
+				Vector3 scale;
+				if (different) scale = ScaInitial;
+				else           scale = _sca;
+
 				Model.Scale = scale; // NOTE: after EndAppearanceUpdate().
-				NWN2NetDisplayManager.Instance.SetObjectScale(Model, Model.Scale); // TODO: does this work
+				NWN2NetDisplayManager.Instance.SetObjectScale(Model, Model.Scale);
 				ResetModel(ResetType.RESET_scale); // this is needed to reset placed instance scale
 				_f.PrintModelScale();
 			}
-//			else if (Blueprint == null && Scene != null) // clear the scene iff a placed instance was last loaded ->
-//			{
-//				ClearObjects();
-//				// TODO: disable Creature page
-//			}
 		}
+//					var state = Receiver.CameraState as ModelViewerInputCameraReceiverState;
+//					state.FocusTheta = (float)Math.PI /  2F;
+//					state.FocusPhi   = (float)Math.PI / 32F;
+//					state.Distance   = 4.5F;
+
+//					Receiver.FocusPoint = Object.Position + OFF_Zd;
+//					Receiver.PitchMin = -(float)Math.PI / 2f;// + 0.145F;
+//					Receiver.PitchMax =  (float)Math.PI / 2f - 0.010F;
+
+//					float yaw = 0F, pitch = 0F, roll = 0F;
+//					CameraOrientation.GetYawPitchRoll(out yaw, out pitch, out roll);
+//					MessageBox.Show("yaw= " + yaw + " pitch= " + pitch + " roll= " + roll);
+
 
 		/// <summary>
 		/// Initializes the scene. Clears any objects, sets up default lighting,
