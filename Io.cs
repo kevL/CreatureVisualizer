@@ -19,14 +19,14 @@ namespace creaturevisualizer
 	static class Io
 	{
 		#region Methods (internal)
-		internal static void SaveBlueprintToModule(INWN2Blueprint iblueprint, INWN2Blueprint oblueprint)
+		internal static void SaveBlueprintToModule(INWN2Blueprint iblueprint)
 		{
-			SaveBlueprintToFile(iblueprint, oblueprint, NWN2ToolsetMainForm.App.Module.Repository.Name);
+			SaveBlueprintToFile(iblueprint, NWN2ToolsetMainForm.App.Module.Repository);
 		}
 
-		internal static void SaveBlueprintToCampaign(INWN2Blueprint iblueprint, INWN2Blueprint oblueprint)
+		internal static void SaveBlueprintToCampaign(INWN2Blueprint iblueprint)
 		{
-			SaveBlueprintToFile(iblueprint, oblueprint, NWN2CampaignManager.Instance.ActiveCampaign.Repository.DirectoryName);
+			SaveBlueprintToFile(iblueprint, NWN2CampaignManager.Instance.ActiveCampaign.Repository);
 		}
 
 		// NWN2Toolset.NWN2.Views.NWN2BlueprintView.ᐌ(object P_0, EventArgs P_1)
@@ -35,21 +35,24 @@ namespace creaturevisualizer
 		/// @note Check that blueprint is valid before call.
 		/// </summary>
 		/// <param name="iblueprint">ElectronPanel_.Blueprint</param>
-		/// <param name="oblueprint">ElectronPanel_.Blueprint_base</param>
-		/// <param name="dir"></param>
-		internal static void SaveBlueprintToFile(INWN2Blueprint iblueprint, INWN2Blueprint oblueprint, string dir = "")
+		/// <param name="repo"></param>
+		internal static void SaveBlueprintToFile(INWN2Blueprint iblueprint, DirectoryResourceRepository repo = null)
 		{
 			// TODO: disallow saving anything other than NWN2ObjectType.Creature / resourcetype #2027
 
 
-			string file = iblueprint.Resource.ResRef.Value;
-			string ext  = BWResourceTypes.GetFileExtension(iblueprint.Resource.ResourceType);
+			string fil = iblueprint.Resource.ResRef.Value;
+			string ext = BWResourceTypes.GetFileExtension(iblueprint.Resource.ResourceType);
 
 			var sfd = new SaveFileDialog();
 			sfd.Title      = "Save blueprint as ...";
-			sfd.FileName   = file + "." + ext; // iblueprint.Resource.FullName
+			sfd.FileName   = fil + "." + ext; // iblueprint.Resource.FullName
 			sfd.Filter     = "blueprints (*." + ext + ")|*." + ext + "|all files (*.*)|*.*";
 //			sfd.DefaultExt = ext;
+
+			string dir;
+			if (repo != null) dir = repo.DirectoryName;
+			else              dir = String.Empty;
 
 			if (!String.IsNullOrEmpty(dir))
 			{
@@ -78,99 +81,105 @@ namespace creaturevisualizer
 				{
 					iserializable.OEISerialize(sfd.FileName);
 
-					// TODO: test that file exists before proceeding ->
-					if (File.Exists(sfd.FileName))
+					if (File.Exists(sfd.FileName)) // test that file exists before proceeding
 					{
 						string info = "test for previous resource/blueprint ...\n";
 
+						INWN2BlueprintSet blueprintset;
+
 						dir = Path.GetDirectoryName(sfd.FileName);
-// MODULE ->
-						if (dir == NWN2ToolsetMainForm.App.Module.Repository.Name)
+						if (dir == NWN2ToolsetMainForm.App.Module.Repository.DirectoryName)
 						{
-							info += "module dir= " + NWN2ToolsetMainForm.App.Module.Repository.Name + "\n";
-
-							// TODO: if Blueprint_base is in this directory/repository
-							// overwrite the blueprint and its resource
-							//
-							// if Blueprint_base is in a different directory/repository
-							// keep Blueprint_base and its resource
-							// and add Blueprint and its resource to this directory/repository
-
-
-//							ResourceManager repoman = ResourceManager.Instance;
-//							if (repoman.Exists(filelabel, iblueprint.Resource.ResourceType)
-
-							// so, which should be tested for first: resource or blueprint?
-							// and is there even any point in having one w/out the other?
-
-							var blueprintset = NWN2ToolsetMainForm.App.Module as INWN2BlueprintSet;
-							NWN2BlueprintCollection collection = blueprintset.GetBlueprintCollectionForType(NWN2ObjectType.Creature);
-
-							string filelabel = Path.GetFileNameWithoutExtension(sfd.FileName);
-							info += "filelabel= " + filelabel + "\n";
-
-							INWN2Blueprint extantblueprint = NWN2GlobalBlueprintManager.FindBlueprint(NWN2ObjectType.Creature,
-																									  new OEIResRef(filelabel),
-																									  false, true, false);
-							if (extantblueprint != null)
-							{
-								info += "extantblueprint.ResourceName= " + extantblueprint.ResourceName + "\n";
-								info += "remove extantblueprint from collection ...\n";
-								collection.Remove(extantblueprint); // so, does removing a blueprint also remove its resource? no.
-							}
-							else
-								info += "extantblueprint NOT found\n";
-
-							info += "\n";
-
-							IResourceRepository repo = NWN2ToolsetMainForm.App.Module.Repository;
-							IResourceEntry extantresource = repo.FindResource(new OEIResRef(filelabel), 2027);
-							if (extantresource != null)
-							{
-								info += "resource= " + extantresource.ResRef.Value + "\n";
-								info += "repo= " + extantresource.Repository.Name + "\n";
-								info += "resourcetype= " + extantresource.ResourceType + "\n";
-
-								info += "remove extantresource from repo ...\n";
-								repo.Resources.Remove(extantresource); // so, does removing a resource also remove its blueprint? no.
-							}
-							else
-								info += "extantresource NOT found\n";
-
-							info += "\n";
-							info += "is extantblueprint valid= " + (NWN2GlobalBlueprintManager.FindBlueprint(NWN2ObjectType.Creature, new OEIResRef(filelabel), false, true, false) != null) + "\n";
-							info += "is extantresource valid= " + (repo.FindResource(new OEIResRef(filelabel), 2027) != null) + "\n";
-
-							MessageBox.Show(info);
-
-
-							iblueprint.BlueprintLocation = NWN2BlueprintLocationType.Module;
-
-							repo.CreateResource(iblueprint.Resource.ResRef, iblueprint.Resource.ResourceType);
-							collection.Add(iblueprint);
-
-							var viewer = NWN2ToolsetMainForm.App.BlueprintView;
-							var list = viewer.GetFocusedList();
-							info += "resort blueprint-collection list\n";
-							list.Resort();
-
-							var objects = new object[1] { iblueprint as INWN2Object };
-							viewer.Selection = objects;
-
-
-							INWN2Blueprint blueprint = NWN2GlobalBlueprintManager.FindBlueprint(NWN2ObjectType.Creature, new OEIResRef(filelabel), false, true, false);
-							MessageBox.Show(GetResourceInfo(blueprint as INWN2Template));
-							MessageBox.Show(GetResourceInfo(iblueprint as INWN2Template));
-
-							var resource0 = iblueprint.Resource;
-							var resource1 = repo.FindResource(new OEIResRef(iblueprint.Resource.ResRef.Value), 2027);
-							MessageBox.Show("is resource0 valid= " + (resource0 != null) + "\n"
-							                + "is resource1 valid= " + (resource1 != null) + "\n"
-							                + "is resource0 resource1= " + (resource0 == resource1) + "\n"			// FALSE
-							                + "is resource0 equal to resource1= " + resource0.Equals(resource1));	// TRUE ...
-//							MessageBox.Show("is blueprint iblueprint= " + (blueprint == iblueprint) + "\n" +
-//							                "is resource iresource= " + (iblueprint.Resource == repo.FindResource(new OEIResRef(filelabel), 2027)));
+							repo         = NWN2ToolsetMainForm.App.Module.Repository;
+							blueprintset = NWN2ToolsetMainForm.App.Module as INWN2BlueprintSet;
 						}
+						else if (     NWN2CampaignManager.Instance.ActiveCampaign != null
+							&& dir == NWN2CampaignManager.Instance.ActiveCampaign.Repository.DirectoryName)
+						{
+							repo         = NWN2CampaignManager.Instance.ActiveCampaign.Repository;
+							blueprintset = NWN2CampaignManager.Instance.ActiveCampaign as INWN2BlueprintSet;
+						}
+						else if (dir == NWN2ResourceManager.Instance.UserOverrideDirectory.DirectoryName)
+						{
+							repo         = NWN2ResourceManager       .Instance.UserOverrideDirectory;
+							blueprintset = NWN2GlobalBlueprintManager.Instance as INWN2BlueprintSet;
+						}
+						else
+							return;
+
+						// lookit all those hoops. Jump, doggie, jump! rufruf
+
+
+						info += "dir= " + repo.DirectoryName + "\n";
+
+						// so, which should be tested for first: resource or blueprint?
+						// and is there even any point in having one w/out the other?
+
+						NWN2BlueprintCollection collection = blueprintset.GetBlueprintCollectionForType(NWN2ObjectType.Creature);
+
+						string filelabel = Path.GetFileNameWithoutExtension(sfd.FileName);
+						info += "filelabel= " + filelabel + "\n";
+
+						INWN2Blueprint extantblueprint = NWN2GlobalBlueprintManager.FindBlueprint(NWN2ObjectType.Creature,
+																								  new OEIResRef(filelabel),
+																								  false, true, false);
+						if (extantblueprint != null)
+						{
+							info += "extantblueprint.ResourceName= " + extantblueprint.ResourceName + "\n";
+							info += "remove extantblueprint from collection ...\n";
+							collection.Remove(extantblueprint); // so, does removing a blueprint also remove its resource? no.
+						}
+						else
+							info += "extantblueprint NOT found\n";
+
+						info += "\n";
+
+						IResourceEntry extantresource = repo.FindResource(new OEIResRef(filelabel), 2027);
+						if (extantresource != null)
+						{
+							info += "resource= " + extantresource.ResRef.Value + "\n";
+							info += "repo= " + extantresource.Repository.Name + "\n";
+							info += "resourcetype= " + extantresource.ResourceType + "\n";
+
+							info += "remove extantresource from repo ...\n";
+							repo.Resources.Remove(extantresource); // so, does removing a resource also remove its blueprint? no.
+						}
+						else
+							info += "extantresource NOT found\n";
+
+						info += "\n";
+						info += "is extantblueprint valid= " + (NWN2GlobalBlueprintManager.FindBlueprint(NWN2ObjectType.Creature, new OEIResRef(filelabel), false, true, false) != null) + "\n";
+						info += "is extantresource valid= " + (repo.FindResource(new OEIResRef(filelabel), 2027) != null) + "\n";
+
+						MessageBox.Show(info);
+
+
+						iblueprint.BlueprintLocation = NWN2BlueprintLocationType.Module;
+
+						repo.CreateResource(iblueprint.Resource.ResRef, iblueprint.Resource.ResourceType);
+						collection.Add(iblueprint);
+
+						var viewer = NWN2ToolsetMainForm.App.BlueprintView;
+						var list = viewer.GetFocusedList();
+						info += "resort blueprint-collection list\n";
+						list.Resort();
+
+						var objects = new object[1] { iblueprint as INWN2Object };
+						viewer.Selection = objects;
+
+
+						INWN2Blueprint blueprint = NWN2GlobalBlueprintManager.FindBlueprint(NWN2ObjectType.Creature, new OEIResRef(filelabel), false, true, false);
+						MessageBox.Show(GetResourceInfo(blueprint as INWN2Template));
+						MessageBox.Show(GetResourceInfo(iblueprint as INWN2Template));
+
+						var resource0 = iblueprint.Resource;
+						var resource1 = repo.FindResource(new OEIResRef(iblueprint.Resource.ResRef.Value), 2027);
+						MessageBox.Show("is resource0 valid= " + (resource0 != null) + "\n"
+						                + "is resource1 valid= " + (resource1 != null) + "\n"
+						                + "is resource0 resource1= " + (resource0 == resource1) + "\n"			// FALSE
+						                + "is resource0 equal to resource1= " + resource0.Equals(resource1));	// TRUE ...
+//						MessageBox.Show("is blueprint iblueprint= " + (blueprint == iblueprint) + "\n" +
+//						                "is resource iresource= " + (iblueprint.Resource == repo.FindResource(new OEIResRef(filelabel), 2027)));
 					}
 				}
 			}

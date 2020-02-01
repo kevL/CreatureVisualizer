@@ -514,11 +514,10 @@ namespace creaturevisualizer
 
 			(Blueprint as INWN2Template).CopyFromTemplate(Blueprint_base as INWN2Template);
 
-//			OEIResRef resref = Blueprint_base.Resource.ResRef; // 'Resource.Resref' IS 'ResourceName'
-//			IResourceRepository repo = Blueprint_base.Resource.Repository;
-//			Blueprint.Resource = repo.CreateResource(resref, (Blueprint_base as INWN2Object).ResourceType);
+			// IMPORTANT: The resource owned by the blueprint has equal values
+			// to but is not the same resource-object as the resource owned by
+			// the respository.
 
-			//this.ᐂ = (NWN2ObjectTemplateData)CommonUtils.SerializationClone(nWN2CreatureTemplate.ᐂ);
 			Blueprint.BlueprintLocation = Blueprint_base.BlueprintLocation; // note: enum 'NWN2BlueprintLocationType' ought be value-type
 			Blueprint.Resource          = (IResourceEntry)CommonUtils.SerializationClone(Blueprint_base.Resource);
 			Blueprint.TemplateResRef    = (OEIResRef)CommonUtils.SerializationClone(Blueprint_base.TemplateResRef);

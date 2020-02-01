@@ -699,11 +699,6 @@ namespace creaturevisualizer
 //			NWN2NetDisplayManager.Instance.Objects.Inserted =
 //				(OEICollectionWithEvents.ChangeHandler)Delegate.Remove(NWN2NetDisplayManager.Instance.Objects.Inserted,
 //																	   new OEICollectionWithEvents.ChangeHandler(OnObjectsInserted));
-
-//			if (_panel.Blueprint == null && _panel.Instance != null) TODO -> (also when Blueprint changes in 'ElectronPanel_')
-//			{
-//				NWN2ToolsetMainForm.App.BlueprintView.Module.DeleteBlueprint(INWN2Blueprint cBlueprint);
-//			}
 		}
 
 /*		internal bool ConfirmClose(bool cancancel)
@@ -846,7 +841,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Blueprint != null)
 			{
-				Io.SaveBlueprintToModule(_panel.Blueprint, _panel.Blueprint_base);
+				Io.SaveBlueprintToModule(_panel.Blueprint);
 				// TODO: update blueprint tree
 			}
 			else if (_panel.Instance != null)
@@ -862,7 +857,7 @@ namespace creaturevisualizer
 			{
 				if (_panel.Blueprint != null)
 				{
-					Io.SaveBlueprintToCampaign(_panel.Blueprint, _panel.Blueprint_base);
+					Io.SaveBlueprintToCampaign(_panel.Blueprint);
 					// TODO: update blueprint tree
 				}
 				else if (_panel.Instance != null)
@@ -881,7 +876,7 @@ namespace creaturevisualizer
 
 			if (_panel.Blueprint != null)
 			{
-				Io.SaveBlueprintToFile(_panel.Blueprint, _panel.Blueprint_base);
+				Io.SaveBlueprintToFile(_panel.Blueprint);
 //				Changed = ChangedType.ct_non;
 				// TODO: update blueprint tree (if applicable)
 			}
