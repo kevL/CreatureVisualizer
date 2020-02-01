@@ -40,7 +40,7 @@ namespace creaturevisualizer
 #if DEBUG
 				Info += " debug";
 #else
-				Info += " release";
+				Info += " test-release";
 #endif
 				Info += Environment.NewLine
 					  + String.Format(CultureInfo.CurrentCulture,
