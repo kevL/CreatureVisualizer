@@ -126,7 +126,8 @@ namespace creaturevisualizer
 			get { return _instance; }
 			private set
 			{
-				bool valid = (_instance = value) != null;
+				bool valid = (_instance = value) != null
+					&& _instance is NWN2CreatureTemplate;
 
 				_f.EnableSaveToModule(valid);
 				_f.EnableSaveToCampaign(valid);
@@ -389,9 +390,7 @@ namespace creaturevisualizer
 // second check blueprint tree for a selected Blueprint ->
 					else
 					{
-						NWN2BlueprintView blueprintview = NWN2ToolsetMainForm.App.BlueprintView;
-
-						object[] selection = blueprintview.Selection;
+						object[] selection =  NWN2ToolsetMainForm.App.BlueprintView.Selection;
 						if (selection != null && selection.Length == 1)
 						{
 							switch ((selection[0] as INWN2Template).ObjectType) // better not be null
@@ -518,10 +517,19 @@ namespace creaturevisualizer
 			// to but is not the same resource-object as the resource owned by
 			// the respository.
 
-			Blueprint.BlueprintLocation = Blueprint_base.BlueprintLocation; // note: enum 'NWN2BlueprintLocationType' ought be value-type
+			Blueprint.BlueprintLocation = Blueprint_base.BlueprintLocation; // note: enum 'NWN2BlueprintLocationType' ought be value-type (ie. copied not referenced)
 			Blueprint.Resource          = (IResourceEntry)CommonUtils.SerializationClone(Blueprint_base.Resource);
 			Blueprint.TemplateResRef    = (OEIResRef)CommonUtils.SerializationClone(Blueprint_base.TemplateResRef);
 			Blueprint.Comment           = String.Copy(Blueprint_base.Comment); // note: strings are immutable
+
+
+			// TODO: AppearanceSEF creates a latent bug. Can freeze toolset ...
+			// esp. after the visualizer closes and re-opens.
+			// Workaround: Store a pointer in 'Io' to the Sef and re-apply it
+			// if the blueprint is saved. But null it here.
+			Io.AppearanceSEF = (Blueprint as NWN2CreatureTemplate).AppearanceSEF;
+			(Blueprint as NWN2CreatureTemplate).AppearanceSEF = null;
+//			(Blueprint as NWN2CreatureTemplate).AppearanceSEF = (IResourceEntry)CommonUtils.SerializationClone((Blueprint_base as NWN2CreatureTemplate).AppearanceSEF); // nope.
 
 			if ((Blueprint as INWN2Template).ObjectType == NWN2ObjectType.Creature)
 			{
@@ -751,7 +759,7 @@ namespace creaturevisualizer
 
 				Model.Scale = scale; // NOTE: after EndAppearanceUpdate().
 				NWN2NetDisplayManager.Instance.SetObjectScale(Model, Model.Scale);
-				ResetModel(ResetType.RESET_scale); // this is needed to reset placed instance scale
+				ResetModel(ResetType.RESET_scale); // this is needed to reset placed-instance scale
 				_f.PrintModelScale();
 			}
 		}
@@ -1074,7 +1082,7 @@ namespace creaturevisualizer
 			pos.Scale(state.Distance);
 			pos += state.FocusPoint;
 
-			CameraPosition = pos + CreVisF.Offset + CAM_BASEHEIGHT;
+			CameraPosition = pos + CAM_BASEHEIGHT + CreVisF.Offset;
 
 // orientation ->
 			Vector3 focusPoint = state.FocusPoint;

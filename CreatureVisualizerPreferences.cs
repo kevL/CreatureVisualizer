@@ -93,7 +93,7 @@ namespace creaturevisualizer
 			TabPageCurrent        = 0;
 
 			LightIntensity   = 0.75F;
-			CameraBaseHeight = 1.10F;
+			CameraBaseHeight = 1.00F;
 
 			x_ColorDialog =
 			y_ColorDialog = Int32.MinValue;

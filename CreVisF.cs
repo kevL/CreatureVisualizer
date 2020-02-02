@@ -841,7 +841,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Blueprint != null)
 			{
-				Io.SaveBlueprintToModule(_panel.Blueprint);
+				Io.SaveBlueprintToFile(_panel.Blueprint, NWN2ToolsetMainForm.App.Module.Repository);
 				// TODO: update blueprint tree
 			}
 			else if (_panel.Instance != null)
@@ -857,7 +857,7 @@ namespace creaturevisualizer
 			{
 				if (_panel.Blueprint != null)
 				{
-					Io.SaveBlueprintToCampaign(_panel.Blueprint);
+					Io.SaveBlueprintToFile(_panel.Blueprint, NWN2CampaignManager.Instance.ActiveCampaign.Repository);
 					// TODO: update blueprint tree
 				}
 				else if (_panel.Instance != null)
@@ -1386,6 +1386,7 @@ namespace creaturevisualizer
 			if (Single.TryParse(tb_camera_baseheight.Text, out result)
 				&& result > -100F && result < 100F)
 			{
+				CreatureVisualizerPreferences.that.CameraBaseHeight = result;
 				ElectronPanel_.CAM_BASEHEIGHT = new Vector3(0F,0F, result);
 				_panel.UpdateCamera();
 			}
