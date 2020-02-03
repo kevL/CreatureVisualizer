@@ -11,8 +11,8 @@ using System.Runtime.InteropServices;
 #endif
 [assembly: AssemblyCompany("kL")]
 [assembly: AssemblyProduct("CreatureVisualizer")]
-[assembly: AssemblyCopyright("copyleft 2020 jan 31")]
+[assembly: AssemblyCopyright("copyleft 2020 feb 3")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
-[assembly: AssemblyVersion("2.3.2.0")]
+[assembly: AssemblyVersion("2.3.3.0")]

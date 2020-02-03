@@ -483,10 +483,10 @@ namespace creaturevisualizer
 		{
 			Menu = new MainMenu();
 
-			Menu.MenuItems.Add("&Instance");	// 0
-			Menu.MenuItems.Add("&Options");		// 1
-			Menu.MenuItems.Add("&View");		// 2
-			Menu.MenuItems.Add("&Help");		// 3
+			Menu.MenuItems.Add("&Model");	// 0
+			Menu.MenuItems.Add("&Options");	// 1
+			Menu.MenuItems.Add("&View");	// 2
+			Menu.MenuItems.Add("&Help");	// 3
 
 // Instance ->
 			Menu.MenuItems[0].MenuItems.Add("&refresh", instanceclick_Refresh);
@@ -501,7 +501,7 @@ namespace creaturevisualizer
 			_itRefreshProtocol_oac = it.MenuItems.Add("on appeara&nce changed", instanceclick_RefreshProtocol);
 			_itRefreshProtocol_non.Checked = true;
 
-			Menu.MenuItems[0].MenuItems.Add("-");
+//			Menu.MenuItems[0].MenuItems.Add("-");
 
 			_itSaveToModule = Menu.MenuItems[0].MenuItems.Add("save to &Module ...", instanceclick_SaveToModule);
 			_itSaveToModule.Shortcut = Shortcut.CtrlM;
@@ -515,6 +515,15 @@ namespace creaturevisualizer
 			_itSaveToFile = Menu.MenuItems[0].MenuItems.Add("sav&e to file ...", instanceclick_SaveToFile); // ie. to Override or whereva ya like.
 			_itSaveToFile.Shortcut = Shortcut.CtrlE;
 			_itSaveToFile.Enabled = _panel.Instance != null;
+
+			// TEMPORARILY DISABLE ALL SAVE OPERATIONS ->
+			_itSaveToModule  .Enabled =
+			_itSaveToModule  .Visible =
+			_itSaveToCampaign.Enabled =
+			_itSaveToCampaign.Visible =
+			_itSaveToFile    .Enabled =
+			_itSaveToFile    .Visible = false;
+
 
 // Options ->
 			_itProcessItemsBody = Menu.MenuItems[1].MenuItems.Add("process equipped &body-items", optionsclick_ProcessItemsBody);
