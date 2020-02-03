@@ -24,30 +24,6 @@ namespace creaturevisualizer
 
 
 		#region Methods (internal)
-		/// <summary>
-		/// Performs a case-insensitive path comparison (valid on Windows only).
-		/// </summary>
-		/// <param name="dir">lowercase</param>
-		/// <returns></returns>
-		static bool IsOverride(string dir)
-		{
-			string root = NWN2ResourceManager.Instance.UserOverrideDirectory.DirectoryName.ToLower();
-
-			if (dir == root)
-				return true;
-
-			var di = new DirectoryInfo(dir);
-			while (di.Parent != null)
-			{
-				if (di.Parent.FullName.ToLower() == root)
-					return true;
-
-				di = di.Parent;
-			}
-			return false;
-		}
-
-
 		// NWN2Toolset.NWN2.Views.NWN2BlueprintView.ᐌ(object P_0, EventArgs P_1)
 		// yeah whatever. Those idiots were too clever for anybody's good.
 		/// <summary>
@@ -57,8 +33,9 @@ namespace creaturevisualizer
 		/// - resourcetype #2027
 		/// @note Check that blueprint is valid before call.
 		/// </summary>
-		/// <param name="iblueprint">ElectronPanel_.Blueprint</param>
-		/// <param name="repo"></param>
+		/// <param name="iblueprint">ElectronPanel_.Blueprint or .Instance
+		/// converted to a blueprint</param>
+		/// <param name="repo">null if Override</param>
 		internal static void SaveBlueprintToFile(INWN2Blueprint iblueprint, DirectoryResourceRepository repo = null)
 		{
 			string fil = iblueprint.Resource.ResRef.Value;
@@ -139,13 +116,10 @@ namespace creaturevisualizer
 							return;
 
 
-						string info = "dir= " + repo.DirectoryName + "\n";
-
 						// so, which should be tested for first: resource or blueprint?
 						// and is there even any point in having one w/out the other?
 
 						string filelabel = Path.GetFileNameWithoutExtension(sfd.FileName);
-						info += "filelabel= " + filelabel + "\n";
 
 						NWN2BlueprintCollection collection = blueprintset.GetBlueprintCollectionForType(NWN2ObjectType.Creature);
 
@@ -157,25 +131,14 @@ namespace creaturevisualizer
 
 						if (extantblueprint != null && extantblueprint.Resource.Repository is DirectoryResourceRepository) // ie. exclude Data\Templates*.zip
 						{
-							info += "extantblueprint.ResourceName= " + extantblueprint.ResourceName + "\n";
-							info += "remove extantblueprint from collection ...\n";
 							collection.Remove(extantblueprint); // so, does removing a blueprint also remove its resource? no.
 						}
-						else
-							info += "extantblueprint NOT found\n";
 
 						IResourceEntry extantresource = repo.FindResource(new OEIResRef(filelabel), 2027); // it's maaaaaagick
 						if (extantresource != null)
 						{
-							info += "resource= "     + extantresource.ResRef.Value    + "\n";
-							info += "repo= "         + extantresource.Repository.Name + "\n";
-							info += "resourcetype= " + extantresource.ResourceType    + "\n";
-
-							info += "remove extantresource from repo ...\n";
 							repo.Resources.Remove(extantresource); // so, does removing a resource also remove its blueprint? no.
 						}
-						else
-							info += "extantresource NOT found\n";
 
 
 						iblueprint.Resource = repo.CreateResource(iblueprint.Resource.ResRef, iblueprint.Resource.ResourceType);
@@ -183,28 +146,10 @@ namespace creaturevisualizer
 
 						var viewer = NWN2ToolsetMainForm.App.BlueprintView;
 						var list = viewer.GetFocusedList();
-						info += "resort blueprint-collection list\n";
 						list.Resort();
 
 						var objects = new object[1] { iblueprint as INWN2Object };
 						viewer.Selection = objects;
-
-						MessageBox.Show(info);
-						MessageBox.Show(GetResourceInfo(iblueprint as INWN2Template));
-
-
-/*						INWN2Blueprint blueprint = NWN2GlobalBlueprintManager.FindBlueprint(NWN2ObjectType.Creature, new OEIResRef(filelabel), false, true, false);
-						MessageBox.Show(GetResourceInfo(blueprint as INWN2Template));
-						MessageBox.Show(GetResourceInfo(iblueprint as INWN2Template));
-
-						var resource0 = iblueprint.Resource;
-						var resource1 = repo.FindResource(new OEIResRef(iblueprint.Resource.ResRef.Value), 2027);
-						MessageBox.Show("is resource0 valid= " + (resource0 != null) + "\n"
-						                + "is resource1 valid= " + (resource1 != null) + "\n"
-						                + "is resource0 resource1= " + (resource0 == resource1) + "\n"			// FALSE
-						                + "is resource0 equal to resource1= " + resource0.Equals(resource1));	// TRUE ... */
-//						MessageBox.Show("is blueprint iblueprint= " + (blueprint == iblueprint) + "\n" +
-//						                "is resource iresource= " + (iblueprint.Resource == repo.FindResource(new OEIResRef(filelabel), 2027)));
 					}
 				}
 			}
@@ -305,12 +250,35 @@ namespace creaturevisualizer
 
 			return iblueprint; // a blueprint with a resource for an Instance
 		}
+
+		/// <summary>
+		/// Performs a case-insensitive path comparison (valid on Windows only).
+		/// </summary>
+		/// <param name="dir">lowercase</param>
+		/// <returns></returns>
+		static bool IsOverride(string dir)
+		{
+			string root = NWN2ResourceManager.Instance.UserOverrideDirectory.DirectoryName.ToLower();
+
+			if (dir == root)
+				return true;
+
+			var di = new DirectoryInfo(dir);
+			while (di.Parent != null)
+			{
+				if (di.Parent.FullName.ToLower() == root)
+					return true;
+
+				di = di.Parent;
+			}
+			return false;
+		}
 		#endregion Methods (private)
 
 
 
 		#region Methods (stupid)
-		static string GetResourceInfo(INWN2Template itemplate)
+/*		static string GetResourceInfo(INWN2Template itemplate)
 		{
 			string info = "tag= " + (itemplate as INWN2Template).Name + "\n";														// string
 
@@ -379,8 +347,7 @@ namespace creaturevisualizer
 				}
 			}
 			return info;
-		}
-
+		} */
 
 /*		static void PrintResourceTypes()
 		{
