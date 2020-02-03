@@ -842,12 +842,10 @@ namespace creaturevisualizer
 			if (_panel.Blueprint != null)
 			{
 				Io.SaveBlueprintToFile(_panel.Blueprint, NWN2ToolsetMainForm.App.Module.Repository);
-				// TODO: update blueprint tree
 			}
 			else if (_panel.Instance != null)
 			{
-				Io.SaveInstanceToModule(_panel.Instance);
-				// TODO: update blueprint tree
+				Io.SaveInstanceToFile(_panel.Instance, NWN2ToolsetMainForm.App.Module.Repository);
 			}
 		}
 
@@ -858,36 +856,26 @@ namespace creaturevisualizer
 				if (_panel.Blueprint != null)
 				{
 					Io.SaveBlueprintToFile(_panel.Blueprint, NWN2CampaignManager.Instance.ActiveCampaign.Repository);
-					// TODO: update blueprint tree
 				}
 				else if (_panel.Instance != null)
 				{
-					Io.SaveInstanceToCampaign(_panel.Instance);
-					// TODO: update blueprint tree
+					Io.SaveInstanceToFile(_panel.Instance, NWN2CampaignManager.Instance.ActiveCampaign.Repository);
 				}
 			}
 		}
 
 		void instanceclick_SaveToFile(object sender, EventArgs e)
 		{
-//			NWN2Toolset.NWN2.IO.NWN2ResourceManager.Instance.UserOverrideDirectory;
-//			NWN2Toolset.NWN2.IO.NWN2ResourceManager.Instance.OverrideDirectory;
-//			NWN2Toolset.NWN2.IO.NWN2ResourceManager.Instance.BaseDirectory;
-
 			if (_panel.Blueprint != null)
 			{
 				Io.SaveBlueprintToFile(_panel.Blueprint);
 //				Changed = ChangedType.ct_non;
-				// TODO: update blueprint tree (if applicable)
 			}
 			else if (_panel.Instance != null)
 			{
-				Io.SaveInstanceToFile(_panel.Instance, NWN2BlueprintLocationType.Global);
+				Io.SaveInstanceToFile(_panel.Instance);
 //				Changed = ChangedType.ct_non;
-				// TODO: update blueprint tree (if applicable)
 			}
-
-			// TODO: add resource to the toolset's Blueprint tree (if applicable)
 		}
 
 

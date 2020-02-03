@@ -359,30 +359,36 @@ namespace creaturevisualizer
 //						MessageBox.Show(info);
 
 
-						if ((Instance as INWN2Template).ObjectType == NWN2ObjectType.Creature)
+						switch ((Instance as INWN2Template).ObjectType)
 						{
-							ProcessEquippedItems(Instance as NWN2CreatureTemplate);
-							ProcessInventory(Instance as INWN2Template);
+							case NWN2ObjectType.Creature:
+								Io.AppearanceSEF = (Instance as NWN2CreatureTemplate).AppearanceSEF;
+								(Instance as NWN2CreatureTemplate).AppearanceSEF = null;
+
+								ProcessEquippedItems(Instance as NWN2CreatureTemplate);
+								ProcessInventory(Instance as INWN2Template);
+								break;
+
+							case NWN2ObjectType.Item:
+								(Instance as NWN2ItemTemplate).AppearanceSEF = null;
+								break;
+
+							case NWN2ObjectType.Placeable:
+								(Instance as NWN2PlaceableTemplate).AppearanceSEF = null;
+								break;
 						}
 
 						_f.PrintResourceInfo(Instance);
 
 
-/*						Instance = CreateInstance();
-						if (Instance != null)
-						{
-							_f.PrintResourceInfo(Instance);
-
-
-//							if (Instance.ObjectType == NWN2ObjectType.Creature)
-//							{
-//								_f.bu_creature_apply1.Enabled =
-//								_f.bu_creature_apply2.Enabled = Instance.Template != null;		// NOTE: 'Template' should actually be 'Resource' or 'TemplateResource'
-//								_f.EnableCreaturePages(true);									// like ya know 'Blueprint.Resource' is ... since it's not a 'Template'
-//																								// it's a 'ResourceEntry'. 'Template' has a distinct meaning and it's
-//								_f.InitializeCreaturePages(Instance as NWN2CreatureTemplate);	// not 'ResourceEntry'.
-//							}
-						} */
+//						if (Instance.ObjectType == NWN2ObjectType.Creature)
+//						{
+//							_f.bu_creature_apply1.Enabled =
+//							_f.bu_creature_apply2.Enabled = Instance.Template != null;		// NOTE: 'Template' should actually be 'Resource' or 'TemplateResource'
+//							_f.EnableCreaturePages(true);									// like ya know 'Blueprint.Resource' is ... since it's not a 'Template'
+//																							// it's a 'ResourceEntry'. 'Template' has a distinct meaning and it's
+//							_f.InitializeCreaturePages(Instance as NWN2CreatureTemplate);	// not 'ResourceEntry'.
+//						}
 
 //						_f.bu_creature_apply1.Text =
 //						_f.bu_creature_apply2.Text = "APPLY to Instance";
@@ -397,9 +403,9 @@ namespace creaturevisualizer
 							{
 								case NWN2ObjectType.Creature:
 								case NWN2ObjectType.Door:
+								case NWN2ObjectType.Item:
 								case NWN2ObjectType.Placeable:
 								case NWN2ObjectType.PlacedEffect:
-								case NWN2ObjectType.Item:
 									if (Blueprint_base == null || (selection[0] as INWN2Blueprint) != Blueprint_base)
 									{
 										Blueprint_base = selection[0] as INWN2Blueprint;
@@ -407,6 +413,7 @@ namespace creaturevisualizer
 									}
 
 									DuplicateBlueprint();
+
 									_f.PrintResourceInfo(Blueprint);
 
 //									var resource0 = Blueprint.Resource;
@@ -495,6 +502,7 @@ namespace creaturevisualizer
 		/// TODO: A new resource doesn't have to be created here, but only if
 		/// the Blueprint/Instance is saved to a file that doesn't already have
 		/// a resource.
+		/// Cf. Io.CreateBlueprint()
 		/// - based on
 		/// NWN2Toolset.NWN2.Data.Blueprints.NWN2CreatureBlueprint.CreateFromBlueprint(NWN2CreatureBlueprint, IResourceRepository, bool)
 		/// - see also
@@ -506,9 +514,9 @@ namespace creaturevisualizer
 			{
 				case NWN2ObjectType.Creature:     Blueprint = new NWN2CreatureBlueprint();     break;
 				case NWN2ObjectType.Door:         Blueprint = new NWN2DoorBlueprint();         break;
+				case NWN2ObjectType.Item:         Blueprint = new NWN2ItemBlueprint();         break;
 				case NWN2ObjectType.Placeable:    Blueprint = new NWN2PlaceableBlueprint();    break;
 				case NWN2ObjectType.PlacedEffect: Blueprint = new NWN2PlacedEffectBlueprint(); break;
-				case NWN2ObjectType.Item:         Blueprint = new NWN2ItemBlueprint();         break;
 			}
 
 			(Blueprint as INWN2Template).CopyFromTemplate(Blueprint_base as INWN2Template);
@@ -518,8 +526,8 @@ namespace creaturevisualizer
 			// the respository.
 
 			Blueprint.BlueprintLocation = Blueprint_base.BlueprintLocation; // note: enum 'NWN2BlueprintLocationType' ought be value-type (ie. copied not referenced)
-			Blueprint.Resource          = (IResourceEntry)CommonUtils.SerializationClone(Blueprint_base.Resource);
-			Blueprint.TemplateResRef    = (OEIResRef)CommonUtils.SerializationClone(Blueprint_base.TemplateResRef);
+			Blueprint.Resource          = CommonUtils.SerializationClone(Blueprint_base.Resource) as IResourceEntry;
+			Blueprint.TemplateResRef    = CommonUtils.SerializationClone(Blueprint_base.TemplateResRef) as OEIResRef;
 			Blueprint.Comment           = String.Copy(Blueprint_base.Comment); // note: strings are immutable
 
 
@@ -527,14 +535,26 @@ namespace creaturevisualizer
 			// esp. after the visualizer closes and re-opens.
 			// Workaround: Store a pointer in 'Io' to the Sef and re-apply it
 			// if the blueprint is saved. But null it here.
-			Io.AppearanceSEF = (Blueprint as NWN2CreatureTemplate).AppearanceSEF;
-			(Blueprint as NWN2CreatureTemplate).AppearanceSEF = null;
-//			(Blueprint as NWN2CreatureTemplate).AppearanceSEF = (IResourceEntry)CommonUtils.SerializationClone((Blueprint_base as NWN2CreatureTemplate).AppearanceSEF); // nope.
 
-			if ((Blueprint as INWN2Template).ObjectType == NWN2ObjectType.Creature)
+			switch ((Blueprint as INWN2Template).ObjectType)
 			{
-				ProcessEquippedItems(Blueprint as NWN2CreatureTemplate);
-				ProcessInventory(Blueprint as INWN2Template);
+				case NWN2ObjectType.Creature:
+					Io.AppearanceSEF = (Blueprint as NWN2CreatureTemplate).AppearanceSEF;
+					(Blueprint as NWN2CreatureTemplate).AppearanceSEF = null;
+
+//					(Blueprint as NWN2CreatureTemplate).AppearanceSEF = (IResourceEntry)CommonUtils.SerializationClone((Blueprint_base as NWN2CreatureTemplate).AppearanceSEF); // nope.
+
+					ProcessEquippedItems(Blueprint as NWN2CreatureTemplate);
+					ProcessInventory(Blueprint as INWN2Template);
+					break;
+
+				case NWN2ObjectType.Item:
+					(Blueprint as NWN2ItemTemplate).AppearanceSEF = null;
+					break;
+
+				case NWN2ObjectType.Placeable:
+					(Blueprint as NWN2PlaceableTemplate).AppearanceSEF = null;
+					break;
 			}
 		}
 
