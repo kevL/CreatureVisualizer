@@ -25,12 +25,15 @@ namespace creaturevisualizer
 
 			if (Info == null)
 			{
-				Info  = "IMPORTANT: When saving a blueprint from the visualizer the output will be based on the"    + L;
-				Info += "instance that is currently displayed in the visualizer. This instance is not necessarily"  + L;
-				Info += "identical to your currently selected blueprint or instance, if changes were done to the"   + L;
-				Info += "latter in the toolset. [F5] Refresh reinstantiates the instance in the visualizer so that" + L;
-				Info += "it is identical to the selected blueprint or instance in the toolset. Note also that the"  + L;
-				Info += "toggles in the Options menu affect output."                                                + L + L;
+				Info = String.Empty;
+
+				// TEMPORARILY DISABLE ALL SAVE OPERATIONS ->
+//				Info += "IMPORTANT: When saving a blueprint from the visualizer the output will be based on the"    + L;
+//				Info += "creature that is currently displayed in the visualizer. This creature is not necessarily"  + L;
+//				Info += "identical to your currently selected blueprint or instance, if changes were done to the"   + L;
+//				Info += "latter in the toolset. [F5] Refresh reinstantiates the creature in the visualizer so that" + L;
+//				Info += "it is identical to the selected blueprint or instance in the toolset as long as the item-" + L;
+//				Info += "processing toggles under the Options menu are all active."                                 + L + L;
 
 				Info += "MENUS" + L;
 				Info += "-----" + L;
@@ -40,9 +43,9 @@ namespace creaturevisualizer
 				Info += "  user-invoked - loads the blueprint or instance only on [F5] Refresh" + L;
 				Info += "  on focus - loads the blueprint or instance whenever the visualizer takes focus" + L;
 				Info += "  on appearance changed - loads the blueprint or instance whenever its appearance changes" + L;
-				Info += "- save to Module ... [Ctrl+M] - opens a save file dialog at the Module directory" + L;
-				Info += "- save to Campaign ... [Ctrl+G] - opens a save file dialog at the Campaign directory" + L;
-				Info += "- save to ... [Ctrl+E] - opens a save file dialog at the Override directory" + L;
+//				Info += "- save to Module ... [Ctrl+M] - opens a save file dialog at the Module directory" + L;
+//				Info += "- save to Campaign ... [Ctrl+G] - opens a save file dialog at the Campaign directory" + L;
+//				Info += "- save to file ... [Ctrl+E] - opens a save file dialog at the Override directory" + L;
 				Info += "Options" + L;
 				Info += "- process equipped body-items - toggles display (and output) of equipped items (non hand held)" + L;
 				Info += "- process equipped held-items - toggles display (and output) of equipped right/left hand items" + L;
