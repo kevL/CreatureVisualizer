@@ -151,23 +151,6 @@ namespace creaturevisualizer
 			}
 		} */
 
-
-		int _refreshprotocol;
-		int RefreshProtocol
-		{
-			get { return _refreshprotocol; }
-			set
-			{
-				CreatureVisualizerPreferences.that.RefreshProtocol = (_refreshprotocol = value);
-
-				_itRefreshProtocol_non.Checked = _refreshprotocol == (int)RefreshType.non;
-				_itRefreshProtocol_foc.Checked = (_refreshprotocol & (int)RefreshType.foc) != 0;
-				_itRefreshProtocol_oac.Checked = (_refreshprotocol & (int)RefreshType.oac) != 0;
-			}
-		}
-
-		#endregion Properties
-
 		internal void SetTitleText()
 		{
 			if (_panel.Blueprint != null) // is a blueprint NOT a placed instance
@@ -194,6 +177,23 @@ namespace creaturevisualizer
 			else
 				Text = TITLE;
 		}
+
+
+		int _refreshprotocol;
+		int RefreshProtocol
+		{
+			get { return _refreshprotocol; }
+			set
+			{
+				CreatureVisualizerPreferences.that.RefreshProtocol = (_refreshprotocol = value);
+
+				_itRefreshProtocol_non.Checked = _refreshprotocol == (int)RefreshType.non;
+				_itRefreshProtocol_foc.Checked = (_refreshprotocol & (int)RefreshType.foc) != 0;
+				_itRefreshProtocol_oac.Checked = (_refreshprotocol & (int)RefreshType.oac) != 0;
+			}
+		}
+
+		#endregion Properties
 
 
 		#region cTor
@@ -432,7 +432,7 @@ namespace creaturevisualizer
 		void OnAppearanceChanged(INWN2Template cTemplate, AppearanceChangeType eType)
 		{
 			if (!_bypassAppearanceChanged
-			    && (RefreshProtocol & (int)RefreshType.oac) != 0
+				&& (RefreshProtocol & (int)RefreshType.oac) != 0
 				&& _panel.Model != null
 				&& WindowState != FormWindowState.Minimized)
 			{
@@ -504,25 +504,23 @@ namespace creaturevisualizer
 //			Menu.MenuItems[0].MenuItems.Add("-");
 
 			_itSaveToModule = Menu.MenuItems[0].MenuItems.Add("save to &Module ...", instanceclick_SaveToModule);
-			_itSaveToModule.Shortcut = Shortcut.CtrlM;
+//			_itSaveToModule.Shortcut = Shortcut.CtrlM;
 			_itSaveToModule.Enabled = _panel.Instance != null;
 
 			_itSaveToCampaign = Menu.MenuItems[0].MenuItems.Add("save to Campai&gn ...", instanceclick_SaveToCampaign);
-			_itSaveToCampaign.Shortcut = Shortcut.CtrlG;
+//			_itSaveToCampaign.Shortcut = Shortcut.CtrlG;
 			_itSaveToCampaign.Enabled = NWN2CampaignManager.Instance.ActiveCampaign != null
 									 && _panel.Instance != null;
 
 			_itSaveToFile = Menu.MenuItems[0].MenuItems.Add("sav&e to file ...", instanceclick_SaveToFile); // ie. to Override or whereva ya like.
-			_itSaveToFile.Shortcut = Shortcut.CtrlE;
+//			_itSaveToFile.Shortcut = Shortcut.CtrlE;
 			_itSaveToFile.Enabled = _panel.Instance != null;
 
 			// TEMPORARILY DISABLE ALL SAVE OPERATIONS ->
-			_itSaveToModule  .Enabled =
 			_itSaveToModule  .Visible =
-			_itSaveToCampaign.Enabled =
 			_itSaveToCampaign.Visible =
-			_itSaveToFile    .Enabled =
 			_itSaveToFile    .Visible = false;
+			// note that Shortcuts above can still be active even if the Menuitem is not visible.
 
 
 // Options ->
@@ -1159,13 +1157,22 @@ namespace creaturevisualizer
 
 
 		#region Handlers (camera)
+		static Vector3 off_xpos = new Vector3( 0.1F, 0F, 0F);
+		static Vector3 off_xneg = new Vector3(-0.1F, 0F, 0F);
+
+		static Vector3 off_ypos = new Vector3(0F,  0.1F, 0F);
+		static Vector3 off_yneg = new Vector3(0F, -0.1F, 0F);
+
+		static Vector3 off_zpos = new Vector3(0F, 0F,  0.1F);
+		static Vector3 off_zneg = new Vector3(0F, 0F, -0.1F);
+
 		internal static Vector3 Offset;
 
 		void click_bu_camera_zpos(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
 			{
-				Vector3 delta = grader(ElectronPanel_.off_zpos);
+				Vector3 delta = grader(off_zpos);
 				_panel.CameraPosition += delta;
 				Offset                += delta;
 				PrintCameraPosition();
@@ -1176,7 +1183,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Model != null)
 			{
-				Vector3 delta = grader(ElectronPanel_.off_zneg);
+				Vector3 delta = grader(off_zneg);
 				_panel.CameraPosition += delta;
 				Offset                += delta;
 				PrintCameraPosition();
@@ -1187,7 +1194,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Model != null)
 			{
-				Vector3 delta = grader(ElectronPanel_.off_ypos);
+				Vector3 delta = grader(off_ypos);
 				_panel.CameraPosition += delta;
 				Offset                += delta;
 				PrintCameraPosition();
@@ -1198,7 +1205,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Model != null)
 			{
-				Vector3 delta = grader(ElectronPanel_.off_yneg);
+				Vector3 delta = grader(off_yneg);
 				_panel.CameraPosition += delta;
 				Offset                += delta;
 				PrintCameraPosition();
@@ -1209,7 +1216,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Model != null)
 			{
-				Vector3 delta = grader(ElectronPanel_.off_xpos);
+				Vector3 delta = grader(off_xpos);
 				_panel.CameraPosition += delta;
 				Offset                += delta;
 				PrintCameraPosition();
@@ -1220,7 +1227,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Model != null)
 			{
-				Vector3 delta = grader(ElectronPanel_.off_xneg);
+				Vector3 delta = grader(off_xneg);
 				_panel.CameraPosition += delta;
 				Offset                += delta;
 				PrintCameraPosition();
@@ -1267,11 +1274,13 @@ namespace creaturevisualizer
 			}
 		}
 
+		const float rotdelta = (float)Math.PI / 64F;
+
 		void click_bu_camera_rotpos(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
 			{
-				_panel.Receiver.CameraAngleXY += grader((float)Math.PI / 64F); // FocusTheta
+				_panel.Receiver.CameraAngleXY += grader(rotdelta); // FocusTheta
 
 				_panel.CameraPosition += ElectronPanel_.CAM_BASEHEIGHT + Offset;
 				PrintCameraPosition();
@@ -1282,7 +1291,7 @@ namespace creaturevisualizer
 		{
 			if (_panel.Model != null)
 			{
-				_panel.Receiver.CameraAngleXY -= grader((float)Math.PI / 64F); // FocusTheta
+				_panel.Receiver.CameraAngleXY -= grader(rotdelta); // FocusTheta
 				_panel.CameraPosition += ElectronPanel_.CAM_BASEHEIGHT + Offset;
 				PrintCameraPosition();
 			}
@@ -1431,50 +1440,53 @@ namespace creaturevisualizer
 		void click_bu_model_zpos(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.MoveModel(grader(ElectronPanel_.off_zpos));
+				_panel.MoveModel(grader(off_zpos));
 		}
 
 		void click_bu_model_zneg(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.MoveModel(grader(ElectronPanel_.off_zneg));
+				_panel.MoveModel(grader(off_zneg));
 		}
 
 		void click_bu_model_ypos(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.MoveModel(grader(ElectronPanel_.off_ypos));
+				_panel.MoveModel(grader(off_ypos));
 		}
 
 		void click_bu_model_yneg(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.MoveModel(grader(ElectronPanel_.off_yneg));
+				_panel.MoveModel(grader(off_yneg));
 		}
 
 		void click_bu_model_xpos(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.MoveModel(grader(ElectronPanel_.off_xpos));
+				_panel.MoveModel(grader(off_xpos));
 		}
 
 		void click_bu_model_xneg(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.MoveModel(grader(ElectronPanel_.off_xneg));
+				_panel.MoveModel(grader(off_xneg));
 		}
 
+
+		static float rotpos =  0.1F;
+		static float rotneg = -0.1F;
 
 		void click_bu_model_rotpos(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.RotateModel(grader(ElectronPanel_.rotpos));
+				_panel.RotateModel(grader(rotpos));
 		}
 
 		void click_bu_model_rotneg(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.RotateModel(grader(ElectronPanel_.rotneg));
+				_panel.RotateModel(grader(rotneg));
 		}
 
 
@@ -1485,12 +1497,12 @@ namespace creaturevisualizer
 				Vector3 unit;
 
 				var bu = sender as Button;
-				if      (bu == bu_model_xscalepos) unit = ElectronPanel_.off_xpos;
-				else if (bu == bu_model_xscaleneg) unit = ElectronPanel_.off_xneg;
-				else if (bu == bu_model_yscalepos) unit = ElectronPanel_.off_ypos;
-				else if (bu == bu_model_yscaleneg) unit = ElectronPanel_.off_yneg;
-				else if (bu == bu_model_zscalepos) unit = ElectronPanel_.off_zpos;
-				else                               unit = ElectronPanel_.off_zneg; // (bu == bu_model_zscaleneg)
+				if      (bu == bu_model_xscalepos) unit = off_xpos;
+				else if (bu == bu_model_xscaleneg) unit = off_xneg;
+				else if (bu == bu_model_yscalepos) unit = off_ypos;
+				else if (bu == bu_model_yscaleneg) unit = off_yneg;
+				else if (bu == bu_model_zscalepos) unit = off_zpos;
+				else                               unit = off_zneg; // (bu == bu_model_zscaleneg)
 
 				_panel.ScaleModel(grader(unit));
 			}
@@ -1562,37 +1574,37 @@ namespace creaturevisualizer
 		void click_bu_light_zpos(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.MoveLight(_panel.Light.Position + grader(ElectronPanel_.off_zpos));
+				_panel.MoveLight(_panel.Light.Position + grader(off_zpos));
 		}
 
 		void click_bu_light_zneg(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.MoveLight(_panel.Light.Position + grader(ElectronPanel_.off_zneg));
+				_panel.MoveLight(_panel.Light.Position + grader(off_zneg));
 		}
 
 		void click_bu_light_ypos(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.MoveLight(_panel.Light.Position + grader(ElectronPanel_.off_ypos));
+				_panel.MoveLight(_panel.Light.Position + grader(off_ypos));
 		}
 
 		void click_bu_light_yneg(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.MoveLight(_panel.Light.Position + grader(ElectronPanel_.off_yneg));
+				_panel.MoveLight(_panel.Light.Position + grader(off_yneg));
 		}
 
 		void click_bu_light_xpos(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.MoveLight(_panel.Light.Position + grader(ElectronPanel_.off_xpos));
+				_panel.MoveLight(_panel.Light.Position + grader(off_xpos));
 		}
 
 		void click_bu_light_xneg(object sender, EventArgs e)
 		{
 			if (_panel.Model != null)
-				_panel.MoveLight(_panel.Light.Position + grader(ElectronPanel_.off_xneg));
+				_panel.MoveLight(_panel.Light.Position + grader(off_xneg));
 		}
 
 
@@ -2573,6 +2585,18 @@ namespace creaturevisualizer
 	enum CpDir
 	{
 		n,e,s,w
+	}
+
+	/// <summary>
+	/// Reset types for the Model object.
+	/// </summary>
+	enum ResetType
+	{
+		RESET_non,	// 0
+		RESET_z,	// 1
+		RESET_xy,	// 2
+		RESET_rot,	// 3
+		RESET_scale	// 4
 	}
 	#endregion enums (global)
 }

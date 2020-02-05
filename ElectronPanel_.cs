@@ -24,19 +24,6 @@ using OEIShared.Utils;
 namespace creaturevisualizer
 {
 	/// <summary>
-	/// Reset types for the Model object.
-	/// </summary>
-	enum ResetType
-	{
-		RESET_non,	// 0
-		RESET_z,	// 1
-		RESET_xy,	// 2
-		RESET_rot,	// 3
-		RESET_scale	// 4
-	}
-
-
-	/// <summary>
 	/// Credit: The Grinning Fool's Creature Creation Wizard
 	/// https://neverwintervault.org/project/nwn2/other/grinning-fools-creature-creation-wizard
 	/// and the NwN2 toolset's Appearance Wizard, etc.
@@ -127,7 +114,7 @@ namespace creaturevisualizer
 			private set
 			{
 				bool valid = (_instance = value) != null
-					&& _instance is NWN2CreatureTemplate;
+						  && _instance is NWN2CreatureTemplate;
 
 				_f.EnableSaveToModule(valid);
 				_f.EnableSaveToCampaign(valid);
@@ -316,9 +303,10 @@ namespace creaturevisualizer
 				_f.ClearResourceInfo();
 //				_f.Changed = CreVisF.ChangedType.ct_nul; // set '_f.Text'
 
-				Model     = null;
 				Blueprint = null; // is instantiated only by a Blueprint
 				Instance  = null; // is instantiated by either a Blueprint or an Instance
+
+				Model = null;
 
 //				_f.bu_creature_apply1.Enabled =
 //				_f.bu_creature_apply2.Enabled = false;
@@ -780,6 +768,7 @@ namespace creaturevisualizer
 				Model.Scale = scale; // NOTE: after EndAppearanceUpdate().
 				NWN2NetDisplayManager.Instance.SetObjectScale(Model, Model.Scale);
 				ResetModel(ResetType.RESET_scale); // this is needed to reset placed-instance scale
+
 				_f.PrintModelScale();
 			}
 		}
@@ -957,17 +946,7 @@ namespace creaturevisualizer
 
 
 		#region Methods (model)
-		internal static Vector3 off_xpos = new Vector3( 0.1F, 0F, 0F);
-		internal static Vector3 off_xneg = new Vector3(-0.1F, 0F, 0F);
-
-		internal static Vector3 off_ypos = new Vector3(0F,  0.1F, 0F);
-		internal static Vector3 off_yneg = new Vector3(0F, -0.1F, 0F);
-
-		internal static Vector3 off_zpos = new Vector3(0F, 0F,  0.1F);
-		internal static Vector3 off_zneg = new Vector3(0F, 0F, -0.1F);
-
-		internal static float rotpos =  0.1F;
-		internal static float rotneg = -0.1F;
+		static Vector3 scalar = new Vector3(0.1F, 0.1F, 0.1F);
 
 
 		internal void MoveModel(Vector3 posrel)
@@ -993,7 +972,7 @@ namespace creaturevisualizer
 
 		internal void ScaleModel(int dir)
 		{
-			var vec = _f.grader(new Vector3(0.1F, 0.1F, 0.1F));
+			var vec = _f.grader(scalar);
 			switch (dir)
 			{
 				case +1: Model.Scale += vec; break;
@@ -1083,21 +1062,22 @@ namespace creaturevisualizer
 			UpdateCamera();
 		}
 
+		static Vector3 vec_x = new Vector3(1F,0F,0F);
+		static Vector3 vec_y = new Vector3(0F,1F,0F);
+		static Vector3 vec_z = new Vector3(0F,0F,1F);
+
 		internal void UpdateCamera()
 		{
 			var state = Receiver.CameraState as ModelViewerInputCameraReceiverState;
 
 // position ->
-			var y = new Vector3(0F,1F,0F);
-			y = RHMatrix.RotationZ(state.FocusTheta).TransformCoordinate(y);
+			Vector3 y = RHMatrix.RotationZ(state.FocusTheta).TransformCoordinate(vec_y);
 
-			var z = new Vector3(0F,0F,1F);
-			z = RHMatrix.RotationZ(state.FocusTheta)    .TransformCoordinate(z);
-			z = RHMatrix.RotationAxis(y, state.FocusPhi).TransformCoordinate(z);
+			Vector3 z = RHMatrix.RotationZ(state.FocusTheta).TransformCoordinate(vec_z);
+			z = RHMatrix.RotationAxis(y, state.FocusPhi)    .TransformCoordinate(z);
 
-			var pos = new Vector3(1F,0F,0F);
-			pos = RHMatrix.RotationZ(state.FocusTheta)    .TransformCoordinate(pos);
-			pos = RHMatrix.RotationAxis(y, state.FocusPhi).TransformCoordinate(pos);
+			Vector3 pos = RHMatrix.RotationZ(state.FocusTheta).TransformCoordinate(vec_x);
+			pos = RHMatrix.RotationAxis(y, state.FocusPhi)    .TransformCoordinate(pos);
 
 			pos.Scale(state.Distance);
 			pos += state.FocusPoint;
@@ -1242,7 +1222,7 @@ namespace creaturevisualizer
 								{
 									float z = (float)(_p.Y - _p0.Y) * 0.01F;
 
-									var shift = new Vector3(0F, 0F, z);
+									var shift = new Vector3(0F,0F, z);
 									CameraPosition += shift;
 									CreVisF.Offset += shift;
 									_f.PrintCameraPosition();
