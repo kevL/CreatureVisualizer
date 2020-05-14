@@ -539,6 +539,7 @@ namespace creaturevisualizer
 			// TEMPORARILY DISABLE PROCESS INVENTORY ->
 			// it's useless when Save is disabled
 			_itProcessInventory.Visible = false;
+			// note that Shortcuts above can still be active even if the Menuitem is not visible.
 
 
 // View ->
