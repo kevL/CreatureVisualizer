@@ -47,8 +47,8 @@ namespace creaturevisualizer
 //				Info += "- save to Campaign ... [Ctrl+G] - opens a save file dialog at the Campaign directory" + L;
 //				Info += "- save to file ... [Ctrl+E] - opens a save file dialog at the Override directory" + L;
 				Info += "Options" + L;
-				Info += "- process equipped body-items - toggles display of equipped items (non hand held)" + L;
-				Info += "- process equipped held-items - toggles display of equipped right/left hand items" + L;
+				Info += "- display equipped body-items - toggles display of equipped items (non hand held)" + L;
+				Info += "- display equipped held-items - toggles display of equipped right/left hand items" + L;
 //				Info += "- process equipped body-items - toggles display (and output) of equipped items (non hand held)" + L;
 //				Info += "- process equipped held-items - toggles display (and output) of equipped right/left hand items" + L;
 //				Info += "- process inventory - toggles whether or not to output a creature's inventory items" + L;
