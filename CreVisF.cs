@@ -524,17 +524,22 @@ namespace creaturevisualizer
 
 
 // Options ->
-			_itProcessItemsBody = Menu.MenuItems[1].MenuItems.Add("process equipped &body-items", optionsclick_ProcessItemsBody);
+			_itProcessItemsBody = Menu.MenuItems[1].MenuItems.Add("display equipped &body-items", optionsclick_ProcessItemsBody);
 //			_itProcessItemsBody.Shortcut = Shortcut.CtrlB;
 			_itProcessItemsBody.Checked = true;
 
-			_itProcessItemsHeld = Menu.MenuItems[1].MenuItems.Add("process equipped &held-items", optionsclick_ProcessItemsHeld);
+			_itProcessItemsHeld = Menu.MenuItems[1].MenuItems.Add("display equipped &held-items", optionsclick_ProcessItemsHeld);
 //			_itProcessItemsHeld.Shortcut = Shortcut.CtrlH;
 			_itProcessItemsHeld.Checked = true;
 
 			_itProcessInventory = Menu.MenuItems[1].MenuItems.Add("process &inventory", optionsclick_ProcessInventory);
 //			_itProcessInventory.Shortcut = Shortcut.CtrlI;
 			_itProcessInventory.Checked = true;
+
+			// TEMPORARILY DISABLE PROCESS INVENTORY ->
+			// it's useless when Save is disabled
+			_itProcessInventory.Visible = false;
+
 
 // View ->
 			_itControlPanel = Menu.MenuItems[2].MenuItems.Add("control &panel", viewclick_ControlPanel);
