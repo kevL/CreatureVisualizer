@@ -37,7 +37,7 @@ namespace creaturevisualizer
 
 				Info += "MENUS" + L;
 				Info += "-----" + L;
-				Info += "Instance" + L;
+				Info += "Model" + L;
 				Info += "- Refresh [F5] - loads current properties of the currently selected blueprint or instance" + L;
 				Info += "- RefreshProtocol" + L;
 				Info += "  user-invoked - loads the blueprint or instance only on [F5] Refresh" + L;
@@ -47,9 +47,11 @@ namespace creaturevisualizer
 //				Info += "- save to Campaign ... [Ctrl+G] - opens a save file dialog at the Campaign directory" + L;
 //				Info += "- save to file ... [Ctrl+E] - opens a save file dialog at the Override directory" + L;
 				Info += "Options" + L;
-				Info += "- process equipped body-items - toggles display (and output) of equipped items (non hand held)" + L;
-				Info += "- process equipped held-items - toggles display (and output) of equipped right/left hand items" + L;
-				Info += "- process inventory - toggles whether or not to output a creature's inventory items" + L;
+				Info += "- process equipped body-items - toggles display of equipped items (non hand held)" + L;
+				Info += "- process equipped held-items - toggles display of equipped right/left hand items" + L;
+//				Info += "- process equipped body-items - toggles display (and output) of equipped items (non hand held)" + L;
+//				Info += "- process equipped held-items - toggles display (and output) of equipped right/left hand items" + L;
+//				Info += "- process inventory - toggles whether or not to output a creature's inventory items" + L;
 				Info += "View" + L;
 				Info += "- control panel [Ctrl+P] - toggles on/off the control panel" + L;
 				Info += "- mini panel [F7] - toggles on/off quick controls in the display panel" + L;
@@ -57,7 +59,7 @@ namespace creaturevisualizer
 				Info += "- stay on top [Ctrl+T] - toggles whether or not the visualizer stays on top of the toolset" + L;
 				Info += "Help" + L;
 				Info += "- help [F1] - this dialog" + L;
-				Info += "- about [F2] - authorship, version information, and build date" + L + L;
+				Info += "- about [F2] - author, version, and build date" + L + L;
 
 				Info += "MOUSE"                             + L;
 				Info += "-----"                             + L;
