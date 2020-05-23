@@ -97,6 +97,7 @@
     <Compile Include="CreatureVisualizer.cs" />
     <Compile Include="CreatureVisualizerPreferences.cs" />
     <Compile Include="ErrorF.cs" />
+    <Compile Include="GlobalEnumerators.cs" />
     <Compile Include="HelpF.cs" />
     <Compile Include="Io.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
