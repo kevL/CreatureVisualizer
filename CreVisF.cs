@@ -192,7 +192,6 @@ namespace creaturevisualizer
 				_itRefreshProtocol_oac.Checked = (_refreshprotocol & (int)RefreshType.oac) != 0;
 			}
 		}
-
 		#endregion Properties
 
 
@@ -488,7 +487,7 @@ namespace creaturevisualizer
 			Menu.MenuItems.Add("&View");	// 2
 			Menu.MenuItems.Add("&Help");	// 3
 
-// Instance ->
+// Model ->
 			Menu.MenuItems[0].MenuItems.Add("&refresh", instanceclick_Refresh);
 			Menu.MenuItems[0].MenuItems[0].Shortcut = Shortcut.F5;
 

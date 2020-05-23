@@ -3,6 +3,11 @@ using System;
 
 namespace creaturevisualizer
 {
+	/// <summary>
+	/// Preferences per Electron toolset plugin interface.
+	/// @note Prefs are stored at
+	/// C:\Users\User\AppData\Local\NWN2 Toolset\Plugins\CreatureVisualizer.xml
+	/// </summary>
 	[Serializable]
 	public class CreatureVisualizerPreferences
 	{
@@ -80,6 +85,11 @@ namespace creaturevisualizer
 
 
 		#region cTor
+		/// <summary>
+		/// cTor. Sets default values for the CreatureVisualizer's preferences.
+		/// @note CreVisF..cTor will quickly override these values with values
+		/// in the user's prefs-file (if it exists).
+		/// </summary>
 		CreatureVisualizerPreferences()
 		{
 			x = y =
