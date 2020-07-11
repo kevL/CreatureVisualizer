@@ -156,7 +156,7 @@ namespace creaturevisualizer
 
 					case Type.Percent:
 						bork = !Int32.TryParse(Text, out result)
-							|| result < 0 | result > 100;
+							|| result < 0 || result > 100;
 						break;
 
 					case Type.Byte:
