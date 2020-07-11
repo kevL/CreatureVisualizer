@@ -172,14 +172,14 @@
     <EmbeddedResource Include="Color\CustomSwatches.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>copy /y C:\GIT\CreatureVisualizer\bin\Release\CreatureVisualizer.dll "C:\Neverwinter Nights 2\NWN2Toolset\Plugins\"</PostBuildEvent>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
     <PlatformTarget>x86</PlatformTarget>
     <BaseAddress>4194304</BaseAddress>
     <RegisterForComInterop>False</RegisterForComInterop>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <FileAlignment>4096</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <PostBuildEvent>copy /y C:\GIT\CreatureVisualizer\bin\Release\CreatureVisualizer.dll "C:\Neverwinter Nights 2\NWN2Toolset\Plugins\"</PostBuildEvent>
   </PropertyGroup>
 </Project>
