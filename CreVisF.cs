@@ -1395,15 +1395,15 @@ namespace creaturevisualizer
 		{
 			float result;
 			if (Single.TryParse(tb_camera_baseheight.Text, out result)
-				&& result > -100F && result < 100F)
+				&& result >= -99.99F && result <= 99.99F)
 			{
 				CreatureVisualizerPreferences.that.CameraBaseHeight = result;
 				ElectronPanel_.CAM_BASEHEIGHT = new Vector3(0F,0F, result);
 				_panel.UpdateCamera();
 			}
-			else if (result <= -100F)
+			else if (result < -99.99F)
 				tb_camera_baseheight.Text = (-99.99F).ToString("N2"); // recurse^
-			else if (result >=  100F)
+			else //if (result >  99.99F)
 				tb_camera_baseheight.Text =   99.99F .ToString("N2"); // recurse^
 		}
 
@@ -1653,7 +1653,7 @@ namespace creaturevisualizer
 			{
 				float result;
 				if (Single.TryParse(tb_light_intensity.Text, out result)
-					&& result >= 0F && result < 100F)
+					&& result >= 0F && result <= 99.99F)
 				{
 					CreatureVisualizerPreferences.that.LightIntensity =
 					_panel.Light.Color.Intensity = result;
@@ -1661,7 +1661,7 @@ namespace creaturevisualizer
 				}
 				else if (result < 0F)
 					tb_light_intensity.Text =  0.00F.ToString("N2"); // recurse^
-				else if (result >= 100F)
+				else //if (result > 99.99F)
 					tb_light_intensity.Text = 99.99F.ToString("N2"); // recurse^
 			}
 		}
@@ -1680,7 +1680,7 @@ namespace creaturevisualizer
 					{
 						float i = _panel.Light.Color.Intensity;
 						i += grader(0.1F);
-						PrintLightIntensity(i);
+						tb_light_intensity.Text = i.ToString("N2");
 
 						e.Handled = e.SuppressKeyPress = true;
 						break;
@@ -1690,7 +1690,7 @@ namespace creaturevisualizer
 					{
 						float i = _panel.Light.Color.Intensity;
 						i -= grader(0.1F);
-						PrintLightIntensity(i);
+						tb_light_intensity.Text = i.ToString("N2");
 
 						e.Handled = e.SuppressKeyPress = true;
 						break;
