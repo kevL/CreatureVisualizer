@@ -849,7 +849,6 @@ namespace creaturevisualizer
 
 					CreateLight();
 
-					_f.PrintLightIntensity(Light.Color.Intensity);
 					_f.PrintDiffuseColor();
 					_f.PrintSpecularColor();
 					_f.PrintAmbientColor();
@@ -898,7 +897,9 @@ namespace creaturevisualizer
 			}
 
 			NWN2NetDisplayManager.Instance.LightParameters(Scene, Light);
+
 			_f.PrintLightPosition(Light.Position);
+			_f.PrintLightIntensity(Light.Color.Intensity);
 
 
 			_objects.Add(Light);
@@ -921,6 +922,8 @@ namespace creaturevisualizer
 
 			//MessageBox.Show("MoveLight()");
 			NWN2NetDisplayManager.Instance.MoveObjects(_objectsLight, ChangeType.Absolute, false, posabs);
+
+			_f.PrintLightPosition(Light.Position);
 		}
 
 /*		void ClearLight()
