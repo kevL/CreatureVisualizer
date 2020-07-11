@@ -1676,23 +1676,21 @@ namespace creaturevisualizer
 						_panel.Focus();
 						break;
 
-//					case Keys.Oemplus:
-					case Keys.Add:
+					case Keys.Add: // Keys.Oemplus
 					{
 						float i = _panel.Light.Color.Intensity;
 						i += grader(0.1F);
-						tb_light_intensity.Text = i.ToString("N2");
+						PrintLightIntensity(i);
 
 						e.Handled = e.SuppressKeyPress = true;
 						break;
 					}
 
-//					case Keys.OemMinus:
-					case Keys.Subtract:
+					case Keys.Subtract: // Keys.OemMinus
 					{
 						float i = _panel.Light.Color.Intensity;
 						i -= grader(0.1F);
-						tb_light_intensity.Text = i.ToString("N2");
+						PrintLightIntensity(i);
 
 						e.Handled = e.SuppressKeyPress = true;
 						break;
