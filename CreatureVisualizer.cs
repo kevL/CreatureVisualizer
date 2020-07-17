@@ -15,9 +15,7 @@ namespace creaturevisualizer
 	{
 		#region INWN2Plugin (interface)
 		public MenuButtonItem PluginMenuItem
-		{
-			get; set;
-		}
+		{ get; set; }
 
 		public object Preferences
 		{
