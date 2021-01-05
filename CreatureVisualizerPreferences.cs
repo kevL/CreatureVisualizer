@@ -71,7 +71,6 @@ namespace creaturevisualizer
 
 		public string LastSaveDirectory
 		{ get; set; }
-		#endregion Properties
 
 
 		public bool ProcessEquipped_body
@@ -82,6 +81,7 @@ namespace creaturevisualizer
 
 		public bool ProcessInventory
 		{ get; set; }
+		#endregion Properties
 
 
 		#region cTor

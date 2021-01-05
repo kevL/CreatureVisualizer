@@ -56,7 +56,7 @@ namespace creaturevisualizer
 		static Vector3 DEF_SUNMOON_DIRECTION = new Vector3(-0.33F, -0.67F, -0.67F);
 		const float DEF_SHADOW_INTENSITY = 0F;
 
-		// Colors ->
+// Colors ->
 		internal static Color ? ColorDiffuse;
 		internal static Color ? ColorSpecular;
 		internal static Color ? ColorAmbient;
