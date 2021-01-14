@@ -1186,8 +1186,8 @@ namespace creaturevisualizer
 
 									state.FocusPhi = Math.Min(state.PitchMax, state.FocusPhi);
 									state.FocusPhi = Math.Max(state.PitchMin, state.FocusPhi);
-
 									UpdateCamera();
+
 									_f.PrintCameraPosition();
 									break;
 								}
@@ -1228,6 +1228,7 @@ namespace creaturevisualizer
 									var shift = new Vector3(0F,0F, z);
 									CameraPosition += shift;
 									CreVisF.Offset += shift;
+
 									_f.PrintCameraPosition();
 									break;
 								}
