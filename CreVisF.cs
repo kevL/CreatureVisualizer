@@ -53,7 +53,7 @@ namespace creaturevisualizer
 		/// <summary>
 		/// The ElectronPanel panel.
 		/// </summary>
-		ElectronPanel_ _panel;
+		readonly ElectronPanel_ _panel;
 
 		MenuItem _itRefreshProtocol_non;
 		MenuItem _itRefreshProtocol_foc;
