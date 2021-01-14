@@ -1,7 +1,7 @@
 Creature Visualizer
 NwN2 Electron toolset plugin.
-2021 jan 4
-2.3.6.2
+2021 jan 13
+2.3.6.3
 
 Installation
 ------------
